@@ -9,7 +9,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Page_Model_Config
+namespace Magento\Page\Model;
+
+class Config
 {
     /**
      * Available page layouts
@@ -18,16 +20,16 @@ class Magento_Page_Model_Config
      */
     protected $_pageLayouts = null;
 
-    /** @var  Magento_Config_DataInterface */
+    /** @var  \Magento\Config\DataInterface */
     protected $_dataStorage;
 
     /**
      * Constructor
      *
-     * @param Magento_Config_DataInterface $dataStorage
+     * @param \Magento\Config\DataInterface $dataStorage
      */
     public function __construct(
-        Magento_Config_DataInterface $dataStorage
+        \Magento\Config\DataInterface $dataStorage
     ) {
         $this->_dataStorage = $dataStorage;
     }
@@ -35,7 +37,7 @@ class Magento_Page_Model_Config
     /**
      * Initialize page layouts list
      *
-     * @return Magento_Page_Model_Config
+     * @return \Magento\Page\Model\Config
      */
     protected function _initPageLayouts()
     {
@@ -43,7 +45,7 @@ class Magento_Page_Model_Config
             $this->_pageLayouts = array();
             foreach ($this->_dataStorage->get(null) as $layoutCode => $layoutConfig) {
                 $layoutConfig['label'] = __($layoutConfig['label']);
-                $this->_pageLayouts[$layoutCode] = new Magento_Object($layoutConfig);
+                $this->_pageLayouts[$layoutCode] = new \Magento\Object($layoutConfig);
             }
         }
         return $this;
@@ -52,7 +54,7 @@ class Magento_Page_Model_Config
     /**
      * Retrieve available page layouts
      *
-     * @return array Magento_Object[]
+     * @return array \Magento\Object[]
      */
     public function getPageLayouts()
     {
@@ -64,7 +66,7 @@ class Magento_Page_Model_Config
      * Retrieve page layout by code
      *
      * @param string $layoutCode
-     * @return Magento_Object|boolean
+     * @return \Magento\Object|boolean
      */
     public function getPageLayout($layoutCode)
     {

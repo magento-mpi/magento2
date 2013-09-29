@@ -8,13 +8,15 @@
  * @license     {license_link}
  */
 
-class Magento_Backend_Model_Config_Structure_Element_Iterator_Group
-    extends Magento_Backend_Model_Config_Structure_Element_Iterator
+namespace Magento\Backend\Model\Config\Structure\Element\Iterator;
+
+class Group
+    extends \Magento\Backend\Model\Config\Structure\Element\Iterator
 {
     /**
-     * @param Magento_Backend_Model_Config_Structure_Element_Group $element
+     * @param \Magento\Backend\Model\Config\Structure\Element\Group $element
      */
-    public function __construct(Magento_Backend_Model_Config_Structure_Element_Group $element)
+    public function __construct(\Magento\Backend\Model\Config\Structure\Element\Group $element)
     {
         parent::__construct($element);
     }

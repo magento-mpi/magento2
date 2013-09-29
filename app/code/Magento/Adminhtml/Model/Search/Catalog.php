@@ -15,38 +15,40 @@
  * @package     Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Model_Search_Catalog extends Magento_Object
+namespace Magento\Adminhtml\Model\Search;
+
+class Catalog extends \Magento\Object
 {
     /**
      * Catalog search data
      *
-     * @var Magento_CatalogSearch_Helper_Data
+     * @var \Magento\CatalogSearch\Helper\Data
      */
     protected $_catalogSearchData = null;
 
     /**
      * Core string
      *
-     * @var Magento_Core_Helper_String
+     * @var \Magento\Core\Helper\String
      */
     protected $_coreString = null;
 
     /**
      * Adminhtml data
      *
-     * @var Magento_Adminhtml_Helper_Data
+     * @var \Magento\Adminhtml\Helper\Data
      */
     protected $_adminhtmlData = null;
 
     /**
-     * @param Magento_Adminhtml_Helper_Data $adminhtmlData
-     * @param Magento_Core_Helper_String $coreString
-     * @param Magento_CatalogSearch_Helper_Data $catalogSearchData
+     * @param \Magento\Adminhtml\Helper\Data $adminhtmlData
+     * @param \Magento\Core\Helper\String $coreString
+     * @param \Magento\CatalogSearch\Helper\Data $catalogSearchData
      */
     public function __construct(
-        Magento_Adminhtml_Helper_Data $adminhtmlData,
-        Magento_Core_Helper_String $coreString,
-        Magento_CatalogSearch_Helper_Data $catalogSearchData
+        \Magento\Adminhtml\Helper\Data $adminhtmlData,
+        \Magento\Core\Helper\String $coreString,
+        \Magento\CatalogSearch\Helper\Data $catalogSearchData
     ) {
         $this->_adminhtmlData = $adminhtmlData;
         $this->_coreString = $coreString;
@@ -56,7 +58,7 @@ class Magento_Adminhtml_Model_Search_Catalog extends Magento_Object
     /**
      * Load search results
      *
-     * @return Magento_Adminhtml_Model_Search_Catalog
+     * @return \Magento\Adminhtml\Model\Search\Catalog
      */
     public function load()
     {

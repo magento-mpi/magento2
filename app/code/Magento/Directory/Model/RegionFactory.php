@@ -15,17 +15,19 @@
  * @package    Magento_Directory
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Directory_Model_RegionFactory
+namespace Magento\Directory\Model;
+
+class RegionFactory
 {
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
@@ -34,10 +36,10 @@ class Magento_Directory_Model_RegionFactory
      * Create new region model
      *
      * @param array $arguments
-     * @return Magento_Directory_Model_Region
+     * @return \Magento\Directory\Model\Region
      */
     public function create(array $arguments = array())
     {
-        return $this->_objectManager->create('Magento_Directory_Model_Region', $arguments);
+        return $this->_objectManager->create('Magento\Directory\Model\Region', $arguments);
     }
 }

@@ -12,13 +12,15 @@
  * Enterprise Persistent System Config Option Customer Segmentation admin frontend model
  *
  */
-class Magento_PersistentHistory_Block_Adminhtml_System_Config_Customer extends Magento_Backend_Block_System_Config_Form_Field
+namespace Magento\PersistentHistory\Block\Adminhtml\System\Config;
+
+class Customer extends \Magento\Backend\Block\System\Config\Form\Field
 {
-    public function render(Magento_Data_Form_Element_Abstract $element)
+    public function render(\Magento\Data\Form\Element\AbstractElement $element)
     {
         $elementId = $element->getHtmlId();
-        $optionShoppingCartId = str_replace('/', '_', Magento_Persistent_Helper_Data::XML_PATH_PERSIST_SHOPPING_CART);
-        $optionEnabled = str_replace('/', '_', Magento_Persistent_Helper_Data::XML_PATH_ENABLED);
+        $optionShoppingCartId = str_replace('/', '_', \Magento\Persistent\Helper\Data::XML_PATH_PERSIST_SHOPPING_CART);
+        $optionEnabled = str_replace('/', '_', \Magento\Persistent\Helper\Data::XML_PATH_ENABLED);
 
         $addInheritCheckbox = false;
         if ($element->getCanUseWebsiteValue()) {

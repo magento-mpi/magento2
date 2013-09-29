@@ -9,15 +9,15 @@
  */
 
 /**
- * @see Magento_Authorizenet_Block_Directpost_Form
+ * @see \Magento\Authorizenet\Block\Directpost\Form
  */
 ?>
 <?php
 $_form = $this;
 $_code = $_form->getMethodCode();
 $_method = $_form->getMethod();
-$_controller = $this->helper('Magento_Authorizenet_Helper_Data')->getControllerName();
-$_orderUrl = $this->helper('Magento_Authorizenet_Helper_Data')->getPlaceOrderAdminUrl();
+$_controller = $this->helper('Magento\Authorizenet\Helper\Data')->getControllerName();
+$_orderUrl = $this->helper('Magento\Authorizenet\Helper\Data')->getPlaceOrderAdminUrl();
 ?>
 <!-- IFRAME for request to our server -->
 <iframe id="order-directpost-iframe" allowtransparency="true" frameborder="0" name="iframeSubmitOrder" style="display:none;width:100%;background-color:transparent" src="<?php echo $this->getViewFileUrl('blank.html') ?>"></iframe>

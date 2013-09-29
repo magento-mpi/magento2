@@ -15,7 +15,9 @@
  * @package    Magento_AdvancedCheckout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adminhtml_Controller_Action
+namespace Magento\AdvancedCheckout\Controller\Adminhtml;
+
+class Checkout extends \Magento\Adminhtml\Controller\Action
 {
     /**
      * Flag that indicates whether page must be reloaded with correct params or not
@@ -27,17 +29,17 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_registry = null;
 
     /**
-     * @param Magento_Backend_Controller_Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      */
     public function __construct(
-        Magento_Backend_Controller_Context $context,
-        Magento_Core_Model_Registry $registry
+        \Magento\Backend\Controller\Context $context,
+        \Magento\Core\Model\Registry $registry
     ) {
         parent::__construct($context);
         $this->_registry = $registry;
@@ -46,13 +48,13 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
     /**
      * Return Checkout model as singleton
      *
-     * @return Magento_AdvancedCheckout_Model_Cart
+     * @return \Magento\AdvancedCheckout\Model\Cart
      */
     public function getCartModel()
     {
-        return $this->_objectManager->get('Magento_AdvancedCheckout_Model_Cart')
-            ->setSession($this->_objectManager->get('Magento_Adminhtml_Model_Session'))
-            ->setContext(Magento_AdvancedCheckout_Model_Cart::CONTEXT_ADMIN_CHECKOUT)
+        return $this->_objectManager->get('Magento\AdvancedCheckout\Model\Cart')
+            ->setSession($this->_objectManager->get('Magento\Adminhtml\Model\Session'))
+            ->setContext(\Magento\AdvancedCheckout\Model\Cart::CONTEXT_ADMIN_CHECKOUT)
             ->setCurrentStore($this->getRequest()->getPost('store'));
     }
 
@@ -62,19 +64,19 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
      *
      * @param bool $useRedirects
      *
-     * @throws Magento_Core_Exception
-     * @throws Magento_AdvancedCheckout_Exception
-     * @return Magento_AdvancedCheckout_Controller_Adminhtml_Checkout
+     * @throws \Magento\Core\Exception
+     * @throws \Magento\AdvancedCheckout\Exception
+     * @return \Magento\AdvancedCheckout\Controller\Adminhtml\Checkout
      */
     protected function _initData($useRedirects = true)
     {
         $customerId = $this->getRequest()->getParam('customer');
-        $customer = $this->_objectManager->create('Magento_Customer_Model_Customer')->load($customerId);
+        $customer = $this->_objectManager->create('Magento\Customer\Model\Customer')->load($customerId);
         if (!$customer->getId()) {
-            throw new Magento_AdvancedCheckout_Exception(__('Customer not found'));
+            throw new \Magento\AdvancedCheckout\Exception(__('Customer not found'));
         }
 
-        $storeManager = $this->_objectManager->get('Magento_Core_Model_StoreManager');
+        $storeManager = $this->_objectManager->get('Magento\Core\Model\StoreManager');
         if ($storeManager->getStore()->getWebsiteId() == $customer->getWebsiteId()) {
             if ($useRedirects) {
                 $this->_getSession()->addError(
@@ -84,7 +86,7 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
                 $this->_redirectFlag = true;
                 return $this;
             } else {
-                throw new Magento_AdvancedCheckout_Exception(
+                throw new \Magento\AdvancedCheckout\Exception(
                     __('Shopping cart management is disabled for this customer.')
                 );
             }
@@ -101,7 +103,7 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
                 // Redirect to preferred store view
                 if ($this->getRequest()->getQuery('isAjax', false) || $this->getRequest()->getQuery('ajax', false)) {
                     $this->getResponse()->setBody(
-                        $this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode(
+                        $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode(
                             array(
                                 'url' => $this->getUrl(
                                     '*/*/index',
@@ -116,7 +118,7 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
                 $this->_redirectFlag = true;
                 return $this;
             } else {
-                throw new Magento_AdvancedCheckout_Exception(__('We could not find this store.'));
+                throw new \Magento\AdvancedCheckout\Exception(__('We could not find this store.'));
             }
         } else {
             // try to find quote for selected store
@@ -129,7 +131,7 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
         if ($quote->getId()) {
             $quoteCurrencyCode = $quote->getData('quote_currency_code');
             if ($quoteCurrencyCode != $storeManager->getStore($storeId)->getCurrentCurrencyCode()) {
-                $quoteCurrency = $this->_objectManager->create('Magento_Directory_Model_Currency')
+                $quoteCurrency = $this->_objectManager->create('Magento\Directory\Model\Currency')
                     ->load($quoteCurrencyCode);
                 $quote->setForcedCurrency($quoteCurrency);
                 $storeManager->getStore($storeId)->setCurrentCurrencyCode($quoteCurrency->getCode());
@@ -153,7 +155,7 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
     /**
      * Renderer for page title
      *
-     * @return Magento_Adminhtml_Controller_Action
+     * @return \Magento\Adminhtml\Controller\Action
      */
     protected function _initTitle()
     {
@@ -190,10 +192,10 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
             $this->_initTitle();
             $this->renderLayout();
             return;
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
-        } catch (Exception $e) {
-            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+        } catch (\Exception $e) {
+            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
             $this->_getSession()->addError(
                 __('An error has occurred. See error log for details.')
             );
@@ -214,7 +216,7 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
             }
             $this->loadLayout();
             $this->renderLayout();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_processException($e);
         }
     }
@@ -236,13 +238,13 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
             $customer = $this->_registry->registry('checkout_current_customer');
             $store = $this->_registry->registry('checkout_current_store');
 
-            $source = $this->_objectManager->get('Magento_Core_Helper_Data')
+            $source = $this->_objectManager->get('Magento\Core\Helper\Data')
                 ->jsonDecode($this->getRequest()->getPost('source'));
 
             // Reorder products
             if (isset($source['source_ordered']) && is_array($source['source_ordered'])) {
                 foreach ($source['source_ordered'] as $orderItemId => $qty) {
-                    $orderItem = $this->_objectManager->create('Magento_Sales_Model_Order_Item')->load($orderItemId);
+                    $orderItem = $this->_objectManager->create('Magento\Sales\Model\Order\Item')->load($orderItemId);
                     $cart->reorderItem($orderItem, $qty);
                 }
                 unset($source['source_ordered']);
@@ -264,7 +266,7 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
 
             // Remove items from wishlist
             if (isset($source['source_wishlist']) && is_array($source['source_wishlist'])) {
-                $wishlist = $this->_objectManager->create('Magento_Wishlist_Model_Wishlist')->loadByCustomer($customer)
+                $wishlist = $this->_objectManager->create('Magento\Wishlist\Model\Wishlist')->loadByCustomer($customer)
                     ->setStore($store)
                     ->setSharedStoreIds($store->getWebsite()->getStoreIds());
                 if ($wishlist->getId()) {
@@ -274,7 +276,7 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
                     }
                     foreach ($source['source_wishlist'] as $productId => $qty) {
                         if (in_array($productId, $quoteProductIds)) {
-                            $wishlistItem = $this->_objectManager->create('Magento_Wishlist_Model_Item')
+                            $wishlistItem = $this->_objectManager->create('Magento\Wishlist\Model\Item')
                                 ->loadByProductWishlist(
                                     $wishlist->getId(),
                                     $productId,
@@ -287,7 +289,7 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
                     }
                 }
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_processException($e);
         }
     }
@@ -309,7 +311,7 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
                 $this->getCartModel()->updateQuoteItems($items);
             }
             $this->getCartModel()->saveQuote();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_processException($e);
         }
     }
@@ -338,7 +340,7 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
                     ->setInvalidCouponCode($code);
             }
             $this->renderLayout();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_processException($e);
         }
     }
@@ -363,7 +365,7 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
             }
             $this->loadLayout();
             $this->renderLayout();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_processException($e);
         }
     }
@@ -374,7 +376,7 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
     public function createOrderAction()
     {
         if (!$this->_authorization->isAllowed('Magento_Sales::create')) {
-            throw new Magento_Core_Exception(__('You do not have access to this.'));
+            throw new \Magento\Core\Exception(__('You do not have access to this.'));
         }
         try {
             $this->_initData();
@@ -384,7 +386,7 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
             $activeQuote = $this->getCartModel()->getQuote();
             $quote = $this->getCartModel()->copyQuote($activeQuote);
             if ($quote->getId()) {
-                $session = $this->_objectManager->get('Magento_Adminhtml_Model_Sales_Order_Create')->getSession();
+                $session = $this->_objectManager->get('Magento\Adminhtml\Model\Sales\Order\Create')->getSession();
                 $session->setQuoteId($quote->getId())
                    ->setStoreId($quote->getStoreId())
                    ->setCustomerId($quote->getCustomerId());
@@ -395,10 +397,10 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
                 'store_id' => $this->_registry->registry('checkout_current_store')->getId(),
             ));
             return;
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
-        } catch (Exception $e) {
-            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+        } catch (\Exception $e) {
+            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
             $this->_getSession()->addError(
                 __('An error has occurred. See error log for details.')
             );
@@ -457,7 +459,7 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
     /**
      * Ajax handler to response configuration fieldset of composite product in order
      *
-     * @return Magento_AdvancedCheckout_Controller_Adminhtml_Checkout
+     * @return \Magento\AdvancedCheckout\Controller\Adminhtml\Checkout
      */
     public function configureProductToAddAction()
     {
@@ -465,21 +467,21 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
         $customer   = $this->_registry->registry('checkout_current_customer');
         $store      = $this->_registry->registry('checkout_current_store');
 
-        $storeId    = ($store instanceof Magento_Core_Model_Store) ? $store->getId() : (int) $store;
-        $customerId = ($customer instanceof Magento_Customer_Model_Customer) ? $customer->getId() : (int) $customer;
+        $storeId    = ($store instanceof \Magento\Core\Model\Store) ? $store->getId() : (int) $store;
+        $customerId = ($customer instanceof \Magento\Customer\Model\Customer) ? $customer->getId() : (int) $customer;
 
         // Prepare data
         $productId  = (int)$this->getRequest()->getParam('id');
 
-        $configureResult = new Magento_Object();
+        $configureResult = new \Magento\Object();
         $configureResult->setOk(true)
             ->setProductId($productId)
             ->setCurrentStoreId($storeId)
             ->setCurrentCustomerId($customerId);
 
         // Render page
-        /* @var $helper Magento_Adminhtml_Helper_Catalog_Product_Composite */
-        $helper = $this->_objectManager->get('Magento_Adminhtml_Helper_Catalog_Product_Composite');
+        /* @var $helper \Magento\Adminhtml\Helper\Catalog\Product\Composite */
+        $helper = $this->_objectManager->get('Magento\Adminhtml\Helper\Catalog\Product\Composite');
         $helper->renderConfigureResult($this, $configureResult);
 
         return $this;
@@ -488,29 +490,29 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
     /**
      * Ajax handler to configure item in wishlist
      *
-     * @return Magento_AdvancedCheckout_Controller_Adminhtml_Checkout
+     * @return \Magento\AdvancedCheckout\Controller\Adminhtml\Checkout
      */
     public function configureWishlistItemAction()
     {
         // Prepare data
-        $configureResult = new Magento_Object();
+        $configureResult = new \Magento\Object();
         try {
             $this->_initData();
 
             $customer   = $this->_registry->registry('checkout_current_customer');
-            $customerId = ($customer instanceof Magento_Customer_Model_Customer) ? $customer->getId() : (int) $customer;
+            $customerId = ($customer instanceof \Magento\Customer\Model\Customer) ? $customer->getId() : (int) $customer;
             $store      = $this->_registry->registry('checkout_current_store');
-            $storeId    = ($store instanceof Magento_Core_Model_Store) ? $store->getId() : (int) $store;
+            $storeId    = ($store instanceof \Magento\Core\Model\Store) ? $store->getId() : (int) $store;
 
             $itemId = (int)$this->getRequest()->getParam('id');
             if (!$itemId) {
-                throw new Magento_Core_Exception(__('The wish list item id is not received.'));
+                throw new \Magento\Core\Exception(__('The wish list item id is not received.'));
             }
 
-            $item = $this->_objectManager->create('Magento_Wishlist_Model_Item')
+            $item = $this->_objectManager->create('Magento\Wishlist\Model\Item')
                 ->loadWithOptions($itemId, 'info_buyRequest');
             if (!$item->getId()) {
-                throw new Magento_Core_Exception(__('The wish list item is not loaded.'));
+                throw new \Magento\Core\Exception(__('The wish list item is not loaded.'));
             }
 
             $configureResult->setOk(true)
@@ -518,14 +520,14 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
                 ->setBuyRequest($item->getBuyRequest())
                 ->setCurrentStoreId($storeId)
                 ->setCurrentCustomerId($customerId);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $configureResult->setError(true);
             $configureResult->setMessage($e->getMessage());
         }
 
         // Render page
-        /* @var $helper Magento_Adminhtml_Helper_Catalog_Product_Composite */
-        $helper = $this->_objectManager->get('Magento_Adminhtml_Helper_Catalog_Product_Composite');
+        /* @var $helper \Magento\Adminhtml\Helper\Catalog\Product\Composite */
+        $helper = $this->_objectManager->get('Magento\Adminhtml\Helper\Catalog\Product\Composite');
         $helper->renderConfigureResult($this, $configureResult);
         return $this;
     }
@@ -533,29 +535,29 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
     /**
      * Ajax handler to configure item in wishlist
      *
-     * @return Magento_AdvancedCheckout_Controller_Adminhtml_Checkout
+     * @return \Magento\AdvancedCheckout\Controller\Adminhtml\Checkout
      */
     public function configureOrderedItemAction()
     {
         // Prepare data
-        $configureResult = new Magento_Object();
+        $configureResult = new \Magento\Object();
         try {
             $this->_initData();
 
             $customer   = $this->_registry->registry('checkout_current_customer');
-            $customerId = ($customer instanceof Magento_Customer_Model_Customer) ? $customer->getId() : (int) $customer;
+            $customerId = ($customer instanceof \Magento\Customer\Model\Customer) ? $customer->getId() : (int) $customer;
             $store      = $this->_registry->registry('checkout_current_store');
-            $storeId    = ($store instanceof Magento_Core_Model_Store) ? $store->getId() : (int) $store;
+            $storeId    = ($store instanceof \Magento\Core\Model\Store) ? $store->getId() : (int) $store;
 
             $itemId = (int) $this->getRequest()->getParam('id');
             if (!$itemId) {
-                throw new Magento_Core_Exception(__('Ordered item id is not received.'));
+                throw new \Magento\Core\Exception(__('Ordered item id is not received.'));
             }
 
-            $item = $this->_objectManager->create('Magento_Sales_Model_Order_Item')
+            $item = $this->_objectManager->create('Magento\Sales\Model\Order\Item')
                 ->load($itemId);
             if (!$item->getId()) {
-                throw new Magento_Core_Exception(__('Ordered item is not loaded.'));
+                throw new \Magento\Core\Exception(__('Ordered item is not loaded.'));
             }
 
             $configureResult->setOk(true)
@@ -563,14 +565,14 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
                 ->setBuyRequest($item->getBuyRequest())
                 ->setCurrentStoreId($storeId)
                 ->setCurrentCustomerId($customerId);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $configureResult->setError(true);
             $configureResult->setMessage($e->getMessage());
         }
 
         // Render page
-        /* @var $helper Magento_Adminhtml_Helper_Catalog_Product_Composite */
-        $helper = $this->_objectManager->get('Magento_Adminhtml_Helper_Catalog_Product_Composite');
+        /* @var $helper \Magento\Adminhtml\Helper\Catalog\Product\Composite */
+        $helper = $this->_objectManager->get('Magento\Adminhtml\Helper\Catalog\Product\Composite');
         $helper->renderConfigureResult($this, $configureResult);
         return $this;
     }
@@ -578,31 +580,31 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
     /**
      * Process exceptions in ajax requests
      *
-     * @param Exception $e
+     * @param \Exception $e
      */
-    protected function _processException(Exception $e)
+    protected function _processException(\Exception $e)
     {
-        if ($e instanceof Magento_Core_Exception) {
+        if ($e instanceof \Magento\Core\Exception) {
             $result = array('error' => $e->getMessage());
-        } elseif ($e instanceof Exception) {
-            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+        } elseif ($e instanceof \Exception) {
+            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
             $result = array(
                 'error' => __('An error has occurred. See error log for details.')
             );
         }
-        $this->getResponse()->setBody($this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($result));
+        $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result));
     }
 
     /**
      * Acl check for quote modifications
      *
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      * @return boolean
      */
     protected function _isModificationAllowed()
     {
         if (!$this->_authorization->isAllowed('Magento_AdvancedCheckout::update')) {
-            throw new Magento_Core_Exception(__('You do not have access to this.'));
+            throw new \Magento\Core\Exception(__('You do not have access to this.'));
         }
     }
 
@@ -620,44 +622,44 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
     /**
      * Configure quote items
      *
-     * @return Magento_AdvancedCheckout_Controller_Adminhtml_Checkout
+     * @return \Magento\AdvancedCheckout\Controller\Adminhtml\Checkout
      */
     public function configureQuoteItemsAction()
     {
         $this->_initData();
 
         // Prepare data
-        $configureResult = new Magento_Object();
+        $configureResult = new \Magento\Object();
         try {
             $quoteItemId = (int) $this->getRequest()->getParam('id');
 
             if (!$quoteItemId) {
-                throw new Magento_Core_Exception(__('Quote item id is not received.'));
+                throw new \Magento\Core\Exception(__('Quote item id is not received.'));
             }
 
-            $quoteItem = $this->_objectManager->create('Magento_Sales_Model_Quote_Item')->load($quoteItemId);
+            $quoteItem = $this->_objectManager->create('Magento\Sales\Model\Quote\Item')->load($quoteItemId);
             if (!$quoteItem->getId()) {
-                throw new Magento_Core_Exception(__('Quote item is not loaded.'));
+                throw new \Magento\Core\Exception(__('Quote item is not loaded.'));
             }
 
             $configureResult->setOk(true);
-            $optionCollection = $this->_objectManager->create('Magento_Sales_Model_Quote_Item_Option')->getCollection()
+            $optionCollection = $this->_objectManager->create('Magento\Sales\Model\Quote\Item\Option')->getCollection()
                     ->addItemFilter(array($quoteItemId));
             $quoteItem->setOptions($optionCollection->getOptionsByItem($quoteItem));
 
             $configureResult->setBuyRequest($quoteItem->getBuyRequest());
             $configureResult->setCurrentStoreId($quoteItem->getStoreId());
             $configureResult->setProductId($quoteItem->getProductId());
-            $sessionQuote = $this->_objectManager->get('Magento_Adminhtml_Model_Session_Quote');
+            $sessionQuote = $this->_objectManager->get('Magento\Adminhtml\Model\Session\Quote');
             $configureResult->setCurrentCustomerId($sessionQuote->getCustomerId());
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $configureResult->setError(true);
             $configureResult->setMessage($e->getMessage());
         }
 
         // Render page
-        /* @var $helper Magento_Adminhtml_Helper_Catalog_Product_Composite */
-        $helper = $this->_objectManager->get('Magento_Adminhtml_Helper_Catalog_Product_Composite');
+        /* @var $helper \Magento\Adminhtml\Helper\Catalog\Product\Composite */
+        $helper = $this->_objectManager->get('Magento\Adminhtml\Helper\Catalog\Product\Composite');
         $helper->renderConfigureResult($this, $configureResult);
 
         return $this;
@@ -666,7 +668,7 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
     /**
      * Reload quote
      *
-     * @return Magento_AdvancedCheckout_Controller_Adminhtml_Checkout
+     * @return \Magento\AdvancedCheckout\Controller\Adminhtml\Checkout
      */
     protected function _reloadQuote()
     {
@@ -683,13 +685,13 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
         $criticalException = false;
         try {
             $this->_initData(false)->_processData();
-        } catch (Magento_AdvancedCheckout_Exception $e) {
+        } catch (\Magento\AdvancedCheckout\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
             $criticalException = true;
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_reloadQuote();
             $this->_getSession()->addError($e->getMessage());
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_reloadQuote();
             $this->_getSession()->addException($e, $e->getMessage());
         }
@@ -721,7 +723,7 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
         $this->loadLayoutUpdates()->generateLayoutXml()->generateLayoutBlocks();
         $result = $this->getLayout()->renderElement('content');
         if ($this->getRequest()->getParam('as_js_varname')) {
-            $this->_objectManager->get('Magento_Adminhtml_Model_Session')->setUpdateResult($result);
+            $this->_objectManager->get('Magento\Adminhtml\Model\Session')->setUpdateResult($result);
             $this->_redirect('*/*/showUpdateResult');
         } else {
             $this->getResponse()->setBody($result);
@@ -732,20 +734,20 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
      * Returns item info by list and list item id
      * Returns object on success or false on error. Returned object has following keys:
      *  - product_id - null if no item found
-     *  - buy_request - Magento_Object, empty if not buy request stored for this item
+     *  - buy_request - \Magento\Object, empty if not buy request stored for this item
      *
      * @param string $listType
      * @param int    $itemId
      *
-     * @return Magento_Object|false
+     * @return \Magento\Object|false
      */
     protected function _getListItemInfo($listType, $itemId)
     {
         $productId = null;
-        $buyRequest = new Magento_Object();
+        $buyRequest = new \Magento\Object();
         switch ($listType) {
             case 'wishlist':
-                $item = $this->_objectManager->create('Magento_Wishlist_Model_Item')
+                $item = $this->_objectManager->create('Magento\Wishlist\Model\Item')
                     ->loadWithOptions($itemId, 'info_buyRequest');
                 if ($item->getId()) {
                     $productId = $item->getProductId();
@@ -753,7 +755,7 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
                 }
                 break;
             case 'ordered':
-                $item = $this->_objectManager->create('Magento_Sales_Model_Order_Item')
+                $item = $this->_objectManager->create('Magento\Sales\Model\Order\Item')
                     ->load($itemId);
                 if ($item->getId()) {
                     $productId = $item->getProductId();
@@ -765,7 +767,7 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
                 break;
         }
 
-        return new Magento_Object(array('product_id' => $productId, 'buy_request' => $buyRequest));
+        return new \Magento\Object(array('product_id' => $productId, 'buy_request' => $buyRequest));
     }
 
     /**
@@ -776,22 +778,22 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
      * @param string $listType
      * @param int    $itemId
      * @param array  $info
-     * @return Magento_Object|false
+     * @return \Magento\Object|false
      */
     protected function _getInfoForListItem($listType, $itemId, $info)
     {
         $productId = null;
-        $buyRequest = new Magento_Object();
+        $buyRequest = new \Magento\Object();
         switch ($listType) {
-            case Magento_AdvancedCheckout_Block_Adminhtml_Sku_Abstract::LIST_TYPE:
+            case \Magento\AdvancedCheckout\Block\Adminhtml\Sku\AbstractSku::LIST_TYPE:
                 $info['sku'] = $itemId;
 
-            case Magento_AdvancedCheckout_Block_Adminhtml_Sku_Errors_Abstract::LIST_TYPE:
+            case \Magento\AdvancedCheckout\Block\Adminhtml\Sku\Errors\AbstractErrors::LIST_TYPE:
                 if ((!isset($info['sku'])) || (string)$info['sku'] == '') { // Allow SKU == '0'
                     return false;
                 }
                 $item = $this->getCartModel()->prepareAddProductBySku($info['sku'], $info['qty'], $info);
-                if ($item['code'] != Magento_AdvancedCheckout_Helper_Data::ADD_ITEM_STATUS_SUCCESS) {
+                if ($item['code'] != \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_SUCCESS) {
                     return false;
                 }
                 $productId = $item['item']['id'];
@@ -800,13 +802,13 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
             default:
                 return $this->_getListItemInfo($listType, $itemId);
         }
-        return new Magento_Object(array('product_id' => $productId, 'buy_request' => $buyRequest));
+        return new \Magento\Object(array('product_id' => $productId, 'buy_request' => $buyRequest));
     }
 
     /**
      * Processing request data
      *
-     * @return Magento_AdvancedCheckout_Controller_Adminhtml_Checkout
+     * @return \Magento\AdvancedCheckout\Controller\Adminhtml\Checkout
      */
     protected function _processData()
     {
@@ -823,8 +825,8 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
                 $this->getCartModel()->updateQuoteItems($items);
                 if ($this->getCartModel()->getQuote()->getHasError()) {
                     foreach ($this->getCartModel()->getQuote()->getErrors() as $error) {
-                        /* @var $error Magento_Core_Model_Message_Error */
-                        $this->_objectManager->get('Magento_Adminhtml_Model_Session')->addError($error->getCode());
+                        /* @var $error \Magento\Core\Model\Message\Error */
+                        $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($error->getCode());
                     }
                 }
             }
@@ -846,13 +848,13 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
         $listTypes = $this->getRequest()->getPost('configure_complex_list_types');
         if ($listTypes) {
             $skuListTypes = array(
-                Magento_AdvancedCheckout_Block_Adminhtml_Sku_Errors_Abstract::LIST_TYPE,
-                Magento_AdvancedCheckout_Block_Adminhtml_Sku_Abstract::LIST_TYPE,
+                \Magento\AdvancedCheckout\Block\Adminhtml\Sku\Errors\AbstractErrors::LIST_TYPE,
+                \Magento\AdvancedCheckout\Block\Adminhtml\Sku\AbstractSku::LIST_TYPE,
             );
-            /* @var $productHelper Magento_Catalog_Helper_Product */
-            $productHelper = $this->_objectManager->get('Magento_Catalog_Helper_Product');
+            /* @var $productHelper \Magento\Catalog\Helper\Product */
+            $productHelper = $this->_objectManager->get('Magento\Catalog\Helper\Product');
             $listTypes = array_filter(explode(',', $listTypes));
-            if (in_array(Magento_AdvancedCheckout_Block_Adminhtml_Sku_Errors_Abstract::LIST_TYPE, $listTypes)) {
+            if (in_array(\Magento\AdvancedCheckout\Block\Adminhtml\Sku\Errors\AbstractErrors::LIST_TYPE, $listTypes)) {
                 // If results came from SKU error grid - clean them (submitted results are going to be re-checked)
                 $this->getCartModel()->removeAllAffectedItems();
             }
@@ -900,10 +902,10 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
                     } else {
                         try {
                             $this->getCartModel()->addProduct($itemInfo->getProductId(), $config);
-                        } catch (Magento_Core_Exception $e){
-                            $this->_objectManager->get('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
-                        } catch (Exception $e){
-                            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+                        } catch (\Magento\Core\Exception $e){
+                            $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
+                        } catch (\Exception $e){
+                            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
                         }
                     }
                 }
@@ -949,10 +951,10 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
      */
     protected function _processFiles($items)
     {
-        /* @var $productHelper Magento_Catalog_Helper_Product */
-        $productHelper = $this->_objectManager->get('Magento_Catalog_Helper_Product');
+        /* @var $productHelper \Magento\Catalog\Helper\Product */
+        $productHelper = $this->_objectManager->get('Magento\Catalog\Helper\Product');
         foreach ($items as $id => $item) {
-            $buyRequest = new Magento_Object($item);
+            $buyRequest = new \Magento\Object($item);
             $params = array('files_prefix' => 'item_' . $id . '_');
             $buyRequest = $productHelper->addParamsToBuyRequest($buyRequest, $params);
             if ($buyRequest->hasData()) {
@@ -969,7 +971,7 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
      */
     public function showUpdateResultAction()
     {
-        $session = $this->_objectManager->get('Magento_Adminhtml_Model_Session');
+        $session = $this->_objectManager->get('Magento\Adminhtml\Model\Session');
         if ($session->hasUpdateResult() && is_scalar($session->getUpdateResult())) {
             $this->getResponse()->setBody($session->getUpdateResult());
             $session->unsUpdateResult();
@@ -986,8 +988,8 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
     {
         try {
             $this->_initData();
-        } catch (Magento_Core_Exception $e) {
-            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+        } catch (\Magento\Core\Exception $e) {
+            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
             $this->_redirect('*/customer');
             $this->_redirectFlag = true;
         }
@@ -995,8 +997,8 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
             return;
         }
 
-        /** @var $helper Magento_AdvancedCheckout_Helper_Data */
-        $helper = $this->_objectManager->get('Magento_AdvancedCheckout_Helper_Data');
+        /** @var $helper \Magento\AdvancedCheckout\Helper\Data */
+        $helper = $this->_objectManager->get('Magento\AdvancedCheckout\Helper\Data');
         $rows = $helper->isSkuFileUploaded($this->getRequest())
             ? $helper->processSkuFileUploading($this->_getSession())
             : array();

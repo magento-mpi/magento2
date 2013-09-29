@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Dashboard_Grid extends Magento_Adminhtml_Block_Widget_Grid
+namespace Magento\Adminhtml\Block\Dashboard;
+
+class Grid extends \Magento\Adminhtml\Block\Widget\Grid
 {
     protected $_template = 'dashboard/grid.phtml';
 

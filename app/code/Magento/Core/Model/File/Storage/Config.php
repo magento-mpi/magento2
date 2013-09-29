@@ -5,7 +5,9 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Core_Model_File_Storage_Config
+namespace Magento\Core\Model\File\Storage;
+
+class Config
 {
     /**
      * Config cache file path
@@ -24,17 +26,17 @@ class Magento_Core_Model_File_Storage_Config
     /**
      * File stream handler
      *
-     * @var Magento_Io_File
+     * @var \Magento\Io\File
      */
     protected $_streamFactory;
 
     /**
-     * @param Magento_Core_Model_File_Storage $storage
-     * @param Magento_Filesystem_Stream_LocalFactory $streamFactory
+     * @param \Magento\Core\Model\File\Storage $storage
+     * @param \Magento\Filesystem\Stream\LocalFactory $streamFactory
      * @param string $cacheFile
      */
     public function __construct(
-        Magento_Core_Model_File_Storage $storage, Magento_Filesystem_Stream_LocalFactory $streamFactory, $cacheFile
+        \Magento\Core\Model\File\Storage $storage, \Magento\Filesystem\Stream\LocalFactory $streamFactory, $cacheFile
     ) {
         $this->_config = $storage->getScriptConfig();
         $this->_streamFactory = $streamFactory;
@@ -66,7 +68,7 @@ class Magento_Core_Model_File_Storage_Config
      */
     public function save()
     {
-        /** @var Magento_Filesystem_StreamInterface $stream */
+        /** @var \Magento\Filesystem\StreamInterface $stream */
         $stream = $this->_streamFactory->create(array('path' => $this->_cacheFile));
         try{
             $stream->open('w');
@@ -74,7 +76,7 @@ class Magento_Core_Model_File_Storage_Config
             $stream->write(json_encode($this->_config));
             $stream->unlock();
             $stream->close();
-        } catch (Magento_Filesystem_Exception $e) {
+        } catch (\Magento\Filesystem\FilesystemException $e) {
             $stream->close();
         }
     }

@@ -12,40 +12,42 @@
  * Backend model for "Reward Points Lifetime"
  *
  */
-class Magento_Reward_Model_System_Config_Backend_Expiration extends Magento_Core_Model_Config_Value
+namespace Magento\Reward\Model\System\Config\Backend;
+
+class Expiration extends \Magento\Core\Model\Config\Value
 {
     const XML_PATH_EXPIRATION_DAYS = 'magento_reward/general/expiration_days';
 
     /**
-     * @var Magento_Core_Model_Resource_Config_Data_CollectionFactory
+     * @var \Magento\Core\Model\Resource\Config\Data\CollectionFactory
      */
     protected $_configFactory;
 
     /**
-     * @var Magento_Reward_Model_Resource_Reward_HistoryFactory
+     * @var \Magento\Reward\Model\Resource\Reward\HistoryFactory
      */
     protected $_historyFactory;
 
     /**
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Config $config
-     * @param Magento_Core_Model_Resource_Config_Data_CollectionFactory $configFactory
-     * @param Magento_Reward_Model_Resource_Reward_HistoryFactory $historyFactory
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Core\Model\Resource\Config\Data\CollectionFactory $configFactory
+     * @param \Magento\Reward\Model\Resource\Reward\HistoryFactory $historyFactory
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Config $config,
-        Magento_Core_Model_Resource_Config_Data_CollectionFactory $configFactory,
-        Magento_Reward_Model_Resource_Reward_HistoryFactory $historyFactory,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Config $config,
+        \Magento\Core\Model\Resource\Config\Data\CollectionFactory $configFactory,
+        \Magento\Reward\Model\Resource\Reward\HistoryFactory $historyFactory,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;
@@ -58,7 +60,7 @@ class Magento_Reward_Model_System_Config_Backend_Expiration extends Magento_Core
     /**
      * Update history expiration date to simplify frontend calculations
      *
-     * @return Magento_Reward_Model_System_Config_Backend_Expiration
+     * @return \Magento\Reward\Model\System\Config\Backend\Expiration
      */
     protected function _beforeSave()
     {
@@ -79,7 +81,7 @@ class Magento_Reward_Model_System_Config_Backend_Expiration extends Magento_Core
                 $websiteScopeIds[] = $item->getScopeId();
             }
             foreach ($this->_storeManager->getWebsites() as $website) {
-                /* @var $website Magento_Core_Model_Website */
+                /* @var $website \Magento\Core\Model\Website */
                 if (!in_array($website->getId(), $websiteScopeIds)) {
                     $websiteIds[] = $website->getId();
                 }
@@ -95,7 +97,7 @@ class Magento_Reward_Model_System_Config_Backend_Expiration extends Magento_Core
     /**
      * The same as _beforeSave, but executed when website config extends default values
      *
-     * @return Magento_Reward_Model_System_Config_Backend_Expiration
+     * @return \Magento\Reward\Model\System\Config\Backend\Expiration
      */
     protected function _beforeDelete()
     {

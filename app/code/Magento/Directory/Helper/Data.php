@@ -11,7 +11,9 @@
 /**
  * Directory data helper
  */
-class Magento_Directory_Helper_Data extends Magento_Core_Helper_Abstract
+namespace Magento\Directory\Helper;
+
+class Data extends \Magento\Core\Helper\AbstractHelper
 {
     /**
      * Config value that lists ISO2 country codes which have optional Zip/Postal pre-configured
@@ -31,14 +33,14 @@ class Magento_Directory_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Country collection
      *
-     * @var Magento_Directory_Model_Resource_Country_Collection
+     * @var \Magento\Directory\Model\Resource\Country\Collection
      */
     protected $_countryCollection;
 
     /**
      * Region collection
      *
-     * @var Magento_Directory_Model_Resource_Region_Collection
+     * @var \Magento\Directory\Model\Resource\Region\Collection
      */
     protected $_regionCollection;
 
@@ -64,54 +66,54 @@ class Magento_Directory_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_optZipCountries = null;
 
     /**
-     * @var Magento_Core_Model_Cache_Type_Config
+     * @var \Magento\Core\Model\Cache\Type\Config
      */
     protected $_configCacheType;
 
     /**
-     * @var Magento_Directory_Model_Resource_Region_CollectionFactory
+     * @var \Magento\Directory\Model\Resource\Region\CollectionFactory
      */
     protected $_regCollFactory;
 
     /**
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreHelper;
 
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Directory_Model_CurrencyFactory
+     * @var \Magento\Directory\Model\CurrencyFactory
      */
     protected $_currencyFactory;
 
     /**
-     * @var Magento_Core_Model_Config
+     * @var \Magento\Core\Model\Config
      */
     protected $_config;
 
     /**
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_Cache_Type_Config $configCacheType
-     * @param Magento_Directory_Model_Resource_Country_Collection $countryCollection
-     * @param Magento_Directory_Model_Resource_Region_CollectionFactory $regCollFactory,
-     * @param Magento_Core_Helper_Data $coreHelper
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Directory_Model_CurrencyFactory $currencyFactory
-     * @param Magento_Core_Model_Config $config
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
+     * @param \Magento\Directory\Model\Resource\Country\Collection $countryCollection
+     * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regCollFactory,
+     * @param \Magento\Core\Helper\Data $coreHelper
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
+     * @param \Magento\Core\Model\Config $config
      */
     public function __construct(
-        Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Cache_Type_Config $configCacheType,
-        Magento_Directory_Model_Resource_Country_Collection $countryCollection,
-        Magento_Directory_Model_Resource_Region_CollectionFactory $regCollFactory,
-        Magento_Core_Helper_Data $coreHelper,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Directory_Model_CurrencyFactory $currencyFactory,
-        Magento_Core_Model_Config $config
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\Cache\Type\Config $configCacheType,
+        \Magento\Directory\Model\Resource\Country\Collection $countryCollection,
+        \Magento\Directory\Model\Resource\Region\CollectionFactory $regCollFactory,
+        \Magento\Core\Helper\Data $coreHelper,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Directory\Model\CurrencyFactory $currencyFactory,
+        \Magento\Core\Model\Config $config
     ) {
         parent::__construct($context);
         $this->_configCacheType = $configCacheType;
@@ -126,7 +128,7 @@ class Magento_Directory_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Retrieve region collection
      *
-     * @return Magento_Directory_Model_Resource_Region_Collection
+     * @return \Magento\Directory\Model\Resource\Region\Collection
      */
     public function getRegionCollection()
     {
@@ -141,7 +143,7 @@ class Magento_Directory_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Retrieve country collection
      *
-     * @return Magento_Directory_Model_Resource_Country_Collection
+     * @return \Magento\Directory\Model\Resource\Country\Collection
      */
     public function getCountryCollection()
     {
@@ -158,7 +160,7 @@ class Magento_Directory_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getRegionJson()
     {
-        Magento_Profiler::start('TEST: ' . __METHOD__, array('group' => 'TEST', 'method' => __METHOD__));
+        \Magento\Profiler::start('TEST: ' . __METHOD__, array('group' => 'TEST', 'method' => __METHOD__));
         if (!$this->_regionJson) {
             $cacheKey = 'DIRECTORY_REGIONS_JSON_STORE' . $this->_storeManager->getStore()->getId();
             $json = $this->_configCacheType->load($cacheKey);
@@ -177,7 +179,7 @@ class Magento_Directory_Helper_Data extends Magento_Core_Helper_Abstract
                     )
                 );
                 foreach ($collection as $region) {
-                    /** @var $region Magento_Directory_Model_Region */
+                    /** @var $region \Magento\Directory\Model\Region */
                     if (!$region->getRegionId()) {
                         continue;
                     }
@@ -193,7 +195,7 @@ class Magento_Directory_Helper_Data extends Magento_Core_Helper_Abstract
             $this->_regionJson = $json;
         }
 
-        Magento_Profiler::stop('TEST: ' . __METHOD__);
+        \Magento\Profiler::stop('TEST: ' . __METHOD__);
         return $this->_regionJson;
     }
 
@@ -296,6 +298,6 @@ class Magento_Directory_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getBaseCurrencyCode()
     {
-        return $this->_config->getValue(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE, 'default');
+        return $this->_config->getValue(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE, 'default');
     }
 }

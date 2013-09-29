@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 ?>
-<?php /* @var $this Magento_Catalog_Block_Product_View_Options_Type_Date */ ?>
+<?php /* @var $this \Magento\Catalog\Block\Product\View\Options\Type\Date */ ?>
 <?php $_option = $this->getOption(); ?>
 <?php $_optionId = $_option->getId(); ?>
 <div class="field<?php if ($_option->getIsRequire()) echo ' required' ?>">
@@ -18,8 +18,8 @@
   </label>
   <div class="control">
 
-  <?php if ($_option->getType() == Magento_Catalog_Model_Product_Option::OPTION_TYPE_DATE_TIME
-      || $_option->getType() == Magento_Catalog_Model_Product_Option::OPTION_TYPE_DATE): ?>
+  <?php if ($_option->getType() == \Magento\Catalog\Model\Product\Option::OPTION_TYPE_DATE_TIME
+      || $_option->getType() == \Magento\Catalog\Model\Product\Option::OPTION_TYPE_DATE): ?>
 
       <?php echo $this->getDateHtml() ?>
 
@@ -35,8 +35,8 @@
 
   <?php endif; ?>
 
-  <?php if ($_option->getType() == Magento_Catalog_Model_Product_Option::OPTION_TYPE_DATE_TIME
-      || $_option->getType() == Magento_Catalog_Model_Product_Option::OPTION_TYPE_TIME): ?>
+  <?php if ($_option->getType() == \Magento\Catalog\Model\Product\Option::OPTION_TYPE_DATE_TIME
+      || $_option->getType() == \Magento\Catalog\Model\Product\Option::OPTION_TYPE_TIME): ?>
       <span class="time-picker"><?php echo $this->getTimeHtml() ?></span>
   <?php endif; ?>
 

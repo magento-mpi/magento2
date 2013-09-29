@@ -6,12 +6,14 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Db_Updater implements Magento_Core_Model_Db_UpdaterInterface
+namespace Magento\Core\Model\Db;
+
+class Updater implements \Magento\Core\Model\Db\UpdaterInterface
 {
     /**
      * Modules configuration
      *
-     * @var Magento_Core_Model_Config
+     * @var \Magento\Core\Model\Config
      */
     protected $_config;
 
@@ -20,12 +22,12 @@ class Magento_Core_Model_Db_Updater implements Magento_Core_Model_Db_UpdaterInte
      *
      * @var string
      */
-    protected $_defaultClass = 'Magento_Core_Model_Resource_Setup';
+    protected $_defaultClass = 'Magento\Core\Model\Resource\Setup';
 
     /**
      * Setup model factory
      *
-     * @var Magento_Core_Model_Resource_SetupFactory
+     * @var \Magento\Core\Model\Resource\SetupFactory
      */
     protected $_factory;
 
@@ -39,7 +41,7 @@ class Magento_Core_Model_Db_Updater implements Magento_Core_Model_Db_UpdaterInte
     /**
      * Application state model
      *
-     * @var Magento_Core_Model_App_State
+     * @var \Magento\Core\Model\App\State
      */
     protected $_appState;
 
@@ -58,30 +60,30 @@ class Magento_Core_Model_Db_Updater implements Magento_Core_Model_Db_UpdaterInte
     protected $_resourceList;
 
     /**
-     * @var Magento_Core_Model_ModuleListInterface
+     * @var \Magento\Core\Model\ModuleListInterface
      */
     protected $_moduleList;
 
     /**
-     * @var Magento_Core_Model_Module_ResourceResolverInterface
+     * @var \Magento\Core\Model\Module\ResourceResolverInterface
      */
     protected $_resourceResolver;
 
     /**
-     * @param Magento_Core_Model_Config $config
-     * @param Magento_Core_Model_Resource_SetupFactory $factory
-     * @param Magento_Core_Model_App_State $appState
-     * @param Magento_Core_Model_ModuleListInterface $moduleList
-     * @param Magento_Core_Model_Module_ResourceResolverInterface $resourceResolver
+     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Core\Model\Resource\SetupFactory $factory
+     * @param \Magento\Core\Model\App\State $appState
+     * @param \Magento\Core\Model\ModuleListInterface $moduleList
+     * @param \Magento\Core\Model\Module\ResourceResolverInterface $resourceResolver
      * @param array $resourceList
      * @param bool $skipModuleUpdate
      */
     public function __construct(
-        Magento_Core_Model_Config $config,
-        Magento_Core_Model_Resource_SetupFactory $factory,
-        Magento_Core_Model_App_State $appState,
-        Magento_Core_Model_ModuleListInterface $moduleList,
-        Magento_Core_Model_Module_ResourceResolverInterface $resourceResolver,
+        \Magento\Core\Model\Config $config,
+        \Magento\Core\Model\Resource\SetupFactory $factory,
+        \Magento\Core\Model\App\State $appState,
+        \Magento\Core\Model\ModuleListInterface $moduleList,
+        \Magento\Core\Model\Module\ResourceResolverInterface $resourceResolver,
         array $resourceList,
         $skipModuleUpdate = false
     ) {
@@ -117,7 +119,7 @@ class Magento_Core_Model_Db_Updater implements Magento_Core_Model_Db_UpdaterInte
             return;
         }
 
-        Magento_Profiler::start('apply_db_schema_updates');
+        \Magento\Profiler::start('apply_db_schema_updates');
         $this->_appState->setUpdateMode(true);
 
         $afterApplyUpdates = array();
@@ -142,14 +144,14 @@ class Magento_Core_Model_Db_Updater implements Magento_Core_Model_Db_UpdaterInte
             }
         }
 
-        /** @var $setupClass Magento_Core_Model_Resource_SetupInterface*/
+        /** @var $setupClass \Magento\Core\Model\Resource\SetupInterface*/
         foreach ($afterApplyUpdates as $setupClass) {
             $setupClass->afterApplyAllUpdates();
         }
 
         $this->_appState->setUpdateMode(false);
         $this->_isUpdatedSchema = true;
-        Magento_Profiler::stop('apply_db_schema_updates');
+        \Magento\Profiler::stop('apply_db_schema_updates');
     }
 
     /**

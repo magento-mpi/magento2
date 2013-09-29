@@ -11,7 +11,9 @@
 /**
  * Block for Bank Transfer payment generic info
  */
-class Magento_Payment_Block_Info_Instructions extends Magento_Payment_Block_Info
+namespace Magento\Payment\Block\Info;
+
+class Instructions extends \Magento\Payment\Block\Info
 {
     /**
      * Instructions text

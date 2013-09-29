@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Magento_Validator_Constraint_OptionInterface
+namespace Magento\Validator\Constraint;
+
+interface OptionInterface
 {
     /**
      * Get option value

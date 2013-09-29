@@ -11,7 +11,9 @@
 /**
  * Magento application console installer
  */
-class Magento_Install_Model_Installer_Console extends Magento_Install_Model_Installer_Abstract
+namespace Magento\Install\Model\Installer;
+
+class Console extends \Magento\Install\Model\Installer\AbstractInstaller
 {
     /**#@+
      * Installation options for application initialization
@@ -57,31 +59,31 @@ class Magento_Install_Model_Installer_Console extends Magento_Install_Model_Inst
     );
 
     /**
-     * @var Magento_Filesystem
+     * @var \Magento\Filesystem
      */
     protected $_filesystem;
 
     /**
      * Installer data model to store data between installations steps
      *
-     * @var Magento_Install_Model_Installer_Data|Magento_Core_Model_Session_Generic
+     * @var \Magento\Install\Model\Installer\Data|\Magento\Core\Model\Session\Generic
      */
     protected $_dataModel;
 
     /**
      * DB updater
      *
-     * @var Magento_Core_Model_Db_UpdaterInterface
+     * @var \Magento\Core\Model\Db\UpdaterInterface
      */
     protected $_dbUpdater;
 
     /**
-     * @param Magento_Core_Model_Db_UpdaterInterface $daUpdater
-     * @param Magento_Filesystem $filesystem
+     * @param \Magento\Core\Model\Db\UpdaterInterface $daUpdater
+     * @param \Magento\Filesystem $filesystem
      */
     public function __construct(
-        Magento_Core_Model_Db_UpdaterInterface $daUpdater,
-        Magento_Filesystem $filesystem
+        \Magento\Core\Model\Db\UpdaterInterface $daUpdater,
+        \Magento\Filesystem $filesystem
     ) {
         $this->_dbUpdater = $daUpdater;
         $this->_getInstaller()->setDataModel($this->_getDataModel());
@@ -131,7 +133,7 @@ class Magento_Install_Model_Installer_Console extends Magento_Install_Model_Inst
      * Add error
      *
      * @param string $error
-     * @return Magento_Install_Model_Installer_Console
+     * @return \Magento\Install\Model\Installer\Console
      */
     public function addError($error)
     {
@@ -174,12 +176,12 @@ class Magento_Install_Model_Installer_Console extends Magento_Install_Model_Inst
     /**
      * Get data model (used to store data between installation steps
      *
-     * @return Magento_Install_Model_Installer_Data
+     * @return \Magento\Install\Model\Installer\Data
      */
     protected function _getDataModel()
     {
         if (null === $this->_dataModel) {
-            $this->_dataModel = Mage::getModel('Magento_Install_Model_Installer_Data');
+            $this->_dataModel = \Mage::getModel('Magento\Install\Model\Installer\Data');
         }
         return $this->_dataModel;
     }
@@ -201,7 +203,7 @@ class Magento_Install_Model_Installer_Console extends Magento_Install_Model_Inst
             /**
              * Check if already installed
              */
-            if (Mage::isInstalled()) {
+            if (\Mage::isInstalled()) {
                 $this->addError('ERROR: Magento is already installed.');
                 return false;
             }
@@ -302,11 +304,11 @@ class Magento_Install_Model_Installer_Console extends Magento_Install_Model_Inst
             /**
              * Change directories mode to be writable by apache user
              */
-            $this->_filesystem->changePermissions(Mage::getBaseDir('var'), 0777, true);
+            $this->_filesystem->changePermissions(\Mage::getBaseDir('var'), 0777, true);
             return $encryptionKey;
-        } catch (Exception $e) {
-            if ($e instanceof Magento_Core_Exception) {
-                foreach ($e->getMessages(Magento_Core_Model_Message::ERROR) as $errorMessage) {
+        } catch (\Exception $e) {
+            if ($e instanceof \Magento\Core\Exception) {
+                foreach ($e->getMessages(\Magento\Core\Model\Message::ERROR) as $errorMessage) {
                     $this->addError($errorMessage);
                 }
             } else {
@@ -321,9 +323,9 @@ class Magento_Install_Model_Installer_Console extends Magento_Install_Model_Inst
      */
     protected function _cleanUpDatabase()
     {
-        $modelName = 'Magento_Install_Model_Installer_Db_Mysql4';
-        /** @var $resourceModel Magento_Install_Model_Installer_Db_Abstract */
-        $resourceModel = Mage::getModel($modelName);
+        $modelName = 'Magento\Install\Model\Installer\Db\Mysql4';
+        /** @var $resourceModel \Magento\Install\Model\Installer\Db\AbstractDb */
+        $resourceModel = \Mage::getModel($modelName);
         $resourceModel->cleanUpDatabase();
     }
 
@@ -334,17 +336,17 @@ class Magento_Install_Model_Installer_Console extends Magento_Install_Model_Inst
      */
     public function uninstall()
     {
-        if (!Mage::isInstalled()) {
+        if (!\Mage::isInstalled()) {
             return false;
         }
 
         $this->_cleanUpDatabase();
 
         /* Remove temporary directories and local.xml */
-        foreach (glob(Mage::getBaseDir(Magento_Core_Model_Dir::VAR_DIR) . '/*', GLOB_ONLYDIR) as $dir) {
+        foreach (glob(\Mage::getBaseDir(\Magento\Core\Model\Dir::VAR_DIR) . '/*', GLOB_ONLYDIR) as $dir) {
             $this->_filesystem->delete($dir);
         }
-        $this->_filesystem->delete(Mage::getBaseDir(Magento_Core_Model_Dir::CONFIG) . DIRECTORY_SEPARATOR . '/local.xml');
+        $this->_filesystem->delete(\Mage::getBaseDir(\Magento\Core\Model\Dir::CONFIG) . DIRECTORY_SEPARATOR . '/local.xml');
         return true;
     }
 
@@ -355,7 +357,7 @@ class Magento_Install_Model_Installer_Console extends Magento_Install_Model_Inst
      */
     public function getAvailableLocales()
     {
-        return Mage::app()->getLocale()->getOptionLocales();
+        return \Mage::app()->getLocale()->getOptionLocales();
     }
 
     /**
@@ -365,7 +367,7 @@ class Magento_Install_Model_Installer_Console extends Magento_Install_Model_Inst
      */
     public function getAvailableCurrencies()
     {
-        return Mage::app()->getLocale()->getOptionCurrencies();
+        return \Mage::app()->getLocale()->getOptionCurrencies();
     }
 
     /**
@@ -375,7 +377,7 @@ class Magento_Install_Model_Installer_Console extends Magento_Install_Model_Inst
      */
     public function getAvailableTimezones()
     {
-        return Mage::app()->getLocale()->getOptionTimezones();
+        return \Mage::app()->getLocale()->getOptionTimezones();
     }
 
     /**

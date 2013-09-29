@@ -9,21 +9,23 @@
  * @license     {license_link}
  */
 
-class Magento_Sales_Model_Quote_ItemTest extends PHPUnit_Framework_TestCase
+namespace Magento\Sales\Model\Quote;
+
+class ItemTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Sales_Model_Quote_Item
+     * @var \Magento\Sales\Model\Quote\Item
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = $this->getMock('Magento_Sales_Model_Quote_Item', null, array(), '', false);
+        $this->_model = $this->getMock('Magento\Sales\Model\Quote\Item', null, array(), '', false);
     }
 
     public function testGetAddress()
     {
-        $quote = $this->getMock('Magento_Sales_Model_Quote',
+        $quote = $this->getMock('Magento\Sales\Model\Quote',
             array('getShippingAddress', 'getBillingAddress'), array(), '', false);
         $quote->expects($this->once())
             ->method('getShippingAddress')

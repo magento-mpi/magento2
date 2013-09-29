@@ -16,7 +16,9 @@
  * @package     Magento_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reports_Model_Resource_Review_Collection extends Magento_Review_Model_Resource_Review_Collection
+namespace Magento\Reports\Model\Resource\Review;
+
+class Collection extends \Magento\Review\Model\Resource\Review\Collection
 {
     /**
      * Resource initialization
@@ -24,14 +26,14 @@ class Magento_Reports_Model_Resource_Review_Collection extends Magento_Review_Mo
      */
     protected function _construct()
     {
-        $this->_init('Magento_Review_Model_Review', 'Magento_Review_Model_Resource_Review');
+        $this->_init('Magento\Review\Model\Review', 'Magento\Review\Model\Resource\Review');
     }
 
     /**
      * add product filter
      *
      * @param unknown_type $productId
-     * @return Magento_Reports_Model_Resource_Review_Collection
+     * @return \Magento\Reports\Model\Resource\Review\Collection
      */
     public function addProductFilter($productId)
     {
@@ -43,7 +45,7 @@ class Magento_Reports_Model_Resource_Review_Collection extends Magento_Review_Mo
     /**
      * Reset select
      *
-     * @return Magento_Reports_Model_Resource_Review_Collection
+     * @return \Magento\Reports\Model\Resource\Review\Collection
      */
     public function resetSelect()
     {
@@ -60,10 +62,10 @@ class Magento_Reports_Model_Resource_Review_Collection extends Magento_Review_Mo
     public function getSelectCountSql()
     {
         $countSelect = clone $this->_select;
-        $countSelect->reset(Zend_Db_Select::ORDER);
-        $countSelect->reset(Zend_Db_Select::LIMIT_COUNT);
-        $countSelect->reset(Zend_Db_Select::LIMIT_OFFSET);
-        $countSelect->reset(Zend_Db_Select::COLUMNS);
+        $countSelect->reset(\Zend_Db_Select::ORDER);
+        $countSelect->reset(\Zend_Db_Select::LIMIT_COUNT);
+        $countSelect->reset(\Zend_Db_Select::LIMIT_OFFSET);
+        $countSelect->reset(\Zend_Db_Select::COLUMNS);
         $countSelect->columns("COUNT(main_table.review_id)");
 
         return $countSelect;
@@ -74,7 +76,7 @@ class Magento_Reports_Model_Resource_Review_Collection extends Magento_Review_Mo
      *
      * @param string $attribute
      * @param string $dir
-     * @return Magento_Reports_Model_Resource_Review_Collection
+     * @return \Magento\Reports\Model\Resource\Review\Collection
      */
     public function setOrder($attribute, $dir = self::SORT_ORDER_DESC)
     {

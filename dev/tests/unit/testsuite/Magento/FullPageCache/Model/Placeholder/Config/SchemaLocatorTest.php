@@ -5,22 +5,24 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_FullPageCache_Model_Placeholder_Config_SchemaLocatorTest extends PHPUnit_Framework_TestCase
+namespace Magento\FullPageCache\Model\Placeholder\Config;
+
+class SchemaLocatorTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_moduleReaderMock;
 
     /**
-     * @var Magento_FullPageCache_Model_Placeholder_Config_SchemaLocator
+     * @var \Magento\FullPageCache\Model\Placeholder\Config\SchemaLocator
      */
     protected $_model;
 
     protected function setUp()
     {
         $this->_moduleReaderMock = $this->getMock(
-            'Magento_Core_Model_Config_Modules_Reader',
+            'Magento\Core\Model\Config\Modules\Reader',
             array(), array(), '', false
         );
         $this->_moduleReaderMock
@@ -28,7 +30,7 @@ class Magento_FullPageCache_Model_Placeholder_Config_SchemaLocatorTest extends P
             ->method('getModuleDir')
             ->with('etc', 'Magento_FullPageCache')
             ->will($this->returnValue('schema_dir'));
-        $this->_model = new Magento_FullPageCache_Model_Placeholder_Config_SchemaLocator($this->_moduleReaderMock);
+        $this->_model = new \Magento\FullPageCache\Model\Placeholder\Config\SchemaLocator($this->_moduleReaderMock);
     }
 
     public function testGetSchema()

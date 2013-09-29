@@ -15,32 +15,34 @@
  * @package     Magento_GiftWrapping
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GiftWrapping_Block_Adminhtml_Order_View_Info
-    extends Magento_GiftWrapping_Block_Adminhtml_Order_View_Abstract
+namespace Magento\GiftWrapping\Block\Adminhtml\Order\View;
+
+class Info
+    extends \Magento\GiftWrapping\Block\Adminhtml\Order\View\AbstractView
 {
     /**
-     * @var Magento_GiftWrapping_Model_WrappingFactory
+     * @var \Magento\GiftWrapping\Model\WrappingFactory
      */
     protected $_wrappingFactory;
 
     /**
-     * @param Magento_GiftWrapping_Helper_Data $giftWrappingData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_GiftWrapping_Model_Resource_Wrapping_CollectionFactory $wrappingCollFactory
-     * @param Magento_GiftWrapping_Model_WrappingFactory $wrappingFactory
+     * @param \Magento\GiftWrapping\Helper\Data $giftWrappingData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\GiftWrapping\Model\Resource\Wrapping\CollectionFactory $wrappingCollFactory
+     * @param \Magento\GiftWrapping\Model\WrappingFactory $wrappingFactory
      * @param array $data
      */
     public function __construct(
-        Magento_GiftWrapping_Helper_Data $giftWrappingData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_GiftWrapping_Model_Resource_Wrapping_CollectionFactory $wrappingCollFactory,
-        Magento_GiftWrapping_Model_WrappingFactory $wrappingFactory,
+        \Magento\GiftWrapping\Helper\Data $giftWrappingData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\GiftWrapping\Model\Resource\Wrapping\CollectionFactory $wrappingCollFactory,
+        \Magento\GiftWrapping\Model\WrappingFactory $wrappingFactory,
         array $data = array()
     ) {
         $this->_wrappingFactory = $wrappingFactory;
@@ -58,7 +60,7 @@ class Magento_GiftWrapping_Block_Adminhtml_Order_View_Info
     /**
      * Prepare and return order items info
      *
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function getOrderInfo()
     {
@@ -83,13 +85,13 @@ class Magento_GiftWrapping_Block_Adminhtml_Order_View_Info
             $data['path'] = $wrapping->getImageUrl();
             $data['design'] = $wrapping->getDesign();
         }
-        return new Magento_Object($data);
+        return new \Magento\Object($data);
     }
 
     /**
      * Prepare and return order items info
      *
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function getCardInfo()
     {
@@ -117,7 +119,7 @@ class Magento_GiftWrapping_Block_Adminhtml_Order_View_Info
                 );
             }
         }
-        return new Magento_Object($data);
+        return new \Magento\Object($data);
     }
 
     /**

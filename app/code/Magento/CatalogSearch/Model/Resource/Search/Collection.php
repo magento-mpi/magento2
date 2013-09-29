@@ -16,7 +16,9 @@
  * @package     Magento_CatalogSearch
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CatalogSearch_Model_Resource_Search_Collection extends Magento_Catalog_Model_Resource_Product_Collection
+namespace Magento\CatalogSearch\Model\Resource\Search;
+
+class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
 {
     /**
      * Attribute collection
@@ -33,49 +35,49 @@ class Magento_CatalogSearch_Model_Resource_Search_Collection extends Magento_Cat
     protected $_searchQuery;
 
     /**
-     * @var Magento_Core_Model_Resource
+     * @var \Magento\Core\Model\Resource
      */
     protected $_resource;
 
     /**
      * Attribute collection factory
      *
-     * @var Magento_Catalog_Model_Resource_Product_Attribute_CollectionFactory
+     * @var \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory
      */
     protected $_attributeCollectionFactory;
 
     /**
      * Catalog Search resource helper
      *
-     * @var Magento_CatalogSearch_Model_Resource_Helper
+     * @var \Magento\CatalogSearch\Model\Resource\Helper
      */
     protected $_resourceHelper;
 
     /**
      * Construct
      *
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Catalog_Helper_Product_Flat $catalogProductFlat
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_EntityFactory $entityFactory
-     * @param Magento_Catalog_Model_Resource_Product_Attribute_CollectionFactory $attributeCollectionFactory
-     * @param Magento_Core_Model_Resource $resource
-     * @param Magento_CatalogSearch_Model_Resource_Helper $resourceHelper
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Catalog\Helper\Product\Flat $catalogProductFlat
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $attributeCollectionFactory
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\CatalogSearch\Model\Resource\Helper $resourceHelper
      */
     public function __construct(
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Catalog_Helper_Product_Flat $catalogProductFlat,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Logger $logger,
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_EntityFactory $entityFactory,
-        Magento_Catalog_Model_Resource_Product_Attribute_CollectionFactory $attributeCollectionFactory,
-        Magento_Core_Model_Resource $resource,
-        Magento_CatalogSearch_Model_Resource_Helper $resourceHelper
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Catalog\Helper\Product\Flat $catalogProductFlat,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $attributeCollectionFactory,
+        \Magento\Core\Model\Resource $resource,
+        \Magento\CatalogSearch\Model\Resource\Helper $resourceHelper
     ) {
         $this->_attributeCollectionFactory = $attributeCollectionFactory;
         $this->_resource = $resource;
@@ -88,19 +90,19 @@ class Magento_CatalogSearch_Model_Resource_Search_Collection extends Magento_Cat
      * Add search query filter
      *
      * @param string $query
-     * @return Magento_CatalogSearch_Model_Resource_Search_Collection
+     * @return \Magento\CatalogSearch\Model\Resource\Search\Collection
      */
     public function addSearchFilter($query)
     {
         $this->_searchQuery = $query;
-        $this->addFieldToFilter('entity_id', array('in'=>new Zend_Db_Expr($this->_getSearchEntityIdsSql($query))));
+        $this->addFieldToFilter('entity_id', array('in'=>new \Zend_Db_Expr($this->_getSearchEntityIdsSql($query))));
         return $this;
     }
 
     /**
      * Retrieve collection of all attributes
      *
-     * @return Magento_Data_Collection_Db
+     * @return \Magento\Data\Collection\Db
      */
     protected function _getAttributesCollection()
     {
@@ -117,7 +119,7 @@ class Magento_CatalogSearch_Model_Resource_Search_Collection extends Magento_Cat
     /**
      * Check attribute is Text and is Searchable
      *
-     * @param Magento_Catalog_Model_Entity_Attribute $attribute
+     * @param \Magento\Catalog\Model\Entity\Attribute $attribute
      * @return boolean
      */
     protected function _isAttributeTextAndSearchable($attribute)
@@ -134,7 +136,7 @@ class Magento_CatalogSearch_Model_Resource_Search_Collection extends Magento_Cat
     /**
      * Check attributes has options and searchable
      *
-     * @param Magento_Catalog_Model_Entity_Attribute $attribute
+     * @param \Magento\Catalog\Model\Entity\Attribute $attribute
      * @return boolean
      */
     protected function _hasAttributeOptionsAndSearchable($attribute)
@@ -164,7 +166,7 @@ class Magento_CatalogSearch_Model_Resource_Search_Collection extends Magento_Cat
          * Collect tables and attribute ids of attributes with string values
          */
         foreach ($this->_getAttributesCollection() as $attribute) {
-            /** @var Magento_Catalog_Model_Entity_Attribute $attribute */
+            /** @var \Magento\Catalog\Model\Entity\Attribute $attribute */
             $attributeCode = $attribute->getAttributeCode();
             if ($this->_isAttributeTextAndSearchable($attribute)) {
                 $table = $attribute->getBackendTable();
@@ -203,7 +205,7 @@ class Magento_CatalogSearch_Model_Resource_Search_Collection extends Magento_Cat
             $selects[] = "SELECT * FROM ({$sql}) AS inoptionsql"; // inheritant unions may be inside
         }
 
-        $sql = $this->getConnection()->select()->union($selects, Zend_Db_Select::SQL_UNION_ALL);
+        $sql = $this->getConnection()->select()->union($selects, \Zend_Db_Select::SQL_UNION_ALL);
         return $sql;
     }
 
@@ -287,7 +289,7 @@ class Magento_CatalogSearch_Model_Resource_Search_Collection extends Magento_Cat
             }
         }
 
-        $sql = $this->getConnection()->select()->union($selects, Zend_Db_Select::SQL_UNION_ALL);
+        $sql = $this->getConnection()->select()->union($selects, \Zend_Db_Select::SQL_UNION_ALL);
         return $sql;
     }
 }

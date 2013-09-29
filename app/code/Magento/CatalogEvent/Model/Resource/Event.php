@@ -10,7 +10,9 @@
 /**
  * Catalog Event resource model
  */
-class Magento_CatalogEvent_Model_Resource_Event extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\CatalogEvent\Model\Resource;
+
+class Event extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     const EVENT_FROM_PARENT_FIRST = 1;
     const EVENT_FROM_PARENT_LAST  = 2;
@@ -32,28 +34,28 @@ class Magento_CatalogEvent_Model_Resource_Event extends Magento_Core_Model_Resou
     /**
      * Store model manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * Category collection factory
      *
-     * @var Magento_Catalog_Model_Resource_Category_CollectionFactory
+     * @var \Magento\Catalog\Model\Resource\Category\CollectionFactory
      */
     protected $_categoryCollectionFactory;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Catalog_Model_Resource_Category_CollectionFactory $categoryCollectionFactory
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryCollectionFactory
      */
     public function __construct(
-        Magento_Core_Model_Resource $resource,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Catalog_Model_Resource_Category_CollectionFactory $categoryCollectionFactory
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryCollectionFactory
     ) {
         parent::__construct($resource);
 
@@ -78,10 +80,10 @@ class Magento_CatalogEvent_Model_Resource_Event extends Magento_Core_Model_Resou
     /**
      * Before model save
      *
-     * @param Magento_Core_Model_Abstract $object
-     * @return Magento_CatalogEvent_Model_Resource_Event
+     * @param \Magento\Core\Model\AbstractModel $object
+     * @return \Magento\CatalogEvent\Model\Resource\Event
      */
-    protected function _beforeSave(Magento_Core_Model_Abstract $object)
+    protected function _beforeSave(\Magento\Core\Model\AbstractModel $object)
     {
         if (strlen($object->getSortOrder()) === 0) {
             $object->setSortOrder(null);
@@ -93,21 +95,21 @@ class Magento_CatalogEvent_Model_Resource_Event extends Magento_Core_Model_Resou
     /**
      * Retrieve category ids with events
      *
-     * @param int|string|Magento_Core_Model_Store $storeId
+     * @param int|string|\Magento\Core\Model\Store $storeId
      * @return array
      */
     public function getCategoryIdsWithEvent($storeId = null)
     {
         $rootCategoryId = $this->_storeManager->getStore($storeId)->getRootCategoryId();
 
-        /* @var $select Magento_DB_Select */
+        /* @var $select \Magento\DB\Select */
         $select = $this->_categoryCollectionFactory->create()
             ->setStoreId($this->_storeManager->getStore($storeId)->getId())
             ->addIsActiveFilter()
-            ->addPathsFilter(Magento_Catalog_Model_Category::TREE_ROOT_ID . '/' . $rootCategoryId)
+            ->addPathsFilter(\Magento\Catalog\Model\Category::TREE_ROOT_ID . '/' . $rootCategoryId)
             ->getSelect();
 
-        $parts = $select->getPart(Zend_Db_Select::FROM);
+        $parts = $select->getPart(\Zend_Db_Select::FROM);
 
         if (isset($parts['main_table'])) {
             $categoryCorrelationName = 'main_table';
@@ -116,7 +118,7 @@ class Magento_CatalogEvent_Model_Resource_Event extends Magento_Core_Model_Resou
 
         }
 
-        $select->reset(Zend_Db_Select::COLUMNS);
+        $select->reset(\Zend_Db_Select::COLUMNS);
         $select->columns(array('entity_id','level', 'path'), $categoryCorrelationName);
 
         $select
@@ -150,7 +152,7 @@ class Magento_CatalogEvent_Model_Resource_Event extends Magento_Core_Model_Resou
     /**
      * Method for building relates between child and parent node
      *
-     * @return Magento_CatalogEvent_Model_Resource_Event
+     * @return \Magento\CatalogEvent\Model\Resource\Event
      */
     protected function _setChildToParentList()
     {
@@ -202,10 +204,10 @@ class Magento_CatalogEvent_Model_Resource_Event extends Magento_Core_Model_Resou
     /**
      * After model save (save event image)
      *
-     * @param Magento_Core_Model_Abstract $object
-     * @return Magento_CatalogEvent_Model_Resource_Event
+     * @param \Magento\Core\Model\AbstractModel $object
+     * @return \Magento\CatalogEvent\Model\Resource\Event
      */
-    protected function _afterSave(Magento_Core_Model_Abstract $object)
+    protected function _afterSave(\Magento\Core\Model\AbstractModel $object)
     {
         $where = array(
             $object->getIdFieldName() . '=?' => $object->getId(),
@@ -230,10 +232,10 @@ class Magento_CatalogEvent_Model_Resource_Event extends Magento_Core_Model_Resou
     /**
      * After model load (loads event image)
      *
-     * @param Magento_Core_Model_Abstract $object
-     * @return Magento_CatalogEvent_Model_Resource_Event
+     * @param \Magento\Core\Model\AbstractModel $object
+     * @return \Magento\CatalogEvent\Model\Resource\Event
      */
-    protected function _afterLoad(Magento_Core_Model_Abstract $object)
+    protected function _afterLoad(\Magento\Core\Model\AbstractModel $object)
     {
         $adapter = $this->_getReadAdapter();
         $select = $adapter->select()

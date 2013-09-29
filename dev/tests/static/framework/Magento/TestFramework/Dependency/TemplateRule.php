@@ -10,7 +10,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_TestFramework_Dependency_TemplateRule implements Magento_TestFramework_Dependency_RuleInterface
+namespace Magento\TestFramework\Dependency;
+
+class TemplateRule implements \Magento\TestFramework\Dependency\RuleInterface
 {
     /**
      * Cases to search dependencies
@@ -111,7 +113,7 @@ class Magento_TestFramework_Dependency_TemplateRule implements Magento_TestFrame
             }
         }
 
-        $this->_namespaces = implode('|', Magento_TestFramework_Utility_Files::init()->getNamespaces());
+        $this->_namespaces = implode('|', \Magento\TestFramework\Utility\Files::init()->getNamespaces());
     }
 
     /**
@@ -171,9 +173,9 @@ class Magento_TestFramework_Dependency_TemplateRule implements Magento_TestFrame
     /**
      * Check models calls
      *
-     * Ex.: Mage::getModel('{Class_Name}')
-     *      Mage::getSingleton('{Class_Name}')
-     *      Mage::getBlockSingleton('{Class_Name}')
+     * Ex.: \Mage::getModel('{Class_Name}')
+     *      \Mage::getSingleton('{Class_Name}')
+     *      \Mage::getBlockSingleton('{Class_Name}')
      *
      * @param $currentModule
      * @param $fileType
@@ -186,9 +188,9 @@ class Magento_TestFramework_Dependency_TemplateRule implements Magento_TestFrame
     protected function _caseModelSingleton($currentModule, $fileType, $file, &$contents)
     {
         $patterns = array(
-            Magento_TestFramework_Dependency_RuleInterface::TYPE_HARD =>
+            \Magento\TestFramework\Dependency\RuleInterface::TYPE_HARD =>
             '/(?<source>Mage::(?:getModel|getSingleton|getBlockSingleton)+\([\'"]'
-                . '(?<namespace>' . $this->_namespaces . ')_'
+                . '(?<namespace>' . $this->_namespaces . ')[_\\\\]'
                 . '(?<module>[A-Z][a-zA-Z]+)\w*[\'"]\))/',
         );
         return $this->_checkDependenciesByRegexp($currentModule, $contents, $patterns);
@@ -197,7 +199,7 @@ class Magento_TestFramework_Dependency_TemplateRule implements Magento_TestFrame
     /**
      * Check helpers calls
      *
-     * Ex.: Mage::helper('{Class_Name}')
+     * Ex.: \Mage::helper('{Class_Name}')
      *      $this->helper('{Class_Name}')
      *
      * @param $currentModule
@@ -211,9 +213,9 @@ class Magento_TestFramework_Dependency_TemplateRule implements Magento_TestFrame
     protected function _caseHelper($currentModule, $fileType, $file, &$contents)
     {
         $patterns = array(
-            Magento_TestFramework_Dependency_RuleInterface::TYPE_HARD =>
-            '/(?<source>[$a-zA-Z0-9_\->:]+helper\([\'"](?<namespace>' . $this->_namespaces . ')_'
-                . '(?<module>[A-Z][a-zA-Z]+)\w*[\'"]\))/',
+            \Magento\TestFramework\Dependency\RuleInterface::TYPE_HARD =>
+            '/(?<source>[$a-zA-Z0-9_\->:]+helper\([\'"](?<namespace>' . $this->_namespaces . ')[_\\\\]'
+                . '(?<module>[A-Z][a-zA-Z]+)\w*)/',
         );
         return $this->_checkDependenciesByRegexp($currentModule, $contents, $patterns);
     }
@@ -234,9 +236,9 @@ class Magento_TestFramework_Dependency_TemplateRule implements Magento_TestFrame
     protected function _caseCreateBlock($currentModule, $fileType, $file, &$contents)
     {
         $patterns = array(
-            Magento_TestFramework_Dependency_RuleInterface::TYPE_HARD =>
-            '/[\->:]+(?<source>createBlock\([\'"](?<namespace>' . $this->_namespaces . ')_'
-                . '(?<module>[A-Z][a-zA-Z]+)\w*[\'"]\))/',
+            \Magento\TestFramework\Dependency\RuleInterface::TYPE_HARD =>
+            '/[\->:]+(?<source>createBlock\([\'"](?<namespace>' . $this->_namespaces . ')[_\\\\]'
+                . '(?<module>[A-Z][a-zA-Z]+)\w*)/',
         );
         return $this->_checkDependenciesByRegexp($currentModule, $contents, $patterns);
     }
@@ -257,9 +259,9 @@ class Magento_TestFramework_Dependency_TemplateRule implements Magento_TestFrame
     protected function _caseConstant($currentModule, $fileType, $file, &$contents)
     {
         $patterns = array(
-            Magento_TestFramework_Dependency_RuleInterface::TYPE_HARD =>
-            '/(?<source>(?<namespace>' . $this->_namespaces . ')_(?<module>[A-Z][a-zA-Z]+)_'
-                . '(?:[A-Z][a-z]+_?){1,}::[A-Z_]+)/',
+            \Magento\TestFramework\Dependency\RuleInterface::TYPE_HARD =>
+            '/(?<source>(?<namespace>' . $this->_namespaces . ')[_\\\\](?<module>[A-Z][a-zA-Z]+)[_\\\\]'
+                . '(?:[A-Z][a-z]+[_\\\\]?){1,}::[A-Z[_\\\\]]+)/',
         );
         return $this->_checkDependenciesByRegexp($currentModule, $contents, $patterns);
     }
@@ -280,9 +282,9 @@ class Magento_TestFramework_Dependency_TemplateRule implements Magento_TestFrame
     protected function _caseAddFile($currentModule, $fileType, $file, &$contents)
     {
         $patterns = array(
-            Magento_TestFramework_Dependency_RuleInterface::TYPE_SOFT =>
-            '/(?<source>[$a-zA-Z0-9_\->:]+getViewFileUrl\([\'"](?<namespace>' . $this->_namespaces . ')_'
-                . '(?<module>[A-Z][a-zA-Z]+)::[\w\/\.-]+[\'"]\))/',
+            \Magento\TestFramework\Dependency\RuleInterface::TYPE_SOFT =>
+            '/(?<source>[$a-zA-Z0-9_\->:]+getViewFileUrl\([\'"](?<namespace>' . $this->_namespaces . ')[_\\\\]'
+                . '(?<module>[A-Z][a-zA-Z]+)::[\w\/\.-]+)/',
         );
         return $this->_checkDependenciesByRegexp($currentModule, $contents, $patterns);
     }
@@ -307,13 +309,13 @@ class Magento_TestFramework_Dependency_TemplateRule implements Magento_TestFrame
         $dependencies = array();
         if (preg_match_all($pattern, $contents, $matches, PREG_SET_ORDER)) {
             foreach ($matches as $item) {
-                $router = str_replace('/', '_', $item['router']);
+                $router = str_replace('/', '\\', $item['router']);
                 if (isset($this->_mapRouters[$router])) {
                     $moduleName = $this->_mapRouters[$router];
                     if ($currentModule != $moduleName) {
                         $dependencies[] = array(
                             'module' => $moduleName,
-                            'type' => Magento_TestFramework_Dependency_RuleInterface::TYPE_SOFT,
+                            'type' => \Magento\TestFramework\Dependency\RuleInterface::TYPE_SOFT,
                             'source' => $item['source'],
                         );
                     }
@@ -347,7 +349,7 @@ class Magento_TestFramework_Dependency_TemplateRule implements Magento_TestFrame
                 $module = isset($check['module']) ? $check['module'] : null;
                 if ($module) {
                     $result[$module] = array(
-                        'type' => Magento_TestFramework_Dependency_RuleInterface::TYPE_HARD,
+                        'type' => \Magento\TestFramework\Dependency\RuleInterface::TYPE_HARD,
                         'source' => $match['source'],
                     );
                 }
@@ -370,7 +372,7 @@ class Magento_TestFramework_Dependency_TemplateRule implements Magento_TestFrame
         foreach ($patterns as $type => $pattern) {
             if (preg_match_all($pattern, $contents, $matches, PREG_SET_ORDER)) {
                 foreach ($matches as $match) {
-                    $module = $match['namespace'] . '_' . $match['module'];
+                    $module = $match['namespace'] . '\\' . $match['module'];
                     if ($currentModule != $module) {
                         $result[$module] = array(
                             'type' => $type,
@@ -416,12 +418,12 @@ class Magento_TestFramework_Dependency_TemplateRule implements Magento_TestFrame
                 return array('module' => $defaultModule);
             }
 
-            // CASE 4: Exception - Undefined dependency
+            // CASE 4: \Exception - Undefined dependency
             $undefinedDependency = implode(', ', $modules);
             $this->_exceptions[self::EXCEPTION_TYPE_UNDEFINED_DEPENDENCY][$undefinedDependency] = $undefinedDependency;
         }
 
-        // CASE 5: Exception - Undefined block
+        // CASE 5: \Exception - Undefined block
         $this->_exceptions[self::EXCEPTION_TYPE_UNKNOWN_BLOCK][$block] = $block;
         return array();
     }

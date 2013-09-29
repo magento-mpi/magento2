@@ -9,10 +9,10 @@
  * @license     {license_link}
  */
 
-$objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+$objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
-/** @var $query Magento_CatalogSearch_Model_Query */
-$query = $objectManager->create('Magento_CatalogSearch_Model_Query');
+/** @var $query \Magento\CatalogSearch\Model\Query */
+$query = $objectManager->create('Magento\CatalogSearch\Model\Query');
 $query->setStoreId(1);
 $query
     ->setQueryText('query_text')

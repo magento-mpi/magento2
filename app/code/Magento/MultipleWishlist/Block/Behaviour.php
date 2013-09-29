@@ -15,36 +15,38 @@
  * @package     Magento_MultipleWishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_MultipleWishlist_Block_Behaviour extends Magento_Core_Block_Template
+namespace Magento\MultipleWishlist\Block;
+
+class Behaviour extends \Magento\Core\Block\Template
 {
     /**
      * Wishlist data
      *
-     * @var Magento_MultipleWishlist_Helper_Data
+     * @var \Magento\MultipleWishlist\Helper\Data
      */
     protected $_wishlistData = null;
 
     /**
      * Customer session
      *
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Customer_Model_Session $customerSession
-     * @param Magento_MultipleWishlist_Helper_Data $wishlistData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\MultipleWishlist\Helper\Data $wishlistData
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_MultipleWishlist_Helper_Data $wishlistData,
-        Magento_Customer_Model_Session $customerSession,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\MultipleWishlist\Helper\Data $wishlistData,
+        \Magento\Customer\Model\Session $customerSession,
         array $data = array()
     ) {
         $this->_wishlistData = $wishlistData;
@@ -55,7 +57,7 @@ class Magento_MultipleWishlist_Block_Behaviour extends Magento_Core_Block_Templa
     /**
      * Retrieve wishlists items
      *
-     * @return Magento_Wishlist_Model_Resource_Wishlist_Collection
+     * @return \Magento\Wishlist\Model\Resource\Wishlist\Collection
      */
     public function getWishlists()
     {
@@ -85,7 +87,7 @@ class Magento_MultipleWishlist_Block_Behaviour extends Magento_Core_Block_Templa
     /**
      * Retrieve default wishlist for current customer
      *
-     * @return Magento_Wishlist_Model_Wishlist
+     * @return \Magento\Wishlist\Model\Wishlist
      */
     public function getDefaultWishlist()
     {
@@ -95,7 +97,7 @@ class Magento_MultipleWishlist_Block_Behaviour extends Magento_Core_Block_Templa
     /**
      * Check whether customer reached wishlist limit
      *
-     * @param Magento_Wishlist_Model_Resource_Wishlist_Collection
+     * @param \Magento\Wishlist\Model\Resource\Wishlist\Collection
      * @return bool
      */
     public function canCreateWishlists($wishlistList)

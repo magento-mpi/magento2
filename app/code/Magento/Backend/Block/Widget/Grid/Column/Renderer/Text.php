@@ -16,8 +16,10 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Backend_Block_Widget_Grid_Column_Renderer_Text
-    extends Magento_Backend_Block_Widget_Grid_Column_Renderer_Abstract
+namespace Magento\Backend\Block\Widget\Grid\Column\Renderer;
+
+class Text
+    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**
      * Format variables pattern
@@ -29,10 +31,10 @@ class Magento_Backend_Block_Widget_Grid_Column_Renderer_Text
     /**
      * Renders grid column
      *
-     * @param Magento_Object $row
+     * @param \Magento\Object $row
      * @return mixed
      */
-    public function _getValue(Magento_Object $row)
+    public function _getValue(\Magento\Object $row)
     {
         $format = ( $this->getColumn()->getFormat() ) ? $this->getColumn()->getFormat() : null;
         $defaultValue = $this->getColumn()->getDefault();

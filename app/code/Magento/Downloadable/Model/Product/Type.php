@@ -15,77 +15,79 @@
  * @package     Magento_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Downloadable_Model_Product_Type extends Magento_Catalog_Model_Product_Type_Virtual
+namespace Magento\Downloadable\Model\Product;
+
+class Type extends \Magento\Catalog\Model\Product\Type\Virtual
 {
     const TYPE_DOWNLOADABLE = 'downloadable';
 
     /**
      * Downloadable file
      *
-     * @var Magento_Downloadable_Helper_File
+     * @var \Magento\Downloadable\Helper\File
      */
     protected $_downloadableFile = null;
 
     /**
-     * @var Magento_Downloadable_Model_Resource_SampleFactory
+     * @var \Magento\Downloadable\Model\Resource\SampleFactory
      */
     protected $_sampleResFactory;
 
     /**
-     * @var Magento_Downloadable_Model_Resource_Link
+     * @var \Magento\Downloadable\Model\Resource\Link
      */
     protected $_linkResource;
 
     /**
-     * @var Magento_Downloadable_Model_Resource_Link_Collection_Factory
+     * @var \Magento\Downloadable\Model\Resource\Link\Collection\Factory
      */
     protected $_linksFactory;
 
     /**
-     * @var Magento_Downloadable_Model_Resource_Sample_CollectionFactory
+     * @var \Magento\Downloadable\Model\Resource\Sample\CollectionFactory
      */
     protected $_samplesFactory;
 
     /**
-     * @var Magento_Downloadable_Model_SampleFactory
+     * @var \Magento\Downloadable\Model\SampleFactory
      */
     protected $_sampleFactory;
 
     /**
-     * @var Magento_Downloadable_Model_LinkFactory
+     * @var \Magento\Downloadable\Model\LinkFactory
      */
     protected $_linkFactory;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Downloadable_Helper_File $downloadableFile
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Helper_File_Storage_Database $fileStorageDb
-     * @param Magento_Filesystem $filesystem
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Downloadable_Model_Resource_SampleFactory $sampleResFactory
-     * @param Magento_Downloadable_Model_Resource_Link $linkResource
-     * @param Magento_Downloadable_Model_Resource_Link_Collection_Factory $linksFactory
-     * @param Magento_Downloadable_Model_Resource_Sample_CollectionFactory $samplesFactory
-     * @param Magento_Downloadable_Model_SampleFactory $sampleFactory
-     * @param Magento_Downloadable_Model_LinkFactory $linkFactory
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Downloadable\Helper\File $downloadableFile
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Helper\File\Storage\Database $fileStorageDb
+     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Downloadable\Model\Resource\SampleFactory $sampleResFactory
+     * @param \Magento\Downloadable\Model\Resource\Link $linkResource
+     * @param \Magento\Downloadable\Model\Resource\Link\Collection\Factory $linksFactory
+     * @param \Magento\Downloadable\Model\Resource\Sample\CollectionFactory $samplesFactory
+     * @param \Magento\Downloadable\Model\SampleFactory $sampleFactory
+     * @param \Magento\Downloadable\Model\LinkFactory $linkFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Downloadable_Helper_File $downloadableFile,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Helper_File_Storage_Database $fileStorageDb,
-        Magento_Filesystem $filesystem,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_Core_Model_Logger $logger,
-        Magento_Downloadable_Model_Resource_SampleFactory $sampleResFactory,
-        Magento_Downloadable_Model_Resource_Link $linkResource,
-        Magento_Downloadable_Model_Resource_Link_Collection_Factory $linksFactory,
-        Magento_Downloadable_Model_Resource_Sample_CollectionFactory $samplesFactory,
-        Magento_Downloadable_Model_SampleFactory $sampleFactory,
-        Magento_Downloadable_Model_LinkFactory $linkFactory,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Downloadable\Helper\File $downloadableFile,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Helper\File\Storage\Database $fileStorageDb,
+        \Magento\Filesystem $filesystem,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Downloadable\Model\Resource\SampleFactory $sampleResFactory,
+        \Magento\Downloadable\Model\Resource\Link $linkResource,
+        \Magento\Downloadable\Model\Resource\Link\Collection\Factory $linksFactory,
+        \Magento\Downloadable\Model\Resource\Sample\CollectionFactory $samplesFactory,
+        \Magento\Downloadable\Model\SampleFactory $sampleFactory,
+        \Magento\Downloadable\Model\LinkFactory $linkFactory,
         array $data = array()
     ) {
         $this->_downloadableFile = $downloadableFile;
@@ -101,7 +103,7 @@ class Magento_Downloadable_Model_Product_Type extends Magento_Catalog_Model_Prod
     /**
      * Get downloadable product links
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @return array
      */
     public function getLinks($product)
@@ -113,7 +115,7 @@ class Magento_Downloadable_Model_Product_Type extends Magento_Catalog_Model_Prod
                 ->addPriceToResult($product->getStore()->getWebsiteId());
             $linksCollectionById = array();
             foreach ($_linkCollection as $link) {
-                /* @var Magento_Downloadable_Model_Link $link */
+                /* @var \Magento\Downloadable\Model\Link $link */
 
                 $link->setProduct($product);
                 $linksCollectionById[$link->getId()] = $link;
@@ -126,7 +128,7 @@ class Magento_Downloadable_Model_Product_Type extends Magento_Catalog_Model_Prod
     /**
      * Check if product has links
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @return boolean
      */
     public function hasLinks($product)
@@ -140,7 +142,7 @@ class Magento_Downloadable_Model_Product_Type extends Magento_Catalog_Model_Prod
     /**
      * Check if product has options
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @return boolean
      */
     public function hasOptions($product)
@@ -153,7 +155,7 @@ class Magento_Downloadable_Model_Product_Type extends Magento_Catalog_Model_Prod
     /**
      * Check if product has required options
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @return bool
      */
     public function hasRequiredOptions($product)
@@ -167,7 +169,7 @@ class Magento_Downloadable_Model_Product_Type extends Magento_Catalog_Model_Prod
     /**
      * Check if product cannot be purchased with no links selected
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @return boolean
      */
     public function getLinkSelectionRequired($product)
@@ -178,8 +180,8 @@ class Magento_Downloadable_Model_Product_Type extends Magento_Catalog_Model_Prod
     /**
      * Get downloadable product samples
      *
-     * @param Magento_Catalog_Model_Product $product
-     * @return Magento_Downloadable_Model_Resource_Sample_Collection
+     * @param \Magento\Catalog\Model\Product $product
+     * @return \Magento\Downloadable\Model\Resource\Sample\Collection
      */
     public function getSamples($product)
     {
@@ -196,7 +198,7 @@ class Magento_Downloadable_Model_Product_Type extends Magento_Catalog_Model_Prod
     /**
      * Check if product has samples
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @return boolean
      */
     public function hasSamples($product)
@@ -207,8 +209,8 @@ class Magento_Downloadable_Model_Product_Type extends Magento_Catalog_Model_Prod
     /**
      * Save Product downloadable information (links and samples)
      *
-     * @param Magento_Catalog_Model_Product $product
-     * @return Magento_Downloadable_Model_Product_Type
+     * @param \Magento\Catalog\Model\Product $product
+     * @return \Magento\Downloadable\Model\Product\Type
      */
     public function save($product)
     {
@@ -239,7 +241,7 @@ class Magento_Downloadable_Model_Product_Type extends Magento_Catalog_Model_Prod
                             ->setProductId($product->getId())
                             ->setStoreId($product->getStoreId());
 
-                        if ($sampleModel->getSampleType() == Magento_Downloadable_Helper_Download::LINK_TYPE_FILE) {
+                        if ($sampleModel->getSampleType() == \Magento\Downloadable\Helper\Download::LINK_TYPE_FILE) {
                             $sampleFileName = $this->_downloadableFile->moveFileFromTmp(
                                 $sampleModel->getBaseTmpPath(),
                                 $sampleModel->getBasePath(),
@@ -299,7 +301,7 @@ class Magento_Downloadable_Model_Product_Type extends Magento_Catalog_Model_Prod
                                 $sampleFile = $this->_coreData->jsonDecode($sample['file']);
                             }
                         }
-                        if ($linkModel->getLinkType() == Magento_Downloadable_Helper_Download::LINK_TYPE_FILE) {
+                        if ($linkModel->getLinkType() == \Magento\Downloadable\Helper\Download::LINK_TYPE_FILE) {
                             $linkFileName = $this->_downloadableFile->moveFileFromTmp(
                                 $this->_createLink()->getBaseTmpPath(),
                                 $this->_createLink()->getBasePath(),
@@ -307,7 +309,7 @@ class Magento_Downloadable_Model_Product_Type extends Magento_Catalog_Model_Prod
                             );
                             $linkModel->setLinkFile($linkFileName);
                         }
-                        if ($linkModel->getSampleType() == Magento_Downloadable_Helper_Download::LINK_TYPE_FILE) {
+                        if ($linkModel->getSampleType() == \Magento\Downloadable\Helper\Download::LINK_TYPE_FILE) {
                             $linkSampleFileName = $this->_downloadableFile->moveFileFromTmp(
                                 $this->_createLink()->getBaseSampleTmpPath(),
                                 $this->_createLink()->getBaseSamplePath(),
@@ -333,16 +335,16 @@ class Magento_Downloadable_Model_Product_Type extends Magento_Catalog_Model_Prod
     /**
      * Check if product can be bought
      *
-     * @param Magento_Catalog_Model_Product $product
-     * @return Magento_Bundle_Model_Product_Type
-     * @throws Magento_Core_Exception
+     * @param \Magento\Catalog\Model\Product $product
+     * @return \Magento\Bundle\Model\Product\Type
+     * @throws \Magento\Core\Exception
      */
     public function checkProductBuyState($product)
     {
         parent::checkProductBuyState($product);
         $option = $product->getCustomOption('info_buyRequest');
-        if ($option instanceof Magento_Sales_Model_Quote_Item_Option) {
-            $buyRequest = new Magento_Object(unserialize($option->getValue()));
+        if ($option instanceof \Magento\Sales\Model\Quote\Item\Option) {
+            $buyRequest = new \Magento\Object(unserialize($option->getValue()));
             if (!$buyRequest->hasLinks()) {
                 if (!$product->getLinksPurchasedSeparately()) {
                     $allLinksIds = $this->_linksFactory->create()
@@ -351,7 +353,7 @@ class Magento_Downloadable_Model_Product_Type extends Magento_Catalog_Model_Prod
                     $buyRequest->setLinks($allLinksIds);
                     $product->addCustomOption('info_buyRequest', serialize($buyRequest->getData()));
                 } else {
-                    throw new Magento_Core_Exception(__('Please specify product link(s).'));
+                    throw new \Magento\Core\Exception(__('Please specify product link(s).'));
                 }
             }
         }
@@ -362,7 +364,7 @@ class Magento_Downloadable_Model_Product_Type extends Magento_Catalog_Model_Prod
      * Prepare additional options/information for order item which will be
      * created from this product
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @return array
      */
     public function getOrderOptions($product)
@@ -389,7 +391,7 @@ class Magento_Downloadable_Model_Product_Type extends Magento_Catalog_Model_Prod
      * Setting flag if dowenloadable product can be or not in complex product
      * based on link can be purchased separately or not
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      */
     public function beforeSave($product)
     {
@@ -421,7 +423,7 @@ class Magento_Downloadable_Model_Product_Type extends Magento_Catalog_Model_Prod
      * Retrieve additional searchable data from type instance
      * Using based on product id and store_id data
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @return array
      */
     public function getSearchableData($product)
@@ -444,7 +446,7 @@ class Magento_Downloadable_Model_Product_Type extends Magento_Catalog_Model_Prod
     /**
      * Check is product available for sale
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @return bool
      */
     public function isSalable($product)
@@ -455,8 +457,8 @@ class Magento_Downloadable_Model_Product_Type extends Magento_Catalog_Model_Prod
     /**
      * Prepare selected options for downloadable product
      *
-     * @param  Magento_Catalog_Model_Product $product
-     * @param  Magento_Object $buyRequest
+     * @param  \Magento\Catalog\Model\Product $product
+     * @param  \Magento\Object $buyRequest
      * @return array
      */
     public function processBuyRequest($product, $buyRequest)
@@ -472,7 +474,7 @@ class Magento_Downloadable_Model_Product_Type extends Magento_Catalog_Model_Prod
     /**
      * Check if downloadable product has links and they can be purchased separately
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @return bool
      */
     public function canConfigure($product)
@@ -493,11 +495,11 @@ class Magento_Downloadable_Model_Product_Type extends Magento_Catalog_Model_Prod
     /**
      * Delete data specific for Downloadable product type
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      */
-    public function deleteTypeSpecificData(Magento_Catalog_Model_Product $product)
+    public function deleteTypeSpecificData(\Magento\Catalog\Model\Product $product)
     {
-        if ($product->getOrigData('type_id') === Magento_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE) {
+        if ($product->getOrigData('type_id') === \Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE) {
             $downloadableData = $product->getDownloadableData();
             $sampleItems = array();
             if (isset($downloadableData['sample'])) {
@@ -524,12 +526,12 @@ class Magento_Downloadable_Model_Product_Type extends Magento_Catalog_Model_Prod
      * Prepare product and its configuration to be added to some products list.
      * Perform standard preparation process and then prepare options for downloadable links.
      *
-     * @param Magento_Object $buyRequest
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Object $buyRequest
+     * @param \Magento\Catalog\Model\Product $product
      * @param string $processMode
      * @return array|string
      */
-    protected function _prepareProduct(Magento_Object $buyRequest, $product, $processMode)
+    protected function _prepareProduct(\Magento\Object $buyRequest, $product, $processMode)
     {
         $result = parent::_prepareProduct($buyRequest, $product, $processMode);
 
@@ -570,7 +572,7 @@ class Magento_Downloadable_Model_Product_Type extends Magento_Catalog_Model_Prod
     }
 
     /**
-     * @return Magento_Downloadable_Model_Link
+     * @return \Magento\Downloadable\Model\Link
      */
     protected function _createLink()
     {
@@ -578,7 +580,7 @@ class Magento_Downloadable_Model_Product_Type extends Magento_Catalog_Model_Prod
     }
 
     /**
-     * @return Magento_Downloadable_Model_Sample
+     * @return \Magento\Downloadable\Model\Sample
      */
     protected function _createSample()
     {

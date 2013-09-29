@@ -17,34 +17,36 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Revision_Edit_Tab_Content
-    extends Magento_Adminhtml_Block_Cms_Page_Edit_Tab_Content
+namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit\Tab;
+
+class Content
+    extends \Magento\Adminhtml\Block\Cms\Page\Edit\Tab\Content
 {
     /**
      * Cms data
      *
-     * @var Magento_VersionsCms_Helper_Data
+     * @var \Magento\VersionsCms\Helper\Data
      */
     protected $_cmsData = null;
 
     /**
-     * @param Magento_VersionsCms_Helper_Data $cmsData
-     * @param Magento_Cms_Model_Wysiwyg_Config $wysiwygConfig
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\VersionsCms\Helper\Data $cmsData
+     * @param \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
-        Magento_VersionsCms_Helper_Data $cmsData,
-        Magento_Cms_Model_Wysiwyg_Config $wysiwygConfig,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Registry $coreRegistry,
+        \Magento\VersionsCms\Helper\Data $cmsData,
+        \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_cmsData = $cmsData;
@@ -55,18 +57,18 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Revision_Edit_Tab_Content
      * Preparing form by adding extra fields.
      * Adding on change js call.
      *
-     * @return Magento_VersionsCms_Block_Adminhtml_Cms_Page_Revision_Edit_Tab_Content
+     * @return \Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit\Tab_Content
      */
     protected function _prepareForm()
     {
-        /* @var $model Magento_Cms_Model_Page */
+        /* @var $model \Magento\Cms\Model\Page */
         $model = $this->_coreRegistry->registry('cms_page');
 
         parent::_prepareForm();
 
         $this->_cmsData->addOnChangeToFormElements($this->getForm(), 'dataChanged();');
 
-        /* @var $fieldset Magento_Data_Form_Element_Fieldset */
+        /* @var $fieldset \Magento\Data\Form\Element\Fieldset */
         $fieldset = $this->getForm()->getElement('content_fieldset');
 
         if ($model->getPageId()) {
@@ -95,7 +97,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Revision_Edit_Tab_Content
 
         // setting current user id for new version functionality.
         // in posted data there will be current user
-        $this->getForm()->getElement('user_id')->setValue(Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getUser()->getId());
+        $this->getForm()->getElement('user_id')->setValue(\Mage::getSingleton('Magento\Backend\Model\Auth\Session')->getUser()->getId());
 
         return $this;
     }

@@ -7,7 +7,9 @@
  * @copyright {copyright}
  * @license {license_link}
  */
-class Magento_GoogleAdwords_Model_Filter_UppercaseTitle implements Zend_Filter_Interface
+namespace Magento\GoogleAdwords\Model\Filter;
+
+class UppercaseTitle implements \Zend_Filter_Interface
 {
     /**
      * Convert title to uppercase

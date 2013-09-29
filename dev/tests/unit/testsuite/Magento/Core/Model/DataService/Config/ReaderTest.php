@@ -1,18 +1,20 @@
 <?php
 /**
- * Magento_Core_Model_DataService_Config_Reader
+ * \Magento\Core\Model\DataService\Config\Reader
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_DataService_Config_ReaderTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\DataService\Config;
+
+class ReaderTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var Magento_Core_Model_DataService_Config_Reader */
+    /** @var \Magento\Core\Model\DataService\Config\Reader */
     private $_configReader;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject  */
+    /** @var \PHPUnit_Framework_MockObject_MockObject  */
     private $_modulesReaderMock;
 
     /**
@@ -22,11 +24,11 @@ class Magento_Core_Model_DataService_Config_ReaderTest extends PHPUnit_Framework
     {
         $path = array(__DIR__, '..', '_files', 'service_calls.xml');
         $path = realpath(implode('/', $path));
-        $this->_modulesReaderMock = $this->getMockBuilder('Magento_Core_Model_Config_Modules_Reader')
+        $this->_modulesReaderMock = $this->getMockBuilder('Magento\Core\Model\Config\Modules\Reader')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_configReader = new Magento_Core_Model_DataService_Config_Reader(
+        $this->_configReader = new \Magento\Core\Model\DataService\Config\Reader(
             $this->_modulesReaderMock,
             array($path)
         );

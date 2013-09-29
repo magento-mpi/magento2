@@ -9,18 +9,20 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Gallery;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery_ContentTest extends PHPUnit_Framework_TestCase
+class ContentTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetUploader()
     {
-        /** @var $layout Magento_Core_Model_Layout */
-        $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout');
-        /** @var $block Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery_Content */
-        $block = $layout->createBlock('Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery_Content', 'block');
+        /** @var $layout \Magento\Core\Model\Layout */
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout');
+        /** @var $block \Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Gallery\Content */
+        $block = $layout->createBlock('Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Gallery\Content', 'block');
 
-        $this->assertInstanceOf('Magento_Adminhtml_Block_Media_Uploader', $block->getUploader());
+        $this->assertInstanceOf('Magento\Adminhtml\Block\Media\Uploader', $block->getUploader());
     }
 }

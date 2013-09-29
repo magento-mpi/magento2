@@ -15,41 +15,43 @@
  * @package Magento_Adminhtml
  * @author Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main
-    extends Magento_Backend_Block_Widget_Form_Generic
-    implements Magento_Backend_Block_Widget_Tab_Interface
+namespace Magento\Adminhtml\Block\Promo\Catalog\Edit\Tab;
+
+class Main
+    extends \Magento\Backend\Block\Widget\Form\Generic
+    implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Core_Model_System_Store
+     * @var \Magento\Core\Model\System\Store
      */
     protected $_systemStore;
 
     /**
-     * @var Magento_Customer_Model_Resource_Group_CollectionFactory
+     * @var \Magento\Customer\Model\Resource\Group\CollectionFactory
      */
     protected $_customerGroup;
 
     /**
-     * @param Magento_Customer_Model_Resource_Group_CollectionFactory $customerGroup
-     * @param Magento_Core_Model_System_Store $systemStore
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
+     * @param \Magento\Customer\Model\Resource\Group\CollectionFactory $customerGroup
+     * @param \Magento\Core\Model\System\Store $systemStore
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Customer_Model_Resource_Group_CollectionFactory $customerGroup,
-        Magento_Core_Model_System_Store $systemStore,
-        Magento_Core_Model_Registry $registry,
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
+        \Magento\Customer\Model\Resource\Group\CollectionFactory $customerGroup,
+        \Magento\Core\Model\System\Store $systemStore,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_storeManager = $context->getStoreManager();
@@ -102,7 +104,7 @@ class Magento_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main
     {
         $model = $this->_coreRegistry->registry('current_promo_catalog_rule');
 
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('rule_');
 
@@ -157,7 +159,7 @@ class Magento_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main
                 'values'   => $this->_systemStore->getWebsiteValuesForForm(),
             ));
             $renderer = $this->getLayout()
-                ->createBlock('Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
+                ->createBlock('Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element');
             $field->setRenderer($renderer);
         }
 
@@ -169,13 +171,13 @@ class Magento_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main
             'values'    => $this->_customerGroup->create()->toOptionArray()
         ));
 
-        $dateFormat = $this->_locale->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
+        $dateFormat = $this->_locale->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
         $fieldset->addField('from_date', 'date', array(
             'name'   => 'from_date',
             'label'  => __('From Date'),
             'title'  => __('From Date'),
             'image'  => $this->getViewFileUrl('images/grid-cal.gif'),
-            'input_format' => Magento_Date::DATE_INTERNAL_FORMAT,
+            'input_format' => \Magento\Date::DATE_INTERNAL_FORMAT,
             'date_format' => $dateFormat
         ));
         $fieldset->addField('to_date', 'date', array(
@@ -183,7 +185,7 @@ class Magento_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main
             'label'  => __('To Date'),
             'title'  => __('To Date'),
             'image'  => $this->getViewFileUrl('images/grid-cal.gif'),
-            'input_format' => Magento_Date::DATE_INTERNAL_FORMAT,
+            'input_format' => \Magento\Date::DATE_INTERNAL_FORMAT,
             'date_format' => $dateFormat
         ));
 

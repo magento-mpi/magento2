@@ -8,25 +8,26 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\ProductAlert\Block\Product\View;
 
 /**
- * Test class for Magento_ProductAlert_Block_Product_View_Stock
+ * Test class for \Magento\ProductAlert\Block\Product\View\Stock
  */
-class Magento_ProductAlert_Block_Product_View_StockTest extends PHPUnit_Framework_TestCase
+class StockTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_TestFramework_Helper_ObjectManager
+     * @var \Magento\TestFramework\Helper\ObjectManager
      */
     protected $_objectManager;
 
     protected function setUp()
     {
-        $this->_objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
+        $this->_objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
     }
 
     public function testPrepareLayoutUrlIsSet()
     {
-        $helper = $this->getMockBuilder('Magento_ProductAlert_Helper_Data')
+        $helper = $this->getMockBuilder('Magento\ProductAlert\Helper\Data')
             ->disableOriginalConstructor()
             ->setMethods(array('isStockAlertAllowed', 'getSaveUrl'))
             ->getMock();
@@ -36,14 +37,14 @@ class Magento_ProductAlert_Block_Product_View_StockTest extends PHPUnit_Framewor
             ->with('stock')
             ->will($this->returnValue('http://url'));
 
-        $product = $this->getMockBuilder('Magento_Catalog_Model_Product')
+        $product = $this->getMockBuilder('Magento\Catalog\Model\Product')
             ->disableOriginalConstructor()
             ->setMethods(array('isAvailable', 'getId'))
             ->getMock();
         $product->expects($this->once())->method('getId')->will($this->returnValue(1));
         $product->expects($this->once())->method('isAvailable')->will($this->returnValue(false));
 
-        $registry = $this->getMockBuilder('Magento_Core_Model_Registry')
+        $registry = $this->getMockBuilder('Magento\Core\Model\Registry')
             ->disableOriginalConstructor()
             ->setMethods(array('registry'))
             ->getMock();
@@ -53,14 +54,14 @@ class Magento_ProductAlert_Block_Product_View_StockTest extends PHPUnit_Framewor
             ->will($this->returnValue($product));
 
         $block = $this->_objectManager->getObject(
-            'Magento_ProductAlert_Block_Product_View_Stock',
+            'Magento\ProductAlert\Block\Product\View\Stock',
             array(
                 'helper' => $helper,
                 'registry' => $registry,
             )
         );
 
-        $layout = $this->getMockBuilder('Magento_Core_Model_Layout')
+        $layout = $this->getMockBuilder('Magento\Core\Model\Layout')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -73,7 +74,7 @@ class Magento_ProductAlert_Block_Product_View_StockTest extends PHPUnit_Framewor
 
     public function testPrepareLayoutTemplateReseted()
     {
-        $block = $this->_objectManager->getObject('Magento_ProductAlert_Block_Product_View_Stock');
+        $block = $this->_objectManager->getObject('Magento\ProductAlert\Block\Product\View\Stock');
         $this->assertEquals('', $block->getTemplate());
     }
 }

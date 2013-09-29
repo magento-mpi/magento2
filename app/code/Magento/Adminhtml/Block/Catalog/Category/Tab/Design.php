@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Adminhtml_Block_Catalog_Category_Tab_Design extends Magento_Adminhtml_Block_Catalog_Form
+namespace Magento\Adminhtml\Block\Catalog\Category\Tab;
+
+class Design extends \Magento\Adminhtml\Block\Catalog\Form
 {
     public function _construct()
     {
@@ -26,7 +28,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tab_Design extends Magento_Adminh
     public function _prepareLayout()
     {
         parent::_prepareLayout();
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
         $form->setDataObject($this->getCategory());
 

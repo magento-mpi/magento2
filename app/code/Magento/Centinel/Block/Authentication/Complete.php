@@ -12,25 +12,27 @@
 /**
  * Centinel validation form lookup
  */
-class Magento_Centinel_Block_Authentication_Complete extends Magento_Core_Block_Template
+namespace Magento\Centinel\Block\Authentication;
+
+class Complete extends \Magento\Core\Block\Template
 {
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;

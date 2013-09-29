@@ -11,7 +11,7 @@
     <referenceBlock name="catalog.product.related">
         <action method="addPriceBlockType">
             <argument name="type" xsi:type="string">bundle</argument>
-            <argument name="block" xsi:type="string">Magento_Bundle_Block_Catalog_Product_Price</argument>
+            <argument name="block" xsi:type="string">Magento\Bundle\Block\Catalog\Product\Price</argument>
             <argument name="template" xsi:type="string">catalog/product/price.phtml</argument>
         </action>
     </referenceBlock>

@@ -12,7 +12,9 @@
 /**
  * Code standard tool wrapper interface
  */
-interface Magento_TestFramework_CodingStandard_ToolInterface
+namespace Magento\TestFramework\CodingStandard;
+
+interface ToolInterface
 {
     /**
      * Whether the tool can be ran on the current environment

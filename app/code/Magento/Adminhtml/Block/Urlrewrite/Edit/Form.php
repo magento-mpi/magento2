@@ -11,16 +11,20 @@
 /**
  * URL rewrites edit form
  *
- * @method Magento_Core_Model_Url_Rewrite getUrlRewrite()
- * @method Magento_Adminhtml_Block_Urlrewrite_Edit_Form setUrlRewrite(Magento_Core_Model_Url_Rewrite $model)
+ * @method \Magento\Core\Model\Url\Rewrite getUrlRewrite()
+ * @method \Magento\Adminhtml\Block\Urlrewrite\Edit\Form setUrlRewrite(\Magento\Core\Model\Url\Rewrite $model)
  *
  * @category   Magento
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  *
+ */
+namespace Magento\Adminhtml\Block\Urlrewrite\Edit;
+
+/**
  * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
-class Magento_Adminhtml_Block_Urlrewrite_Edit_Form extends Magento_Backend_Block_Widget_Form_Generic
+class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
      * @var array
@@ -45,61 +49,61 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit_Form extends Magento_Backend_Block
     /**
      * Adminhtml data
      *
-     * @var Magento_Backend_Helper_Data
+     * @var \Magento\Backend\Helper\Data
      */
     protected $_adminhtmlData = null;
 
     /**
-     * @var Magento_Backend_Model_Session
+     * @var \Magento\Backend\Model\Session
      */
     protected $_backendSession;
 
     /**
-     * @var Magento_Core_Model_System_Store
+     * @var \Magento\Core\Model\System\Store
      */
     protected $_systemStore;
 
     /**
-     * @var Magento_Core_Model_Url_RewriteFactory
+     * @var \Magento\Core\Model\Url\RewriteFactory
      */
     protected $_rewriteFactory;
 
     /**
-     * @var Magento_Core_Model_Source_Urlrewrite_OptionsFactory
+     * @var \Magento\Core\Model\Source\Urlrewrite\OptionsFactory
      */
     protected $_optionFactory;
 
     /**
-     * @var Magento_Core_Model_Source_Urlrewrite_TypesFactory
+     * @var \Magento\Core\Model\Source\Urlrewrite\TypesFactory
      */
     protected $_typesFactory;
 
     /**
-     * @param Magento_Core_Model_Source_Urlrewrite_TypesFactory $typesFactory
-     * @param Magento_Core_Model_Source_Urlrewrite_OptionsFactory $optionFactory
-     * @param Magento_Core_Model_Url_RewriteFactory $rewriteFactory
-     * @param Magento_Core_Model_System_Store $systemStore
-     * @param Magento_Backend_Model_Session $backendSession
-     * @param Magento_Backend_Helper_Data $adminhtmlData
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
+     * @param \Magento\Core\Model\Source\Urlrewrite\TypesFactory $typesFactory
+     * @param \Magento\Core\Model\Source\Urlrewrite\OptionsFactory $optionFactory
+     * @param \Magento\Core\Model\Url\RewriteFactory $rewriteFactory
+     * @param \Magento\Core\Model\System\Store $systemStore
+     * @param \Magento\Backend\Model\Session $backendSession
+     * @param \Magento\Backend\Helper\Data $adminhtmlData
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Magento_Core_Model_Source_Urlrewrite_TypesFactory $typesFactory,
-        Magento_Core_Model_Source_Urlrewrite_OptionsFactory $optionFactory,
-        Magento_Core_Model_Url_RewriteFactory $rewriteFactory,
-        Magento_Core_Model_System_Store $systemStore,
-        Magento_Backend_Model_Session $backendSession,
-        Magento_Backend_Helper_Data $adminhtmlData,
-        Magento_Core_Model_Registry $registry,
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
+        \Magento\Core\Model\Source\Urlrewrite\TypesFactory $typesFactory,
+        \Magento\Core\Model\Source\Urlrewrite\OptionsFactory $optionFactory,
+        \Magento\Core\Model\Url\RewriteFactory $rewriteFactory,
+        \Magento\Core\Model\System\Store $systemStore,
+        \Magento\Backend\Model\Session $backendSession,
+        \Magento\Backend\Helper\Data $adminhtmlData,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_typesFactory = $typesFactory;
@@ -126,7 +130,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit_Form extends Magento_Backend_Block
      * Initialize form values
      * Set form data either from model values or from session
      *
-     * @return Magento_Adminhtml_Block_Urlrewrite_Edit_Form
+     * @return \Magento\Adminhtml\Block\Urlrewrite\Edit\Form
      */
     protected function _initFormValues()
     {
@@ -155,14 +159,14 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit_Form extends Magento_Backend_Block
     /**
      * Prepare the form layout
      *
-     * @return Magento_Adminhtml_Block_Urlrewrite_Edit_Form
+     * @return \Magento\Adminhtml\Block\Urlrewrite\Edit\Form
      */
     protected function _prepareForm()
     {
         $this->_initFormValues();
 
         // Prepare form
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create(array(
             'attributes' => array(
                 'id'            => 'edit_form',
@@ -175,7 +179,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit_Form extends Magento_Backend_Block
             'legend' => __('URL Rewrite Information')
         ));
 
-        /** @var $typesModel Magento_Core_Model_Source_Urlrewrite_Types */
+        /** @var $typesModel \Magento\Core\Model\Source\Urlrewrite\Types */
         $typesModel = $this->_typesFactory->create();
         $fieldset->addField('is_system', 'select', array(
             'label'    => __('Type'),
@@ -213,7 +217,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit_Form extends Magento_Backend_Block
             'value'    => $this->_formValues['target_path'],
         ));
 
-        /** @var $optionsModel Magento_Core_Model_Source_Urlrewrite_Options */
+        /** @var $optionsModel \Magento\Core\Model\Source\Urlrewrite\Options */
         $optionsModel = $this->_optionFactory->create();
         $fieldset->addField('options', 'select', array(
             'label'   => __('Redirect'),
@@ -244,7 +248,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit_Form extends Magento_Backend_Block
     /**
      * Prepare store element
      *
-     * @param Magento_Data_Form_Element_Fieldset $fieldset
+     * @param \Magento\Data\Form\Element\Fieldset $fieldset
      */
     protected function _prepareStoreElement($fieldset)
     {
@@ -255,9 +259,9 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit_Form extends Magento_Backend_Block
                 'value' => $this->_storeManager->getStore(true)->getId()
             ), 'id_path');
         } else {
-            /** @var $renderer Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element */
+            /** @var $renderer \Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element */
             $renderer = $this->getLayout()
-                ->createBlock('Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
+                ->createBlock('Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element');
 
             $storeElement = $fieldset->addField('store_id', 'select', array(
                 'label'    => __('Store'),
@@ -275,8 +279,8 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit_Form extends Magento_Backend_Block
     /**
      * Form post init
      *
-     * @param Magento_Data_Form $form
-     * @return Magento_Adminhtml_Block_Urlrewrite_Edit_Form
+     * @param \Magento\Data\Form $form
+     * @return \Magento\Adminhtml\Block\Urlrewrite\Edit\Form
      */
     protected function _formPostInit($form)
     {
@@ -302,7 +306,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit_Form extends Magento_Backend_Block
     /**
      * Get URL rewrite model instance
      *
-     * @return Magento_Core_Model_Url_Rewrite
+     * @return \Magento\Core\Model\Url\Rewrite
      */
     protected function _getModel()
     {

@@ -16,7 +16,9 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Resource_Product_Website extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Catalog\Model\Resource\Product;
+
+class Website extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Initialize connection and define resource table
@@ -30,11 +32,11 @@ class Magento_Catalog_Model_Resource_Product_Website extends Magento_Core_Model_
     /**
      * Get catalog product resource model
      *
-     * @return Magento_Catalog_Model_Resource_Product
+     * @return \Magento\Catalog\Model\Resource\Product
      */
     protected function _getProductResource()
     {
-        return Mage::getResourceSingleton('Magento_Catalog_Model_Resource_Product');
+        return \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Product');
     }
 
     /**
@@ -42,8 +44,8 @@ class Magento_Catalog_Model_Resource_Product_Website extends Magento_Core_Model_
      *
      * @param array $websiteIds
      * @param array $productIds
-     * @return Magento_Catalog_Model_Resource_Product_Website
-     * @throws Exception
+     * @return \Magento\Catalog\Model\Resource\Product\Website
+     * @throws \Exception
      */
     public function removeProducts($websiteIds, $productIds)
     {
@@ -64,7 +66,7 @@ class Magento_Catalog_Model_Resource_Product_Website extends Magento_Core_Model_
         try {
             $adapter->delete($this->getMainTable(), $whereCond);
             $adapter->commit();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $adapter->rollBack();
             throw $e;
         }
@@ -77,8 +79,8 @@ class Magento_Catalog_Model_Resource_Product_Website extends Magento_Core_Model_
      *
      * @param array $websiteIds
      * @param array $productIds
-     * @return Magento_Catalog_Model_Resource_Product_Website
-     * @throws Exception
+     * @return \Magento\Catalog\Model\Resource\Product\Website
+     * @throws \Exception
      */
     public function addProducts($websiteIds, $productIds)
     {
@@ -105,15 +107,15 @@ class Magento_Catalog_Model_Resource_Product_Website extends Magento_Core_Model_
                 }
 
                 // Refresh product enabled index
-                $storeIds = Mage::app()->getWebsite($websiteId)->getStoreIds();
+                $storeIds = \Mage::app()->getWebsite($websiteId)->getStoreIds();
                 foreach ($storeIds as $storeId) {
-                    $store = Mage::app()->getStore($storeId);
+                    $store = \Mage::app()->getStore($storeId);
                     $this->_getProductResource()->refreshEnabledIndex($store, $productIds);
                 }
             }
 
             $this->_getWriteAdapter()->commit();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_getWriteAdapter()->rollBack();
             throw $e;
         }

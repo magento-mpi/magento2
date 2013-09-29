@@ -9,16 +9,18 @@
  * @license     {license_link}
  */
 
-class Magento_Eav_Model_Attribute_Data_TextTest extends PHPUnit_Framework_TestCase
+namespace Magento\Eav\Model\Attribute\Data;
+
+class TextTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Eav_Model_Attribute_Data_Text
+     * @var \Magento\Eav\Model\Attribute\Data\Text
      */
     protected $_model;
 
     protected function setUp()
     {
-        $helper = $this->getMock('Magento_Core_Helper_String', null, array(), '', false, false);
+        $helper = $this->getMock('Magento\Core\Helper\String', null, array(), '', false, false);
 
         $attributeData = array(
             'store_label' => 'Test',
@@ -31,13 +33,14 @@ class Magento_Eav_Model_Attribute_Data_TextTest extends PHPUnit_Framework_TestCa
             )
         );
 
-        $attributeClass = 'Magento_Eav_Model_Entity_Attribute_Abstract';
-        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $attributeClass = 'Magento\Eav\Model\Entity\Attribute\AbstractAttribute';
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $arguments = $objectManagerHelper->getConstructArguments($attributeClass, array('data' => $attributeData));
 
-        /** @var $attribute Magento_Eav_Model_Entity_Attribute_Abstract|PHPUnit_Framework_MockObject_MockObject */
+        /** @var $attribute \Magento\Eav\Model\Entity\Attribute\AbstractAttribute|
+         * \PHPUnit_Framework_MockObject_MockObject */
         $attribute = $this->getMock($attributeClass, array('_init'), $arguments);
-        $this->_model = new Magento_Eav_Model_Attribute_Data_Text($helper);
+        $this->_model = new \Magento\Eav\Model\Attribute\Data\Text($helper);
         $this->_model->setAttribute($attribute);
     }
 

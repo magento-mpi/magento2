@@ -9,22 +9,24 @@
  * @license     {license_link}
  */
 
+namespace Magento\Cms\Model\Wysiwyg;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Cms_Model_Wysiwyg_ConfigTest extends PHPUnit_Framework_TestCase
+class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Cms_Model_Wysiwyg_Config
+     * @var \Magento\Cms\Model\Wysiwyg\Config
      */
     protected $_model;
 
     protected function setUp()
     {
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Config_Scope')
-            ->setCurrentScope(Magento_Core_Model_App_Area::AREA_ADMINHTML);
-        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Cms_Model_Wysiwyg_Config');
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Config\Scope')
+            ->setCurrentScope(\Magento\Core\Model\App\Area::AREA_ADMINHTML);
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Cms\Model\Wysiwyg\Config');
     }
 
     /**
@@ -33,7 +35,7 @@ class Magento_Cms_Model_Wysiwyg_ConfigTest extends PHPUnit_Framework_TestCase
     public function testGetConfig()
     {
         $config = $this->_model->getConfig();
-        $this->assertInstanceOf('Magento_Object', $config);
+        $this->assertInstanceOf('Magento\Object', $config);
     }
 
     /**

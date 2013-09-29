@@ -13,21 +13,25 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  *
+ */
+namespace Magento\Adminhtml\Model\Sales\Order;
+
+/**
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Magento_Adminhtml_Model_Sales_Order_Random
+class Random
 {
     /**
      * Quote model object
      *
-     * @var Magento_Sales_Model_Quote
+     * @var \Magento\Sales\Model\Quote
      */
     protected $_quote;
 
     /**
      * Order model object
      *
-     * @var Magento_Sales_Model_Order
+     * @var \Magento\Sales\Model\Order
      */
     protected $_order;
     protected $_store;
@@ -38,40 +42,40 @@ class Magento_Adminhtml_Model_Sales_Order_Random
     protected static $_customerCollection;
 
     /**
-     * @var Magento_Core_Model_Resource_Store_CollectionFactory
+     * @var \Magento\Core\Model\Resource\Store\CollectionFactory
      */
     protected $_storeCollectionFactory;
 
     /**
-     * @var Magento_Customer_Model_Resource_Customer_CollectionFactory
+     * @var \Magento\Customer\Model\Resource\Customer\CollectionFactory
      */
     protected $_customerCollectionFactory;
 
     /**
-     * @var Magento_Catalog_Model_Resource_Product_CollectionFactory
+     * @var \Magento\Catalog\Model\Resource\Product\CollectionFactory
      */
     protected $_productCollectionFactory;
 
     /**
-     * @var Magento_Catalog_Model_Product_Visibility
+     * @var \Magento\Catalog\Model\Product\Visibility
      */
     protected $_productVisibility;
 
     /**
-     * @param Magento_Catalog_Model_Product_Visibility $productVisibility
-     * @param Magento_Catalog_Model_Resource_Product_CollectionFactory $productCollectionFactory
-     * @param Magento_Customer_Model_Resource_Customer_CollectionFactory $customerCollectionFactory
-     * @param Magento_Core_Model_Resource_Store_CollectionFactory $storeCollectionFactory
-     * @param Magento_Sales_Model_QuoteFactory $quoteFactory
-     * @param Magento_Sales_Model_OrderFactory $orderFactory
+     * @param \Magento\Catalog\Model\Product\Visibility $productVisibility
+     * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory
+     * @param \Magento\Customer\Model\Resource\Customer\CollectionFactory $customerCollectionFactory
+     * @param \Magento\Core\Model\Resource\Store\CollectionFactory $storeCollectionFactory
+     * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
+     * @param \Magento\Sales\Model\OrderFactory $orderFactory
      */
     public function __construct(
-        Magento_Catalog_Model_Product_Visibility $productVisibility,
-        Magento_Catalog_Model_Resource_Product_CollectionFactory $productCollectionFactory,
-        Magento_Customer_Model_Resource_Customer_CollectionFactory $customerCollectionFactory,
-        Magento_Core_Model_Resource_Store_CollectionFactory $storeCollectionFactory,
-        Magento_Sales_Model_QuoteFactory $quoteFactory,
-        Magento_Sales_Model_OrderFactory $orderFactory
+        \Magento\Catalog\Model\Product\Visibility $productVisibility,
+        \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory,
+        \Magento\Customer\Model\Resource\Customer\CollectionFactory $customerCollectionFactory,
+        \Magento\Core\Model\Resource\Store\CollectionFactory $storeCollectionFactory,
+        \Magento\Sales\Model\QuoteFactory $quoteFactory,
+        \Magento\Sales\Model\OrderFactory $orderFactory
     ) {
         $this->_productVisibility = $productVisibility;
         $this->_productCollectionFactory = $productCollectionFactory;
@@ -108,7 +112,7 @@ class Magento_Adminhtml_Model_Sales_Order_Random
             //$this->_productCollection->getEntity()->setStore($this->_getStore());
             $this->_productCollection->addAttributeToSelect('name')
                 ->addAttributeToSelect('sku')
-                ->addAttributeToFilter('type_id', Magento_Catalog_Model_Product_Type::TYPE_SIMPLE)
+                ->addAttributeToFilter('type_id', \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE)
                 ->setVisibility($this->_productVisibility->getVisibleInSearchIds())
                 ->load();
         }
@@ -118,7 +122,7 @@ class Magento_Adminhtml_Model_Sales_Order_Random
     /**
      * Retrieve customer model
      *
-     * @return Magento_Customer_Model_Customer
+     * @return \Magento\Customer\Model\Customer
      */
     protected function _getCustomer()
     {

@@ -11,7 +11,9 @@
 /**
  * Interface of a resource linked to a page
  */
-interface Magento_Core_Model_Page_Asset_AssetInterface
+namespace Magento\Core\Model\Page\Asset;
+
+interface AssetInterface
 {
     /**
      * Retrieve URL pointing to a resource

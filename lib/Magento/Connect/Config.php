@@ -8,8 +8,10 @@
  * @license     {license_link}
  */
 
-class Magento_Connect_Config
-implements Iterator
+namespace Magento\Connect;
+
+class Config
+implements \Iterator
 {
     protected $_configFile;
     const HEADER = "::ConnectConfig::v::1.0::";

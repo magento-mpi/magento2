@@ -6,30 +6,33 @@
  * @license     {license_link}
  */
 
+namespace Magento\CatalogEvent\Block\Adminhtml\Event\Edit;
+
 /**
- * Test class for Magento_CatalogEvent_Block_Adminhtml_Event_Edit_Form
+ * Test class for \Magento\CatalogEvent\Block\Adminhtml\Event\Edit\Form
  * @magentoAppArea adminhtml
  */
-class Magento_CatalogEvent_Block_Adminhtml_Event_Edit_FormTest extends PHPUnit_Framework_TestCase
+class FormTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @magentoAppIsolation enabled
      */
     public function testPrepareForm()
     {
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
-            ->setArea(Magento_Core_Model_App_Area::AREA_ADMINHTML)
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\View\DesignInterface')
+            ->setArea(\Magento\Core\Model\App\Area::AREA_ADMINHTML)
             ->setDefaultDesignTheme();
-        /** @var $event Magento_CatalogEvent_Model_Event */
-        $event = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_CatalogEvent_Model_Event');
+        /** @var $event \Magento\CatalogEvent\Model\Event */
+        $event = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\CatalogEvent\Model\Event');
         $event->setCategoryId(1)->setId(1);
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $objectManager->get('Magento_Core_Model_Registry')->register('magento_catalogevent_event', $event);
-        $block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
-            ->createBlock('Magento_CatalogEvent_Block_Adminhtml_Event_Edit_Form');
-        $prepareFormMethod = new ReflectionMethod(
-            'Magento_CatalogEvent_Block_Adminhtml_Event_Edit_Form', '_prepareForm');
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $objectManager->get('Magento\Core\Model\Registry')->register('magento_catalogevent_event', $event);
+        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            ->createBlock('Magento\CatalogEvent\Block\Adminhtml\Event\Edit\Form');
+        $prepareFormMethod = new \ReflectionMethod(
+            'Magento\CatalogEvent\Block\Adminhtml\Event\Edit\Form', '_prepareForm');
         $prepareFormMethod->setAccessible(true);
         $prepareFormMethod->invoke($block);
 

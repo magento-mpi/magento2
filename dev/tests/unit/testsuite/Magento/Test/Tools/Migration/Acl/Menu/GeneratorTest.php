@@ -8,16 +8,18 @@
  * @license     {license_link}
  */
 
+namespace Magento\Test\Tools\Migration\Acl\Menu;
+
 require_once realpath(__DIR__ . '/../../../../../../../../../')
     . '/tools/Magento/Tools/Migration/Acl/Menu/Generator.php';
 
 /**
  * Tools_Migration_Acl_Menu_Generator_Menu generate test case
  */
-class Magento_Test_Tools_Migration_Acl_Menu_GeneratorTest extends PHPUnit_Framework_TestCase
+class GeneratorTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var $model Magento_Tools_Migration_Acl_Menu_Generator
+     * @var $model \Magento\Tools\Migration\Acl\Menu\Generator
      */
     protected $_model;
 
@@ -37,7 +39,7 @@ class Magento_Test_Tools_Migration_Acl_Menu_GeneratorTest extends PHPUnit_Framew
     protected $_menuIdToXPath = array();
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_fileManagerMock;
 
@@ -52,9 +54,9 @@ class Magento_Test_Tools_Migration_Acl_Menu_GeneratorTest extends PHPUnit_Framew
             'config/acl/resources/admin/area_config' => 'Module_Name::acl_resource_area',
             'config/acl/resources/admin/some_other_resource' => 'Module_Name::some_other_resource',
         );
-        $this->_fileManagerMock = $this->getMock('Magento_Tools_Migration_Acl_FileManager');
+        $this->_fileManagerMock = $this->getMock('Magento\Tools\Migration\Acl\FileManager');
 
-        $this->_model = new Magento_Tools_Migration_Acl_Menu_Generator(
+        $this->_model = new \Magento\Tools\Migration\Acl\Menu\Generator(
             $this->_fixturePath,
             array(1),
             $aclXPathToId,
@@ -105,7 +107,7 @@ class Magento_Test_Tools_Migration_Acl_Menu_GeneratorTest extends PHPUnit_Framew
     public function testParseMenuNode()
     {
         $menuFile = $this->_menuFiles[0];
-        $dom = new DOMDocument();
+        $dom = new \DOMDocument();
         $dom->load($menuFile);
         $node = $dom->getElementsByTagName('menu')->item(0);
         $expected = array(
@@ -165,8 +167,8 @@ class Magento_Test_Tools_Migration_Acl_Menu_GeneratorTest extends PHPUnit_Framew
     }
 
     /**
-     * @covers Magento_Tools_Migration_Acl_Menu_Generator::buildMenuItemsXPath
-     * @covers Magento_Tools_Migration_Acl_Menu_Generator::buildXPath
+     * @covers \Magento\Tools\Migration\Acl\Menu\Generator::buildMenuItemsXPath
+     * @covers \Magento\Tools\Migration\Acl\Menu\Generator::buildXPath
      */
     public function testBuildMenuItemsXPath()
     {
@@ -200,10 +202,10 @@ class Magento_Test_Tools_Migration_Acl_Menu_GeneratorTest extends PHPUnit_Framew
         $menuFileSource = $this->_fixturePath . DIRECTORY_SEPARATOR . 'update_menu_attributes_source.xml';
         $menuFileResult = $this->_fixturePath . DIRECTORY_SEPARATOR . 'update_menu_attributes_result.xml';
 
-        $domSource = new DOMDocument();
+        $domSource = new \DOMDocument();
         $domSource->load($menuFileSource);
 
-        $domExpected = new DOMDocument();
+        $domExpected = new \DOMDocument();
         $domExpected->load($menuFileResult);
 
         $domList = array(
@@ -236,7 +238,7 @@ class Magento_Test_Tools_Migration_Acl_Menu_GeneratorTest extends PHPUnit_Framew
 
     public function testSaveMenuFiles()
     {
-        $dom = new DOMDocument();
+        $dom = new \DOMDocument();
         $menuDomList = array(
             'file1' => $dom,
             'file2' => $dom,

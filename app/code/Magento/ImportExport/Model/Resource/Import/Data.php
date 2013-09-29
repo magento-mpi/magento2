@@ -15,31 +15,33 @@
  * @package     Magento_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_ImportExport_Model_Resource_Import_Data
-    extends Magento_Core_Model_Resource_Db_Abstract
-    implements IteratorAggregate
+namespace Magento\ImportExport\Model\Resource\Import;
+
+class Data
+    extends \Magento\Core\Model\Resource\Db\AbstractDb
+    implements \IteratorAggregate
 {
     /**
-     * @var IteratorIterator
+     * @var \IteratorIterator
      */
     protected $_iterator = null;
 
     /**
      * Helper to encode/decode json
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_jsonHelper;
 
     /**
      * Class constructor
      *
-     * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Core_Helper_Data $coreHelper
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Core\Helper\Data $coreHelper
      * @param array $arguments
      */
-    public function __construct(Magento_Core_Model_Resource $resource,
-        Magento_Core_Helper_Data $coreHelper,
+    public function __construct(\Magento\Core\Model\Resource $resource,
+        \Magento\Core\Helper\Data $coreHelper,
         array $arguments = array()
     ) {
         parent::__construct($resource);
@@ -57,7 +59,7 @@ class Magento_ImportExport_Model_Resource_Import_Data
     /**
      * Retrieve an external iterator
      *
-     * @return IteratorIterator
+     * @return \IteratorIterator
      */
     public function getIterator()
     {
@@ -67,13 +69,13 @@ class Magento_ImportExport_Model_Resource_Import_Data
             ->order('id ASC');
         $stmt = $adapter->query($select);
 
-        $stmt->setFetchMode(Zend_Db::FETCH_NUM);
-        if ($stmt instanceof IteratorAggregate) {
+        $stmt->setFetchMode(\Zend_Db::FETCH_NUM);
+        if ($stmt instanceof \IteratorAggregate) {
             $iterator = $stmt->getIterator();
         } else {
             // Statement doesn't support iterating, so fetch all records and create iterator ourself
             $rows = $stmt->fetchAll();
-            $iterator = new ArrayIterator($rows);
+            $iterator = new \ArrayIterator($rows);
         }
 
         return $iterator;
@@ -82,7 +84,7 @@ class Magento_ImportExport_Model_Resource_Import_Data
     /**
      * Clean all bunches from table.
      *
-     * @return Magento_DB_Adapter_Interface
+     * @return \Magento\DB\Adapter\AdapterInterface
      */
     public function cleanBunches()
     {
@@ -112,7 +114,7 @@ class Magento_ImportExport_Model_Resource_Import_Data
     /**
      * Return request data from import data table
      *
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      *
      * @param string $code parameter name
      * @return string
@@ -126,7 +128,7 @@ class Magento_ImportExport_Model_Resource_Import_Data
         ));
 
         if (count($values) != 1) {
-            Mage::throwException(
+            \Mage::throwException(
                 __('Error in data structure: %1 values are mixed', $code)
             );
         }

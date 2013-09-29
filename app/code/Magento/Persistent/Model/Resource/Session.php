@@ -12,7 +12,9 @@
 /**
  * Persistent Session Resource Model
  */
-class Magento_Persistent_Model_Resource_Session extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Persistent\Model\Resource;
+
+class Session extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Use is object new method for object saving
@@ -24,19 +26,19 @@ class Magento_Persistent_Model_Resource_Session extends Magento_Core_Model_Resou
     /**
      * Session factory
      *
-     * @var Magento_Persistent_Model_SessionFactory
+     * @var \Magento\Persistent\Model\SessionFactory
      */
     protected $_sessionFactory;
 
     /**
      * Class constructor
      *
-     * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Persistent_Model_SessionFactory $sessionFactory
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Persistent\Model\SessionFactory $sessionFactory
      */
     public function __construct(
-        Magento_Core_Model_Resource $resource,
-        Magento_Persistent_Model_SessionFactory $sessionFactory
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Persistent\Model\SessionFactory $sessionFactory
     ) {
         $this->_sessionFactory = $sessionFactory;
         parent::__construct($resource);
@@ -55,8 +57,8 @@ class Magento_Persistent_Model_Resource_Session extends Magento_Core_Model_Resou
      *
      * @param string $field
      * @param mixed $value
-     * @param Magento_Persistent_Model_Session $object
-     * @return Zend_Db_Select
+     * @param \Magento\Persistent\Model\Session $object
+     * @return \Zend_Db_Select
      */
     protected function _getLoadSelect($field, $value, $object)
     {
@@ -75,7 +77,7 @@ class Magento_Persistent_Model_Resource_Session extends Magento_Core_Model_Resou
      * Delete customer persistent session by customer id
      *
      * @param int $customerId
-     * @return Magento_Persistent_Model_Resource_Session
+     * @return \Magento\Persistent\Model\Resource\Session
      */
     public function deleteByCustomerId($customerId)
     {
@@ -101,7 +103,7 @@ class Magento_Persistent_Model_Resource_Session extends Magento_Core_Model_Resou
      *
      * @param  $websiteId
      * @param  $expiredBefore
-     * @return Magento_Persistent_Model_Resource_Session
+     * @return \Magento\Persistent\Model\Resource\Session
      */
     public function deleteExpired($websiteId, $expiredBefore)
     {

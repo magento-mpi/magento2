@@ -9,32 +9,32 @@
  */
 
 $installer = $this;
-/** @var $installer Magento_Catalog_Model_Resource_Setup */
+/** @var $installer \Magento\Catalog\Model\Resource\Setup */
 
 $installer->updateAttribute(
-    Magento_Catalog_Model_Product::ENTITY,
+    \Magento\Catalog\Model\Product::ENTITY,
     'msrp_enabled',
     'source_model',
-    'Magento_Catalog_Model_Product_Attribute_Source_Msrp_Type_Enabled'
+    'Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type\Enabled'
 );
 
 $installer->updateAttribute(
-    Magento_Catalog_Model_Product::ENTITY,
+    \Magento\Catalog\Model\Product::ENTITY,
     'msrp_enabled',
     'default_value',
-    Magento_Catalog_Model_Product_Attribute_Source_Msrp_Type_Enabled::MSRP_ENABLE_USE_CONFIG
+    \Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type\Enabled::MSRP_ENABLE_USE_CONFIG
 );
 
 $installer->updateAttribute(
-    Magento_Catalog_Model_Product::ENTITY,
+    \Magento\Catalog\Model\Product::ENTITY,
     'msrp_display_actual_price_type',
     'source_model',
-    'Magento_Catalog_Model_Product_Attribute_Source_Msrp_Type_Price'
+    'Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type\Price'
 );
 
 $installer->updateAttribute(
-    Magento_Catalog_Model_Product::ENTITY,
+    \Magento\Catalog\Model\Product::ENTITY,
     'msrp_display_actual_price_type',
     'default_value',
-    Magento_Catalog_Model_Product_Attribute_Source_Msrp_Type_Price::TYPE_USE_CONFIG
+    \Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type\Price::TYPE_USE_CONFIG
 );

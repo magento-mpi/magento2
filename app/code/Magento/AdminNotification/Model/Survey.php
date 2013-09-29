@@ -16,7 +16,9 @@
  * @package    Magento_AdminNotification
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_AdminNotification_Model_Survey
+namespace Magento\AdminNotification\Model;
+
+class Survey
 {
     const SURVEY_URL = 'www.magentocommerce.com/instsurvey.html';
 
@@ -26,27 +28,27 @@ class Magento_AdminNotification_Model_Survey
     protected $_flagCode  = 'admin_notification_survey';
 
     /**
-     * @var Magento_Core_Model_Flag
+     * @var \Magento\Core\Model\Flag
      */
     protected $_flagModel = null;
 
     /**
-     * @var Magento_Core_Model_FlagFactory
+     * @var \Magento\Core\Model\FlagFactory
      */
     protected $_flagFactory;
 
     /**
-     * @var Magento_Core_Controller_Request_Http
+     * @var \Magento\Core\Controller\Request\Http
      */
     protected $_request;
 
     /**
-     * @param Magento_Core_Model_FlagFactory $flagFactory
-     * @param Magento_Core_Controller_Request_Http $request
+     * @param \Magento\Core\Model\FlagFactory $flagFactory
+     * @param \Magento\Core\Controller\Request\Http $request
      */
     public function __construct(
-        Magento_Core_Model_FlagFactory $flagFactory,
-        Magento_Core_Controller_Request_Http $request
+        \Magento\Core\Model\FlagFactory $flagFactory,
+        \Magento\Core\Controller\Request\Http $request
     ) {
         $this->_request = $request;
         $this->_flagFactory = $flagFactory;
@@ -59,13 +61,13 @@ class Magento_AdminNotification_Model_Survey
      */
     public function isSurveyUrlValid()
     {
-        $curl = new Magento_HTTP_Adapter_Curl();
+        $curl = new \Magento\HTTP\Adapter\Curl();
         $curl->setConfig(array('timeout'   => 5))
-            ->write(Zend_Http_Client::GET, $this->getSurveyUrl(), '1.0');
+            ->write(\Zend_Http_Client::GET, $this->getSurveyUrl(), '1.0');
         $response = $curl->read();
         $curl->close();
 
-        if (Zend_Http_Response::extractCode($response) == 200) {
+        if (\Zend_Http_Response::extractCode($response) == 200) {
             return true;
         }
         return false;
@@ -85,7 +87,7 @@ class Magento_AdminNotification_Model_Survey
     /**
      * Return core flag model
      *
-     * @return Magento_Core_Model_Flag
+     * @return \Magento\Core\Model\Flag
      */
     protected function _getFlagModel()
     {

@@ -7,12 +7,14 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Core_Model_Acl_Cache implements Magento_Acl_CacheInterface
+namespace Magento\Core\Model\Acl;
+
+class Cache implements \Magento\Acl\CacheInterface
 {
     /**
      * Cache
      *
-     * @var Magento_Core_Model_Cache_Type_Config
+     * @var \Magento\Core\Model\Cache\Type\Config
      */
     protected $_cache;
 
@@ -24,15 +26,15 @@ class Magento_Core_Model_Acl_Cache implements Magento_Acl_CacheInterface
     protected $_cacheKey;
 
     /**
-     * @var Magento_Acl
+     * @var \Magento\Acl
      */
     protected $_acl = null;
 
     /**
-     * @param Magento_Core_Model_Cache_Type_Config $cache
+     * @param \Magento\Core\Model\Cache\Type\Config $cache
      * @param string $cacheKey
      */
-    function __construct(Magento_Core_Model_Cache_Type_Config $cache, $cacheKey)
+    function __construct(\Magento\Core\Model\Cache\Type\Config $cache, $cacheKey)
     {
         $this->_cache = $cache;
         $this->_cacheKey = $cacheKey;
@@ -51,7 +53,7 @@ class Magento_Core_Model_Acl_Cache implements Magento_Acl_CacheInterface
     /**
      * Retrieve ACL object from cache
      *
-     * @return Magento_Acl
+     * @return \Magento\Acl
      */
     public function get()
     {
@@ -64,9 +66,9 @@ class Magento_Core_Model_Acl_Cache implements Magento_Acl_CacheInterface
     /**
      * Save ACL object to cache
      *
-     * @param Magento_Acl $acl
+     * @param \Magento\Acl $acl
      */
-    public function save(Magento_Acl $acl)
+    public function save(\Magento\Acl $acl)
     {
         $this->_acl = $acl;
         $this->_cache->save(serialize($acl), $this->_cacheKey);

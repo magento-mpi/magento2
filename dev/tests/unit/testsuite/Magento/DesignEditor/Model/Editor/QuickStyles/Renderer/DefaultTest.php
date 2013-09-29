@@ -12,17 +12,19 @@
 /**
  * Default renderer test
  */
-class Magento_DesignEditor_Model_Editor_QuickStyles_Renderer_DefaultTest
-    extends PHPUnit_Framework_TestCase
+namespace Magento\DesignEditor\Model\Editor\QuickStyles\Renderer;
+
+class DefaultTest
+    extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @cover Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Renderer_Default::toCss
+     * @cover \Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Renderer\DefaultRenderer::toCss
      * @dataProvider colorPickerData
      */
     public function testToCss($expectedResult, $data)
     {
         $rendererModel = $this->getMock(
-            'Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Renderer_Default', null, array(), '', false
+            'Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Renderer\DefaultRenderer', null, array(), '', false
         );
 
         $this->assertEquals($expectedResult, $rendererModel->toCss($data));

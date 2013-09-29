@@ -14,8 +14,10 @@
  * @category    Magento
  * @package     Magento_GiftWrapping
  */
-class Magento_GiftWrapping_Model_Resource_Wrapping_Collection
-    extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\GiftWrapping\Model\Resource\Wrapping;
+
+class Collection
+    extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Intialize collection
@@ -24,14 +26,14 @@ class Magento_GiftWrapping_Model_Resource_Wrapping_Collection
      */
     protected function _construct()
     {
-        $this->_init('Magento_GiftWrapping_Model_Wrapping', 'Magento_GiftWrapping_Model_Resource_Wrapping');
+        $this->_init('Magento\GiftWrapping\Model\Wrapping', 'Magento\GiftWrapping\Model\Resource\Wrapping');
         $this->_map['fields']['wrapping_id'] = 'main_table.wrapping_id';
     }
 
     /**
      * Redeclare after load method to add website IDs to items
      *
-     * @return Magento_GiftWrapping_Model_Resource_Wrapping_Collection
+     * @return \Magento\GiftWrapping\Model\Resource\Wrapping\Collection
      */
     protected function _afterLoad()
     {
@@ -63,7 +65,7 @@ class Magento_GiftWrapping_Model_Resource_Wrapping_Collection
      * Init flag for adding wrapping website ids to collection result
      *
      * @param  bool|null $flag
-     * @return Magento_GiftWrapping_Model_Resource_Wrapping_Collection
+     * @return \Magento\GiftWrapping\Model\Resource\Wrapping\Collection
      */
     public function addWebsitesToResult($flag = null)
     {
@@ -75,8 +77,8 @@ class Magento_GiftWrapping_Model_Resource_Wrapping_Collection
     /**
      * Limit gift wrapping collection by specific website
      *
-     * @param  int|array|Magento_Core_Model_Website $websiteId
-     * @return Magento_GiftWrapping_Model_Resource_Wrapping_Collection
+     * @param  int|array|\Magento\Core\Model\Website $websiteId
+     * @return \Magento\GiftWrapping\Model\Resource\Wrapping\Collection
      */
     public function applyWebsiteFilter($websiteId)
     {
@@ -89,7 +91,7 @@ class Magento_GiftWrapping_Model_Resource_Wrapping_Collection
             );
         }
 
-        if ($websiteId instanceof Magento_Core_Model_Website) {
+        if ($websiteId instanceof \Magento\Core\Model\Website) {
             $websiteId = $websiteId->getId();
         }
         $this->getSelect()->where('website.website_id IN (?)', $websiteId);
@@ -100,7 +102,7 @@ class Magento_GiftWrapping_Model_Resource_Wrapping_Collection
     /**
      * Limit gift wrapping collection by status
      *
-     * @return Magento_GiftWrapping_Model_Resource_Wrapping_Collection
+     * @return \Magento\GiftWrapping\Model\Resource\Wrapping\Collection
      */
     public function applyStatusFilter()
     {
@@ -115,7 +117,7 @@ class Magento_GiftWrapping_Model_Resource_Wrapping_Collection
      *
      * @param  string $field
      * @param  mixed $condition
-     * @return Magento_GiftWrapping_Model_Resource_Wrapping_Collection
+     * @return \Magento\GiftWrapping\Model\Resource\Wrapping\Collection
      */
     public function addFieldToFilter($field, $condition = null)
     {
@@ -141,7 +143,7 @@ class Magento_GiftWrapping_Model_Resource_Wrapping_Collection
      /* Add store attributes to collection
      *
      * @param  int $storeId
-     * @return Magento_GiftWrapping_Model_Resource_Wrapping_Collection
+     * @return \Magento\GiftWrapping\Model\Resource\Wrapping\Collection
      */
     public function addStoreAttributesToResult($storeId = 0)
     {

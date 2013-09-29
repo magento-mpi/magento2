@@ -1,23 +1,25 @@
 <?php
 /**
- *  Converter of AdminGws configuration from DOMDocument to tree array
+ *  Converter of AdminGws configuration from \DOMDocument to tree array
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_AdminGws_Model_Config_Converter implements Magento_Config_ConverterInterface
+namespace Magento\AdminGws\Model\Config;
+
+class Converter implements \Magento\Config\ConverterInterface
 {
     /**
      * Convert config
      *
-     * @param DOMDocument $source
+     * @param \DOMDocument $source
      * @return array
      */
     public function convert($source)
     {
-        /** @var DOMNodeList $groups */
+        /** @var \DOMNodeList $groups */
         $groups = $source->getElementsByTagName('group');
         /** @var DOMNode $groupConfig */
         $callbacks = array();
@@ -32,7 +34,7 @@ class Magento_AdminGws_Model_Config_Converter implements Magento_Config_Converte
             }
         }
 
-        /** @var DOMNodeList $aclLevel */
+        /** @var \DOMNodeList $aclLevel */
         $aclLevel = $source->getElementsByTagName('level');
         /** @var DOMNode $groupConfig */
         $rules = array();

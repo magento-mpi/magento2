@@ -9,26 +9,28 @@
  * @license     {license_link}
  */
 
-class Magento_Adminhtml_Model_LayoutUpdate_ValidatorTest extends PHPUnit_Framework_TestCase
+namespace Magento\Adminhtml\Model\LayoutUpdate;
+
+class ValidatorTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_TestFramework_Helper_ObjectManager
+     * @var \Magento\TestFramework\Helper\ObjectManager
      */
     protected $_objectHelper;
 
     public function setUp()
     {
-        $this->_objectHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $this->_objectHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
     }
 
     /**
      * @param string $layoutUpdate
      * @param boolean $isSchemaValid
-     * @return Magento_Adminhtml_Model_LayoutUpdate_Validator
+     * @return \Magento\Adminhtml\Model\LayoutUpdate\Validator
      */
     protected function _createValidator($layoutUpdate, $isSchemaValid = true)
     {
-        $modulesReader = $this->getMockBuilder('Magento_Core_Model_Config_Modules_Reader')
+        $modulesReader = $this->getMockBuilder('Magento\Core\Model\Config\Modules\Reader')
             ->disableOriginalConstructor()
             ->getMock();
         $modulesReader->expects($this->exactly(2))
@@ -36,7 +38,7 @@ class Magento_Adminhtml_Model_LayoutUpdate_ValidatorTest extends PHPUnit_Framewo
             ->with('etc', 'Magento_Core')
             ->will($this->returnValue('dummyDir'));
 
-        $domConfigFactory = $this->getMockBuilder('Magento_Config_DomFactory')
+        $domConfigFactory = $this->getMockBuilder('Magento\Config\DomFactory')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -54,10 +56,10 @@ class Magento_Adminhtml_Model_LayoutUpdate_ValidatorTest extends PHPUnit_Framewo
             ->will(
                 $isSchemaValid
                     ? $this->returnSelf()
-                    : $this->throwException(new Magento_Config_Dom_ValidationException($exceptionMessage))
+                    : $this->throwException(new \Magento\Config\Dom\ValidationException($exceptionMessage))
             );
 
-        $model = $this->_objectHelper->getObject('Magento_Adminhtml_Model_LayoutUpdate_Validator', array(
+        $model = $this->_objectHelper->getObject('Magento\Adminhtml\Model\LayoutUpdate\Validator', array(
             'modulesReader' => $modulesReader,
             'domConfigFactory' => $domConfigFactory,
         ));
@@ -78,7 +80,7 @@ class Magento_Adminhtml_Model_LayoutUpdate_ValidatorTest extends PHPUnit_Framewo
         $this->assertEquals(
             $model->isValid(
                 $layoutUpdate,
-                Magento_Adminhtml_Model_LayoutUpdate_Validator::LAYOUT_SCHEMA_SINGLE_HANDLE,
+                \Magento\Adminhtml\Model\LayoutUpdate\Validator::LAYOUT_SCHEMA_SINGLE_HANDLE,
                 false
             ),
             $expectedResult
@@ -94,7 +96,7 @@ class Magento_Adminhtml_Model_LayoutUpdate_ValidatorTest extends PHPUnit_Framewo
         return array(
             array('test', true, true, array()),
             array('test', false, false, array(
-                Magento_Adminhtml_Model_LayoutUpdate_Validator::XML_INVALID =>
+                \Magento\Adminhtml\Model\LayoutUpdate\Validator::XML_INVALID =>
                 'Please correct the XML data and try again. validation exception'
             )),
         );
@@ -112,7 +114,7 @@ class Magento_Adminhtml_Model_LayoutUpdate_ValidatorTest extends PHPUnit_Framewo
         $this->assertEquals(
             $model->isValid(
                 $layoutUpdate,
-                Magento_Adminhtml_Model_LayoutUpdate_Validator::LAYOUT_SCHEMA_SINGLE_HANDLE,
+                \Magento\Adminhtml\Model\LayoutUpdate\Validator::LAYOUT_SCHEMA_SINGLE_HANDLE,
                 true
             ),
             $expectedResult
@@ -163,11 +165,11 @@ XML;
 XML;
         return array(
             array($insecureHelper, false, array(
-                Magento_Adminhtml_Model_LayoutUpdate_Validator::HELPER_ARGUMENT_TYPE =>
+                \Magento\Adminhtml\Model\LayoutUpdate\Validator::HELPER_ARGUMENT_TYPE =>
                 'Helper arguments should not be used in custom layout updates.'
             )),
             array($insecureUpdater, false, array(
-                Magento_Adminhtml_Model_LayoutUpdate_Validator::UPDATER_MODEL =>
+                \Magento\Adminhtml\Model\LayoutUpdate\Validator::UPDATER_MODEL =>
                 'Updater model should not be used in custom layout updates.'
             )),
             array($secureLayout, true, array()),

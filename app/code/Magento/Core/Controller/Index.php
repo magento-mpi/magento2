@@ -9,7 +9,9 @@
  */
 
 
-class Magento_Core_Controller_Index extends Magento_Core_Controller_Front_Action {
+namespace Magento\Core\Controller;
+
+class Index extends \Magento\Core\Controller\Front\Action {
 
     function indexAction()
     {

@@ -8,8 +8,10 @@
  * @license     {license_link}
  */
 
-final class Magento_Connect_Command_Package
-extends Magento_Connect_Command
+namespace Magento\Connect\Command;
+
+final class Package
+extends \Magento\Connect\Command
 {
     /**
      * Dependencies list
@@ -46,7 +48,7 @@ extends Magento_Connect_Command
         }
 
         try {
-            $packager = new Magento_Connect_Package($file);
+            $packager = new \Magento\Connect\Package($file);
             $res = $packager->validate();
             if(!$res) {
                 $this->doError($command, implode("\n", $packager->getErrors()));
@@ -54,7 +56,7 @@ extends Magento_Connect_Command
             }
             $packager->save(dirname($file));
             $this->ui()->output('Done building package');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->doError( $command, $e->getMessage() );
         }
     }
@@ -92,7 +94,7 @@ extends Magento_Connect_Command
             $data = $packager->getDependenciesList($channel, $package, $cache, $config, $argVersionMax, $argVersionMin);
             $this->ui()->output(array($command=> array('data'=>$data['deps'], 'title'=>"Package deps for {$params[1]}: ")));
 
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->doError($command, $e->getMessage());
         }
     }
@@ -102,14 +104,14 @@ extends Magento_Connect_Command
         $this->cleanupParams($params);
         try {
             if(count($params) < 1) {
-                throw new Exception("Arguments should be: source.tgz [target.tgz]");
+                throw new \Exception("Arguments should be: source.tgz [target.tgz]");
             }
             $sourceFile = $params[0];
-            $converter = new Magento_Connect_Converter();
+            $converter = new \Magento\Connect\Converter();
             $targetFile = isset($params[1]) ? $params[1] : false;
             $result = $converter->convertPearToMage($sourceFile, $targetFile);
             $this->ui()->output("Saved to: ".$result);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->doError($command, $e->getMessage());
         }
 

@@ -9,34 +9,36 @@
  */
 
 
-class Magento_Rule_Block_Editable
-    extends Magento_Core_Block_Abstract
-    implements Magento_Data_Form_Element_Renderer_Interface
+namespace Magento\Rule\Block;
+
+class Editable
+    extends \Magento\Core\Block\AbstractBlock
+    implements \Magento\Data\Form\Element\Renderer\RendererInterface
 {
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
     /**
      * Core string
      *
-     * @var Magento_Core_Helper_String
+     * @var \Magento\Core\Helper\String
      */
     protected $_coreString = null;
 
     /**
-     * @param Magento_Core_Helper_String $coreString
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Context $context
+     * @param \Magento\Core\Helper\String $coreString
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_String $coreString,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Context $context,
+        \Magento\Core\Helper\String $coreString,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Context $context,
         array $data = array()
     ) {
         $this->_coreString = $coreString;
@@ -47,11 +49,11 @@ class Magento_Rule_Block_Editable
     /**
      * Render element
      *
-     * @see Magento_Data_Form_Element_Renderer_Interface::render()
-     * @param Magento_Data_Form_Element_Abstract $element
+     * @see \Magento\Data\Form\Element\Renderer\RendererInterface::render()
+     * @param \Magento\Data\Form\Element\AbstractElement $element
      * @return string
      */
-    public function render(Magento_Data_Form_Element_Abstract $element)
+    public function render(\Magento\Data\Form\Element\AbstractElement $element)
     {
         $element->addClass('element-value-changer');
         $valueName = $element->getValueName();

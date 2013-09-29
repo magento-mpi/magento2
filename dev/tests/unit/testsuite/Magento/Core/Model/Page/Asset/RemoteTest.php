@@ -9,16 +9,18 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Page_Asset_RemoteTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Page\Asset;
+
+class RemoteTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Page_Asset_Remote
+     * @var \Magento\Core\Model\Page\Asset\Remote
      */
     protected $_object;
 
     protected function setUp()
     {
-        $this->_object = new Magento_Core_Model_Page_Asset_Remote('https://127.0.0.1/magento/test/style.css', 'css');
+        $this->_object = new \Magento\Core\Model\Page\Asset\Remote('https://127.0.0.1/magento/test/style.css', 'css');
     }
 
     public function testGetUrl()

@@ -9,29 +9,29 @@
  * @license     {license_link}
  */
 
-/** @var $objectManager Magento_ObjectManager */
-$objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-$objectManager->get('Magento_Core_Model_App')
-    ->loadAreaPart(Magento_Core_Model_App_Area::AREA_ADMINHTML, Magento_Core_Model_App_Area::PART_CONFIG);
-/** @var $theme Magento_Core_Model_Theme */
-$theme = $objectManager->create('Magento_Core_Model_Theme');
+/** @var $objectManager \Magento\ObjectManager */
+$objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+$objectManager->get('Magento\Core\Model\App')
+    ->loadAreaPart(\Magento\Core\Model\App\Area::AREA_ADMINHTML, \Magento\Core\Model\App\Area::PART_CONFIG);
+/** @var $theme \Magento\Core\Model\Theme */
+$theme = $objectManager->create('Magento\Core\Model\Theme');
 $theme->setThemePath('test/test')
     ->setThemeVersion('2.0.0.0')
     ->setArea('frontend')
     ->setThemeTitle('Test Theme')
-    ->setType(Magento_Core_Model_Theme::TYPE_VIRTUAL)
+    ->setType(\Magento\Core\Model\Theme::TYPE_VIRTUAL)
     ->save();
 
-/** @var $updateNotTemporary Magento_Core_Model_Layout_Update */
-$updateNotTemporary = $objectManager->create('Magento_Core_Model_Layout_Update');
+/** @var $updateNotTemporary \Magento\Core\Model\Layout\Update */
+$updateNotTemporary = $objectManager->create('Magento\Core\Model\Layout\Update');
 $updateNotTemporary->setHandle('test_handle')
     ->setXml('not_temporary')
     ->setStoreId(0)
     ->setThemeId($theme->getId())
     ->save();
 
-/** @var $updateTemporary Magento_Core_Model_Layout_Update */
-$updateTemporary = $objectManager->create('Magento_Core_Model_Layout_Update');
+/** @var $updateTemporary \Magento\Core\Model\Layout\Update */
+$updateTemporary = $objectManager->create('Magento\Core\Model\Layout\Update');
 $updateTemporary->setHandle('test_handle')
     ->setIsTemporary(1)
     ->setXml('temporary')

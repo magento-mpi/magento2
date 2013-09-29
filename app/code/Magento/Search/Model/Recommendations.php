@@ -8,48 +8,50 @@
  * @license     {license_link}
  */
 
- /**
-  * Enterprise search recommendations model
-  *
-  * @SuppressWarnings(PHPMD.LongVariable)
-  */
-class Magento_Search_Model_Recommendations
+namespace Magento\Search\Model;
+
+/**
+ * Enterprise search recommendations model
+ *
+ * @SuppressWarnings(PHPMD.LongVariable)
+ */
+class Recommendations
 {
     /**
      * Catalog search data
      *
-     * @var Magento_CatalogSearch_Helper_Data
+     * @var \Magento\CatalogSearch\Helper\Data
      */
     protected $_catalogSearchData = null;
 
     /**
      * Search data
      *
-     * @var Magento_Search_Helper_Data
+     * @var \Magento\Search\Helper\Data
      */
     protected $_searchData = null;
 
     /**
-     * @var Magento_Search_Model_Search_Layer
+     * @var \Magento\Search\Model\Search\Layer
      */
     protected $_searchLayer;
 
     /**
-     * @var Magento_Search_Model_Resource_RecommendationsFactory
+     * @var \Magento\Search\Model\Resource\RecommendationsFactory
      */
     protected $_recommendationsFactory;
 
     /**
-     * @param Magento_Search_Model_Resource_RecommendationsFactory $recommendationsFactory
-     * @param Magento_Search_Model_Search_Layer $searchLayer
-     * @param Magento_Search_Helper_Data $searchData
-     * @param Magento_CatalogSearch_Helper_Data $catalogSearchData
+     * @param \Magento\Search\Model\Resource\RecommendationsFactory $recommendationsFactory
+     * @param \Magento\Search\Model\Search\Layer $searchLayer
+     * @param \Magento\Search\Helper\Data $searchData
+     * @param \Magento\CatalogSearch\Helper\Data $catalogSearchData
      */
     public function __construct(
-        Magento_Search_Model_Resource_RecommendationsFactory $recommendationsFactory,
-        Magento_Search_Model_Search_Layer $searchLayer,
-        Magento_Search_Helper_Data $searchData,
-        Magento_CatalogSearch_Helper_Data $catalogSearchData
+        \Magento\Search\Model\Resource\RecommendationsFactory $recommendationsFactory,
+        \Magento\Search\Model\Search\Layer $searchLayer,
+        \Magento\Search\Helper\Data $searchData,
+        \Magento\CatalogSearch\Helper\Data $catalogSearchData
     ) {
         $this->_recommendationsFactory = $recommendationsFactory;
         $this->_searchLayer = $searchLayer;

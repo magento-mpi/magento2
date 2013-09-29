@@ -13,29 +13,31 @@
  * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  *
- * @method Magento_Eav_Model_Resource_Entity_Attribute_Group _getResource()
- * @method Magento_Eav_Model_Resource_Entity_Attribute_Group getResource()
+ * @method \Magento\Eav\Model\Resource\Entity\Attribute\Group _getResource()
+ * @method \Magento\Eav\Model\Resource\Entity\Attribute\Group getResource()
  * @method int getAttributeSetId()
- * @method Magento_Eav_Model_Entity_Attribute_Group setAttributeSetId(int $value)
+ * @method \Magento\Eav\Model\Entity\Attribute\Group setAttributeSetId(int $value)
  * @method string getAttributeGroupName()
- * @method Magento_Eav_Model_Entity_Attribute_Group setAttributeGroupName(string $value)
+ * @method \Magento\Eav\Model\Entity\Attribute\Group setAttributeGroupName(string $value)
  * @method int getSortOrder()
- * @method Magento_Eav_Model_Entity_Attribute_Group setSortOrder(int $value)
+ * @method \Magento\Eav\Model\Entity\Attribute\Group setSortOrder(int $value)
  * @method int getDefaultId()
- * @method Magento_Eav_Model_Entity_Attribute_Group setDefaultId(int $value)
+ * @method \Magento\Eav\Model\Entity\Attribute\Group setDefaultId(int $value)
  * @method string getAttributeGroupCode()
- * @method Magento_Eav_Model_Entity_Attribute_Group setAttributeGroupCode(string $value)
+ * @method \Magento\Eav\Model\Entity\Attribute\Group setAttributeGroupCode(string $value)
  * @method string getTabGroupCode()
- * @method Magento_Eav_Model_Entity_Attribute_Group setTabGroupCode(string $value)
+ * @method \Magento\Eav\Model\Entity\Attribute\Group setTabGroupCode(string $value)
  */
-class Magento_Eav_Model_Entity_Attribute_Group extends Magento_Core_Model_Abstract
+namespace Magento\Eav\Model\Entity\Attribute;
+
+class Group extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Resource initialization
      */
     protected function _construct()
     {
-        $this->_init('Magento_Eav_Model_Resource_Entity_Attribute_Group');
+        $this->_init('Magento\Eav\Model\Resource\Entity\Attribute\Group');
     }
 
     /**
@@ -51,7 +53,7 @@ class Magento_Eav_Model_Entity_Attribute_Group extends Magento_Core_Model_Abstra
     /**
      * Delete groups
      *
-     * @return Magento_Eav_Model_Entity_Attribute_Group
+     * @return \Magento\Eav\Model\Entity\Attribute\Group
      */
     public function deleteGroups()
     {
@@ -61,7 +63,7 @@ class Magento_Eav_Model_Entity_Attribute_Group extends Magento_Core_Model_Abstra
     /**
      * Processing object before save data
      *
-     * @return Magento_Eav_Model_Entity_Attribute_Group
+     * @return \Magento\Eav\Model\Entity\Attribute\Group
      */
     protected function _beforeSave()
     {

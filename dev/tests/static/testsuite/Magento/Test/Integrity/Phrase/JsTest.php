@@ -1,9 +1,5 @@
 <?php
 
-use Magento\Tools\I18n\Code\Parser\Adapter;
-use Magento\Tools\I18n\Code\Parser\Adapter\Php\Tokenizer\PhraseCollector;
-use Magento\Tools\I18n\Code\Parser\Adapter\Php\Tokenizer;
-
 /**
  * Scan javascript files for invocations of mage.__() function, verifies that all the translations
  * were output to the page.
@@ -13,24 +9,32 @@ use Magento\Tools\I18n\Code\Parser\Adapter\Php\Tokenizer;
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Test_Integrity_Phrase_JsTest extends Magento_Test_Integrity_Phrase_AbstractTestCase
+namespace Magento\Test\Integrity\Phrase;
+
+use Magento\Tools\I18n\Code\Parser\Adapter;
+use Magento\Tools\I18n\Code\Parser\Adapter\Php\Tokenizer\PhraseCollector;
+use Magento\Tools\I18n\Code\Parser\Adapter\Php\Tokenizer;
+
+class JsTest extends \Magento\Test\Integrity\Phrase\AbstractTestCase
 {
     /**
      * @var \Magento\Tools\I18n\Code\Parser\Adapter\Js
      */
     protected $_parser;
 
-    /** @var Magento_TestFramework_Utility_Files  */
+    /** @var \Magento\TestFramework\Utility\Files  */
     protected $_utilityFiles;
 
-    /** @var Magento\Tools\I18n\Code\Parser\Adapter\Php\Tokenizer\PhraseCollector */
+    /** @var \Magento\Tools\I18n\Code\Parser\Adapter\Php\Tokenizer\PhraseCollector */
     protected $_phraseCollector;
 
     protected function setUp()
     {
-        $this->_parser = new Adapter\Js();
-        $this->_utilityFiles = Magento_TestFramework_Utility_Files::init();
-        $this->_phraseCollector = new PhraseCollector(new Tokenizer());
+        $this->_parser = new \Magento\Tools\I18n\Code\Parser\Adapter\Js();
+        $this->_utilityFiles = \Magento\TestFramework\Utility\Files::init();
+        $this->_phraseCollector = new \Magento\Tools\I18n\Code\Parser\Adapter\Php\Tokenizer\PhraseCollector(
+            new \Magento\Tools\I18n\Code\Parser\Adapter\Php\Tokenizer()
+        );
     }
 
     public function testGetPhrasesAdminhtml()

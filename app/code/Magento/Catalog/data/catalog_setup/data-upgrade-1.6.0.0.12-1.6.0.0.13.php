@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/** @var $installer Magento_Catalog_Model_Resource_Setup */
+/** @var $installer \Magento\Catalog\Model\Resource\Setup */
 $installer = $this;
 $groupPriceAttrId = $installer->getAttribute('catalog_product', 'group_price', 'attribute_id');
 $priceAttrId = $installer->getAttribute('catalog_product', 'price', 'attribute_id');
@@ -19,7 +19,7 @@ $select = $connection->select()
     ->join(
         array('t2' => $installer->getTable('eav_entity_attribute')),
         't1.attribute_group_id = t2.attribute_group_id',
-        array('sort_order' => new Zend_Db_Expr('t2.sort_order + 1'))
+        array('sort_order' => new \Zend_Db_Expr('t2.sort_order + 1'))
     )->where('t1.attribute_id = ?', $groupPriceAttrId)
     ->where('t2.attribute_id = ?', $priceAttrId);
 $query = $select->crossUpdateFromSelect(array('t1' => $installer->getTable('eav_entity_attribute')));
@@ -30,7 +30,7 @@ $select = $connection->select()
     ->join(
         array('t2' => $installer->getTable('eav_entity_attribute')),
         't1.attribute_group_id = t2.attribute_group_id',
-        array('sort_order' => new Zend_Db_Expr('t1.sort_order + 1'))
+        array('sort_order' => new \Zend_Db_Expr('t1.sort_order + 1'))
     )->where('t1.attribute_id != ?', $groupPriceAttrId)
     ->where('t1.sort_order >= t2.sort_order')
     ->where('t2.attribute_id = ?', $groupPriceAttrId);

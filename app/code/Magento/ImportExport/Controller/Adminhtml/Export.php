@@ -15,12 +15,14 @@
  * @package     Magento_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_ImportExport_Controller_Adminhtml_Export extends Magento_Adminhtml_Controller_Action
+namespace Magento\ImportExport\Controller\Adminhtml;
+
+class Export extends \Magento\Adminhtml\Controller\Action
 {
     /**
      * Initialize layout.
      *
-     * @return Magento_ImportExport_Controller_Adminhtml_Export
+     * @return \Magento\ImportExport\Controller\Adminhtml\Export
      */
     protected function _initAction()
     {
@@ -44,14 +46,14 @@ class Magento_ImportExport_Controller_Adminhtml_Export extends Magento_Adminhtml
     /**
      * Load data with filter applying and create file for download.
      *
-     * @return Magento_ImportExport_Controller_Adminhtml_Export
+     * @return \Magento\ImportExport\Controller\Adminhtml\Export
      */
     public function exportAction()
     {
-        if ($this->getRequest()->getPost(Magento_ImportExport_Model_Export::FILTER_ELEMENT_GROUP)) {
+        if ($this->getRequest()->getPost(\Magento\ImportExport\Model\Export::FILTER_ELEMENT_GROUP)) {
             try {
-                /** @var $model Magento_ImportExport_Model_Export */
-                $model = Mage::getModel('Magento_ImportExport_Model_Export');
+                /** @var $model \Magento\ImportExport\Model\Export */
+                $model = \Mage::getModel('Magento\ImportExport\Model\Export');
                 $model->setData($this->getRequest()->getParams());
 
                 return $this->_prepareDownloadResponse(
@@ -59,10 +61,10 @@ class Magento_ImportExport_Controller_Adminhtml_Export extends Magento_Adminhtml
                     $model->export(),
                     $model->getContentType()
                 );
-            } catch (Magento_Core_Exception $e) {
+            } catch (\Magento\Core\Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
-            } catch (Exception $e) {
-                $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+            } catch (\Exception $e) {
+                $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
                 $this->_getSession()->addError(__('Please correct the data sent.'));
             }
         } else {
@@ -97,10 +99,10 @@ class Magento_ImportExport_Controller_Adminhtml_Export extends Magento_Adminhtml
             try {
                 $this->loadLayout();
 
-                /** @var $attrFilterBlock Magento_ImportExport_Block_Adminhtml_Export_Filter */
+                /** @var $attrFilterBlock \Magento\ImportExport\Block\Adminhtml\Export\Filter */
                 $attrFilterBlock = $this->getLayout()->getBlock('export.filter');
-                /** @var $export Magento_ImportExport_Model_Export */
-                $export = Mage::getModel('Magento_ImportExport_Model_Export');
+                /** @var $export \Magento\ImportExport\Model\Export */
+                $export = \Mage::getModel('Magento\ImportExport\Model\Export');
                 $export->setData($data);
 
                 $export->filterAttributeCollection(
@@ -110,7 +112,7 @@ class Magento_ImportExport_Controller_Adminhtml_Export extends Magento_Adminhtml
                 );
                 $this->renderLayout();
                 return;
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             }
         } else {

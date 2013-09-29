@@ -6,26 +6,28 @@
  * @license     {license_link}
  */
 
+namespace Magento\Sales\Block\Guest;
+
 /**
  * "Orders and Returns" link
  */
-class Magento_Sales_Block_Guest_Link extends Magento_Page_Block_Link
+class Link extends \Magento\Page\Block\Link
 {
     /**
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Customer_Model_Session $customerSession
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Customer\Model\Session $customerSession
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Customer_Model_Session $customerSession,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Customer\Model\Session $customerSession,
         array $data = array()
     ) {
         parent::__construct($coreData, $context, $data);

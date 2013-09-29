@@ -7,19 +7,21 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Catalog_Model_Attribute_Config_Reader extends Magento_Config_Reader_Filesystem
+namespace Magento\Catalog\Model\Attribute\Config;
+
+class Reader extends \Magento\Config\Reader\Filesystem
 {
     /**
-     * @param Magento_Config_FileResolverInterface $fileResolver
-     * @param Magento_Catalog_Model_Attribute_Config_Converter $converter
-     * @param Magento_Catalog_Model_Attribute_Config_SchemaLocator $schemaLocator
-     * @param Magento_Config_ValidationStateInterface $validationState
+     * @param \Magento\Config\FileResolverInterface $fileResolver
+     * @param \Magento\Catalog\Model\Attribute\Config\Converter $converter
+     * @param \Magento\Catalog\Model\Attribute\Config\SchemaLocator $schemaLocator
+     * @param \Magento\Config\ValidationStateInterface $validationState
      */
     public function __construct(
-        Magento_Config_FileResolverInterface $fileResolver,
-        Magento_Catalog_Model_Attribute_Config_Converter $converter,
-        Magento_Catalog_Model_Attribute_Config_SchemaLocator $schemaLocator,
-        Magento_Config_ValidationStateInterface $validationState
+        \Magento\Config\FileResolverInterface $fileResolver,
+        \Magento\Catalog\Model\Attribute\Config\Converter $converter,
+        \Magento\Catalog\Model\Attribute\Config\SchemaLocator $schemaLocator,
+        \Magento\Config\ValidationStateInterface $validationState
     ) {
         $fileName = 'catalog_attributes.xml';
         $idAttributes = array(

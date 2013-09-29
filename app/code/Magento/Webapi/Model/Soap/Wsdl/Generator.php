@@ -1,5 +1,4 @@
 <?php
-use Zend\Soap\Wsdl;
 
 /**
  * WSDL generator.
@@ -9,7 +8,11 @@ use Zend\Soap\Wsdl;
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Model_Soap_Wsdl_Generator
+namespace Magento\Webapi\Model\Soap\Wsdl;
+
+use Zend\Soap\Wsdl;
+
+class Generator
 {
     const WSDL_NAME = 'MagentoWSDL';
     const WSDL_CACHE_ID = 'WSDL';
@@ -17,21 +20,21 @@ class Magento_Webapi_Model_Soap_Wsdl_Generator
     /**
      * WSDL factory instance.
      *
-     * @var Magento_Webapi_Model_Soap_Wsdl_Factory
+     * @var \Magento\Webapi\Model\Soap\Wsdl\Factory
      */
     protected $_wsdlFactory;
 
     /**
-     * @var Magento_Webapi_Model_Cache_Type
+     * @var \Magento\Webapi\Model\Cache\Type
      */
     protected $_cache;
 
     /**
-     * @var Magento_Webapi_Model_Soap_Config
+     * @var \Magento\Webapi\Model\Soap\Config
      */
     protected $_apiConfig;
 
-    /** @var Magento_DomDocument_Factory */
+    /** @var \Magento\DomDocument\Factory */
     protected $_domDocumentFactory;
 
     /**
@@ -44,16 +47,16 @@ class Magento_Webapi_Model_Soap_Wsdl_Generator
     /**
      * Initialize dependencies.
      *
-     * @param Magento_Webapi_Model_Soap_Config $apiConfig
-     * @param Magento_Webapi_Model_Soap_Wsdl_Factory $wsdlFactory
-     * @param Magento_Webapi_Model_Cache_Type $cache
-     * @param Magento_DomDocument_Factory $domDocumentFactory
+     * @param \Magento\Webapi\Model\Soap\Config $apiConfig
+     * @param \Magento\Webapi\Model\Soap\Wsdl\Factory $wsdlFactory
+     * @param \Magento\Webapi\Model\Cache\Type $cache
+     * @param \Magento\DomDocument\Factory $domDocumentFactory
      */
     public function __construct(
-        Magento_Webapi_Model_Soap_Config $apiConfig,
-        Magento_Webapi_Model_Soap_Wsdl_Factory $wsdlFactory,
-        Magento_Webapi_Model_Cache_Type $cache,
-        Magento_DomDocument_Factory $domDocumentFactory
+        \Magento\Webapi\Model\Soap\Config $apiConfig,
+        \Magento\Webapi\Model\Soap\Wsdl\Factory $wsdlFactory,
+        \Magento\Webapi\Model\Cache\Type $cache,
+        \Magento\DomDocument\Factory $domDocumentFactory
     ) {
         $this->_apiConfig = $apiConfig;
         $this->_wsdlFactory = $wsdlFactory;
@@ -67,7 +70,7 @@ class Magento_Webapi_Model_Soap_Wsdl_Generator
      * @param array $requestedServices
      * @param string $endPointUrl
      * @return string
-     * @throws Magento_Webapi_Exception
+     * @throws \Magento\Webapi\Exception
      */
     public function generate($requestedServices, $endPointUrl)
     {
@@ -80,7 +83,7 @@ class Magento_Webapi_Model_Soap_Wsdl_Generator
         }
 
         $wsdlContent = $this->_generate($requestedServices, $endPointUrl);
-        $this->_cache->save($wsdlContent, $cacheId, array(Magento_Webapi_Model_Cache_Type::CACHE_TAG));
+        $this->_cache->save($wsdlContent, $cacheId, array(\Magento\Webapi\Model\Cache\Type::CACHE_TAG));
 
         return $wsdlContent;
     }
@@ -91,7 +94,7 @@ class Magento_Webapi_Model_Soap_Wsdl_Generator
      * @param array $requestedServices
      * @param string $endPointUrl
      * @return string
-     * @throws Magento_Webapi_Exception
+     * @throws \Magento\Webapi\Exception
      */
     protected function _generate($requestedServices, $endPointUrl)
     {
@@ -101,10 +104,10 @@ class Magento_Webapi_Model_Soap_Wsdl_Generator
             foreach ($requestedServices as $serviceName) {
                 $services[$serviceName] = $this->_prepareServiceData($serviceName);
             }
-        } catch (Magento_Webapi_Exception $e) {
+        } catch (\Magento\Webapi\Exception $e) {
             throw $e;
-        } catch (Exception $e) {
-            throw new Magento_Webapi_Exception($e->getMessage());
+        } catch (\Exception $e) {
+            throw new \Magento\Webapi\Exception($e->getMessage());
         }
 
         $wsdl = $this->_wsdlFactory->create(self::WSDL_NAME, $endPointUrl);
@@ -114,11 +117,12 @@ class Magento_Webapi_Model_Soap_Wsdl_Generator
             $portTypeName = $this->getPortTypeName($serviceClass);
             $bindingName = $this->getBindingName($serviceClass);
             $portType = $wsdl->addPortType($portTypeName);
-            $binding = $wsdl->addBinding($bindingName, Wsdl::TYPES_NS . ':' . $portTypeName);
+            $binding = $wsdl->addBinding($bindingName, \Magento\Webapi\Model\Soap\Wsdl::TYPES_NS . ':' . $portTypeName);
             $wsdl->addSoapBinding($binding, 'document', 'http://schemas.xmlsoap.org/soap/http', SOAP_1_2);
             $portName = $this->getPortName($serviceClass);
             $serviceName = $this->getServiceName($serviceClass);
-            $wsdl->addService($serviceName, $portName, Wsdl::TYPES_NS . ':' . $bindingName, $endPointUrl, SOAP_1_2);
+            $wsdl->addService($serviceName, $portName, \Magento\Webapi\Model\Soap\Wsdl::TYPES_NS
+                . ':' . $bindingName, $endPointUrl, SOAP_1_2);
 
             foreach ($serviceData['methods'] as $methodName => $methodData) {
                 $operationName = $this->getOperationName($serviceClass, $methodName);
@@ -153,14 +157,14 @@ class Magento_Webapi_Model_Soap_Wsdl_Generator
      *
      * @param string $serviceName
      * @param string $typeName Type names as defined in Service XSDs
-     * @param DOMDocument $domDocument
-     * @return DOMNode[]
+     * @param \DOMDocument $domDocument
+     * @return \DOMNode[]
      */
     public function getComplexTypeNodes($serviceName, $typeName, $domDocument)
     {
         $response = array();
         /** TODO: Use object manager to instantiate objects */
-        $xpath = new DOMXPath($domDocument);
+        $xpath = new \DOMXPath($domDocument);
         $typeXPath = "//xsd:complexType[@name='{$typeName}']";
         $complexTypeNodes = $xpath->query($typeXPath);
         if ($complexTypeNodes) {
@@ -178,7 +182,7 @@ class Magento_Webapi_Model_Soap_Wsdl_Generator
                 ) {
                     $response += $this->getComplexTypeNodes($serviceName, $referencedTypeName, $domDocument);
                     /** Add target namespace to the referenced type name */
-                    $referencedType->value = Wsdl::TYPES_NS . ':' . $prefixedRefTypeName;
+                    $referencedType->value = \Magento\Webapi\Model\Soap\Wsdl::TYPES_NS . ':' . $prefixedRefTypeName;
                 }
             }
             $complexTypeNode->setAttribute(
@@ -208,17 +212,17 @@ class Magento_Webapi_Model_Soap_Wsdl_Generator
     /**
      * Create input message and corresponding element and complex types in WSDL.
      *
-     * @param Magento_Webapi_Model_Soap_Wsdl $wsdl
+     * @param \Magento\Webapi\Model\Soap\Wsdl $wsdl
      * @param string $operationName
      * @param array $methodData
      * @return string input message name
      */
-    protected function _createOperationInput(Magento_Webapi_Model_Soap_Wsdl $wsdl, $operationName, $methodData)
+    protected function _createOperationInput(\Magento\Webapi\Model\Soap\Wsdl $wsdl, $operationName, $methodData)
     {
         $inputMessageName = $this->getInputMessageName($operationName);
         $elementData = array(
             'name' => $inputMessageName,
-            'type' => Wsdl::TYPES_NS . ':' . $inputMessageName
+            'type' => \Magento\Webapi\Model\Soap\Wsdl::TYPES_NS . ':' . $inputMessageName
         );
         if (isset($methodData['interface']['inputComplexTypes'])) {
             foreach ($methodData['interface']['inputComplexTypes'] as $complexTypeNode) {
@@ -232,28 +236,28 @@ class Magento_Webapi_Model_Soap_Wsdl_Generator
             $inputMessageName,
             array(
                 'messageParameters' => array(
-                    'element' => Wsdl::TYPES_NS . ':' . $inputMessageName
+                    'element' => \Magento\Webapi\Model\Soap\Wsdl::TYPES_NS . ':' . $inputMessageName
                 )
             )
         );
-        return Wsdl::TYPES_NS . ':' . $inputMessageName;
+        return \Magento\Webapi\Model\Soap\Wsdl::TYPES_NS . ':' . $inputMessageName;
     }
 
     /**
      * Create output message and corresponding element and complex types in WSDL.
      *
-     * @param Magento_Webapi_Model_Soap_Wsdl $wsdl
+     * @param \Magento\Webapi\Model\Soap\Wsdl $wsdl
      * @param string $operationName
      * @param array $methodData
      * @return string output message name
      */
-    protected function _createOperationOutput(Magento_Webapi_Model_Soap_Wsdl $wsdl, $operationName, $methodData)
+    protected function _createOperationOutput(\Magento\Webapi\Model\Soap\Wsdl $wsdl, $operationName, $methodData)
     {
         $outputMessageName = $this->getOutputMessageName($operationName);
         $wsdl->addElement(
             array(
                 'name' => $outputMessageName,
-                'type' => Wsdl::TYPES_NS . ':' . $outputMessageName
+                'type' => \Magento\Webapi\Model\Soap\Wsdl::TYPES_NS . ':' . $outputMessageName
             )
         );
         if (isset($methodData['interface']['outputComplexTypes'])) {
@@ -265,11 +269,11 @@ class Magento_Webapi_Model_Soap_Wsdl_Generator
             $outputMessageName,
             array(
                 'messageParameters' => array(
-                    'element' => Wsdl::TYPES_NS . ':' . $outputMessageName
+                    'element' => \Magento\Webapi\Model\Soap\Wsdl::TYPES_NS . ':' . $outputMessageName
                 )
             )
         );
-        return Wsdl::TYPES_NS . ':' . $outputMessageName;
+        return \Magento\Webapi\Model\Soap\Wsdl::TYPES_NS . ':' . $outputMessageName;
     }
 
     /**
@@ -388,26 +392,26 @@ class Magento_Webapi_Model_Soap_Wsdl_Generator
      *
      * @param string $serviceName
      * @return array
-     * @throws Magento_Webapi_Exception
-     * @throws LogicException
+     * @throws \Magento\Webapi\Exception
+     * @throws \LogicException
      */
     protected function _prepareServiceData($serviceName)
     {
         $requestedServices = $this->_apiConfig->getRequestedSoapServices(array($serviceName));
         if (empty($requestedServices)) {
-            throw new Magento_Webapi_Exception(
+            throw new \Magento\Webapi\Exception(
                 __('Service %1 is not available.', $serviceName),
                 0,
-                Magento_Webapi_Exception::HTTP_NOT_FOUND
+                \Magento\Webapi\Exception::HTTP_NOT_FOUND
             );
         }
         /** $requestedServices is expected to contain exactly one item */
         $serviceData = reset($requestedServices);
         $serviceDataTypes = array('methods' => array());
-        $serviceClass = $serviceData[Magento_Webapi_Model_Soap_Config::KEY_CLASS];
+        $serviceClass = $serviceData[\Magento\Webapi\Model\Soap\Config::KEY_CLASS];
         foreach ($serviceData['methods'] as $operationData) {
-            $serviceMethod = $operationData[Magento_Webapi_Model_Soap_Config::KEY_METHOD];
-            /** @var $payloadSchemaDom DOMDocument */
+            $serviceMethod = $operationData[\Magento\Webapi\Model\Soap\Config::KEY_METHOD];
+            /** @var $payloadSchemaDom \DOMDocument */
             $payloadSchemaDom = $this->_apiConfig->getServiceSchemaDOM($serviceClass);
             $operationName = $this->getOperationName($serviceName, $serviceMethod);
             $inputParameterName = $this->getInputMessageName($operationName);
@@ -415,8 +419,8 @@ class Magento_Webapi_Model_Soap_Wsdl_Generator
                 $this->getXsdRequestTypeName($serviceMethod),
                 $payloadSchemaDom);
             if (empty($inputComplexTypes)) {
-                if ($operationData[Magento_Webapi_Model_Soap_Config::KEY_IS_REQUIRED]) {
-                    throw new LogicException(
+                if ($operationData[\Magento\Webapi\Model\Soap\Config::KEY_IS_REQUIRED]) {
+                    throw new \LogicException(
                         sprintf('The method "%s" of service "%s" must have "%s" complex type defined in its schema.',
                             $serviceMethod, $serviceName, $inputParameterName)
                     );
@@ -433,7 +437,7 @@ class Magento_Webapi_Model_Soap_Wsdl_Generator
             if (!empty($outputComplexTypes)) {
                 $serviceDataTypes['methods'][$serviceMethod]['interface']['outputComplexTypes'] = $outputComplexTypes;
             } else {
-                throw new LogicException(
+                throw new \LogicException(
                     sprintf('The method "%s" of service "%s" must have "%s" complex type defined in its schema.',
                         $serviceMethod, $serviceName, $outputParameterName)
                 );
@@ -446,7 +450,7 @@ class Magento_Webapi_Model_Soap_Wsdl_Generator
      * Generate empty complex type with the specified name.
      *
      * @param string $complexTypeName
-     * @return DOMElement
+     * @return \DOMElement
      */
     protected function _generateEmptyComplexType($complexTypeName)
     {

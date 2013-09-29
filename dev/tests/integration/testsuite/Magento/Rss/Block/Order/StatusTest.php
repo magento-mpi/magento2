@@ -9,19 +9,21 @@
  * @license     {license_link}
  */
 
-class Magento_Rss_Block_Order_StatusTest extends PHPUnit_Framework_TestCase
+namespace Magento\Rss\Block\Order;
+
+class StatusTest extends \PHPUnit_Framework_TestCase
 {
     public function testToHtml()
     {
-        $block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
-            ->createBlock('Magento_Rss_Block_Order_Status');
+        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            ->createBlock('Magento\Rss\Block\Order\Status');
         $this->assertEmpty($block->toHtml());
 
         $uniqid = uniqid();
-        $order = $this->getMock('Magento_Object', array('formatPrice'), array(array('id' => $uniqid,)));
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $objectManager->get('Magento_Core_Model_Registry')->register('current_order', $order);
+        $order = $this->getMock('Magento\Object', array('formatPrice'), array(array('id' => $uniqid,)));
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $objectManager->get('Magento\Core\Model\Registry')->register('current_order', $order);
         $this->assertContains($uniqid, $block->toHtml());
     }
 }

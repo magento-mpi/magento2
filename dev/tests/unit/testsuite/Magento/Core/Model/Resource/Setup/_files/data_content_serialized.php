@@ -14,8 +14,8 @@ return array(
         array(
             'table',
             'field',
-            Magento_Core_Model_Resource_Setup_Migration::ENTITY_TYPE_MODEL,
-            Magento_Core_Model_Resource_Setup_Migration::FIELD_CONTENT_TYPE_SERIALIZED
+            \Magento\Core\Model\Resource\Setup\Migration::ENTITY_TYPE_MODEL,
+            \Magento\Core\Model\Resource\Setup\Migration::FIELD_CONTENT_TYPE_SERIALIZED
         )
     ),
     '$tableData' => array(
@@ -27,13 +27,13 @@ return array(
             array(
                 'table' => 'table',
                 'field' => 'field',
-                'to'    => 'a:1:{s:5:"model";s:48:"Magento_CatalogRule_Model_Rule_Condition_Combine";}',
+                'to'    => 'a:1:{s:5:"model";s:48:"Magento\CatalogRule\Model\Rule\Condition\Combine";}',
                 'from'  => array('`field` = ?' => 'a:1:{s:5:"model";s:34:"catalogrule/rule_condition_combine";}')
             ),
         ),
         'aliases_map' => array(
-            Magento_Core_Model_Resource_Setup_Migration::ENTITY_TYPE_MODEL => array(
-                'catalogrule/rule_condition_combine' => 'Magento_CatalogRule_Model_Rule_Condition_Combine',
+            \Magento\Core\Model\Resource\Setup\Migration::ENTITY_TYPE_MODEL => array(
+                'catalogrule/rule_condition_combine' => 'Magento\CatalogRule\Model\Rule\Condition\Combine',
             )
         )
     ),

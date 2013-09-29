@@ -8,25 +8,27 @@
  * @license     {license_link}
  */
 
-class Magento_Adminhtml_Block_Catalog_Product_Edit_Js extends Magento_Adminhtml_Block_Template
+namespace Magento\Adminhtml\Block\Catalog\Product\Edit;
+
+class Js extends \Magento\Adminhtml\Block\Template
 {
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -36,7 +38,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Js extends Magento_Adminhtml_
     /**
      * Get currently edited product
      *
-     * @return Magento_Catalog_Model_Product
+     * @return \Magento\Catalog\Model\Product
      */
     public function getProduct()
     {
@@ -46,7 +48,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Js extends Magento_Adminhtml_
     /**
      * Get store object of curently edited product
      *
-     * @return Magento_Core_Model_Store
+     * @return \Magento\Core\Model\Store
      */
     public function getStore()
     {

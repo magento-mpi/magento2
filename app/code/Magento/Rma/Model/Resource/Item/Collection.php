@@ -16,21 +16,23 @@
  * @package    Magento_Rma
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rma_Model_Resource_Item_Collection extends Magento_Eav_Model_Entity_Collection_Abstract
+namespace Magento\Rma\Model\Resource\Item;
+
+class Collection extends \Magento\Eav\Model\Entity\Collection\AbstractCollection
 {
     /**
      * Internal constructor
      */
     protected function _construct()
     {
-        $this->_init('Magento_Rma_Model_Item', 'Magento_Rma_Model_Resource_Item');
+        $this->_init('Magento\Rma\Model\Item', 'Magento\Rma\Model\Resource\Item');
     }
 
     /**
      * Add rma filter
      *
      * @param int $rmaEntityId
-     * @return Magento_Rma_Model_Resource_Item_Collection
+     * @return \Magento\Rma\Model\Resource\Item\Collection
      */
     public function setOrderFilter($rmaEntityId)
     {

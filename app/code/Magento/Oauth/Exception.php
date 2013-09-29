@@ -9,13 +9,15 @@
  */
 
 /**
- * oAuth Exception
+ * oAuth \Exception
  *
  * @category    Magento
  * @package     Magento_Oauth
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Oauth_Exception extends Magento_Webapi_Exception
+namespace Magento\Oauth;
+
+class Exception extends \Magento\Webapi\Exception
 {
     /**
      * @param string $message

@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Backend_Model_Widget_Grid_Parser
+namespace Magento\Backend\Model\Widget\Grid;
+
+class Parser
 {
     /**
      * List of allowed operations

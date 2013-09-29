@@ -16,8 +16,10 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Resource_Order_Payment_Transaction_Collection
-    extends Magento_Sales_Model_Resource_Order_Collection_Abstract
+namespace Magento\Sales\Model\Resource\Order\Payment\Transaction;
+
+class Collection
+    extends \Magento\Sales\Model\Resource\Order\Collection\AbstractCollection
 {
     /**
      * Order ID filter
@@ -80,7 +82,7 @@ class Magento_Sales_Model_Resource_Order_Payment_Transaction_Collection
      */
     protected function _construct()
     {
-        $this->_init('Magento_Sales_Model_Order_Payment_Transaction', 'Magento_Sales_Model_Resource_Order_Payment_Transaction');
+        $this->_init('Magento\Sales\Model\Order\Payment\Transaction', 'Magento\Sales\Model\Resource\Order\Payment\Transaction');
         parent::_construct();
     }
 
@@ -88,7 +90,7 @@ class Magento_Sales_Model_Resource_Order_Payment_Transaction_Collection
      * Join order information
      *
      * @param array $keys
-     * @return Magento_Sales_Model_Resource_Order_Payment_Transaction_Collection
+     * @return \Magento\Sales\Model\Resource\Order\Payment\Transaction\Collection
      */
     public function addOrderInformation(array $keys)
     {
@@ -101,7 +103,7 @@ class Magento_Sales_Model_Resource_Order_Payment_Transaction_Collection
      * Join payment information
      *
      * @param array $keys
-     * @return Magento_Sales_Model_Resource_Order_Payment_Transaction_Collection
+     * @return \Magento\Sales\Model\Resource\Order\Payment\Transaction\Collection
      */
     public function addPaymentInformation(array $keys)
     {
@@ -113,7 +115,7 @@ class Magento_Sales_Model_Resource_Order_Payment_Transaction_Collection
      * Order ID filter setter
      *
      * @param int $orderId
-     * @return Magento_Sales_Model_Resource_Order_Payment_Transaction_Collection
+     * @return \Magento\Sales\Model\Resource\Order\Payment\Transaction\Collection
      */
     public function addOrderIdFilter($orderId)
     {
@@ -125,8 +127,8 @@ class Magento_Sales_Model_Resource_Order_Payment_Transaction_Collection
      * Payment ID filter setter
      * Can take either the integer id or the payment instance
      *
-     * @param Magento_Sales_Model_Order_Payment|int $payment
-     * @return Magento_Sales_Model_Resource_Order_Payment_Transaction_Collection
+     * @param \Magento\Sales\Model\Order\Payment|int $payment
+     * @return \Magento\Sales\Model\Resource\Order\Payment\Transaction\Collection
      */
     public function addPaymentIdFilter($payment)
     {
@@ -142,7 +144,7 @@ class Magento_Sales_Model_Resource_Order_Payment_Transaction_Collection
      * Parent ID filter setter
      *
      * @param int $parentId
-     * @return Magento_Sales_Model_Resource_Order_Payment_Transaction_Collection
+     * @return \Magento\Sales\Model\Resource\Order\Payment\Transaction\Collection
      */
     public function addParentIdFilter($parentId)
     {
@@ -154,7 +156,7 @@ class Magento_Sales_Model_Resource_Order_Payment_Transaction_Collection
      * Transaction type filter setter
      *
      * @param array|string $txnType
-     * @return Magento_Sales_Model_Resource_Order_Payment_Transaction_Collection
+     * @return \Magento\Sales\Model\Resource\Order\Payment\Transaction\Collection
      */
     public function addTxnTypeFilter($txnType)
     {
@@ -169,7 +171,7 @@ class Magento_Sales_Model_Resource_Order_Payment_Transaction_Collection
      * Add filter by store ids
      *
      * @param int|array $storeIds
-     * @return Magento_Sales_Model_Resource_Order_Payment_Transaction_Collection
+     * @return \Magento\Sales\Model\Resource\Order\Payment\Transaction\Collection
      */
     public function addStoreFilter($storeIds)
     {
@@ -181,7 +183,7 @@ class Magento_Sales_Model_Resource_Order_Payment_Transaction_Collection
     /**
      * Prepare filters
      *
-     * @return Magento_Sales_Model_Resource_Order_Payment_Transaction_Collection
+     * @return \Magento\Sales\Model\Resource\Order\Payment\Transaction\Collection
      */
     protected function _beforeLoad()
     {
@@ -228,7 +230,7 @@ class Magento_Sales_Model_Resource_Order_Payment_Transaction_Collection
     /**
      * Unserialize additional_information in each item
      *
-     * @return Magento_Sales_Model_Resource_Order_Payment_Transaction_Collection
+     * @return \Magento\Sales\Model\Resource\Order\Payment\Transaction\Collection
      */
     protected function _afterLoad()
     {

@@ -7,36 +7,38 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Controller_Rest_Response_Renderer_FactoryTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webapi\Controller\Rest\Response\Renderer;
+
+class FactoryTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var Magento_Webapi_Controller_Rest_Response_Renderer_Factory */
+    /** @var \Magento\Webapi\Controller\Rest\Response\Renderer\Factory */
     protected $_factory;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_requestMock;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_objectManagerMock;
 
     protected function setUp()
     {
-        $this->_objectManagerMock = $this->getMock('Magento_ObjectManager');
-        $this->_requestMock = $this->getMockBuilder('Magento_Webapi_Controller_Rest_Request')
+        $this->_objectManagerMock = $this->getMock('Magento\ObjectManager');
+        $this->_requestMock = $this->getMockBuilder('Magento\Webapi\Controller\Rest\Request')
             ->disableOriginalConstructor()
             ->getMock();
         
         $renders = array(
             'default' => array(
                 'type' => '*/*',
-                'model' => 'Magento_Webapi_Controller_Rest_Response_Renderer_Json'
+                'model' => 'Magento\Webapi\Controller\Rest\Response\Renderer\Json'
             ),
             'application_json' => array(
                 'type' => 'application/json',
-                'model' => 'Magento_Webapi_Controller_Rest_Response_Renderer_Json'
+                'model' => 'Magento\Webapi\Controller\Rest\Response\Renderer\Json'
             )
         );
 
-        $this->_factory = new Magento_Webapi_Controller_Rest_Response_Renderer_Factory(
+        $this->_factory = new \Magento\Webapi\Controller\Rest\Response\Renderer\Factory(
             $this->_objectManagerMock,
             $this->_requestMock,
             $renders
@@ -53,12 +55,12 @@ class Magento_Webapi_Controller_Rest_Response_Renderer_FactoryTest extends PHPUn
         /** Mock request getAcceptTypes method to return specified value. */
         $this->_requestMock->expects($this->once())->method('getAcceptTypes')->will($this->returnValue($acceptTypes));
         /** Mock renderer. */
-        $rendererMock = $this->getMockBuilder('Magento_Webapi_Controller_Rest_Response_Renderer_Json')
+        $rendererMock = $this->getMockBuilder('Magento\Webapi\Controller\Rest\Response\Renderer\Json')
             ->disableOriginalConstructor()
             ->getMock();
         /** Mock object to return mocked renderer. */
         $this->_objectManagerMock->expects($this->once())->method('get')->with(
-            'Magento_Webapi_Controller_Rest_Response_Renderer_Json'
+            'Magento\Webapi\Controller\Rest\Response\Renderer\Json'
         )->will($this->returnValue($rendererMock));
         $this->_factory->get();
     }
@@ -73,12 +75,12 @@ class Magento_Webapi_Controller_Rest_Response_Renderer_FactoryTest extends PHPUn
         try {
             $this->_factory->get();
             $this->fail("Exception is expected to be raised");
-        } catch (Magento_Webapi_Exception $e) {
+        } catch (\Magento\Webapi\Exception $e) {
             $exceptionMessage = 'Server cannot understand Accept HTTP header media type.';
-            $this->assertInstanceOf('Magento_Webapi_Exception', $e, 'Exception type is invalid');
+            $this->assertInstanceOf('Magento\Webapi\Exception', $e, 'Exception type is invalid');
             $this->assertEquals($exceptionMessage, $e->getMessage(), 'Exception message is invalid');
             $this->assertEquals(
-                Magento_Webapi_Exception::HTTP_NOT_ACCEPTABLE,
+                \Magento\Webapi\Exception::HTTP_NOT_ACCEPTABLE,
                 $e->getHttpCode(),
                 'HTTP code is invalid'
             );
@@ -93,14 +95,14 @@ class Magento_Webapi_Controller_Rest_Response_Renderer_FactoryTest extends PHPUn
         $acceptTypes = array('application/json');
         /** Mock request getAcceptTypes method to return specified value. */
         $this->_requestMock->expects($this->once())->method('getAcceptTypes')->will($this->returnValue($acceptTypes));
-        /** Mock object to return Magento_Object */
+        /** Mock object to return \Magento\Object */
         $this->_objectManagerMock->expects($this->once())->method('get')->with(
-            'Magento_Webapi_Controller_Rest_Response_Renderer_Json'
-        )->will($this->returnValue(new Magento_Object()));
+            'Magento\Webapi\Controller\Rest\Response\Renderer\Json'
+        )->will($this->returnValue(new \Magento\Object()));
 
         $this->setExpectedException(
             'LogicException',
-            'The renderer must implement "Magento_Webapi_Controller_Rest_Response_RendererInterface".'
+            'The renderer must implement "Magento\Webapi\Controller\Rest\Response\RendererInterface".'
         );
         $this->_factory->get();
     }

@@ -8,9 +8,11 @@
  * @license     {license_link}
  */
 
-class Magento_Adminhtml_Block_Promo_Catalog_Edit_Tab_Actions
-    extends Magento_Backend_Block_Widget_Form_Generic
-    implements Magento_Backend_Block_Widget_Tab_Interface
+namespace Magento\Adminhtml\Block\Promo\Catalog\Edit\Tab;
+
+class Actions
+    extends \Magento\Backend\Block\Widget\Form\Generic
+    implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * Prepare content for tab
@@ -56,7 +58,7 @@ class Magento_Adminhtml_Block_Promo_Catalog_Edit_Tab_Actions
     {
         $model = $this->_coreRegistry->registry('current_promo_catalog_rule');
 
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('rule_');
 

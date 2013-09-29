@@ -9,13 +9,15 @@
  * @license     {license_link}
  */
 
+namespace Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Chooser;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_ContainerTest extends PHPUnit_Framework_TestCase
+class ContainerTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Container
+     * @var \Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Chooser\Container
      */
     protected $_block = null;
 
@@ -23,8 +25,8 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_ContainerTest 
     {
         parent::setUp();
 
-        $this->_block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
-            ->createBlock('Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Container');
+        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            ->createBlock('Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Chooser\Container');
     }
 
     public function testSetGetAllowedContainers()

@@ -5,28 +5,30 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Catalog_Model_ProductTypes_ConfigTest extends PHPUnit_Framework_TestCase
+namespace Magento\Catalog\Model\ProductTypes;
+
+class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_readerMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_cacheMock;
 
     /**
-     * @var Magento_Catalog_Model_ProductTypes_Config
+     * @var \Magento\Catalog\Model\ProductTypes\Config
      */
     protected $_model;
 
     protected function setUp()
     {
         $this->_readerMock = $this->getMock(
-            'Magento_Catalog_Model_ProductTypes_Config_Reader', array(), array(), '', false);
-        $this->_cacheMock = $this->getMock('Magento_Config_CacheInterface');
+            'Magento\Catalog\Model\ProductTypes\Config\Reader', array(), array(), '', false);
+        $this->_cacheMock = $this->getMock('Magento\Config\CacheInterface');
     }
 
     /**
@@ -38,7 +40,7 @@ class Magento_Catalog_Model_ProductTypes_ConfigTest extends PHPUnit_Framework_Te
     public function testGetType($value, $expected)
     {
         $this->_cacheMock->expects($this->any())->method('load')->will($this->returnValue(serialize($value)));
-        $this->_model = new Magento_Catalog_Model_ProductTypes_Config($this->_readerMock,
+        $this->_model = new \Magento\Catalog\Model\ProductTypes\Config($this->_readerMock,
             $this->_cacheMock, 'cache_id');
         $this->assertEquals($expected, $this->_model->getType('global'));
     }
@@ -55,7 +57,7 @@ class Magento_Catalog_Model_ProductTypes_ConfigTest extends PHPUnit_Framework_Te
     {
         $expected = array('Expected Data');
         $this->_cacheMock->expects($this->once())->method('load')->will($this->returnValue(serialize($expected)));
-        $this->_model = new Magento_Catalog_Model_ProductTypes_Config(
+        $this->_model = new \Magento\Catalog\Model\ProductTypes\Config(
             $this->_readerMock,
             $this->_cacheMock,
             'cache_id'

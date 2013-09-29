@@ -6,22 +6,24 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Design_Fallback_Rule_CompositeTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Design\Fallback\Rule;
+
+class CompositeTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Each item should implement the fallback rule interface
      */
     public function testConstructException()
     {
-        new Magento_Core_Model_Design_Fallback_Rule_Composite(array(new stdClass));
+        new \Magento\Core\Model\Design\Fallback\Rule\Composite(array(new \stdClass));
     }
 
     public function testGetPatternDirs()
     {
         $inputParams = array('param_one' => 'value_one', 'param_two' => 'value_two');
 
-        $ruleOne = $this->getMockForAbstractClass('Magento_Core_Model_Design_Fallback_Rule_RuleInterface');
+        $ruleOne = $this->getMockForAbstractClass('Magento\Core\Model\Design\Fallback\Rule\RuleInterface');
         $ruleOne
             ->expects($this->once())
             ->method('getPatternDirs')
@@ -29,7 +31,7 @@ class Magento_Core_Model_Design_Fallback_Rule_CompositeTest extends PHPUnit_Fram
             ->will($this->returnValue(array('rule_one/path/one', 'rule_one/path/two')))
         ;
 
-        $ruleTwo = $this->getMockForAbstractClass('Magento_Core_Model_Design_Fallback_Rule_RuleInterface');
+        $ruleTwo = $this->getMockForAbstractClass('Magento\Core\Model\Design\Fallback\Rule\RuleInterface');
         $ruleTwo
             ->expects($this->once())
             ->method('getPatternDirs')
@@ -37,7 +39,7 @@ class Magento_Core_Model_Design_Fallback_Rule_CompositeTest extends PHPUnit_Fram
             ->will($this->returnValue(array('rule_two/path/one', 'rule_two/path/two')))
         ;
 
-        $object = new Magento_Core_Model_Design_Fallback_Rule_Composite(array($ruleOne, $ruleTwo));
+        $object = new \Magento\Core\Model\Design\Fallback\Rule\Composite(array($ruleOne, $ruleTwo));
 
         $expectedResult = array(
             'rule_one/path/one',

@@ -9,17 +9,19 @@
  * @license     {license_link}
  */
 
-class Magento_ProductAlert_Block_Email_StockTest extends PHPUnit_Framework_TestCase
+namespace Magento\ProductAlert\Block\Email;
+
+class StockTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_ProductAlert_Block_Email_Stock
+     * @var \Magento\ProductAlert\Block\Email\Stock
      */
     protected $_block;
 
     protected function setUp()
     {
-        $this->_block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
-            ->createBlock('Magento_ProductAlert_Block_Email_Stock');
+        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            ->createBlock('Magento\ProductAlert\Block\Email\Stock');
     }
 
     /**
@@ -27,10 +29,10 @@ class Magento_ProductAlert_Block_Email_StockTest extends PHPUnit_Framework_TestC
      */
     public function testThumbnail()
     {
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App')
-            ->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
-        $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Product');
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
+            ->getArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)->load();
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $product->load(1);
 
         $size = $this->_block->getThumbnailSize();

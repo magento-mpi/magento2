@@ -15,11 +15,13 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Form_Renderer_Config_DateFieldsOrder
-    extends Magento_Backend_Block_System_Config_Form_Field
+namespace Magento\Adminhtml\Block\Catalog\Form\Renderer\Config;
+
+class DateFieldsOrder
+    extends \Magento\Backend\Block\System\Config\Form\Field
 {
 
-    protected function _getElementHtml(Magento_Data_Form_Element_Abstract $element)
+    protected function _getElementHtml(\Magento\Data\Form\Element\AbstractElement $element)
     {
         $_options = array(
             'd' => __('Day'),

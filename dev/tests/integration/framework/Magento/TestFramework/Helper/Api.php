@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_TestFramework_Helper_Api
+namespace Magento\TestFramework\Helper;
+
+class Api
 {
     /**
      * Previous error handler
@@ -19,27 +21,27 @@ class Magento_TestFramework_Helper_Api
     /**
      * Call API method via API handler.
      *
-     * @param PHPUnit_Framework_TestCase $testCase Active test case
+     * @param \PHPUnit_Framework_TestCase $testCase Active test case
      * @param string $path
      * @param array $params Order of items matters as they are passed to call_user_func_array
      * @return mixed
      */
-    public static function call(PHPUnit_Framework_TestCase $testCase, $path, $params = array())
+    public static function call(\PHPUnit_Framework_TestCase $testCase, $path, $params = array())
     {
-        $soapAdapterMock = $testCase->getMock('Magento_Api_Model_Server_Adapter_Soap', array('fault'));
+        $soapAdapterMock = $testCase->getMock('Magento\Api\Model\Server\Adapter\Soap', array('fault'));
         $soapAdapterMock->expects($testCase->any())->method('fault')->will(
             $testCase->returnCallback(array(__CLASS__, 'soapAdapterFaultCallback'))
         );
 
-        $serverMock = $testCase->getMock('Magento_Api_Model_Server', array('getAdapter'));
+        $serverMock = $testCase->getMock('Magento\Api\Model\Server', array('getAdapter'));
         $serverMock->expects($testCase->any())->method('getAdapter')->will($testCase->returnValue($soapAdapterMock));
 
-        $apiSessionMock = $testCase->getMock('Magento_Api_Model_Session', array('isAllowed', 'isLoggedIn'),
+        $apiSessionMock = $testCase->getMock('Magento\Api\Model\Session', array('isAllowed', 'isLoggedIn'),
             array(), '', false);
         $apiSessionMock->expects($testCase->any())->method('isAllowed')->will($testCase->returnValue(true));
         $apiSessionMock->expects($testCase->any())->method('isLoggedIn')->will($testCase->returnValue(true));
 
-        $handlerMock = $testCase->getMock('Magento_Api_Model_Server_Handler_Soap',
+        $handlerMock = $testCase->getMock('Magento\Api\Model\Server\Handler\Soap',
             array('_getServer', '_getSession'), array(), '', false
         );
         self::$_previousHandler = set_error_handler(array($handlerMock, 'handlePhpError'));
@@ -48,14 +50,14 @@ class Magento_TestFramework_Helper_Api
         $handlerMock->expects($testCase->any())->method('_getSession')->will($testCase->returnValue($apiSessionMock));
 
         array_unshift($params, 'sessionId');
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
-        $objectManager->get('Magento_Core_Model_Registry')->unregister('isSecureArea');
-        $objectManager->get('Magento_Core_Model_Registry')->register('isSecureArea', true);
+        $objectManager->get('Magento\Core\Model\Registry')->unregister('isSecureArea');
+        $objectManager->get('Magento\Core\Model\Registry')->register('isSecureArea', true);
         $result = call_user_func_array(array($handlerMock, $path), $params);
-        $objectManager->get('Magento_Core_Model_Registry')->unregister('isSecureArea');
-        $objectManager->get('Magento_Core_Model_Registry')->register('isSecureArea', false);
+        $objectManager->get('Magento\Core\Model\Registry')->unregister('isSecureArea');
+        $objectManager->get('Magento\Core\Model\Registry')->register('isSecureArea', false);
 
         self::restoreErrorHandler();
         return $result;
@@ -64,14 +66,14 @@ class Magento_TestFramework_Helper_Api
     /**
      * Call API method via API handler that raises SoapFault exception
      *
-     * @param PHPUnit_Framework_TestCase $testCase Active test case
+     * @param \PHPUnit_Framework_TestCase $testCase Active test case
      * @param string $path
      * @param array $params Order of items matters as they are passed to call_user_func_array
      * @param string $expectedMessage exception message
-     * @return SoapFault
+     * @return \SoapFault
      */
     public static function callWithException(
-        PHPUnit_Framework_TestCase $testCase,
+        \PHPUnit_Framework_TestCase $testCase,
         $path,
         $params = array(),
         $expectedMessage = ''
@@ -80,7 +82,7 @@ class Magento_TestFramework_Helper_Api
             self::call($testCase, $path, $params);
             self::restoreErrorHandler();
             $testCase->fail('Expected error exception was not raised.');
-        } catch (SoapFault $exception) {
+        } catch (\SoapFault $exception) {
             self::restoreErrorHandler();
             if ($expectedMessage) {
                 $testCase->assertEquals($expectedMessage, $exception->getMessage());
@@ -102,17 +104,17 @@ class Magento_TestFramework_Helper_Api
      *
      * @param string $exceptionCode
      * @param string $exceptionMessage
-     * @throws SoapFault
+     * @throws \SoapFault
      */
     public static function soapAdapterFaultCallback($exceptionCode, $exceptionMessage)
     {
-        throw new SoapFault($exceptionCode, $exceptionMessage);
+        throw new \SoapFault($exceptionCode, $exceptionMessage);
     }
 
     /**
      * Convert Simple XML to array
      *
-     * @param SimpleXMLObject $xml
+     * @param \SimpleXMLObject $xml
      * @param String $keyTrimmer
      * @return object
      *
@@ -172,7 +174,7 @@ class Magento_TestFramework_Helper_Api
     /**
      * Check specific fields value in some entity data.
      *
-     * @param PHPUnit_Framework_TestCase $testCase
+     * @param \PHPUnit_Framework_TestCase $testCase
      * @param array $expectedData
      * @param array $actualData
      * @param array $fieldsToCompare To be able to compare fields from loaded model with fields from API response
@@ -190,7 +192,7 @@ class Magento_TestFramework_Helper_Api
      *     );
      */
     public static function checkEntityFields(
-        PHPUnit_Framework_TestCase $testCase,
+        \PHPUnit_Framework_TestCase $testCase,
         array $expectedData,
         array $actualData,
         array $fieldsToCompare = array()

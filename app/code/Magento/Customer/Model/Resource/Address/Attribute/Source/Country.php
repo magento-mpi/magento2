@@ -16,7 +16,9 @@
  * @package     Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Customer_Model_Resource_Address_Attribute_Source_Country extends Magento_Eav_Model_Entity_Attribute_Source_Table
+namespace Magento\Customer\Model\Resource\Address\Attribute\Source;
+
+class Country extends \Magento\Eav\Model\Entity\Attribute\Source\Table
 {
     /**
      * Retreive all options
@@ -26,7 +28,7 @@ class Magento_Customer_Model_Resource_Address_Attribute_Source_Country extends M
     public function getAllOptions()
     {
         if (!$this->_options) {
-            $this->_options = Mage::getResourceModel('Magento_Directory_Model_Resource_Country_Collection')
+            $this->_options = \Mage::getResourceModel('Magento\Directory\Model\Resource\Country\Collection')
                 ->loadByStore($this->getAttribute()->getStoreId())->toOptionArray();
         }
         return $this->_options;

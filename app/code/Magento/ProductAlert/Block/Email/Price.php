@@ -16,7 +16,9 @@
  * @package    Magento_ProductAlert
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_ProductAlert_Block_Email_Price extends Magento_ProductAlert_Block_Email_Abstract
+namespace Magento\ProductAlert\Block\Email;
+
+class Price extends \Magento\ProductAlert\Block\Email\AbstractEmail
 {
     protected $_template = 'email/price.phtml';
 

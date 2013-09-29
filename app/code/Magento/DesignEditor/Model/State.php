@@ -11,17 +11,19 @@
 /**
  * Design editor state model
  */
-class Magento_DesignEditor_Model_State
+namespace Magento\DesignEditor\Model;
+
+class State
 {
     /**
      * Name of layout classes that will be used as main layout
      */
-    const LAYOUT_NAVIGATION_CLASS_NAME = 'Magento_Core_Model_Layout';
+    const LAYOUT_NAVIGATION_CLASS_NAME = 'Magento\Core\Model\Layout';
 
     /**
-     * Url model classes that will be used instead of Magento_Core_Model_Url in navigation vde modes
+     * Url model classes that will be used instead of \Magento\Core\Model\Url in navigation vde modes
      */
-    const URL_MODEL_NAVIGATION_MODE_CLASS_NAME = 'Magento_DesignEditor_Model_Url_NavigationMode';
+    const URL_MODEL_NAVIGATION_MODE_CLASS_NAME = 'Magento\DesignEditor\Model\Url\NavigationMode';
 
     /**
      * Import behaviors
@@ -36,61 +38,61 @@ class Magento_DesignEditor_Model_State
     /**#@-*/
 
     /**
-     * @var Magento_Backend_Model_Session
+     * @var \Magento\Backend\Model\Session
      */
     protected $_backendSession;
 
     /**
-     * @var Magento_Core_Model_Layout_Factory
+     * @var \Magento\Core\Model\Layout\Factory
      */
     protected $_layoutFactory;
 
     /**
-     * @var Magento_DesignEditor_Model_Url_Factory
+     * @var \Magento\DesignEditor\Model\Url\Factory
      */
     protected $_urlModelFactory;
 
     /**
      * Application Cache Manager
      *
-     * @var Magento_Core_Model_Cache_StateInterface
+     * @var \Magento\Core\Model\Cache\StateInterface
      */
     protected $_cacheState;
 
     /**
-     * @var Magento_DesignEditor_Helper_Data
+     * @var \Magento\DesignEditor\Helper\Data
      */
     protected $_dataHelper;
 
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @var Magento_Core_Model_App
+     * @var \Magento\Core\Model\App
      */
     protected $_application;
 
     /**
-     * @param Magento_Backend_Model_Session $backendSession
-     * @param Magento_Core_Model_Layout_Factory $layoutFactory
-     * @param Magento_DesignEditor_Model_Url_Factory $urlModelFactory
-     * @param Magento_Core_Model_Cache_StateInterface $cacheState
-     * @param Magento_DesignEditor_Helper_Data $dataHelper
-     * @param Magento_ObjectManager $objectManager
-     * @param Magento_Core_Model_App $application
-     * @param Magento_DesignEditor_Model_Theme_Context $themeContext
+     * @param \Magento\Backend\Model\Session $backendSession
+     * @param \Magento\Core\Model\Layout\Factory $layoutFactory
+     * @param \Magento\DesignEditor\Model\Url\Factory $urlModelFactory
+     * @param \Magento\Core\Model\Cache\StateInterface $cacheState
+     * @param \Magento\DesignEditor\Helper\Data $dataHelper
+     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Core\Model\App $application
+     * @param \Magento\DesignEditor\Model\Theme\Context $themeContext
      */
     public function __construct(
-        Magento_Backend_Model_Session $backendSession,
-        Magento_Core_Model_Layout_Factory $layoutFactory,
-        Magento_DesignEditor_Model_Url_Factory $urlModelFactory,
-        Magento_Core_Model_Cache_StateInterface $cacheState,
-        Magento_DesignEditor_Helper_Data $dataHelper,
-        Magento_ObjectManager $objectManager,
-        Magento_Core_Model_App $application,
-        Magento_DesignEditor_Model_Theme_Context $themeContext
+        \Magento\Backend\Model\Session $backendSession,
+        \Magento\Core\Model\Layout\Factory $layoutFactory,
+        \Magento\DesignEditor\Model\Url\Factory $urlModelFactory,
+        \Magento\Core\Model\Cache\StateInterface $cacheState,
+        \Magento\DesignEditor\Helper\Data $dataHelper,
+        \Magento\ObjectManager $objectManager,
+        \Magento\Core\Model\App $application,
+        \Magento\DesignEditor\Model\Theme\Context $themeContext
     ) {
         $this->_backendSession  = $backendSession;
         $this->_layoutFactory   = $layoutFactory;
@@ -106,9 +108,9 @@ class Magento_DesignEditor_Model_State
      * Update system data for current VDE environment
      *
      * @param string $areaCode
-     * @param Magento_Core_Controller_Request_Http $request
+     * @param \Magento\Core\Controller\Request\Http $request
      */
-    public function update($areaCode, Magento_Core_Controller_Request_Http $request)
+    public function update($areaCode, \Magento\Core\Controller\Request\Http $request)
     {
         $mode = $request->getAlias('editorMode') ?: self::MODE_NAVIGATION;
         $this->_themeContext->setEditableThemeById($request->getAlias('themeId'));
@@ -126,7 +128,7 @@ class Magento_DesignEditor_Model_State
     /**
      * Reset VDE state data
      *
-     * @return Magento_DesignEditor_Model_State
+     * @return \Magento\DesignEditor\Model\State
      */
     public function reset()
     {
@@ -153,7 +155,7 @@ class Magento_DesignEditor_Model_State
     }
 
     /**
-     * Create url model instance that will be used instead of Magento_Core_Model_Url in navigation mode
+     * Create url model instance that will be used instead of \Magento\Core\Model\Url in navigation mode
      */
     protected function _injectUrlModel($mode)
     {
@@ -173,11 +175,11 @@ class Magento_DesignEditor_Model_State
         if ($this->_themeContext->getEditableTheme()) {
             $themeId = $this->_themeContext->getVisibleTheme()->getId();
             $this->_application->getStore()->setConfig(
-                Magento_Core_Model_View_Design::XML_PATH_THEME_ID,
+                \Magento\Core\Model\View\Design::XML_PATH_THEME_ID,
                 $themeId
             );
             $this->_application->getConfig()->setValue(
-                Magento_Core_Model_View_Design::XML_PATH_THEME_ID,
+                \Magento\Core\Model\View\Design::XML_PATH_THEME_ID,
                 $themeId
             );
         }

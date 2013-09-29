@@ -16,19 +16,21 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute extends Magento_Backend_Helper_Data
+namespace Magento\Adminhtml\Helper\Catalog\Product\Edit\Action;
+
+class Attribute extends \Magento\Backend\Helper\Data
 {
     /**
      * Selected products for mass-update
      *
-     * @var Magento_Catalog_Model_Entity_Product_Collection
+     * @var \Magento\Catalog\Model\Entity\Product\Collection
      */
     protected $_products;
 
     /**
      * Array of same attributes for selected products
      *
-     * @var Magento_Eav_Model_Resource_Entity_Attribute_Collection
+     * @var \Magento\Eav\Model\Resource\Entity\Attribute\Collection
      */
     protected $_attributes;
 
@@ -40,41 +42,41 @@ class Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute extends Mag
     protected $_excludedAttributes = array('url_key');
 
     /**
-     * @var Magento_Catalog_Model_Resource_Product_CollectionFactory
+     * @var \Magento\Catalog\Model\Resource\Product\CollectionFactory
      */
     protected $_productsFactory;
 
     /**
-     * @var Magento_Backend_Model_Session
+     * @var \Magento\Backend\Model\Session
      */
     protected $_session;
 
     /**
-     * @var Magento_Eav_Model_Config
+     * @var \Magento\Eav\Model\Config
      */
     protected $_eavConfig;
 
     /**
-     * @param Magento_Eav_Model_Config $eavConfig
-     * @param Magento_Backend_Model_Session $session
-     * @param Magento_Catalog_Model_Resource_Product_CollectionFactory $productsFactory
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Model_ConfigInterface $applicationConfig
-     * @param Magento_Core_Model_Config_Primary $primaryConfig
-     * @param Magento_Core_Model_RouterList $routerList
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Backend\Model\Session $session
+     * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productsFactory
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Model\ConfigInterface $applicationConfig
+     * @param \Magento\Core\Model\Config\Primary $primaryConfig
+     * @param \Magento\Core\Model\RouterList $routerList
      * @param string $defaultAreaFrontName
      * @param string $backendFrontName
      */
     public function __construct(
-        Magento_Eav_Model_Config $eavConfig,
-        Magento_Backend_Model_Session $session,
-        Magento_Catalog_Model_Resource_Product_CollectionFactory $productsFactory,
-        Magento_Core_Helper_Context $context,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Model_ConfigInterface $applicationConfig,
-        Magento_Core_Model_Config_Primary $primaryConfig,
-        Magento_Core_Model_RouterList $routerList,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Backend\Model\Session $session,
+        \Magento\Catalog\Model\Resource\Product\CollectionFactory $productsFactory,
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Model\ConfigInterface $applicationConfig,
+        \Magento\Core\Model\Config\Primary $primaryConfig,
+        \Magento\Core\Model\RouterList $routerList,
         $defaultAreaFrontName,
         $backendFrontName
     ) {
@@ -91,7 +93,7 @@ class Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute extends Mag
      * Return product collection with selected product filter
      * Product collection didn't load
      *
-     * @return Magento_Catalog_Model_Resource_Product_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Collection
      */
     public function getProducts()
     {
@@ -131,7 +133,7 @@ class Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute extends Mag
      */
     public function getSelectedStoreId()
     {
-        return (int)$this->_getRequest()->getParam('store', Magento_Core_Model_AppInterface::ADMIN_STORE_ID);
+        return (int)$this->_getRequest()->getParam('store', \Magento\Core\Model\AppInterface::ADMIN_STORE_ID);
     }
 
     /**
@@ -147,12 +149,12 @@ class Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute extends Mag
     /**
      * Return collection of same attributes for selected products without unique
      *
-     * @return Magento_Eav_Model_Resource_Entity_Attribute_Collection
+     * @return \Magento\Eav\Model\Resource\Entity\Attribute\Collection
      */
     public function getAttributes()
     {
         if (is_null($this->_attributes)) {
-            $this->_attributes  = $this->_eavConfig->getEntityType(Magento_Catalog_Model_Product::ENTITY)
+            $this->_attributes  = $this->_eavConfig->getEntityType(\Magento\Catalog\Model\Product::ENTITY)
                 ->getAttributeCollection()
                 ->addIsNotUniqueFilter()
                 ->setInAllAttributeSetsFilter($this->getProductsSetIds());
@@ -164,7 +166,7 @@ class Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute extends Mag
             // check product type apply to limitation and remove attributes that impossible to change in mass-update
             $productTypeIds  = $this->getProducts()->getProductTypeIds();
             foreach ($this->_attributes as $attribute) {
-                /* @var $attribute Magento_Catalog_Model_Entity_Attribute */
+                /* @var $attribute \Magento\Catalog\Model\Entity\Attribute */
                 foreach ($productTypeIds as $productTypeId) {
                     $applyTo = $attribute->getApplyTo();
                     if (count($applyTo) > 0 && !in_array($productTypeId, $applyTo)) {

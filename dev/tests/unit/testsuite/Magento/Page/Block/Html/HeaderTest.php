@@ -9,42 +9,44 @@
  * @license     {license_link}
  */
 
-class Magento_Page_Block_Html_HeaderTest extends PHPUnit_Framework_TestCase
+namespace Magento\Page\Block\Html;
+
+class HeaderTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @covers Magento_Page_Block_Html_Header::getLogoSrc
+     * @covers \Magento\Page\Block\Html\Header::getLogoSrc
      */
     public function testGetLogoSrc()
     {
-        $storeConfig = $this->getMock('Magento_Core_Model_Store_Config', array('getConfig'), array(), '', false);
+        $storeConfig = $this->getMock('Magento\Core\Model\Store\Config', array('getConfig'), array(), '', false);
         $storeConfig->expects($this->once())
             ->method('getConfig')
             ->will($this->returnValue('default/image.gif'));
 
-        $urlBuilder = $this->getMock('Magento_Core_Model_UrlInterface');
+        $urlBuilder = $this->getMock('Magento\Core\Model\UrlInterface');
         $urlBuilder->expects($this->once())
             ->method('getBaseUrl')
             ->will($this->returnValue('http://localhost/pub/media/'));
 
-        $helper = $this->getMock('Magento_Core_Helper_File_Storage_Database',
+        $helper = $this->getMock('Magento\Core\Helper\File\Storage\Database',
             array('checkDbUsage'), array(), '', false, false
         );
         $helper->expects($this->once())
             ->method('checkDbUsage')
             ->will($this->returnValue(false));
 
-        $helperFactory = $this->getMock('Magento_Core_Model_Factory_Helper', array('get'), array(), '', false);
+        $helperFactory = $this->getMock('Magento\Core\Model\Factory\Helper', array('get'), array(), '', false);
         $helperFactory->expects($this->once())
             ->method('get')
             ->will($this->returnValue($helper));
 
-        $dirsMock = $this->getMock('Magento_Core_Model_Dir', array('getDir'), array(), '', false);
+        $dirsMock = $this->getMock('Magento\Core\Model\Dir', array('getDir'), array(), '', false);
         $dirsMock->expects($this->any())
             ->method('getDir')
-            ->with(Magento_Core_Model_Dir::MEDIA)
+            ->with(\Magento\Core\Model\Dir::MEDIA)
             ->will($this->returnValue(__DIR__ . DIRECTORY_SEPARATOR . '_files'));
 
-        $objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
 
         $arguments = array(
             'storeConfig' => $storeConfig,
@@ -52,7 +54,7 @@ class Magento_Page_Block_Html_HeaderTest extends PHPUnit_Framework_TestCase
             'helperFactory' => $helperFactory,
             'dirs' => $dirsMock
         );
-        $block = $objectManager->getObject('Magento_Page_Block_Html_Header', $arguments);
+        $block = $objectManager->getObject('Magento\Page\Block\Html\Header', $arguments);
 
         $this->assertEquals('http://localhost/pub/media/logo/default/image.gif', $block->getLogoSrc());
     }

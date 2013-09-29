@@ -16,12 +16,14 @@
  * @package     Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Customer_Model_Resource_Group extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Customer\Model\Resource;
+
+class Group extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Customer data
      *
-     * @var Magento_Customer_Helper_Data
+     * @var \Magento\Customer\Helper\Data
      */
     protected $_customerData = null;
 
@@ -30,12 +32,12 @@ class Magento_Customer_Model_Resource_Group extends Magento_Core_Model_Resource_
      *
      *
      *
-     * @param Magento_Customer_Helper_Data $customerData
-     * @param Magento_Core_Model_Resource $resource
+     * @param \Magento\Customer\Helper\Data $customerData
+     * @param \Magento\Core\Model\Resource $resource
      */
     public function __construct(
-        Magento_Customer_Helper_Data $customerData,
-        Magento_Core_Model_Resource $resource
+        \Magento\Customer\Helper\Data $customerData,
+        \Magento\Core\Model\Resource $resource
     ) {
         $this->_customerData = $customerData;
         parent::__construct($resource);
@@ -52,7 +54,7 @@ class Magento_Customer_Model_Resource_Group extends Magento_Core_Model_Resource_
     /**
      * Initialize unique fields
      *
-     * @return Magento_Customer_Model_Resource_Group
+     * @return \Magento\Customer\Model\Resource\Group
      */
     protected function _initUniqueFields()
     {
@@ -68,14 +70,14 @@ class Magento_Customer_Model_Resource_Group extends Magento_Core_Model_Resource_
     /**
      * Check if group uses as default
      *
-     * @param  Magento_Core_Model_Abstract $group
-     * @throws Magento_Core_Exception
-     * @return Magento_Core_Model_Resource_Db_Abstract
+     * @param  \Magento\Core\Model\AbstractModel $group
+     * @throws \Magento\Core\Exception
+     * @return \Magento\Core\Model\Resource\Db\AbstractDb
      */
-    protected function _beforeDelete(Magento_Core_Model_Abstract $group)
+    protected function _beforeDelete(\Magento\Core\Model\AbstractModel $group)
     {
         if ($group->usesAsDefault()) {
-            Mage::throwException(__('The group "%1" cannot be deleted', $group->getCode()));
+            \Mage::throwException(__('The group "%1" cannot be deleted', $group->getCode()));
         }
         return parent::_beforeDelete($group);
     }
@@ -83,12 +85,12 @@ class Magento_Customer_Model_Resource_Group extends Magento_Core_Model_Resource_
     /**
      * Method set default group id to the customers collection
      *
-     * @param Magento_Core_Model_Abstract $group
-     * @return Magento_Core_Model_Resource_Db_Abstract
+     * @param \Magento\Core\Model\AbstractModel $group
+     * @return \Magento\Core\Model\Resource\Db\AbstractDb
      */
-    protected function _afterDelete(Magento_Core_Model_Abstract $group)
+    protected function _afterDelete(\Magento\Core\Model\AbstractModel $group)
     {
-        $customerCollection = Mage::getResourceModel('Magento_Customer_Model_Resource_Customer_Collection')
+        $customerCollection = \Mage::getResourceModel('Magento\Customer\Model\Resource\Customer\Collection')
             ->addAttributeToFilter('group_id', $group->getId())
             ->load();
         foreach ($customerCollection as $customer) {

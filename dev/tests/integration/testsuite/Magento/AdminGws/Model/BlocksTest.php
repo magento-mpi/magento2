@@ -9,26 +9,28 @@
  * @license     {license_link}
  */
 
+namespace Magento\AdminGws\Model;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_AdminGws_Model_BlocksTest extends Magento_TestFramework_TestCase_ControllerAbstract
+class BlocksTest extends \Magento\TestFramework\TestCase\ControllerAbstract
 {
     protected function setUp()
     {
         parent::setUp();
-        /** @var $auth Magento_Backend_Model_Auth */
-        $this->_objectManager->get('Magento_Backend_Model_Url')->turnOffSecretKey();
-        $auth = $this->_objectManager->get('Magento_Backend_Model_Auth');
+        /** @var $auth \Magento\Backend\Model\Auth */
+        $this->_objectManager->get('Magento\Backend\Model\Url')->turnOffSecretKey();
+        $auth = $this->_objectManager->get('Magento\Backend\Model\Auth');
         $auth->login('admingws_user', 'admingws_password1');
     }
 
     protected function tearDown()
     {
-        /** @var $auth Magento_Backend_Model_Auth */
-        $auth = $this->_objectManager->get('Magento_Backend_Model_Auth');
+        /** @var $auth \Magento\Backend\Model\Auth */
+        $auth = $this->_objectManager->get('Magento\Backend\Model\Auth');
         $auth->logout();
-        $this->_objectManager->get('Magento_Backend_Model_Url')->turnOnSecretKey();
+        $this->_objectManager->get('Magento\Backend\Model\Url')->turnOnSecretKey();
         parent::tearDown();
     }
 
@@ -65,8 +67,8 @@ class Magento_AdminGws_Model_BlocksTest extends Magento_TestFramework_TestCase_C
         $this->dispatch('backend/admin/user_role/editrole');
 
         $this->assertInstanceOf(
-            'Magento_AdminGws_Block_Adminhtml_Permissions_Tab_Rolesedit_Gws',
-            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
+            'Magento\AdminGws\Block\Adminhtml\Permissions\Tab\Rolesedit\Gws',
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
                 ->getBlock('adminhtml.user.role.edit.gws'),
             'Magento_AdminGws_Block_Adminhtml_Permissions_Tab_Rolesedit_Gws block is not loaded'
         );
@@ -88,8 +90,8 @@ class Magento_AdminGws_Model_BlocksTest extends Magento_TestFramework_TestCase_C
         $this->dispatch('backend/admin/user_role/editrolegrid');
 
         $this->assertInstanceOf(
-            'Magento_AdminGws_Block_Adminhtml_Permissions_Grid_Role',
-            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
+            'Magento\AdminGws\Block\Adminhtml\Permissions\Grid\Role',
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
                 ->getBlock('adminhtml.user.role.grid'),
             'Magento_AdminGws_Block_Adminhtml_Permissions_Grid_Role block is not loaded'
         );

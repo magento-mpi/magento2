@@ -15,7 +15,9 @@
  * @package    Magento_Core
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Controller_Varien_Action_Redirect extends Magento_Core_Controller_Varien_ActionAbstract
+namespace Magento\Core\Controller\Varien\Action;
+
+class Redirect extends \Magento\Core\Controller\Varien\AbstractAction
 {
      /**
      * Dispatch controller action

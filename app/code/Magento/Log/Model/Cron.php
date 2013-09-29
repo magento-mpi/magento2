@@ -16,7 +16,9 @@
  * @package    Magento_Log
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Log_Model_Cron extends Magento_Core_Model_Abstract
+namespace Magento\Log\Model;
+
+class Cron extends \Magento\Core\Model\AbstractModel
 {
     const XML_PATH_EMAIL_LOG_CLEAN_TEMPLATE     = 'system/log/error_email_template';
     const XML_PATH_EMAIL_LOG_CLEAN_IDENTITY     = 'system/log/error_email_identity';
@@ -33,52 +35,52 @@ class Magento_Log_Model_Cron extends Magento_Core_Model_Abstract
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
-     * @var Magento_Core_Model_Translate
+     * @var \Magento\Core\Model\Translate
      */
     protected $_translate;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Log_Model_Log
+     * @var \Magento\Log\Model\Log
      */
     protected $_log;
 
     /**
-     * @var Magento_Core_Model_Email_TemplateFactory
+     * @var \Magento\Core\Model\Email\TemplateFactory
      */
     protected $_templateFactory;
 
     /**
-     * @param Magento_Core_Model_Email_TemplateFactory $templateFactory
-     * @param Magento_Log_Model_Log $log
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Translate $translate
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Core\Model\Email\TemplateFactory $templateFactory
+     * @param \Magento\Log\Model\Log $log
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Translate $translate
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Email_TemplateFactory $templateFactory,
-        Magento_Log_Model_Log $log,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Translate $translate,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Core\Model\Email\TemplateFactory $templateFactory,
+        \Magento\Log\Model\Log $log,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Translate $translate,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_templateFactory = $templateFactory;
@@ -92,7 +94,7 @@ class Magento_Log_Model_Cron extends Magento_Core_Model_Abstract
     /**
      * Send Log Clean Warnings
      *
-     * @return Magento_Log_Model_Cron
+     * @return \Magento\Log\Model\Cron
      */
     protected function _sendLogCleanEmail()
     {
@@ -107,7 +109,7 @@ class Magento_Log_Model_Cron extends Magento_Core_Model_Abstract
         $this->_translate->setTranslateInline(false);
 
         $emailTemplate = $this->_templateFactory->create();
-        /* @var $emailTemplate Magento_Core_Model_Email_Template */
+        /* @var $emailTemplate \Magento\Core\Model\Email\Template */
         $emailTemplate->setDesignConfig(
             array(
                 'area' => 'backend',
@@ -128,7 +130,7 @@ class Magento_Log_Model_Cron extends Magento_Core_Model_Abstract
     /**
      * Clean logs
      *
-     * @return Magento_Log_Model_Cron
+     * @return \Magento\Log\Model\Cron
      */
     public function logClean()
     {
@@ -140,7 +142,7 @@ class Magento_Log_Model_Cron extends Magento_Core_Model_Abstract
 
         try {
             $this->_log->clean();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_errors[] = $e->getMessage();
             $this->_errors[] = $e->getTrace();
         }

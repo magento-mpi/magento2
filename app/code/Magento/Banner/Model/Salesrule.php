@@ -12,18 +12,20 @@
 /**
  * Enterprise banner sales rule model
  *
- * @method Magento_Banner_Model_Resource_Salesrule _getResource()
- * @method Magento_Banner_Model_Resource_Salesrule getResource()
+ * @method \Magento\Banner\Model\Resource\Salesrule _getResource()
+ * @method \Magento\Banner\Model\Resource\Salesrule getResource()
  * @method int getBannerId()
- * @method Magento_Banner_Model_Salesrule setBannerId(int $value)
+ * @method \Magento\Banner\Model\Salesrule setBannerId(int $value)
  * @method int getRuleId()
- * @method Magento_Banner_Model_Salesrule setRuleId(int $value)
+ * @method \Magento\Banner\Model\Salesrule setRuleId(int $value)
  *
  * @category    Magento
  * @package     Magento_Banner
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Banner_Model_Salesrule extends Magento_Core_Model_Abstract
+namespace Magento\Banner\Model;
+
+class Salesrule extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Initialize promo shopping cart price rule model
@@ -31,6 +33,6 @@ class Magento_Banner_Model_Salesrule extends Magento_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('Magento_Banner_Model_Resource_Salesrule');
+        $this->_init('Magento\Banner\Model\Resource\Salesrule');
     }
 }

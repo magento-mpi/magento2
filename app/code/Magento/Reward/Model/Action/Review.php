@@ -15,12 +15,14 @@
  * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reward_Model_Action_Review extends Magento_Reward_Model_Action_Abstract
+namespace Magento\Reward\Model\Action;
+
+class Review extends \Magento\Reward\Model\Action\AbstractAction
 {
     /**
      * Reward data
      *
-     * @var Magento_Reward_Helper_Data
+     * @var \Magento\Reward\Helper\Data
      */
     protected $_rewardData = null;
 
@@ -30,11 +32,11 @@ class Magento_Reward_Model_Action_Review extends Magento_Reward_Model_Action_Abs
      * By default is looking for first argument as array and assigns it as object
      * attributes This behavior may change in child classes
      *
-     * @param Magento_Reward_Helper_Data $rewardData
+     * @param \Magento\Reward\Helper\Data $rewardData
      * @param array $data
      */
     public function __construct(
-        Magento_Reward_Helper_Data $rewardData,
+        \Magento\Reward\Helper\Data $rewardData,
         array $data = array()
     ) {
         $this->_rewardData = $rewardData;

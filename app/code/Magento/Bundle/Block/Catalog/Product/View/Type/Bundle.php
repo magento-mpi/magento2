@@ -16,7 +16,9 @@
  * @package     Magento_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Bundle_Block_Catalog_Product_View_Type_Bundle extends Magento_Catalog_Block_Product_View_Abstract
+namespace Magento\Bundle\Block\Catalog\Product\View\Type;
+
+class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
 {
     protected $_optionRenderers = array();
     protected $_options         = null;
@@ -31,40 +33,40 @@ class Magento_Bundle_Block_Catalog_Product_View_Type_Bundle extends Magento_Cata
     /**
      * Catalog product
      *
-     * @var Magento_Catalog_Helper_Product
+     * @var \Magento\Catalog\Helper\Product
      */
     protected $_catalogProduct = null;
 
     /**
-     * @var Magento_Bundle_Model_Product_PriceFactory
+     * @var \Magento\Bundle\Model\Product\PriceFactory
      */
     protected $_productPrice;
 
     /**
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
     /**
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Bundle_Model_Product_PriceFactory $productPrice
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_Catalog_Helper_Product $catalogProduct
-     * @param Magento_Tax_Helper_Data $taxData
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Bundle\Model\Product\PriceFactory $productPrice
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Catalog\Helper\Product $catalogProduct
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Bundle_Model_Product_PriceFactory $productPrice,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_Catalog_Helper_Product $catalogProduct,
-        Magento_Tax_Helper_Data $taxData,
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Bundle\Model\Product\PriceFactory $productPrice,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Catalog\Helper\Product $catalogProduct,
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_catalogProduct = $catalogProduct;
@@ -115,13 +117,13 @@ class Magento_Bundle_Block_Catalog_Product_View_Type_Bundle extends Magento_Cata
         $options      = array();
         $selected     = array();
         $currentProduct = $this->getProduct();
-        /* @var $coreHelper Magento_Core_Helper_Data */
+        /* @var $coreHelper \Magento\Core\Helper\Data */
         $coreHelper   = $this->_coreData;
-        /* @var $catalogHelper Magento_Catalog_Helper_Data */
+        /* @var $catalogHelper \Magento\Catalog\Helper\Data */
         $catalogHelper = $this->_catalogData;
-        /* @var $taxHelper Magento_Tax_Helper_Data */
+        /* @var $taxHelper \Magento\Tax\Helper\Data */
         $taxHelper = $this->_taxData;
-        /* @var $bundlePriceModel Magento_Bundle_Model_Product_Price */
+        /* @var $bundlePriceModel \Magento\Bundle\Model\Product\Price */
         $bundlePriceModel = $this->_productPrice->create();
 
         if ($preConfiguredFlag = $currentProduct->hasPreconfiguredValues()) {
@@ -131,7 +133,7 @@ class Magento_Bundle_Block_Catalog_Product_View_Type_Bundle extends Magento_Cata
 
         $position = 0;
         foreach ($optionsArray as $_option) {
-            /* @var $_option Magento_Bundle_Model_Option */
+            /* @var $_option \Magento\Bundle\Model\Option */
             if (!$_option->getSelections()) {
                 continue;
             }
@@ -147,7 +149,7 @@ class Magento_Bundle_Block_Catalog_Product_View_Type_Bundle extends Magento_Cata
             $selectionCount = count($_option->getSelections());
 
             foreach ($_option->getSelections() as $_selection) {
-                /* @var $_selection Magento_Catalog_Model_Product */
+                /* @var $_selection \Magento\Catalog\Model\Product */
                 $selectionId = $_selection->getSelectionId();
                 $_qty = !($_selection->getSelectionQty() * 1) ? '1' : $_selection->getSelectionQty() * 1;
                 // recalculate currency
@@ -166,7 +168,7 @@ class Magento_Bundle_Block_Catalog_Product_View_Type_Bundle extends Magento_Cata
                 $_priceInclTax = $taxHelper->getPrice($_selection, $itemPrice, true);
                 $_priceExclTax = $taxHelper->getPrice($_selection, $itemPrice);
 
-                if ($currentProduct->getPriceType() == Magento_Bundle_Model_Product_Price::PRICE_TYPE_FIXED) {
+                if ($currentProduct->getPriceType() == \Magento\Bundle\Model\Product\Price::PRICE_TYPE_FIXED) {
                     $_priceInclTax = $taxHelper->getPrice($currentProduct, $itemPrice, true);
                     $_priceExclTax = $taxHelper->getPrice($currentProduct, $itemPrice);
                 }
@@ -186,7 +188,7 @@ class Magento_Bundle_Block_Catalog_Product_View_Type_Bundle extends Magento_Cata
                     'canApplyMAP'      => $canApplyMAP
                 );
 
-                $responseObject = new Magento_Object();
+                $responseObject = new \Magento\Object();
                 $args = array('response_object' => $responseObject, 'selection' => $_selection);
                 $this->_eventManager->dispatch('bundle_product_view_config', $args);
                 if (is_array($responseObject->getAdditionalOptions())) {
@@ -222,7 +224,7 @@ class Magento_Bundle_Block_Catalog_Product_View_Type_Bundle extends Magento_Cata
             'priceType'     => $currentProduct->getPriceType(),
             'specialPrice'  => $currentProduct->getSpecialPrice(),
             'includeTax'    => $taxHelper->priceIncludesTax() ? 'true' : 'false',
-            'isFixedPrice'  => $this->getProduct()->getPriceType() == Magento_Bundle_Model_Product_Price::PRICE_TYPE_FIXED,
+            'isFixedPrice'  => $this->getProduct()->getPriceType() == \Magento\Bundle\Model\Product\Price::PRICE_TYPE_FIXED,
             'isMAPAppliedDirectly' => $catalogHelper->canApplyMsrp($this->getProduct(), null, false)
         );
 

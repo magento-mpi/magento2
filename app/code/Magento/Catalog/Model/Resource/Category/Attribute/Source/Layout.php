@@ -16,21 +16,23 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Resource_Category_Attribute_Source_Layout
-    extends Magento_Eav_Model_Entity_Attribute_Source_Abstract
+namespace Magento\Catalog\Model\Resource\Category\Attribute\Source;
+
+class Layout
+    extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
 {
     /**
-     * @var Magento_Core_Model_Config
+     * @var \Magento\Core\Model\Config
      */
     protected $_coreConfig;
 
     /**
      * Constructor
      *
-     * @param Magento_Core_Model_Config $coreConfig
+     * @param \Magento\Core\Model\Config $coreConfig
      */
     public function __construct(
-        Magento_Core_Model_Config $coreConfig
+        \Magento\Core\Model\Config $coreConfig
     ) {
         $this->_coreConfig = $coreConfig;
     }

@@ -15,29 +15,31 @@
  * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Eav_Model_Resource_Entity_Attribute_Grid_Collection
-    extends Magento_Eav_Model_Resource_Entity_Attribute_Set_Collection
+namespace Magento\Eav\Model\Resource\Entity\Attribute\Grid;
+
+class Collection
+    extends \Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection
 {
     /**
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_registryManager;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_EntityFactory $entityFactory
-     * @param Magento_Core_Model_Registry $registryManager
-     * @param Magento_Core_Model_Resource_Db_Abstract $resource
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Core\Model\Registry $registryManager
+     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Logger $logger,
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_EntityFactory $entityFactory,
-        Magento_Core_Model_Registry $registryManager,
-        Magento_Core_Model_Resource_Db_Abstract $resource = null
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Core\Model\Registry $registryManager,
+        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
     ) {
         $this->_registryManager = $registryManager;
         parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
@@ -46,7 +48,7 @@ class Magento_Eav_Model_Resource_Entity_Attribute_Grid_Collection
     /**
      *  Add filter by entity type id to collection
      *
-     * @return Magento_Core_Model_Resource_Db_Collection_Abstract|Magento_Eav_Model_Resource_Entity_Attribute_Grid_Collection
+     * @return \Magento\Core\Model\Resource\Db\Collection\AbstractCollection|\Magento\Eav\Model\Resource\Entity\Attribute\Grid\Collection
      */
     protected function _initSelect()
     {

@@ -16,13 +16,15 @@
  * @package    Magento_Paypal
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Paypal_Block_Payflow_Link_Review extends Magento_Paypal_Block_Express_Review
+namespace Magento\Paypal\Block\Payflow\Link;
+
+class Review extends \Magento\Paypal\Block\Express\Review
 {
 
     /**
      * Retrieve payment method and assign additional template values
      *
-     * @return Magento_Paypal_Block_Express_Review
+     * @return \Magento\Paypal\Block\Express\Review
      */
     protected function _beforeToHtml()
     {

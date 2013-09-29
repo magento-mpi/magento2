@@ -5,34 +5,36 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Index_Model_Indexer_ConfigTest extends PHPUnit_Framework_TestCase
+namespace Magento\Index\Model\Indexer;
+
+class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Index_Model_Indexer_Config
+     * @var \Magento\Index\Model\Indexer\Config
      */
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_readerMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_configScopeMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_cacheMock;
 
     protected function setUp()
     {
-        $this->_readerMock = $this->getMock('Magento_Index_Model_Indexer_Config_Reader', array(), array(), '', false);
-        $this->_configScopeMock = $this->getMock('Magento_Config_ScopeInterface');
-        $this->_cacheMock = $this->getMock('Magento_Config_CacheInterface');
-        $this->_model = new Magento_Index_Model_Indexer_Config(
+        $this->_readerMock = $this->getMock('Magento\Index\Model\Indexer\Config\Reader', array(), array(), '', false);
+        $this->_configScopeMock = $this->getMock('Magento\Config\ScopeInterface');
+        $this->_cacheMock = $this->getMock('Magento\Config\CacheInterface');
+        $this->_model = new \Magento\Index\Model\Indexer\Config(
             $this->_readerMock,
             $this->_configScopeMock,
             $this->_cacheMock
@@ -40,7 +42,7 @@ class Magento_Index_Model_Indexer_ConfigTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Magento_Index_Model_Indexer_Config::getIndexer
+     * @covers \Magento\Index\Model\Indexer\Config::getIndexer
      */
     public function testGetIndexer()
     {
@@ -55,7 +57,7 @@ class Magento_Index_Model_Indexer_ConfigTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Magento_Index_Model_Indexer_Config::getAll
+     * @covers \Magento\Index\Model\Indexer\Config::getAll
      */
     public function testGetAll()
     {

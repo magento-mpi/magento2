@@ -15,27 +15,34 @@
  * @package     Magento_Widget
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Widget_Model_Widget
+namespace Magento\Widget\Model;
+
+class Widget
 {
     /**
-     * @var Magento_Widget_Model_Config_Data
+     * @var \Magento\Widget\Model\Config\Data
      */
     protected $_dataStorage;
 
     /**
-     * @var Magento_Core_Model_View_Url
+     * @var \Magento\Core\Model\Cache\Type\Config
+     */
+    protected $_configCacheType;
+
+    /**
+     * @var \Magento\Core\Model\View\Url
      */
     protected $_viewUrl;
 
     /**
-     * @var Magento_Core_Model_View_FileSystem
+     * @var \Magento\Core\Model\View\FileSystem
      */
     protected $_viewFileSystem;
 
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
@@ -43,16 +50,17 @@ class Magento_Widget_Model_Widget
     protected $_widgetsArray = array();
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Widget_Model_Config_Data $dataStorage
-     * @param Magento_Core_Model_View_Url $viewUrl
-     * @param Magento_Core_Model_View_FileSystem $viewFileSystem
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Widget\Model\Config\Data $dataStorage
+     * @param \Magento\Core\Model\View\Url $viewUrl
+     * @param \Magento\Core\Model\View\Url $viewUrl
+     * @param \Magento\Core\Model\View\FileSystem $viewFileSystem
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Widget_Model_Config_Data $dataStorage,
-        Magento_Core_Model_View_Url $viewUrl,
-        Magento_Core_Model_View_FileSystem $viewFileSystem
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Widget\Model\Config\Data $dataStorage,
+        \Magento\Core\Model\View\Url $viewUrl,
+        \Magento\Core\Model\View\FileSystem $viewFileSystem
     ) {
         $this->_coreData = $coreData;
         $this->_dataStorage = $dataStorage;
@@ -82,16 +90,27 @@ class Magento_Widget_Model_Widget
     }
 
     /**
-     * Return widget XML configuration as Magento_Object and makes some data preparations
+     * Return widget XML configuration as \Magento\Object and makes some data preparations
      *
      * @param string $type Widget type
-     * @return Magento_Object
+     * @return null|\Magento\Simplexml\Element
+     */
+    public function getConfigAsXml($type)
+    {
+        return $this->getXmlElementByType($type);
+    }
+
+    /**
+     * Return widget XML configuration as \Magento\Object and makes some data preparations
+     *
+     * @param string $type Widget type
+     * @return \Magento\Object
      */
     public function getConfigAsObject($type)
     {
         $widget = $this->getWidgetByClassType($type);
 
-        $object = new Magento_Object();
+        $object = new \Magento\Object();
         if ($widget === null) {
             return $object;
         }
@@ -124,7 +143,7 @@ class Magento_Widget_Model_Widget
 
                     // prepare helper block object
                     if (isset($data['helper_block'])) {
-                        $helper = new Magento_Object();
+                        $helper = new \Magento\Object();
                         if (isset($data['helper_block']['data']) && is_array($data['helper_block']['data'])) {
                             $helper->addData($data['helper_block']['data']);
                         }
@@ -134,7 +153,7 @@ class Magento_Widget_Model_Widget
                         $data['helper_block'] = $helper;
                     }
 
-                    $newParams[$key] = new Magento_Object($data);
+                    $newParams[$key] = new \Magento\Object($data);
                     $sortOrder++;
                 }
             }
@@ -162,10 +181,10 @@ class Magento_Widget_Model_Widget
                 try {
                     foreach ($filters as $field => $value) {
                         if (!isset($widget[$field]) || (string)$widget[$field] != $value) {
-                            throw new Exception();
+                            throw new \Exception();
                         }
                     }
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     unset($result[$code]);
                     continue;
                 }
@@ -283,7 +302,7 @@ class Magento_Widget_Model_Widget
     }
 
     /**
-     * Remove attributes from widget array so that emulates how Magento_Simplexml_Element::asCanonicalArray works
+     * Remove attributes from widget array so that emulates how \Magento\Simplexml\Element::asCanonicalArray works
      *
      * @param $inputArray
      * @return mixed
@@ -329,8 +348,8 @@ class Magento_Widget_Model_Widget
     /**
      * Widget parameters sort callback
      *
-     * @param Magento_Object $firstElement
-     * @param Magento_Object $secondElement
+     * @param \Magento\Object $firstElement
+     * @param \Magento\Object $secondElement
      * @return int
      */
     protected function _sortParameters($firstElement, $secondElement)

@@ -6,24 +6,26 @@
  * @license     {license_link}
  */
 
+namespace Magento\Sales\Block\Order;
+
 /**
  * Sales order link
  */
-class Magento_Sales_Block_Order_Link extends Magento_Page_Block_Link_Current
+class Link extends \Magento\Page\Block\Link\Current
 {
-    /** @var Magento_Core_Model_Registry  */
+    /** @var \Magento\Core\Model\Registry  */
     protected $_registry;
 
     /**
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Helper_Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Helper\Data $coreData
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Helper_Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Helper\Data $coreData,
         array $data = array()
     ) {
         parent::__construct($coreData, $context, $data);
@@ -33,7 +35,7 @@ class Magento_Sales_Block_Order_Link extends Magento_Page_Block_Link_Current
     /**
      * Retrieve current order model instance
      *
-     * @return Magento_Sales_Model_Order
+     * @return \Magento\Sales\Model\Order
      */
     private function getOrder()
     {

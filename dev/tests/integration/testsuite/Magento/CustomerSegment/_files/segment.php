@@ -14,8 +14,8 @@ $data = array(
     'website_ids' => array(1),
     'is_active'   => '1',
 );
-/** @var $segment Magento_CustomerSegment_Model_Segment */
-$segment = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_CustomerSegment_Model_Segment');
+/** @var $segment \Magento\CustomerSegment\Model\Segment */
+$segment = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\CustomerSegment\Model\Segment');
 $segment->loadPost($data);
 $segment->save();

@@ -15,58 +15,60 @@
  * @package     Magento_CatalogSearch
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CatalogSearch_Model_Fulltext_Observer
+namespace Magento\CatalogSearch\Model\Fulltext;
+
+class Observer
 {
     /**
      * Store manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * Catalog search fulltext
      *
-     * @var Magento_CatalogSearch_Model_Fulltext
+     * @var \Magento\CatalogSearch\Model\Fulltext
      */
     protected $_catalogSearchFulltext;
 
     /**
      * Eav config
      *
-     * @var Magento_Eav_Model_Config
+     * @var \Magento\Eav\Model\Config
      */
     protected $_eavConfig;
 
     /**
      * Backend url
      *
-     * @var Magento_Backend_Model_Url
+     * @var \Magento\Backend\Model\Url
      */
     protected $_backendUrl;
 
     /**
      * Backend session
      *
-     * @var Magento_Backend_Model_Session
+     * @var \Magento\Backend\Model\Session
      */
     protected $_backendSession;
 
     /**
      * Construct
      *
-     * @param Magento_Backend_Model_Session $backendSession
-     * @param Magento_Backend_Model_Url $backendUrl
-     * @param Magento_Eav_Model_Config $eavConfig
-     * @param Magento_CatalogSearch_Model_Fulltext $catalogSearchFulltext
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param \Magento\Backend\Model\Session $backendSession
+     * @param \Magento\Backend\Model\Url $backendUrl
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\CatalogSearch\Model\Fulltext $catalogSearchFulltext
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
-        Magento_Backend_Model_Session $backendSession,
-        Magento_Backend_Model_Url $backendUrl,
-        Magento_Eav_Model_Config $eavConfig,
-        Magento_CatalogSearch_Model_Fulltext $catalogSearchFulltext,
-        Magento_Core_Model_StoreManagerInterface $storeManager
+        \Magento\Backend\Model\Session $backendSession,
+        \Magento\Backend\Model\Url $backendUrl,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\CatalogSearch\Model\Fulltext $catalogSearchFulltext,
+        \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
         $this->_backendSession = $backendSession;
         $this->_backendUrl = $backendUrl;
@@ -78,7 +80,7 @@ class Magento_CatalogSearch_Model_Fulltext_Observer
     /**
      * Retrieve fulltext (indexer) model
      *
-     * @return Magento_CatalogSearch_Model_Fulltext
+     * @return \Magento\CatalogSearch\Model\Fulltext
      */
     protected function _getFulltextModel()
     {
@@ -89,10 +91,10 @@ class Magento_CatalogSearch_Model_Fulltext_Observer
      * Update product index when product data updated
      *
      * @deprecated since 1.11
-     * @param Magento_Event_Observer $observer
-     * @return Magento_CatalogSearch_Model_Fulltext_Observer
+     * @param \Magento\Event\Observer $observer
+     * @return \Magento\CatalogSearch\Model\Fulltext\Observer
      */
-    public function refreshProductIndex(Magento_Event_Observer $observer)
+    public function refreshProductIndex(\Magento\Event\Observer $observer)
     {
         $product = $observer->getEvent()->getProduct();
 
@@ -107,10 +109,10 @@ class Magento_CatalogSearch_Model_Fulltext_Observer
      * Clean product index when product deleted or marked as unsearchable/invisible
      *
      * @deprecated since 1.11
-     * @param Magento_Event_Observer $observer
-     * @return Magento_CatalogSearch_Model_Fulltext_Observer
+     * @param \Magento\Event\Observer $observer
+     * @return \Magento\CatalogSearch\Model\Fulltext\Observer
      */
-    public function cleanProductIndex(Magento_Event_Observer $observer)
+    public function cleanProductIndex(\Magento\Event\Observer $observer)
     {
         $product = $observer->getEvent()->getProduct();
 
@@ -124,15 +126,15 @@ class Magento_CatalogSearch_Model_Fulltext_Observer
     /**
      * Update all attribute-dependant index
      *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_CatalogSearch_Model_Fulltext_Observer
+     * @param \Magento\Event\Observer $observer
+     * @return \Magento\CatalogSearch\Model\Fulltext\Observer
      */
-    public function eavAttributeChange(Magento_Event_Observer $observer)
+    public function eavAttributeChange(\Magento\Event\Observer $observer)
     {
         $attribute = $observer->getEvent()->getAttribute();
-        /* @var $attribute Magento_Eav_Model_Entity_Attribute */
-        $entityType = $this->_eavConfig->getEntityType(Magento_Catalog_Model_Product::ENTITY);
-        /* @var $entityType Magento_Eav_Model_Entity_Type */
+        /* @var $attribute \Magento\Eav\Model\Entity\Attribute */
+        $entityType = $this->_eavConfig->getEntityType(\Magento\Catalog\Model\Product::ENTITY);
+        /* @var $entityType \Magento\Eav\Model\Entity\Type */
 
         if ($attribute->getEntityTypeId() != $entityType->getId()) {
             return $this;
@@ -166,7 +168,7 @@ class Magento_CatalogSearch_Model_Fulltext_Observer
     /**
      * Rebuild index after import
      *
-     * @return Magento_CatalogSearch_Model_Fulltext_Observer
+     * @return \Magento\CatalogSearch\Model\Fulltext\Observer
      */
     public function refreshIndexAfterImport()
     {
@@ -178,10 +180,10 @@ class Magento_CatalogSearch_Model_Fulltext_Observer
     /**
      * Refresh fulltext index when we add new store
      *
-     * @param   Magento_Event_Observer $observer
-     * @return  Magento_CatalogSearch_Model_Fulltext_Observer
+     * @param   \Magento\Event\Observer $observer
+     * @return  \Magento\CatalogSearch\Model\Fulltext\Observer
      */
-    public function refreshStoreIndex(Magento_Event_Observer $observer)
+    public function refreshStoreIndex(\Magento\Event\Observer $observer)
     {
         $storeId = $observer->getEvent()->getStore()->getId();
         $this->_getFulltextModel()->rebuildIndex($storeId);
@@ -192,10 +194,10 @@ class Magento_CatalogSearch_Model_Fulltext_Observer
      * Catalog Product mass website update
      *
      * @deprecated since 1.11
-     * @param Magento_Event_Observer $observer
-     * @return Magento_CatalogSearch_Model_Fulltext_Observer
+     * @param \Magento\Event\Observer $observer
+     * @return \Magento\CatalogSearch\Model\Fulltext\Observer
      */
-    public function catalogProductWebsiteUpdate(Magento_Event_Observer $observer)
+    public function catalogProductWebsiteUpdate(\Magento\Event\Observer $observer)
     {
         $websiteIds = $observer->getEvent()->getWebsiteIds();
         $productIds = $observer->getEvent()->getProductIds();
@@ -222,13 +224,13 @@ class Magento_CatalogSearch_Model_Fulltext_Observer
     /**
      * Store delete processing
      *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_CatalogSearch_Model_Fulltext_Observer
+     * @param \Magento\Event\Observer $observer
+     * @return \Magento\CatalogSearch\Model\Fulltext\Observer
      */
-    public function cleanStoreIndex(Magento_Event_Observer $observer)
+    public function cleanStoreIndex(\Magento\Event\Observer $observer)
     {
         $store = $observer->getEvent()->getStore();
-        /* @var $store Magento_Core_Model_Store */
+        /* @var $store \Magento\Core\Model\Store */
 
         $this->_getFulltextModel()
             ->cleanIndex($store->getId());

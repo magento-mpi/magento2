@@ -9,15 +9,17 @@
  * @license     {license_link}
  */
 
-class Magento_Test_Performance_Scenario_Handler_JmeterTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Performance\Scenario\Handler;
+
+class JmeterTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Shell|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Shell|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_shell;
 
     /**
-     * @var Magento_TestFramework_Performance_Scenario_Handler_Jmeter|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\TestFramework\Performance\Scenario\Handler\Jmeter|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_object;
 
@@ -27,7 +29,7 @@ class Magento_Test_Performance_Scenario_Handler_JmeterTest extends PHPUnit_Frame
     protected $_scenarioFile;
 
     /**
-     * @var Magento_TestFramework_Performance_Scenario
+     * @var \Magento\TestFramework\Performance\Scenario
      */
     protected $_scenario;
 
@@ -40,17 +42,17 @@ class Magento_Test_Performance_Scenario_Handler_JmeterTest extends PHPUnit_Frame
     {
         $this->_scenarioFile = realpath(__DIR__ . '/../../_files/scenario.jmx');
         $scenarioArgs = array(
-            Magento_TestFramework_Performance_Scenario::ARG_HOST  => '127.0.0.1',
-            Magento_TestFramework_Performance_Scenario::ARG_PATH  => '/',
-            Magento_TestFramework_Performance_Scenario::ARG_USERS => 2,
-            Magento_TestFramework_Performance_Scenario::ARG_LOOPS => 3,
+            \Magento\TestFramework\Performance\Scenario::ARG_HOST  => '127.0.0.1',
+            \Magento\TestFramework\Performance\Scenario::ARG_PATH  => '/',
+            \Magento\TestFramework\Performance\Scenario::ARG_USERS => 2,
+            \Magento\TestFramework\Performance\Scenario::ARG_LOOPS => 3,
         );
-        $this->_scenario = new Magento_TestFramework_Performance_Scenario('Scenario', $this->_scenarioFile,
+        $this->_scenario = new \Magento\TestFramework\Performance\Scenario('Scenario', $this->_scenarioFile,
             $scenarioArgs, array(), array());
 
         $this->_reportFile = realpath(__DIR__ . '/../../_files') . DIRECTORY_SEPARATOR . 'scenario.jtl';
-        $this->_shell = $this->getMock('Magento_Shell', array('execute'));
-        $this->_object = new Magento_TestFramework_Performance_Scenario_Handler_Jmeter($this->_shell, false);
+        $this->_shell = $this->getMock('Magento\Shell', array('execute'));
+        $this->_object = new \Magento\TestFramework\Performance\Scenario\Handler\Jmeter($this->_shell, false);
     }
 
     protected function tearDown()
@@ -62,7 +64,7 @@ class Magento_Test_Performance_Scenario_Handler_JmeterTest extends PHPUnit_Frame
 
     public function testValidateScenarioExecutable()
     {
-        $object = new Magento_TestFramework_Performance_Scenario_Handler_Jmeter($this->_shell, true);
+        $object = new \Magento\TestFramework\Performance\Scenario\Handler\Jmeter($this->_shell, true);
 
         $this->_shell
             ->expects($this->at(0))
@@ -119,7 +121,7 @@ class Magento_Test_Performance_Scenario_Handler_JmeterTest extends PHPUnit_Frame
     {
         $this->setExpectedException($expectedException, $expectedExceptionMsg);
         $scenario =
-            new Magento_TestFramework_Performance_Scenario('Scenario', $scenarioFile, array(), array(), array());
+            new \Magento\TestFramework\Performance\Scenario('Scenario', $scenarioFile, array(), array(), array());
         $this->_object->run($scenario, $reportFile);
     }
 
@@ -130,19 +132,19 @@ class Magento_Test_Performance_Scenario_Handler_JmeterTest extends PHPUnit_Frame
             'no report created' => array(
                 "$fixtureDir/scenario_without_report.jmx",
                 "$fixtureDir/scenario_without_report.jtl",
-                'Magento_Exception',
+                'Magento\Exception',
                 "Report file '$fixtureDir/scenario_without_report.jtl' for 'Scenario' has not been created.",
             ),
             'scenario failure in report' => array(
                 "$fixtureDir/scenario_failure.jmx",
                 "$fixtureDir/scenario_failure.jtl",
-                'Magento_TestFramework_Performance_Scenario_FailureException',
+                'Magento\TestFramework\Performance\Scenario\FailureException',
                 'fixture failure message',
             ),
             'scenario error in report' => array(
                 "$fixtureDir/scenario_error.jmx",
                 "$fixtureDir/scenario_error.jtl",
-                'Magento_TestFramework_Performance_Scenario_FailureException',
+                'Magento\TestFramework\Performance\Scenario\FailureException',
                 'fixture error message',
             ),
         );

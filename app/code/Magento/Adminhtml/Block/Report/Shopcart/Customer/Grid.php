@@ -15,27 +15,29 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Report_Shopcart_Customer_Grid extends Magento_Adminhtml_Block_Report_Grid_Shopcart
+namespace Magento\Adminhtml\Block\Report\Shopcart\Customer;
+
+class Grid extends \Magento\Adminhtml\Block\Report\Grid\Shopcart
 {
     /**
-     * @var Magento_Reports_Model_Resource_Customer_CollectionFactory
+     * @var \Magento\Reports\Model\Resource\Customer\CollectionFactory
      */
     protected $_customersFactory;
 
     /**
-     * @param Magento_Reports_Model_Resource_Customer_CollectionFactory $customersFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Url $urlModel
+     * @param \Magento\Reports\Model\Resource\Customer\CollectionFactory $customersFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
      * @param array $data
      */
     public function __construct(
-        Magento_Reports_Model_Resource_Customer_CollectionFactory $customersFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Url $urlModel,
+        \Magento\Reports\Model\Resource\Customer\CollectionFactory $customersFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
         array $data = array()
     ) {
         $this->_customersFactory = $customersFactory;
@@ -101,7 +103,7 @@ class Magento_Adminhtml_Block_Report_Shopcart_Customer_Grid extends Magento_Admi
             'align'     =>'right',
             'currency_code' => $currencyCode,
             'index'     =>'total',
-            'renderer'  =>'Magento_Adminhtml_Block_Report_Grid_Column_Renderer_Currency',
+            'renderer'  =>'Magento\Adminhtml\Block\Report\Grid\Column\Renderer\Currency',
             'rate'          => $this->getRate($currencyCode),
         ));
 

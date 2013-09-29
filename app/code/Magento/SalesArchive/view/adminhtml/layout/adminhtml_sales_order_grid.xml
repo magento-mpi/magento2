@@ -11,7 +11,7 @@
     <referenceBlock name="sales.order.grid.massaction">
         <arguments>
             <argument name="options" xsi:type="array">
-                <updater>Magento_SalesArchive_Model_Order_Grid_Massaction_ItemsUpdater</updater>
+                <updater>Magento\SalesArchive\Model\Order\Grid\Massaction\ItemsUpdater</updater>
                 <item name="add_order_to_archive" xsi:type="array">
                     <item name="label" xsi:type="string" translate="true">Move to Archive</item>
                     <item name="url" xsi:type="string">*/sales_archive/massAdd</item>

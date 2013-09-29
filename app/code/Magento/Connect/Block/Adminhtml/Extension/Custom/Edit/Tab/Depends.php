@@ -15,20 +15,22 @@
  * @package     Magento_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Depends
-    extends Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Abstract
+namespace Magento\Connect\Block\Adminhtml\Extension\Custom\Edit\Tab;
+
+class Depends
+    extends \Magento\Connect\Block\Adminhtml\Extension\Custom\Edit\Tab\AbstractTab
 {
 
     /**
      * Prepare Dependencies Form before rendering HTML
      *
-     * @return Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Package
+     * @return \Magento\Connect\Block\Adminhtml\Extension\Custom\Edit\Tab\Package
      */
     protected function _prepareForm()
     {
         parent::_prepareForm();
 
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('_depends');
 

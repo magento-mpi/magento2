@@ -15,12 +15,14 @@
  * @package    Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Customer_Model_Customer_Attribute_Source_Website extends Magento_Eav_Model_Entity_Attribute_Source_Table
+namespace Magento\Customer\Model\Customer\Attribute\Source;
+
+class Website extends \Magento\Eav\Model\Entity\Attribute\Source\Table
 {
     public function getAllOptions()
     {
         if (!$this->_options) {
-            $this->_options = Mage::getSingleton('Magento_Core_Model_System_Store')->getWebsiteValuesForForm(true, true);
+            $this->_options = \Mage::getSingleton('Magento\Core\Model\System\Store')->getWebsiteValuesForForm(true, true);
         }
 
         return $this->_options;

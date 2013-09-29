@@ -15,7 +15,9 @@
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backend_Block_Widget_Button extends Magento_Backend_Block_Widget
+namespace Magento\Backend\Block\Widget;
+
+class Button extends \Magento\Backend\Block\Widget
 {
     /**
      * Define block template
@@ -119,7 +121,7 @@ class Magento_Backend_Block_Widget_Button extends Magento_Backend_Block_Widget
                 continue;
             }
             $html .= $attributeKey . '="'
-                . $this->helper('Magento_Backend_Helper_Data')->escapeHtml($attributeValue) . '" ';
+                . $this->helper('Magento\Backend\Helper\Data')->escapeHtml($attributeValue) . '" ';
         }
 
         return $html;

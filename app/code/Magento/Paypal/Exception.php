@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Paypal_Exception extends Magento_Core_Exception
+namespace Magento\Paypal;
+
+class Exception extends \Magento\Core\Exception
 {
 
 }

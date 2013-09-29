@@ -7,21 +7,25 @@
  * @copyright {copyright}
  * @license   {license_link}
  *
+ */
+namespace Magento\Config\Reader;
+
+/**
  * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
-class Magento_Config_Reader_Filesystem implements Magento_Config_ReaderInterface
+class Filesystem implements \Magento\Config\ReaderInterface
 {
     /**
      * File locator
      *
-     * @var Magento_Config_FileResolverInterface
+     * @var \Magento\Config\FileResolverInterface
      */
     protected $_fileResolver;
 
     /**
      * Config converter
      *
-     * @var Magento_Config_ConverterInterface
+     * @var \Magento\Config\ConverterInterface
      */
     protected $_converter;
 
@@ -68,23 +72,23 @@ class Magento_Config_Reader_Filesystem implements Magento_Config_ReaderInterface
     protected $_isValidated;
 
     /**
-     * @param Magento_Config_FileResolverInterface $fileResolver
-     * @param Magento_Config_ConverterInterface $converter
-     * @param Magento_Config_SchemaLocatorInterface $schemaLocator
-     * @param Magento_Config_ValidationStateInterface $validationState
+     * @param \Magento\Config\FileResolverInterface $fileResolver
+     * @param \Magento\Config\ConverterInterface $converter
+     * @param \Magento\Config\SchemaLocatorInterface $schemaLocator
+     * @param \Magento\Config\ValidationStateInterface $validationState
      * @param string $fileName
      * @param array $idAttributes
      * @param string $domDocumentClass
      * @param string $defaultScope
      */
     public function __construct(
-        Magento_Config_FileResolverInterface $fileResolver,
-        Magento_Config_ConverterInterface $converter,
-        Magento_Config_SchemaLocatorInterface $schemaLocator,
-        Magento_Config_ValidationStateInterface $validationState,
+        \Magento\Config\FileResolverInterface $fileResolver,
+        \Magento\Config\ConverterInterface $converter,
+        \Magento\Config\SchemaLocatorInterface $schemaLocator,
+        \Magento\Config\ValidationStateInterface $validationState,
         $fileName,
         $idAttributes = array(),
-        $domDocumentClass = 'Magento_Config_Dom',
+        $domDocumentClass = 'Magento\Config\Dom',
         $defaultScope = 'global'
     ) {
         $this->_fileResolver = $fileResolver;
@@ -105,7 +109,7 @@ class Magento_Config_Reader_Filesystem implements Magento_Config_ReaderInterface
      *
      * @param string|null $scope
      * @return array
-     * @throws Magento_Exception
+     * @throws \Magento\Exception
      * @SuppressWarnings(PHPMD.NPathComplexity)
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
@@ -124,11 +128,11 @@ class Magento_Config_Reader_Filesystem implements Magento_Config_ReaderInterface
     /**
      * @param array $fileList
      * @return array
-     * @throws Magento_Exception
+     * @throws \Magento\Exception
      */
     protected function _readFiles(array $fileList)
     {
-        /** @var Magento_Config_Dom $domDocument */
+        /** @var \Magento\Config\Dom $domDocument */
         $domDocument = null;
         foreach ($fileList as $file) {
             try {
@@ -142,15 +146,15 @@ class Magento_Config_Reader_Filesystem implements Magento_Config_ReaderInterface
                 } else {
                     $domDocument->merge($this->_readFileContents($file));
                 }
-            } catch (Magento_Config_Dom_ValidationException $e) {
-                throw new Magento_Exception("Invalid XML in file " . $file . ":\n" . $e->getMessage());
+            } catch (\Magento\Config\Dom\ValidationException $e) {
+                throw new \Magento\Exception("Invalid XML in file " . $file . ":\n" . $e->getMessage());
             }
         }
         if ($this->_isValidated) {
             $errors = array();
             if ($domDocument && !$domDocument->validate($this->_schemaFile, $errors)) {
                 $message = "Invalid Document \n";
-                throw new Magento_Exception($message . implode("\n", $errors));
+                throw new \Magento\Exception($message . implode("\n", $errors));
             }
         }
 
@@ -166,7 +170,7 @@ class Magento_Config_Reader_Filesystem implements Magento_Config_ReaderInterface
      *
      * @param string $filename
      * @return string
-     * @todo Use Magento_Filesystem
+     * @todo Use \Magento\Filesystem
      */
     protected function _readFileContents($filename)
     {

@@ -15,21 +15,23 @@
  * @package     Magento_Webapi
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Webapi_Model_Resource_Acl_Rule_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Webapi\Model\Resource\Acl\Rule;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Resource collection initialization.
      */
     protected function _construct()
     {
-        $this->_init('Magento_Webapi_Model_Acl_Rule', 'Magento_Webapi_Model_Resource_Acl_Rule');
+        $this->_init('Magento\Webapi\Model\Acl\Rule', 'Magento\Webapi\Model\Resource\Acl\Rule');
     }
 
     /**
      * Retrieve rules by role.
      *
      * @param int $roleId
-     * @return Magento_Webapi_Model_Resource_Acl_Rule_Collection
+     * @return \Magento\Webapi\Model\Resource\Acl\Rule\Collection
      */
     public function getByRole($roleId)
     {

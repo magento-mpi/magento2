@@ -11,28 +11,30 @@
 /**
  * Quote payments collection
  */
-class Magento_Sales_Model_Resource_Quote_Payment_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Sales\Model\Resource\Quote\Payment;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
-     * @var Magento_Sales_Model_Payment_Method_Converter
+     * @var \Magento\Sales\Model\Payment\Method\Converter
      */
     protected $_converter;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_EntityFactory $entityFactory
-     * @param Magento_Sales_Model_Payment_Method_Converter $converter
-     * @param Magento_Core_Model_Resource_Db_Abstract $resource
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Sales\Model\Payment\Method\Converter $converter
+     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Logger $logger,
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_EntityFactory $entityFactory,
-        Magento_Sales_Model_Payment_Method_Converter $converter,
-        Magento_Core_Model_Resource_Db_Abstract $resource = null
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Sales\Model\Payment\Method\Converter $converter,
+        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
     ) {
         parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
         $this->_converter = $converter;
@@ -43,14 +45,14 @@ class Magento_Sales_Model_Resource_Quote_Payment_Collection extends Magento_Core
      */
     protected function _construct()
     {
-        $this->_init('Magento_Sales_Model_Quote_Payment', 'Magento_Sales_Model_Resource_Quote_Payment');
+        $this->_init('Magento\Sales\Model\Quote\Payment', 'Magento\Sales\Model\Resource\Quote\Payment');
     }
 
     /**
      * Setquote filter to result
      *
      * @param int $quoteId
-     * @return Magento_Sales_Model_Resource_Quote_Payment_Collection
+     * @return \Magento\Sales\Model\Resource\Quote\Payment\Collection
      */
     public function setQuoteFilter($quoteId)
     {
@@ -60,7 +62,7 @@ class Magento_Sales_Model_Resource_Quote_Payment_Collection extends Magento_Core
     /**
      * Unserialize additional_information in each item
      *
-     * @return Magento_Core_Model_Resource_Db_Collection_Abstract
+     * @return \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
      */
     protected function _afterLoad()
     {
@@ -68,7 +70,7 @@ class Magento_Sales_Model_Resource_Quote_Payment_Collection extends Magento_Core
             $this->getResource()->unserializeFields($item);
         }
 
-        /** @var Magento_Sales_Model_Quote_Payment $item */
+        /** @var \Magento\Sales\Model\Quote\Payment $item */
         foreach ($this->_items as $item) {
             foreach ($item->getData() as $fieldName => $fieldValue) {
                 $item->setData($fieldName, $this->_converter->decode($item, $fieldName));

@@ -8,29 +8,31 @@
  * @license     {license_link}
  */
 
-class Magento_Backend_Model_Config_Backend_Admin_Observer
+namespace Magento\Backend\Model\Config\Backend\Admin;
+
+class Observer
 {
     /**
      * Backend data
      *
-     * @var Magento_Backend_Helper_Data
+     * @var \Magento\Backend\Helper\Data
      */
     protected $_backendData = null;
 
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Backend_Helper_Data $backendData
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\Backend\Helper\Data $backendData
+     * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
-        Magento_Backend_Helper_Data $backendData,
-        Magento_Core_Model_Registry $coreRegistry
+        \Magento\Backend\Helper\Data $backendData,
+        \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_backendData = $backendData;
         $this->_coreRegistry = $coreRegistry;
@@ -47,15 +49,15 @@ class Magento_Backend_Model_Config_Backend_Admin_Observer
             return;
         }
 
-        /** @var $adminSession Magento_Backend_Model_Auth_Session */
-        $adminSession = Mage::getSingleton('Magento_Backend_Model_Auth_Session');
+        /** @var $adminSession \Magento\Backend\Model\Auth\Session */
+        $adminSession = \Mage::getSingleton('Magento\Backend\Model\Auth\Session');
         $adminSession->unsetAll();
         $adminSession->getCookie()->delete($adminSession->getSessionName());
 
         $route = $this->_backendData->getAreaFrontName();
 
-        Mage::app()->getResponse()
-            ->setRedirect(Mage::getBaseUrl() . $route)
+        \Mage::app()->getResponse()
+            ->setRedirect(\Mage::getBaseUrl() . $route)
             ->sendResponse();
         exit(0);
     }

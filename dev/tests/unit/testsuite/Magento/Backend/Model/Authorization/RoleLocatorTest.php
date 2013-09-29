@@ -9,28 +9,30 @@
  * @license     {license_link}
  */
 
-class Magento_Backend_Model_Authorization_RoleLocatorTest extends PHPUnit_Framework_TestCase
+namespace Magento\Backend\Model\Authorization;
+
+class RoleLocatorTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Backend_Model_Authorization_RoleLocator
+     * @var \Magento\Backend\Model\Authorization\RoleLocator
      */
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_sessionMock = array();
 
     protected function setUp()
     {
         $this->_sessionMock = $this->getMock(
-            'Magento_Backend_Model_Auth_Session',
+            'Magento\Backend\Model\Auth\Session',
             array('getUser', 'getAclRole', 'hasUser'),
             array(),
             '',
             false
         );
-        $this->_model = new Magento_Backend_Model_Authorization_RoleLocator($this->_sessionMock);
+        $this->_model = new \Magento\Backend\Model\Authorization\RoleLocator($this->_sessionMock);
     }
 
     public function testGetAclRoleIdReturnsCurrentUserAclRoleId()

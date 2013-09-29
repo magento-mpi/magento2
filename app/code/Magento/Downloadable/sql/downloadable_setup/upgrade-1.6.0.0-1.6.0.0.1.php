@@ -8,26 +8,26 @@
  * @license     {license_link}
  */
 
-/** @var $installer Magento_Catalog_Model_Resource_Setup */
+/** @var $installer \Magento\Catalog\Model\Resource\Setup */
 $installer = $this;
 
 $msrpEnabled = $installer->getAttribute('catalog_product', 'msrp_enabled', 'apply_to');
-if ($msrpEnabled && strstr($msrpEnabled, Magento_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE) == false) {
+if ($msrpEnabled && strstr($msrpEnabled, \Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE) == false) {
     $installer->updateAttribute('catalog_product', 'msrp_enabled', array(
-        'apply_to'      => $msrpEnabled . ',' . Magento_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE,
+        'apply_to'      => $msrpEnabled . ',' . \Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE,
     ));
 }
 
 $msrpDisplay = $installer->getAttribute('catalog_product', 'msrp_display_actual_price_type', 'apply_to');
-if ($msrpDisplay && strstr($msrpEnabled, Magento_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE) == false) {
+if ($msrpDisplay && strstr($msrpEnabled, \Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE) == false) {
     $installer->updateAttribute('catalog_product', 'msrp_display_actual_price_type', array(
-        'apply_to'      => $msrpDisplay . ',' . Magento_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE,
+        'apply_to'      => $msrpDisplay . ',' . \Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE,
     ));
 }
 
 $msrp = $installer->getAttribute('catalog_product', 'msrp', 'apply_to');
-if ($msrp && strstr($msrpEnabled, Magento_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE) == false) {
+if ($msrp && strstr($msrpEnabled, \Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE) == false) {
     $installer->updateAttribute('catalog_product', 'msrp', array(
-        'apply_to'      => $msrp . ',' . Magento_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE,
+        'apply_to'      => $msrp . ',' . \Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE,
     ));
 }

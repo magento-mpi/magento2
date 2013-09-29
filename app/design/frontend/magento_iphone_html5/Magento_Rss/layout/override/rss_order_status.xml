@@ -8,5 +8,5 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <block class="Magento_Rss_Block_Order_Status" output="1" name="rss.order.status"/>
+    <block class="Magento\Rss\Block\Order\Status" output="1" name="rss.order.status"/>
 </layout>

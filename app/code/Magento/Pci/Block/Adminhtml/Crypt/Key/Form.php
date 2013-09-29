@@ -12,16 +12,18 @@
  * Encryption key change form block
  *
  */
-class Magento_Pci_Block_Adminhtml_Crypt_Key_Form extends Magento_Backend_Block_Widget_Form_Generic
+namespace Magento\Pci\Block\Adminhtml\Crypt\Key;
+
+class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
      * Add form fields
      *
-     * @return Magento_Pci_Block_Adminhtml_Crypt_Key_Form
+     * @return \Magento\Pci\Block\Adminhtml\Crypt\Key\Form
      */
     protected function _prepareForm()
     {
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create(array(
             'attributes' => array(
                 'id' => 'edit_form',

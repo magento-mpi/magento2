@@ -3,42 +3,44 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Image
+ * @package     \Magento\Image
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * Test class for Magento_Image_Adapter_Abstract.
+ * Test class for \Magento\Image\Adapter\AbstractAdapter.
  */
-class Magento_Image_Adapter_AbstractTest extends PHPUnit_Framework_TestCase
+namespace Magento\Image\Adapter;
+
+class AbstractTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Image_Adapter_Abstract
+     * @var \Magento\Image\Adapter\AbstractAdapter
      */
     protected $_model;
 
     protected function setUp()
     {
         parent::setUp();
-        $ioFile = $this->getMock('Magento_Io_File', array('mkdir'));
+        $ioFile = $this->getMock('Magento\Io\File', array('mkdir'));
         $ioFile->expects($this->any())
             ->method('mkdir')
             ->will($this->returnValue(true));
 
         $data = array('io' => $ioFile);
-        $this->_model = $this->getMockForAbstractClass('Magento_Image_Adapter_Abstract', array($data));
+        $this->_model = $this->getMockForAbstractClass('Magento\Image\Adapter\AbstractAdapter', array($data));
     }
 
     /**
-     * Test _adaptResizeValues with null as a value one of parameters
+     * Test adaptResizeValues with null as a value one of parameters
      *
-     * @dataProvider _adaptResizeValuesDataProvider
+     * @dataProvider adaptResizeValuesDataProvider
      */
-    public function test_adaptResizeValues($width, $height, $expectedResult)
+    public function testAdaptResizeValues($width, $height, $expectedResult)
     {
-        $method = new ReflectionMethod($this->_model, '_adaptResizeValues');
+        $method = new \ReflectionMethod($this->_model, '_adaptResizeValues');
         $method->setAccessible(true);
 
         $result = $method->invoke($this->_model, $width, $height);
@@ -49,7 +51,7 @@ class Magento_Image_Adapter_AbstractTest extends PHPUnit_Framework_TestCase
     /**
      * @return array
      */
-    public function _adaptResizeValuesDataProvider()
+    public function adaptResizeValuesDataProvider()
     {
 
         $expected = array(
@@ -76,19 +78,19 @@ class Magento_Image_Adapter_AbstractTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider _prepareDestinationDataProvider
+     * @dataProvider prepareDestinationDataProvider
      */
-    public function test_prepareDestination($destination, $newName, $expectedResult)
+    public function testPrepareDestination($destination, $newName, $expectedResult)
     {
-        $property = new ReflectionProperty(get_class($this->_model), '_fileSrcPath');
+        $property = new \ReflectionProperty(get_class($this->_model), '_fileSrcPath');
         $property->setAccessible(true);
         $property->setValue($this->_model, '_fileSrcPath');
 
-        $property = new ReflectionProperty(get_class($this->_model), '_fileSrcName');
+        $property = new \ReflectionProperty(get_class($this->_model), '_fileSrcName');
         $property->setAccessible(true);
         $property->setValue($this->_model, '_fileSrcName');
 
-        $method = new ReflectionMethod($this->_model, '_prepareDestination');
+        $method = new \ReflectionMethod($this->_model, '_prepareDestination');
         $method->setAccessible(true);
 
         $result = $method->invoke($this->_model, $destination, $newName);
@@ -96,7 +98,7 @@ class Magento_Image_Adapter_AbstractTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expectedResult, $result);
     }
 
-    public function _prepareDestinationDataProvider()
+    public function prepareDestinationDataProvider()
     {
         return array(
             array(__DIR__, 'name.txt', __DIR__ . DIRECTORY_SEPARATOR . 'name.txt'),

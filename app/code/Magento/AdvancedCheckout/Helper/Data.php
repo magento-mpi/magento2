@@ -15,7 +15,9 @@
  * @package     Magento_AdvancedCheckout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_AdvancedCheckout_Helper_Data extends Magento_Core_Helper_Abstract
+namespace Magento\AdvancedCheckout\Helper;
+
+class Data extends \Magento\Core\Helper\AbstractHelper
 {
     /**
      * Items for requiring attention grid (doesn't include sku-failed items)
@@ -71,7 +73,7 @@ class Magento_AdvancedCheckout_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Contains session object to which data is saved
      *
-     * @var Magento_Core_Model_Session_Abstract
+     * @var \Magento\Core\Model\Session\AbstractSession
      */
     protected $_session;
 
@@ -86,131 +88,131 @@ class Magento_AdvancedCheckout_Helper_Data extends Magento_Core_Helper_Abstract
     );
 
     /**
-     * @var Magento_Catalog_Helper_Data
+     * @var \Magento\Catalog\Helper\Data
      */
     protected $_catalogData = null;
 
     /**
      * Tax data
      *
-     * @var Magento_Tax_Helper_Data
+     * @var \Magento\Tax\Helper\Data
      */
     protected $_taxData = null;
 
     /**
      * Checkout cart
      *
-     * @var Magento_Checkout_Helper_Cart
+     * @var \Magento\Checkout\Helper\Cart
      */
     protected $_checkoutCart = null;
 
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_ConfigInterface
+     * @var \Magento\Core\Model\Store\ConfigInterface
      */
     protected $_coreStoreConfig;
 
     /**
-     * @var Magento_AdvancedCheckout_Model_Cart
+     * @var \Magento\AdvancedCheckout\Model\Cart
      */
     protected $_cart;
 
     /**
-     * @var Magento_AdvancedCheckout_Model_Resource_Product_Collection
+     * @var \Magento\AdvancedCheckout\Model\Resource\Product\Collection
      */
     protected $_products;
 
     /**
-     * @var Magento_Core_Model_Url
+     * @var \Magento\Core\Model\Url
      */
     protected $_url;
 
     /**
-     * @var Magento_Catalog_Model_Config
+     * @var \Magento\Catalog\Model\Config
      */
     protected $_catalogConfig;
 
     /**
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
 
     /**
-     * @var Magento_Checkout_Model_Session
+     * @var \Magento\Checkout\Model\Session
      */
     protected $_checkoutSession;
 
     /**
      * Sales quote item factory
      *
-     * @var Magento_Sales_Model_Quote_ItemFactory
+     * @var \Magento\Sales\Model\Quote\ItemFactory
      */
     protected $_quoteItemFactory = null;
 
     /**
      * Catalog product factory
      *
-     * @var Magento_Catalog_Model_ProductFactory
+     * @var \Magento\Catalog\Model\ProductFactory
      */
     protected $_productFactory = null;
 
     /**
      * Catalog inventory stock item factory
      *
-     * @var Magento_CatalogInventory_Model_Stock_ItemFactory
+     * @var \Magento\CatalogInventory\Model\Stock\ItemFactory
      */
     protected $_stockItemFactory = null;
 
     /**
      * Advanced checkout import factory
      *
-     * @var Magento_AdvancedCheckout_Model_ImportFactory
+     * @var \Magento\AdvancedCheckout\Model\ImportFactory
      */
     protected $_importFactory = null;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager = null;
 
     /**
-     * @param Magento_AdvancedCheckout_Model_Cart $cart
-     * @param Magento_AdvancedCheckout_Model_Resource_Product_Collection $products
-     * @param Magento_Core_Model_Url $url
-     * @param Magento_Catalog_Model_Config $catalogConfig
-     * @param Magento_Core_Model_Session_Abstract $session
-     * @param Magento_Customer_Model_Session $customerSession
-     * @param Magento_Checkout_Model_Session $checkoutSession
-     * @param Magento_Checkout_Helper_Cart $checkoutCart
-     * @param Magento_Tax_Helper_Data $taxData
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_Store_ConfigInterface $coreStoreConfig
-     * @param Magento_AdvancedCheckout_Model_ImportFactory $importFactory
-     * @param Magento_CatalogInventory_Model_Stock_ItemFactory $stockItemFactory
-     * @param Magento_Catalog_Model_ProductFactory $productFactory
-     * @param Magento_Sales_Model_Quote_ItemFactory $quoteItemFactory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param \Magento\AdvancedCheckout\Model\Cart $cart
+     * @param \Magento\AdvancedCheckout\Model\Resource\Product\Collection $products
+     * @param \Magento\Core\Model\Url $url
+     * @param \Magento\Catalog\Model\Config $catalogConfig
+     * @param \Magento\Core\Model\Session\AbstractSession $session
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \Magento\Checkout\Helper\Cart $checkoutCart
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
+     * @param \Magento\AdvancedCheckout\Model\ImportFactory $importFactory
+     * @param \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Sales\Model\Quote\ItemFactory $quoteItemFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
-        Magento_AdvancedCheckout_Model_Cart $cart,
-        Magento_AdvancedCheckout_Model_Resource_Product_Collection $products,
-        Magento_Core_Model_Url $url,
-        Magento_Catalog_Model_Config $catalogConfig,
-        Magento_Core_Model_Session_Abstract $session,
-        Magento_Customer_Model_Session $customerSession,
-        Magento_Checkout_Model_Session $checkoutSession,
-        Magento_Checkout_Helper_Cart $checkoutCart,
-        Magento_Tax_Helper_Data $taxData,
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Store_ConfigInterface $coreStoreConfig,
-        Magento_AdvancedCheckout_Model_ImportFactory $importFactory,
-        Magento_CatalogInventory_Model_Stock_ItemFactory $stockItemFactory,
-        Magento_Catalog_Model_ProductFactory $productFactory,
-        Magento_Sales_Model_Quote_ItemFactory $quoteItemFactory,
-        Magento_Core_Model_StoreManagerInterface $storeManager
+        \Magento\AdvancedCheckout\Model\Cart $cart,
+        \Magento\AdvancedCheckout\Model\Resource\Product\Collection $products,
+        \Magento\Core\Model\Url $url,
+        \Magento\Catalog\Model\Config $catalogConfig,
+        \Magento\Core\Model\Session\AbstractSession $session,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Checkout\Helper\Cart $checkoutCart,
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
+        \Magento\AdvancedCheckout\Model\ImportFactory $importFactory,
+        \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Sales\Model\Quote\ItemFactory $quoteItemFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
         $this->_cart = $cart;
         $this->_products = $products;
@@ -234,7 +236,7 @@ class Magento_AdvancedCheckout_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Return session for affected items
      *
-     * @return Magento_Core_Model_Session_Abstract
+     * @return \Magento\Core\Model\Session\AbstractSession
      */
     public function getSession()
     {
@@ -244,9 +246,9 @@ class Magento_AdvancedCheckout_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Sets session instance to use for saving data
      *
-     * @param Magento_Core_Model_Session_Abstract $session
+     * @param \Magento\Core\Model\Session\AbstractSession $session
      */
-    public function setSession(Magento_Core_Model_Session_Abstract $session)
+    public function setSession(\Magento\Core\Model\Session\AbstractSession $session)
     {
         $this->_session = $session;
     }
@@ -254,10 +256,10 @@ class Magento_AdvancedCheckout_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Retrieve error message for the item
      *
-     * @param Magento_Object $item
+     * @param \Magento\Object $item
      * @return string
      */
-    public function getMessageByItem(Magento_Object $item)
+    public function getMessageByItem(\Magento\Object $item)
     {
         $message = $this->getMessage($item->getCode());
         return $message ? $message : $item->getError();
@@ -315,7 +317,7 @@ class Magento_AdvancedCheckout_Helper_Data extends Magento_Core_Helper_Abstract
     public function isSkuEnabled()
     {
         $storeData = $this->_coreStoreConfig->getConfig(self::XML_PATH_SKU_ENABLED);
-        return Magento_AdvancedCheckout_Model_Cart_Sku_Source_Settings::NO_VALUE != $storeData;
+        return \Magento\AdvancedCheckout\Model\Cart\Sku\Source\Settings::NO_VALUE != $storeData;
     }
 
     /**
@@ -328,14 +330,14 @@ class Magento_AdvancedCheckout_Helper_Data extends Magento_Core_Helper_Abstract
         $result = false;
         $data = $this->_coreStoreConfig->getConfig(self::XML_PATH_SKU_ENABLED);
         switch ($data) {
-            case Magento_AdvancedCheckout_Model_Cart_Sku_Source_Settings::YES_VALUE:
+            case \Magento\AdvancedCheckout\Model\Cart\Sku\Source\Settings::YES_VALUE:
                 $result = true;
                 break;
-            case Magento_AdvancedCheckout_Model_Cart_Sku_Source_Settings::YES_SPECIFIED_GROUPS_VALUE:
+            case \Magento\AdvancedCheckout\Model\Cart\Sku\Source\Settings::YES_SPECIFIED_GROUPS_VALUE:
 
                 if ($this->_customerSession) {
                     $groupId = $this->_customerSession->getCustomerGroupId();
-                    $result = $groupId === Magento_Customer_Model_Group::NOT_LOGGED_IN_ID
+                    $result = $groupId === \Magento\Customer\Model\Group::NOT_LOGGED_IN_ID
                         || in_array($groupId, $this->getSkuCustomerGroups());
                 }
                 break;
@@ -407,7 +409,7 @@ class Magento_AdvancedCheckout_Helper_Data extends Magento_Core_Helper_Abstract
                 $quote = $this->_checkoutSession->getQuote();
                 $emptyQuoteItem = $this->_quoteItemFactory->create();
 
-                /** @var $itemProduct Magento_Catalog_Model_Product */
+                /** @var $itemProduct \Magento\Catalog\Model\Product */
                 foreach ($collection->getItems() as $product) {
                     $itemsCount = count($itemsToLoad[$product->getId()]);
                     foreach ($itemsToLoad[$product->getId()] as $index => $itemToLoad) {
@@ -438,7 +440,7 @@ class Magento_AdvancedCheckout_Helper_Data extends Magento_Core_Helper_Abstract
                             $quoteItem->setCanApplyMsrp(false);
                         }
 
-                        /** @var $stockItem Magento_CatalogInventory_Model_Stock_Item */
+                        /** @var $stockItem \Magento\CatalogInventory\Model\Stock\Item */
                         $stockItem = $this->_stockItemFactory->create();
                         $stockItem->assignProduct($itemProduct);
                         $quoteItem->setStockItem($stockItem);
@@ -470,25 +472,25 @@ class Magento_AdvancedCheckout_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Process SKU file uploading and get uploaded data
      *
-     * @param Magento_Core_Model_Session_Abstract|null $session
+     * @param \Magento\Core\Model\Session\AbstractSession|null $session
      * @return array|bool
      */
     public function processSkuFileUploading($session)
     {
-        /** @var $importModel Magento_AdvancedCheckout_Model_Import */
+        /** @var $importModel \Magento\AdvancedCheckout\Model\Import */
         $importModel = $this->_importFactory->create();
         try {
             $importModel->uploadFile();
             $rows = $importModel->getRows();
             if (empty($rows)) {
-                throw new Magento_Core_Exception(__('The file is empty.'));
+                throw new \Magento\Core\Exception(__('The file is empty.'));
             }
             return $rows;
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             if (!is_null($session)) {
                 $session->addError($e->getMessage());
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             if (!is_null($session)) {
                 $session->addException($e, $this->getFileGeneralErrorText());
             }
@@ -498,10 +500,10 @@ class Magento_AdvancedCheckout_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Check whether SKU file was uploaded
      *
-     * @param Magento_Core_Controller_Request_Http $request
+     * @param \Magento\Core\Controller\Request\Http $request
      * @return bool
      */
-    public function isSkuFileUploaded(Magento_Core_Controller_Request_Http $request)
+    public function isSkuFileUploaded(\Magento\Core\Controller\Request\Http $request)
     {
         return (bool)$request->getPost(self::REQUEST_PARAMETER_SKU_FILE_IMPORTED_FLAG);
     }

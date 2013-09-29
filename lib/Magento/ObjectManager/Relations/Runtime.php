@@ -5,10 +5,12 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_ObjectManager_Relations_Runtime implements Magento_ObjectManager_Relations
+namespace Magento\ObjectManager\Relations;
+
+class Runtime implements \Magento\ObjectManager\Relations
 {
     /**
-     * @var Magento_Code_Reader_ClassReader
+     * @var \Magento\Code\Reader\ClassReader
      */
     protected $_classReader;
 
@@ -20,11 +22,11 @@ class Magento_ObjectManager_Relations_Runtime implements Magento_ObjectManager_R
     protected $_default = array();
 
     /**
-     * @param Magento_Code_Reader_ClassReader $classReader
+     * @param \Magento\Code\Reader\ClassReader $classReader
      */
-    public function __construct(Magento_Code_Reader_ClassReader $classReader = null)
+    public function __construct(\Magento\Code\Reader\ClassReader $classReader = null)
     {
-        $this->_classReader = $classReader ?: new Magento_Code_Reader_ClassReader();
+        $this->_classReader = $classReader ?: new \Magento\Code\Reader\ClassReader();
     }
 
     /**

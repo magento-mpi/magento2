@@ -11,8 +11,10 @@
 /**
  * Form element renderer to display composite font element for VDE
  */
-class Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_Font
-    extends Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_Composite_Abstract
+namespace Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element;
+
+class Font
+    extends \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Composite\AbstractComposite
 {
     /**
      * Control type
@@ -22,7 +24,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_Font
     /**
      * Add form elements
      *
-     * @return Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_Font
+     * @return \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Font
      */
     protected function _addFields()
     {
@@ -62,12 +64,12 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_Font
     /**
      * Add element types used in composite font element
      *
-     * @return Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_Font
+     * @return \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Font
      */
     protected function _addElementTypes()
     {
-        $this->addType('color-picker', 'Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_ColorPicker');
-        $this->addType('font-picker', 'Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_FontPicker');
+        $this->addType('color-picker', 'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\ColorPicker');
+        $this->addType('font-picker', 'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\FontPicker');
 
         return $this;
     }

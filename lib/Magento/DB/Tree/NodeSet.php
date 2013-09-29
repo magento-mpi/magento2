@@ -13,7 +13,9 @@
  * TODO implements iterators
  *
  */
-class Magento_DB_Tree_NodeSet implements Iterator
+namespace Magento\DB\Tree;
+
+class NodeSet implements \Iterator
 {
     private $_nodes = array();
     private $_currentNode = 0;
@@ -29,7 +31,7 @@ class Magento_DB_Tree_NodeSet implements Iterator
 
 
 
-    function addNode(Magento_DB_Tree_Node $node) {
+    function addNode(\Magento\DB\Tree\Node $node) {
         $this->_nodes[$this->_currentNode] = $node;
         $this->count++;
         return ++$this->_currentNode;

@@ -7,7 +7,9 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-class Magento_Autoload_IncludePath
+namespace Magento\Autoload;
+
+class IncludePath
 {
     /**
      * Namespaces separator

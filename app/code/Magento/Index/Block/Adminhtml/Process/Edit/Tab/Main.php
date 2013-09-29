@@ -8,14 +8,16 @@
  * @license     {license_link}
  */
 
-class Magento_Index_Block_Adminhtml_Process_Edit_Tab_Main
-    extends Magento_Backend_Block_Widget_Form_Generic
-    implements Magento_Backend_Block_Widget_Tab_Interface
+namespace Magento\Index\Block\Adminhtml\Process\Edit\Tab;
+
+class Main
+    extends \Magento\Backend\Block\Widget\Form\Generic
+    implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     protected function _prepareForm()
     {
         $model = $this->_coreRegistry->registry('current_index_process');
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('index_process_');
         $fieldset = $form->addFieldset(

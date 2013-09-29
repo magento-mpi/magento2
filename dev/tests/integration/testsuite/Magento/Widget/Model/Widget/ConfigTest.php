@@ -8,17 +8,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Widget_Model_Widget_ConfigTest extends PHPUnit_Framework_TestCase
+namespace Magento\Widget\Model\Widget;
+
+class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Widget_Model_Widget_Config
+     * @var \Magento\Widget\Model\Widget\Config
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Widget_Model_Widget_Config');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Widget\Model\Widget\Config');
     }
 
     /**
@@ -28,10 +30,10 @@ class Magento_Widget_Model_Widget_ConfigTest extends PHPUnit_Framework_TestCase
      */
     public function testGetPluginSettings()
     {
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\View\DesignInterface')
             ->setDesignTheme('magento_basic', 'adminhtml');
 
-        $config = new Magento_Object();
+        $config = new \Magento\Object();
         $settings = $this->_model->getPluginSettings($config);
 
         $this->assertArrayHasKey('widget_plugin_src', $settings);
@@ -49,7 +51,7 @@ class Magento_Widget_Model_Widget_ConfigTest extends PHPUnit_Framework_TestCase
 
     public function testGetWidgetWindowUrl()
     {
-        $config = new Magento_Object(array('widget_filters' =>  array('is_email_compatible' => 1)));
+        $config = new \Magento\Object(array('widget_filters' =>  array('is_email_compatible' => 1)));
 
         $url = $this->_model->getWidgetWindowUrl($config);
 

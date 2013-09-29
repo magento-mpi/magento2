@@ -11,28 +11,30 @@
 
 /**
  * Abstract class for the controller tests
- *
- * @SuppressWarnings(PHPMD.NumberOfChildren)
- * @SuppressWarnings(PHPMD.numberOfChildren)
  */
-abstract class Magento_TestFramework_TestCase_ControllerAbstract extends PHPUnit_Framework_TestCase
+namespace Magento\TestFramework\TestCase;
+
+/**
+ * @SuppressWarnings(PHPMD.NumberOfChildren)
+ */
+abstract class ControllerAbstract extends \PHPUnit_Framework_TestCase
 {
     protected $_runCode     = '';
     protected $_runScope    = 'store';
     protected $_runOptions  = array();
 
     /**
-     * @var Magento_TestFramework_Request
+     * @var \Magento\TestFramework\Request
      */
     protected $_request;
 
     /**
-     * @var Magento_TestFramework_Response
+     * @var \Magento\TestFramework\Response
      */
     protected $_response;
 
     /**
-     * @var Magento_TestFramework_ObjectManager
+     * @var \Magento\TestFramework\ObjectManager
      */
     protected $_objectManager;
 
@@ -46,11 +48,11 @@ abstract class Magento_TestFramework_TestCase_ControllerAbstract extends PHPUnit
     /**
      * Bootstrap instance getter
      *
-     * @return Magento_TestFramework_Helper_Bootstrap
+     * @return \Magento\TestFramework\Helper\Bootstrap
      */
     protected function _getBootstrap()
     {
-        return Magento_TestFramework_Helper_Bootstrap::getInstance();
+        return \Magento\TestFramework\Helper\Bootstrap::getInstance();
     }
 
     /**
@@ -59,11 +61,11 @@ abstract class Magento_TestFramework_TestCase_ControllerAbstract extends PHPUnit
     protected function setUp()
     {
         $this->_assertSessionErrors = false;
-        $this->_objectManager = Magento_TestFramework_ObjectManager::getInstance();
+        $this->_objectManager = \Magento\TestFramework\ObjectManager::getInstance();
         $this->_objectManager->configure(array(
             'preferences' => array(
-                'Magento_Core_Controller_Request_Http' => 'Magento_TestFramework_Request',
-                'Magento_Core_Controller_Response_Http' => 'Magento_TestFramework_Response'
+                'Magento\Core\Controller\Request\Http' => 'Magento\TestFramework\Request',
+                'Magento\Core\Controller\Response\Http' => 'Magento\TestFramework\Response'
             )
         ));
     }
@@ -82,7 +84,7 @@ abstract class Magento_TestFramework_TestCase_ControllerAbstract extends PHPUnit
     {
         if ($this->_assertSessionErrors) {
             // equalTo() is intentionally used instead of isEmpty() to provide the informative diff
-            $this->assertSessionMessages($this->equalTo(array()), Magento_Core_Model_Message::ERROR);
+            $this->assertSessionMessages($this->equalTo(array()), \Magento\Core\Model\Message::ERROR);
         }
     }
 
@@ -100,12 +102,12 @@ abstract class Magento_TestFramework_TestCase_ControllerAbstract extends PHPUnit
     /**
      * Request getter
      *
-     * @return Magento_TestFramework_Request
+     * @return \Magento\TestFramework\Request
      */
     public function getRequest()
     {
         if (!$this->_request) {
-            $this->_request = $this->_objectManager->get('Magento_TestFramework_Request');
+            $this->_request = $this->_objectManager->get('Magento\TestFramework\Request');
         }
         return $this->_request;
     }
@@ -113,12 +115,12 @@ abstract class Magento_TestFramework_TestCase_ControllerAbstract extends PHPUnit
     /**
      * Response getter
      *
-     * @return Magento_TestFramework_Response
+     * @return \Magento\TestFramework\Response
      */
     public function getResponse()
     {
         if (!$this->_response) {
-            $this->_response = $this->_objectManager->get('Magento_TestFramework_Response');
+            $this->_response = $this->_objectManager->get('Magento\TestFramework\Response');
         }
         return $this->_response;
     }
@@ -137,7 +139,7 @@ abstract class Magento_TestFramework_TestCase_ControllerAbstract extends PHPUnit
      *
      * @param string $headerName
      * @param string $valueRegex
-     * @throws PHPUnit_Framework_AssertionFailedError when header not found
+     * @throws \PHPUnit_Framework_AssertionFailedError when header not found
      */
     public function assertHeaderPcre($headerName, $valueRegex)
     {
@@ -163,9 +165,9 @@ abstract class Magento_TestFramework_TestCase_ControllerAbstract extends PHPUnit
      * $this->assertRedirect($this->stringEndsWith($expectedUrlSuffix));
      * $this->assertRedirect($this->stringContains($expectedUrlSubstring));
      *
-     * @param PHPUnit_Framework_Constraint|null $urlConstraint
+     * @param \PHPUnit_Framework_Constraint|null $urlConstraint
      */
-    public function assertRedirect(PHPUnit_Framework_Constraint $urlConstraint = null)
+    public function assertRedirect(\PHPUnit_Framework_Constraint $urlConstraint = null)
     {
         $this->assertTrue($this->getResponse()->isRedirect(), 'Redirect was expected, but none was performed.');
         if ($urlConstraint) {
@@ -183,22 +185,22 @@ abstract class Magento_TestFramework_TestCase_ControllerAbstract extends PHPUnit
     /**
      * Assert that actual session messages meet expectations:
      * Usage examples:
-     * $this->assertSessionMessages($this->isEmpty(), Magento_Core_Model_Message::ERROR);
+     * $this->assertSessionMessages($this->isEmpty(), \Magento\Core\Model\Message::ERROR);
      * $this->assertSessionMessages($this->equalTo(array('Entity has been saved.')),
-     * Magento_Core_Model_Message::SUCCESS);
+     * \Magento\Core\Model\Message::SUCCESS);
      *
-     * @param PHPUnit_Framework_Constraint $constraint Constraint to compare actual messages against
-     * @param string|null $messageType Message type filter, one of the constants Magento_Core_Model_Message::*
+     * @param \PHPUnit_Framework_Constraint $constraint Constraint to compare actual messages against
+     * @param string|null $messageType Message type filter, one of the constants \Magento\Core\Model\Message::*
      * @param string $sessionModel Class of the session model that manages messages
      */
     public function assertSessionMessages(
-        PHPUnit_Framework_Constraint $constraint, $messageType = null, $sessionModel = 'Magento_Core_Model_Session'
+        \PHPUnit_Framework_Constraint $constraint, $messageType = null, $sessionModel = 'Magento\Core\Model\Session'
     ) {
         $this->_assertSessionErrors = false;
-        /** @var $session Magento_Core_Model_Session_Abstract */
+        /** @var $session \Magento\Core\Model\Session\AbstractSession */
         $session = $this->_objectManager->get($sessionModel);
         $actualMessages = array();
-        /** @var $message Magento_Core_Model_Message_Abstract */
+        /** @var $message \Magento\Core\Model\Message\AbstractMessage */
         foreach ($session->getMessages()->getItems($messageType) as $message) {
             $actualMessages[] = $message->getText();
         }

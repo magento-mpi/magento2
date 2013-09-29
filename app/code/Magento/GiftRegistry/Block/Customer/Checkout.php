@@ -11,25 +11,27 @@
 /**
  * Customer gift registry checkout abstract block
  */
-class Magento_GiftRegistry_Block_Customer_Checkout extends Magento_Core_Block_Template
+namespace Magento\GiftRegistry\Block\Customer;
+
+class Checkout extends \Magento\Core\Block\Template
 {
     /**
      * Gift registry data
      *
-     * @var Magento_GiftRegistry_Helper_Data
+     * @var \Magento\GiftRegistry\Helper\Data
      */
     protected $_giftRegistryData = null;
 
     /**
-     * @param Magento_GiftRegistry_Helper_Data $giftRegistryData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
+     * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_GiftRegistry_Helper_Data $giftRegistryData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
+        \Magento\GiftRegistry\Helper\Data $giftRegistryData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_giftRegistryData = $giftRegistryData;
@@ -39,11 +41,11 @@ class Magento_GiftRegistry_Block_Customer_Checkout extends Magento_Core_Block_Te
     /**
      * Get current checkout session
      *
-     * @return Magento_Checkout_Model_Session
+     * @return \Magento\Checkout\Model\Session
      */
     protected function _getCheckoutSession()
     {
-        return Mage::getSingleton('Magento_Checkout_Model_Session');
+        return \Mage::getSingleton('Magento\Checkout\Model\Session');
     }
 
     /**
@@ -66,7 +68,7 @@ class Magento_GiftRegistry_Block_Customer_Checkout extends Magento_Core_Block_Te
         $items = array();
         if ($this->_getCheckoutSession()->getQuoteId()) {
             $quote = $this->_getCheckoutSession()->getQuote();
-            $model = Mage::getModel('Magento_GiftRegistry_Model_Entity');
+            $model = \Mage::getModel('Magento\GiftRegistry\Model\Entity');
             foreach ($quote->getItemsCollection() as $quoteItem) {
                 $item = array();
                 if ($registryItemId = $quoteItem->getGiftregistryItemId()) {
@@ -120,7 +122,7 @@ class Magento_GiftRegistry_Block_Customer_Checkout extends Magento_Core_Block_Te
     /**
      * Get select shipping address id prefix
      *
-     * @return Magento_Checkout_Model_Session
+     * @return \Magento\Checkout\Model\Session
      */
     public function getAddressIdPrefix()
     {
@@ -136,7 +138,7 @@ class Magento_GiftRegistry_Block_Customer_Checkout extends Magento_Core_Block_Te
     {
         $result = array();
         $registryQuoteItemIds = array_keys($this->getItems());
-        $quoteAddressItems = Mage::getSingleton('Magento_Checkout_Model_Type_Multishipping')->getQuoteShippingAddressesItems();
+        $quoteAddressItems = \Mage::getSingleton('Magento\Checkout\Model\Type\Multishipping')->getQuoteShippingAddressesItems();
         foreach ($quoteAddressItems as $index => $quoteAddressItem) {
             $quoteItemId = $quoteAddressItem->getQuoteItem()->getId();
             if (!$quoteAddressItem->getCustomerAddressId() && in_array($quoteItemId, $registryQuoteItemIds)) {

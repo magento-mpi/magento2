@@ -8,22 +8,22 @@
  */
 -->
 <config>
-    <type name="Magento_Core_Model_ModuleManager">
+    <type name="Magento\Core\Model\ModuleManager">
         <param name="outputConfigPaths">
             <value>
-                <Magento_CustomerBalance>Magento_CustomerBalance_Helper_Data::XML_PATH_ENABLED</Magento_CustomerBalance>
+                <Magento_CustomerBalance>Magento\CustomerBalance\Helper\Data::XML_PATH_ENABLED</Magento_CustomerBalance>
             </value>
         </param>
     </type>
-    <type name="Magento_CustomerBalance_Model_Observer">
+    <type name="Magento\CustomerBalance\Model\Observer">
         <param name="onePageCheckout">
-            <instance type="Magento_Checkout_Model_Type_Onepage_Proxy"/>
+            <instance type="Magento\Checkout\Model\Type\Onepage\Proxy"/>
         </param>
     </type>
-    <type name="Magento_Core_Model_Db_Updater">
+    <type name="Magento\Core\Model\Db\Updater">
         <param name="resourceList">
             <value>
-                <customerbalance_setup>Magento_Sales_Model_Resource_Setup</customerbalance_setup>
+                <customerbalance_setup>Magento\Sales\Model\Resource\Setup</customerbalance_setup>
             </value>
         </param>
     </type>

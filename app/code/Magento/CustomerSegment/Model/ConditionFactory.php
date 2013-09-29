@@ -11,18 +11,20 @@
 /**
  * Conditions factory
  */
-class Magento_CustomerSegment_Model_ConditionFactory
+namespace Magento\CustomerSegment\Model;
+
+class ConditionFactory
 {
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
     public function __construct(
-        Magento_ObjectManager $objectManager
+        \Magento\ObjectManager $objectManager
     ) {
         $this->_objectManager = $objectManager;
     }
@@ -32,18 +34,18 @@ class Magento_CustomerSegment_Model_ConditionFactory
      *
      * @param string $className
      * @param array $data
-     * @throws InvalidArgumentException
-     * @return Magento_Rule_Model_Condition_Interface
+     * @throws \InvalidArgumentException
+     * @return \Magento\Rule\Model\Condition\ConditionInterface
      */
     public function create($className, array $data = array())
     {
-        $classNamePrefix = 'Magento_CustomerSegment_Model_Segment_Condition_';
+        $classNamePrefix = 'Magento\CustomerSegment\Model\Segment\Condition\\';
         if (false === strpos($className, $classNamePrefix)) {
             $className = $classNamePrefix . $className;
         }
         $condition = $this->_objectManager->create($className, $data);
-        if (false == ($condition instanceof Magento_Rule_Model_Condition_Abstract)) {
-            throw new InvalidArgumentException($className . ' doesn\'t extends Magento_Rule_Model_Condition_Abstract');
+        if (false == ($condition instanceof \Magento\Rule\Model\Condition\AbstractCondition)) {
+            throw new \InvalidArgumentException($className . ' doesn\'t extends \Magento\Rule\Model\Condition\AbstractCondition');
         }
         return $condition;
     }

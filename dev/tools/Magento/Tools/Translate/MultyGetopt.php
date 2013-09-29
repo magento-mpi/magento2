@@ -7,12 +7,16 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
+namespace Magento\Tools\Translate;
 
-require_once 'Zend/Exception.php';
-require_once 'Zend/Console/Getopt/Exception.php';
-require_once 'Zend/Console/Getopt.php';
+define('DS', DIRECTORY_SEPARATOR);
+define('BASE_PATH', dirname(dirname(dirname(dirname(dirname(__DIR__))))));
 
-class Magento_Tools_Translate_MultyGetopt extends Zend_Console_Getopt {
+require_once BASE_PATH . DS . 'lib' . DS . 'Zend/Exception.php';
+require_once BASE_PATH . DS . 'lib' . DS . 'Zend/Console/Getopt/Exception.php';
+require_once BASE_PATH . DS . 'lib' . DS . 'Zend/Console/Getopt.php';
+
+class MultyGetopt extends \Zend_Console_Getopt {
 
     protected function _parseSingleOption($flag, &$argv)
     {
@@ -20,7 +24,7 @@ class Magento_Tools_Translate_MultyGetopt extends Zend_Console_Getopt {
                 $flag = strtolower($flag);
             }
             if (!isset($this->_ruleMap[$flag])) {
-                throw new Zend_Console_Getopt_Exception(
+                throw new \Zend_Console_Getopt_Exception(
                     "Option \"$flag\" is not recognized.",
                     $this->getUsageMessage());
             }
@@ -31,7 +35,7 @@ class Magento_Tools_Translate_MultyGetopt extends Zend_Console_Getopt {
                         $param = array_shift($argv);
                         $this->_checkParameterType($realFlag, $param);
                     } else {
-                        throw new Zend_Console_Getopt_Exception(
+                        throw new \Zend_Console_Getopt_Exception(
                             "Option \"$flag\" requires a parameter.",
                             $this->getUsageMessage());
                     }

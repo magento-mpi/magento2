@@ -8,7 +8,9 @@
  * @license   {license_link}
  */
 
-class Magento_Core_Helper_Css
+namespace Magento\Core\Helper;
+
+class Css
 {
     /**
      * PCRE that matches non-absolute URLs in CSS content
@@ -17,22 +19,22 @@ class Magento_Core_Helper_Css
         = '#url\s*\(\s*(?(?=\'|").)(?!http\://|https\://|/|data\:)(.+?)(?:[\#\?].*?|[\'"])?\s*\)#';
 
     /**
-     * @var Magento_Filesystem
+     * @var \Magento\Filesystem
      */
     protected $_filesystem;
 
     /**
-     * @var Magento_Core_Model_Dir
+     * @var \Magento\Core\Model\Dir
      */
     protected $_dirs;
 
     /**
-     * @param Magento_Filesystem $filesystem
-     * @param Magento_Core_Model_Dir $dirs
+     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\Core\Model\Dir $dirs
      */
     public function __construct(
-        Magento_Filesystem $filesystem,
-        Magento_Core_Model_Dir $dirs
+        \Magento\Filesystem $filesystem,
+        \Magento\Core\Model\Dir $dirs
     ) {
         $this->_filesystem = $filesystem;
         $this->_dirs = $dirs;
@@ -90,7 +92,7 @@ class Magento_Core_Helper_Css
      * @param string $file Normalized absolute path to the file, which references $referencedFile
      * @param string $referencedFile Normalized absolute  path to the referenced file
      * @return string
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     protected function _getFileRelativePath($file, $referencedFile)
     {
@@ -100,10 +102,10 @@ class Magento_Core_Helper_Css
          * Thus, calculating relative path is not possible in general case. So we just assume,
          * that urls follow the structure of directory paths.
          */
-        $topDir = $this->_dirs->getDir(Magento_Core_Model_Dir::ROOT);
+        $topDir = $this->_dirs->getDir(\Magento\Core\Model\Dir::ROOT);
         $topDir = $this->_filesystem->normalizePath($topDir);
         if (strpos($file, $topDir) !== 0 || strpos($referencedFile, $topDir) !== 0) {
-            throw new Magento_Core_Exception('Offset can be calculated for internal resources only.');
+            throw new \Magento\Core\Exception('Offset can be calculated for internal resources only.');
         }
 
         $offset = '';

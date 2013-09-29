@@ -8,21 +8,23 @@
  * @license     {license_link}
  */
 
+namespace Magento\Banner\Block\Adminhtml\Banner\Edit;
+
 /**
- * Class Magento_Banner_Block_Adminhtml_Banner_Edit_Form
+ * Class \Magento\Banner\Block\Adminhtml\Banner\Edit\Form
  *
  * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
-class Magento_Banner_Block_Adminhtml_Banner_Edit_Form extends Magento_Backend_Block_Widget_Form_Generic
+class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
      * Prepare form before rendering HTML
      *
-     * @return Magento_Adminhtml_Block_Widget_Form
+     * @return \Magento\Adminhtml\Block\Widget\Form
      */
     protected function _prepareForm()
     {
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create(array(
             'attributes' => array(
                 'id' => 'edit_form',

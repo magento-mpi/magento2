@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento_Webhook_Model_Resource_Subscription
+ * \Magento\Webhook\Model\Resource\Subscription
  *
  * {license_notice}
  *
@@ -9,7 +9,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_Resource_SubscriptionTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webhook\Model\Resource;
+
+class SubscriptionTest extends \PHPUnit_Framework_TestCase
 {
     const MAIN_TABLE_NAME = 'webhook_subscription_table';
     const HOOK_TABLE_NAME = 'webhook_subscription_hook_table';
@@ -27,30 +29,30 @@ class Magento_Webhook_Model_Resource_SubscriptionTest extends PHPUnit_Framework_
                         <label>label</label>
                     </c>
                 </test>';
-    /** @var  PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \PHPUnit_Framework_MockObject_MockObject */
     private $_selectMock;
 
-    /** @var  PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \PHPUnit_Framework_MockObject_MockObject */
     private $_adapterMock;
 
-    /** @var  PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \PHPUnit_Framework_MockObject_MockObject */
     private $_resourceMock;
 
-    /** @var  PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \PHPUnit_Framework_MockObject_MockObject */
     private $_configMock;
 
     /**
      * Unit under testing.
      *
-     * @var  PHPUnit_Framework_MockObject_MockObject
+     * @var  \PHPUnit_Framework_MockObject_MockObject
      */
     private $_subxResourceMock;
 
     protected function setUp()
     {
-        $this->_selectMock = $this->_makeMock('Magento_DB_Select');
-        $this->_resourceMock = $this->_makeMock('Magento_Core_Model_Resource');
-        $this->_adapterMock = $this->_makeMock('Magento_DB_Adapter_Pdo_Mysql');
+        $this->_selectMock = $this->_makeMock('Magento\DB\Select');
+        $this->_resourceMock = $this->_makeMock('Magento\Core\Model\Resource');
+        $this->_adapterMock = $this->_makeMock('Magento\DB\Adapter\Pdo\Mysql');
         $this->_adapterMock->expects($this->any())
             ->method('select')
             ->with()
@@ -58,7 +60,7 @@ class Magento_Webhook_Model_Resource_SubscriptionTest extends PHPUnit_Framework_
 
         // Config mock
         $configMethods = array('getNode', 'setNode', 'getXpath', 'reinit');
-        $this->_configMock = $this->getMock('Magento_Core_Model_ConfigInterface', $configMethods, array(), '', false);
+        $this->_configMock = $this->getMock('Magento\Core\Model\ConfigInterface', $configMethods, array(), '', false);
     }
 
     /**
@@ -101,7 +103,7 @@ class Magento_Webhook_Model_Resource_SubscriptionTest extends PHPUnit_Framework_
             ->will($this->returnSelf());
 
         // Subscription model mock
-        $subscriptionMock = $this->_makeMock('Magento_Webhook_Model_Subscription');
+        $subscriptionMock = $this->_makeMock('Magento\Webhook\Model\Subscription');
         $subscriptionMock->expects($this->any())
             ->method('getId')
             ->with()
@@ -119,7 +121,7 @@ class Magento_Webhook_Model_Resource_SubscriptionTest extends PHPUnit_Framework_
             ->method('getData')
             ->with('topics')
             ->will($this->returnValue($newTopics));
-        $configElement = new Magento_Core_Model_Config_Element(self::TOPICS_XML);
+        $configElement = new \Magento\Core\Model\Config\Element(self::TOPICS_XML);
         $this->_configMock->expects($this->once())
             ->method('getNode')
             ->will($this->returnValue($configElement));
@@ -168,7 +170,7 @@ class Magento_Webhook_Model_Resource_SubscriptionTest extends PHPUnit_Framework_
             ->will($this->returnSelf());
 
         // Subscription model mock
-        $subscriptionMock = $this->_makeMock('Magento_Webhook_Model_Subscription');
+        $subscriptionMock = $this->_makeMock('Magento\Webhook\Model\Subscription');
         $subscriptionMock->expects($this->any())
             ->method('getId')
             ->with()
@@ -181,7 +183,7 @@ class Magento_Webhook_Model_Resource_SubscriptionTest extends PHPUnit_Framework_
      * Generates a mock object of the given class
      *
      * @param string $className
-     * @return PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit_Framework_MockObject_MockObject
      */
     private function _makeMock($className)
     {
@@ -194,12 +196,12 @@ class Magento_Webhook_Model_Resource_SubscriptionTest extends PHPUnit_Framework_
      * Generates a mock subscription resource with the given methods stubbed
      *
      * @param $methods
-     * @return PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit_Framework_MockObject_MockObject
      */
     private function _makeSubscriptionResourceMock($methods)
     {
         return $this->getMock(
-            'Magento_Webhook_Model_Resource_Subscription',
+            'Magento\Webhook\Model\Resource\Subscription',
             $methods,
             array($this->_resourceMock, $this->_configMock),
             '',

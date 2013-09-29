@@ -14,37 +14,39 @@
  * @category   Magento
  * @package    Magento_Invitation
  */
-class Magento_Invitation_Block_Adminhtml_Invitation_View_Tab_General extends Magento_Adminhtml_Block_Template
-    implements Magento_Backend_Block_Widget_Tab_Interface
+namespace Magento\Invitation\Block\Adminhtml\Invitation\View\Tab;
+
+class General extends \Magento\Adminhtml\Block\Template
+    implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     protected $_template = 'view/tab/general.phtml';
 
     /**
      * Invitation data
      *
-     * @var Magento_Invitation_Helper_Data
+     * @var \Magento\Invitation\Helper\Data
      */
     protected $_invitationData = null;
     
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Invitation_Helper_Data $invitationData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Invitation\Helper\Data $invitationData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Invitation_Helper_Data $invitationData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Invitation\Helper\Data $invitationData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -95,7 +97,7 @@ class Magento_Invitation_Block_Adminhtml_Invitation_View_Tab_General extends Mag
     /**
      * Return Invitation for view
      *
-     * @return Magento_Invitation_Model_Invitation
+     * @return \Magento\Invitation\Model\Invitation
      */
     public function getInvitation()
     {
@@ -133,7 +135,7 @@ class Magento_Invitation_Block_Adminhtml_Invitation_View_Tab_General extends Mag
     public function formatDate($date = null, $format = 'short', $showTime = false)
     {
         if (is_string($date)) {
-            $date = Mage::app()->getLocale()->date($date, Magento_Date::DATETIME_INTERNAL_FORMAT);
+            $date = \Mage::app()->getLocale()->date($date, \Magento\Date::DATETIME_INTERNAL_FORMAT);
         }
 
         return parent::formatDate($date, $format, $showTime);
@@ -142,13 +144,13 @@ class Magento_Invitation_Block_Adminhtml_Invitation_View_Tab_General extends Mag
     /**
      * Return invitation customer model
      *
-     * @return Magento_Customer_Model_Customer
+     * @return \Magento\Customer\Model\Customer
      */
     public function getReferral()
     {
         if (!$this->hasData('referral')) {
             if ($this->getInvitation()->getReferralId()) {
-                $referral = Mage::getModel('Magento_Customer_Model_Customer')->load(
+                $referral = \Mage::getModel('Magento\Customer\Model\Customer')->load(
                     $this->getInvitation()->getReferralId()
                 );
             } else {
@@ -164,13 +166,13 @@ class Magento_Invitation_Block_Adminhtml_Invitation_View_Tab_General extends Mag
     /**
      * Return invitation customer model
      *
-     * @return Magento_Customer_Model_Customer
+     * @return \Magento\Customer\Model\Customer
      */
     public function getCustomer()
     {
         if (!$this->hasData('customer')) {
             if ($this->getInvitation()->getCustomerId()) {
-                $customer = Mage::getModel('Magento_Customer_Model_Customer')->load(
+                $customer = \Mage::getModel('Magento\Customer\Model\Customer')->load(
                     $this->getInvitation()->getCustomerId()
                 );
             } else {
@@ -186,12 +188,12 @@ class Magento_Invitation_Block_Adminhtml_Invitation_View_Tab_General extends Mag
     /**
      * Return customer group collection
      *
-     * @return Magento_Customer_Model_Resource_Group_Collection
+     * @return \Magento\Customer\Model\Resource\Group\Collection
      */
     public function getCustomerGroupCollection()
     {
         if (!$this->hasData('customer_groups_collection')) {
-            $groups = Mage::getModel('Magento_Customer_Model_Group')->getCollection()
+            $groups = \Mage::getModel('Magento\Customer\Model\Group')->getCollection()
                 ->addFieldToFilter('customer_group_id', array('gt'=> 0))
                 ->load();
             $this->setData('customer_groups_collection', $groups);
@@ -230,7 +232,7 @@ class Magento_Invitation_Block_Adminhtml_Invitation_View_Tab_General extends Mag
      */
     public function getWebsiteName()
     {
-        return Mage::app()->getStore($this->getInvitation()->getStoreId())
+        return \Mage::app()->getStore($this->getInvitation()->getStoreId())
             ->getWebsite()->getName();
     }
 
@@ -241,7 +243,7 @@ class Magento_Invitation_Block_Adminhtml_Invitation_View_Tab_General extends Mag
      */
     public function getStoreName()
     {
-        return Mage::app()->getStore($this->getInvitation()->getStoreId())
+        return \Mage::app()->getStore($this->getInvitation()->getStoreId())
             ->getName();
     }
 
@@ -253,7 +255,7 @@ class Magento_Invitation_Block_Adminhtml_Invitation_View_Tab_General extends Mag
     public function getInvitationUrl()
     {
         if (!$this->getInvitation()->canBeAccepted(
-            Mage::app()->getStore($this->getInvitation()->getStoreId())->getWebsiteId())) {
+            \Mage::app()->getStore($this->getInvitation()->getStoreId())->getWebsiteId())) {
             return false;
         }
         return $this->_invitationData->getInvitationUrl($this->getInvitation());

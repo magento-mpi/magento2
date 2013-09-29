@@ -11,8 +11,10 @@
 /**
  * Background image renderer
  */
-class Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Renderer_BackgroundImage
-    extends Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Renderer_Abstract
+namespace Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Renderer;
+
+class BackgroundImage
+    extends \Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Renderer\AbstractRenderer
 {
     /**
      * Render color picker attribute

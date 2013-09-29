@@ -16,8 +16,10 @@
  * @package     Magento_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Bundle_Block_Adminhtml_Catalog_Product_Composite_Fieldset_Options_Type_Checkbox
-    extends Magento_Bundle_Block_Catalog_Product_View_Type_Bundle_Option_Checkbox
+namespace Magento\Bundle\Block\Adminhtml\Catalog\Product\Composite\Fieldset\Options\Type;
+
+class Checkbox
+    extends \Magento\Bundle\Block\Catalog\Product\View\Type\Bundle\Option\Checkbox
 {
     protected $_template = 'product/composite/fieldset/options/type/checkbox.phtml';
 

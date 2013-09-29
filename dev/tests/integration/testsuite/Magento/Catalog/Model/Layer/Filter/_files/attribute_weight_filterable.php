@@ -9,9 +9,9 @@
  * @license     {license_link}
  */
 
-/** @var $installer Magento_Catalog_Model_Resource_Setup */
-$installer = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Catalog_Model_Resource_Setup', array('resourceName' => 'catalog_setup'));
+/** @var $installer \Magento\Catalog\Model\Resource\Setup */
+$installer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Catalog\Model\Resource\Setup', array('resourceName' => 'catalog_setup'));
 
 $installer->updateAttribute('catalog_product', 'weight', 'is_filterable', 1);
 

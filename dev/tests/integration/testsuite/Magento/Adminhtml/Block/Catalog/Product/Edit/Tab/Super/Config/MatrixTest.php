@@ -9,10 +9,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super\Config;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_MatrixTest extends PHPUnit_Framework_TestCase
+class MatrixTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @magentoAppIsolation enabled
@@ -20,23 +22,23 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_MatrixTest e
      */
     public function testGetVariations()
     {
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $objectManager->get('Magento_Core_Model_Registry')
-            ->register('current_product', Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Product')->load(1));
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
-            ->createBlock('Magento_Core_Block_Text', 'head');
-        /** @var $usedAttribute Magento_Catalog_Model_Entity_Attribute */
-        $usedAttribute = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Catalog_Model_Entity_Attribute')->loadByCode(
-                Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Eav_Model_Config')->
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $objectManager->get('Magento\Core\Model\Registry')
+            ->register('current_product', \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product')->load(1));
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            ->createBlock('Magento\Core\Block\Text', 'head');
+        /** @var $usedAttribute \Magento\Catalog\Model\Entity\Attribute */
+        $usedAttribute = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Catalog\Model\Entity\Attribute')->loadByCode(
+                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Eav\Model\Config')->
                     getEntityType('catalog_product')->getId(),
                 'test_configurable'
             );
         $attributeOptions = $usedAttribute->getSource()->getAllOptions(false);
-        /** @var $block Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Matrix */
-        $block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
+        /** @var $block \Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super\Config_Matrix */
+        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
             ->createBlock(preg_replace('/Test$/', '', __CLASS__));
 
         $variations = $block->getVariations();

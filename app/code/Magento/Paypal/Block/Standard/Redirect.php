@@ -7,37 +7,39 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Paypal_Block_Standard_Redirect extends Magento_Core_Block_Abstract
+namespace Magento\Paypal\Block\Standard;
+
+class Redirect extends \Magento\Core\Block\AbstractBlock
 {
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
     /**
-     * @var Magento_Data_Form_Factory
+     * @var \Magento\Data\Form\Factory
      */
     protected $_formFactory;
 
     /**
-     * @var Magento_Data_Form_Element_Factory
+     * @var \Magento\Data\Form\Element\Factory
      */
     protected $_elementFactory;
 
     /**
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Data_Form_Element_Factory $elementFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Context $context
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Data\Form\Element\Factory $elementFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Data_Form_Element_Factory $elementFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Context $context,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Data\Form\Element\Factory $elementFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Context $context,
         array $data = array()
     ) {
         $this->_coreData = $coreData;
@@ -48,7 +50,7 @@ class Magento_Paypal_Block_Standard_Redirect extends Magento_Core_Block_Abstract
 
     protected function _toHtml()
     {
-        $standard = Mage::getModel('Magento_Paypal_Model_Standard');
+        $standard = \Mage::getModel('Magento\Paypal\Model\Standard');
 
         $form = $this->_formFactory->create();
         $form->setAction($standard->getConfig()->getPaypalUrl())

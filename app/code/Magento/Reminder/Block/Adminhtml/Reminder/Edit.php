@@ -11,7 +11,9 @@
 /**
  * Reminder rule edit form block
  */
-class Magento_Reminder_Block_Adminhtml_Reminder_Edit extends Magento_Backend_Block_Widget_Form_Container
+namespace Magento\Reminder\Block\Adminhtml\Reminder;
+
+class Edit extends \Magento\Backend\Block\Widget\Form\Container
 {
     /**
      * Core registry
@@ -21,22 +23,22 @@ class Magento_Reminder_Block_Adminhtml_Reminder_Edit extends Magento_Backend_Blo
     /**
      * Reminder data
      *
-     * @var Magento_Reminder_Helper_Data
+     * @var \Magento\Reminder\Helper\Data
      */
     protected $_reminderData = null;
 
     /**
-     * @param Magento_Reminder_Helper_Data $reminderData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Reminder\Helper\Data $reminderData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Reminder_Helper_Data $reminderData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Reminder\Helper\Data $reminderData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -58,7 +60,7 @@ class Magento_Reminder_Block_Adminhtml_Reminder_Edit extends Magento_Backend_Blo
 
         parent::_construct();
 
-        /** @var $rule Magento_Reminder_Model_Rule */
+        /** @var $rule \Magento\Reminder\Model\Rule */
         $rule = $this->_coreRegistry->registry('current_reminder_rule');
         if ($rule && $rule->getId()) {
             $confirm = __('Are you sure you want to match this rule now?');

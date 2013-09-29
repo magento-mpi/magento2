@@ -1,6 +1,6 @@
 <?php
 /**
- * Test for Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource block.
+ * Test for \Magento\Webapi\Block\Adminhtml\Role\Edit\Tab\Resource block.
  *
  * {license_notice}
  *
@@ -8,38 +8,40 @@
  * @license     {license_link}
  */
 
+namespace Magento\Webapi\Block\Adminhtml\Role\Edit\Tab;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_ResourceTest extends PHPUnit_Framework_TestCase
+class ResourceTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_TestFramework_ObjectManager
+     * @var \Magento\TestFramework\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @var Magento_Core_Model_Layout
+     * @var \Magento\Core\Model\Layout
      */
     protected $_layout;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_resourceProvider;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_ruleResource;
 
     /**
-     * @var Magento_Core_Model_BlockFactory
+     * @var \Magento\Core\Model\BlockFactory
      */
     protected $_blockFactory;
 
     /**
-     * @var Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource
+     * @var \Magento\Webapi\Block\Adminhtml\Role\Edit\Tab\Resource
      */
     protected $_block;
 
@@ -47,17 +49,17 @@ class Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_ResourceTest extends PHPUnit_
     {
         parent::setUp();
 
-        $this->_resourceProvider = $this->getMock('Magento_Webapi_Model_Acl_Resource_ProviderInterface');
+        $this->_resourceProvider = $this->getMock('Magento\Webapi\Model\Acl\Resource\ProviderInterface');
 
-        $this->_ruleResource = $this->getMockBuilder('Magento_Webapi_Model_Resource_Acl_Rule')
+        $this->_ruleResource = $this->getMockBuilder('Magento\Webapi\Model\Resource\Acl\Rule')
             ->disableOriginalConstructor()
             ->setMethods(array('getResourceIdsByRole'))
             ->getMock();
 
-        $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $this->_layout = $this->_objectManager->get('Magento_Core_Model_Layout');
-        $this->_blockFactory = $this->_objectManager->get('Magento_Core_Model_BlockFactory');
-        $this->_block = $this->_blockFactory->createBlock('Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource',
+        $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $this->_layout = $this->_objectManager->get('Magento\Core\Model\Layout');
+        $this->_blockFactory = $this->_objectManager->get('Magento\Core\Model\BlockFactory');
+        $this->_block = $this->_blockFactory->createBlock('Magento\Webapi\Block\Adminhtml\Role\Edit\Tab\Resource',
             array(
                 'resourceProvider' => $this->_resourceProvider,
                 'ruleResource' => $this->_ruleResource
@@ -68,7 +70,7 @@ class Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_ResourceTest extends PHPUnit_
 
     protected function tearDown()
     {
-        $this->_objectManager->removeSharedInstance('Magento_Core_Model_Layout');
+        $this->_objectManager->removeSharedInstance('Magento\Core\Model\Layout');
         unset($this->_objectManager, $this->_layout, $this->_resourceProvider, $this->_blockFactory, $this->_block);
     }
 
@@ -83,7 +85,7 @@ class Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_ResourceTest extends PHPUnit_
     public function testPrepareForm($originResTree, $selectedRes, $expectedRes)
     {
         // TODO: Move to unit tests after MAGETWO-4015 complete.
-        $apiRole = new Magento_Object(array(
+        $apiRole = new \Magento\Object(array(
             'role_id' => 1
         ));
         $apiRole->setIdFieldName('role_id');

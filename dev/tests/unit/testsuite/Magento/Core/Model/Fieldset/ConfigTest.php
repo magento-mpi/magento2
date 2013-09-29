@@ -1,35 +1,37 @@
 <?php
 /**
- * Magento_Core_Model_Fieldset_Config
+ * \Magento\Core\Model\Fieldset\Config
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Fieldset_ConfigTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Fieldset;
+
+class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Fieldset_Config_Data|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Model\Fieldset\Config\Data|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_storageMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject|Magento_Core_Model_Fieldset_Config
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Model\Fieldset\Config
      */
     protected $_model;
 
     public function setUp()
     {
         $this->_storageMock = $this->getMock(
-            'Magento_Core_Model_Fieldset_Config_Data',
+            'Magento\Core\Model\Fieldset\Config\Data',
             array('get'),
             array(),
             '',
             false
         );
 
-        $this->_model = new Magento_Core_Model_Fieldset_Config($this->_storageMock);
+        $this->_model = new \Magento\Core\Model\Fieldset\Config($this->_storageMock);
     }
 
     public function testGetFieldsets()

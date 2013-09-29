@@ -7,14 +7,16 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Model_Resource_Acl_Role extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Webapi\Model\Resource\Acl;
+
+class Role extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Class constructor.
      *
-     * @param Magento_Core_Model_Resource $resource
+     * @param \Magento\Core\Model\Resource $resource
      */
-    public function __construct(Magento_Core_Model_Resource $resource)
+    public function __construct(\Magento\Core\Model\Resource $resource)
     {
         parent::__construct($resource);
     }
@@ -30,7 +32,7 @@ class Magento_Webapi_Model_Resource_Acl_Role extends Magento_Core_Model_Resource
     /**
      * Initialize unique fields.
      *
-     * @return Magento_Webapi_Model_Resource_Acl_Role
+     * @return \Magento\Webapi\Model\Resource\Acl\Role
      */
     protected function _initUniqueFields()
     {

@@ -8,28 +8,30 @@
  * @license     {license_link}
  */
 
+namespace Magento\User\Model\Resource\Role;
+
 /**
  * Role collection test
  * @magentoAppArea adminhtml
  */
-class Magento_User_Model_Resource_Role_CollectionTest extends PHPUnit_Framework_TestCase
+class CollectionTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_User_Model_Resource_Role_Collection
+     * @var \Magento\User\Model\Resource\Role\Collection
      */
     protected $_collection;
 
     protected function setUp()
     {
-        $this->_collection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_User_Model_Resource_Role_Collection');
+        $this->_collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\User\Model\Resource\Role\Collection');
     }
 
     public function testSetUserFilter()
     {
-        $user = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_User_Model_User');
-        $user->loadByUsername(Magento_TestFramework_Bootstrap::ADMIN_NAME);
+        $user = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\User\Model\User');
+        $user->loadByUsername(\Magento\TestFramework\Bootstrap::ADMIN_NAME);
         $this->_collection->setUserFilter($user->getId());
 
         $selectQueryStr = $this->_collection->getSelect()->__toString();

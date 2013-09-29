@@ -16,7 +16,9 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Resource_Order_Collection extends Magento_Sales_Model_Resource_Collection_Abstract
+namespace Magento\Sales\Model\Resource\Order;
+
+class Collection extends \Magento\Sales\Model\Resource\Collection\AbstractCollection
 {
     /**
      * Event prefix
@@ -33,25 +35,25 @@ class Magento_Sales_Model_Resource_Order_Collection extends Magento_Sales_Model_
     protected $_eventObject    = 'order_collection';
 
     /**
-     * @var Magento_Core_Model_Resource_Helper
+     * @var \Magento\Core\Model\Resource\Helper
      */
     protected $_coreResourceHelper;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_EntityFactory $entityFactory
-     * @param Magento_Core_Model_Resource_Helper $coreResourceHelper
-     * @param Magento_Core_Model_Resource_Db_Abstract $resource
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Core\Model\Resource\Helper $coreResourceHelper
+     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Logger $logger,
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_EntityFactory $entityFactory,
-        Magento_Core_Model_Resource_Helper $coreResourceHelper,
-        Magento_Core_Model_Resource_Db_Abstract $resource = null
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Core\Model\Resource\Helper $coreResourceHelper,
+        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
     ) {
         parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
         $this->_coreResourceHelper = $coreResourceHelper;
@@ -62,7 +64,7 @@ class Magento_Sales_Model_Resource_Order_Collection extends Magento_Sales_Model_
      */
     protected function _construct()
     {
-        $this->_init('Magento_Sales_Model_Order', 'Magento_Sales_Model_Resource_Order');
+        $this->_init('Magento\Sales\Model\Order', 'Magento\Sales\Model\Resource\Order');
         $this->addFilterToMap('entity_id', 'main_table.entity_id')
             ->addFilterToMap('customer_id', 'main_table.customer_id')
             ->addFilterToMap('quote_address_id', 'main_table.quote_address_id');
@@ -71,7 +73,7 @@ class Magento_Sales_Model_Resource_Order_Collection extends Magento_Sales_Model_
     /**
      * Add items count expr to collection select, backward capability with eav structure
      *
-     * @return Magento_Sales_Model_Resource_Order_Collection
+     * @return \Magento\Sales\Model\Resource\Order\Collection
      */
     public function addItemCountExpr()
     {
@@ -87,11 +89,11 @@ class Magento_Sales_Model_Resource_Order_Collection extends Magento_Sales_Model_
     /**
      * Minimize usual count select
      *
-     * @return Magento_DB_Select
+     * @return \Magento\DB\Select
      */
     public function getSelectCountSql()
     {
-        /* @var $countSelect Magento_DB_Select */
+        /* @var $countSelect \Magento\DB\Select */
         $countSelect = parent::getSelectCountSql();
         $countSelect->resetJoinLeft();
         return $countSelect;
@@ -102,7 +104,7 @@ class Magento_Sales_Model_Resource_Order_Collection extends Magento_Sales_Model_
      *
      * @param int $limit
      * @param int $offset
-     * @return Magento_Eav_Model_Entity_Collection_Abstract
+     * @return \Magento\Eav\Model\Entity\Collection\AbstractCollection
      */
     protected function _getAllIdsSelect($limit = null, $offset = null)
     {
@@ -115,7 +117,7 @@ class Magento_Sales_Model_Resource_Order_Collection extends Magento_Sales_Model_
      * Join table sales_flat_order_address to select for billing and shipping order addresses.
      * Create corillation map
      *
-     * @return Magento_Sales_Model_Resource_Order_Collection
+     * @return \Magento\Sales\Model\Resource\Order\Collection
      */
     protected function _addAddressFields()
     {
@@ -165,7 +167,7 @@ class Magento_Sales_Model_Resource_Order_Collection extends Magento_Sales_Model_
     /**
      * Add addresses information to select
      *
-     * @return Magento_Sales_Model_Resource_Collection_Abstract
+     * @return \Magento\Sales\Model\Resource\Collection\AbstractCollection
      */
     public function addAddressFields()
     {
@@ -179,7 +181,7 @@ class Magento_Sales_Model_Resource_Order_Collection extends Magento_Sales_Model_
      *
      * @param string $field
      * @param null|string|array $condition
-     * @return Magento_Sales_Model_Resource_Order_Collection
+     * @return \Magento\Sales\Model\Resource\Order\Collection
      */
     public function addFieldToSearchFilter($field, $condition = null)
     {
@@ -193,7 +195,7 @@ class Magento_Sales_Model_Resource_Order_Collection extends Magento_Sales_Model_
      *
      * @param array $attributes
      * @param array|integer|string|null $condition
-     * @return Magento_Sales_Model_Resource_Order_Collection
+     * @return \Magento\Sales\Model\Resource\Order\Collection
      */
     public function addAttributeToSearchFilter($attributes, $condition = null)
     {
@@ -214,7 +216,7 @@ class Magento_Sales_Model_Resource_Order_Collection extends Magento_Sales_Model_
      * Add filter by specified billing agreements
      *
      * @param int|array $agreements
-     * @return Magento_Sales_Model_Resource_Order_Collection
+     * @return \Magento\Sales\Model\Resource\Order\Collection
      */
     public function addBillingAgreementsFilter($agreements)
     {
@@ -232,7 +234,7 @@ class Magento_Sales_Model_Resource_Order_Collection extends Magento_Sales_Model_
      * Add filter by specified recurring profile id(s)
      *
      * @param array|int $ids
-     * @return Magento_Sales_Model_Resource_Order_Collection
+     * @return \Magento\Sales\Model\Resource\Order\Collection
      */
     public function addRecurringProfilesFilter($ids)
     {

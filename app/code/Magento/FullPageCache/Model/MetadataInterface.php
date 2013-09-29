@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Magento_FullPageCache_Model_MetadataInterface
+namespace Magento\FullPageCache\Model;
+
+interface MetadataInterface
 {
     /**
      * Metadata cache suffix

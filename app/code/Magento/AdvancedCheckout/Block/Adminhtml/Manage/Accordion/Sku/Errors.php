@@ -15,26 +15,28 @@
  * @package    Magento_AdvancedCheckout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Sku_Errors
-    extends Magento_AdvancedCheckout_Block_Adminhtml_Sku_Errors_Abstract
+namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion\Sku;
+
+class Errors
+    extends \Magento\AdvancedCheckout\Block\Adminhtml\Sku\Errors\AbstractErrors
 {
     /**
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_registry;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_AdvancedCheckout_Model_CartFactory $cartFactory
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\AdvancedCheckout\Model\CartFactory $cartFactory
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_AdvancedCheckout_Model_CartFactory $cartFactory,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\AdvancedCheckout\Model\CartFactory $cartFactory,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_registry = $registry;
@@ -70,7 +72,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Sku_Errors
     /**
      * Returns current store model
      *
-     * @return Magento_Core_Model_Store
+     * @return \Magento\Core\Model\Store
      */
     public function getStore()
     {

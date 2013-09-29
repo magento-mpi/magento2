@@ -9,7 +9,9 @@
  */
 
 
-class Magento_Payment_Block_Form_Purchaseorder extends Magento_Payment_Block_Form
+namespace Magento\Payment\Block\Form;
+
+class Purchaseorder extends \Magento\Payment\Block\Form
 {
 
     protected $_template = 'Magento_Payment::form/purchaseorder.phtml';

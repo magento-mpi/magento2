@@ -3,12 +3,14 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_ObjectManager
+ * @package     \Magento\ObjectManager
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-interface Magento_ObjectManager
+namespace Magento;
+
+interface ObjectManager
 {
     /**
      * Create new object instance

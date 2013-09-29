@@ -9,7 +9,9 @@
  */
 
 
-class Magento_Sitemap_Model_Config_Source_Frequency implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Sitemap\Model\Config\Source;
+
+class Frequency implements \Magento\Core\Model\Option\ArrayInterface
 {
     public function toOptionArray()
     {

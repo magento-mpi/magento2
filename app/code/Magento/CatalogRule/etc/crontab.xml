@@ -8,7 +8,7 @@
  */
 -->
 <config>
-    <job name="catalogrule_apply_all" instance="Magento_CatalogRule_Model_Observer" method="dailyCatalogUpdate">
+    <job name="catalogrule_apply_all" instance="Magento\CatalogRule\Model\Observer" method="dailyCatalogUpdate">
         <schedule>0 1 * * *</schedule>
     </job>
 </config>

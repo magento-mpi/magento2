@@ -5,8 +5,10 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_AdminNotification_Model_System_Message_Media_Synchronization_Success
-    extends Magento_AdminNotification_Model_System_Message_Media_SynchronizationAbstract
+namespace Magento\AdminNotification\Model\System\Message\Media\Synchronization;
+
+class Success
+    extends \Magento\AdminNotification\Model\System\Message\Media\SynchronizationAbstract
 {
     /**
      * Message identity
@@ -25,7 +27,7 @@ class Magento_AdminNotification_Model_System_Message_Media_Synchronization_Succe
         $state = $this->_syncFlag->getState();
         $data = $this->_syncFlag->getFlagData();
         $hasErrors = isset($data['has_errors']) && true == $data['has_errors'] ? true : false;
-        return false == $hasErrors && Magento_Core_Model_File_Storage_Flag::STATE_FINISHED == $state;
+        return false == $hasErrors && \Magento\Core\Model\File\Storage\Flag::STATE_FINISHED == $state;
     }
 
     /**

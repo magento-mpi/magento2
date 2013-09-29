@@ -8,25 +8,27 @@
  * @license    {license_link}
  */
 
-class Magento_Tools_Migration_System_Configuration_Mapper
+namespace Magento\Tools\Migration\System\Configuration;
+
+class Mapper
 {
 
     /**
-     * @var Magento_Tools_Migration_System_Configuration_Mapper_Tab
+     * @var \Magento\Tools\Migration\System\Configuration\Mapper\Tab
      */
     protected $_tabMapper;
 
     /**
-     * @var Magento_Tools_Migration_System_Configuration_Mapper_Section
+     * @var \Magento\Tools\Migration\System\Configuration\Mapper\Section
      */
     protected $_sectionMapper;
 
     /**
-     * @param Magento_Tools_Migration_System_Configuration_Mapper_Tab $tabMapper
-     * @param Magento_Tools_Migration_System_Configuration_Mapper_Section $sectionMapper
+     * @param \Magento\Tools\Migration\System\Configuration\Mapper\Tab $tabMapper
+     * @param \Magento\Tools\Migration\System\Configuration\Mapper\Section $sectionMapper
      */
-    public function __construct(Magento_Tools_Migration_System_Configuration_Mapper_Tab $tabMapper,
-        Magento_Tools_Migration_System_Configuration_Mapper_Section $sectionMapper
+    public function __construct(\Magento\Tools\Migration\System\Configuration\Mapper\Tab $tabMapper,
+        \Magento\Tools\Migration\System\Configuration\Mapper\Section $sectionMapper
     ) {
         $this->_tabMapper = $tabMapper;
         $this->_sectionMapper = $sectionMapper;

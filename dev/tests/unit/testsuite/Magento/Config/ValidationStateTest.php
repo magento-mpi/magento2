@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Config_ValidationStateTest extends PHPUnit_Framework_TestCase
+namespace Magento\Config;
+
+class ValidationStateTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @param string $appMode
@@ -14,7 +16,7 @@ class Magento_Config_ValidationStateTest extends PHPUnit_Framework_TestCase
      */
     public function testIsValidated($appMode, $expectedResult)
     {
-        $model = new Magento_Core_Model_Config_ValidationState($appMode);
+        $model = new \Magento\Core\Model\Config\ValidationState($appMode);
         $this->assertEquals($model->isValidated(), $expectedResult);
     }
 
@@ -25,15 +27,15 @@ class Magento_Config_ValidationStateTest extends PHPUnit_Framework_TestCase
     {
         return array(
             array(
-                Magento_Core_Model_App_State::MODE_DEVELOPER,
+                \Magento\Core\Model\App\State::MODE_DEVELOPER,
                 true
             ),
             array(
-                Magento_Core_Model_App_State::MODE_DEFAULT,
+                \Magento\Core\Model\App\State::MODE_DEFAULT,
                 false
             ),
             array(
-                Magento_Core_Model_App_State::MODE_PRODUCTION,
+                \Magento\Core\Model\App\State::MODE_PRODUCTION,
                 false
             ),
         );

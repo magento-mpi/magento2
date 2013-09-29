@@ -1,6 +1,6 @@
 <?php
 /**
- * Proxy class for Magento_Backend_Model_Url
+ * Proxy class for \Magento\Backend\Model\Url
  *
  * {license_notice}
  *
@@ -9,28 +9,32 @@
  * @copyright   {copyright}
  * @license     {license_link}
  *
- * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  */
-class Magento_Backend_Model_Url_Proxy extends Magento_Backend_Model_Url
+namespace Magento\Backend\Model\Url;
+
+/**
+* @SuppressWarnings(PHPMD.ExcessivePublicCount)
+*/
+class Proxy extends \Magento\Backend\Model\Url
 {
     /**
      * Object Manager instance
      *
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager = null;
 
     /**
-     * @var Magento_Backend_Model_Url
+     * @var \Magento\Backend\Model\Url
      */
     protected $_object;
 
     /**
      * Proxy constructor
      *
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
@@ -38,12 +42,12 @@ class Magento_Backend_Model_Url_Proxy extends Magento_Backend_Model_Url
     /**
      * Get instance
      *
-     * @return Magento_Backend_Model_Url
+     * @return \Magento\Backend\Model\Url
      */
     protected function _getObject()
     {
         if (null === $this->_object) {
-            $this->_object = $this->_objectManager->get('Magento_Backend_Model_Url');
+            $this->_object = $this->_objectManager->get('Magento\Backend\Model\Url');
         }
         return $this->_object;
     }
@@ -131,7 +135,7 @@ class Magento_Backend_Model_Url_Proxy extends Magento_Backend_Model_Url
     /**
      * {@inheritdoc}
      */
-    public function setSession(Magento_Backend_Model_Auth_Session $session)
+    public function setSession(\Magento\Backend\Model\Auth\Session $session)
     {
         return $this->_getObject()->setSession($session);
     }
@@ -659,9 +663,9 @@ class Magento_Backend_Model_Url_Proxy extends Magento_Backend_Model_Url
     /**
      * {@inheritdoc}
      */
-    public function __toArray(array $keys = array())
+    public function convertToArray(array $keys = array())
     {
-        return $this->_getObject()->__toArray($keys);
+        return $this->_getObject()->convertToArray($keys);
     }
 
     /**
@@ -675,9 +679,13 @@ class Magento_Backend_Model_Url_Proxy extends Magento_Backend_Model_Url
     /**
      * {@inheritdoc}
      */
-    public function __toXml(array $arrAttributes = array(), $rootName = 'item', $addOpenTag = false, $addCdata = true)
-    {
-        return $this->_getObject()->__toXml($arrAttributes, $rootName, $addOpenTag, $addCdata);
+    public function convertToXml(
+        array $arrAttributes = array(),
+        $rootName = 'item',
+        $addOpenTag = false,
+        $addCdata = true
+    ) {
+        return $this->_getObject()->convertToXml($arrAttributes, $rootName, $addOpenTag, $addCdata);
     }
 
     /**
@@ -691,9 +699,9 @@ class Magento_Backend_Model_Url_Proxy extends Magento_Backend_Model_Url
     /**
      * {@inheritdoc}
      */
-    public function __toJson(array $keys = array())
+    public function convertToJson(array $keys = array())
     {
-        return $this->_getObject()->__toJson($keys);
+        return $this->_getObject()->convertToJson($keys);
     }
 
     /**

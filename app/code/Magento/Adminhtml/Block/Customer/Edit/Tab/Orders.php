@@ -15,45 +15,47 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Customer_Edit_Tab_Orders extends Magento_Adminhtml_Block_Widget_Grid
+namespace Magento\Adminhtml\Block\Customer\Edit\Tab;
+
+class Orders extends \Magento\Adminhtml\Block\Widget\Grid
 {
     /**
      * Sales reorder
      *
-     * @var Magento_Sales_Helper_Reorder
+     * @var \Magento\Sales\Helper\Reorder
      */
     protected $_salesReorder = null;
     
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @var Magento_Sales_Model_Resource_Order_Grid_CollectionFactory
+     * @var \Magento\Sales\Model\Resource\Order\Grid\CollectionFactory
      */
     protected $_collectionFactory;
 
     /**
-     * @param Magento_Sales_Model_Resource_Order_Grid_CollectionFactory $collectionFactory
-     * @param Magento_Sales_Helper_Reorder $salesReorder
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Url $urlModel
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\Sales\Model\Resource\Order\Grid\CollectionFactory $collectionFactory
+     * @param \Magento\Sales\Helper\Reorder $salesReorder
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Core\Model\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
-        Magento_Sales_Model_Resource_Order_Grid_CollectionFactory $collectionFactory,
-        Magento_Sales_Helper_Reorder $salesReorder,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Url $urlModel,
-        Magento_Core_Model_Registry $coreRegistry,
+        \Magento\Sales\Model\Resource\Order\Grid\CollectionFactory $collectionFactory,
+        \Magento\Sales\Helper\Reorder $salesReorder,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        \Magento\Core\Model\Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
@@ -135,7 +137,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Orders extends Magento_Adminhtml
                 'filter'    => false,
                 'sortable'  => false,
                 'width'     => '100px',
-                'renderer'  => 'Magento_Adminhtml_Block_Sales_Reorder_Renderer_Action'
+                'renderer'  => 'Magento\Adminhtml\Block\Sales\Reorder\Renderer\Action'
             ));
         }
 

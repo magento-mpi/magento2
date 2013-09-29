@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento_Webhook_Model_Resource_Subscription_Collection
+ * \Magento\Webhook\Model\Resource\Subscription\Collection
  *
  * {license_notice}
  *
@@ -9,7 +9,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_Resource_Subscription_CollectionTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webhook\Model\Resource\Subscription;
+
+class CollectionTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Arguments passed to methods under testing
@@ -18,66 +20,66 @@ class Magento_Webhook_Model_Resource_Subscription_CollectionTest extends PHPUnit
     const ALIAS = 'some_alias';
     const API_USER_ID = 'api_user id';
 
-    /** @var PHPUnit_Framework_MockObject_MockObject  */
+    /** @var \PHPUnit_Framework_MockObject_MockObject  */
     private $_connectionMock;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject  */
+    /** @var \PHPUnit_Framework_MockObject_MockObject  */
     private $_selectMock;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject  */
+    /** @var \PHPUnit_Framework_MockObject_MockObject  */
     private $_endpointResMock;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject  */
+    /** @var \PHPUnit_Framework_MockObject_MockObject  */
     private $_fetchStrategyMock;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject  */
+    /** @var \PHPUnit_Framework_MockObject_MockObject  */
     private $_resourceMock;
 
-    /** @var  Magento_Core_Model_EntityFactory */
+    /** @var  \Magento\Core\Model\EntityFactory */
     private $_entityFactory;
 
     /**
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     private $_eventManager;
 
     /**
-     * @var Magento_Core_Model_Logger
+     * @var \Magento\Core\Model\Logger
      */
     private $_loggerMock;
 
     protected function setUp()
     {
-        $this->_loggerMock = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
+        $this->_loggerMock = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false);
         $this->_selectMock = $this->_makeMock('Zend_Db_Select');
         $this->_selectMock->expects($this->any())
             ->method('from')
             ->with(array('main_table' => null));
-        $this->_connectionMock = $this->_makeMock('Magento_DB_Adapter_Pdo_Mysql');
+        $this->_connectionMock = $this->_makeMock('Magento\DB\Adapter\Pdo\Mysql');
 
         $this->_connectionMock->expects($this->any())
             ->method('select')
             ->will($this->returnValue($this->_selectMock));
 
-        $subscriptionMock = $this->_makeMock('Magento_Webhook_Model_Subscription');
-        $eventMgrMock = $this->_makeMock('Magento_Core_Model_Event_Manager');
+        $subscriptionMock = $this->_makeMock('Magento\Webhook\Model\Subscription');
+        $eventMgrMock = $this->_makeMock('Magento\Core\Model\Event\Manager');
 
         // Arguments to collection constructor
-        $this->_eventManager = $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false);
-        $this->_fetchStrategyMock = $this->_makeMock('Magento_Data_Collection_Db_FetchStrategyInterface');
-        $this->_endpointResMock = $this->_makeMock('Magento_Webhook_Model_Resource_Endpoint');
-        $this->_resourceMock = $this-> _makeMock('Magento_Webhook_Model_Resource_Subscription');
+        $this->_eventManager = $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false);
+        $this->_fetchStrategyMock = $this->_makeMock('Magento\Data\Collection\Db\FetchStrategyInterface');
+        $this->_endpointResMock = $this->_makeMock('Magento\Webhook\Model\Resource\Endpoint');
+        $this->_resourceMock = $this-> _makeMock('Magento\Webhook\Model\Resource\Subscription');
         $this->_resourceMock->expects($this->any())
             ->method('getReadConnection')
             ->will($this->returnValue($this->_connectionMock));
-        $this->_entityFactory = $this->getMock('Magento_Core_Model_EntityFactory', array(), array(), '', false);
+        $this->_entityFactory = $this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false);
         // Mock object manager
         $createReturnMap = array(
-            array('Magento_Webhook_Model_Resource_Subscription', array(), $this->_resourceMock),
-            array('Magento_Webhook_Model_Subscription', array(), $subscriptionMock)
+            array('Magento\Webhook\Model\Resource\Subscription', array(), $this->_resourceMock),
+            array('Magento\Webhook\Model\Subscription', array(), $subscriptionMock)
         );
         $getReturnMap = array(
-            array('Magento_Core_Model_Event_Manager', $eventMgrMock),
+            array('Magento\Core\Model\Event\Manager', $eventMgrMock),
         );
         $mockObjectManager = $this->_setMageObjectManager();
         $mockObjectManager->expects($this->any())
@@ -91,8 +93,8 @@ class Magento_Webhook_Model_Resource_Subscription_CollectionTest extends PHPUnit
     public function testInitialization()
     {
         $collection = $this->_makeCollectionMock(array('load')); // At least one method has to be specified
-        $this->assertEquals('Magento_Webhook_Model_Subscription', $collection->getModelName());
-        $this->assertEquals('Magento_Webhook_Model_Resource_Subscription', $collection->getResourceModelName());
+        $this->assertEquals('Magento\Webhook\Model\Subscription', $collection->getModelName());
+        $this->assertEquals('Magento\Webhook\Model\Resource\Subscription', $collection->getResourceModelName());
     }
 
     public function testGetSubscriptionsByTopic()
@@ -183,7 +185,7 @@ class Magento_Webhook_Model_Resource_Subscription_CollectionTest extends PHPUnit
         $this->_selectMock->expects($this->any())
             ->method('from')
             ->with(array('main_table' => null));
-        $this->assertInstanceOf('Magento_Webhook_Model_Resource_Subscription_Collection', $collection->clearFilters());
+        $this->assertInstanceOf('Magento\Webhook\Model\Resource\Subscription\Collection', $collection->clearFilters());
     }
 
     public function testAddEndpointIdsFilter()
@@ -193,7 +195,7 @@ class Magento_Webhook_Model_Resource_Subscription_CollectionTest extends PHPUnit
         $this->_selectMock->expects($this->once())
             ->method('where')
             ->with('endpoint_id IN (?)', $endpointIds);
-        $this->assertInstanceOf('Magento_Webhook_Model_Resource_Subscription_Collection',
+        $this->assertInstanceOf('Magento\Webhook\Model\Resource\Subscription\Collection',
             $collection->addEndpointIdsFilter($endpointIds));
     }
 
@@ -203,7 +205,7 @@ class Magento_Webhook_Model_Resource_Subscription_CollectionTest extends PHPUnit
             ->method('quoteInto')
             ->with('hooks.subscription_id=main_table.subscription_id AND hooks.topic=?', self::TOPIC);
         $collection = $this->_makeCollectionMock(array('load'));
-        $this->assertInstanceOf('Magento_Webhook_Model_Resource_Subscription_Collection',
+        $this->assertInstanceOf('Magento\Webhook\Model\Resource\Subscription\Collection',
             $collection->addTopicFilter(self::TOPIC));
     }
 
@@ -214,7 +216,7 @@ class Magento_Webhook_Model_Resource_Subscription_CollectionTest extends PHPUnit
             ->method('addFieldToFilter')
             ->with('alias', self::ALIAS);
 
-        $this->assertInstanceOf('Magento_Webhook_Model_Resource_Subscription_Collection',
+        $this->assertInstanceOf('Magento\Webhook\Model\Resource\Subscription\Collection',
             $collection->addAliasFilter(self::ALIAS));
     }
 
@@ -223,8 +225,8 @@ class Magento_Webhook_Model_Resource_Subscription_CollectionTest extends PHPUnit
         $collection = $this->_makeCollectionMock(array('addFieldToFilter'));
         $collection->expects($this->once())
             ->method('addFieldToFilter')
-            ->with('status', Magento_PubSub_SubscriptionInterface::STATUS_ACTIVE);
-        $this->assertInstanceOf('Magento_Webhook_Model_Resource_Subscription_Collection',
+            ->with('status', \Magento\PubSub\SubscriptionInterface::STATUS_ACTIVE);
+        $this->assertInstanceOf('Magento\Webhook\Model\Resource\Subscription\Collection',
             $collection->addIsActiveFilter(true));
     }
 
@@ -233,8 +235,8 @@ class Magento_Webhook_Model_Resource_Subscription_CollectionTest extends PHPUnit
         $collection = $this->_makeCollectionMock(array('addFieldToFilter'));
         $collection->expects($this->once())
             ->method('addFieldToFilter')
-            ->with('status', Magento_PubSub_SubscriptionInterface::STATUS_INACTIVE);
-        $this->assertInstanceOf('Magento_Webhook_Model_Resource_Subscription_Collection',
+            ->with('status', \Magento\PubSub\SubscriptionInterface::STATUS_INACTIVE);
+        $this->assertInstanceOf('Magento\Webhook\Model\Resource\Subscription\Collection',
             $collection->addIsActiveFilter(false));
     }
 
@@ -244,9 +246,9 @@ class Magento_Webhook_Model_Resource_Subscription_CollectionTest extends PHPUnit
         $this->_selectMock->expects($this->any())
             ->method('where')
             ->with('status IN (?)', array(
-                Magento_Webhook_Model_Subscription::STATUS_ACTIVE,
-                Magento_Webhook_Model_Subscription::STATUS_REVOKED));
-        $this->assertInstanceOf('Magento_Webhook_Model_Resource_Subscription_Collection',
+                \Magento\Webhook\Model\Subscription::STATUS_ACTIVE,
+                \Magento\Webhook\Model\Subscription::STATUS_REVOKED));
+        $this->assertInstanceOf('Magento\Webhook\Model\Resource\Subscription\Collection',
             $collection->addNotInactiveFilter());
     }
 
@@ -254,11 +256,11 @@ class Magento_Webhook_Model_Resource_Subscription_CollectionTest extends PHPUnit
      * Generations a collection mock, with the given methods stubbed
      *
      * @param array $methods
-     * @return PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit_Framework_MockObject_MockObject
      */
     private function _makeCollectionMock(array $methods)
     {
-        return $this->getMock('Magento_Webhook_Model_Resource_Subscription_Collection', $methods,
+        return $this->getMock('Magento\Webhook\Model\Resource\Subscription\Collection', $methods,
             array(
                 $this->_endpointResMock,
                 $this->_eventManager,
@@ -273,7 +275,7 @@ class Magento_Webhook_Model_Resource_Subscription_CollectionTest extends PHPUnit
      * Generates a mock object of the given class
      *
      * @param string $className
-     * @return PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit_Framework_MockObject_MockObject
      */
     private function _makeMock($className)
     {
@@ -285,14 +287,14 @@ class Magento_Webhook_Model_Resource_Subscription_CollectionTest extends PHPUnit
     /**
      * Makes sure that Mage has a mock object manager set, and returns that instance.
      *
-     * @return PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit_Framework_MockObject_MockObject
      */
     protected function _setMageObjectManager()
     {
-        $mockObjectManager = $this->getMockBuilder('Magento_ObjectManager')
+        $mockObjectManager = $this->getMockBuilder('Magento\ObjectManager')
             ->disableOriginalConstructor()
             ->getMock();
-        Magento_Core_Model_ObjectManager::setInstance($mockObjectManager);
+        \Magento\Core\Model\ObjectManager::setInstance($mockObjectManager);
 
         return $mockObjectManager;
     }

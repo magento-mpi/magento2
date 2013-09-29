@@ -8,7 +8,9 @@
  * @license    {license_link}
  */
 
-interface Magento_Tools_Migration_System_WriterInterface
+namespace Magento\Tools\Migration\System;
+
+interface WriterInterface
 {
     /**
      * @param string $fileName

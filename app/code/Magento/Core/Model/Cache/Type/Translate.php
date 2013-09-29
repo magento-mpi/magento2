@@ -11,7 +11,9 @@
 /**
  * System / Cache Management / Cache type "Translations"
  */
-class Magento_Core_Model_Cache_Type_Translate extends Magento_Cache_Frontend_Decorator_TagScope
+namespace Magento\Core\Model\Cache\Type;
+
+class Translate extends \Magento\Cache\Frontend\Decorator\TagScope
 {
     /**
      * Cache type code unique among all cache types
@@ -24,9 +26,9 @@ class Magento_Core_Model_Cache_Type_Translate extends Magento_Cache_Frontend_Dec
     const CACHE_TAG = 'TRANSLATE';
 
     /**
-     * @param Magento_Core_Model_Cache_Type_FrontendPool $cacheFrontendPool
+     * @param \Magento\Core\Model\Cache\Type\FrontendPool $cacheFrontendPool
      */
-    public function __construct(Magento_Core_Model_Cache_Type_FrontendPool $cacheFrontendPool)
+    public function __construct(\Magento\Core\Model\Cache\Type\FrontendPool $cacheFrontendPool)
     {
         parent::__construct($cacheFrontendPool->get(self::TYPE_IDENTIFIER), self::CACHE_TAG);
     }

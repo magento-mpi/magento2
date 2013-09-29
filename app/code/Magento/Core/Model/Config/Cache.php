@@ -6,7 +6,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Config_Cache
+namespace Magento\Core\Model\Config;
+
+class Cache
 {
     /**
      * Config cache id
@@ -18,12 +20,12 @@ class Magento_Core_Model_Config_Cache
     /**
      * Container factory model
      *
-     * @var Magento_Core_Model_Config_BaseFactory
+     * @var \Magento\Core\Model\Config\BaseFactory
      */
     protected $_containerFactory;
 
     /**
-     * @var Magento_Core_Model_Cache_Type_Config
+     * @var \Magento\Core\Model\Cache\Type\Config
      */
     protected $_configCacheType;
 
@@ -37,17 +39,17 @@ class Magento_Core_Model_Config_Cache
     /**
      * Config container
      *
-     * @var Magento_Core_Model_Config_Base
+     * @var \Magento\Core\Model\Config\Base
      */
     protected $_loadedConfig = null;
 
     /**
-     * @param Magento_Core_Model_Cache_Type_Config $configCacheType
-     * @param Magento_Core_Model_Config_BaseFactory $containerFactory
+     * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
+     * @param \Magento\Core\Model\Config\BaseFactory $containerFactory
      */
     public function __construct(
-        Magento_Core_Model_Cache_Type_Config $configCacheType,
-        Magento_Core_Model_Config_BaseFactory $containerFactory
+        \Magento\Core\Model\Cache\Type\Config $configCacheType,
+        \Magento\Core\Model\Config\BaseFactory $containerFactory
     ) {
         $this->_containerFactory = $containerFactory;
         $this->_configCacheType = $configCacheType;
@@ -74,7 +76,7 @@ class Magento_Core_Model_Config_Cache
     }
 
     /**
-     * @return Magento_Core_Model_ConfigInterface|bool
+     * @return \Magento\Core\Model\ConfigInterface|bool
      */
     public function load()
     {
@@ -90,9 +92,9 @@ class Magento_Core_Model_Config_Cache
     /**
      * Save config cache
      *
-     * @param Magento_Core_Model_Config_Base $config
+     * @param \Magento\Core\Model\Config\Base $config
      */
-    public function save(Magento_Core_Model_Config_Base $config)
+    public function save(\Magento\Core\Model\Config\Base $config)
     {
         $this->_configCacheType->save(
             $config->getNode()->asNiceXml('', false), $this->_cacheId, array(), $this->_cacheLifetime

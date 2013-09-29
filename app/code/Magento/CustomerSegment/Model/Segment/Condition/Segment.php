@@ -11,7 +11,9 @@
 /**
  * Segment condition for sales rules
  */
-class Magento_CustomerSegment_Model_Segment_Condition_Segment extends Magento_Rule_Model_Condition_Abstract
+namespace Magento\CustomerSegment\Model\Segment\Condition;
+
+class Segment extends \Magento\Rule\Model\Condition\AbstractCondition
 {
     /**
      * @var string
@@ -21,41 +23,41 @@ class Magento_CustomerSegment_Model_Segment_Condition_Segment extends Magento_Ru
     /**
      * Adminhtml data
      *
-     * @var Magento_Backend_Helper_Data
+     * @var \Magento\Backend\Helper\Data
      */
     protected $_adminhtmlData;
 
     /**
      * Customer segment data
      *
-     * @var Magento_CustomerSegment_Helper_Data
+     * @var \Magento\CustomerSegment\Helper\Data
      */
     protected $_customerSegmentData;
 
     /**
-     * @var Magento_CustomerSegment_Model_Customer
+     * @var \Magento\CustomerSegment\Model\Customer
      */
     protected $_customer;
 
     /**
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
 
     /**
-     * @param Magento_Customer_Model_Session $customerSession
-     * @param Magento_CustomerSegment_Model_Customer $customer
-     * @param Magento_CustomerSegment_Helper_Data $customerSegmentData
-     * @param Magento_Backend_Helper_Data $adminhtmlData
-     * @param Magento_Rule_Model_Condition_Context $context
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\CustomerSegment\Model\Customer $customer
+     * @param \Magento\CustomerSegment\Helper\Data $customerSegmentData
+     * @param \Magento\Backend\Helper\Data $adminhtmlData
+     * @param \Magento\Rule\Model\Condition\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Customer_Model_Session $customerSession,
-        Magento_CustomerSegment_Model_Customer $customer,
-        Magento_CustomerSegment_Helper_Data $customerSegmentData,
-        Magento_Backend_Helper_Data $adminhtmlData,
-        Magento_Rule_Model_Condition_Context $context,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\CustomerSegment\Model\Customer $customer,
+        \Magento\CustomerSegment\Helper\Data $customerSegmentData,
+        \Magento\Backend\Helper\Data $adminhtmlData,
+        \Magento\Rule\Model\Condition\Context $context,
         array $data = array()
     ) {
         $this->_customerSession = $customerSession;
@@ -144,7 +146,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Segment extends Magento_Ru
     /**
      * Specify allowed comparison operators
      *
-     * @return Magento_CustomerSegment_Model_Segment_Condition_Segment
+     * @return \Magento\CustomerSegment\Model\Segment\Condition\Segment
      */
     public function loadOperatorOptions()
     {
@@ -173,10 +175,10 @@ class Magento_CustomerSegment_Model_Segment_Condition_Segment extends Magento_Ru
     /**
      * Validate if qoute customer is assigned to role segments
      *
-     * @param   Magento_Sales_Model_Quote_Address $object
+     * @param   \Magento\Sales\Model\Quote\Address $object
      * @return  bool
      */
-    public function validate(Magento_Object $object)
+    public function validate(\Magento\Object $object)
     {
         if (!$this->_customerSegmentData->isEnabled()) {
             return false;

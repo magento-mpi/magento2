@@ -8,7 +8,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Event_Manager
+namespace Magento\Core\Model\Event;
+
+class Manager
 {
     /**
      * Events cache
@@ -20,42 +22,42 @@ class Magento_Core_Model_Event_Manager
     /**
      * Event invoker
      *
-     * @var Magento_Core_Model_Event_InvokerInterface
+     * @var \Magento\Core\Model\Event\InvokerInterface
      */
     protected $_invoker;
 
     /**
      * Event config
      *
-     * @var Magento_Core_Model_Event_ConfigInterface
+     * @var \Magento\Core\Model\Event\ConfigInterface
      */
     protected $_eventConfig;
 
     /**
      * Magento event factory
      *
-     * @var Magento_EventFactory
+     * @var \Magento\EventFactory
      */
     protected $_eventFactory;
 
     /**
      * Magento event observer factory
      *
-     * @var Magento_Event_ObserverFactory
+     * @var \Magento\Event\ObserverFactory
      */
     protected $_eventObserverFactory;
 
     /**
-     * @param Magento_Core_Model_Event_InvokerInterface $invoker
-     * @param Magento_Core_Model_Event_ConfigInterface $eventConfig
-     * @param Magento_EventFactory $eventFactory
-     * @param Magento_Event_ObserverFactory $eventObserverFactory
+     * @param \Magento\Core\Model\Event\InvokerInterface $invoker
+     * @param \Magento\Core\Model\Event\ConfigInterface $eventConfig
+     * @param \Magento\EventFactory $eventFactory
+     * @param \Magento\Event\ObserverFactory $eventObserverFactory
      */
     public function __construct(
-        Magento_Core_Model_Event_InvokerInterface $invoker,
-        Magento_Core_Model_Event_ConfigInterface $eventConfig,
-        Magento_EventFactory $eventFactory,
-        Magento_Event_ObserverFactory $eventObserverFactory
+        \Magento\Core\Model\Event\InvokerInterface $invoker,
+        \Magento\Core\Model\Event\ConfigInterface $eventConfig,
+        \Magento\EventFactory $eventFactory,
+        \Magento\Event\ObserverFactory $eventObserverFactory
     ) {
         $this->_invoker = $invoker;
         $this->_eventConfig = $eventConfig;
@@ -74,20 +76,20 @@ class Magento_Core_Model_Event_Manager
      */
     public function dispatch($eventName, array $data = array())
     {
-        Magento_Profiler::start('EVENT:' . $eventName, array('group' => 'EVENT', 'name' => $eventName));
+        \Magento\Profiler::start('EVENT:' . $eventName, array('group' => 'EVENT', 'name' => $eventName));
         foreach ($this->_eventConfig->getObservers($eventName) as $observerConfig) {
-            /** @var $event Magento_Event */
+            /** @var $event \Magento\Event */
             $event = $this->_eventFactory->create(array('data' => $data));
             $event->setName($eventName);
 
-            /** @var $observer Magento_Event_Observer */
+            /** @var $observer \Magento\Event\Observer */
             $observer = $this->_eventObserverFactory->create();
             $observer->setData(array_merge(array('event' => $event), $data));
 
-            Magento_Profiler::start('OBSERVER:' . $observerConfig['name']);
+            \Magento\Profiler::start('OBSERVER:' . $observerConfig['name']);
             $this->_invoker->dispatch($observerConfig, $observer);
-            Magento_Profiler::stop('OBSERVER:' .  $observerConfig['name']);
+            \Magento\Profiler::stop('OBSERVER:' .  $observerConfig['name']);
         }
-        Magento_Profiler::stop('EVENT:' . $eventName);
+        \Magento\Profiler::stop('EVENT:' . $eventName);
     }
 }

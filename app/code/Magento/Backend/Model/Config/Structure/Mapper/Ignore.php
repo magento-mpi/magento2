@@ -11,8 +11,10 @@
 /**
  * System Configuration Ignore Mapper
  */
-class Magento_Backend_Model_Config_Structure_Mapper_Ignore
-    implements Magento_Backend_Model_Config_Structure_MapperInterface
+namespace Magento\Backend\Model\Config\Structure\Mapper;
+
+class Ignore
+    implements \Magento\Backend\Model\Config\Structure\MapperInterface
 {
     /**
      * Apply map

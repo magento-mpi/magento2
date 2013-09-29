@@ -16,7 +16,9 @@
  * @package    Magento_Reports
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reports_Block_Adminhtml_Product_Sold extends Magento_Backend_Block_Widget_Grid_Container
+namespace Magento\Reports\Block\Adminhtml\Product;
+
+class Sold extends \Magento\Backend\Block\Widget\Grid\Container
 {
     protected $_blockGroup = 'Magento_Reports';
 

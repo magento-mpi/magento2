@@ -16,13 +16,15 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Review_Grid_Renderer_Type extends Magento_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
+namespace Magento\Adminhtml\Block\Review\Grid\Renderer;
+
+class Type extends \Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
-    public function render(Magento_Object $row)
+    public function render(\Magento\Object $row)
     {
 
         if (is_null($row->getCustomerId())) {
-            if ($row->getStoreId() == Magento_Core_Model_AppInterface::ADMIN_STORE_ID) {
+            if ($row->getStoreId() == \Magento\Core\Model\AppInterface::ADMIN_STORE_ID) {
                 return __('Administrator');
             } else {
                 return __('Guest');
@@ -32,4 +34,4 @@ class Magento_Adminhtml_Block_Review_Grid_Renderer_Type extends Magento_Adminhtm
         }
 //		return ($row->getCustomerId() ? __('Customer') : __('Guest'));
     }
-}// Class Magento_Adminhtml_Block_Review_Grid_Renderer_Type END
+}// Class \Magento\Adminhtml\Block\Review\Grid\Renderer\Type END

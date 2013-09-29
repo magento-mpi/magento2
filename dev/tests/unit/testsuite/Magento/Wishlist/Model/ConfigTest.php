@@ -5,34 +5,36 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Wishlist_Model_ConfigTest extends PHPUnit_Framework_TestCase
+namespace Magento\Wishlist\Model;
+
+class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Wishlist_Model_Config
+     * @var \Magento\Wishlist\Model\Config
      */
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_storeConfig;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_catalogConfig;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_attributeConfig;
 
     protected function setUp()
     {
-        $this->_storeConfig = $this->getMock('Magento_Core_Model_Store_ConfigInterface');
-        $this->_catalogConfig = $this->getMock('Magento_Catalog_Model_Config', array(), array(), '', false);
-        $this->_attributeConfig = $this->getMock('Magento_Catalog_Model_Attribute_Config', array(), array(), '', false);
-        $this->_model = new Magento_Wishlist_Model_Config(
+        $this->_storeConfig = $this->getMock('Magento\Core\Model\Store\ConfigInterface');
+        $this->_catalogConfig = $this->getMock('Magento\Catalog\Model\Config', array(), array(), '', false);
+        $this->_attributeConfig = $this->getMock('Magento\Catalog\Model\Attribute\Config', array(), array(), '', false);
+        $this->_model = new \Magento\Wishlist\Model\Config(
             $this->_storeConfig, $this->_catalogConfig, $this->_attributeConfig
         );
     }

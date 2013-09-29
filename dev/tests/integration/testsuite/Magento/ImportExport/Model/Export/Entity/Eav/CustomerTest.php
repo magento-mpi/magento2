@@ -12,17 +12,19 @@
 /**
  * Test for customer export model
  */
-class Magento_ImportExport_Model_Export_Entity_Eav_CustomerTest extends PHPUnit_Framework_TestCase
+namespace Magento\ImportExport\Model\Export\Entity\Eav;
+
+class CustomerTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_ImportExport_Model_Export_Entity_Eav_Customer
+     * @var \Magento\ImportExport\Model\Export\Entity\Eav\Customer
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_ImportExport_Model_Export_Entity_Eav_Customer');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\ImportExport\Model\Export\Entity\Eav\Customer');
     }
 
     /**
@@ -33,17 +35,17 @@ class Magento_ImportExport_Model_Export_Entity_Eav_CustomerTest extends PHPUnit_
     public function testExport()
     {
         $expectedAttributes = array();
-        /** @var $collection Magento_Customer_Model_Resource_Attribute_Collection */
-        $collection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Customer_Model_Resource_Attribute_Collection');
-        /** @var $attribute Magento_Customer_Model_Attribute */
+        /** @var $collection \Magento\Customer\Model\Resource\Attribute\Collection */
+        $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Customer\Model\Resource\Attribute\Collection');
+        /** @var $attribute \Magento\Customer\Model\Attribute */
         foreach ($collection as $attribute) {
             $expectedAttributes[] = $attribute->getAttributeCode();
         }
         $expectedAttributes = array_diff($expectedAttributes, $this->_model->getDisabledAttributes());
 
-        $this->_model->setWriter(Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_ImportExport_Model_Export_Adapter_Csv'));
+        $this->_model->setWriter(\Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\ImportExport\Model\Export\Adapter\Csv'));
         $data = $this->_model->export();
         $this->assertNotEmpty($data);
 
@@ -57,10 +59,10 @@ class Magento_ImportExport_Model_Export_Entity_Eav_CustomerTest extends PHPUnit_
 
         $this->assertNotEmpty($lines['data'], 'No data was exported');
 
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        /** @var $customers Magento_Customer_Model_Customer[] */
-        $customers = $objectManager->get('Magento_Core_Model_Registry')
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        /** @var $customers \Magento\Customer\Model\Customer[] */
+        $customers = $objectManager->get('Magento\Core\Model\Registry')
             ->registry('_fixture/Magento_ImportExport_Customer_Collection');
         foreach ($customers as $key => $customer) {
             foreach ($expectedAttributes as $code) {
@@ -88,7 +90,7 @@ class Magento_ImportExport_Model_Export_Entity_Eav_CustomerTest extends PHPUnit_
      */
     public function testGetAttributeCollection()
     {
-        $this->assertInstanceOf('Magento_Customer_Model_Resource_Attribute_Collection',
+        $this->assertInstanceOf('Magento\Customer\Model\Resource\Attribute\Collection',
             $this->_model->getAttributeCollection()
         );
     }
@@ -98,14 +100,14 @@ class Magento_ImportExport_Model_Export_Entity_Eav_CustomerTest extends PHPUnit_
      */
     public function testFilterAttributeCollection()
     {
-        /** @var $collection Magento_Customer_Model_Resource_Attribute_Collection */
+        /** @var $collection \Magento\Customer\Model\Resource\Attribute\Collection */
         $collection = $this->_model->getAttributeCollection();
         $collection = $this->_model->filterAttributeCollection($collection);
         /**
          * Check that disabled attributes is not existed in attribute collection
          */
         $existedAttributes = array();
-        /** @var $attribute Magento_Customer_Model_Attribute */
+        /** @var $attribute \Magento\Customer\Model\Attribute */
         foreach ($collection as $attribute) {
             $existedAttributes[] = $attribute->getAttributeCode();
         }
@@ -121,7 +123,7 @@ class Magento_ImportExport_Model_Export_Entity_Eav_CustomerTest extends PHPUnit_
          * Check that all overridden attributes were affected during filtering process
          */
         $overriddenAttributes = $this->_model->getOverriddenAttributes();
-        /** @var $attribute Magento_Customer_Model_Attribute */
+        /** @var $attribute \Magento\Customer\Model\Attribute */
         foreach ($collection as $attribute) {
             if (isset($overriddenAttributes[$attribute->getAttributeCode()])) {
                 foreach ($overriddenAttributes[$attribute->getAttributeCode()] as $propertyKey => $property) {
@@ -144,23 +146,23 @@ class Magento_ImportExport_Model_Export_Entity_Eav_CustomerTest extends PHPUnit_
     {
         $createdAtDate = '2038-01-01';
 
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
         /**
          * Change created_at date of first customer for future filter test.
          */
-        $customers = $objectManager->get('Magento_Core_Model_Registry')
+        $customers = $objectManager->get('Magento\Core\Model\Registry')
             ->registry('_fixture/Magento_ImportExport_Customer_Collection');
         $customers[0]->setCreatedAt($createdAtDate);
         $customers[0]->save();
         /**
          * Change type of created_at attribute. In this case we have possibility to test date rage filter
          */
-        $attributeCollection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Customer_Model_Resource_Attribute_Collection');
+        $attributeCollection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Customer\Model\Resource\Attribute\Collection');
         $attributeCollection->addFieldToFilter('attribute_code', 'created_at');
-        /** @var $createdAtAttribute Magento_Customer_Model_Attribute */
+        /** @var $createdAtAttribute \Magento\Customer\Model\Attribute */
         $createdAtAttribute = $attributeCollection->getFirstItem();
         $createdAtAttribute->setBackendType('datetime');
         $createdAtAttribute->save();
@@ -168,18 +170,18 @@ class Magento_ImportExport_Model_Export_Entity_Eav_CustomerTest extends PHPUnit_
          * Prepare filter.asd
          */
         $parameters = array(
-            Magento_ImportExport_Model_Export::FILTER_ELEMENT_GROUP => array(
+            \Magento\ImportExport\Model\Export::FILTER_ELEMENT_GROUP => array(
                 'email'      => 'example.com',
                 'created_at' => array($createdAtDate, ''),
-                'store_id'   => Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-                    ->get('Magento_Core_Model_StoreManagerInterface')->getStore()->getId()
+                'store_id'   => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                    ->get('Magento\Core\Model\StoreManagerInterface')->getStore()->getId()
             )
         );
         $this->_model->setParameters($parameters);
-        /** @var $customers Magento_Customer_Model_Resource_Customer_Collection */
+        /** @var $customers \Magento\Customer\Model\Resource\Customer\Collection */
         $collection = $this->_model->filterEntityCollection(
-            Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-                ->create('Magento_Customer_Model_Resource_Customer_Collection')
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                ->create('Magento\Customer\Model\Resource\Customer\Collection')
         );
         $collection->load();
 

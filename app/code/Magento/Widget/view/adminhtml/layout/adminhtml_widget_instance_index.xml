@@ -10,6 +10,6 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <update handle="adminhtml_widget_instance_block"/>
     <referenceContainer name="content">
-        <block class="Magento_Widget_Block_Adminhtml_Widget_Instance" name="adminhtml.widget.instance.grid.container"/>
+        <block class="Magento\Widget\Block\Adminhtml\Widget\Instance" name="adminhtml.widget.instance.grid.container"/>
     </referenceContainer>
 </layout>

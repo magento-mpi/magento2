@@ -15,8 +15,10 @@
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backend_Block_Widget_Grid_Column_Renderer_Options
-    extends Magento_Backend_Block_Widget_Grid_Column_Renderer_Text
+namespace Magento\Backend\Block\Widget\Grid\Column\Renderer;
+
+class Options
+    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Text
 {
     /**
      * Get options from column
@@ -31,10 +33,10 @@ class Magento_Backend_Block_Widget_Grid_Column_Renderer_Options
     /**
      * Render a grid cell as options
      *
-     * @param Magento_Object $row
+     * @param \Magento\Object $row
      * @return string
      */
-    public function render(Magento_Object $row)
+    public function render(\Magento\Object $row)
     {
         $options = $this->_getOptions();
 

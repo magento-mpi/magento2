@@ -16,38 +16,40 @@
  * @package     Magento_Cms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Cms_Model_Resource_Page extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Cms\Model\Resource;
+
+class Page extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Store model
      *
-     * @var null|Magento_Core_Model_Store
+     * @var null|\Magento\Core\Model\Store
      */
     protected $_store  = null;
 
     /**
-     * @var Magento_Core_Model_Date
+     * @var \Magento\Core\Model\Date
      */
     protected $_date;
 
     /**
      * Store manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Core_Model_Date $date
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Core\Model\Date $date
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
-        Magento_Core_Model_Resource $resource,
-        Magento_Core_Model_Date $date,
-        Magento_Core_Model_StoreManagerInterface $storeManager
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Core\Model\Date $date,
+        \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
         parent::__construct($resource);
         $this->_date = $date;
@@ -66,10 +68,10 @@ class Magento_Cms_Model_Resource_Page extends Magento_Core_Model_Resource_Db_Abs
     /**
      * Process page data before deleting
      *
-     * @param Magento_Core_Model_Abstract $object
-     * @return Magento_Cms_Model_Resource_Page
+     * @param \Magento\Core\Model\AbstractModel $object
+     * @return \Magento\Cms\Model\Resource\Page
      */
-    protected function _beforeDelete(Magento_Core_Model_Abstract $object)
+    protected function _beforeDelete(\Magento\Core\Model\AbstractModel $object)
     {
         $condition = array(
             'page_id = ?'     => (int) $object->getId(),
@@ -83,11 +85,11 @@ class Magento_Cms_Model_Resource_Page extends Magento_Core_Model_Resource_Db_Abs
     /**
      * Process page data before saving
      *
-     * @param Magento_Core_Model_Abstract $object
-     * @return Magento_Cms_Model_Resource_Page
-     * @throws Magento_Core_Exception
+     * @param \Magento\Core\Model\AbstractModel $object
+     * @return \Magento\Cms\Model\Resource\Page
+     * @throws \Magento\Core\Exception
      */
-    protected function _beforeSave(Magento_Core_Model_Abstract $object)
+    protected function _beforeSave(\Magento\Core\Model\AbstractModel $object)
     {
         /*
          * For two attributes which represent timestamp data in DB
@@ -101,15 +103,15 @@ class Magento_Cms_Model_Resource_Page extends Magento_Core_Model_Resource_Db_Abs
         }
 
         if (!$this->getIsUniquePageToStores($object)) {
-            throw new Magento_Core_Exception(__('A page URL key for specified store already exists.'));
+            throw new \Magento\Core\Exception(__('A page URL key for specified store already exists.'));
         }
 
         if (!$this->isValidPageIdentifier($object)) {
-            throw new Magento_Core_Exception(__('The page URL key contains capital letters or disallowed symbols.'));
+            throw new \Magento\Core\Exception(__('The page URL key contains capital letters or disallowed symbols.'));
         }
 
         if ($this->isNumericPageIdentifier($object)) {
-            throw new Magento_Core_Exception(__('The page URL key cannot be made of only numbers.'));
+            throw new \Magento\Core\Exception(__('The page URL key cannot be made of only numbers.'));
         }
 
         // modify create / update dates
@@ -125,10 +127,10 @@ class Magento_Cms_Model_Resource_Page extends Magento_Core_Model_Resource_Db_Abs
     /**
      * Assign page to store views
      *
-     * @param Magento_Core_Model_Abstract $object
-     * @return Magento_Cms_Model_Resource_Page
+     * @param \Magento\Core\Model\AbstractModel $object
+     * @return \Magento\Cms\Model\Resource\Page
      */
-    protected function _afterSave(Magento_Core_Model_Abstract $object)
+    protected function _afterSave(\Magento\Core\Model\AbstractModel $object)
     {
         $oldStores = $this->lookupStoreIds($object->getId());
         $newStores = (array)$object->getStores();
@@ -167,12 +169,12 @@ class Magento_Cms_Model_Resource_Page extends Magento_Core_Model_Resource_Db_Abs
     /**
      * Load an object using 'identifier' field if there's no field specified and value is not numeric
      *
-     * @param Magento_Core_Model_Abstract $object
+     * @param \Magento\Core\Model\AbstractModel $object
      * @param mixed $value
      * @param string $field
-     * @return Magento_Cms_Model_Resource_Page
+     * @return \Magento\Cms\Model\Resource\Page
      */
-    public function load(Magento_Core_Model_Abstract $object, $value, $field = null)
+    public function load(\Magento\Core\Model\AbstractModel $object, $value, $field = null)
     {
         if (!is_numeric($value) && is_null($field)) {
             $field = 'identifier';
@@ -184,10 +186,10 @@ class Magento_Cms_Model_Resource_Page extends Magento_Core_Model_Resource_Db_Abs
     /**
      * Perform operations after object load
      *
-     * @param Magento_Core_Model_Abstract $object
-     * @return Magento_Cms_Model_Resource_Page
+     * @param \Magento\Core\Model\AbstractModel $object
+     * @return \Magento\Cms\Model\Resource\Page
      */
-    protected function _afterLoad(Magento_Core_Model_Abstract $object)
+    protected function _afterLoad(\Magento\Core\Model\AbstractModel $object)
     {
         if ($object->getId()) {
             $stores = $this->lookupStoreIds($object->getId());
@@ -204,15 +206,15 @@ class Magento_Cms_Model_Resource_Page extends Magento_Core_Model_Resource_Db_Abs
      *
      * @param string $field
      * @param mixed $value
-     * @param Magento_Cms_Model_Page $object
-     * @return Zend_Db_Select
+     * @param \Magento\Cms\Model\Page $object
+     * @return \Zend_Db_Select
      */
     protected function _getLoadSelect($field, $value, $object)
     {
         $select = parent::_getLoadSelect($field, $value, $object);
 
         if ($object->getStoreId()) {
-            $storeIds = array(Magento_Core_Model_AppInterface::ADMIN_STORE_ID, (int)$object->getStoreId());
+            $storeIds = array(\Magento\Core\Model\AppInterface::ADMIN_STORE_ID, (int)$object->getStoreId());
             $select->join(
                 array('cms_page_store' => $this->getTable('cms_page_store')),
                 $this->getMainTable() . '.page_id = cms_page_store.page_id',
@@ -232,7 +234,7 @@ class Magento_Cms_Model_Resource_Page extends Magento_Core_Model_Resource_Db_Abs
      * @param string $identifier
      * @param int|array $store
      * @param int $isActive
-     * @return Magento_DB_Select
+     * @return \Magento\DB\Select
      */
     protected function _getLoadByIdentifierSelect($identifier, $store, $isActive = null)
     {
@@ -255,13 +257,13 @@ class Magento_Cms_Model_Resource_Page extends Magento_Core_Model_Resource_Db_Abs
     /**
      * Check for unique of identifier of page to selected store(s).
      *
-     * @param Magento_Core_Model_Abstract $object
+     * @param \Magento\Core\Model\AbstractModel $object
      * @return bool
      */
-    public function getIsUniquePageToStores(Magento_Core_Model_Abstract $object)
+    public function getIsUniquePageToStores(\Magento\Core\Model\AbstractModel $object)
     {
         if ($this->_storeManager->hasSingleStore() || !$object->hasStores()) {
-            $stores = array(Magento_Core_Model_AppInterface::ADMIN_STORE_ID);
+            $stores = array(\Magento\Core\Model\AppInterface::ADMIN_STORE_ID);
         } else {
             $stores = (array)$object->getData('stores');
         }
@@ -284,10 +286,10 @@ class Magento_Cms_Model_Resource_Page extends Magento_Core_Model_Resource_Db_Abs
      *
      * @date Wed Mar 26 18:12:28 EET 2008
      *
-     * @param Magento_Core_Model_Abstract $object
+     * @param \Magento\Core\Model\AbstractModel $object
      * @return bool
      */
-    protected function isNumericPageIdentifier(Magento_Core_Model_Abstract $object)
+    protected function isNumericPageIdentifier(\Magento\Core\Model\AbstractModel $object)
     {
         return preg_match('/^[0-9]+$/', $object->getData('identifier'));
     }
@@ -295,10 +297,10 @@ class Magento_Cms_Model_Resource_Page extends Magento_Core_Model_Resource_Db_Abs
     /**
      *  Check whether page identifier is valid
      *
-     *  @param    Magento_Core_Model_Abstract $object
+     *  @param    \Magento\Core\Model\AbstractModel $object
      *  @return   bool
      */
-    protected function isValidPageIdentifier(Magento_Core_Model_Abstract $object)
+    protected function isValidPageIdentifier(\Magento\Core\Model\AbstractModel $object)
     {
         return preg_match('/^[a-z0-9][a-z0-9_\/-]+(\.[a-z0-9_-]+)?$/', $object->getData('identifier'));
     }
@@ -315,9 +317,9 @@ class Magento_Cms_Model_Resource_Page extends Magento_Core_Model_Resource_Db_Abs
      */
     public function checkIdentifier($identifier, $storeId)
     {
-        $stores = array(Magento_Core_Model_AppInterface::ADMIN_STORE_ID, $storeId);
+        $stores = array(\Magento\Core\Model\AppInterface::ADMIN_STORE_ID, $storeId);
         $select = $this->_getLoadByIdentifierSelect($identifier, $stores, 1);
-        $select->reset(Zend_Db_Select::COLUMNS)
+        $select->reset(\Zend_Db_Select::COLUMNS)
             ->columns('cp.page_id')
             ->order('cps.store_id DESC')
             ->limit(1);
@@ -333,13 +335,13 @@ class Magento_Cms_Model_Resource_Page extends Magento_Core_Model_Resource_Db_Abs
      */
     public function getCmsPageTitleByIdentifier($identifier)
     {
-        $stores = array(Magento_Core_Model_AppInterface::ADMIN_STORE_ID);
+        $stores = array(\Magento\Core\Model\AppInterface::ADMIN_STORE_ID);
         if ($this->_store) {
             $stores[] = (int)$this->getStore()->getId();
         }
 
         $select = $this->_getLoadByIdentifierSelect($identifier, $stores);
-        $select->reset(Zend_Db_Select::COLUMNS)
+        $select->reset(\Zend_Db_Select::COLUMNS)
             ->columns('cp.title')
             ->order('cps.store_id DESC')
             ->limit(1);
@@ -409,8 +411,8 @@ class Magento_Cms_Model_Resource_Page extends Magento_Core_Model_Resource_Db_Abs
     /**
      * Set store model
      *
-     * @param Magento_Core_Model_Store $store
-     * @return Magento_Cms_Model_Resource_Page
+     * @param \Magento\Core\Model\Store $store
+     * @return \Magento\Cms\Model\Resource\Page
      */
     public function setStore($store)
     {
@@ -421,7 +423,7 @@ class Magento_Cms_Model_Resource_Page extends Magento_Core_Model_Resource_Db_Abs
     /**
      * Retrieve store model
      *
-     * @return Magento_Core_Model_Store
+     * @return \Magento\Core\Model\Store
      */
     public function getStore()
     {

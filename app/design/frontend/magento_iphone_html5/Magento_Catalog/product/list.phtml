@@ -12,12 +12,12 @@
 /**
  * Product list template
  *
- * @see Magento_Catalog_Block_Product_List
+ * @see \Magento\Catalog\Block\Product\ListProduct
  */
 ?>
 <?php
     $_productCollection=$this->getLoadedProductCollection();
-    $_helper = $this->helper('Magento_Catalog_Helper_Output');
+    $_helper = $this->helper('Magento\Catalog\Helper\Output');
 ?>
 <?php if(!$_productCollection->count()): ?>
     <p class="note-msg"><?php echo __('There are no products matching the selection.') ?></p>
@@ -32,7 +32,7 @@
                     <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>">
                         <div class="wrap">
                             <div class="product-image">
-                                <img src="<?php echo $this->helper('Magento_Catalog_Helper_Image')->init($_product, 'small_image')->resize(130); ?>" width="65" height="65" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" />
+                                <img src="<?php echo $this->helper('Magento\Catalog\Helper\Image')->init($_product, 'small_image')->resize(130); ?>" width="65" height="65" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" />
                             </div>
                             <div class="product-shop">
                                 <header>
@@ -46,9 +46,9 @@
                         <ul>
                             <li><a href="<?php echo $_product->getProductUrl() ?>" class="i-view-details"><i></i><?php echo __('View Details') ?></a></li>
                             <li><a href="<?php echo $this->getUrl('catalog/product/gallery', array('id'=>$_product->getId())) ?>" class="i-view-gallery"><i></i><?php echo __('View Gallery') ?></a></li>
-                            <li><a href="<?php echo $this->helper('Magento_Catalog_Helper_Product')->getEmailToFriendUrl($_product) ?>" class="i-send-friend"><i></i><?php echo __('Tell a Friend') ?></a></li>
-                            <?php if ($this->helper('Magento_Wishlist_Helper_Data')->isAllow()) : ?>
-                                <li><a href="<?php echo $this->helper('Magento_Wishlist_Helper_Data')->getAddUrl($_product) ?>" class="i-send-wishlist"><i></i><?php echo __('Add to Wishlist') ?></a></li>
+                            <li><a href="<?php echo $this->helper('Magento\Catalog\Helper\Product')->getEmailToFriendUrl($_product) ?>" class="i-send-friend"><i></i><?php echo __('Tell a Friend') ?></a></li>
+                            <?php if ($this->helper('Magento\Wishlist\Helper\Data')->isAllow()) : ?>
+                                <li><a href="<?php echo $this->helper('Magento\Wishlist\Helper\Data')->getAddUrl($_product) ?>" class="i-send-wishlist"><i></i><?php echo __('Add to Wishlist') ?></a></li>
                             <?php endif; ?>
                             <li><a href="<?php echo $this->getAddToCartUrl($_product) ?>" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>'); return false;" class="i-add-to-cart"><i></i><?php echo __('Add to Cart') ?></a></li>
                         </ul>

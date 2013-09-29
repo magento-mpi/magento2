@@ -9,7 +9,9 @@
  */
 
 
-class Magento_Payment_Model_Config_Source_Allspecificcountries implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Payment\Model\Config\Source;
+
+class Allspecificcountries implements \Magento\Core\Model\Option\ArrayInterface
 {
     public function toOptionArray()
     {

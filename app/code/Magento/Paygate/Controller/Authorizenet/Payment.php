@@ -15,22 +15,24 @@
  * @package    Magento_Paygate
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Paygate_Controller_Authorizenet_Payment extends Magento_Core_Controller_Front_Action
+namespace Magento\Paygate\Controller\Authorizenet;
+
+class Payment extends \Magento\Core\Controller\Front\Action
 {
     /**
      * Checkout session
      *
-     * @var Magento_Checkout_Model_Session
+     * @var \Magento\Checkout\Model\Session
      */
     protected $_session;
 
     /**
-     * @param Magento_Core_Controller_Varien_Action_Context $context
-     * @param Magento_Checkout_Model_Session $session
+     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\Checkout\Model\Session $session
      */
     public function __construct(
-        Magento_Core_Controller_Varien_Action_Context $context,
-        Magento_Checkout_Model_Session $session
+        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\Checkout\Model\Session $session
     ) {
         $this->_session = $session;
         parent::__construct($context);
@@ -44,8 +46,8 @@ class Magento_Paygate_Controller_Authorizenet_Payment extends Magento_Core_Contr
     {
         $result['success'] = false;
         try {
-            $paymentMethod = $this->_objectManager->get('Magento_Payment_Helper_Data')
-                ->getMethodInstance(Magento_Paygate_Model_Authorizenet::METHOD_CODE);
+            $paymentMethod = $this->_objectManager->get('Magento\Payment\Helper\Data')
+                ->getMethodInstance(\Magento\Paygate\Model\Authorizenet::METHOD_CODE);
             if ($paymentMethod) {
                 $paymentMethod->cancelPartialAuthorization(
                     $this->_session->getQuote()->getPayment()
@@ -53,16 +55,16 @@ class Magento_Paygate_Controller_Authorizenet_Payment extends Magento_Core_Contr
             }
             $result['success']  = true;
             $result['update_html'] = $this->_getPaymentMethodsHtml();
-        } catch (Magento_Core_Exception $e) {
-            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+        } catch (\Magento\Core\Exception $e) {
+            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
             $result['error_message'] = $e->getMessage();
-        } catch (Exception $e) {
-            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+        } catch (\Exception $e) {
+            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
             $result['error_message'] = __('There was an error canceling transactions. Please contact us or try again later.');
         }
 
         $this->_session->getQuote()->getPayment()->save();
-        $this->getResponse()->setBody($this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($result));
+        $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result));
     }
 
     /**

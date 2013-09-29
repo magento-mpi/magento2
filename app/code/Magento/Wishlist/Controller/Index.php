@@ -16,12 +16,14 @@
  * @package     Magento_Wishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Wishlist_Controller_Index
-    extends Magento_Wishlist_Controller_Abstract
-    implements Magento_Catalog_Controller_Product_View_Interface
+namespace Magento\Wishlist\Controller;
+
+class Index
+    extends \Magento\Wishlist\Controller\AbstractController
+    implements \Magento\Catalog\Controller\Product\View\ViewInterface
 {
     /**
-     * @var Magento_Wishlist_Model_Config
+     * @var \Magento\Wishlist\Model\Config
      */
     protected $_wishlistConfig;
 
@@ -42,19 +44,19 @@ class Magento_Wishlist_Controller_Index
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Core_Controller_Varien_Action_Context $context
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_Wishlist_Model_Config $wishlistConfig
+     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Wishlist\Model\Config $wishlistConfig
      */
     public function __construct(
-        Magento_Core_Controller_Varien_Action_Context $context,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_Wishlist_Model_Config $wishlistConfig
+        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Wishlist\Model\Config $wishlistConfig
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
@@ -65,15 +67,15 @@ class Magento_Wishlist_Controller_Index
     {
         parent::preDispatch();
 
-        if (!$this->_skipAuthentication && !Mage::getSingleton('Magento_Customer_Model_Session')->authenticate($this)) {
+        if (!$this->_skipAuthentication && !\Mage::getSingleton('Magento\Customer\Model\Session')->authenticate($this)) {
             $this->setFlag('', 'no-dispatch', true);
-            $customerSession = Mage::getSingleton('Magento_Customer_Model_Session');
+            $customerSession = \Mage::getSingleton('Magento\Customer\Model\Session');
             if (!$customerSession->getBeforeWishlistUrl()) {
                 $customerSession->setBeforeWishlistUrl($this->_getRefererUrl());
             }
             $customerSession->setBeforeWishlistRequest($this->getRequest()->getParams());
         }
-        if (!$this->_objectManager->get('Magento_Core_Model_Store_Config')->getConfigFlag('wishlist/general/active')) {
+        if (!$this->_objectManager->get('Magento\Core\Model\Store\Config')->getConfigFlag('wishlist/general/active')) {
             $this->norouteAction();
             return;
         }
@@ -82,7 +84,7 @@ class Magento_Wishlist_Controller_Index
     /**
      * Set skipping authentication in actions of this controller (wishlist)
      *
-     * @return Magento_Wishlist_Controller_Index
+     * @return \Magento\Wishlist\Controller\Index
      */
     public function skipAuthentication()
     {
@@ -93,7 +95,7 @@ class Magento_Wishlist_Controller_Index
     /**
      * Retrieve wishlist object
      * @param int $wishlistId
-     * @return Magento_Wishlist_Model_Wishlist|bool
+     * @return \Magento\Wishlist\Model\Wishlist|bool
      */
     protected function _getWishlist($wishlistId = null)
     {
@@ -106,9 +108,9 @@ class Magento_Wishlist_Controller_Index
             if (!$wishlistId) {
                 $wishlistId = $this->getRequest()->getParam('wishlist_id');
             }
-            $customerId = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId();
-            /* @var Magento_Wishlist_Model_Wishlist $wishlist */
-            $wishlist = Mage::getModel('Magento_Wishlist_Model_Wishlist');
+            $customerId = \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerId();
+            /* @var \Magento\Wishlist\Model\Wishlist $wishlist */
+            $wishlist = \Mage::getModel('Magento\Wishlist\Model\Wishlist');
             if ($wishlistId) {
                 $wishlist->load($wishlistId);
             } else {
@@ -117,17 +119,17 @@ class Magento_Wishlist_Controller_Index
 
             if (!$wishlist->getId() || $wishlist->getCustomerId() != $customerId) {
                 $wishlist = null;
-                Mage::throwException(
+                \Mage::throwException(
                     __("The requested wish list doesn\'t exist.")
                 );
             }
 
             $this->_coreRegistry->register('wishlist', $wishlist);
-        } catch (Magento_Core_Exception $e) {
-            Mage::getSingleton('Magento_Wishlist_Model_Session')->addError($e->getMessage());
+        } catch (\Magento\Core\Exception $e) {
+            \Mage::getSingleton('Magento\Wishlist\Model\Session')->addError($e->getMessage());
             return false;
-        } catch (Exception $e) {
-            Mage::getSingleton('Magento_Wishlist_Model_Session')->addException($e,
+        } catch (\Exception $e) {
+            \Mage::getSingleton('Magento\Wishlist\Model\Session')->addException($e,
                 __('Wish List could not be created.')
             );
             return false;
@@ -146,7 +148,7 @@ class Magento_Wishlist_Controller_Index
         }
         $this->loadLayout();
 
-        $session = Mage::getSingleton('Magento_Customer_Model_Session');
+        $session = \Mage::getSingleton('Magento\Customer\Model\Session');
         $block   = $this->getLayout()->getBlock('customer.wishlist');
         $referer = $session->getAddActionReferer(true);
         if ($block) {
@@ -156,10 +158,10 @@ class Magento_Wishlist_Controller_Index
             }
         }
 
-        $this->_initLayoutMessages('Magento_Customer_Model_Session');
-        $this->_initLayoutMessages('Magento_Checkout_Model_Session');
-        $this->_initLayoutMessages('Magento_Catalog_Model_Session');
-        $this->_initLayoutMessages('Magento_Wishlist_Model_Session');
+        $this->_initLayoutMessages('Magento\Customer\Model\Session');
+        $this->_initLayoutMessages('Magento\Checkout\Model\Session');
+        $this->_initLayoutMessages('Magento\Catalog\Model\Session');
+        $this->_initLayoutMessages('Magento\Wishlist\Model\Session');
 
         $this->renderLayout();
     }
@@ -174,7 +176,7 @@ class Magento_Wishlist_Controller_Index
             return $this->norouteAction();
         }
 
-        $session = Mage::getSingleton('Magento_Customer_Model_Session');
+        $session = \Mage::getSingleton('Magento\Customer\Model\Session');
 
         $productId = (int) $this->getRequest()->getParam('product');
         if (!$productId) {
@@ -182,7 +184,7 @@ class Magento_Wishlist_Controller_Index
             return;
         }
 
-        $product = Mage::getModel('Magento_Catalog_Model_Product')->load($productId);
+        $product = \Mage::getModel('Magento\Catalog\Model\Product')->load($productId);
         if (!$product->getId() || !$product->isVisibleInCatalog()) {
             $session->addError(__('We can\'t specify a product.'));
             $this->_redirect('*/');
@@ -195,11 +197,11 @@ class Magento_Wishlist_Controller_Index
                 $requestParams = $session->getBeforeWishlistRequest();
                 $session->unsBeforeWishlistRequest();
             }
-            $buyRequest = new Magento_Object($requestParams);
+            $buyRequest = new \Magento\Object($requestParams);
 
             $result = $wishlist->addNewItem($product, $buyRequest);
             if (is_string($result)) {
-                Mage::throwException($result);
+                \Mage::throwException($result);
             }
             $wishlist->save();
 
@@ -224,17 +226,17 @@ class Magento_Wishlist_Controller_Index
              */
             $session->setAddActionReferer($referer);
 
-            /** @var $helper Magento_Wishlist_Helper_Data */
-            $helper = $this->_objectManager->get('Magento_Wishlist_Helper_Data')->calculate();
-            $message = __('%1 has been added to your wishlist. Click <a href="%2">here</a> to continue shopping.', $helper->escapeHtml($product->getName()), $this->_objectManager->get('Magento_Core_Helper_Data')->escapeUrl($referer));
+            /** @var $helper \Magento\Wishlist\Helper\Data */
+            $helper = $this->_objectManager->get('Magento\Wishlist\Helper\Data')->calculate();
+            $message = __('%1 has been added to your wishlist. Click <a href="%2">here</a> to continue shopping.', $helper->escapeHtml($product->getName()), $this->_objectManager->get('Magento\Core\Helper\Data')->escapeUrl($referer));
             $session->addSuccess($message);
         }
-        catch (Magento_Core_Exception $e) {
+        catch (\Magento\Core\Exception $e) {
             $session->addError(__('An error occurred while adding item to wish list: %1', $e->getMessage()));
         }
-        catch (Exception $e) {
+        catch (\Exception $e) {
             $session->addError(__('An error occurred while adding item to wish list.'));
-            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
         }
 
         $this->_redirect('*', array('wishlist_id' => $wishlist->getId()));
@@ -247,11 +249,11 @@ class Magento_Wishlist_Controller_Index
     {
         $id = (int) $this->getRequest()->getParam('id');
         try {
-            /* @var $item Magento_Wishlist_Model_Item */
-            $item = Mage::getModel('Magento_Wishlist_Model_Item');
+            /* @var $item \Magento\Wishlist\Model\Item */
+            $item = \Mage::getModel('Magento\Wishlist\Model\Item');
             $item->loadWithOptions($id);
             if (!$item->getId()) {
-                Mage::throwException(__('We can\'t load the wish list item.'));
+                \Mage::throwException(__('We can\'t load the wish list item.'));
             }
             $wishlist = $this->_getWishlist($item->getWishlistId());
             if (!$wishlist) {
@@ -260,7 +262,7 @@ class Magento_Wishlist_Controller_Index
 
             $this->_coreRegistry->register('wishlist_item', $item);
 
-            $params = new Magento_Object();
+            $params = new \Magento\Object();
             $params->setCategoryId(false);
             $params->setConfigureMode(true);
             $buyRequest = $item->getBuyRequest();
@@ -269,17 +271,17 @@ class Magento_Wishlist_Controller_Index
             }
             if ($buyRequest->getQty() && !$item->getQty()) {
                 $item->setQty($buyRequest->getQty());
-                $this->_objectManager->get('Magento_Wishlist_Helper_Data')->calculate();
+                $this->_objectManager->get('Magento\Wishlist\Helper\Data')->calculate();
             }
             $params->setBuyRequest($buyRequest);
-            $this->_objectManager->get('Magento_Catalog_Helper_Product_View')->prepareAndRender($item->getProductId(), $this, $params);
-        } catch (Magento_Core_Exception $e) {
-            Mage::getSingleton('Magento_Customer_Model_Session')->addError($e->getMessage());
+            $this->_objectManager->get('Magento\Catalog\Helper\Product\View')->prepareAndRender($item->getProductId(), $this, $params);
+        } catch (\Magento\Core\Exception $e) {
+            \Mage::getSingleton('Magento\Customer\Model\Session')->addError($e->getMessage());
             $this->_redirect('*');
             return;
-        } catch (Exception $e) {
-            Mage::getSingleton('Magento_Customer_Model_Session')->addError(__('We can\'t configure the product.'));
-            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+        } catch (\Exception $e) {
+            \Mage::getSingleton('Magento\Customer\Model\Session')->addError(__('We can\'t configure the product.'));
+            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
             $this->_redirect('*');
             return;
         }
@@ -290,14 +292,14 @@ class Magento_Wishlist_Controller_Index
      */
     public function updateItemOptionsAction()
     {
-        $session = Mage::getSingleton('Magento_Customer_Model_Session');
+        $session = \Mage::getSingleton('Magento\Customer\Model\Session');
         $productId = (int) $this->getRequest()->getParam('product');
         if (!$productId) {
             $this->_redirect('*/');
             return;
         }
 
-        $product = Mage::getModel('Magento_Catalog_Model_Product')->load($productId);
+        $product = \Mage::getModel('Magento\Catalog\Model\Product')->load($productId);
         if (!$product->getId() || !$product->isVisibleInCatalog()) {
             $session->addError(__('We can\'t specify a product.'));
             $this->_redirect('*/');
@@ -306,8 +308,8 @@ class Magento_Wishlist_Controller_Index
 
         try {
             $id = (int) $this->getRequest()->getParam('id');
-            /* @var Magento_Wishlist_Model_Item */
-            $item = Mage::getModel('Magento_Wishlist_Model_Item');
+            /* @var \Magento\Wishlist\Model\Item */
+            $item = \Mage::getModel('Magento\Wishlist\Model\Item');
             $item->load($id);
             $wishlist = $this->_getWishlist($item->getWishlistId());
             if (!$wishlist) {
@@ -315,25 +317,25 @@ class Magento_Wishlist_Controller_Index
                 return;
             }
 
-            $buyRequest = new Magento_Object($this->getRequest()->getParams());
+            $buyRequest = new \Magento\Object($this->getRequest()->getParams());
 
             $wishlist->updateItem($id, $buyRequest)
                 ->save();
 
-            $this->_objectManager->get('Magento_Wishlist_Helper_Data')->calculate();
+            $this->_objectManager->get('Magento\Wishlist\Helper\Data')->calculate();
             $this->_eventManager->dispatch('wishlist_update_item', array(
                 'wishlist' => $wishlist, 'product' => $product, 'item' => $wishlist->getItem($id))
             );
 
-            $this->_objectManager->get('Magento_Wishlist_Helper_Data')->calculate();
+            $this->_objectManager->get('Magento\Wishlist\Helper\Data')->calculate();
 
             $message = __('%1 has been updated in your wish list.', $product->getName());
             $session->addSuccess($message);
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $session->addError($e->getMessage());
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $session->addError(__('An error occurred while updating wish list.'));
-            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
         }
         $this->_redirect('*/*', array('wishlist_id' => $wishlist->getId()));
     }
@@ -356,7 +358,7 @@ class Magento_Wishlist_Controller_Index
             $updatedItems = 0;
 
             foreach ($post['description'] as $itemId => $description) {
-                $item = Mage::getModel('Magento_Wishlist_Model_Item')->load($itemId);
+                $item = \Mage::getModel('Magento\Wishlist\Model\Item')->load($itemId);
                 if ($item->getWishlistId() != $wishlist->getId()) {
                     continue;
                 }
@@ -364,7 +366,7 @@ class Magento_Wishlist_Controller_Index
                 // Extract new values
                 $description = (string) $description;
 
-                if ($description == $this->_objectManager->get('Magento_Wishlist_Helper_Data')->defaultCommentString()) {
+                if ($description == $this->_objectManager->get('Magento\Wishlist\Helper\Data')->defaultCommentString()) {
                     $description = '';
                 } elseif (!strlen($description)) {
                     $description = $item->getDescription();
@@ -382,9 +384,9 @@ class Magento_Wishlist_Controller_Index
                 } elseif (0 == $qty) {
                     try {
                         $item->delete();
-                    } catch (Exception $e) {
-                        $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
-                        Mage::getSingleton('Magento_Customer_Model_Session')->addError(
+                    } catch (\Exception $e) {
+                        $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+                        \Mage::getSingleton('Magento\Customer\Model\Session')->addError(
                             __('Can\'t delete item from wishlist')
                         );
                     }
@@ -399,9 +401,9 @@ class Magento_Wishlist_Controller_Index
                         ->setQty($qty)
                         ->save();
                     $updatedItems++;
-                } catch (Exception $e) {
-                    Mage::getSingleton('Magento_Customer_Model_Session')->addError(
-                        __('Can\'t save description %1', $this->_objectManager->get('Magento_Core_Helper_Data')->escapeHtml($description))
+                } catch (\Exception $e) {
+                    \Mage::getSingleton('Magento\Customer\Model\Session')->addError(
+                        __('Can\'t save description %1', $this->_objectManager->get('Magento\Core\Helper\Data')->escapeHtml($description))
                     );
                 }
             }
@@ -410,10 +412,10 @@ class Magento_Wishlist_Controller_Index
             if ($updatedItems) {
                 try {
                     $wishlist->save();
-                    $this->_objectManager->get('Magento_Wishlist_Helper_Data')->calculate();
+                    $this->_objectManager->get('Magento\Wishlist\Helper\Data')->calculate();
                 }
-                catch (Exception $e) {
-                    Mage::getSingleton('Magento_Customer_Model_Session')->addError(__('Can\'t update wish list'));
+                catch (\Exception $e) {
+                    \Mage::getSingleton('Magento\Customer\Model\Session')->addError(__('Can\'t update wish list'));
                 }
             }
 
@@ -431,7 +433,7 @@ class Magento_Wishlist_Controller_Index
     public function removeAction()
     {
         $id = (int) $this->getRequest()->getParam('item');
-        $item = Mage::getModel('Magento_Wishlist_Model_Item')->load($id);
+        $item = \Mage::getModel('Magento\Wishlist\Model\Item')->load($id);
         if (!$item->getId()) {
             return $this->norouteAction();
         }
@@ -442,19 +444,19 @@ class Magento_Wishlist_Controller_Index
         try {
             $item->delete();
             $wishlist->save();
-        } catch (Magento_Core_Exception $e) {
-            Mage::getSingleton('Magento_Customer_Model_Session')->addError(
+        } catch (\Magento\Core\Exception $e) {
+            \Mage::getSingleton('Magento\Customer\Model\Session')->addError(
                 __('An error occurred while deleting the item from wish list: %1', $e->getMessage())
             );
-        } catch(Exception $e) {
-            Mage::getSingleton('Magento_Customer_Model_Session')->addError(
+        } catch(\Exception $e) {
+            \Mage::getSingleton('Magento\Customer\Model\Session')->addError(
                 __('An error occurred while deleting the item from wish list.')
             );
         }
 
-        $this->_objectManager->get('Magento_Wishlist_Helper_Data')->calculate();
+        $this->_objectManager->get('Magento\Wishlist\Helper\Data')->calculate();
 
-        $this->_redirectReferer(Mage::getUrl('*/*'));
+        $this->_redirectReferer(\Mage::getUrl('*/*'));
     }
 
     /**
@@ -467,8 +469,8 @@ class Magento_Wishlist_Controller_Index
     {
         $itemId = (int) $this->getRequest()->getParam('item');
 
-        /* @var $item Magento_Wishlist_Model_Item */
-        $item = Mage::getModel('Magento_Wishlist_Model_Item')->load($itemId);
+        /* @var $item \Magento\Wishlist\Model\Item */
+        $item = \Mage::getModel('Magento\Wishlist\Model\Item')->load($itemId);
         if (!$item->getId()) {
             return $this->_redirect('*/*');
         }
@@ -491,18 +493,18 @@ class Magento_Wishlist_Controller_Index
             $item->setQty($qty);
         }
 
-        /* @var $session Magento_Core_Model_Session_Generic */
-        $session    = Mage::getSingleton('Magento_Wishlist_Model_Session');
-        $cart       = Mage::getSingleton('Magento_Checkout_Model_Cart');
+        /* @var $session \Magento\Core\Model\Session\Generic */
+        $session    = \Mage::getSingleton('Magento\Wishlist\Model\Session');
+        $cart       = \Mage::getSingleton('Magento\Checkout\Model\Cart');
 
-        $redirectUrl = Mage::getUrl('*/*');
+        $redirectUrl = \Mage::getUrl('*/*');
 
         try {
-            $options = Mage::getModel('Magento_Wishlist_Model_Item_Option')->getCollection()
+            $options = \Mage::getModel('Magento\Wishlist\Model\Item\Option')->getCollection()
                     ->addItemFilter(array($itemId));
             $item->setOptions($options->getOptionsByItem($itemId));
 
-            $buyRequest = $this->_objectManager->get('Magento_Catalog_Helper_Product')->addParamsToBuyRequest(
+            $buyRequest = $this->_objectManager->get('Magento\Catalog\Helper\Product')->addParamsToBuyRequest(
                 $this->getRequest()->getParams(),
                 array('current_config' => $item->getBuyRequest())
             );
@@ -512,29 +514,29 @@ class Magento_Wishlist_Controller_Index
             $cart->save()->getQuote()->collectTotals();
             $wishlist->save();
 
-            $this->_objectManager->get('Magento_Wishlist_Helper_Data')->calculate();
+            $this->_objectManager->get('Magento\Wishlist\Helper\Data')->calculate();
 
-            if ($this->_objectManager->get('Magento_Checkout_Helper_Cart')->getShouldRedirectToCart()) {
-                $redirectUrl = $this->_objectManager->get('Magento_Checkout_Helper_Cart')->getCartUrl();
+            if ($this->_objectManager->get('Magento\Checkout\Helper\Cart')->getShouldRedirectToCart()) {
+                $redirectUrl = $this->_objectManager->get('Magento\Checkout\Helper\Cart')->getCartUrl();
             } else if ($this->_getRefererUrl()) {
                 $redirectUrl = $this->_getRefererUrl();
             }
-            $this->_objectManager->get('Magento_Wishlist_Helper_Data')->calculate();
-        } catch (Magento_Core_Exception $e) {
-            if ($e->getCode() == Magento_Wishlist_Model_Item::EXCEPTION_CODE_NOT_SALABLE) {
+            $this->_objectManager->get('Magento\Wishlist\Helper\Data')->calculate();
+        } catch (\Magento\Core\Exception $e) {
+            if ($e->getCode() == \Magento\Wishlist\Model\Item::EXCEPTION_CODE_NOT_SALABLE) {
                 $session->addError(__('This product(s) is out of stock.'));
-            } else if ($e->getCode() == Magento_Wishlist_Model_Item::EXCEPTION_CODE_HAS_REQUIRED_OPTIONS) {
-                Mage::getSingleton('Magento_Catalog_Model_Session')->addNotice($e->getMessage());
-                $redirectUrl = Mage::getUrl('*/*/configure/', array('id' => $item->getId()));
+            } else if ($e->getCode() == \Magento\Wishlist\Model\Item::EXCEPTION_CODE_HAS_REQUIRED_OPTIONS) {
+                \Mage::getSingleton('Magento\Catalog\Model\Session')->addNotice($e->getMessage());
+                $redirectUrl = \Mage::getUrl('*/*/configure/', array('id' => $item->getId()));
             } else {
-                Mage::getSingleton('Magento_Catalog_Model_Session')->addNotice($e->getMessage());
-                $redirectUrl = Mage::getUrl('*/*/configure/', array('id' => $item->getId()));
+                \Mage::getSingleton('Magento\Catalog\Model\Session')->addNotice($e->getMessage());
+                $redirectUrl = \Mage::getUrl('*/*/configure/', array('id' => $item->getId()));
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $session->addException($e, __('Cannot add item to shopping cart'));
         }
 
-        $this->_objectManager->get('Magento_Wishlist_Helper_Data')->calculate();
+        $this->_objectManager->get('Magento\Wishlist\Helper\Data')->calculate();
 
         return $this->_redirectUrl($redirectUrl);
     }
@@ -550,14 +552,14 @@ class Magento_Wishlist_Controller_Index
         }
         $itemId = (int) $this->getRequest()->getParam('item');
 
-        /* @var Magento_Checkout_Model_Cart $cart */
-        $cart = Mage::getSingleton('Magento_Checkout_Model_Cart');
-        $session = Mage::getSingleton('Magento_Checkout_Model_Session');
+        /* @var \Magento\Checkout\Model\Cart $cart */
+        $cart = \Mage::getSingleton('Magento\Checkout\Model\Cart');
+        $session = \Mage::getSingleton('Magento\Checkout\Model\Session');
 
         try{
             $item = $cart->getQuote()->getItemById($itemId);
             if (!$item) {
-                Mage::throwException(
+                \Mage::throwException(
                     __("The requested cart item doesn\'t exist.")
                 );
             }
@@ -570,20 +572,20 @@ class Magento_Wishlist_Controller_Index
             $productIds[] = $productId;
             $cart->getQuote()->removeItem($itemId);
             $cart->save();
-            $this->_objectManager->get('Magento_Wishlist_Helper_Data')->calculate();
-            $productName = $this->_objectManager->get('Magento_Core_Helper_Data')->escapeHtml($item->getProduct()->getName());
-            $wishlistName = $this->_objectManager->get('Magento_Core_Helper_Data')->escapeHtml($wishlist->getName());
+            $this->_objectManager->get('Magento\Wishlist\Helper\Data')->calculate();
+            $productName = $this->_objectManager->get('Magento\Core\Helper\Data')->escapeHtml($item->getProduct()->getName());
+            $wishlistName = $this->_objectManager->get('Magento\Core\Helper\Data')->escapeHtml($wishlist->getName());
             $session->addSuccess(
                 __("%1 has been moved to wish list %2", $productName, $wishlistName)
             );
             $wishlist->save();
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $session->addError($e->getMessage());
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $session->addException($e, __('We can\'t move the item to the wish list.'));
         }
 
-        return $this->_redirectUrl($this->_objectManager->get('Magento_Checkout_Helper_Cart')->getCartUrl());
+        return $this->_redirectUrl($this->_objectManager->get('Magento\Checkout\Helper\Cart')->getCartUrl());
     }
 
     /**
@@ -593,15 +595,15 @@ class Magento_Wishlist_Controller_Index
     {
         $this->_getWishlist();
         $this->loadLayout();
-        $this->_initLayoutMessages('Magento_Customer_Model_Session');
-        $this->_initLayoutMessages('Magento_Wishlist_Model_Session');
+        $this->_initLayoutMessages('Magento\Customer\Model\Session');
+        $this->_initLayoutMessages('Magento\Wishlist\Model\Session');
         $this->renderLayout();
     }
 
     /**
      * Share wishlist
      *
-     * @return Magento_Core_Controller_Varien_Action|void
+     * @return \Magento\Core\Controller\Varien\Action|void
      */
     public function sendAction()
     {
@@ -631,7 +633,7 @@ class Magento_Wishlist_Controller_Index
             } else {
                 foreach ($emails as $index => $email) {
                     $email = trim($email);
-                    if (!Zend_Validate::is($email, 'EmailAddress')) {
+                    if (!\Zend_Validate::is($email, 'EmailAddress')) {
                         $error = __('Please input a valid email address.');
                         break;
                     }
@@ -641,55 +643,55 @@ class Magento_Wishlist_Controller_Index
         }
 
         if ($error) {
-            Mage::getSingleton('Magento_Wishlist_Model_Session')->addError($error);
-            Mage::getSingleton('Magento_Wishlist_Model_Session')->setSharingForm($this->getRequest()->getPost());
+            \Mage::getSingleton('Magento\Wishlist\Model\Session')->addError($error);
+            \Mage::getSingleton('Magento\Wishlist\Model\Session')->setSharingForm($this->getRequest()->getPost());
             $this->_redirect('*/*/share');
             return;
         }
 
-        $translate = Mage::getSingleton('Magento_Core_Model_Translate');
-        /* @var $translate Magento_Core_Model_Translate */
+        $translate = \Mage::getSingleton('Magento\Core\Model\Translate');
+        /* @var $translate \Magento\Core\Model\Translate */
         $translate->setTranslateInline(false);
         $sent = 0;
 
         try {
-            $customer = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer();
+            $customer = \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomer();
 
             /*if share rss added rss feed to email template*/
             if ($this->getRequest()->getParam('rss_url')) {
                 $rss_url = $this->getLayout()
-                    ->createBlock('Magento_Wishlist_Block_Share_Email_Rss')
+                    ->createBlock('Magento\Wishlist\Block\Share\Email\Rss')
                     ->setWishlistId($wishlist->getId())
                     ->toHtml();
                 $message .= $rss_url;
             }
-            $wishlistBlock = $this->getLayout()->createBlock('Magento_Wishlist_Block_Share_Email_Items')->toHtml();
+            $wishlistBlock = $this->getLayout()->createBlock('Magento\Wishlist\Block\Share\Email\Items')->toHtml();
 
             $emails = array_unique($emails);
-            /* @var $emailModel Magento_Core_Model_Email_Template */
-            $emailModel = Mage::getModel('Magento_Core_Model_Email_Template');
+            /* @var $emailModel \Magento\Core\Model\Email\Template */
+            $emailModel = \Mage::getModel('Magento\Core\Model\Email\Template');
 
             $sharingCode = $wishlist->getSharingCode();
 
             try {
                 foreach ($emails as $email) {
                     $emailModel->sendTransactional(
-                        $this->_objectManager->get('Magento_Core_Model_Store_Config')->getConfig('wishlist/email/email_template'),
-                        $this->_objectManager->get('Magento_Core_Model_Store_Config')->getConfig('wishlist/email/email_identity'),
+                        $this->_objectManager->get('Magento\Core\Model\Store\Config')->getConfig('wishlist/email/email_template'),
+                        $this->_objectManager->get('Magento\Core\Model\Store\Config')->getConfig('wishlist/email/email_identity'),
                         $email,
                         null,
                         array(
                             'customer'      => $customer,
                             'salable'       => $wishlist->isSalable() ? 'yes' : '',
                             'items'         => $wishlistBlock,
-                            'addAllLink'    => Mage::getUrl('*/shared/allcart', array('code' => $sharingCode)),
-                            'viewOnSiteLink'=> Mage::getUrl('*/shared/index', array('code' => $sharingCode)),
+                            'addAllLink'    => \Mage::getUrl('*/shared/allcart', array('code' => $sharingCode)),
+                            'viewOnSiteLink'=> \Mage::getUrl('*/shared/index', array('code' => $sharingCode)),
                             'message'       => $message
                         )
                     );
                     $sent++;
                 }
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $wishlist->setShared($wishlist->getShared() + $sent);
                 $wishlist->save();
                 throw $e;
@@ -700,14 +702,14 @@ class Magento_Wishlist_Controller_Index
             $translate->setTranslateInline(true);
 
             $this->_eventManager->dispatch('wishlist_share', array('wishlist'=>$wishlist));
-            Mage::getSingleton('Magento_Customer_Model_Session')->addSuccess(
+            \Mage::getSingleton('Magento\Customer\Model\Session')->addSuccess(
                 __('Your wish list has been shared.')
             );
             $this->_redirect('*/*', array('wishlist_id' => $wishlist->getId()));
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $translate->setTranslateInline(true);
-            Mage::getSingleton('Magento_Wishlist_Model_Session')->addError($e->getMessage());
-            Mage::getSingleton('Magento_Wishlist_Model_Session')->setSharingForm($this->getRequest()->getPost());
+            \Mage::getSingleton('Magento\Wishlist\Model\Session')->addError($e->getMessage());
+            \Mage::getSingleton('Magento\Wishlist\Model\Session')->setSharingForm($this->getRequest()->getPost());
             $this->_redirect('*/*/share');
         }
     }
@@ -718,20 +720,20 @@ class Magento_Wishlist_Controller_Index
      */
     public function downloadCustomOptionAction()
     {
-        $option = Mage::getModel('Magento_Wishlist_Model_Item_Option')->load($this->getRequest()->getParam('id'));
+        $option = \Mage::getModel('Magento\Wishlist\Model\Item\Option')->load($this->getRequest()->getParam('id'));
 
         if (!$option->getId()) {
             return $this->_forward('noRoute');
         }
 
         $optionId = null;
-        if (strpos($option->getCode(), Magento_Catalog_Model_Product_Type_Abstract::OPTION_PREFIX) === 0) {
-            $optionId = str_replace(Magento_Catalog_Model_Product_Type_Abstract::OPTION_PREFIX, '', $option->getCode());
+        if (strpos($option->getCode(), \Magento\Catalog\Model\Product\Type\AbstractType::OPTION_PREFIX) === 0) {
+            $optionId = str_replace(\Magento\Catalog\Model\Product\Type\AbstractType::OPTION_PREFIX, '', $option->getCode());
             if ((int)$optionId != $optionId) {
                 return $this->_forward('noRoute');
             }
         }
-        $productOption = Mage::getModel('Magento_Catalog_Model_Product_Option')->load($optionId);
+        $productOption = \Mage::getModel('Magento\Catalog\Model\Product\Option')->load($optionId);
 
         if (!$productOption
             || !$productOption->getId()
@@ -743,7 +745,7 @@ class Magento_Wishlist_Controller_Index
 
         try {
             $info      = unserialize($option->getValue());
-            $filePath  = Mage::getBaseDir() . $info['quote_path'];
+            $filePath  = \Mage::getBaseDir() . $info['quote_path'];
             $secretKey = $this->getRequest()->getParam('key');
 
             if ($secretKey == $info['secret_key']) {
@@ -753,7 +755,7 @@ class Magento_Wishlist_Controller_Index
                 ));
             }
 
-        } catch(Exception $e) {
+        } catch(\Exception $e) {
             $this->_forward('noRoute');
         }
         exit(0);

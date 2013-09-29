@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Model_Authorization_Role extends Zend_Acl_Role
+namespace Magento\Webapi\Model\Authorization;
+
+class Role extends \Zend_Acl_Role
 {
 
 }

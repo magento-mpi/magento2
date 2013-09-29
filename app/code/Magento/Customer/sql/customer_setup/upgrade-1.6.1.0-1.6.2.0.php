@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/* @var $installer Magento_Customer_Model_Entity_Setup */
+/* @var $installer \Magento\Customer\Model\Entity\Setup */
 $installer = $this;
 
 $disableAGCAttributeCode = 'disable_auto_group_change';
@@ -17,7 +17,7 @@ $installer->addAttribute('customer', $disableAGCAttributeCode, array(
     'type'      => 'static',
     'label'     => 'Disable Automatic Group Change Based on VAT ID',
     'input'     => 'boolean',
-    'backend'   => 'Magento_Customer_Model_Attribute_Backend_Data_Boolean',
+    'backend'   => 'Magento\Customer\Model\Attribute\Backend\Data\Boolean',
     'position'  => 28,
     'required'  => false
 ));

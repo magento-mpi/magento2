@@ -1,32 +1,34 @@
 <?php
 /**
- * Factory class for Magento_Authorization
+ * Factory class for \Magento\Authorization
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Authorization_Factory
+namespace Magento\Authorization;
+
+class Factory
 {
     /**
      * Entity class name
      */
-    const CLASS_NAME = 'Magento_Authorization';
+    const CLASS_NAME = 'Magento\Authorization';
 
     /**
      * Object Manager instance
      *
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager = null;
 
     /**
      * Factory constructor
      *
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
@@ -35,7 +37,7 @@ class Magento_Authorization_Factory
      * Create class instance with specified parameters
      *
      * @param array $data
-     * @return Magento_Authorization
+     * @return \Magento\Authorization
      */
     public function create(array $data = array())
     {

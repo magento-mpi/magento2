@@ -9,9 +9,11 @@
  */
 
 /**
- * Converts gift registry attributes from DOMDocument to array
+ * Converts gift registry attributes from \DOMDocument to array
  */
-class Magento_GiftRegistry_Model_Config_Converter implements Magento_Config_ConverterInterface
+namespace Magento\GiftRegistry\Model\Config;
+
+class Converter implements \Magento\Config\ConverterInterface
 {
     /**
      * Converting data to array type
@@ -23,7 +25,7 @@ class Magento_GiftRegistry_Model_Config_Converter implements Magento_Config_Conv
     {
         $output = array();
 
-        if (!$source instanceof DOMDocument) {
+        if (!$source instanceof \DOMDocument) {
             return $output;
         }
 
@@ -39,26 +41,26 @@ class Magento_GiftRegistry_Model_Config_Converter implements Magento_Config_Conv
     /**
      * Get attribute types from config xml
      *
-     * @param DOMDocument $source
+     * @param \DOMDocument $source
      * @return array
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     protected function _getAttributeTypes($source)
     {
         $result = array();
 
-        /** @var DOMNodeList $attributeTypes */
+        /** @var \DOMNodeList $attributeTypes */
         $attributeTypes = $source->getElementsByTagName('attribute_type');
 
-        /** @var DOMElement $attributeType */
+        /** @var \DOMElement $attributeType */
         foreach ($attributeTypes as $attributeType) {
 
             $attributeTypeName = $attributeType->getAttribute('name');
 
             if (!$attributeTypeName) {
-                throw new InvalidArgumentException('Attribute "name" of one of "attribute_type"s does not exist');
+                throw new \InvalidArgumentException('Attribute "name" of one of "attribute_type"s does not exist');
             }
-            /** @var @var DOMElement $label */
+            /** @var @var \DOMElement $label */
             $label = $attributeType->getElementsByTagName('label')->item(0);
             $translateLabel = $label->getAttribute('translate');
             if ($translateLabel === 'true') {
@@ -76,18 +78,18 @@ class Magento_GiftRegistry_Model_Config_Converter implements Magento_Config_Conv
     /**
      * Get attribute groups from config xml
      *
-     * @param DOMDocument $source
+     * @param \DOMDocument $source
      * @return array
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     protected function _getAttributeGroups($source)
     {
         $result = array();
 
-        /** @var DOMNodeList $attributeGroups */
+        /** @var \DOMNodeList $attributeGroups */
         $attributeGroups = $source->getElementsByTagName('attribute_group');
 
-        /** @var DOMElement $attributeGroup */
+        /** @var \DOMElement $attributeGroup */
         foreach ($attributeGroups as $attributeGroup) {
 
             $attributeGroupName = $attributeGroup->getAttribute('name');
@@ -95,10 +97,10 @@ class Magento_GiftRegistry_Model_Config_Converter implements Magento_Config_Conv
             $groupIsVisible = $attributeGroup->getAttribute('visible');
 
             if (!$attributeGroupName) {
-                throw new InvalidArgumentException('Attribute "name" of one of "attribute_group"s does not exist');
+                throw new \InvalidArgumentException('Attribute "name" of one of "attribute_group"s does not exist');
             }
 
-            /** @var @var DOMElement $label */
+            /** @var @var \DOMElement $label */
             $label = $attributeGroup->getElementsByTagName('label')->item(0);
             $translateLabel = $label->getAttribute('translate');
             if ($translateLabel === 'true') {
@@ -121,30 +123,30 @@ class Magento_GiftRegistry_Model_Config_Converter implements Magento_Config_Conv
      * Get all static|custom attributes for registry and registrant
      * depending on the $typeOfAttributes param
      *
-     * @param DOMDocument $source
+     * @param \DOMDocument $source
      * @param string $typeOfAttributes
      * @return array
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     protected function _getAttributes($source, $typeOfAttributes)
     {
         $registry = array();
         $registrant = array();
 
-        /** @var DOMNodeList $staticAttributes */
+        /** @var \DOMNodeList $staticAttributes */
         $attributes = $source->getElementsByTagName($typeOfAttributes);
 
-        /** @var DOMElement $staticAttribute */
+        /** @var \DOMElement $staticAttribute */
         foreach ($attributes as $attribute) {
             $parentNode = $attribute->parentNode->tagName;
 
             $attributeName = $attribute->getAttribute('name');
 
             if (!$attributeName) {
-                throw new InvalidArgumentException('Attribute "name" of one of "static_attribute"s does not exist');
+                throw new \InvalidArgumentException('Attribute "name" of one of "static_attribute"s does not exist');
             }
 
-            /** @var @var DOMElement $label */
+            /** @var @var \DOMElement $label */
             $label = $attribute->getElementsByTagName('label')->item(0);
             $translateLabel = $label->getAttribute('translate');
             if ($translateLabel === 'true') {

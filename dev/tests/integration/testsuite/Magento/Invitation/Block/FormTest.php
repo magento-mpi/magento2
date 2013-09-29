@@ -9,10 +9,12 @@
  * @license     {license_link}
  */
 
-class Magento_Invitation_Block_FormTest extends PHPUnit_Framework_TestCase
+namespace Magento\Invitation\Block;
+
+class FormTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Invitation_Block_Form
+     * @var \Magento\Invitation\Block\Form
      */
     protected $_block;
 
@@ -24,8 +26,8 @@ class Magento_Invitation_Block_FormTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
-            ->createBlock('Magento_Invitation_Block_Form');
+        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            ->createBlock('Magento\Invitation\Block\Form');
     }
 
     /**
@@ -36,10 +38,10 @@ class Magento_Invitation_Block_FormTest extends PHPUnit_Framework_TestCase
      */
     public function testGetMaxInvitationsPerSend($num, $expected)
     {
-        $this->_changeConfig(Magento_Invitation_Model_Config::XML_PATH_MAX_INVITATION_AMOUNT_PER_SEND, $num);
+        $this->_changeConfig(\Magento\Invitation\Model\Config::XML_PATH_MAX_INVITATION_AMOUNT_PER_SEND, $num);
         try {
             $this->assertEquals($expected, $this->_block->getMaxInvitationsPerSend());
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_restoreConfig();
             throw $e;
         }
@@ -64,12 +66,12 @@ class Magento_Invitation_Block_FormTest extends PHPUnit_Framework_TestCase
      *
      * @param  $path
      * @param  $value
-     * @return Magento_Invitation_Block_FormTest
+     * @return \Magento\Invitation\Block\FormTest
      */
     protected function _changeConfig($path, $value)
     {
-        $store = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Core_Model_StoreManagerInterface')->getStore();
+        $store = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Core\Model\StoreManagerInterface')->getStore();
         $oldValue = $store->getConfig($path);
         $store->setConfig($path, $value);
 
@@ -85,11 +87,11 @@ class Magento_Invitation_Block_FormTest extends PHPUnit_Framework_TestCase
     /**
      * Restores previously remembered store config value
      *
-     * @return Magento_Invitation_Block_FormTest
+     * @return \Magento\Invitation\Block\FormTest
      */
     protected function _restoreConfig()
     {
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
             ->getStore()->setConfig($this->_rememberedConfig['path'], $this->_rememberedConfig['old_value']);
         $this->_rememberedConfig = null;
         return $this;
@@ -98,13 +100,13 @@ class Magento_Invitation_Block_FormTest extends PHPUnit_Framework_TestCase
     public function testIsInvitationMessageAllowed()
     {
         try {
-            $this->_changeConfig(Magento_Invitation_Model_Config::XML_PATH_USE_INVITATION_MESSAGE, 1);
+            $this->_changeConfig(\Magento\Invitation\Model\Config::XML_PATH_USE_INVITATION_MESSAGE, 1);
             $this->assertEquals(true, $this->_block->isInvitationMessageAllowed());
 
-            $this->_changeConfig(Magento_Invitation_Model_Config::XML_PATH_USE_INVITATION_MESSAGE, 0);
+            $this->_changeConfig(\Magento\Invitation\Model\Config::XML_PATH_USE_INVITATION_MESSAGE, 0);
             $this->assertEquals(false, $this->_block->isInvitationMessageAllowed());
 
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_restoreConfig();
             throw $e;
         }

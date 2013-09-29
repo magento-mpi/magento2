@@ -9,9 +9,9 @@
  * @license     {license_link}
  */
 
-Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App')
-    ->loadArea(Magento_Core_Model_App_Area::AREA_ADMINHTML);
-$user = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_User_Model_User');
+\Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
+    ->loadArea(\Magento\Core\Model\App\Area::AREA_ADMINHTML);
+$user = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\User\Model\User');
 $user->setUsername('newuser')
     ->setFirstname('first_name')
     ->setLastname('last_name')
@@ -20,6 +20,6 @@ $user->setUsername('newuser')
     ->setRoleId(1)
     ->save();
 
-$role = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_User_Model_Role');
+$role = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\User\Model\Role');
 $role->setName('newrole')->save();

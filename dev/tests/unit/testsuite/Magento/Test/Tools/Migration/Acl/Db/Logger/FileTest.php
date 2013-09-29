@@ -8,24 +8,26 @@
  * @license     {license_link}
  */
 
+namespace Magento\Test\Tools\Migration\Acl\Db\Logger;
+
 require_once realpath(__DIR__ . '/../../../../../../../../../../')
     . '/tools/Magento/Tools/Migration/Acl/Db/LoggerAbstract.php';
 require_once realpath(__DIR__ . '/../../../../../../../../../../')
     . '/tools/Magento/Tools/Migration/Acl/Db/Logger/File.php';
 
-class Magento_Test_Tools_Migration_Acl_Db_Logger_FileTest extends PHPUnit_Framework_TestCase
+class FileTest extends \PHPUnit_Framework_TestCase
 {
     public function testConstructWithValidFile()
     {
-        new Magento_Tools_Migration_Acl_Db_Logger_File(realpath(__DIR__ . '/../../../../../') . '/tmp/');
+        new \Magento\Tools\Migration\Acl\Db\Logger\File(realpath(__DIR__ . '/../../../../../') . '/tmp/');
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testConstructWithInValidFile()
     {
-        new Magento_Tools_Migration_Acl_Db_Logger_File(null);
+        new \Magento\Tools\Migration\Acl\Db\Logger\File(null);
     }
 }
 

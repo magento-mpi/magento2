@@ -7,13 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Backend_Model_Session extends Magento_Core_Model_Session_Abstract
+namespace Magento\Backend\Model;
+
+class Session extends \Magento\Core\Model\Session\AbstractSession
 {
     /**
-     * @param Magento_Core_Model_Session_Context $context
+     * @param \Magento\Core\Model\Session\Context $context
      * @param array $data
      */
-    public function __construct(Magento_Core_Model_Session_Context $context, array $data = array())
+    public function __construct(\Magento\Core\Model\Session\Context $context, array $data = array())
     {
         parent::__construct($context, $data);
         $this->init('adminhtml');

@@ -16,6 +16,8 @@
  * @package     Magento_Pbridge
  * @author      Magento
  */
-class Magento_Pbridge_Block_Checkout_Payment_Firstdata extends Magento_Pbridge_Block_Payment_Form_Abstract
+namespace Magento\Pbridge\Block\Checkout\Payment;
+
+class Firstdata extends \Magento\Pbridge\Block\Payment\Form\AbstractForm
 {
 }

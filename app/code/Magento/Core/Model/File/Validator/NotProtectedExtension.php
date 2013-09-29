@@ -16,7 +16,9 @@
  * @package    Magento_Core
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_File_Validator_NotProtectedExtension extends Zend_Validate_Abstract
+namespace Magento\Core\Model\File\Validator;
+
+class NotProtectedExtension extends \Zend_Validate_Abstract
 {
     const PROTECTED_EXTENSION = 'protectedExtension';
 
@@ -37,7 +39,7 @@ class Magento_Core_Model_File_Validator_NotProtectedExtension extends Zend_Valid
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
@@ -46,10 +48,10 @@ class Magento_Core_Model_File_Validator_NotProtectedExtension extends Zend_Valid
      *
      *
      *
-     * @param Magento_Core_Helper_Data $coreData
+     * @param \Magento\Core\Helper\Data $coreData
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData
+        \Magento\Core\Helper\Data $coreData
     ) {
         $this->_coreData = $coreData;
         $this->_initMessageTemplates();
@@ -59,7 +61,7 @@ class Magento_Core_Model_File_Validator_NotProtectedExtension extends Zend_Valid
     /**
      * Initialize message templates with translating
      *
-     * @return Magento_Core_Model_File_Validator_NotProtectedExtension
+     * @return \Magento\Core\Model\File\Validator\NotProtectedExtension
      */
     protected function _initMessageTemplates()
     {
@@ -74,12 +76,12 @@ class Magento_Core_Model_File_Validator_NotProtectedExtension extends Zend_Valid
     /**
      * Initialize protected file extensions
      *
-     * @return Magento_Core_Model_File_Validator_NotProtectedExtension
+     * @return \Magento\Core\Model\File\Validator\NotProtectedExtension
      */
     protected function _initProtectedFileExtensions()
     {
         if (!$this->_protectedFileExtensions) {
-            /** @var $helper Magento_Core_Helper_Data */
+            /** @var $helper \Magento\Core\Helper\Data */
             $helper = $this->_coreData;
             $extensions = $helper->getProtectedFileExtensions();
             if (is_string($extensions)) {

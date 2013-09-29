@@ -7,21 +7,25 @@
  * @copyright   {copyright}
  * @license     {license_link}
  *
- * @method Magento_Webapi_Block_Adminhtml_User_Edit setApiUser() setApiUser(Magento_Webapi_Model_Acl_User $user)
- * @method Magento_Webapi_Model_Acl_User getApiUser() getApiUser()
+ */
+namespace Magento\Webapi\Block\Adminhtml\User\Edit\Tab;
+
+/**
+ * @method \Magento\Webapi\Block\Adminhtml\User\Edit setApiUser() setApiUser(\Magento\Webapi\Model\Acl\User $user)
+ * @method \Magento\Webapi\Model\Acl\User getApiUser() getApiUser()
  *
  * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
-class Magento_Webapi_Block_Adminhtml_User_Edit_Tab_Main extends Magento_Backend_Block_Widget_Form_Generic
+class Main extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
      * Prepare Form.
      *
-     * @return Magento_Webapi_Block_Adminhtml_User_Edit_Tab_Main
+     * @return \Magento\Webapi\Block\Adminhtml\User\Edit\Tab\Main
      */
     protected function _prepareForm()
     {
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
 
         $fieldset = $form->addFieldset('base_fieldset', array(

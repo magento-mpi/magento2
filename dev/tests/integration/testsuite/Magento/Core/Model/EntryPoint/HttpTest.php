@@ -6,28 +6,30 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_EntryPoint_HttpTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\EntryPoint;
+
+class HttpTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @magentoAppIsolation enabled
      */
     public function testProcessRequestBootstrapException()
     {
-        if (!Magento_TestFramework_Helper_Bootstrap::canTestHeaders()) {
+        if (!\Magento\TestFramework\Helper\Bootstrap::canTestHeaders()) {
             $this->markTestSkipped('Can\'t test entry point response without sending headers');
         }
 
-        $config = $this->getMock('Magento_Core_Model_Config_Primary', array(), array(), '', false);
-        $objectManager = $this->getMock('Magento_ObjectManager');
+        $config = $this->getMock('Magento\Core\Model\Config\Primary', array(), array(), '', false);
+        $objectManager = $this->getMock('Magento\ObjectManager');
         $objectManager->expects($this->any())
             ->method('get')
-            ->will($this->throwException(new Magento_BootstrapException('exception_message')));
+            ->will($this->throwException(new \Magento\BootstrapException('exception_message')));
 
-        $config = $this->getMock('Magento_Core_Model_Config_Primary', array(), array(), '', false);
+        $config = $this->getMock('Magento\Core\Model\Config\Primary', array(), array(), '', false);
 
 
-        /** @var Magento_Core_Model_EntryPoint_Http $model */
-        $model = new Magento_Core_Model_EntryPoint_Http($config, $objectManager);
+        /** @var \Magento\Core\Model\EntryPoint\Http $model */
+        $model = new \Magento\Core\Model\EntryPoint\Http($config, $objectManager);
         ob_start();
         $model->processRequest();
         $content = ob_get_clean();

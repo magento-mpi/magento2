@@ -5,15 +5,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_ImportExport_Model_Export_ConfigTest extends PHPUnit_Framework_TestCase
+namespace Magento\ImportExport\Model\Export;
+
+class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_readerMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_configScopeMock;
 
@@ -23,15 +25,15 @@ class Magento_ImportExport_Model_Export_ConfigTest extends PHPUnit_Framework_Tes
     protected $_cacheId = 'some_id';
 
     /**
-     * @var Magento_ImportExport_Model_Export_Config
+     * @var \Magento\ImportExport\Model\Export\Config
      */
     protected $_model;
 
     protected function setUp()
     {
         $this->_readerMock
-            = $this->getMock('Magento_ImportExport_Model_Export_Config_Reader', array(), array(), '', false);
-        $this->_configScopeMock = $this->getMock('Magento_Config_CacheInterface');
+            = $this->getMock('Magento\ImportExport\Model\Export\Config\Reader', array(), array(), '', false);
+        $this->_configScopeMock = $this->getMock('Magento\Config\CacheInterface');
     }
 
     /**
@@ -44,7 +46,7 @@ class Magento_ImportExport_Model_Export_ConfigTest extends PHPUnit_Framework_Tes
         $this->_configScopeMock->expects($this->any())
             ->method('load')->with($this->_cacheId)->will($this->returnValue(false));
         $this->_readerMock->expects($this->any())->method('read')->will($this->returnValue($value));
-        $this->_model = new Magento_ImportExport_Model_Export_Config(
+        $this->_model = new \Magento\ImportExport\Model\Export\Config(
             $this->_readerMock,
             $this->_configScopeMock,
             $this->_cacheId
@@ -70,7 +72,7 @@ class Magento_ImportExport_Model_Export_ConfigTest extends PHPUnit_Framework_Tes
         $this->_configScopeMock->expects($this->any())
             ->method('load')->with($this->_cacheId)->will($this->returnValue(false));
         $this->_readerMock->expects($this->any())->method('read')->will($this->returnValue($value));
-        $this->_model = new Magento_ImportExport_Model_Export_Config(
+        $this->_model = new \Magento\ImportExport\Model\Export\Config(
             $this->_readerMock,
             $this->_configScopeMock,
             $this->_cacheId
@@ -96,7 +98,7 @@ class Magento_ImportExport_Model_Export_ConfigTest extends PHPUnit_Framework_Tes
         $this->_configScopeMock->expects($this->any())
             ->method('load')->with($this->_cacheId)->will($this->returnValue(false));
         $this->_readerMock->expects($this->any())->method('read')->will($this->returnValue($value));
-        $this->_model = new Magento_ImportExport_Model_Export_Config(
+        $this->_model = new \Magento\ImportExport\Model\Export\Config(
             $this->_readerMock,
             $this->_configScopeMock,
             $this->_cacheId

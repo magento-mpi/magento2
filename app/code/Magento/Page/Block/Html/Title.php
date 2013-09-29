@@ -14,7 +14,9 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Page_Block_Html_Title extends Magento_Core_Block_Template
+namespace Magento\Page\Block\Html;
+
+class Title extends \Magento\Core\Block\Template
 {
     /**
      * Own page title to display on the page

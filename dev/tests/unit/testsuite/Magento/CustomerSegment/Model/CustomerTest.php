@@ -6,25 +6,27 @@
  * @license     {license_link}
  */
 
-class Magento_CustomerSegment_Model_CustomerTest extends PHPUnit_Framework_TestCase
+namespace Magento\CustomerSegment\Model;
+
+class CustomerTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_CustomerSegment_Model_Customer
+     * @var \Magento\CustomerSegment\Model\Customer
      */
     private $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     private $_registry;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     private $_customerSession;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     private $_resource;
 
@@ -35,32 +37,32 @@ class Magento_CustomerSegment_Model_CustomerTest extends PHPUnit_Framework_TestC
 
     protected function setUp()
     {
-        $this->_registry = $this->getMock('Magento_Core_Model_Registry', array('registry'), array(), '', false);
+        $this->_registry = $this->getMock('Magento\Core\Model\Registry', array('registry'), array(), '', false);
 
-        $website = new Magento_Object(array('id' => 5));
+        $website = new \Magento\Object(array('id' => 5));
         $storeManager = $this->getMockForAbstractClass(
-            'Magento_Core_Model_StoreManagerInterface', array('getWebsite'), '', false
+            'Magento\Core\Model\StoreManagerInterface', array('getWebsite'), '', false
         );
         $storeManager->expects($this->any())->method('getWebsite')->will($this->returnValue($website));
 
         $this->_customerSession = $this->getMock(
-            'Magento_Customer_Model_Session', array('getCustomer'), array(), '', false
+            'Magento\Customer\Model\Session', array('getCustomer'), array(), '', false
         );
 
         $this->_resource = $this->getMock(
-            'Magento_CustomerSegment_Model_Resource_Customer',
+            'Magento\CustomerSegment\Model\Resource\Customer',
             array('getCustomerWebsiteSegments', 'getIdFieldName'),
-            array($this->getMock('Magento_Core_Model_Resource', array(), array(), '', false))
+            array($this->getMock('Magento\Core\Model\Resource', array(), array(), '', false))
         );
 
-        $this->_model = new Magento_CustomerSegment_Model_Customer(
-            $this->getMock('Magento_CustomerSegment_Model_Resource_Segment_CollectionFactory',
+        $this->_model = new \Magento\CustomerSegment\Model\Customer(
+            $this->getMock('Magento\CustomerSegment\Model\Resource\Segment\CollectionFactory',
                 array('create'), array(), '', false),
-            $this->getMock('Magento_Customer_Model_Resource_Customer', array(), array(), '', false),
-            $this->getMock('Magento_Customer_Model_Config_Share', array(), array(), '', false),
-            $this->getMock('Magento_Log_Model_Visitor', array(), array(), '', false),
-            $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false),
-            $this->getMock('Magento_Core_Model_Context', array(), array(), '', false),
+            $this->getMock('Magento\Customer\Model\Resource\Customer', array(), array(), '', false),
+            $this->getMock('Magento\Customer\Model\Config\Share', array(), array(), '', false),
+            $this->getMock('Magento\Log\Model\Visitor', array(), array(), '', false),
+            $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false),
+            $this->getMock('Magento\Core\Model\Context', array(), array(), '', false),
             $this->_registry,
             $storeManager,
             $this->_customerSession,
@@ -78,7 +80,7 @@ class Magento_CustomerSegment_Model_CustomerTest extends PHPUnit_Framework_TestC
 
     public function testGetCurrentCustomerSegmentIdsCustomerInRegistry()
     {
-        $customer = new Magento_Object(array('id' => 100500));
+        $customer = new \Magento\Object(array('id' => 100500));
         $this->_registry
             ->expects($this->once())->method('registry')->with('segment_customer')->will($this->returnValue($customer));
         $this->_resource
@@ -92,7 +94,7 @@ class Magento_CustomerSegment_Model_CustomerTest extends PHPUnit_Framework_TestC
 
     public function testGetCurrentCustomerSegmentIdsCustomerInRegistryNoId()
     {
-        $customer = new Magento_Object();
+        $customer = new \Magento\Object();
         $this->_registry
             ->expects($this->once())->method('registry')->with('segment_customer')->will($this->returnValue($customer));
         $this->_customerSession->setData('customer_segment_ids', array(5 => $this->_fixtureSegmentIds));
@@ -101,7 +103,7 @@ class Magento_CustomerSegment_Model_CustomerTest extends PHPUnit_Framework_TestC
 
     public function testGetCurrentCustomerSegmentIdsCustomerInSession()
     {
-        $customer = new Magento_Object(array('id' => 100500));
+        $customer = new \Magento\Object(array('id' => 100500));
         $this->_customerSession->expects($this->once())->method('getCustomer')->will($this->returnValue($customer));
         $this->_resource
             ->expects($this->once())
@@ -114,7 +116,7 @@ class Magento_CustomerSegment_Model_CustomerTest extends PHPUnit_Framework_TestC
 
     public function testGetCurrentCustomerSegmentIdsCustomerInSessionNoId()
     {
-        $customer = new Magento_Object();
+        $customer = new \Magento\Object();
         $this->_customerSession->expects($this->once())->method('getCustomer')->will($this->returnValue($customer));
         $this->_customerSession->setData('customer_segment_ids', array(5 => $this->_fixtureSegmentIds));
         $this->assertEquals($this->_fixtureSegmentIds, $this->_model->getCurrentCustomerSegmentIds());

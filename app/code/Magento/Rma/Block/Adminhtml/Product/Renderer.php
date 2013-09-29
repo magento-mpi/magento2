@@ -15,7 +15,9 @@
  * @package    Magento_Rma
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rma_Block_Adminhtml_Product_Renderer extends Magento_Data_Form_Element_Select
+namespace Magento\Rma\Block\Adminhtml\Product;
+
+class Renderer extends \Magento\Data\Form\Element\Select
 {
     /**
      * Retrieve Element HTML fragment
@@ -25,7 +27,7 @@ class Magento_Rma_Block_Adminhtml_Product_Renderer extends Magento_Data_Form_Ele
     public function getElementHtml()
     {
         if (is_null($this->getValue())) {
-            $this->setValue(Magento_Rma_Model_Product_Source::ATTRIBUTE_ENABLE_RMA_USE_CONFIG);
+            $this->setValue(\Magento\Rma\Model\Product\Source::ATTRIBUTE_ENABLE_RMA_USE_CONFIG);
         }
         return parent::getElementHtml();
     }

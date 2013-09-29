@@ -5,46 +5,48 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Resource_Setup_Context
+namespace Magento\Core\Model\Resource\Setup;
+
+class Context
 {
     /**
-     * @var Magento_Core_Model_Logger
+     * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
 
     /**
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventManager;
 
     /**
-     * @var Magento_Core_Model_Resource
+     * @var \Magento\Core\Model\Resource
      */
     protected $_resourceModel;
 
     /**
-     * @var Magento_Core_Model_Config_Modules_Reader
+     * @var \Magento\Core\Model\Config\Modules\Reader
      */
     protected $_modulesReader;
 
     /**
-     * @var Magento_Core_Model_ModuleListInterface
+     * @var \Magento\Core\Model\ModuleListInterface
      */
     protected $_moduleList;
 
     /**
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
-     * @param Magento_Core_Model_ModuleListInterface $moduleList
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Core\Model\Config\Modules\Reader $modulesReader
+     * @param \Magento\Core\Model\ModuleListInterface $moduleList
      */
     public function __construct(
-        Magento_Core_Model_Logger $logger,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Resource $resource,
-        Magento_Core_Model_Config_Modules_Reader $modulesReader,
-        Magento_Core_Model_ModuleListInterface $moduleList
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Core\Model\Config\Modules\Reader $modulesReader,
+        \Magento\Core\Model\ModuleListInterface $moduleList
     ) {
         $this->_logger = $logger;
         $this->_eventManager = $eventManager;
@@ -86,7 +88,7 @@ class Magento_Core_Model_Resource_Setup_Context
     }
 
     /**
-     * @return \Magento_Core_Model_Resource
+     * @return \Magento\Core\Model\Resource
      */
     public function getResourceModel()
     {

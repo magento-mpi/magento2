@@ -9,9 +9,11 @@
  */
 
 
-class Magento_Sales_Model_Order_Invoice_Total_Discount extends Magento_Sales_Model_Order_Invoice_Total_Abstract
+namespace Magento\Sales\Model\Order\Invoice\Total;
+
+class Discount extends \Magento\Sales\Model\Order\Invoice\Total\AbstractTotal
 {
-    public function collect(Magento_Sales_Model_Order_Invoice $invoice)
+    public function collect(\Magento\Sales\Model\Order\Invoice $invoice)
     {
         $invoice->setDiscountAmount(0);
         $invoice->setBaseDiscountAmount(0);
@@ -36,7 +38,7 @@ class Magento_Sales_Model_Order_Invoice_Total_Discount extends Magento_Sales_Mod
             $baseTotalDiscountAmount = $baseTotalDiscountAmount + $invoice->getOrder()->getBaseShippingDiscountAmount();
         }
 
-        /** @var $item Magento_Sales_Model_Order_Invoice_Item */
+        /** @var $item \Magento\Sales\Model\Order\Invoice\Item */
         foreach ($invoice->getAllItems() as $item) {
             $orderItem = $item->getOrderItem();
             if ($orderItem->isDummy()) {

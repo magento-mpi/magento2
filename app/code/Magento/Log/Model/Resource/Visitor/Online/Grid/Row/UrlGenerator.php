@@ -8,19 +8,21 @@
  * @license     {license_link}
  */
 
-class Magento_Log_Model_Resource_Visitor_Online_Grid_Row_UrlGenerator
-    extends Magento_Backend_Model_Widget_Grid_Row_UrlGenerator
+namespace Magento\Log\Model\Resource\Visitor\Online\Grid\Row;
+
+class UrlGenerator
+    extends \Magento\Backend\Model\Widget\Grid\Row\UrlGenerator
 {
     /**
-     * @var Magento_AuthorizationInterface
+     * @var \Magento\AuthorizationInterface
      */
     protected $_authorization;
 
     /**
-     * @param Magento_AuthorizationInterface $authorization
+     * @param \Magento\AuthorizationInterface $authorization
      * @param array $args
      */
-    public function __construct(Magento_AuthorizationInterface $authorization, array $args = array())
+    public function __construct(\Magento\AuthorizationInterface $authorization, array $args = array())
     {
         $this->_authorization = $authorization;
         parent::__construct($args);
@@ -28,7 +30,7 @@ class Magento_Log_Model_Resource_Visitor_Online_Grid_Row_UrlGenerator
 
     /**
      * Create url for passed item using passed url model
-     * @param Magento_Object $item
+     * @param \Magento\Object $item
      * @return string
      */
     public function getUrl($item)

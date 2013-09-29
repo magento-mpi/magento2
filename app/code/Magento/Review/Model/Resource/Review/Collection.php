@@ -16,7 +16,9 @@
  * @package     Magento_Review
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Review_Model_Resource_Review_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Review\Model\Resource\Review;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Review table
@@ -62,39 +64,39 @@ class Magento_Review_Model_Resource_Review_Collection extends Magento_Core_Model
     /**
      * Review data
      *
-     * @var Magento_Review_Helper_Data
+     * @var \Magento\Review\Helper\Data
      */
     protected $_reviewData = null;
 
     /**
-     * @var Magento_Rating_Model_Rating_Option_VoteFactory
+     * @var \Magento\Rating\Model\Rating\Option\VoteFactory
      */
     protected $_voteFactory;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Review_Helper_Data $reviewData
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_EntityFactory $entityFactory
-     * @param Magento_Rating_Model_Rating_Option_VoteFactory $voteFactory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Resource_Db_Abstract $resource
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Review\Helper\Data $reviewData
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Rating\Model\Rating\Option\VoteFactory $voteFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Logger $logger,
-        Magento_Review_Helper_Data $reviewData,
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_EntityFactory $entityFactory,
-        Magento_Rating_Model_Rating_Option_VoteFactory $voteFactory,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Resource_Db_Abstract $resource = null
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Review\Helper\Data $reviewData,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Rating\Model\Rating\Option\VoteFactory $voteFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
     ) {
         $this->_reviewData = $reviewData;
         $this->_voteFactory = $voteFactory;
@@ -109,7 +111,7 @@ class Magento_Review_Model_Resource_Review_Collection extends Magento_Core_Model
      */
     protected function _construct()
     {
-        $this->_init('Magento_Review_Model_Review', 'Magento_Review_Model_Resource_Review');
+        $this->_init('Magento\Review\Model\Review', 'Magento\Review\Model\Resource\Review');
         $this->_reviewTable         = $this->getTable('review');
         $this->_reviewDetailTable   = $this->getTable('review_detail');
         $this->_reviewStatusTable   = $this->getTable('review_status');
@@ -120,7 +122,7 @@ class Magento_Review_Model_Resource_Review_Collection extends Magento_Core_Model
     /**
      * init select
      *
-     * @return Magento_Review_Model_Resource_Review_Product_Collection
+     * @return \Magento\Review\Model\Resource\Review\Product\Collection
      */
     protected function _initSelect()
     {
@@ -134,7 +136,7 @@ class Magento_Review_Model_Resource_Review_Collection extends Magento_Core_Model
 
     /**
      * @param int|string $customerId
-     * @return Magento_Review_Model_Resource_Review_Collection
+     * @return \Magento\Review\Model\Resource\Review\Collection
      */
     public function addCustomerFilter($customerId)
     {
@@ -148,7 +150,7 @@ class Magento_Review_Model_Resource_Review_Collection extends Magento_Core_Model
      * Add store filter
      *
      * @param int|array $storeId
-     * @return Magento_Review_Model_Resource_Review_Collection
+     * @return \Magento\Review\Model\Resource\Review\Collection
      */
     public function addStoreFilter($storeId)
     {
@@ -163,7 +165,7 @@ class Magento_Review_Model_Resource_Review_Collection extends Magento_Core_Model
     /**
      * Add stores data
      *
-     * @return Magento_Review_Model_Resource_Review_Collection
+     * @return \Magento\Review\Model\Resource\Review\Collection
      */
     public function addStoreData()
     {
@@ -176,7 +178,7 @@ class Magento_Review_Model_Resource_Review_Collection extends Magento_Core_Model
      *
      * @param int|string $entity
      * @param int $pkValue
-     * @return Magento_Review_Model_Resource_Review_Collection
+     * @return \Magento\Review\Model\Resource\Review\Collection
      */
     public function addEntityFilter($entity, $pkValue)
     {
@@ -205,7 +207,7 @@ class Magento_Review_Model_Resource_Review_Collection extends Magento_Core_Model
      * Add status filter
      *
      * @param int|string $status
-     * @return Magento_Review_Model_Resource_Review_Collection
+     * @return \Magento\Review\Model\Resource\Review\Collection
      */
     public function addStatusFilter($status)
     {
@@ -225,7 +227,7 @@ class Magento_Review_Model_Resource_Review_Collection extends Magento_Core_Model
      * Set date order
      *
      * @param string $dir
-     * @return Magento_Review_Model_Resource_Review_Collection
+     * @return \Magento\Review\Model\Resource\Review\Collection
      */
     public function setDateOrder($dir = 'DESC')
     {
@@ -236,7 +238,7 @@ class Magento_Review_Model_Resource_Review_Collection extends Magento_Core_Model
     /**
      * Add rate votes
      *
-     * @return Magento_Review_Model_Resource_Review_Collection
+     * @return \Magento\Review\Model\Resource\Review\Collection
      */
     public function addRateVotes()
     {
@@ -256,14 +258,14 @@ class Magento_Review_Model_Resource_Review_Collection extends Magento_Core_Model
     /**
      * Add reviews total count
      *
-     * @return Magento_Review_Model_Resource_Review_Collection
+     * @return \Magento\Review\Model\Resource\Review\Collection
      */
     public function addReviewsTotalCount()
     {
         $this->_select->joinLeft(
             array('r' => $this->_reviewTable),
             'main_table.entity_pk_value = r.entity_pk_value',
-            array('total_reviews' => new Zend_Db_Expr('COUNT(r.review_id)'))
+            array('total_reviews' => new \Zend_Db_Expr('COUNT(r.review_id)'))
         )
         ->group('main_table.review_id');
 
@@ -275,7 +277,7 @@ class Magento_Review_Model_Resource_Review_Collection extends Magento_Core_Model
      *
      * @param boolean $printQuery
      * @param boolean $logQuery
-     * @return Magento_Review_Model_Resource_Review_Collection
+     * @return \Magento\Review\Model\Resource\Review\Collection
      */
     public function load($printQuery = false, $logQuery = false)
     {

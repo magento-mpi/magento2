@@ -11,7 +11,9 @@
 /**
  * Persistent helper
  */
-class Magento_PersistentHistory_Helper_Data extends Magento_Core_Helper_Abstract
+namespace Magento\PersistentHistory\Helper;
+
+class Data extends \Magento\Core\Helper\AbstractHelper
 {
     const XML_PATH_PERSIST_WISHLIST             = 'persistent/options/wishlist';
     const XML_PATH_PERSIST_ORDERED_ITEMS        = 'persistent/options/recently_ordered';
@@ -28,24 +30,24 @@ class Magento_PersistentHistory_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_configFileName = 'persistent.xml';
 
     /**
-     * @var Magento_Core_Model_Config
+     * @var \Magento\Core\Model\Config
      */
     protected $_config;
 
     /**
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_storeConfig;
 
     /**
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_Config $config
-     * @param Magento_Core_Model_Store_Config $storeConfig
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Core\Model\Store\Config $storeConfig
      */
     public function __construct(
-        Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Config $config,
-        Magento_Core_Model_Store_Config $storeConfig
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\Config $config,
+        \Magento\Core\Model\Store\Config $storeConfig
     ) {
         parent::__construct($context);
         $this->_config = $config;
@@ -65,7 +67,7 @@ class Magento_PersistentHistory_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Check whether wishlist is persist
      *
-     * @param int|string|Magento_Core_Model_Store $store
+     * @param int|string|\Magento\Core\Model\Store $store
      * @return bool
      */
     public function isWishlistPersist($store = null)
@@ -76,7 +78,7 @@ class Magento_PersistentHistory_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Check whether ordered items is persist
      *
-     * @param int|string|Magento_Core_Model_Store $store
+     * @param int|string|\Magento\Core\Model\Store $store
      * @return bool
      */
     public function isOrderedItemsPersist($store = null)
@@ -87,7 +89,7 @@ class Magento_PersistentHistory_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Check whether compare products is persist
      *
-     * @param int|string|Magento_Core_Model_Store $store
+     * @param int|string|\Magento\Core\Model\Store $store
      * @return bool
      */
     public function isCompareProductsPersist($store = null)
@@ -98,7 +100,7 @@ class Magento_PersistentHistory_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Check whether compared products is persist
      *
-     * @param int|string|Magento_Core_Model_Store $store
+     * @param int|string|\Magento\Core\Model\Store $store
      * @return bool
      */
     public function isComparedProductsPersist($store = null)
@@ -109,7 +111,7 @@ class Magento_PersistentHistory_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Check whether viewed products is persist
      *
-     * @param int|string|Magento_Core_Model_Store $store
+     * @param int|string|\Magento\Core\Model\Store $store
      * @return bool
      */
     public function isViewedProductsPersist($store = null)
@@ -120,7 +122,7 @@ class Magento_PersistentHistory_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Check whether customer and segments is persist
      *
-     * @param int|string|Magento_Core_Model_Store $store
+     * @param int|string|\Magento\Core\Model\Store $store
      * @return bool
      */
     public function isCustomerAndSegmentsPersist($store = null)

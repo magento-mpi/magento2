@@ -11,50 +11,52 @@
 /**
  * Adminhtml Review Edit Form
  */
-class Magento_Adminhtml_Block_Review_Edit_Form extends Magento_Backend_Block_Widget_Form_Generic
+namespace Magento\Adminhtml\Block\Review\Edit;
+
+class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
      * Review data
      *
-     * @var Magento_Review_Helper_Data
+     * @var \Magento\Review\Helper\Data
      */
     protected $_reviewData = null;
 
     /**
-     * @var Magento_Customer_Model_CustomerFactory
+     * @var \Magento\Customer\Model\CustomerFactory
      */
     protected $_customerFactory;
 
     /**
-     * @var Magento_Catalog_Model_ProductFactory
+     * @var \Magento\Catalog\Model\ProductFactory
      */
     protected $_productFactory;
 
     /**
-     * @var Magento_Core_Model_System_Store
+     * @var \Magento\Core\Model\System\Store
      */
     protected $_systemStore;
 
     /**
-     * @param Magento_Core_Model_System_Store $systemStore
-     * @param Magento_Customer_Model_CustomerFactory $customerFactory
-     * @param Magento_Catalog_Model_ProductFactory $productFactory
-     * @param Magento_Review_Helper_Data $reviewData
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
+     * @param \Magento\Core\Model\System\Store $systemStore
+     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Review\Helper\Data $reviewData
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_System_Store $systemStore,
-        Magento_Customer_Model_CustomerFactory $customerFactory,
-        Magento_Catalog_Model_ProductFactory $productFactory,
-        Magento_Review_Helper_Data $reviewData,
-        Magento_Core_Model_Registry $registry,
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
+        \Magento\Core\Model\System\Store $systemStore,
+        \Magento\Customer\Model\CustomerFactory $customerFactory,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Review\Helper\Data $reviewData,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_reviewData = $reviewData;
@@ -70,7 +72,7 @@ class Magento_Adminhtml_Block_Review_Edit_Form extends Magento_Backend_Block_Wid
         $product = $this->_productFactory->create()->load($review->getEntityPkValue());
         $customer = $this->_customerFactory->create()->load($review->getCustomerId());
 
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create(array(
             'attributes' => array(
                 'id'        => 'edit_form',
@@ -114,14 +116,14 @@ class Magento_Adminhtml_Block_Review_Edit_Form extends Magento_Backend_Block_Wid
 
         $fieldset->addField('summary_rating', 'note', array(
             'label'     => __('Summary Rating'),
-            'text'      => $this->getLayout()->createBlock('Magento_Adminhtml_Block_Review_Rating_Summary')->toHtml(),
+            'text'      => $this->getLayout()->createBlock('Magento\Adminhtml\Block\Review\Rating\Summary')->toHtml(),
         ));
 
         $fieldset->addField('detailed_rating', 'note', array(
             'label'     => __('Detailed Rating'),
             'required'  => true,
             'text'      => '<div id="rating_detail">'
-                           . $this->getLayout()->createBlock('Magento_Adminhtml_Block_Review_Rating_Detailed')->toHtml()
+                           . $this->getLayout()->createBlock('Magento\Adminhtml\Block\Review\Rating\Detailed')->toHtml()
                            . '</div>',
         ));
 
@@ -143,7 +145,7 @@ class Magento_Adminhtml_Block_Review_Edit_Form extends Magento_Backend_Block_Wid
                 'values'    => $this->_systemStore->getStoreValuesForForm(),
             ));
             $renderer = $this->getLayout()
-                ->createBlock('Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
+                ->createBlock('Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element');
             $field->setRenderer($renderer);
             $review->setSelectStores($review->getStores());
         } else {

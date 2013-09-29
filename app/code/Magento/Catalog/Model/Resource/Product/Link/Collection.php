@@ -16,26 +16,28 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Resource_Product_Link_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Catalog\Model\Resource\Product\Link;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Product object
      *
-     * @var Magento_Catalog_Model_Product
+     * @var \Magento\Catalog\Model\Product
      */
     protected $_product;
 
     /**
      * Product Link model class
      *
-     * @var Magento_Catalog_Model_Product_Link
+     * @var \Magento\Catalog\Model\Product\Link
      */
     protected $_linkModel;
 
     /**
      * Product Link Type identifier
      *
-     * @var Magento_Catalog_Model_Product_Type
+     * @var \Magento\Catalog\Model\Product\Type
      */
     protected $_linkTypeId;
 
@@ -44,16 +46,16 @@ class Magento_Catalog_Model_Resource_Product_Link_Collection extends Magento_Cor
      */
     protected function _construct()
     {
-        $this->_init('Magento_Catalog_Model_Product_Link', 'Magento_Catalog_Model_Resource_Product_Link');
+        $this->_init('Magento\Catalog\Model\Product\Link', 'Magento\Catalog\Model\Resource\Product\Link');
     }
 
     /**
      * Declare link model and initialize type attributes join
      *
-     * @param Magento_Catalog_Model_Product_Link $linkModel
-     * @return Magento_Catalog_Model_Resource_Product_Link_Collection
+     * @param \Magento\Catalog\Model\Product\Link $linkModel
+     * @return \Magento\Catalog\Model\Resource\Product\Link\Collection
      */
-    public function setLinkModel(Magento_Catalog_Model_Product_Link $linkModel)
+    public function setLinkModel(\Magento\Catalog\Model\Product\Link $linkModel)
     {
         $this->_linkModel = $linkModel;
         if ($linkModel->hasLinkTypeId()) {
@@ -65,7 +67,7 @@ class Magento_Catalog_Model_Resource_Product_Link_Collection extends Magento_Cor
     /**
      * Retrieve collection link model
      *
-     * @return Magento_Catalog_Model_Product_Link
+     * @return \Magento\Catalog\Model\Product\Link
      */
     public function getLinkModel()
     {
@@ -75,10 +77,10 @@ class Magento_Catalog_Model_Resource_Product_Link_Collection extends Magento_Cor
     /**
      * Initialize collection parent product and add limitation join
      *
-     * @param Magento_Catalog_Model_Product $product
-     * @return Magento_Catalog_Model_Resource_Product_Link_Collection
+     * @param \Magento\Catalog\Model\Product $product
+     * @return \Magento\Catalog\Model\Resource\Product\Link\Collection
      */
-    public function setProduct(Magento_Catalog_Model_Product $product)
+    public function setProduct(\Magento\Catalog\Model\Product $product)
     {
         $this->_product = $product;
         return $this;
@@ -87,7 +89,7 @@ class Magento_Catalog_Model_Resource_Product_Link_Collection extends Magento_Cor
     /**
      * Retrieve collection base product object
      *
-     * @return Magento_Catalog_Model_Product
+     * @return \Magento\Catalog\Model\Product
      */
     public function getProduct()
     {
@@ -97,7 +99,7 @@ class Magento_Catalog_Model_Resource_Product_Link_Collection extends Magento_Cor
     /**
      * Add link's type to filter
      *
-     * @return Magento_Catalog_Model_Resource_Product_Link_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Link\Collection
      */
     public function addLinkTypeIdFilter()
     {
@@ -110,7 +112,7 @@ class Magento_Catalog_Model_Resource_Product_Link_Collection extends Magento_Cor
     /**
      * Add product to filter
      *
-     * @return Magento_Catalog_Model_Resource_Product_Link_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Link\Collection
      */
     public function addProductIdFilter()
     {
@@ -123,7 +125,7 @@ class Magento_Catalog_Model_Resource_Product_Link_Collection extends Magento_Cor
     /**
      * Join attributes
      *
-     * @return Magento_Catalog_Model_Resource_Product_Link_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Link\Collection
      */
     public function joinAttributes()
     {

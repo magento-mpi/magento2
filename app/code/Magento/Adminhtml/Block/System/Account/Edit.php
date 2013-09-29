@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_System_Account_Edit extends Magento_Adminhtml_Block_Widget_Form_Container
+namespace Magento\Adminhtml\Block\System\Account;
+
+class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
 {
     protected function _construct()
     {

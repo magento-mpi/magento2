@@ -18,7 +18,9 @@
  * @package    Magento_Eav
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Eav_Model_Entity_Attribute_Source_Config extends Magento_Eav_Model_Entity_Attribute_Source_Abstract
+namespace Magento\Eav\Model\Entity\Attribute\Source;
+
+class Config extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
 {
     /**
      * @var array
@@ -36,7 +38,7 @@ class Magento_Eav_Model_Entity_Attribute_Source_Config extends Magento_Eav_Model
     /**
      * Retrieve all options for the source from configuration
      *
-     * @throws Magento_Eav_Exception
+     * @throws \Magento\Eav\Exception
      * @return array
      */
     public function getAllOptions()
@@ -45,7 +47,7 @@ class Magento_Eav_Model_Entity_Attribute_Source_Config extends Magento_Eav_Model
             $this->_options = array();
 
             if (empty($this->_optionsData)) {
-                throw Mage::exception('Magento_Eav', __('No options found'));
+                throw \Mage::exception('Magento_Eav', __('No options found'));
             }
             foreach ($this->_optionsData as $option) {
                 $this->_options[] = array(

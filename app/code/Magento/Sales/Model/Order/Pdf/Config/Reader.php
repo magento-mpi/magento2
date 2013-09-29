@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Sales_Model_Order_Pdf_Config_Reader extends Magento_Config_Reader_Filesystem
+namespace Magento\Sales\Model\Order\Pdf\Config;
+
+class Reader extends \Magento\Config\Reader\Filesystem
 {
     /**
      * List of identifier attributes for merging

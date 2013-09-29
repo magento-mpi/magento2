@@ -16,7 +16,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Promo_Quote_Edit_Form extends Magento_Backend_Block_Widget_Form_Generic
+namespace Magento\Adminhtml\Block\Promo\Quote\Edit;
+
+class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     protected function _construct()
     {
@@ -27,7 +29,7 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Form extends Magento_Backend_Bloc
     
     protected function _prepareForm()
     {
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create(array(
             'attributes' => array(
                 'id' => 'edit_form',

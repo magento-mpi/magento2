@@ -16,8 +16,10 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Sales_Reorder_Renderer_Action
-    extends Magento_Backend_Block_Widget_Grid_Column_Renderer_Abstract
+namespace Magento\Adminhtml\Block\Sales\Reorder\Renderer;
+
+class Action
+    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**
      * Array to store all options data
@@ -29,25 +31,25 @@ class Magento_Adminhtml_Block_Sales_Reorder_Renderer_Action
     /**
      * Sales reorder
      *
-     * @var Magento_Sales_Helper_Reorder
+     * @var \Magento\Sales\Helper\Reorder
      */
     protected $_salesReorder = null;
 
     /**
-     * @param Magento_Sales_Helper_Reorder $salesReorder
-     * @param Magento_Backend_Block_Context $context
+     * @param \Magento\Sales\Helper\Reorder $salesReorder
+     * @param \Magento\Backend\Block\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Sales_Helper_Reorder $salesReorder,
-        Magento_Backend_Block_Context $context,
+        \Magento\Sales\Helper\Reorder $salesReorder,
+        \Magento\Backend\Block\Context $context,
         array $data = array()
     ) {
         $this->_salesReorder = $salesReorder;
         parent::__construct($context, $data);
     }
 
-    public function render(Magento_Object $row)
+    public function render(\Magento\Object $row)
     {
         $this->_actions = array();
         if ($this->_salesReorder->canReorder($row)) {
@@ -78,7 +80,7 @@ class Magento_Adminhtml_Block_Sales_Reorder_Renderer_Action
     protected function _actionsToHtml(array $actions = array())
     {
         $html = array();
-        $attributesObject = new Magento_Object();
+        $attributesObject = new \Magento\Object();
 
         if (empty($actions)) {
             $actions = $this->_actions;

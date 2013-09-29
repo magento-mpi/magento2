@@ -9,13 +9,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Magento_PubSub_Job_QueueWriterInterface
+namespace Magento\PubSub\Job;
+
+interface QueueWriterInterface
 {
     /**
      * Adds the job to the queue.
      *
-     * @param Magento_PubSub_JobInterface $job
+     * @param \Magento\PubSub\JobInterface $job
      * @return null
      */
-    public function offer(Magento_PubSub_JobInterface $job);
+    public function offer(\Magento\PubSub\JobInterface $job);
 }

@@ -11,7 +11,9 @@
 /**
  * Autocomplete queries list
  */
-class Magento_CatalogSearch_Block_Autocomplete extends Magento_Core_Block_Abstract
+namespace Magento\CatalogSearch\Block;
+
+class Autocomplete extends \Magento\Core\Block\AbstractBlock
 {
     protected $_suggestData = null;
 
@@ -52,8 +54,8 @@ class Magento_CatalogSearch_Block_Autocomplete extends Magento_Core_Block_Abstra
     public function getSuggestData()
     {
         if (!$this->_suggestData) {
-            $collection = $this->helper('Magento_CatalogSearch_Helper_Data')->getSuggestCollection();
-            $query = $this->helper('Magento_CatalogSearch_Helper_Data')->getQueryText();
+            $collection = $this->helper('Magento\CatalogSearch\Helper\Data')->getSuggestCollection();
+            $query = $this->helper('Magento\CatalogSearch\Helper\Data')->getQueryText();
             $counter = 0;
             $data = array();
             foreach ($collection as $item) {

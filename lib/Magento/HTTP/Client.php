@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
  
-class Magento_HTTP_Client
+namespace Magento\HTTP;
+
+class Client
 {
 
 	/**
@@ -31,7 +33,7 @@ class Magento_HTTP_Client
 	/**
 	 * Factory for HTTP client
 	 * @param string/false $frontend  'curl'/'socket' or false for auto-detect
-	 * @return Magento_HTTP_IClient
+	 * @return \Magento\HTTP\IClient
 	 */
 	public static function getInstance($frontend = false) 
 	{
@@ -41,7 +43,7 @@ class Magento_HTTP_Client
 		}
 		if(false === $frontend)
 		{ 
-			throw new Exception("Cannot find frontend automatically, set it manually");
+			throw new \Exception("Cannot find frontend automatically, set it manually");
 		}
 		
 		$class = __CLASS__."_".str_replace(' ', DIRECTORY_SEPARATOR, ucwords(str_replace('_', ' ', $frontend)));

@@ -11,7 +11,9 @@
 /**
  * Quick styles configuration
  */
-class Magento_DesignEditor_Model_Config_Control_QuickStyles extends Magento_DesignEditor_Model_Config_Control_Abstract
+namespace Magento\DesignEditor\Model\Config\Control;
+
+class QuickStyles extends \Magento\DesignEditor\Model\Config\Control\AbstractControl
 {
     /**
      * Keys of layout params attributes
@@ -21,15 +23,15 @@ class Magento_DesignEditor_Model_Config_Control_QuickStyles extends Magento_Desi
     protected $_controlAttributes = array('title', 'tab', 'column');
 
     /**
-     * @var Magento_Core_Model_Config_Modules_Reader
+     * @var \Magento\Core\Model\Config\Modules\Reader
      */
     protected $_moduleReader;
 
     /**
-     * @param Magento_Core_Model_Config_Modules_Reader $moduleReader
+     * @param \Magento\Core\Model\Config\Modules\Reader $moduleReader
      * @param array $configFiles
      */
-    public function __construct(Magento_Core_Model_Config_Modules_Reader $moduleReader, array $configFiles)
+    public function __construct(\Magento\Core\Model\Config\Modules\Reader $moduleReader, array $configFiles)
     {
         $this->_moduleReader = $moduleReader;
         parent::__construct($configFiles);
@@ -43,7 +45,7 @@ class Magento_DesignEditor_Model_Config_Control_QuickStyles extends Magento_Desi
     public function getSchemaFile()
     {
         return $this->_moduleReader->getModuleDir('etc', 'Magento_DesignEditor')
-            . Magento_Filesystem::DIRECTORY_SEPARATOR
+            . \Magento\Filesystem::DIRECTORY_SEPARATOR
             . 'quick_styles.xsd';
     }
 }

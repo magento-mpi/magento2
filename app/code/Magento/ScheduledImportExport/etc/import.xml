@@ -8,5 +8,5 @@
  */
 -->
 <config>
-    <entity name="customer_finance" label="Customer Finances" model="Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance" behaviorModel="Magento_ImportExport_Model_Source_Import_Behavior_Custom" />
+    <entity name="customer_finance" label="Customer Finances" model="Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance" behaviorModel="Magento\ImportExport\Model\Source\Import\Behavior\Custom" />
 </config>

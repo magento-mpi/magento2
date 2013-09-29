@@ -16,7 +16,9 @@
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backend_Block_System_Config_Form_Field_Import extends Magento_Data_Form_Element_Abstract
+namespace Magento\Backend\Block\System\Config\Form\Field;
+
+class Import extends \Magento\Data\Form\Element\AbstractElement
 {
 
     protected function _construct()

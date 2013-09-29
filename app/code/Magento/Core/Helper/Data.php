@@ -13,7 +13,9 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
+namespace Magento\Core\Helper;
+
+class Data extends \Magento\Core\Helper\AbstractHelper
 {
     const XML_PATH_DEFAULT_COUNTRY              = 'general/country/default';
     const XML_PATH_PROTECTED_FILE_EXTENSIONS    = 'general/file/protected_extensions';
@@ -50,55 +52,55 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
     const XML_PATH_SYSTEM_SMTP_DISABLE = 'system/smtp/disable';
 
     /**
-     * @var Magento_Core_Model_Encryption
+     * @var \Magento\Core\Model\Encryption
      */
     protected $_encryptor;
 
     protected $_allowedFormats = array(
-        Magento_Core_Model_LocaleInterface::FORMAT_TYPE_FULL,
-        Magento_Core_Model_LocaleInterface::FORMAT_TYPE_LONG,
-        Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM,
-        Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT
+        \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_FULL,
+        \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_LONG,
+        \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM,
+        \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT
     );
 
     /**
-     * @var Magento_Core_Model_Config
+     * @var \Magento\Core\Model\Config
      */
     protected $_config;
 
     /**
      * Core http
      *
-     * @var Magento_Core_Helper_Http
+     * @var \Magento\Core\Helper\Http
      */
     protected $_coreHttp = null;
 
     /**
      * Core event manager proxy
      *
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventManager = null;
 
     /**
-     * @var Magento_Core_Model_Cache_Config
+     * @var \Magento\Core\Model\Cache\Config
      */
     protected $_cacheConfig;
 
     /**
-     * @var Magento_Core_Model_EncryptionFactory
+     * @var \Magento\Core\Model\EncryptionFactory
      */
     protected $_encryptorFactory;
 
     /**
-     * @var Magento_Core_Model_Fieldset_Config
+     * @var \Magento\Core\Model\Fieldset\Config
      */
     protected $_fieldsetConfig;
 
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
@@ -108,21 +110,21 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_dbCompatibleMode;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Helper_Http $coreHttp
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_Config $config
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_Encryption $encryptor
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Helper\Http $coreHttp
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\Encryption $encryptor
      * @param bool $dbCompatibleMode
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Helper_Http $coreHttp,
-        Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Config $config,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_Encryption $encryptor,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Helper\Http $coreHttp,
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\Config $config,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\Encryption $encryptor,
         $dbCompatibleMode = true
     ) {
         $this->_eventManager = $eventManager;
@@ -139,7 +141,7 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
     }
 
     /**
-     * @return Magento_Core_Model_Encryption
+     * @return \Magento\Core\Model\Encryption
      */
     public function getEncryptor()
     {
@@ -163,7 +165,7 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
      * Convert and format price value for specified store
      *
      * @param   float $value
-     * @param   int|Magento_Core_Model_Store $store
+     * @param   int|\Magento\Core\Model\Store $store
      * @param   bool $format
      * @param   bool $includeContainer
      * @return  mixed
@@ -171,13 +173,13 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
     public static function currencyByStore($value, $store = null, $format = true, $includeContainer = true)
     {
         try {
-            if (!($store instanceof Magento_Core_Model_Store)) {
-                $store = Mage::app()->getStore($store);
+            if (!($store instanceof \Magento\Core\Model\Store)) {
+                $store = \Mage::app()->getStore($store);
             }
 
             $value = $store->convertPrice($value, $format, $includeContainer);
         }
-        catch (Exception $e){
+        catch (\Exception $e){
             $value = $e->getMessage();
         }
 
@@ -205,39 +207,39 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function formatPrice($price, $includeContainer = true)
     {
-        return Mage::app()->getStore()->formatPrice($price, $includeContainer);
+        return \Mage::app()->getStore()->formatPrice($price, $includeContainer);
     }
 
     /**
      * Format date using current locale options and time zone.
      *
      * @param   date|Zend_Date|null $date
-     * @param   string              $format   See Magento_Core_Model_LocaleInterface::FORMAT_TYPE_* constants
+     * @param   string              $format   See \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_* constants
      * @param   bool                $showTime Whether to include time
      * @return  string
      */
-    public function formatDate($date = null, $format = Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT, $showTime = false)
+    public function formatDate($date = null, $format = \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT, $showTime = false)
     {
         if (!in_array($format, $this->_allowedFormats, true)) {
             return $date;
         }
-        if (!($date instanceof Zend_Date) && $date && !strtotime($date)) {
+        if (!($date instanceof \Zend_Date) && $date && !strtotime($date)) {
             return '';
         }
         if (is_null($date)) {
-            $date = Mage::app()->getLocale()->date(
-                Mage::getSingleton('Magento_Core_Model_Date')->gmtTimestamp(),
+            $date = \Mage::app()->getLocale()->date(
+                \Mage::getSingleton('Magento\Core\Model\Date')->gmtTimestamp(),
                 null,
                 null
             );
-        } elseif (!$date instanceof Zend_Date) {
-            $date = Mage::app()->getLocale()->date(strtotime($date), null, null);
+        } elseif (!$date instanceof \Zend_Date) {
+            $date = \Mage::app()->getLocale()->date(strtotime($date), null, null);
         }
 
         if ($showTime) {
-            $format = Mage::app()->getLocale()->getDateTimeFormat($format);
+            $format = \Mage::app()->getLocale()->getDateTimeFormat($format);
         } else {
-            $format = Mage::app()->getLocale()->getDateFormat($format);
+            $format = \Mage::app()->getLocale()->getDateFormat($format);
         }
 
         return $date->toString($format);
@@ -251,24 +253,24 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
      * @param   bool                $showDate
      * @return  string
      */
-    public function formatTime($time = null, $format = Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT, $showDate = false)
+    public function formatTime($time = null, $format = \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT, $showDate = false)
     {
         if (!in_array($format, $this->_allowedFormats, true)) {
             return $time;
         }
 
         if (is_null($time)) {
-            $date = Mage::app()->getLocale()->date(time());
-        } else if ($time instanceof Zend_Date) {
+            $date = \Mage::app()->getLocale()->date(time());
+        } else if ($time instanceof \Zend_Date) {
             $date = $time;
         } else {
-            $date = Mage::app()->getLocale()->date(strtotime($time));
+            $date = \Mage::app()->getLocale()->date(strtotime($time));
         }
 
         if ($showDate) {
-            $format = Mage::app()->getLocale()->getDateTimeFormat($format);
+            $format = \Mage::app()->getLocale()->getDateTimeFormat($format);
         } else {
-            $format = Mage::app()->getLocale()->getTimeFormat($format);
+            $format = \Mage::app()->getLocale()->getTimeFormat($format);
         }
 
         return $date->toString($format);
@@ -282,7 +284,7 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function encrypt($data)
     {
-        if (!Mage::isInstalled()) {
+        if (!\Mage::isInstalled()) {
             return $data;
         }
         return $this->getEncryptor()->encrypt($data);
@@ -296,7 +298,7 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function decrypt($data)
     {
-        if (!Mage::isInstalled()) {
+        if (!\Mage::isInstalled()) {
             return $data;
         }
         return $this->getEncryptor()->decrypt($data);
@@ -344,7 +346,7 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getStoreId($store=null)
     {
-        return Mage::app()->getStore($store)->getId();
+        return \Mage::app()->getStore($store)->getId();
     }
 
     /**
@@ -447,10 +449,10 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
      *
      * @param string $fieldset
      * @param string $aspect
-     * @param array|Magento_Object $source
-     * @param array|Magento_Object $target
+     * @param array|\Magento\Object $source
+     * @param array|\Magento\Object $target
      * @param string $root
-     * @return array|Magento_Object|null the value of $target
+     * @return array|\Magento\Object|null the value of $target
      */
     public function copyFieldsetToTarget($fieldset, $aspect, $source, $target, $root='global')
     {
@@ -493,14 +495,14 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Check if source and target are valid input for converting using fieldset
      *
-     * @param array|Magento_Object $source
-     * @param array|Magento_Object $target
+     * @param array|\Magento\Object $source
+     * @param array|\Magento\Object $target
      * @return bool
      */
     private function _isFieldsetInputValid($source, $target)
     {
-        return (is_array($source) || $source instanceof Magento_Object)
-        && (is_array($target) || $target instanceof Magento_Object);
+        return (is_array($source) || $source instanceof \Magento\Object)
+        && (is_array($target) || $target instanceof \Magento\Object);
     }
 
     /**
@@ -530,7 +532,7 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
      * *_is_last - if the element is last
      *
      * The respective key/attribute will be set to element, depending on object it is or array.
-     * Magento_Object is supported.
+     * \Magento\Object is supported.
      *
      * $forceSetAll true will cause to set all possible values for all elements.
      * When false (default), only non-empty values will be set.
@@ -587,41 +589,41 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Mark passed object with specified flag and appropriate value.
      *
-     * @param Magento_Object $element
+     * @param \Magento\Object $element
      * @param string $key
      * @param mixed $value
      * @param bool $dontSkip
      */
     private function _decorateArrayObject($element, $key, $value, $dontSkip)
     {
-        if ($dontSkip && $element instanceof Magento_Object) {
+        if ($dontSkip && $element instanceof \Magento\Object) {
             $element->setData($key, $value);
         }
     }
 
     /**
-     * Transform an assoc array to SimpleXMLElement object
+     * Transform an assoc array to \SimpleXMLElement object
      * Array has some limitations. Appropriate exceptions will be thrown
      *
      * @param array $array
      * @param string $rootName
-     * @return SimpleXMLElement
-     * @throws Magento_Exception
+     * @return \SimpleXMLElement
+     * @throws \Magento\Exception
      */
     public function assocToXml(array $array, $rootName = '_')
     {
         if (empty($rootName) || is_numeric($rootName)) {
-            throw new Magento_Exception('Root element must not be empty or numeric');
+            throw new \Magento\Exception('Root element must not be empty or numeric');
         }
 
         $xmlstr = <<<XML
 <?xml version='1.0' encoding='UTF-8' standalone='yes'?>
 <$rootName></$rootName>
 XML;
-        $xml = new SimpleXMLElement($xmlstr);
+        $xml = new \SimpleXMLElement($xmlstr);
         foreach ($array as $key => $value) {
             if (is_numeric($key)) {
-                throw new Magento_Exception('Array root keys must not be numeric.');
+                throw new \Magento\Exception('Array root keys must not be numeric.');
             }
         }
         return self::_assocToXml($array, $rootName, $xml);
@@ -632,11 +634,11 @@ XML;
      *
      * @param array $array
      * @param string $rootName
-     * @param SimpleXMLElement $xml
-     * @return SimpleXMLElement
-     * @throws Magento_Exception
+     * @param \SimpleXMLElement $xml
+     * @return \SimpleXMLElement
+     * @throws \Magento\Exception
      */
-    private function _assocToXml(array $array, $rootName, SimpleXMLElement &$xml)
+    private function _assocToXml(array $array, $rootName, \SimpleXMLElement &$xml)
     {
         $hasNumericKey = false;
         $hasStringKey  = false;
@@ -644,7 +646,7 @@ XML;
             if (!is_array($value)) {
                 if (is_string($key)) {
                     if ($key === $rootName) {
-                        throw new Magento_Exception(
+                        throw new \Magento\Exception(
                             'Associative key must not be the same as its parent associative key.'
                         );
                     }
@@ -659,19 +661,19 @@ XML;
             }
         }
         if ($hasNumericKey && $hasStringKey) {
-            throw new Magento_Exception('Associative and numeric keys must not be mixed at one level.');
+            throw new \Magento\Exception('Associative and numeric keys must not be mixed at one level.');
         }
         return $xml;
     }
 
     /**
-     * Transform SimpleXMLElement to associative array
-     * SimpleXMLElement must be conform structure, generated by assocToXml()
+     * Transform \SimpleXMLElement to associative array
+     * \SimpleXMLElement must be conform structure, generated by assocToXml()
      *
-     * @param SimpleXMLElement $xml
+     * @param \SimpleXMLElement $xml
      * @return array
      */
-    public function xmlToAssoc(SimpleXMLElement $xml)
+    public function xmlToAssoc(\SimpleXMLElement $xml)
     {
         $array = array();
         foreach ($xml as $key => $value) {
@@ -704,7 +706,7 @@ XML;
      */
     public function jsonEncode($valueToEncode, $cycleCheck = false, $options = array())
     {
-        $json = Zend_Json::encode($valueToEncode, $cycleCheck, $options);
+        $json = \Zend_Json::encode($valueToEncode, $cycleCheck, $options);
         if ($this->_translator->isAllowed()) {
             $this->_translator->processResponseBody($json, true);
         }
@@ -720,9 +722,9 @@ XML;
      * @param int $objectDecodeType
      * @return mixed
      */
-    public function jsonDecode($encodedValue, $objectDecodeType = Zend_Json::TYPE_ARRAY)
+    public function jsonDecode($encodedValue, $objectDecodeType = \Zend_Json::TYPE_ARRAY)
     {
-        return Zend_Json::decode($encodedValue, $objectDecodeType);
+        return \Zend_Json::decode($encodedValue, $objectDecodeType);
     }
 
     /**
@@ -739,7 +741,7 @@ XML;
     /**
      * Return default country code
      *
-     * @param Magento_Core_Model_Store|string|int $store
+     * @param \Magento\Core\Model\Store|string|int $store
      * @return string
      */
     public function getDefaultCountry($store = null)
@@ -750,7 +752,7 @@ XML;
     /**
      * Return list with protected file extensions
      *
-     * @param Magento_Core_Model_Store|string|int $store
+     * @param \Magento\Core\Model\Store|string|int $store
      * @return array
      */
     public function getProtectedFileExtensions($store = null)
@@ -771,14 +773,14 @@ XML;
     /**
      * Check LFI protection
      *
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      * @param string $name
      * @return bool
      */
     public function checkLfiProtection($name)
     {
         if (preg_match('#\.\.[\\\/]#', $name)) {
-            throw new Magento_Core_Exception(__('Requested file may not include parent directory traversal ("../", "..\\" notation)'));
+            throw new \Magento\Core\Exception(__('Requested file may not include parent directory traversal ("../", "..\\" notation)'));
         }
         return true;
     }
@@ -796,7 +798,7 @@ XML;
     /**
      * Retrieve merchant country code
      *
-     * @param Magento_Core_Model_Store|string|int|null $store
+     * @param \Magento\Core\Model\Store|string|int|null $store
      * @return string
      */
     public function getMerchantCountryCode($store = null)
@@ -807,7 +809,7 @@ XML;
     /**
      * Retrieve merchant VAT number
      *
-     * @param Magento_Core_Model_Store|string|int|null $store
+     * @param \Magento\Core\Model\Store|string|int|null $store
      * @return string
      */
     public function getMerchantVatNumber($store = null)
@@ -863,7 +865,7 @@ XML;
     /**
      * Returns the translate model for this instance.
      *
-     * @return Magento_Core_Model_Translate
+     * @return \Magento\Core\Model\Translate
      */
     public function getTranslator()
     {

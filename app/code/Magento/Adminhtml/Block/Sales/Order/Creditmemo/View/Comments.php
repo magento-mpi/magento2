@@ -16,23 +16,25 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Sales_Order_Creditmemo_View_Comments extends Magento_Adminhtml_Block_Text_List
+namespace Magento\Adminhtml\Block\Sales\Order\Creditmemo\View;
+
+class Comments extends \Magento\Adminhtml\Block\Text\ListText
 {
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Core_Block_Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Core\Block\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Block_Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Core\Block\Context $context,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -42,7 +44,7 @@ class Magento_Adminhtml_Block_Sales_Order_Creditmemo_View_Comments extends Magen
     /**
      * Retrieve creditmemo model instance
      *
-     * @return Magento_Sales_Model_Order_Creditmemo
+     * @return \Magento\Sales\Model\Order\Creditmemo
      */
     public function getCreditmemo()
     {
@@ -52,7 +54,7 @@ class Magento_Adminhtml_Block_Sales_Order_Creditmemo_View_Comments extends Magen
     /**
      * Retrieve invoice order
      *
-     * @return Magento_Sales_Model_Order
+     * @return \Magento\Sales\Model\Order
      */
     public function getOrder()
     {
@@ -62,7 +64,7 @@ class Magento_Adminhtml_Block_Sales_Order_Creditmemo_View_Comments extends Magen
     /**
      * Retrieve source
      *
-     * @return Magento_Sales_Model_Order_Creditmemo
+     * @return \Magento\Sales\Model\Order\Creditmemo
      */
     public function getSource()
     {

@@ -11,10 +11,12 @@
 /**
  * CatalogInventory Stock Indexers Factory
  */
-class Magento_CatalogInventory_Model_Resource_Indexer_StockFactory
+namespace Magento\CatalogInventory\Model\Resource\Indexer;
+
+class StockFactory
 {
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
@@ -23,13 +25,13 @@ class Magento_CatalogInventory_Model_Resource_Indexer_StockFactory
      *
      * @var string
      */
-    protected $_defaultIndexer = 'Magento_CatalogInventory_Model_Resource_Indexer_Stock_Default';
+    protected $_defaultIndexer = 'Magento\CatalogInventory\Model\Resource\Indexer\Stock\DefaultStock';
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
     public function __construct(
-        Magento_ObjectManager $objectManager
+        \Magento\ObjectManager $objectManager
     ) {
         $this->_objectManager = $objectManager;
     }
@@ -39,8 +41,8 @@ class Magento_CatalogInventory_Model_Resource_Indexer_StockFactory
      *
      * @param string $indexerClassName
      * @param array $data
-     * @return Magento_CatalogInventory_Model_Resource_Indexer_Stock_Interface
-     * @throws InvalidArgumentException
+     * @return \Magento\CatalogInventory\Model\Resource\Indexer\Stock\StockInterface
+     * @throws \InvalidArgumentException
      */
     public function create($indexerClassName = '', array $data = array())
     {
@@ -48,9 +50,9 @@ class Magento_CatalogInventory_Model_Resource_Indexer_StockFactory
             $indexerClassName = $this->_defaultIndexer;
         }
         $indexer = $this->_objectManager->create($indexerClassName, $data);
-        if (false == ($indexer instanceof Magento_CatalogInventory_Model_Resource_Indexer_Stock_Interface)) {
-            throw new InvalidArgumentException($indexerClassName
-                . ' doesn\'t implement Magento_CatalogInventory_Model_Resource_Indexer_Stock_Interface'
+        if (false == ($indexer instanceof \Magento\CatalogInventory\Model\Resource\Indexer\Stock\StockInterface)) {
+            throw new \InvalidArgumentException($indexerClassName
+                . ' doesn\'t implement \Magento\CatalogInventory\Model\Resource\Indexer\Stock\StockInterface'
             );
         }
         return $indexer;

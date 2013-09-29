@@ -16,31 +16,33 @@
  * @package     Magento_Search
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Search_Model_Adminhtml_System_Config_Backend_Engine extends Magento_Core_Model_Config_Value
+namespace Magento\Search\Model\Adminhtml\System\Config\Backend;
+
+class Engine extends \Magento\Core\Model\Config\Value
 {
     /**
-     * @var Magento_Index_Model_Indexer
+     * @var \Magento\Index\Model\Indexer
      */
     protected $_indexer;
 
     /**
-     * @param Magento_Index_Model_Indexer $indexer
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Core_Model_Config $config
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Index\Model\Indexer $indexer
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Index_Model_Indexer $indexer,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_StoreManager $storeManager,
-        Magento_Core_Model_Config $config,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Index\Model\Indexer $indexer,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\Config $config,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_indexer = $indexer;
@@ -51,7 +53,7 @@ class Magento_Search_Model_Adminhtml_System_Config_Backend_Engine extends Magent
      * After save call
      * Invalidate catalog search index if engine was changed
      *
-     * @return Magento_Search_Model_Adminhtml_System_Config_Backend_Engine
+     * @return \Magento\Search\Model\Adminhtml\System\Config\Backend\Engine
      */
     protected function _afterSave()
     {
@@ -59,7 +61,7 @@ class Magento_Search_Model_Adminhtml_System_Config_Backend_Engine extends Magent
 
         if ($this->isValueChanged()) {
             $this->_indexer->getProcessByCode('catalogsearch_fulltext')
-                ->changeStatus(Magento_Index_Model_Process::STATUS_REQUIRE_REINDEX);
+                ->changeStatus(\Magento\Index\Model\Process::STATUS_REQUIRE_REINDEX);
         }
 
         return $this;

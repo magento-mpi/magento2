@@ -9,36 +9,38 @@
  * @license     {license_link}
  */
 
+namespace Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_GeneralTest extends PHPUnit_Framework_TestCase
+class GeneralTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var Magento_Core_Model_Layout */
+    /** @var \Magento\Core\Model\Layout */
     protected $_layout;
 
-    /** @var Magento_Core_Model_Theme */
+    /** @var \Magento\Core\Model\Theme */
     protected $_theme;
 
-    /** @var Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General */
+    /** @var \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab_General */
     protected $_block;
 
     protected function setUp()
     {
         parent::setUp();
-        $this->_layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout');
-        $this->_theme = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_Theme');
-        $this->_theme->setType(Magento_Core_Model_Theme::TYPE_VIRTUAL);
+        $this->_layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout');
+        $this->_theme = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Theme');
+        $this->_theme->setType(\Magento\Core\Model\Theme::TYPE_VIRTUAL);
         $this->_block = $this->_layout
-            ->createBlock('Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General');
+            ->createBlock('Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab\General');
     }
 
     public function testToHtmlPreviewImageNote()
     {
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $objectManager->get('Magento_Core_Model_Registry')->register('current_theme', $this->_theme);
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $objectManager->get('Magento\Core\Model\Registry')->register('current_theme', $this->_theme);
         $this->_block->setArea('adminhtml');
 
         $this->_block->toHtml();

@@ -15,7 +15,9 @@
  * @package     Magento_Log
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Log_Model_Resource_Helper extends Magento_Core_Model_Resource_Helper
+namespace Magento\Log\Model\Resource;
+
+class Helper extends \Magento\Core\Model\Resource\Helper
 {
     /**
      * Returns information about table in DB

@@ -9,8 +9,10 @@
  */
 
 
-class Magento_CustomerSegment_Model_Segment_Condition_Shoppingcart_Itemsquantity
-    extends Magento_CustomerSegment_Model_Condition_Abstract
+namespace Magento\CustomerSegment\Model\Segment\Condition\Shoppingcart;
+
+class Itemsquantity
+    extends \Magento\CustomerSegment\Model\Condition\AbstractCondition
 {
     /**
      * @var string
@@ -18,17 +20,17 @@ class Magento_CustomerSegment_Model_Segment_Condition_Shoppingcart_Itemsquantity
     protected $_inputType = 'numeric';
 
     /**
-     * @param Magento_CustomerSegment_Model_Resource_Segment $resourceSegment
-     * @param Magento_Rule_Model_Condition_Context $context
+     * @param \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment
+     * @param \Magento\Rule\Model\Condition\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_CustomerSegment_Model_Resource_Segment $resourceSegment,
-        Magento_Rule_Model_Condition_Context $context,
+        \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment,
+        \Magento\Rule\Model\Condition\Context $context,
         array $data = array()
     ) {
         parent::__construct($resourceSegment, $context, $data);
-        $this->setType('Magento_CustomerSegment_Model_Segment_Condition_Shoppingcart_Itemsquantity');
+        $this->setType('Magento\CustomerSegment\Model\Segment\Condition\Shoppingcart\Itemsquantity');
         $this->setValue(null);
     }
 
@@ -73,7 +75,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Shoppingcart_Itemsquantity
      *
      * @param $customer
      * @param int|Zend_Db_Expr $website
-     * @return Magento_Db_Select
+     * @return \Magento\Db\Select
      */
     public function getConditionsSql($customer, $website)
     {
@@ -81,7 +83,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Shoppingcart_Itemsquantity
         $operator = $this->getResource()->getSqlOperator($this->getOperator());
 
         $select = $this->getResource()->createSelect();
-        $select->from(array('quote' => $table), array(new Zend_Db_Expr(1)))->where('quote.is_active=1');
+        $select->from(array('quote' => $table), array(new \Zend_Db_Expr(1)))->where('quote.is_active=1');
         $this->_limitByStoreWebsite($select, $website, 'quote.store_id');
         $select->limit(1);
         $select->where("quote.items_count {$operator} ?", $this->getValue());

@@ -15,7 +15,9 @@
  * @package    Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Checkout_Block_Multishipping_Billing extends Magento_Payment_Block_Form_Container
+namespace Magento\Checkout\Block\Multishipping;
+
+class Billing extends \Magento\Payment\Block\Form\Container
 {
     /**
      * Prepare children blocks
@@ -34,7 +36,7 @@ class Magento_Checkout_Block_Multishipping_Billing extends Magento_Payment_Block
     /**
      * Check payment method model
      *
-     * @param Magento_Payment_Model_Method_Abstract|null $method
+     * @param \Magento\Payment\Model\Method\AbstractMethod|null $method
      * @return bool
      */
     protected function _canUseMethod($method)
@@ -58,13 +60,13 @@ class Magento_Checkout_Block_Multishipping_Billing extends Magento_Payment_Block
     /**
      * Retrieve billing address
      *
-     * @return Magento_Sales_Model_Quote_Address
+     * @return \Magento\Sales\Model\Quote\Address
      */
     public function getAddress()
     {
         $address = $this->getData('address');
         if (is_null($address)) {
-            $address = Mage::getSingleton('Magento_Checkout_Model_Type_Multishipping')->getQuote()->getBillingAddress();
+            $address = \Mage::getSingleton('Magento\Checkout\Model\Type\Multishipping')->getQuote()->getBillingAddress();
             $this->setData('address', $address);
         }
         return $address;
@@ -73,11 +75,11 @@ class Magento_Checkout_Block_Multishipping_Billing extends Magento_Payment_Block
     /**
      * Retrieve quote model object
      *
-     * @return Magento_Sales_Model_Quote
+     * @return \Magento\Sales\Model\Quote
      */
     public function getQuote()
     {
-        return Mage::getSingleton('Magento_Checkout_Model_Session')->getQuote();
+        return \Mage::getSingleton('Magento\Checkout\Model\Session')->getQuote();
     }
 
     /**

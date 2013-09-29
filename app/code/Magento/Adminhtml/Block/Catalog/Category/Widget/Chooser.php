@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Category_Widget_Chooser extends Magento_Adminhtml_Block_Catalog_Category_Tree
+namespace Magento\Adminhtml\Block\Catalog\Category\Widget;
+
+class Chooser extends \Magento\Adminhtml\Block\Catalog\Category\Tree
 {
     protected $_selectedCategories = array();
 
@@ -36,7 +38,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Widget_Chooser extends Magento_Ad
      * Setter
      *
      * @param array $selectedCategories
-     * @return Magento_Adminhtml_Block_Catalog_Category_Widget_Chooser
+     * @return \Magento\Adminhtml\Block\Catalog\Category\Widget\Chooser
      */
     public function setSelectedCategories($selectedCategories)
     {
@@ -57,15 +59,15 @@ class Magento_Adminhtml_Block_Catalog_Category_Widget_Chooser extends Magento_Ad
     /**
      * Prepare chooser element HTML
      *
-     * @param Magento_Data_Form_Element_Abstract $element Form Element
-     * @return Magento_Data_Form_Element_Abstract
+     * @param \Magento\Data\Form\Element\AbstractElement $element Form Element
+     * @return \Magento\Data\Form\Element\AbstractElement
      */
-    public function prepareElementHtml(Magento_Data_Form_Element_Abstract $element)
+    public function prepareElementHtml(\Magento\Data\Form\Element\AbstractElement $element)
     {
         $uniqId = $this->_coreData->uniqHash($element->getId());
         $sourceUrl = $this->getUrl('*/catalog_category_widget/chooser', array('uniq_id' => $uniqId, 'use_massaction' => false));
 
-        $chooser = $this->getLayout()->createBlock('Magento_Widget_Block_Adminhtml_Widget_Chooser')
+        $chooser = $this->getLayout()->createBlock('Magento\Widget\Block\Adminhtml\Widget\Chooser')
             ->setElement($element)
             ->setConfig($this->getConfig())
             ->setFieldsetId($this->getFieldsetId())
@@ -122,7 +124,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Widget_Chooser extends Magento_Ad
     /**
      * Get JSON of a tree node or an associative array
      *
-     * @param Magento_Data_Tree_Node|array $node
+     * @param \Magento\Data\Tree\Node|array $node
      * @param int $level
      * @return string
      */
@@ -140,7 +142,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Widget_Chooser extends Magento_Ad
     /**
      * Adds some extra params to categories collection
      *
-     * @return Magento_Catalog_Model_Resource_Category_Collection
+     * @return \Magento\Catalog\Model\Resource\Category\Collection
      */
     public function getCategoryCollection()
     {

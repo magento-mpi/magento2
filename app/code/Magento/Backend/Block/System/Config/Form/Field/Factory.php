@@ -9,19 +9,21 @@
  */
 
 /**
- * Magento_Backend_Block_System_Config_Form_Field object factory
+ * \Magento\Backend\Block\System\Config\Form\Field object factory
  */
-class Magento_Backend_Block_System_Config_Form_Field_Factory
+namespace Magento\Backend\Block\System\Config\Form\Field;
+
+class Factory
 {
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
@@ -30,10 +32,10 @@ class Magento_Backend_Block_System_Config_Form_Field_Factory
      * Create new config object
      *
      * @param array $data
-     * @return Magento_Backend_Block_System_Config_Form_Field
+     * @return \Magento\Backend\Block\System\Config\Form\Field
      */
     public function create(array $data = array())
     {
-        return $this->_objectManager->create('Magento_Backend_Block_System_Config_Form_Field', $data);
+        return $this->_objectManager->create('Magento\Backend\Block\System\Config\Form\Field', $data);
     }
 }

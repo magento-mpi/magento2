@@ -16,7 +16,9 @@
  * @package     Magento_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Bundle_Model_Resource_Selection_Collection extends Magento_Catalog_Model_Resource_Product_Collection
+namespace Magento\Bundle\Model\Resource\Selection;
+
+class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
 {
     /**
      * Selection table name
@@ -69,7 +71,7 @@ class Magento_Bundle_Model_Resource_Selection_Collection extends Magento_Catalog
      * Join website scope prices to collection, override default prices
      *
      * @param int $websiteId
-     * @return Magento_Bundle_Model_Resource_Selection_Collection
+     * @return \Magento\Bundle\Model\Resource\Selection\Collection
      */
     public function joinPrices($websiteId)
     {
@@ -99,7 +101,7 @@ class Magento_Bundle_Model_Resource_Selection_Collection extends Magento_Catalog
      * Apply option ids filter to collection
      *
      * @param array $optionIds
-     * @return Magento_Bundle_Model_Resource_Selection_Collection
+     * @return \Magento\Bundle\Model\Resource\Selection\Collection
      */
     public function setOptionIdsFilter($optionIds)
     {
@@ -113,7 +115,7 @@ class Magento_Bundle_Model_Resource_Selection_Collection extends Magento_Catalog
      * Apply selection ids filter to collection
      *
      * @param array $selectionIds
-     * @return Magento_Bundle_Model_Resource_Selection_Collection
+     * @return \Magento\Bundle\Model\Resource\Selection\Collection
      */
     public function setSelectionIdsFilter($selectionIds)
     {
@@ -126,7 +128,7 @@ class Magento_Bundle_Model_Resource_Selection_Collection extends Magento_Catalog
     /**
      * Set position order
      *
-     * @return Magento_Bundle_Model_Resource_Selection_Collection
+     * @return \Magento\Bundle\Model\Resource\Selection\Collection
      */
     public function setPositionOrder()
     {

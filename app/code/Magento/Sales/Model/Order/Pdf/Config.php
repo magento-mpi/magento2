@@ -7,15 +7,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Sales_Model_Order_Pdf_Config
+namespace Magento\Sales\Model\Order\Pdf;
+
+class Config
 {
-    /** @var Magento_Config_DataInterface */
+    /** @var \Magento\Config\DataInterface */
     protected $_dataStorage;
 
     /**
-     * @param Magento_Config_DataInterface $dataStorage
+     * @param \Magento\Config\DataInterface $dataStorage
      */
-    public function __construct(Magento_Config_DataInterface $dataStorage)
+    public function __construct(\Magento\Config\DataInterface $dataStorage)
     {
         $this->_dataStorage = $dataStorage;
     }

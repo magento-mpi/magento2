@@ -12,7 +12,9 @@
 /**
  * Test class Magento_Core_Controller_Varien_Action_Factory
  */
-class Magento_Core_Controller_Varien_Action_FactoryTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Controller\Varien\Action;
+
+class FactoryTest extends \PHPUnit_Framework_TestCase
 {
     /*
     * Test controller class name
@@ -22,26 +24,26 @@ class Magento_Core_Controller_Varien_Action_FactoryTest extends PHPUnit_Framewor
     /**
      * ObjectManager mock for tests
      *
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_objectManager;
 
     /**
      * Test class instance
      *
-     * @var Magento_Core_Controller_Varien_Action_Factory
+     * @var \Magento\Core\Controller\Varien\Action\Factory
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_objectManager = $this->getMock('Magento_ObjectManager');
+        $this->_objectManager = $this->getMock('Magento\ObjectManager');
     }
 
     public function testConstruct()
     {
-        $this->_model = new Magento_Core_Controller_Varien_Action_Factory($this->_objectManager);
-        $this->assertAttributeInstanceOf('Magento_ObjectManager', '_objectManager', $this->_model);
+        $this->_model = new \Magento\Core\Controller\Varien\Action\Factory($this->_objectManager);
+        $this->assertAttributeInstanceOf('Magento\ObjectManager', '_objectManager', $this->_model);
     }
 
     public function testCreateController()
@@ -51,7 +53,7 @@ class Magento_Core_Controller_Varien_Action_FactoryTest extends PHPUnit_Framewor
             ->with(self::CONTROLLER_NAME)
             ->will($this->returnValue('TestControllerInstance'));
 
-        $this->_model = new Magento_Core_Controller_Varien_Action_Factory($this->_objectManager);
+        $this->_model = new \Magento\Core\Controller\Varien\Action\Factory($this->_objectManager);
         $this->assertEquals('TestControllerInstance', $this->_model->createController(self::CONTROLLER_NAME));
     }
 }

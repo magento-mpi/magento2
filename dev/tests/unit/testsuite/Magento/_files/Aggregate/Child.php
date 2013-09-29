@@ -5,16 +5,18 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Test_Di_Aggregate_Child extends Magento_Test_Di_Aggregate_Parent
+namespace Magento\Test\Di\Aggregate;
+
+class Child extends \Magento\Test\Di\Aggregate\AggregateParent
 {
     public $secondScalar;
 
     public $secondOptionalScalar;
 
     public function __construct(
-        Magento_Test_Di_Interface $interface,
-        Magento_Test_Di_Parent $parent,
-        Magento_Test_Di_Child $child,
+        \Magento\Test\Di\DiInterface $interface,
+        \Magento\Test\Di\DiParent $parent,
+        \Magento\Test\Di\Child $child,
         $scalar,
         $secondScalar,
         $optionalScalar = 1,

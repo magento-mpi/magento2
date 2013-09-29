@@ -11,7 +11,9 @@
 /**
  * PayPal specific model for certificate based authentication
  */
-class Magento_Paypal_Model_Cert extends Magento_Core_Model_Abstract
+namespace Magento\Paypal\Model;
+
+class Cert extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Certificate base path
@@ -21,24 +23,24 @@ class Magento_Paypal_Model_Cert extends Magento_Core_Model_Abstract
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_coreData = $coreData;
@@ -50,7 +52,7 @@ class Magento_Paypal_Model_Cert extends Magento_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('Magento_Paypal_Model_Resource_Cert');
+        $this->_init('Magento\Paypal\Model\Resource\Cert');
     }
 
     /**
@@ -58,7 +60,7 @@ class Magento_Paypal_Model_Cert extends Magento_Core_Model_Abstract
      *
      * @param int $websiteId
      * @param bool $strictLoad
-     * @return Magento_Paypal_Model_Cert
+     * @return \Magento\Paypal\Model\Cert
      */
     public function loadByWebsite($websiteId, $strictLoad = true)
     {
@@ -75,7 +77,7 @@ class Magento_Paypal_Model_Cert extends Magento_Core_Model_Abstract
     public function getCertPath()
     {
         if (!$this->getContent()) {
-            Mage::throwException(__('The PayPal certificate does not exist.'));
+            \Mage::throwException(__('The PayPal certificate does not exist.'));
         }
 
         $certFileName = sprintf('cert_%s_%s.pem', $this->getWebsiteId(), strtotime($this->getUpdatedAt()));
@@ -96,7 +98,7 @@ class Magento_Paypal_Model_Cert extends Magento_Core_Model_Abstract
     {
         $certDir = $this->_getBaseDir();
         if (!is_dir($certDir)) {
-            $ioAdapter = new Magento_Io_File();
+            $ioAdapter = new \Magento\Io\File();
             $ioAdapter->checkAndCreateFolder($certDir);
         } else {
             $this->_removeOutdatedCertFile();
@@ -130,13 +132,13 @@ class Magento_Paypal_Model_Cert extends Magento_Core_Model_Abstract
      */
     protected function _getBaseDir()
     {
-        return Mage::getBaseDir('var') . DS . self::BASEPATH_PAYPAL_CERT;
+        return \Mage::getBaseDir('var') . DS . self::BASEPATH_PAYPAL_CERT;
     }
 
     /**
      * Delete assigned certificate file after delete object
      *
-     * @return Magento_Paypal_Model_Cert
+     * @return \Magento\Paypal\Model\Cert
      */
     protected function _afterDelete()
     {

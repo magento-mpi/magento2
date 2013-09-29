@@ -9,21 +9,23 @@
 /**
  * Persistent Factory
  */
-class Magento_Persistent_Model_Factory
+namespace Magento\Persistent\Model;
+
+class Factory
 {
     /**
      * Object manager
      *
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
      * Construct
      *
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }

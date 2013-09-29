@@ -8,6 +8,8 @@
  * @license    {license_link}
  */
 
+namespace Magento\Tools\Translate;
+
 define('USAGE', <<<USAGE
  Create translation file(s) from e-mail templates of locale
   php -f GenerateEmailTemplates.php -- --locale <locale_NAME> --output <file|directory>
@@ -40,14 +42,14 @@ define('LOCALE_PATH', BASE_PATH . DS . 'app' . DS . 'locale' . DS . '%s' . DS . 
 
 include(BASE_PATH . DS . 'lib' . DS . 'Magento' . DS . 'File' . DS . 'Csv.php');
 
-class Magento_Tools_Translate_GenerateEmailTemplates
+class GenerateEmailTemplates
 {
     /**
      * File name patterns needed to be processed
      *
      * @var array
      */
-    protected $_namePatterns = array('#^(Magento_\w+)\.csv$#', '#^(translate).csv$#');
+    protected $_namePatterns = array('#^(\Magento\\w+)\.csv$#', '#^(translate).csv$#');
 
     /**
      * Pattern of the locale path
@@ -105,7 +107,7 @@ class Magento_Tools_Translate_GenerateEmailTemplates
      */
     protected $_error = false;
 
-    protected function _is_writable($filePath)
+    protected function _isWritable($filePath)
     {
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
             $f = @fopen($filePath, 'a');
@@ -204,7 +206,7 @@ class Magento_Tools_Translate_GenerateEmailTemplates
             return;
         }
 
-        if (!is_dir($outputName) && file_exists($outputName) && !$this->_is_writable($outputName)) {
+        if (!is_dir($outputName) && file_exists($outputName) && !$this->_isWritable($outputName)) {
             $this->_addMessage(MESSAGE_TYPE_ERROR, sprintf("Output file '%s' is not writable", $outputName));
             $this->_error = true;
             return;
@@ -238,12 +240,12 @@ class Magento_Tools_Translate_GenerateEmailTemplates
      * @param int $flags
      * @return array
      */
-    protected function glob_recursive($pattern, $flags = 0)
+    protected function globRecursive($pattern, $flags = 0)
     {
         $files = glob($pattern, $flags);
         foreach (glob(dirname($pattern) . DS . '*', GLOB_ONLYDIR|GLOB_NOSORT) as $dir)
         {
-            $files = array_merge($files, $this->glob_recursive($dir . DS . basename($pattern), $flags));
+            $files = array_merge($files, $this->globRecursive($dir . DS . basename($pattern), $flags));
         }
         return $files;
     }
@@ -260,7 +262,7 @@ class Magento_Tools_Translate_GenerateEmailTemplates
         $result = array();
         $prefix = (substr($path, -1) == DS ? $path : $path . DS);
 
-        $files = $this->glob_recursive($prefix . $pattern);
+        $files = $this->globRecursive($prefix . $pattern);
         foreach ($files as $filename) {
             $result[pathinfo($filename, PATHINFO_FILENAME)]=$filename;
         }
@@ -286,12 +288,12 @@ class Magento_Tools_Translate_GenerateEmailTemplates
         $files = $this->_getFilesToProcess($localePath);
         $csv = null;
         if (!$outputSeparate) {
-            $csv = new Magento_File_Csv();
+            $csv = new \Magento\File\Csv();
         }
 
         foreach ($files as $alias=>$file){
             if ($outputSeparate) {
-                $csv = new Magento_File_Csv();
+                $csv = new \Magento\File\Csv();
                 $resultData = array();
             }
 
@@ -379,7 +381,7 @@ class Magento_Tools_Translate_GenerateEmailTemplates
         }
 
         $files = $this->_getFilesToProcess($translatedDirName);
-        $csv = new Magento_File_Csv();
+        $csv = new \Magento\File\Csv();
         if (!$inputSeparate) {
             $strings = $csv->getData($this->_translateName);
             $strings = $this->separateTranslations($strings);
@@ -412,7 +414,7 @@ class Magento_Tools_Translate_GenerateEmailTemplates
         $this->_arguments = array(
             'inputName' => $inputName,
         );*/
-        $csv = new Magento_File_Csv();
+        $csv = new \Magento\File\Csv();
         $inputData = $csv->getData($this->_arguments['inputName']);
         $output = array();
         foreach ($inputData as $row){
@@ -442,7 +444,7 @@ class Magento_Tools_Translate_GenerateEmailTemplates
             'outputName' => $outputName,
         );*/
 
-        $csv = new Magento_File_Csv();
+        $csv = new \Magento\File\Csv();
         $strings1 = $this->separateTranslations($csv->getData($this->_arguments['inputName1']));
         $strings2 = $this->separateTranslations($csv->getData($this->_arguments['inputName2']));
         $resultArray = array();
@@ -546,7 +548,7 @@ class Magento_Tools_Translate_GenerateEmailTemplates
     }
 }
 
-$generate = new Magento_Tools_Translate_GenerateEmailTemplates($argv);
+$generate = new \Magento\Tools\Translate\GenerateEmailTemplates($argv);
 $generate->run();
 echo $generate->renderMessages();
 echo "\n\n";

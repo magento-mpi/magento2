@@ -1,36 +1,38 @@
 <?php
 /**
- * Tests for Magento_Webapi_Model_Soap_Wsdl_Generator.
+ * Tests for \Magento\Webapi\Model\Soap\Wsdl\Generator.
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Model_Soap_Wsdl_GeneratorTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webapi\Model\Soap\Wsdl;
+
+class GeneratorTest extends \PHPUnit_Framework_TestCase
 {
-    /**  @var Magento_Webapi_Model_Soap_Wsdl_Generator */
+    /**  @var \Magento\Webapi\Model\Soap\Wsdl\Generator */
     protected $_wsdlGenerator;
 
-    /**  @var Magento_Webapi_Model_Soap_Config */
+    /**  @var \Magento\Webapi\Model\Soap\Config */
     protected $_soapConfigMock;
 
-    /**  @var Magento_Webapi_Model_Soap_Wsdl_Factory */
+    /**  @var \Magento\Webapi\Model\Soap\Wsdl\Factory */
     protected $_wsdlFactoryMock;
 
-    /** @var Magento_Webapi_Model_Cache_Type */
+    /** @var \Magento\Webapi\Model\Cache\Type */
     protected $_cacheMock;
 
-    /** @var Magento_DomDocument_Factory */
+    /** @var \Magento\DomDocument\Factory */
     protected $_domDocumentFactory;
 
     protected function setUp()
     {
-        $this->_soapConfigMock = $this->getMockBuilder('Magento_Webapi_Model_Soap_Config')
+        $this->_soapConfigMock = $this->getMockBuilder('Magento\Webapi\Model\Soap\Config')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $_wsdlMock = $this->getMockBuilder('Magento_Webapi_Model_Soap_Wsdl')
+        $_wsdlMock = $this->getMockBuilder('Magento\Webapi\Model\Soap\Wsdl')
             ->disableOriginalConstructor()
             ->setMethods(
                 array(
@@ -49,22 +51,22 @@ class Magento_Webapi_Model_Soap_Wsdl_GeneratorTest extends PHPUnit_Framework_Tes
                 )
             )
             ->getMock();
-        $this->_wsdlFactoryMock = $this->getMockBuilder('Magento_Webapi_Model_Soap_Wsdl_Factory')
+        $this->_wsdlFactoryMock = $this->getMockBuilder('Magento\Webapi\Model\Soap\Wsdl\Factory')
             ->setMethods(array('create'))
             ->disableOriginalConstructor()
             ->getMock();
         $this->_wsdlFactoryMock->expects($this->any())->method('create')->will($this->returnValue($_wsdlMock));
 
-        $this->_cacheMock = $this->getMockBuilder('Magento_Webapi_Model_Cache_Type')
+        $this->_cacheMock = $this->getMockBuilder('Magento\Webapi\Model\Cache\Type')
             ->disableOriginalConstructor()
             ->getMock();
         $this->_cacheMock->expects($this->any())->method('load')->will($this->returnValue(false));
         $this->_cacheMock->expects($this->any())->method('save')->will($this->returnValue(true));
 
-        $this->_domDocumentFactory = $this->getMockBuilder('Magento_DomDocument_Factory')
+        $this->_domDocumentFactory = $this->getMockBuilder('Magento\DomDocument\Factory')
             ->disableOriginalConstructor()->getMock();
 
-        $this->_wsdlGenerator = new Magento_Webapi_Model_Soap_Wsdl_Generator(
+        $this->_wsdlGenerator = new \Magento\Webapi\Model\Soap\Wsdl\Generator(
             $this->_soapConfigMock,
             $this->_wsdlFactoryMock,
             $this->_cacheMock,
@@ -105,7 +107,7 @@ class Magento_Webapi_Model_Soap_Wsdl_GeneratorTest extends PHPUnit_Framework_Tes
     }
 
     /**
-     * @return DOMDocument
+     * @return \DOMDocument
      */
     protected function _getXsdDocumentWithReferencedTypes()
     {
@@ -137,13 +139,13 @@ class Magento_Webapi_Model_Soap_Wsdl_GeneratorTest extends PHPUnit_Framework_Tes
                     </xsd:sequence>
                 </xsd:complexType>
             </xsd:schema>';
-        $xsdDom = new DOMDocument();
+        $xsdDom = new \DOMDocument();
         $xsdDom->loadXML($xsd);
         return $xsdDom;
     }
 
     /**
-     * @return DOMDocument
+     * @return \DOMDocument
      */
     protected function _getXsdDocumentMissingTargetNamespace()
     {
@@ -161,7 +163,7 @@ class Magento_Webapi_Model_Soap_Wsdl_GeneratorTest extends PHPUnit_Framework_Tes
                     </xsd:sequence>
                 </xsd:complexType>
             </xsd:schema>';
-        $xsdDom = new DOMDocument();
+        $xsdDom = new \DOMDocument();
         $xsdDom->loadXML($xsd);
         return $xsdDom;
     }
@@ -254,7 +256,7 @@ class Magento_Webapi_Model_Soap_Wsdl_GeneratorTest extends PHPUnit_Framework_Tes
     /**
      * Test exception for handle
      *
-     * @expectedException        Magento_Webapi_Exception
+     * @expectedException        \Magento\Webapi\Exception
      * @expectedExceptionMessage exception message
      */
     public function testHandleWithException()
@@ -266,7 +268,7 @@ class Magento_Webapi_Model_Soap_Wsdl_GeneratorTest extends PHPUnit_Framework_Tes
         );
 
         $wsdlGeneratorMock = $this->getMockBuilder(
-            'Magento_Webapi_Model_Soap_Wsdl_Generator'
+            'Magento\Webapi\Model\Soap\Wsdl\Generator'
         )
             ->setMethods(array('_prepareServiceData'))
             ->setConstructorArgs(
@@ -280,7 +282,7 @@ class Magento_Webapi_Model_Soap_Wsdl_GeneratorTest extends PHPUnit_Framework_Tes
             ->getMock();
 
         $wsdlGeneratorMock->expects($this->once())->method('_prepareServiceData')->will(
-            $this->throwException(new Exception($exceptionMsg))
+            $this->throwException(new \Exception($exceptionMsg))
         );
 
         $this->assertEquals($genWSDL, $wsdlGeneratorMock->generate($requestedService, 'http://magento.host'));

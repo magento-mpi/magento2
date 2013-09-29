@@ -11,7 +11,9 @@
 
 
 
-class Magento_Checkout_Exception extends Zend_Exception 
+namespace Magento\Checkout;
+
+class Exception extends \Zend_Exception
 {
     
 }

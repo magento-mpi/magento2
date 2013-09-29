@@ -8,10 +8,10 @@
  */
 -->
 <config>
-    <job name="magento_giftcardaccount_update_states" instance="Magento_GiftCardAccount_Model_Cron" method="updateStates">
+    <job name="magento_giftcardaccount_update_states" instance="Magento\GiftCardAccount\Model\Cron" method="updateStates">
         <schedule>0 1 * * *</schedule>
     </job>
-    <job name="magento_giftcardaccount_generage_codes_pool" instance="Magento_GiftCardAccount_Model_Pool" method="applyCodesGeneration">
+    <job name="magento_giftcardaccount_generage_codes_pool" instance="Magento\GiftCardAccount\Model\Pool" method="applyCodesGeneration">
         <schedule>30 * * * *</schedule>
     </job>
 </config>

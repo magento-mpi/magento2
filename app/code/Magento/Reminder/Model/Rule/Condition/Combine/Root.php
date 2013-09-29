@@ -11,25 +11,27 @@
 /**
  * Root rule condition (top level condition)
  */
-class Magento_Reminder_Model_Rule_Condition_Combine_Root
-    extends Magento_Reminder_Model_Rule_Condition_Combine
+namespace Magento\Reminder\Model\Rule\Condition\Combine;
+
+class Root
+    extends \Magento\Reminder\Model\Rule\Condition\Combine
 {
     /**
-     * @param Magento_Rule_Model_Condition_Context $context
+     * @param \Magento\Rule\Model\Condition\Context $context
      * @param array $data
      */
-    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
+    public function __construct(\Magento\Rule\Model\Condition\Context $context, array $data = array())
     {
         parent::__construct($context, $data);
-        $this->setType('Magento_Reminder_Model_Rule_Condition_Combine_Root');
+        $this->setType('Magento\Reminder\Model\Rule\Condition\Combine\Root');
     }
 
     /**
      * Prepare base select with limitation by customer
      *
-     * @param   null | array | int | Magento_Customer_Model_Customer $customer
-     * @param   int | Zend_Db_Expr $website
-     * @return  Magento_DB_Select
+     * @param   null | array | int | \Magento\Customer\Model\Customer $customer
+     * @param   int | \Zend_Db_Expr $website
+     * @return  \Magento\DB\Select
      */
     protected function _prepareConditionsSql($customer, $website)
     {
@@ -46,7 +48,7 @@ class Magento_Reminder_Model_Rule_Condition_Combine_Root
         );
 
         if ($customer === null) {
-            if (Mage::getSingleton('Magento_Customer_Model_Config_Share')->isWebsiteScope()) {
+            if (\Mage::getSingleton('Magento\Customer\Model\Config\Share')->isWebsiteScope()) {
                 $select->where('website_id=?', $website);
             }
         }
@@ -57,9 +59,9 @@ class Magento_Reminder_Model_Rule_Condition_Combine_Root
      * Get SQL select.
      * Rewrited for cover root conditions combination with additional condition by customer
      *
-     * @param   Magento_Customer_Model_Customer | Zend_Db_Select | Zend_Db_Expr $customer
-     * @param   int | Zend_Db_Expr $website
-     * @return  Magento_DB_Select
+     * @param   \Magento\Customer\Model\Customer | \Zend_Db_Select | \Zend_Db_Expr $customer
+     * @param   int | \Zend_Db_Expr $website
+     * @return  \Magento\DB\Select
      */
     public function getConditionsSql($customer, $website)
     {

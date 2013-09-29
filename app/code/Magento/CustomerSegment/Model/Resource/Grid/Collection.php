@@ -16,13 +16,15 @@
  * @package     Enterpise_CustomerSegment
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CustomerSegment_Model_Resource_Grid_Collection
-    extends Magento_CustomerSegment_Model_Resource_Segment_Collection
+namespace Magento\CustomerSegment\Model\Resource\Grid;
+
+class Collection
+    extends \Magento\CustomerSegment\Model\Resource\Segment\Collection
 {
     /**
      * Add websites for load
      *
-     * @return Magento_Core_Model_Resource_Db_Collection_Abstract|Magento_CustomerSegment_Model_Resource_Grid_Collection
+     * @return \Magento\Core\Model\Resource\Db\Collection\AbstractCollection|\Magento\CustomerSegment\Model\Resource\Grid\Collection
      */
     protected function _initSelect()
     {

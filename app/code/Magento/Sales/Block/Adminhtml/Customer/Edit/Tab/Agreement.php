@@ -13,9 +13,11 @@
  *
  * @author Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Block_Adminhtml_Customer_Edit_Tab_Agreement
-    extends Magento_Sales_Block_Adminhtml_Billing_Agreement_Grid
-    implements Magento_Backend_Block_Widget_Tab_Interface
+namespace Magento\Sales\Block\Adminhtml\Customer\Edit\Tab;
+
+class Agreement
+    extends \Magento\Sales\Block\Adminhtml\Billing\Agreement\Grid
+    implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * Columns, that should be removed from grid
@@ -27,30 +29,30 @@ class Magento_Sales_Block_Adminhtml_Customer_Edit_Tab_Agreement
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Payment_Helper_Data $paymentData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Url $urlModel
-     * @param Magento_Sales_Model_Resource_Billing_Agreement_CollectionFactory $agreementFactory
-     * @param Magento_Sales_Model_Billing_Agreement $agreementModel
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Payment\Helper\Data $paymentData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Sales\Model\Resource\Billing\Agreement\CollectionFactory $agreementFactory
+     * @param \Magento\Sales\Model\Billing\Agreement $agreementModel
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Payment_Helper_Data $paymentData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Url $urlModel,
-        Magento_Sales_Model_Resource_Billing_Agreement_CollectionFactory $agreementFactory,
-        Magento_Sales_Model_Billing_Agreement $agreementModel,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Payment\Helper\Data $paymentData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        \Magento\Sales\Model\Resource\Billing\Agreement\CollectionFactory $agreementFactory,
+        \Magento\Sales\Model\Billing\Agreement $agreementModel,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
@@ -135,7 +137,7 @@ class Magento_Sales_Block_Adminhtml_Customer_Edit_Tab_Agreement
     /**
      * Prepare collection for grid
      *
-     * @return Magento_Sales_Block_Adminhtml_Customer_Edit_Tab_Agreement
+     * @return \Magento\Sales\Block\Adminhtml\Customer\Edit\Tab\Agreement
      */
     protected function _prepareCollection()
     {
@@ -143,13 +145,13 @@ class Magento_Sales_Block_Adminhtml_Customer_Edit_Tab_Agreement
             ->addFieldToFilter('customer_id', $this->_coreRegistry->registry('current_customer')->getId())
             ->setOrder('created_at');
         $this->setCollection($collection);
-        return Magento_Adminhtml_Block_Widget_Grid::_prepareCollection();
+        return \Magento\Adminhtml\Block\Widget\Grid::_prepareCollection();
     }
 
     /**
      * Remove some columns and make other not sortable
      *
-     * @return Magento_Adminhtml_Block_Widget_Grid
+     * @return \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _prepareColumns()
     {

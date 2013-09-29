@@ -7,22 +7,24 @@
  */
 
 /**
- * Test class for Magento_Paypal_Helper_Checkout
+ * Test class for \Magento\Paypal\Helper\Checkout
  */
-class Magento_Paypal_Helper_CheckoutTest extends PHPUnit_Framework_TestCase
+namespace Magento\Paypal\Helper;
+
+class CheckoutTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Checkout_Model_Session|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Checkout\Model\Session|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_session;
 
     /**
-     * @var Magento_Sales_Model_QuoteFactory|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Sales\Model\QuoteFactory|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_quoteFactory;
 
     /**
-     * @var Magento_Paypal_Helper_Checkout
+     * @var \Magento\Paypal\Helper\Checkout
      */
     protected $_checkout;
 
@@ -32,16 +34,16 @@ class Magento_Paypal_Helper_CheckoutTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->_session = $this->getMockBuilder('Magento_Checkout_Model_Session')
+        $this->_session = $this->getMockBuilder('Magento\Checkout\Model\Session')
             ->disableOriginalConstructor()
             ->setMethods(array('getLastRealOrder', 'replaceQuote', 'unsLastRealOrderId'))
             ->getMock();
-        $this->_quoteFactory = $this->getMockBuilder('Magento_Sales_Model_QuoteFactory')
+        $this->_quoteFactory = $this->getMockBuilder('Magento\Sales\Model\QuoteFactory')
             ->disableOriginalConstructor()
             ->setMethods(array('create'))
             ->getMock();
 
-        $this->_checkout = new Magento_Paypal_Helper_Checkout($this->_session, $this->_quoteFactory);
+        $this->_checkout = new \Magento\Paypal\Helper\Checkout($this->_session, $this->_quoteFactory);
     }
 
     /**
@@ -49,11 +51,11 @@ class Magento_Paypal_Helper_CheckoutTest extends PHPUnit_Framework_TestCase
      *
      * @param bool $hasOrderId
      * @param array $mockMethods
-     * @return Magento_Sales_Model_Order|PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\Sales\Model\Order|PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getOrderMock($hasOrderId, $mockMethods = array())
     {
-        $order = $this->getMockBuilder('Magento_Sales_Model_Order')
+        $order = $this->getMockBuilder('Magento\Sales\Model\Order')
             ->disableOriginalConstructor()
             ->setMethods(array_merge(array('getId'), $mockMethods))
             ->getMock();
@@ -73,7 +75,7 @@ class Magento_Paypal_Helper_CheckoutTest extends PHPUnit_Framework_TestCase
     {
         $comment = 'Some test comment';
         $order = $this->_getOrderMock($hasOrderId, array('registerCancellation', 'save'));
-        $order->setData('state', $isOrderCancelled ? Magento_Sales_Model_Order::STATE_CANCELED : 'some another state');
+        $order->setData('state', $isOrderCancelled ? \Magento\Sales\Model\Order::STATE_CANCELED : 'some another state');
         if ($expectedResult) {
             $order->expects($this->once())
                 ->method('registerCancellation')
@@ -114,7 +116,7 @@ class Magento_Paypal_Helper_CheckoutTest extends PHPUnit_Framework_TestCase
      */
     public function testRestoreQuote($hasOrderId, $hasQuoteId)
     {
-        $quote = $this->getMockBuilder('Magento_Sales_Model_Quote')
+        $quote = $this->getMockBuilder('Magento\Sales\Model\Quote')
             ->disableOriginalConstructor()
             ->setMethods(array('getId', 'save', 'setIsActive', 'setReservedOrderId', 'load'))
             ->getMock();

@@ -12,15 +12,17 @@
 /**
  * Magento translate abstract adapter
  */
-abstract class Magento_Translate_AdapterAbstract extends Zend_Translate_Adapter
-    implements Magento_Translate_AdapterInterface
+namespace Magento\Translate;
+
+abstract class AdapterAbstract extends \Zend_Translate_Adapter
+    implements \Magento\Translate\AdapterInterface
 {
     /**
      * Load translation data
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      * @param mixed $data
-     * @param string|Zend_Locale $locale
+     * @param string|\Zend_Locale $locale
      * @param array $options (optional)
      * @return array
      */
@@ -32,7 +34,7 @@ abstract class Magento_Translate_AdapterAbstract extends Zend_Translate_Adapter
     /**
      * Is translation available.
      *
-     * Return false, as Zend_Validate pass message into translator only when isTranslated is false
+     * Return false, as \Zend_Validate pass message into translator only when isTranslated is false
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      * @param string $messageId
@@ -49,8 +51,8 @@ abstract class Magento_Translate_AdapterAbstract extends Zend_Translate_Adapter
      * Stub for setLocale functionality
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-     * @param string|Zend_Locale $locale
-     * @return Zend_Translate_Adapter
+     * @param string|\Zend_Locale $locale
+     * @return \Zend_Translate_Adapter
      */
     public function setLocale($locale)
     {
@@ -65,6 +67,6 @@ abstract class Magento_Translate_AdapterAbstract extends Zend_Translate_Adapter
      */
     public function toString()
     {
-        return 'Magento_Translate_Adapter';
+        return 'Magento\Translate\Adapter';
     }
 }

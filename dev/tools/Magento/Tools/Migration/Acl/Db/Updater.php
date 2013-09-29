@@ -8,28 +8,30 @@
  * @license    {license_link}
  */
 
-class Magento_Tools_Migration_Acl_Db_Updater
+namespace Magento\Tools\Migration\Acl\Db;
+
+class Updater
 {
     const WRITE_MODE = 'write';
 
     /**
      * Resource id reader
      *
-     * @var Magento_Tools_Migration_Acl_Db_Reader
+     * @var \Magento\Tools\Migration\Acl\Db\Reader
      */
     protected $_reader;
 
     /**
      * Resource id writer
      *
-     * @var Magento_Tools_Migration_Acl_Db_Writer
+     * @var \Magento\Tools\Migration\Acl\Db\Writer
      */
     protected $_writer;
 
     /**
      * Operation logger
      *
-     * @var Magento_Tools_Migration_Acl_Db_LoggerAbstract
+     * @var \Magento\Tools\Migration\Acl\Db\LoggerAbstract
      */
     protected $_logger;
 
@@ -41,15 +43,15 @@ class Magento_Tools_Migration_Acl_Db_Updater
     protected $_mode;
 
     /**
-     * @param Magento_Tools_Migration_Acl_Db_Reader $reader
-     * @param Magento_Tools_Migration_Acl_Db_Writer $writer
-     * @param Magento_Tools_Migration_Acl_Db_LoggerAbstract $logger
+     * @param \Magento\Tools\Migration\Acl\Db\Reader $reader
+     * @param \Magento\Tools\Migration\Acl\Db\Writer $writer
+     * @param \Magento\Tools\Migration\Acl\Db\LoggerAbstract $logger
      * @param string $mode - if value is "preview" migration does not happen
      */
     public function __construct(
-        Magento_Tools_Migration_Acl_Db_Reader $reader,
-        Magento_Tools_Migration_Acl_Db_Writer $writer,
-        Magento_Tools_Migration_Acl_Db_LoggerAbstract $logger,
+        \Magento\Tools\Migration\Acl\Db\Reader $reader,
+        \Magento\Tools\Migration\Acl\Db\Writer $writer,
+        \Magento\Tools\Migration\Acl\Db\LoggerAbstract $logger,
         $mode
     ) {
         $this->_reader = $reader;

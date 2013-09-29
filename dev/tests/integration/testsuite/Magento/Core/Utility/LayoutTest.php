@@ -6,30 +6,33 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Utility_LayoutTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Utility;
+
+class LayoutTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Utility_Layout
+     * @var \Magento\Core\Utility\Layout
      */
     protected $_utility;
 
     protected function setUp()
     {
-        $this->_utility = new Magento_Core_Utility_Layout($this);
+        $this->_utility = new \Magento\Core\Utility\Layout($this);
     }
 
     /**
      * Assert that the actual layout update instance represents the expected layout update file
      *
+     * @param \Magento\Core\Model\Layout\Merge $actualUpdate
      * @param string $expectedUpdateFile
-     * @param Magento_Core_Model_Layout_Merge $actualUpdate
+     * @param \Magento\Core\Model\Layout\Merge $actualUpdate
      */
     protected function _assertLayoutUpdate($expectedUpdateFile, $actualUpdate)
     {
-        $this->assertInstanceOf('Magento_Core_Model_Layout_Merge', $actualUpdate);
+        $this->assertInstanceOf('Magento\Core\Model\Layout\Merge', $actualUpdate);
 
         $layoutUpdateXml = $actualUpdate->getFileLayoutUpdatesXml();
-        $this->assertInstanceOf('Magento_Core_Model_Layout_Element', $layoutUpdateXml);
+        $this->assertInstanceOf('Magento\Core\Model\Layout\Element', $layoutUpdateXml);
         $this->assertXmlStringEqualsXmlFile($expectedUpdateFile, $layoutUpdateXml->asNiceXml());
     }
 
@@ -52,7 +55,7 @@ class Magento_Core_Utility_LayoutTest extends PHPUnit_Framework_TestCase
     public function testGetLayoutFromFixture($inputFiles, $expectedFile)
     {
         $layout = $this->_utility->getLayoutFromFixture($inputFiles, $this->_utility->getLayoutDependencies());
-        $this->assertInstanceOf('Magento_Core_Model_Layout', $layout);
+        $this->assertInstanceOf('Magento\Core\Model\Layout', $layout);
         $this->_assertLayoutUpdate($expectedFile, $layout->getUpdate());
     }
 

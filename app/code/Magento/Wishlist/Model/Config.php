@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Wishlist_Model_Config
+namespace Magento\Wishlist\Model;
+
+class Config
 {
     const XML_PATH_SHARING_EMAIL_LIMIT = 'wishlist/email/number_limit';
     const XML_PATH_SHARING_TEXT_LIMIT = 'wishlist/email/text_limit';
@@ -15,12 +17,12 @@ class Magento_Wishlist_Model_Config
     const SHARING_TEXT_LIMIT = 255;
 
     /**
-     * @var Magento_Catalog_Model_Config
+     * @var \Magento\Catalog\Model\Config
      */
     private $_catalogConfig;
 
     /**
-     * @var Magento_Catalog_Model_Attribute_Config
+     * @var \Magento\Catalog\Model\Attribute\Config
      */
     private $_attributeConfig;
 
@@ -33,14 +35,14 @@ class Magento_Wishlist_Model_Config
 
 
     /**
-     * @param Magento_Core_Model_Store_ConfigInterface $storeConfig
-     * @param Magento_Catalog_Model_Config $catalogConfig
-     * @param Magento_Catalog_Model_Attribute_Config $attributeConfig
+     * @param \Magento\Core\Model\Store\ConfigInterface $storeConfig
+     * @param \Magento\Catalog\Model\Config $catalogConfig
+     * @param \Magento\Catalog\Model\Attribute\Config $attributeConfig
      */
     public function __construct(
-        Magento_Core_Model_Store_ConfigInterface $storeConfig,
-        Magento_Catalog_Model_Config $catalogConfig,
-        Magento_Catalog_Model_Attribute_Config $attributeConfig
+        \Magento\Core\Model\Store\ConfigInterface $storeConfig,
+        \Magento\Catalog\Model\Config $catalogConfig,
+        \Magento\Catalog\Model\Attribute\Config $attributeConfig
     ) {
         $emailLimitInConfig = (int)$storeConfig->getConfig(self::XML_PATH_SHARING_EMAIL_LIMIT);
         $textLimitInConfig = (int)$storeConfig->getConfig(self::XML_PATH_SHARING_TEXT_LIMIT);

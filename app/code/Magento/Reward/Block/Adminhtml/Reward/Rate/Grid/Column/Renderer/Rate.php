@@ -16,29 +16,31 @@
  * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reward_Block_Adminhtml_Reward_Rate_Grid_Column_Renderer_Rate
-    extends Magento_Backend_Block_Widget_Grid_Column_Renderer_Abstract
+namespace Magento\Reward\Block\Adminhtml\Reward\Rate\Grid\Column\Renderer;
+
+class Rate
+    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Reward_Model_Reward_Rate
+     * @var \Magento\Reward\Model\Reward\Rate
      */
     protected $_rate;
 
     /**
-     * @param Magento_Backend_Block_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Reward_Model_Reward_Rate $rate
+     * @param \Magento\Backend\Block\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Reward\Model\Reward\Rate $rate
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Block_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Reward_Model_Reward_Rate $rate,
+        \Magento\Backend\Block\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Reward\Model\Reward\Rate $rate,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;
@@ -49,10 +51,10 @@ class Magento_Reward_Block_Adminhtml_Reward_Rate_Grid_Column_Renderer_Rate
     /**
      * Renders grid column
      *
-     * @param Magento_Object $row
+     * @param \Magento\Object $row
      * @return string
      */
-    public function render(Magento_Object $row)
+    public function render(\Magento\Object $row)
     {
         $websiteId = $row->getWebsiteId();
         return $this->_rate->getRateText(

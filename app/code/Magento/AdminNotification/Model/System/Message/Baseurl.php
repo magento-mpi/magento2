@@ -5,40 +5,42 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_AdminNotification_Model_System_Message_Baseurl
-    implements Magento_AdminNotification_Model_System_MessageInterface
+namespace Magento\AdminNotification\Model\System\Message;
+
+class Baseurl
+    implements \Magento\AdminNotification\Model\System\MessageInterface
 {
     /**
-     * @var Magento_Core_Model_UrlInterface
+     * @var \Magento\Core\Model\UrlInterface
      */
     protected $_urlBuilder;
 
     /**
-     * @var Magento_Core_Model_Config
+     * @var \Magento\Core\Model\Config
      */
     protected $_config;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Core_Model_Config_ValueFactory
+     * @var \Magento\Core\Model\Config\ValueFactory
      */
     protected $_configValueFactory;
 
     /**
-     * @param Magento_Core_Model_Config $config
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_UrlInterface $urlBuilder
-     * @param Magento_Core_Model_Config_ValueFactory $configValueFactory
+     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\UrlInterface $urlBuilder
+     * @param \Magento\Core\Model\Config\ValueFactory $configValueFactory
      */
     public function __construct(
-        Magento_Core_Model_Config $config,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_UrlInterface $urlBuilder,
-        Magento_Core_Model_Config_ValueFactory $configValueFactory
+        \Magento\Core\Model\Config $config,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\UrlInterface $urlBuilder,
+        \Magento\Core\Model\Config\ValueFactory $configValueFactory
     ) {
         $this->_urlBuilder = $urlBuilder;
         $this->_config = $config;
@@ -55,25 +57,25 @@ class Magento_AdminNotification_Model_System_Message_Baseurl
     {
         $output = '';
         $defaultUnsecure = $this->_config->getValue(
-            Magento_Core_Model_Store::XML_PATH_UNSECURE_BASE_URL,
+            \Magento\Core\Model\Store::XML_PATH_UNSECURE_BASE_URL,
             'default'
         );
 
         $defaultSecure = $this->_config->getValue(
-            Magento_Core_Model_Store::XML_PATH_SECURE_BASE_URL,
+            \Magento\Core\Model\Store::XML_PATH_SECURE_BASE_URL,
             'default'
         );
 
-        if ($defaultSecure == Magento_Core_Model_Store::BASE_URL_PLACEHOLDER
-            || $defaultUnsecure == Magento_Core_Model_Store::BASE_URL_PLACEHOLDER
+        if ($defaultSecure == \Magento\Core\Model\Store::BASE_URL_PLACEHOLDER
+            || $defaultUnsecure == \Magento\Core\Model\Store::BASE_URL_PLACEHOLDER
         ) {
             $output = $this->_urlBuilder->getUrl('adminhtml/system_config/edit', array('section' => 'web'));
         } else {
-            /** @var $dataCollection Magento_Core_Model_Resource_Config_Data_Collection */
+            /** @var $dataCollection \Magento\Core\Model\Resource\Config\Data\Collection */
             $dataCollection = $this->_configValueFactory->create()->getCollection();
-            $dataCollection->addValueFilter(Magento_Core_Model_Store::BASE_URL_PLACEHOLDER);
+            $dataCollection->addValueFilter(\Magento\Core\Model\Store::BASE_URL_PLACEHOLDER);
 
-            /** @var $data Magento_Core_Model_Config_Value */
+            /** @var $data \Magento\Core\Model\Config\Value */
             foreach ($dataCollection as $data) {
                 if ($data->getScope() == 'stores') {
                     $code = $this->_storeManager->getStore($data->getScopeId())->getCode();

@@ -8,30 +8,32 @@
  * @license     {license_link}
  */
 
-class Magento_Checkout_Block_Cart_Totals extends Magento_Checkout_Block_Cart_Abstract
+namespace Magento\Checkout\Block\Cart;
+
+class Totals extends \Magento\Checkout\Block\Cart\AbstractCart
 {
     protected $_totalRenderers;
-    protected $_defaultRenderer = 'Magento_Checkout_Block_Total_Default';
+    protected $_defaultRenderer = 'Magento\Checkout\Block\Total\DefaultTotal';
     protected $_totals = null;
 
     /**
-     * @var Magento_Sales_Model_Config
+     * @var \Magento\Sales\Model\Config
      */
     protected $_salesConfig;
 
     /**
      * Constructor
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Sales_Model_Config $salesConfig
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Sales\Model\Config $salesConfig
      * @param array $data
      */
     public function __construct(
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Sales_Model_Config $salesConfig,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Sales\Model\Config $salesConfig,
         array $data = array()
     ) {
         parent::__construct(
@@ -134,7 +136,7 @@ class Magento_Checkout_Block_Cart_Totals extends Magento_Checkout_Block_Cart_Abs
         $firstTotal = reset($this->_totals);
         if ($firstTotal) {
             $total = $firstTotal->getAddress()->getBaseGrandTotal();
-            return Mage::app()->getStore()->getBaseCurrency()->format($total, array(), true);
+            return \Mage::app()->getStore()->getBaseCurrency()->format($total, array(), true);
         }
         return '-';
     }
@@ -142,7 +144,7 @@ class Magento_Checkout_Block_Cart_Totals extends Magento_Checkout_Block_Cart_Abs
     /**
      * Get active or custom quote
      *
-     * @return Magento_Sales_Model_Quote
+     * @return \Magento\Sales\Model\Quote
      */
     public function getQuote()
     {

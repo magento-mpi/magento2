@@ -16,6 +16,8 @@
  * @package     Magento_Pbridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Pbridge_Block_Checkout_Payment_Paybox_Direct extends Magento_Pbridge_Block_Payment_Form_Abstract
+namespace Magento\Pbridge\Block\Checkout\Payment\Paybox;
+
+class Direct extends \Magento\Pbridge\Block\Payment\Form\AbstractForm
 {
 }

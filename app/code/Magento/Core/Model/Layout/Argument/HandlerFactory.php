@@ -15,7 +15,9 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Layout_Argument_HandlerFactory
+namespace Magento\Core\Model\Layout\Argument;
+
+class HandlerFactory
 {
     const LAYOUT_ARGUMENT_TYPE_OBJECT = 'object';
     const LAYOUT_ARGUMENT_TYPE_OPTIONS = 'options';
@@ -31,14 +33,14 @@ class Magento_Core_Model_Layout_Argument_HandlerFactory
      * @var array
      */
     protected $_handlerFactories = array(
-        self::LAYOUT_ARGUMENT_TYPE_OBJECT => 'Magento_Core_Model_Layout_Argument_Handler_Object',
-        self::LAYOUT_ARGUMENT_TYPE_OPTIONS => 'Magento_Core_Model_Layout_Argument_Handler_Options',
-        self::LAYOUT_ARGUMENT_TYPE_URL => 'Magento_Core_Model_Layout_Argument_Handler_Url',
-        self::LAYOUT_ARGUMENT_TYPE_ARRAY => 'Magento_Core_Model_Layout_Argument_Handler_Array',
-        self::LAYOUT_ARGUMENT_TYPE_BOOLEAN => 'Magento_Core_Model_Layout_Argument_Handler_Boolean',
-        self::LAYOUT_ARGUMENT_TYPE_HELPER => 'Magento_Core_Model_Layout_Argument_Handler_Helper',
-        self::LAYOUT_ARGUMENT_TYPE_NUMBER => 'Magento_Core_Model_Layout_Argument_Handler_Number',
-        self::LAYOUT_ARGUMENT_TYPE_STRING => 'Magento_Core_Model_Layout_Argument_Handler_String',
+        self::LAYOUT_ARGUMENT_TYPE_OBJECT => 'Magento\Core\Model\Layout\Argument\Handler\Object',
+        self::LAYOUT_ARGUMENT_TYPE_OPTIONS => 'Magento\Core\Model\Layout\Argument\Handler\Options',
+        self::LAYOUT_ARGUMENT_TYPE_URL => 'Magento\Core\Model\Layout\Argument\Handler\Url',
+        self::LAYOUT_ARGUMENT_TYPE_ARRAY => 'Magento\Core\Model\Layout\Argument\Handler\ArrayHandler',
+        self::LAYOUT_ARGUMENT_TYPE_BOOLEAN => 'Magento\Core\Model\Layout\Argument\Handler\Boolean',
+        self::LAYOUT_ARGUMENT_TYPE_HELPER => 'Magento\Core\Model\Layout\Argument\Handler\Helper',
+        self::LAYOUT_ARGUMENT_TYPE_NUMBER => 'Magento\Core\Model\Layout\Argument\Handler\Number',
+        self::LAYOUT_ARGUMENT_TYPE_STRING => 'Magento\Core\Model\Layout\Argument\Handler\String',
     );
 
     /**
@@ -49,14 +51,14 @@ class Magento_Core_Model_Layout_Argument_HandlerFactory
     protected $_argumentHandlers = array();
 
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
@@ -64,28 +66,28 @@ class Magento_Core_Model_Layout_Argument_HandlerFactory
     /**
      * Get argument handler factory by given type
      * @param string $type
-     * @return Magento_Core_Model_Layout_Argument_HandlerInterface
-     * @throws InvalidArgumentException
+     * @return \Magento\Core\Model\Layout\Argument\HandlerInterface
+     * @throws \InvalidArgumentException
      */
     public function getArgumentHandlerByType($type)
     {
         if (false == is_string($type)) {
-            throw new InvalidArgumentException('Passed invalid argument handler type');
+            throw new \InvalidArgumentException('Passed invalid argument handler type');
         }
 
         if (!isset($this->_handlerFactories[$type])) {
-            throw new InvalidArgumentException("Argument handler {$type} does not exist");
+            throw new \InvalidArgumentException("Argument handler {$type} does not exist");
         }
 
         if (isset($this->_argumentHandlers[$type])) {
             return $this->_argumentHandlers[$type];
         }
-        /** @var $handler Magento_Core_Model_Layout_Argument_HandlerInterface */
+        /** @var $handler \Magento\Core\Model\Layout\Argument\HandlerInterface */
         $handler = $this->_objectManager->create($this->_handlerFactories[$type], array());
 
-        if (false === ($handler instanceof Magento_Core_Model_Layout_Argument_HandlerInterface)) {
-            throw new InvalidArgumentException(
-                "{$type} type handler must implement Magento_Core_Model_Layout_Argument_HandlerInterface"
+        if (false === ($handler instanceof \Magento\Core\Model\Layout\Argument\HandlerInterface)) {
+            throw new \InvalidArgumentException(
+                "{$type} type handler must implement \\Magento\\Core\\Model\\Layout\\Argument\\HandlerInterface"
             );
         }
 

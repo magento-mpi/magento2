@@ -8,8 +8,10 @@
  * @license     {license_link}
  */
 
-final class Magento_Connect_Command_Remote
-extends Magento_Connect_Command
+namespace Magento\Connect\Command;
+
+final class Remote
+extends \Magento\Connect\Command
 {
 
     /**
@@ -24,7 +26,7 @@ extends Magento_Connect_Command
 
         $this->cleanupParams($params);
         try {
-            $packager = new Magento_Connect_Packager();
+            $packager = new \Magento\Connect\Packager();
             $ftp = empty($options['ftp']) ? false : $options['ftp'];
             if($ftp) {
                 list($cache, $config, $ftpObj) = $packager->getRemoteConf($ftp);
@@ -47,7 +49,7 @@ extends Magento_Connect_Command
                 $data = "No upgrades available";
             }
             $this->ui()->output($data);
-        } catch(Exception $e) {
+        } catch(\Exception $e) {
             $this->doError($command, $e->getMessage());
         }
     }
@@ -66,7 +68,7 @@ extends Magento_Connect_Command
         $this->cleanupParams($params);
 
         try {
-            $packager = new Magento_Connect_Packager();
+            $packager = new \Magento\Connect\Packager();
             $ftp = empty($options['ftp']) ? false : $options['ftp'];
             if($ftp) {
                 list($cache, $config, $ftpObj) = $packager->getRemoteConf($ftp);
@@ -107,7 +109,7 @@ extends Magento_Connect_Command
                         }
                         $packs[$channel]['packages'][$packageName]['releases'] = $releases;
                     }
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     $this->doError($command, $e->getMessage());
                 }
             }
@@ -115,7 +117,7 @@ extends Magento_Connect_Command
             $dataOut[$command]= array('data'=>$packs);
             $this->ui()->output($dataOut);
 
-        } catch(Exception $e) {
+        } catch(\Exception $e) {
             $this->doError($command, $e->getMessage());
         }
          
@@ -135,7 +137,7 @@ extends Magento_Connect_Command
         //$this->splitPackageArgs($params);
         try {
             if(count($params) < 2) {
-                throw new Exception("Arguments should be: channel Package");
+                throw new \Exception("Arguments should be: channel Package");
             }
 
             $channel = $params[0];
@@ -157,7 +159,7 @@ extends Magento_Connect_Command
             $rest->setChannel($uri);
             $c = $rest->getReleases($package);
             if(!count($c)) {
-                throw new Exception("No releases found for package");
+                throw new \Exception("No releases found for package");
             }
             $version = $cache->detectVersionFromRestArray($c);
             $dir = $config->getChannelCacheDir($channel);
@@ -168,7 +170,7 @@ extends Magento_Connect_Command
                 @unlink($cache->getFilename());
             }
             $this->ui()->output("Saved to: ". $file);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             if($ftp) {
                 @unlink($config->getFilename());
                 @unlink($cache->getFilename());
@@ -188,7 +190,7 @@ extends Magento_Connect_Command
     {
         $this->cleanupParams($params);
         try {
-            $packager = new Magento_Connect_Packager();
+            $packager = new \Magento\Connect\Packager();
             $ftp = empty($options['ftp']) ? false : $options['ftp'];
             if($ftp) {
                 list($cache, $ftpObj) = $packager->getRemoteCache($ftp);
@@ -198,7 +200,7 @@ extends Magento_Connect_Command
                 $cache = $this->getSconfig();
                 $cache->clear();
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
              $this->doError($command, $e->getMessage());
         }
     }

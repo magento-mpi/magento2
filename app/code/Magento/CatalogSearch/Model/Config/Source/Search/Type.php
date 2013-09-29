@@ -16,14 +16,16 @@
  * @package    Magento_CatalogSearch
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CatalogSearch_Model_Config_Source_Search_Type implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\CatalogSearch\Model\Config\Source\Search;
+
+class Type implements \Magento\Core\Model\Option\ArrayInterface
 {
     public function toOptionArray()
     {
         $types = array(
-            Magento_CatalogSearch_Model_Fulltext::SEARCH_TYPE_LIKE     => 'Like',
-            Magento_CatalogSearch_Model_Fulltext::SEARCH_TYPE_FULLTEXT => 'Fulltext',
-            Magento_CatalogSearch_Model_Fulltext::SEARCH_TYPE_COMBINE  => 'Combine (Like and Fulltext)',
+            \Magento\CatalogSearch\Model\Fulltext::SEARCH_TYPE_LIKE     => 'Like',
+            \Magento\CatalogSearch\Model\Fulltext::SEARCH_TYPE_FULLTEXT => 'Fulltext',
+            \Magento\CatalogSearch\Model\Fulltext::SEARCH_TYPE_COMBINE  => 'Combine (Like and Fulltext)',
         );
         $options = array();
         foreach ($types as $k => $v) {

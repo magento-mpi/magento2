@@ -11,7 +11,9 @@
 /**
  * Lightweight theme that implements minimal required interface
  */
-class Magento_Tools_View_Generator_ThemeLight extends Magento_Object implements Magento_Core_Model_ThemeInterface
+namespace Magento\Tools\View\Generator;
+
+class ThemeLight extends \Magento\Object implements \Magento\Core\Model\ThemeInterface
 {
     /**
      * {@inheritdoc}
@@ -34,7 +36,7 @@ class Magento_Tools_View_Generator_ThemeLight extends Magento_Object implements 
      */
     public function getFullPath()
     {
-        return $this->getArea() . Magento_Core_Model_Theme::PATH_SEPARATOR . $this->getThemePath();
+        return $this->getArea() . \Magento\Core\Model\Theme::PATH_SEPARATOR . $this->getThemePath();
     }
 
     /**

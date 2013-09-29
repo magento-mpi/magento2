@@ -14,10 +14,12 @@
  * @author Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Tax_Block_Checkout_Discount extends Magento_Checkout_Block_Total_Default
+namespace Magento\Tax\Block\Checkout;
+
+class Discount extends \Magento\Checkout\Block\Total\DefaultTotal
 {
     public function displayBoth()
     {
-        return Mage::getSingleton('Magento_Tax_Model_Config')->displayCartSubtotalBoth();
+        return \Mage::getSingleton('Magento\Tax\Model\Config')->displayCartSubtotalBoth();
     }
 }

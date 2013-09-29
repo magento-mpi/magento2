@@ -8,10 +8,12 @@
  * @license     {license_link}
  */
 
-class Magento_Backend_Block_System_Config_Switcher extends Magento_Backend_Block_Template
+namespace Magento\Backend\Block\System\Config;
+
+class Switcher extends \Magento\Backend\Block\Template
 {
     /**
-     * @return Magento_Core_Block_Abstract
+     * @return \Magento\Core\Block\AbstractBlock
      */
     protected function _prepareLayout()
     {
@@ -30,8 +32,8 @@ class Magento_Backend_Block_System_Config_Switcher extends Magento_Backend_Block
         $curWebsite = $this->getRequest()->getParam('website');
         $curStore   = $this->getRequest()->getParam('store');
 
-        $storeModel = Mage::getSingleton('Magento_Core_Model_System_Store');
-        /* @var $storeModel Magento_Core_Model_System_Store */
+        $storeModel = \Mage::getSingleton('Magento\Core\Model\System\Store');
+        /* @var $storeModel \Magento\Core\Model\System\Store */
 
         $options = array();
         $options['default'] = array(
@@ -51,8 +53,8 @@ class Magento_Backend_Block_System_Config_Switcher extends Magento_Backend_Block
     /**
      * Process website info
      *
-     * @param Magento_Core_Model_System_Store $storeModel
-     * @param Magento_Core_Model_Website $website
+     * @param \Magento\Core\Model\System\Store $storeModel
+     * @param \Magento\Core\Model\Website $website
      * @param string $section
      * @param string $curStore
      * @param string $curWebsite
@@ -60,8 +62,8 @@ class Magento_Backend_Block_System_Config_Switcher extends Magento_Backend_Block
      * @return array
      */
     protected function _processWebsite(
-        Magento_Core_Model_System_Store $storeModel,
-        Magento_Core_Model_Website $website,
+        \Magento\Core\Model\System\Store $storeModel,
+        \Magento\Core\Model\Website $website,
         $section,
         $curStore,
         $curWebsite,
@@ -123,7 +125,7 @@ class Magento_Backend_Block_System_Config_Switcher extends Magento_Backend_Block
      */
     public function getHintHtml()
     {
-        return Mage::getBlockSingleton('Magento_Backend_Block_Store_Switcher')->getHintHtml();
+        return \Mage::getBlockSingleton('Magento\Backend\Block\Store\Switcher')->getHintHtml();
     }
 
     /**
@@ -133,7 +135,7 @@ class Magento_Backend_Block_System_Config_Switcher extends Magento_Backend_Block
      */
     protected function _toHtml()
     {
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!\Mage::app()->isSingleStoreMode()) {
             return parent::_toHtml();
         }
         return '';

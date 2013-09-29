@@ -15,7 +15,9 @@
  * @package    Magento_User
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_User_Block_User_Edit_Tabs extends Magento_Backend_Block_Widget_Tabs
+namespace Magento\User\Block\User\Edit;
+
+class Tabs extends \Magento\Backend\Block\Widget\Tabs
 {
 
     protected function _construct()
@@ -32,7 +34,7 @@ class Magento_User_Block_User_Edit_Tabs extends Magento_Backend_Block_Widget_Tab
             'label'     => __('User Info'),
             'title'     => __('User Info'),
             'content'   => $this->getLayout()
-                ->createBlock('Magento_User_Block_User_Edit_Tab_Main')->toHtml(),
+                ->createBlock('Magento\User\Block\User\Edit\Tab\Main')->toHtml(),
             'active'    => true
         ));
 
@@ -40,7 +42,7 @@ class Magento_User_Block_User_Edit_Tabs extends Magento_Backend_Block_Widget_Tab
             'label'     => __('User Role'),
             'title'     => __('User Role'),
             'content'   => $this->getLayout()
-                ->createBlock('Magento_User_Block_User_Edit_Tab_Roles', 'user.roles.grid')->toHtml(),
+                ->createBlock('Magento\User\Block\User\Edit\Tab\Roles', 'user.roles.grid')->toHtml(),
         ));
         return parent::_beforeToHtml();
     }

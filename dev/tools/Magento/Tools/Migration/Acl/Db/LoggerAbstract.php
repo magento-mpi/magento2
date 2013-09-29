@@ -11,7 +11,9 @@
 /**
  * DB migration logger
  */
-abstract class Magento_Tools_Migration_Acl_Db_LoggerAbstract
+namespace Magento\Tools\Migration\Acl\Db;
+
+abstract class LoggerAbstract
 {
     /**
      * List of logs
@@ -42,7 +44,7 @@ abstract class Magento_Tools_Migration_Acl_Db_LoggerAbstract
      * @param string $oldKey
      * @param string $newKey
      * @param int|null $updateResult
-     * @return Magento_Tools_Migration_Acl_Db_LoggerAbstract
+     * @return \Magento\Tools\Migration\Acl\Db\LoggerAbstract
      */
     public function add($oldKey, $newKey, $updateResult)
     {

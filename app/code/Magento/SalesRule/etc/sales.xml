@@ -10,11 +10,11 @@
 <config>
     <section name="quote">
         <group name="totals">
-            <item name="freeshipping" instance="Magento_SalesRule_Model_Quote_Freeshipping" sort_order="150"/>
-            <item name="discount" instance="Magento_SalesRule_Model_Quote_Discount" sort_order="400"/>
+            <item name="freeshipping" instance="Magento\SalesRule\Model\Quote\Freeshipping" sort_order="150"/>
+            <item name="discount" instance="Magento\SalesRule\Model\Quote\Discount" sort_order="400"/>
         </group>
         <group name="nominal_totals">
-            <item name="nominal_discount" instance="Magento_SalesRule_Model_Quote_Nominal_Discount" sort_order="550"/>
+            <item name="nominal_discount" instance="Magento\SalesRule\Model\Quote\Nominal\Discount" sort_order="550"/>
         </group>
     </section>
 </config>

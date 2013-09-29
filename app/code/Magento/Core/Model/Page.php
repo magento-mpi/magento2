@@ -11,17 +11,19 @@
 /**
  * Value object carrying page properties
  */
-class Magento_Core_Model_Page
+namespace Magento\Core\Model;
+
+class Page
 {
     /**
-     * @var Magento_Core_Model_Page_Asset_Collection
+     * @var \Magento\Core\Model\Page\Asset\Collection
      */
     private $_assets;
 
     /**
-     * @param Magento_Core_Model_Page_Asset_Collection $assets
+     * @param \Magento\Core\Model\Page\Asset\Collection $assets
      */
-    public function __construct(Magento_Core_Model_Page_Asset_Collection $assets)
+    public function __construct(\Magento\Core\Model\Page\Asset\Collection $assets)
     {
         $this->_assets = $assets;
     }
@@ -29,7 +31,7 @@ class Magento_Core_Model_Page
     /**
      * Retrieve collection of assets linked to a page
      *
-     * @return Magento_Core_Model_Page_Asset_Collection
+     * @return \Magento\Core\Model\Page\Asset\Collection
      */
     public function getAssets()
     {

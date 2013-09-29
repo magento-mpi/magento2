@@ -9,7 +9,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_Resource_Event_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Webhook\Model\Resource\Event;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Number of events to load at once;
@@ -25,19 +27,19 @@ class Magento_Webhook_Model_Resource_Event_Collection extends Magento_Core_Model
     protected $_timeoutIdling;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_EntityFactory $entityFactory
-     * @param Magento_Core_Model_Resource_Db_Abstract $resource
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Core\Model\Resource\Db\Abstract $resource
      * @param null $timeoutIdling
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Logger $logger,
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_EntityFactory $entityFactory,
-        Magento_Core_Model_Resource_Db_Abstract $resource = null,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null,
         $timeoutIdling = null
     ) {
         parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
@@ -48,20 +50,20 @@ class Magento_Webhook_Model_Resource_Event_Collection extends Magento_Core_Model
     public function _construct()
     {
         parent::_construct();
-        $this->_init('Magento_Webhook_Model_Event', 'Magento_Webhook_Model_Resource_Event');
+        $this->_init('Magento\Webhook\Model\Event', 'Magento\Webhook\Model\Resource\Event');
     }
 
     /**
      * Adds FOR UPDATE lock on retrieved rows and filter status
      *
-     * @return Magento_Webhook_Model_Resource_Event_Collection
+     * @return \Magento\Webhook\Model\Resource\Event\Collection
      */
     protected function _initSelect()
     {
         parent::_initSelect();
         $this->getSelect()->forUpdate(true);
-        $this->addFieldToFilter('status', Magento_PubSub_EventInterface::STATUS_READY_TO_SEND)
-            ->setOrder('created_at', Magento_Data_Collection::SORT_ORDER_ASC)
+        $this->addFieldToFilter('status', \Magento\PubSub\EventInterface::STATUS_READY_TO_SEND)
+            ->setOrder('created_at', \Magento\Data\Collection::SORT_ORDER_ASC)
             ->setPageSize(self::PAGE_SIZE);
         return $this;
     }
@@ -69,7 +71,7 @@ class Magento_Webhook_Model_Resource_Event_Collection extends Magento_Core_Model
     /**
      * Start transaction before executing the query in order to update the status atomically
      *
-     * @return Magento_Webhook_Model_Resource_Event_Collection
+     * @return \Magento\Webhook\Model\Resource\Event\Collection
      */
     protected function _beforeLoad()
     {
@@ -81,8 +83,8 @@ class Magento_Webhook_Model_Resource_Event_Collection extends Magento_Core_Model
     /**
      * Update the status and commit transaction in case of success
      *
-     * @return Magento_Webhook_Model_Resource_Event_Collection
-     * @throws Exception
+     * @return \Magento\Webhook\Model\Resource\Event\Collection
+     * @throws \Exception
      */
     protected function _afterLoad()
     {
@@ -91,11 +93,11 @@ class Magento_Webhook_Model_Resource_Event_Collection extends Magento_Core_Model
             $loadedIds = $this->_getLoadedIds();
             if (!empty($loadedIds)) {
                 $this->getConnection()->update($this->getMainTable(),
-                    array('status' => Magento_PubSub_EventInterface::STATUS_IN_PROGRESS),
+                    array('status' => \Magento\PubSub\EventInterface::STATUS_IN_PROGRESS),
                     array('event_id IN (?)' => $loadedIds));
             }
             $this->getConnection()->commit();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->getConnection()->rollBack();
             $this->clear();
             throw $e;
@@ -123,7 +125,7 @@ class Magento_Webhook_Model_Resource_Event_Collection extends Magento_Core_Model
      *
      * Regularly run by scheduling mechanism
      *
-     * @throws Exception
+     * @throws \Exception
      * @return null
      */
     public function revokeIdlingInProgress()
@@ -132,16 +134,16 @@ class Magento_Webhook_Model_Resource_Event_Collection extends Magento_Core_Model
         try {
             /* if event is in progress state for less than hour we do nothing with it*/
             $okUpdatedTime = time() - $this->_timeoutIdling;
-            $this->addFieldToFilter('status', Magento_PubSub_EventInterface::STATUS_IN_PROGRESS)
-                ->addFieldToFilter('updated_at', array('to' => Magento_Date::formatDate($okUpdatedTime),
+            $this->addFieldToFilter('status', \Magento\PubSub\EventInterface::STATUS_IN_PROGRESS)
+                ->addFieldToFilter('updated_at', array('to' => \Magento\Date::formatDate($okUpdatedTime),
                     'datetime' => true));
             $idsToRevoke = $this->_getLoadedIds();
             if (count($idsToRevoke)) {
                 $this->getConnection()->update($this->getMainTable(),
-                    array('status' => Magento_PubSub_EventInterface::STATUS_READY_TO_SEND),
+                    array('status' => \Magento\PubSub\EventInterface::STATUS_READY_TO_SEND),
                     array('event_id IN (?)' => $idsToRevoke));
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->getConnection()->rollBack();
             $this->clear();
             throw $e;

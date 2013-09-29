@@ -16,27 +16,29 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Catalog_Search_Edit_Form extends Magento_Backend_Block_Widget_Form_Generic
+namespace Magento\Adminhtml\Block\Catalog\Search\Edit;
+
+class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
-     * @var Magento_Core_Model_System_Store
+     * @var \Magento\Core\Model\System\Store
      */
     protected $_systemStore;
 
     /**
-     * @param Magento_Core_Model_System_Store $systemStore
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
+     * @param \Magento\Core\Model\System\Store $systemStore
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_System_Store $systemStore,
-        Magento_Core_Model_Registry $registry,
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
+        \Magento\Core\Model\System\Store $systemStore,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_systemStore = $systemStore;
@@ -57,14 +59,14 @@ class Magento_Adminhtml_Block_Catalog_Search_Edit_Form extends Magento_Backend_B
     /**
      * Prepare form fields
      *
-     * @return Magento_Adminhtml_Block_Catalog_Search_Edit_Form
+     * @return \Magento\Adminhtml\Block\Catalog\Search\Edit\Form
      */
     protected function _prepareForm()
     {
         $model = $this->_coreRegistry->registry('current_catalog_search');
-        /* @var $model Magento_CatalogSearch_Model_Query */
+        /* @var $model \Magento\CatalogSearch\Model\Query */
 
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create(array(
             'attributes' => array(
                 'id'        => 'edit_form',
@@ -107,7 +109,7 @@ class Magento_Adminhtml_Block_Catalog_Search_Edit_Form extends Magento_Backend_B
                 'required'  => true,
             ));
             $renderer = $this->getLayout()->createBlock(
-                'Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element'
+                'Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element'
             );
             $field->setRenderer($renderer);
         }

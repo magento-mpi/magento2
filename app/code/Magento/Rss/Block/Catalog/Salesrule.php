@@ -11,34 +11,36 @@
 /**
  * Review form block
  */
-class Magento_Rss_Block_Catalog_Salesrule extends Magento_Rss_Block_Abstract
+namespace Magento\Rss\Block\Catalog;
+
+class Salesrule extends \Magento\Rss\Block\AbstractBlock
 {
     /**
-     * @var Magento_Rss_Model_RssFactory
+     * @var \Magento\Rss\Model\RssFactory
      */
     protected $_rssFactory;
 
     /**
-     * @var Magento_SalesRule_Model_Resource_Rule_CollectionFactory
+     * @var \Magento\SalesRule\Model\Resource\Rule\CollectionFactory
      */
     protected $_collectionFactory;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Customer_Model_Session $customerSession
-     * @param Magento_Rss_Model_RssFactory $rssFactory
-     * @param Magento_SalesRule_Model_Resource_Rule_CollectionFactory $collectionFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Rss\Model\RssFactory $rssFactory
+     * @param \Magento\SalesRule\Model\Resource\Rule\CollectionFactory $collectionFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Core_Model_StoreManager $storeManager,
-        Magento_Customer_Model_Session $customerSession,
-        Magento_Rss_Model_RssFactory $rssFactory,
-        Magento_SalesRule_Model_Resource_Rule_CollectionFactory $collectionFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Rss\Model\RssFactory $rssFactory,
+        \Magento\SalesRule\Model\Resource\Rule\CollectionFactory $collectionFactory,
         array $data = array()
     ) {
         $this->_rssFactory = $rssFactory;
@@ -72,7 +74,7 @@ class Magento_Rss_Block_Catalog_Salesrule extends Magento_Rss_Block_Abstract
         $lang          = $storeModel->getConfig('general/locale/code');
         $title         = __('%1 - Discounts and Coupons', $storeModel->getName());
 
-        /** @var $rssObject Magento_Rss_Model_Rss */
+        /** @var $rssObject \Magento\Rss\Model\Rss */
         $rssObject = $this->_rssFactory->create();
         $rssObject->_addHeader(array(
             'title'       => $title,
@@ -82,14 +84,14 @@ class Magento_Rss_Block_Catalog_Salesrule extends Magento_Rss_Block_Abstract
             'language'    => $lang
         ));
 
-        /** @var $collection Magento_SalesRule_Model_Resource_Rule_Collection */
+        /** @var $collection \Magento\SalesRule\Model\Resource\Rule\Collection */
         $collection = $this->_collectionFactory->create();
         $collection->addWebsiteGroupDateFilter($websiteId, $customerGroup, $now)
             ->addFieldToFilter('is_rss', 1)
             ->setOrder('from_date','desc');
         $collection->load();
 
-        /** @var $ruleModel Magento_SalesRule_Model_Rule */
+        /** @var $ruleModel \Magento\SalesRule\Model\Rule */
         foreach ($collection as $ruleModel) {
             $description = '<table><tr>'
                 . '<td style="text-decoration:none;">'.$ruleModel->getDescription()

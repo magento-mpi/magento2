@@ -5,18 +5,20 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Catalog_Model_ProductTypes_Config
-    extends Magento_Config_Data
-    implements Magento_Catalog_Model_ProductTypes_ConfigInterface
+namespace Magento\Catalog\Model\ProductTypes;
+
+class Config
+    extends \Magento\Config\Data
+    implements \Magento\Catalog\Model\ProductTypes\ConfigInterface
 {
     /**
-     * @param Magento_Catalog_Model_ProductTypes_Config_Reader $reader
-     * @param Magento_Config_CacheInterface $cache
+     * @param \Magento\Catalog\Model\ProductTypes\Config\Reader $reader
+     * @param \Magento\Config\CacheInterface $cache
      * @param string $cacheId
      */
     public function __construct(
-        Magento_Catalog_Model_ProductTypes_Config_Reader $reader,
-        Magento_Config_CacheInterface $cache,
+        \Magento\Catalog\Model\ProductTypes\Config\Reader $reader,
+        \Magento\Config\CacheInterface $cache,
         $cacheId = 'product_types_config'
     ) {
         parent::__construct($reader, $cache, $cacheId);

@@ -9,25 +9,27 @@
 /**
  * Application model
  * @author      Magento Core Team <core@magentocommerce.com>
- * @method Magento_Oauth_Model_Resource_Consumer _getResource()
- * @method Magento_Oauth_Model_Resource_Consumer getResource()
- * @method Magento_Oauth_Model_Resource_Consumer_Collection getCollection()
- * @method Magento_Oauth_Model_Resource_Consumer_Collection getResourceCollection()
+ * @method \Magento\Oauth\Model\Resource\Consumer _getResource()
+ * @method \Magento\Oauth\Model\Resource\Consumer getResource()
+ * @method \Magento\Oauth\Model\Resource\Consumer\Collection getCollection()
+ * @method \Magento\Oauth\Model\Resource\Consumer\Collection getResourceCollection()
  * @method string getName()
- * @method Magento_Oauth_Model_Consumer setName() setName(string $name)
- * @method Magento_Oauth_Model_Consumer setKey() setKey(string $key)
- * @method Magento_Oauth_Model_Consumer setSecret() setSecret(string $secret)
- * @method Magento_Oauth_Model_Consumer setCallbackUrl() setCallbackUrl(string $url)
+ * @method \Magento\Oauth\Model\Consumer setName() setName(string $name)
+ * @method \Magento\Oauth\Model\Consumer setKey() setKey(string $key)
+ * @method \Magento\Oauth\Model\Consumer setSecret() setSecret(string $secret)
+ * @method \Magento\Oauth\Model\Consumer setCallbackUrl() setCallbackUrl(string $url)
  * @method string getCreatedAt()
- * @method Magento_Oauth_Model_Consumer setCreatedAt() setCreatedAt(string $date)
+ * @method \Magento\Oauth\Model\Consumer setCreatedAt() setCreatedAt(string $date)
  * @method string getUpdatedAt()
- * @method Magento_Oauth_Model_Consumer setUpdatedAt() setUpdatedAt(string $date)
+ * @method \Magento\Oauth\Model\Consumer setUpdatedAt() setUpdatedAt(string $date)
  * @method string getRejectedCallbackUrl()
- * @method Magento_Oauth_Model_Consumer setRejectedCallbackUrl() setRejectedCallbackUrl(string $rejectedCallbackUrl)
+ * @method \Magento\Oauth\Model\Consumer setRejectedCallbackUrl() setRejectedCallbackUrl(string $rejectedCallbackUrl)
  * @method string getHttpPostUrl()
- * @method Magento_Oauth_Model_Consumer setHttpPostUrl() setHttpPostUrl(string $httpPostUrl)
+ * @method \Magento\Oauth\Model\Consumer setHttpPostUrl() setHttpPostUrl(string $httpPostUrl)
  */
-class Magento_Oauth_Model_Consumer extends Magento_Core_Model_Abstract
+namespace Magento\Oauth\Model;
+
+class Consumer extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Key hash length
@@ -47,13 +49,13 @@ class Magento_Oauth_Model_Consumer extends Magento_Core_Model_Abstract
     protected function _construct()
     {
         parent::_construct();
-        $this->_init('Magento_Oauth_Model_Resource_Consumer');
+        $this->_init('Magento\Oauth\Model\Resource\Consumer');
     }
 
     /**
      * BeforeSave actions
      *
-     * @return Magento_Oauth_Model_Consumer
+     * @return \Magento\Oauth\Model\Consumer
      */
     protected function _beforeSave()
     {
@@ -69,7 +71,7 @@ class Magento_Oauth_Model_Consumer extends Magento_Core_Model_Abstract
      * Validate data
      *
      * @return array|bool
-     * @throw Magento_Core_Exception|Exception   Throw exception on fail validation
+     * @throw \Magento\Core\Exception|Exception   Throw exception on fail validation
      */
     public function validate()
     {
@@ -77,19 +79,19 @@ class Magento_Oauth_Model_Consumer extends Magento_Core_Model_Abstract
             $this->setCallbackUrl(trim($this->getCallbackUrl()));
             $this->setRejectedCallbackUrl(trim($this->getRejectedCallbackUrl()));
 
-            /** @var $validatorUrl Magento_Core_Model_Url_Validator */
-            $validatorUrl = Mage::getSingleton('Magento_Core_Model_Url_Validator');
+            /** @var $validatorUrl \Magento\Core\Model\Url\Validator */
+            $validatorUrl = \Mage::getSingleton('Magento\Core\Model\Url\Validator');
 
             if ($this->getCallbackUrl() && !$validatorUrl->isValid($this->getCallbackUrl())) {
-                Mage::throwException(__('Invalid Callback URL'));
+                \Mage::throwException(__('Invalid Callback URL'));
             }
             if ($this->getRejectedCallbackUrl() && !$validatorUrl->isValid($this->getRejectedCallbackUrl())) {
-                Mage::throwException(__('Invalid Rejected Callback URL'));
+                \Mage::throwException(__('Invalid Rejected Callback URL'));
             }
         }
 
-        /** @var $validatorLength Magento_Oauth_Model_Consumer_Validator_KeyLength */
-        $validatorLength = Mage::getModel('Magento_Oauth_Model_Consumer_Validator_KeyLength',
+        /** @var $validatorLength \Magento\Oauth\Model\Consumer\Validator\KeyLength */
+        $validatorLength = \Mage::getModel('Magento\Oauth\Model\Consumer\Validator\KeyLength',
             array('options' => array(
                 'length' => self::KEY_LENGTH
             )));
@@ -97,14 +99,14 @@ class Magento_Oauth_Model_Consumer extends Magento_Core_Model_Abstract
         $validatorLength->setName('Consumer Key');
         if (!$validatorLength->isValid($this->getKey())) {
             $messages = $validatorLength->getMessages();
-            Mage::throwException(array_shift($messages));
+            \Mage::throwException(array_shift($messages));
         }
 
         $validatorLength->setLength(self::SECRET_LENGTH);
         $validatorLength->setName('Consumer Secret');
         if (!$validatorLength->isValid($this->getSecret())) {
             $messages = $validatorLength->getMessages();
-            Mage::throwException(array_shift($messages));
+            \Mage::throwException(array_shift($messages));
         }
         return true;
     }
@@ -113,7 +115,7 @@ class Magento_Oauth_Model_Consumer extends Magento_Core_Model_Abstract
      * Load consumer by key.
      *
      * @param string $key
-     * @return Magento_Oauth_Model_Consumer
+     * @return \Magento\Oauth\Model\Consumer
      */
     public function loadByKey($key)
     {

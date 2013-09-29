@@ -11,28 +11,30 @@
 /**
  * Action group checkboxes renderer for system configuration
  */
-class Magento_Logging_Block_Adminhtml_System_Config_Actions
-    extends Magento_Backend_Block_System_Config_Form_Field
+namespace Magento\Logging\Block\Adminhtml\System\Config;
+
+class Actions
+    extends \Magento\Backend\Block\System\Config\Form\Field
 {
     protected $_template = 'system/config/actions.phtml';
 
     /**
-     * @var Magento_Logging_Model_Config
+     * @var \Magento\Logging\Model\Config
      */
     protected $_config;
 
     /**
-     * @param Magento_Logging_Model_Config $config
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_App $application
+     * @param \Magento\Logging\Model\Config $config
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\App $application
      * @param array $data
      */
     public function __construct(
-        Magento_Logging_Model_Config $config,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_App $application,
+        \Magento\Logging\Model\Config $config,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\App $application,
         array $data = array()
     ) {
         $this->_config = $config;
@@ -63,10 +65,10 @@ class Magento_Logging_Block_Adminhtml_System_Config_Actions
     /**
      * Render element html
      *
-     * @param Magento_Data_Form_Element_Abstract $element
+     * @param \Magento\Data\Form\Element\AbstractElement $element
      * @return string
      */
-    protected function _getElementHtml(Magento_Data_Form_Element_Abstract $element)
+    protected function _getElementHtml(\Magento\Data\Form\Element\AbstractElement $element)
     {
         $this->setNamePrefix($element->getName())
             ->setHtmlId($element->getHtmlId());

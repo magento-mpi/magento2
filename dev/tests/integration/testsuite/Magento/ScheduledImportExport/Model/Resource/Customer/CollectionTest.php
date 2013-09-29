@@ -9,20 +9,22 @@
  * @license     {license_link}
  */
 
+namespace Magento\ScheduledImportExport\Model\Resource\Customer;
+
 /**
- * Test collection Magento_ScheduledImportExport_Model_Resource_Customer_Collection
+ * Test collection \Magento\ScheduledImportExport\Model\Resource\Customer\Collection
  *
  * @magentoConfigFixture current_store magento_reward/general/is_enabled            1
  * @magentoConfigFixture current_store customer/magento_customerbalance/is_enabled  1
  */
-class Magento_ScheduledImportExport_Model_Resource_Customer_CollectionTest extends PHPUnit_Framework_TestCase
+class CollectionTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Remove not used websites
      */
     protected function tearDown()
     {
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
             ->reinitStores();
     }
 
@@ -33,26 +35,26 @@ class Magento_ScheduledImportExport_Model_Resource_Customer_CollectionTest exten
      */
     public function testJoinWithRewardPoints()
     {
-        /** @var $collection Magento_ScheduledImportExport_Model_Resource_Customer_Collection */
-        $collection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_ScheduledImportExport_Model_Resource_Customer_Collection');
+        /** @var $collection \Magento\ScheduledImportExport\Model\Resource\Customer\Collection */
+        $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\ScheduledImportExport\Model\Resource\Customer\Collection');
         $collection->joinWithRewardPoints();
         $items = $collection->getItems();
         $this->assertCount(1, $items);
 
-        /** @var $customer Magento_Customer_Model_Customer */
+        /** @var $customer \Magento\Customer\Model\Customer */
         $customer = reset($items);
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        /** @var $website Magento_Core_Model_Website */
-        $websites = $objectManager->get('Magento_Core_Model_StoreManagerInterface')->getWebsites();
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        /** @var $website \Magento\Core\Model\Website */
+        $websites = $objectManager->get('Magento\Core\Model\StoreManagerInterface')->getWebsites();
         foreach ($websites as $website) {
             $key = $website->getCode() . '_'
-                . Magento_ScheduledImportExport_Model_Resource_Customer_Attribute_Finance_Collection::
+                . \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection::
                     COLUMN_REWARD_POINTS;
             $rewardPoints = $customer->getData($key);
             $this->assertNotEmpty($rewardPoints);
-            $this->assertEquals($objectManager->get('Magento_Core_Model_Registry')
+            $this->assertEquals($objectManager->get('Magento\Core\Model\Registry')
                     ->registry('reward_point_balance_' . $website->getCode()), $rewardPoints);
         }
     }
@@ -64,26 +66,26 @@ class Magento_ScheduledImportExport_Model_Resource_Customer_CollectionTest exten
      */
     public function testJoinWithCustomerBalance()
     {
-        /** @var $collection Magento_ScheduledImportExport_Model_Resource_Customer_Collection */
-        $collection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_ScheduledImportExport_Model_Resource_Customer_Collection');
+        /** @var $collection \Magento\ScheduledImportExport\Model\Resource\Customer\Collection */
+        $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\ScheduledImportExport\Model\Resource\Customer\Collection');
         $collection->joinWithCustomerBalance();
         $items = $collection->getItems();
         $this->assertCount(1, $items);
 
-        /** @var $customer Magento_Customer_Model_Customer */
+        /** @var $customer \Magento\Customer\Model\Customer */
         $customer = reset($items);
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $websites = $objectManager->get('Magento_Core_Model_StoreManagerInterface')->getWebsites();
-        /** @var $website Magento_Core_Model_Website */
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $websites = $objectManager->get('Magento\Core\Model\StoreManagerInterface')->getWebsites();
+        /** @var $website \Magento\Core\Model\Website */
         foreach ($websites as $website) {
             $key = $website->getCode() . '_'
-                . Magento_ScheduledImportExport_Model_Resource_Customer_Attribute_Finance_Collection::
+                . \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection::
                     COLUMN_CUSTOMER_BALANCE;
             $customerBalance = $customer->getData($key);
             $this->assertNotEmpty($customerBalance);
-            $this->assertEquals($objectManager->get('Magento_Core_Model_Registry')
+            $this->assertEquals($objectManager->get('Magento\Core\Model\Registry')
                 ->registry('customer_balance_' . $website->getCode()), $customerBalance);
         }
     }
@@ -95,9 +97,9 @@ class Magento_ScheduledImportExport_Model_Resource_Customer_CollectionTest exten
      */
     public function testFilterWithRewardPointsAndCustomerBalance()
     {
-        /** @var $collection Magento_ScheduledImportExport_Model_Resource_Customer_Collection */
-        $collection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_ScheduledImportExport_Model_Resource_Customer_Collection');
+        /** @var $collection \Magento\ScheduledImportExport\Model\Resource\Customer\Collection */
+        $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\ScheduledImportExport\Model\Resource\Customer\Collection');
         $collection->joinWithCustomerBalance()
             ->joinWithRewardPoints();
         $items = $collection->getItems();
@@ -107,16 +109,16 @@ class Magento_ScheduledImportExport_Model_Resource_Customer_CollectionTest exten
         foreach ($items as $item) {
             $emails[] = $item->getEmail();
         }
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
-        $this->assertContains($objectManager->get('Magento_Core_Model_Registry')
+        $this->assertContains($objectManager->get('Magento\Core\Model\Registry')
             ->registry('customer_finance_email_rp_cb'), $emails);
-        $this->assertContains($objectManager->get('Magento_Core_Model_Registry')
+        $this->assertContains($objectManager->get('Magento\Core\Model\Registry')
             ->registry('customer_finance_email_rp'), $emails);
-        $this->assertContains($objectManager->get('Magento_Core_Model_Registry')
+        $this->assertContains($objectManager->get('Magento\Core\Model\Registry')
             ->registry('customer_finance_email_cb'), $emails);
-        $this->assertNotContains($objectManager->get('Magento_Core_Model_Registry')
+        $this->assertNotContains($objectManager->get('Magento\Core\Model\Registry')
             ->registry('customer_finance_email'), $emails);
     }
 
@@ -127,9 +129,9 @@ class Magento_ScheduledImportExport_Model_Resource_Customer_CollectionTest exten
      */
     public function testFilterWithRewardPoints()
     {
-        /** @var $collection Magento_ScheduledImportExport_Model_Resource_Customer_Collection */
-        $collection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_ScheduledImportExport_Model_Resource_Customer_Collection');
+        /** @var $collection \Magento\ScheduledImportExport\Model\Resource\Customer\Collection */
+        $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\ScheduledImportExport\Model\Resource\Customer\Collection');
         $collection->joinWithRewardPoints();
         $items = $collection->getItems();
         $this->assertCount(2, $items);
@@ -138,16 +140,16 @@ class Magento_ScheduledImportExport_Model_Resource_Customer_CollectionTest exten
         foreach ($items as $item) {
             $emails[] = $item->getEmail();
         }
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
-        $this->assertContains($objectManager->get('Magento_Core_Model_Registry')
+        $this->assertContains($objectManager->get('Magento\Core\Model\Registry')
             ->registry('customer_finance_email_rp_cb'), $emails);
-        $this->assertContains($objectManager->get('Magento_Core_Model_Registry')
+        $this->assertContains($objectManager->get('Magento\Core\Model\Registry')
             ->registry('customer_finance_email_rp'), $emails);
-        $this->assertNotContains($objectManager->get('Magento_Core_Model_Registry')
+        $this->assertNotContains($objectManager->get('Magento\Core\Model\Registry')
             ->registry('customer_finance_email_cb'), $emails);
-        $this->assertNotContains($objectManager->get('Magento_Core_Model_Registry')
+        $this->assertNotContains($objectManager->get('Magento\Core\Model\Registry')
             ->registry('customer_finance_email'), $emails);
     }
 
@@ -158,9 +160,9 @@ class Magento_ScheduledImportExport_Model_Resource_Customer_CollectionTest exten
      */
     public function testFilterWithCustomerBalance()
     {
-        /** @var $collection Magento_ScheduledImportExport_Model_Resource_Customer_Collection */
-        $collection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_ScheduledImportExport_Model_Resource_Customer_Collection');
+        /** @var $collection \Magento\ScheduledImportExport\Model\Resource\Customer\Collection */
+        $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\ScheduledImportExport\Model\Resource\Customer\Collection');
         $collection->joinWithCustomerBalance();
         $items = $collection->getItems();
         $this->assertCount(2, $items);
@@ -169,16 +171,16 @@ class Magento_ScheduledImportExport_Model_Resource_Customer_CollectionTest exten
         foreach ($items as $item) {
             $emails[] = $item->getEmail();
         }
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
-        $this->assertContains($objectManager->get('Magento_Core_Model_Registry')
+        $this->assertContains($objectManager->get('Magento\Core\Model\Registry')
             ->registry('customer_finance_email_rp_cb'), $emails);
-        $this->assertNotContains($objectManager->get('Magento_Core_Model_Registry')
+        $this->assertNotContains($objectManager->get('Magento\Core\Model\Registry')
             ->registry('customer_finance_email_rp'), $emails);
-        $this->assertContains($objectManager->get('Magento_Core_Model_Registry')
+        $this->assertContains($objectManager->get('Magento\Core\Model\Registry')
             ->registry('customer_finance_email_cb'), $emails);
-        $this->assertNotContains($objectManager->get('Magento_Core_Model_Registry')
+        $this->assertNotContains($objectManager->get('Magento\Core\Model\Registry')
             ->registry('customer_finance_email'), $emails);
     }
 
@@ -189,9 +191,9 @@ class Magento_ScheduledImportExport_Model_Resource_Customer_CollectionTest exten
      */
     public function testFilterWithoutRewardPointsAndCustomerBalance()
     {
-        /** @var $collection Magento_ScheduledImportExport_Model_Resource_Customer_Collection */
-        $collection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_ScheduledImportExport_Model_Resource_Customer_Collection');
+        /** @var $collection \Magento\ScheduledImportExport\Model\Resource\Customer\Collection */
+        $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\ScheduledImportExport\Model\Resource\Customer\Collection');
         $items = $collection->getItems();
         $this->assertCount(4, $items);
 
@@ -200,16 +202,16 @@ class Magento_ScheduledImportExport_Model_Resource_Customer_CollectionTest exten
             $emails[] = $item->getEmail();
         }
 
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
-        $this->assertContains($objectManager->get('Magento_Core_Model_Registry')
+        $this->assertContains($objectManager->get('Magento\Core\Model\Registry')
             ->registry('customer_finance_email_rp_cb'), $emails);
-        $this->assertContains($objectManager->get('Magento_Core_Model_Registry')
+        $this->assertContains($objectManager->get('Magento\Core\Model\Registry')
             ->registry('customer_finance_email_rp'), $emails);
-        $this->assertContains($objectManager->get('Magento_Core_Model_Registry')
+        $this->assertContains($objectManager->get('Magento\Core\Model\Registry')
             ->registry('customer_finance_email_cb'), $emails);
-        $this->assertContains($objectManager->get('Magento_Core_Model_Registry')
+        $this->assertContains($objectManager->get('Magento\Core\Model\Registry')
             ->registry('customer_finance_email'), $emails);
     }
 }

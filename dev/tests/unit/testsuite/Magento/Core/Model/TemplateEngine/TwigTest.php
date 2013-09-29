@@ -5,15 +5,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_TemplateEngine_TwigTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\TemplateEngine;
+
+class TwigTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var  Magento_Core_Model_TemplateEngine_Twig */
+    /** @var  \Magento\Core\Model\TemplateEngine\Twig */
     protected $_twigEngine;
 
-    /** @var  PHPUnit_Framework_MockObject_MockObject Magento_Core_Model_TemplateEngine_EnvironmentFactory */
+    /** @var  \PHPUnit_Framework_MockObject_MockObject \Magento\Core\Model\TemplateEngine_EnvironmentFactory */
     protected $_envFactoryMock;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     private $_extMock;
 
     /**
@@ -21,15 +23,15 @@ class Magento_Core_Model_TemplateEngine_TwigTest extends PHPUnit_Framework_TestC
      */
     protected function setUp()
     {
-        // Objects that are injected into Magento_Core_Model_TemplateEngine_Twig
-        $this->_envFactoryMock = $this->getMockBuilder('Magento_Core_Model_TemplateEngine_Twig_EnvironmentFactory')
+        // Objects that are injected into \Magento\Core\Model\TemplateEngine\Twig
+        $this->_envFactoryMock = $this->getMockBuilder('Magento\Core\Model\TemplateEngine\Twig\EnvironmentFactory')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_extMock = $this->getMockBuilder('Magento_Core_Model_TemplateEngine_Twig_Extension')
+        $this->_extMock = $this->getMockBuilder('Magento\Core\Model\TemplateEngine\Twig\Extension')
             ->disableOriginalConstructor()
             ->getMock();
         $this->_twigEngine
-            = new Magento_Core_Model_TemplateEngine_Twig($this->_envFactoryMock, $this->_extMock);
+            = new \Magento\Core\Model\TemplateEngine\Twig($this->_envFactoryMock, $this->_extMock);
     }
 
     /**
@@ -38,7 +40,7 @@ class Magento_Core_Model_TemplateEngine_TwigTest extends PHPUnit_Framework_TestC
     public function testRenderPositive()
     {
         $renderedOutput = '<html></html>';
-        $blockMock = $this->getMockBuilder('Magento_Core_Block_Template')
+        $blockMock = $this->getMockBuilder('Magento\Core\Block\Template')
             ->disableOriginalConstructor()->getMock();
         $environmentMock = $this->getMockBuilder('Twig_Environment')->disableOriginalConstructor()->getMock();
         $environmentMock->expects($this->once())->method('render')->will($this->returnValue($renderedOutput));
@@ -52,17 +54,17 @@ class Magento_Core_Model_TemplateEngine_TwigTest extends PHPUnit_Framework_TestC
     /**
      * Test the render() function such that it throws an exception
      * 
-     * @expectedException Magento_Exception
+     * @expectedException \Magento\Exception
      */    
     public function testRenderNegative() 
     {
-        $blockMock = $this->getMockBuilder('Magento_Core_Block_Template')
+        $blockMock = $this->getMockBuilder('Magento\Core\Block\Template')
         ->disableOriginalConstructor()->getMock();
         $environmentMock = $this->getMockBuilder('Twig_Environment')
             ->disableOriginalConstructor()->getMock();
         $environmentMock->expects($this->once())
             ->method('render')
-            ->will($this->throwException(new Magento_Exception()));
+            ->will($this->throwException(new \Magento\Exception()));
         $this->_envFactoryMock->expects($this->once())->method('create')->will(
                 $this->returnValue($environmentMock)
         );

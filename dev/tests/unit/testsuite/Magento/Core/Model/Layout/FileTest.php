@@ -6,22 +6,24 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Layout_FileTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Layout;
+
+class FileTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Layout_File
+     * @var \Magento\Core\Model\Layout\File
      */
     private $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     private $_theme;
 
     protected function setUp()
     {
-        $this->_theme = $this->getMockForAbstractClass('Magento_Core_Model_ThemeInterface');
-        $this->_model = new Magento_Core_Model_Layout_File(__FILE__, 'Fixture_TestModule', $this->_theme);
+        $this->_theme = $this->getMockForAbstractClass('Magento\Core\Model\ThemeInterface');
+        $this->_model = new \Magento\Core\Model\Layout\File(__FILE__, 'Fixture_TestModule', $this->_theme);
     }
 
     public function testGetFilename()

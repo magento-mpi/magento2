@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_CatalogSearch_Controller_ResultTest extends Magento_TestFramework_TestCase_ControllerAbstract
+namespace Magento\CatalogSearch\Controller;
+
+class ResultTest extends \Magento\TestFramework\TestCase\ControllerAbstract
 {
     /**
      * @magentoDataFixture Magento/CatalogSearch/_files/query.php

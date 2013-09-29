@@ -15,7 +15,9 @@
  * @package     Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Controller_Newsletter_Subscriber extends Magento_Adminhtml_Controller_Action
+namespace Magento\Adminhtml\Controller\Newsletter;
+
+class Subscriber extends \Magento\Adminhtml\Controller\Action
 {
 
     public function indexAction()
@@ -70,19 +72,19 @@ class Magento_Adminhtml_Controller_Newsletter_Subscriber extends Magento_Adminht
     {
         $subscribersIds = $this->getRequest()->getParam('subscriber');
         if (!is_array($subscribersIds)) {
-             $this->_objectManager->get('Magento_Adminhtml_Model_Session')->addError(__('Please select one or more subscribers.'));
+             $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(__('Please select one or more subscribers.'));
         }
         else {
             try {
                 foreach ($subscribersIds as $subscriberId) {
-                    $subscriber = $this->_objectManager->create('Magento_Newsletter_Model_Subscriber')->load($subscriberId);
+                    $subscriber = $this->_objectManager->create('Magento\Newsletter\Model\Subscriber')->load($subscriberId);
                     $subscriber->unsubscribe();
                 }
-                $this->_objectManager->get('Magento_Adminhtml_Model_Session')->addSuccess(
+                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addSuccess(
                     __('A total of %1 record(s) were updated.', count($subscribersIds))
                 );
-            } catch (Exception $e) {
-                $this->_objectManager->get('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
+            } catch (\Exception $e) {
+                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
             }
         }
 
@@ -93,19 +95,19 @@ class Magento_Adminhtml_Controller_Newsletter_Subscriber extends Magento_Adminht
     {
         $subscribersIds = $this->getRequest()->getParam('subscriber');
         if (!is_array($subscribersIds)) {
-             $this->_objectManager->get('Magento_Adminhtml_Model_Session')->addError(__('Please select one or more subscribers.'));
+             $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(__('Please select one or more subscribers.'));
         }
         else {
             try {
                 foreach ($subscribersIds as $subscriberId) {
-                    $subscriber = $this->_objectManager->create('Magento_Newsletter_Model_Subscriber')->load($subscriberId);
+                    $subscriber = $this->_objectManager->create('Magento\Newsletter\Model\Subscriber')->load($subscriberId);
                     $subscriber->delete();
                 }
-                $this->_objectManager->get('Magento_Adminhtml_Model_Session')->addSuccess(
+                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addSuccess(
                     __('Total of %1 record(s) were deleted', count($subscribersIds))
                 );
-            } catch (Exception $e) {
-                $this->_objectManager->get('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
+            } catch (\Exception $e) {
+                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
             }
         }
 

@@ -15,25 +15,27 @@
  * @package     Magento_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_ImportExport_Block_Adminhtml_Import_Edit_Before extends Magento_Backend_Block_Template
+namespace Magento\ImportExport\Block\Adminhtml\Import\Edit;
+
+class Before extends \Magento\Backend\Block\Template
 {
     /**
      * Basic import model
      *
-     * @var Magento_ImportExport_Model_Import
+     * @var \Magento\ImportExport\Model\Import
      */
     protected $_importModel;
 
     /**
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_ImportExport_Model_Import $importModel
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\ImportExport\Model\Import $importModel
      * @param array $data
      */
     public function __construct(
-        Magento_ImportExport_Model_Import $importModel,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
+        \Magento\ImportExport\Model\Import $importModel,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_importModel = $importModel;

@@ -14,7 +14,9 @@
  * @author Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Tax_Block_Checkout_Grandtotal extends Magento_Checkout_Block_Total_Default
+namespace Magento\Tax\Block\Checkout;
+
+class Grandtotal extends \Magento\Checkout\Block\Total\DefaultTotal
 {
     protected $_template = 'checkout/grandtotal.phtml';
 
@@ -26,7 +28,7 @@ class Magento_Tax_Block_Checkout_Grandtotal extends Magento_Checkout_Block_Total
     public function includeTax()
     {
         if ($this->getTotal()->getAddress()->getGrandTotal()) {
-            return Mage::getSingleton('Magento_Tax_Model_Config')->displayCartTaxWithGrandTotal($this->getStore());
+            return \Mage::getSingleton('Magento\Tax\Model\Config')->displayCartTaxWithGrandTotal($this->getStore());
         }
         return false;
     }

@@ -16,7 +16,9 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Resource_Category_Flat_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Catalog\Model\Resource\Category\Flat;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Event prefix
@@ -45,11 +47,11 @@ class Magento_Catalog_Model_Resource_Category_Flat_Collection extends Magento_Co
      */
     protected function _construct()
     {
-        $this->_init('Magento_Catalog_Model_Category', 'Magento_Catalog_Model_Resource_Category_Flat');
+        $this->_init('Magento\Catalog\Model\Category', 'Magento\Catalog\Model\Resource\Category\Flat');
     }
 
     /**
-     * @return Magento_Catalog_Model_Resource_Category_Flat_Collection
+     * @return \Magento\Catalog\Model\Resource\Category\Flat\Collection
      */
     protected function _initSelect()
     {
@@ -64,7 +66,7 @@ class Magento_Catalog_Model_Resource_Category_Flat_Collection extends Magento_Co
      * Add filter by entity id(s).
      *
      * @param mixed $categoryIds
-     * @return Magento_Catalog_Model_Resource_Category_Flat_Collection
+     * @return \Magento\Catalog\Model\Resource\Category\Flat\Collection
      */
     public function addIdFilter($categoryIds)
     {
@@ -91,7 +93,7 @@ class Magento_Catalog_Model_Resource_Category_Flat_Collection extends Magento_Co
     /**
      * Before collection load
      *
-     * @return Magento_Catalog_Model_Resource_Category_Flat_Collection
+     * @return \Magento\Catalog\Model\Resource\Category\Flat\Collection
      */
     protected function _beforeLoad()
     {
@@ -102,7 +104,7 @@ class Magento_Catalog_Model_Resource_Category_Flat_Collection extends Magento_Co
     /**
      * After collection load
      *
-     * @return Magento_Catalog_Model_Resource_Category_Flat_Collection
+     * @return \Magento\Catalog\Model\Resource\Category\Flat\Collection
      */
     protected function _afterLoad()
     {
@@ -114,7 +116,7 @@ class Magento_Catalog_Model_Resource_Category_Flat_Collection extends Magento_Co
      * Set store id
      *
      * @param integer $storeId
-     * @return Magento_Catalog_Model_Resource_Category_Flat_Collection
+     * @return \Magento\Catalog\Model\Resource\Category\Flat\Collection
      */
     public function setStoreId($storeId)
     {
@@ -131,7 +133,7 @@ class Magento_Catalog_Model_Resource_Category_Flat_Collection extends Magento_Co
     public function getStoreId()
     {
         if (null === $this->_storeId) {
-            return Mage::app()->getStore()->getId();
+            return \Mage::app()->getStore()->getId();
         }
         return $this->_storeId;
     }
@@ -140,7 +142,7 @@ class Magento_Catalog_Model_Resource_Category_Flat_Collection extends Magento_Co
      * Add filter by path to collection
      *
      * @param string $parent
-     * @return Magento_Catalog_Model_Resource_Category_Flat_Collection
+     * @return \Magento\Catalog\Model\Resource\Category\Flat\Collection
      */
     public function addParentPathFilter($parent)
     {
@@ -151,7 +153,7 @@ class Magento_Catalog_Model_Resource_Category_Flat_Collection extends Magento_Co
     /**
      * Add store filter
      *
-     * @return Magento_Catalog_Model_Resource_Category_Flat_Collection
+     * @return \Magento\Catalog\Model\Resource\Category\Flat\Collection
      */
     public function addStoreFilter()
     {
@@ -163,7 +165,7 @@ class Magento_Catalog_Model_Resource_Category_Flat_Collection extends Magento_Co
      * Set field to sort by
      *
      * @param string $sorted
-     * @return Magento_Catalog_Model_Resource_Category_Flat_Collection
+     * @return \Magento\Catalog\Model\Resource\Category\Flat\Collection
      */
     public function addSortedField($sorted)
     {
@@ -176,7 +178,7 @@ class Magento_Catalog_Model_Resource_Category_Flat_Collection extends Magento_Co
     }
 
     /**
-     * @return Magento_Catalog_Model_Resource_Category_Flat_Collection
+     * @return \Magento\Catalog\Model\Resource\Category\Flat\Collection
      */
     public function addIsActiveFilter()
     {
@@ -189,7 +191,7 @@ class Magento_Catalog_Model_Resource_Category_Flat_Collection extends Magento_Co
     /**
      * Add name field to result
      *
-     * @return Magento_Catalog_Model_Resource_Category_Flat_Collection
+     * @return \Magento\Catalog\Model\Resource\Category\Flat\Collection
      */
     public function addNameToResult()
     {
@@ -201,14 +203,14 @@ class Magento_Catalog_Model_Resource_Category_Flat_Collection extends Magento_Co
      * Add attribute to select
      *
      * @param array|string $attribute
-     * @return Magento_Catalog_Model_Resource_Category_Flat_Collection
+     * @return \Magento\Catalog\Model\Resource\Category\Flat\Collection
      */
     public function addAttributeToSelect($attribute = '*')
     {
         if ($attribute == '*') {
             // Save previous selected columns
-            $columns = $this->getSelect()->getPart(Zend_Db_Select::COLUMNS);
-            $this->getSelect()->reset(Zend_Db_Select::COLUMNS);
+            $columns = $this->getSelect()->getPart(\Zend_Db_Select::COLUMNS);
+            $this->getSelect()->reset(\Zend_Db_Select::COLUMNS);
             foreach ($columns as $column) {
                 if ($column[0] == 'main_table') {
                     // If column selected from main table,
@@ -240,7 +242,7 @@ class Magento_Catalog_Model_Resource_Category_Flat_Collection extends Magento_Co
     /**
      * Retrieve resource instance
      *
-     * @return Magento_Catalog_Model_Resource_Category_Flat
+     * @return \Magento\Catalog\Model\Resource\Category\Flat
      */
     public function getResource()
     {
@@ -252,7 +254,7 @@ class Magento_Catalog_Model_Resource_Category_Flat_Collection extends Magento_Co
      *
      * @param string $attribute
      * @param string $dir
-     * @return Magento_Catalog_Model_Resource_Category_Flat_Collection
+     * @return \Magento\Catalog\Model\Resource\Category\Flat\Collection
      */
     public function addAttributeToSort($attribute, $dir = self::SORT_ORDER_ASC)
     {
@@ -268,7 +270,7 @@ class Magento_Catalog_Model_Resource_Category_Flat_Collection extends Magento_Co
      *
      * @param string $attribute
      * @param mixed $condition
-     * @return Magento_Catalog_Model_Resource_Category_Flat_Collection
+     * @return \Magento\Catalog\Model\Resource\Category\Flat\Collection
      */
     public function addAttributeToFilter($attribute, $condition = null)
     {
@@ -280,11 +282,11 @@ class Magento_Catalog_Model_Resource_Category_Flat_Collection extends Magento_Co
     }
 
     /**
-     * @return Magento_Catalog_Model_Resource_Category_Flat_Collection
+     * @return \Magento\Catalog\Model\Resource\Category\Flat\Collection
      */
     public function addUrlRewriteToResult()
     {
-        $storeId = Mage::app()->getStore()->getId();
+        $storeId = \Mage::app()->getStore()->getId();
         $this->getSelect()->joinLeft(
             array('url_rewrite' => $this->getTable('core_url_rewrite')),
             'url_rewrite.category_id=main_table.entity_id AND url_rewrite.is_system=1 '
@@ -298,7 +300,7 @@ class Magento_Catalog_Model_Resource_Category_Flat_Collection extends Magento_Co
 
     /**
      * @param string|array $paths
-     * @return Magento_Catalog_Model_Resource_Category_Flat_Collection
+     * @return \Magento\Catalog\Model\Resource\Category\Flat\Collection
      */
     public function addPathsFilter($paths)
     {
@@ -320,7 +322,7 @@ class Magento_Catalog_Model_Resource_Category_Flat_Collection extends Magento_Co
 
     /**
      * @param string $level
-     * @return Magento_Catalog_Model_Resource_Category_Flat_Collection
+     * @return \Magento\Catalog\Model\Resource\Category\Flat\Collection
      */
     public function addLevelFilter($level)
     {
@@ -330,7 +332,7 @@ class Magento_Catalog_Model_Resource_Category_Flat_Collection extends Magento_Co
 
     /**
      * @param string $field
-     * @return Magento_Catalog_Model_Resource_Category_Flat_Collection
+     * @return \Magento\Catalog\Model\Resource\Category\Flat\Collection
      */
     public function addOrderField($field)
     {
@@ -343,7 +345,7 @@ class Magento_Catalog_Model_Resource_Category_Flat_Collection extends Magento_Co
      *
      * @param integer $pageNum
      * @param integer $pageSize
-     * @return Magento_Catalog_Model_Resource_Category_Flat_Collection
+     * @return \Magento\Catalog\Model\Resource\Category\Flat\Collection
      */
     public function setPage($pageNum, $pageSize)
     {

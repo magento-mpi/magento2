@@ -15,8 +15,10 @@
  * @package    Magento_AdvancedCheckout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Rviewed
-    extends Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Abstract
+namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion;
+
+class Rviewed
+    extends \Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion\AbstractAccordion
 {
     /**
      * Javascript list type name for this grid
@@ -24,56 +26,56 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Rviewed
     protected $_listType = 'rviewed';
 
     /**
-     * @var Magento_Adminhtml_Helper_Sales
+     * @var \Magento\Adminhtml\Helper\Sales
      */
     protected $_adminhtmlSales;
 
     /**
-     * @var Magento_Reports_Model_EventFactory
+     * @var \Magento\Reports\Model\EventFactory
      */
     protected $_eventFactory;
 
     /**
-     * @var Magento_Catalog_Model_ProductFactory
+     * @var \Magento\Catalog\Model\ProductFactory
      */
     protected $_productFactory;
 
     /**
-     * @var Magento_Catalog_Model_Config
+     * @var \Magento\Catalog\Model\Config
      */
     protected $_catalogConfig;
 
     /**
-     * @var Magento_CatalogInventory_Model_Stock_Status
+     * @var \Magento\CatalogInventory\Model\Stock\Status
      */
     protected $_catalogStockStatus;
 
     /**
-     * @param Magento_CatalogInventory_Model_Stock_Status $catalogStockStatus
-     * @param Magento_Catalog_Model_Config $catalogConfig
-     * @param Magento_Adminhtml_Helper_Sales $adminhtmlSales
-     * @param Magento_Data_CollectionFactory $collectionFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Url $urlModel
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_Catalog_Model_ProductFactory $productFactory
-     * @param Magento_Reports_Model_EventFactory $eventFactory
+     * @param \Magento\CatalogInventory\Model\Stock\Status $catalogStockStatus
+     * @param \Magento\Catalog\Model\Config $catalogConfig
+     * @param \Magento\Adminhtml\Helper\Sales $adminhtmlSales
+     * @param \Magento\Data\CollectionFactory $collectionFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Reports\Model\EventFactory $eventFactory
      * @param array $data
      */
     public function __construct(
-        Magento_CatalogInventory_Model_Stock_Status $catalogStockStatus,
-        Magento_Catalog_Model_Config $catalogConfig,
-        Magento_Adminhtml_Helper_Sales $adminhtmlSales,
-        Magento_Data_CollectionFactory $collectionFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Url $urlModel,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_Catalog_Model_ProductFactory $productFactory,
-        Magento_Reports_Model_EventFactory $eventFactory,
+        \Magento\CatalogInventory\Model\Stock\Status $catalogStockStatus,
+        \Magento\Catalog\Model\Config $catalogConfig,
+        \Magento\Adminhtml\Helper\Sales $adminhtmlSales,
+        \Magento\Data\CollectionFactory $collectionFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Reports\Model\EventFactory $eventFactory,
         array $data = array()
     ) {
         $this->_adminhtmlSales = $adminhtmlSales;
@@ -101,7 +103,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Rviewed
     /**
      * Prepare customer wishlist product collection
      *
-     * @return Magento_Core_Model_Resource_Db_Collection_Abstract
+     * @return \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
      */
     public function getItemsCollection()
     {
@@ -109,7 +111,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Rviewed
             $collection = $this->_eventFactory->create()
                 ->getCollection()
                 ->addStoreFilter($this->_getStore()->getWebsite()->getStoreIds())
-                ->addRecentlyFiler(Magento_Reports_Model_Event::EVENT_PRODUCT_VIEW, $this->_getCustomer()->getId(), 0);
+                ->addRecentlyFiler(\Magento\Reports\Model\Event::EVENT_PRODUCT_VIEW, $this->_getCustomer()->getId(), 0);
             $productIds = array();
             foreach ($collection as $event) {
                 $productIds[] = $event->getObjectId();
@@ -123,7 +125,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Rviewed
                     ->addStoreFilter($this->_getStore()->getId())
                     ->addAttributeToSelect($attributes)
                     ->addIdFilter($productIds)
-                    ->addAttributeToFilter('status', Magento_Catalog_Model_Product_Status::STATUS_ENABLED);
+                    ->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Status::STATUS_ENABLED);
 
                 $this->_catalogStockStatus->addIsInStockFilterToCollection($productCollection);
                 $productCollection = $this->_adminhtmlSales

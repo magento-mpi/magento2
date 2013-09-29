@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/* @var $this Magento_GiftWrapping_Model_Resource_Setup */
+/* @var $this \Magento\GiftWrapping\Model\Resource\Setup */
 $installer = $this;
 
 /**
@@ -16,20 +16,20 @@ $installer = $this;
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('magento_giftwrapping'))
-    ->addColumn('wrapping_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('wrapping_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
         'nullable'  => false,
         'primary'   => true,
         ), 'Wrapping Id')
-    ->addColumn('status', Magento_DB_Ddl_Table::TYPE_SMALLINT, null, array(
+    ->addColumn('status', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         ), 'Status')
-    ->addColumn('base_price', Magento_DB_Ddl_Table::TYPE_DECIMAL, '12,4', array(
+    ->addColumn('base_price', \Magento\DB\Ddl\Table::TYPE_DECIMAL, '12,4', array(
         'nullable'  => false,
         ), 'Base Price')
-    ->addColumn('image', Magento_DB_Ddl_Table::TYPE_TEXT, 255, array(
+    ->addColumn('image', \Magento\DB\Ddl\Table::TYPE_TEXT, 255, array(
         ), 'Image')
     ->addIndex($installer->getIdxName('magento_giftwrapping', array('status')),
         array('status'))
@@ -42,17 +42,17 @@ $installer->getConnection()->createTable($table);
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('magento_giftwrapping_store_attributes'))
-    ->addColumn('wrapping_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('wrapping_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'primary'   => true,
         ), 'Wrapping Id')
-    ->addColumn('store_id', Magento_DB_Ddl_Table::TYPE_SMALLINT, null, array(
+    ->addColumn('store_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'primary'   => true,
         ), 'Store Id')
-    ->addColumn('design', Magento_DB_Ddl_Table::TYPE_TEXT, 255, array(
+    ->addColumn('design', \Magento\DB\Ddl\Table::TYPE_TEXT, 255, array(
         'nullable'  => false,
         ), 'Design')
     ->addIndex($installer->getIdxName('magento_giftwrapping_store_attributes', array('store_id')),
@@ -65,7 +65,7 @@ $table = $installer->getConnection()
             'wrapping_id'
         ),
         'wrapping_id', $installer->getTable('magento_giftwrapping'), 'wrapping_id',
-        Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE)
+        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName(
             'magento_giftwrapping_store_attributes',
@@ -74,7 +74,7 @@ $table = $installer->getConnection()
             'store_id'
         ),
         'store_id', $installer->getTable('core_store'), 'store_id',
-        Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE)
+        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Enterprise Gift Wrapping Attribute Table');
 $installer->getConnection()->createTable($table);
 
@@ -84,12 +84,12 @@ $installer->getConnection()->createTable($table);
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('magento_giftwrapping_website'))
-    ->addColumn('wrapping_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('wrapping_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'primary'   => true,
         ), 'Wrapping Id')
-    ->addColumn('website_id', Magento_DB_Ddl_Table::TYPE_SMALLINT, null, array(
+    ->addColumn('website_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'primary'   => true,
@@ -104,7 +104,7 @@ $table = $installer->getConnection()
             'wrapping_id'
         ),
         'wrapping_id', $installer->getTable('magento_giftwrapping'), 'wrapping_id',
-        Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE)
+        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName(
             'magento_giftwrapping_website',
@@ -113,7 +113,7 @@ $table = $installer->getConnection()
             'website_id'
         ),
         'website_id', $installer->getTable('core_website'), 'website_id',
-        Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE)
+        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Enterprise Gift Wrapping Website Table');
 $installer->getConnection()->createTable($table);
 
@@ -121,9 +121,9 @@ $installer->getConnection()->createTable($table);
  * Add gift wrapping attributes for sales entities
  */
 $entityAttributesCodes = array(
-    'gw_id' => Magento_DB_Ddl_Table::TYPE_INTEGER,
-    'gw_allow_gift_receipt' => Magento_DB_Ddl_Table::TYPE_INTEGER,
-    'gw_add_card' => Magento_DB_Ddl_Table::TYPE_INTEGER,
+    'gw_id' => \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    'gw_allow_gift_receipt' => \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    'gw_add_card' => \Magento\DB\Ddl\Table::TYPE_INTEGER,
     'gw_base_price' => 'decimal',
     'gw_price' => 'decimal',
     'gw_items_base_price' => 'decimal',
@@ -144,7 +144,7 @@ foreach ($entityAttributesCodes as $code => $type) {
 }
 
 $itemsAttributesCodes = array(
-    'gw_id' => Magento_DB_Ddl_Table::TYPE_INTEGER,
+    'gw_id' => \Magento\DB\Ddl\Table::TYPE_INTEGER,
     'gw_base_price' => 'decimal',
     'gw_price' => 'decimal',
     'gw_base_tax_amount' => 'decimal',
@@ -229,33 +229,33 @@ $applyTo = join(',', array_keys($types));
 
 $installer = $this->getCatalogSetup();
 
-$installer->addAttribute(Magento_Catalog_Model_Product::ENTITY, 'gift_wrapping_available', array(
+$installer->addAttribute(\Magento\Catalog\Model\Product::ENTITY, 'gift_wrapping_available', array(
     'group'         => 'Gift Options',
-    'backend'       => 'Magento_Catalog_Model_Product_Attribute_Backend_Boolean',
+    'backend'       => 'Magento\Catalog\Model\Product\Attribute\Backend\Boolean',
     'frontend'      => '',
     'label'         => 'Allow Gift Wrapping',
     'input'         => 'select',
-    'source'        => 'Magento_Eav_Model_Entity_Attribute_Source_Boolean',
-    'global'        => Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE,
+    'source'        => 'Magento\Eav\Model\Entity\Attribute\Source\Boolean',
+    'global'        => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE,
     'visible'       => true,
     'required'      => false,
     'user_defined'  => false,
     'default'       => '',
     'apply_to'      => $applyTo,
     'frontend_class' => 'hidden-for-virtual',
-    'frontend_input_renderer' => 'Magento_GiftWrapping_Block_Adminhtml_Product_Helper_Form_Config',
-    'input_renderer'   => 'Magento_GiftWrapping_Block_Adminhtml_Product_Helper_Form_Config',
+    'frontend_input_renderer' => 'Magento\GiftWrapping\Block\Adminhtml\Product\Helper\Form\Config',
+    'input_renderer'   => 'Magento\GiftWrapping\Block\Adminhtml\Product\Helper\Form\Config',
     'visible_on_front' => false
 ));
 
-$installer->addAttribute(Magento_Catalog_Model_Product::ENTITY, 'gift_wrapping_price', array(
+$installer->addAttribute(\Magento\Catalog\Model\Product::ENTITY, 'gift_wrapping_price', array(
     'group'         => 'Gift Options',
     'type'          => 'decimal',
-    'backend'       => 'Magento_Catalog_Model_Product_Attribute_Backend_Price',
+    'backend'       => 'Magento\Catalog\Model\Product\Attribute\Backend\Price',
     'frontend'      => '',
     'label'         => 'Price for Gift Wrapping',
     'input'         => 'price',
-    'global'        => Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_WEBSITE,
+    'global'        => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_WEBSITE,
     'visible'       => true,
     'required'      => false,
     'user_defined'  => false,

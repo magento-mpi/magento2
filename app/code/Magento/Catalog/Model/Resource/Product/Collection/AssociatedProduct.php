@@ -15,55 +15,57 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Resource_Product_Collection_AssociatedProduct
-    extends Magento_Catalog_Model_Resource_Product_Collection
+namespace Magento\Catalog\Model\Resource\Product\Collection;
+
+class AssociatedProduct
+    extends \Magento\Catalog\Model\Resource\Product\Collection
 {
     /**
      * Registry instance
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_registryManager;
 
     /**
      * Product type configurable instance
      *
-     * @var Magento_Catalog_Model_Product_Type_Configurable
+     * @var \Magento\Catalog\Model\Product\Type\Configurable
      */
     protected $_productType;
 
     /**
      * Configuration helper instance
      *
-     * @var Magento_Catalog_Helper_Product_Configuration
+     * @var \Magento\Catalog\Helper\Product\Configuration
      */
     protected $_configurationHelper;
 
     /**
-     * @param Magento_Catalog_Helper_Product_Flat $catalogProductFlat
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_EntityFactory $entityFactory
-     * @param Magento_Core_Model_Registry $registryManager
-     * @param Magento_Catalog_Model_Product_Type_Configurable $productType
-     * @param Magento_Catalog_Helper_Product_Configuration $configurationHelper
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param \Magento\Catalog\Helper\Product\Flat $catalogProductFlat
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Core\Model\Registry $registryManager
+     * @param \Magento\Catalog\Model\Product\Type\Configurable $productType
+     * @param \Magento\Catalog\Helper\Product\Configuration $configurationHelper
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Magento_Catalog_Helper_Product_Flat $catalogProductFlat,
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Logger $logger,
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_EntityFactory $entityFactory,
-        Magento_Core_Model_Registry $registryManager,
-        Magento_Catalog_Model_Product_Type_Configurable $productType,
-        Magento_Catalog_Helper_Product_Configuration $configurationHelper,
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        \Magento\Catalog\Helper\Product\Flat $catalogProductFlat,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Core\Model\Registry $registryManager,
+        \Magento\Catalog\Model\Product\Type\Configurable $productType,
+        \Magento\Catalog\Helper\Product\Configuration $configurationHelper,
+        \Magento\Core\Model\Store\Config $coreStoreConfig
     ) {
         $this->_registryManager = $registryManager;
         $this->_productType = $productType;
@@ -76,7 +78,7 @@ class Magento_Catalog_Model_Resource_Product_Collection_AssociatedProduct
     /**
      * Get product type
      *
-     * @return Magento_Catalog_Model_Product_Type_Configurable
+     * @return \Magento\Catalog\Model\Product\Type\Configurable
      */
     public function getProductType()
     {

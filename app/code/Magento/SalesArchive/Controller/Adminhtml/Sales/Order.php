@@ -15,22 +15,24 @@
  * @package     Magento_SalesArchive
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_SalesArchive_Controller_Adminhtml_Sales_Order extends Magento_Adminhtml_Controller_Sales_Order
+namespace Magento\SalesArchive\Controller\Adminhtml\Sales;
+
+class Order extends \Magento\Adminhtml\Controller\Sales\Order
 {
     /**
-     * @var Magento_SalesArchive_Model_Archive
+     * @var \Magento\SalesArchive\Model\Archive
      */
     protected $_archiveModel;
 
     /**
-     * @param Magento_Backend_Controller_Context $context
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_SalesArchive_Model_Archive $archiveModel
+     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\SalesArchive\Model\Archive $archiveModel
      */
     public function __construct(
-        Magento_Backend_Controller_Context $context,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_SalesArchive_Model_Archive $archiveModel
+        \Magento\Backend\Controller\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\SalesArchive\Model\Archive $archiveModel
     ) {
         $this->_archiveModel = $archiveModel;
         parent::__construct($context, $coreRegistry);
@@ -44,7 +46,7 @@ class Magento_SalesArchive_Controller_Adminhtml_Sales_Order extends Magento_Admi
         if ($this->getRequest()->getActionName() == 'view') {
             $id = $this->getRequest()->getParam('order_id');
             $archive = $this->_archiveModel;
-            $ids = $archive->getIdsInArchive(Magento_SalesArchive_Model_ArchivalList::ORDER, $id);
+            $ids = $archive->getIdsInArchive(\Magento\SalesArchive\Model\ArchivalList::ORDER, $id);
             if ($ids) {
                 return $this->_authorization->isAllowed('Magento_SalesArchive::orders');
             }

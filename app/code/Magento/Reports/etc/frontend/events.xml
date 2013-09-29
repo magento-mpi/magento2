@@ -9,33 +9,33 @@
 -->
 <config>
     <event name="catalog_product_compare_remove_product">
-        <observer name="reports" instance="Magento_Reports_Model_Event_Observer" method="catalogProductCompareRemoveProduct" />
+        <observer name="reports" instance="Magento\Reports\Model\Event\Observer" method="catalogProductCompareRemoveProduct" />
     </event>
     <event name="customer_login">
-        <observer name="reports" instance="Magento_Reports_Model_Event_Observer" method="customerLogin" />
+        <observer name="reports" instance="Magento\Reports\Model\Event\Observer" method="customerLogin" />
     </event>
     <event name="customer_logout">
-        <observer name="reports" instance="Magento_Reports_Model_Event_Observer" method="customerLogout" />
+        <observer name="reports" instance="Magento\Reports\Model\Event\Observer" method="customerLogout" />
     </event>
     <event name="catalog_controller_product_view">
-        <observer name="reports" instance="Magento_Reports_Model_Event_Observer" method="catalogProductView" />
+        <observer name="reports" instance="Magento\Reports\Model\Event\Observer" method="catalogProductView" />
     </event>
     <event name="sendfriend_product">
-        <observer name="reports" instance="Magento_Reports_Model_Event_Observer" method="sendfriendProduct" />
+        <observer name="reports" instance="Magento\Reports\Model\Event\Observer" method="sendfriendProduct" />
     </event>
     <event name="catalog_product_compare_add_product">
-        <observer name="reports" instance="Magento_Reports_Model_Event_Observer" method="catalogProductCompareAddProduct" />
+        <observer name="reports" instance="Magento\Reports\Model\Event\Observer" method="catalogProductCompareAddProduct" />
     </event>
     <event name="catalog_product_compare_item_collection_clear">
-        <observer name="reports" instance="Magento_Reports_Model_Event_Observer" method="catalogProductCompareClear" />
+        <observer name="reports" instance="Magento\Reports\Model\Event\Observer" method="catalogProductCompareClear" />
     </event>
     <event name="sales_quote_item_save_before">
-        <observer name="reports" instance="Magento_Reports_Model_Event_Observer" method="checkoutCartAddProduct" />
+        <observer name="reports" instance="Magento\Reports\Model\Event\Observer" method="checkoutCartAddProduct" />
     </event>
     <event name="wishlist_add_product">
-        <observer name="reports" instance="Magento_Reports_Model_Event_Observer" method="wishlistAddProduct" />
+        <observer name="reports" instance="Magento\Reports\Model\Event\Observer" method="wishlistAddProduct" />
     </event>
     <event name="wishlist_share">
-        <observer name="reports" instance="Magento_Reports_Model_Event_Observer" method="wishlistShare" />
+        <observer name="reports" instance="Magento\Reports\Model\Event\Observer" method="wishlistShare" />
     </event>
 </config>

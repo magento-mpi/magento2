@@ -2,24 +2,21 @@
 /**
  * Application configuration object. Used to access configuration when application is initialized and installed.
  *
- * @SuppressWarnings(PHPMD.ExcessivePublicCount)
- * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
- *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
+namespace Magento\Core\Model;
 
 /**
- * @SuppressWarnings(PHPMD.TooManyFields)
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ * @SuppressWarnings(PHPMD.TooManyFields)
  */
-class Magento_Core_Model_Config implements Magento_Core_Model_ConfigInterface
+class Config implements \Magento\Core\Model\ConfigInterface
 {
     /**
      * Config cache tag
@@ -65,70 +62,70 @@ class Magento_Core_Model_Config implements Magento_Core_Model_ConfigInterface
     /**
      * Object manager
      *
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
      * Configuration storage
      *
-     * @var Magento_Core_Model_Config_StorageInterface
+     * @var \Magento\Core\Model\Config\StorageInterface
      */
     protected $_storage;
 
     /**
      * Configuration data container
      *
-     * @var Magento_Core_Model_ConfigInterface
+     * @var \Magento\Core\Model\ConfigInterface
      */
     protected $_config;
 
     /**
      * Module configuration reader
      *
-     * @var Magento_Core_Model_Config_Modules_Reader
+     * @var \Magento\Core\Model\Config\Modules\Reader
      */
     protected $_moduleReader;
 
     /**
-     * @var Magento_Config_ScopeInterface
+     * @var \Magento\Config\ScopeInterface
      */
     protected $_configScope;
 
     /**
-     * @var Magento_Core_Model_ModuleListInterface
+     * @var \Magento\Core\Model\ModuleListInterface
      */
     protected $_moduleList;
 
     /**
-     * @var Magento_Core_Model_Config_SectionPool
+     * @var \Magento\Core\Model\Config\SectionPool
      */
     protected $_sectionPool;
 
     /**
-     * @var Magento_Core_Model_Resource_Store_Collection
+     * @var \Magento\Core\Model\Resource\Store\Collection
      */
     protected $_storeCollection;
 
     /**
-     * @param Magento_Core_Model_ObjectManager           $objectManager
-     * @param Magento_Core_Model_Config_StorageInterface $storage
-     * @param Magento_Core_Model_Config_Modules_Reader   $moduleReader
-     * @param Magento_Core_Model_ModuleListInterface     $moduleList
-     * @param Magento_Config_ScopeInterface              $configScope
-     * @param Magento_Core_Model_Config_SectionPool      $sectionPool
+     * @param \Magento\Core\Model\ObjectManager           $objectManager
+     * @param \Magento\Core\Model\Config\StorageInterface $storage
+     * @param \Magento\Core\Model\Config\Modules\Reader   $moduleReader
+     * @param \Magento\Core\Model\ModuleListInterface     $moduleList
+     * @param \Magento\Config\ScopeInterface              $configScope
+     * @param \Magento\Core\Model\Config\SectionPool      $sectionPool
      * @param array                                      $areas
      */
     public function __construct(
-        Magento_Core_Model_ObjectManager $objectManager,
-        Magento_Core_Model_Config_StorageInterface $storage,
-        Magento_Core_Model_Config_Modules_Reader $moduleReader,
-        Magento_Core_Model_ModuleListInterface $moduleList,
-        Magento_Config_ScopeInterface $configScope,
-        Magento_Core_Model_Config_SectionPool $sectionPool,
+        \Magento\Core\Model\ObjectManager $objectManager,
+        \Magento\Core\Model\Config\StorageInterface $storage,
+        \Magento\Core\Model\Config\Modules\Reader $moduleReader,
+        \Magento\Core\Model\ModuleListInterface $moduleList,
+        \Magento\Config\ScopeInterface $configScope,
+        \Magento\Core\Model\Config\SectionPool $sectionPool,
         array $areas = array()
     ) {
-        Magento_Profiler::start('config_load');
+        \Magento\Profiler::start('config_load');
         $this->_objectManager = $objectManager;
         $this->_storage = $storage;
         $this->_config = $this->_storage->getConfiguration();
@@ -137,14 +134,14 @@ class Magento_Core_Model_Config implements Magento_Core_Model_ConfigInterface
         $this->_configScope = $configScope;
         $this->_sectionPool = $sectionPool;
         $this->_allowedAreas = $areas;
-        Magento_Profiler::stop('config_load');
+        \Magento\Profiler::stop('config_load');
     }
 
     /**
      * Returns node found by the $path and scope info
      *
      * @param   string $path
-     * @return Magento_Core_Model_Config_Element
+     * @return \Magento\Core\Model\Config\Element
      * @deprecated
      */
     public function getNode($path = null)
@@ -204,7 +201,7 @@ class Magento_Core_Model_Config implements Magento_Core_Model_ConfigInterface
      * Retrieve area config by area code
      *
      * @param string|null $areaCode
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      * @return array
      */
     public function getAreaConfig($areaCode = null)
@@ -212,7 +209,7 @@ class Magento_Core_Model_Config implements Magento_Core_Model_ConfigInterface
         $areaCode = empty($areaCode) ? $this->_configScope->getCurrentScope() : $areaCode;
         $areas = $this->getAreas();
         if (!isset($areas[$areaCode])) {
-            throw new InvalidArgumentException('Requested area (' . $areaCode . ') does not exist');
+            throw new \InvalidArgumentException('Requested area (' . $areaCode . ') does not exist');
         }
         return $areas[$areaCode];
     }
@@ -222,14 +219,14 @@ class Magento_Core_Model_Config implements Magento_Core_Model_ConfigInterface
      *
      * @param string|null $areaCode
      * @return string
-     * @throws LogicException If front name is not defined.
+     * @throws \LogicException If front name is not defined.
      */
     public function getAreaFrontName($areaCode = null)
     {
         $areaCode = empty($areaCode) ? $this->_configScope->getCurrentScope() : $areaCode;
         $areaConfig = $this->getAreaConfig($areaCode);
         if (!isset($areaConfig['frontName'])) {
-            throw new LogicException(sprintf(
+            throw new \LogicException(sprintf(
                 'Area "%s" must have front name defined in the application config.',
                 $areaCode
             ));
@@ -255,7 +252,7 @@ class Magento_Core_Model_Config implements Magento_Core_Model_ConfigInterface
      * @param string $moduleName
      * @param string $type directory type (etc, controllers, locale etc)
      * @param string $path
-     * @return Magento_Core_Model_Config
+     * @return \Magento\Core\Model\Config
      */
     public function setModuleDir($moduleName, $type, $path)
     {
@@ -274,17 +271,17 @@ class Magento_Core_Model_Config implements Magento_Core_Model_ConfigInterface
      * @param array $allowedValues
      * @param string $keyAttribute
      * @return array
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function getStoresConfigByPath($path, $allowedValues = array(), $keyAttribute = 'id')
     {
         // @todo inject custom store collection that corresponds to the following requirements
         if (is_null($this->_storeCollection)) {
-            $this->_storeCollection = $this->_objectManager->create('Magento_Core_Model_Resource_Store_Collection');
+            $this->_storeCollection = $this->_objectManager->create('Magento\Core\Model\Resource\Store\Collection');
             $this->_storeCollection->setLoadDefault(true);
         }
         $storeValues = array();
-        /** @var $store Magento_Core_Model_Store */
+        /** @var $store \Magento\Core\Model\Store */
         foreach ($this->_storeCollection as $store) {
             switch ($keyAttribute) {
                 case 'id':
@@ -297,7 +294,7 @@ class Magento_Core_Model_Config implements Magento_Core_Model_ConfigInterface
                     $key = $store->getName();
                     break;
                 default:
-                    throw new InvalidArgumentException("'{$keyAttribute}' cannot be used as a key.");
+                    throw new \InvalidArgumentException("'{$keyAttribute}' cannot be used as a key.");
                     break;
             }
 
@@ -330,7 +327,10 @@ class Magento_Core_Model_Config implements Magento_Core_Model_ConfigInterface
             }
         }
 
-        $name = explode('_', strtolower($name));
+        $explodeString = (strpos($name, \Magento\Autoload\IncludePath::NS_SEPARATOR) === false) ?
+            '_' :  \Magento\Autoload\IncludePath::NS_SEPARATOR;
+        $name = explode($explodeString, strtolower($name));
+
         $partsNum = count($name);
         $defaultNamespaceFlag = false;
         foreach ($this->_moduleNamespaces as $namespaceName => $namespace) {
@@ -356,7 +356,7 @@ class Magento_Core_Model_Config implements Magento_Core_Model_ConfigInterface
     /**
      * Reinitialize configuration
      *
-     * @return Magento_Core_Model_Config
+     * @return \Magento\Core\Model\Config
      */
     public function reinit()
     {

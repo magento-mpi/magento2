@@ -11,8 +11,10 @@
 /**
  * Order address condition
  */
-class Magento_CustomerSegment_Model_Segment_Condition_Order_Address
-    extends Magento_CustomerSegment_Model_Condition_Combine_Abstract
+namespace Magento\CustomerSegment\Model\Segment\Condition\Order;
+
+class Address
+    extends \Magento\CustomerSegment\Model\Condition\Combine\AbstractCombine
 {
     /**
      * @var string
@@ -20,25 +22,25 @@ class Magento_CustomerSegment_Model_Segment_Condition_Order_Address
     protected $_inputType = 'select';
 
     /**
-     * @var Magento_CustomerSegment_Model_ConditionFactory
+     * @var \Magento\CustomerSegment\Model\ConditionFactory
      */
     protected $_conditionFactory;
 
     /**
-     * @param Magento_CustomerSegment_Model_Resource_Segment $resourceSegment
-     * @param Magento_CustomerSegment_Model_ConditionFactory $conditionFactory
-     * @param Magento_Rule_Model_Condition_Context $context
+     * @param \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment
+     * @param \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory
+     * @param \Magento\Rule\Model\Condition\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_CustomerSegment_Model_Resource_Segment $resourceSegment,
-        Magento_CustomerSegment_Model_ConditionFactory $conditionFactory,
-        Magento_Rule_Model_Condition_Context $context,
+        \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment,
+        \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory,
+        \Magento\Rule\Model\Condition\Context $context,
         array $data = array()
     ) {
         $this->_conditionFactory = $conditionFactory;
         parent::__construct($resourceSegment, $context, $data);
-        $this->setType('Magento_CustomerSegment_Model_Segment_Condition_Order_Address');
+        $this->setType('Magento\CustomerSegment\Model\Segment\Condition\Order\Address');
     }
 
     /**
@@ -88,8 +90,8 @@ class Magento_CustomerSegment_Model_Segment_Condition_Order_Address
      * Prepare base condition select which related with current condition combine
      *
      * @param $customer
-     * @param int | Zend_Db_Expr $website
-     * @return Magento_DB_Select
+     * @param int | \Zend_Db_Expr $website
+     * @return \Magento\DB\Select
      */
     protected function _prepareConditionsSql($customer, $website)
     {
@@ -100,7 +102,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Order_Address
         $extraAddressTable  = $this->getResource()->getTable('magento_customer_sales_flat_order_address');
         $orderTable         = $this->getResource()->getTable('sales_flat_order');
 
-        $select->from(array('order_address' => $mainAddressTable), array(new Zend_Db_Expr(1)))
+        $select->from(array('order_address' => $mainAddressTable), array(new \Zend_Db_Expr(1)))
             ->join(
                 array('order_address_order' => $orderTable),
                 'order_address.parent_id = order_address_order.entity_id',

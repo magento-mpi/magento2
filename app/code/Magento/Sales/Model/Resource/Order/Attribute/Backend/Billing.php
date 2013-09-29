@@ -16,12 +16,14 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Resource_Order_Attribute_Backend_Billing extends Magento_Eav_Model_Entity_Attribute_Backend_Abstract
+namespace Magento\Sales\Model\Resource\Order\Attribute\Backend;
+
+class Billing extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
 {
     /**
      * Perform operation before save
      *
-     * @param Magento_Object $object
+     * @param \Magento\Object $object
      */
     public function beforeSave($object)
     {
@@ -34,7 +36,7 @@ class Magento_Sales_Model_Resource_Order_Attribute_Backend_Billing extends Magen
     /**
      * Perform operation after save
      *
-     * @param Magento_Object $object
+     * @param \Magento\Object $object
      */
     public function afterSave($object)
     {

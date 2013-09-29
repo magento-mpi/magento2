@@ -9,15 +9,17 @@
  * @license     {license_link}
  */
 
-class Magento_Catalog_Model_Product_Type_VirtualTest extends PHPUnit_Framework_TestCase
+namespace Magento\Catalog\Model\Product\Type;
+
+class VirtualTest extends \PHPUnit_Framework_TestCase
 {
     public function testIsVirtual()
     {
-        /** @var $model Magento_Catalog_Model_Product_Type_Virtual */
-        $model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Product_Type_Virtual');
-        $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Product');
+        /** @var $model \Magento\Catalog\Model\Product\Type\Virtual */
+        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product\Type\Virtual');
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $this->assertTrue($model->isVirtual($product));
     }
 }

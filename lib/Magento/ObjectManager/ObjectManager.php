@@ -12,10 +12,12 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_ObjectManager_ObjectManager implements Magento_ObjectManager
+namespace Magento\ObjectManager;
+
+class ObjectManager implements \Magento\ObjectManager
 {
     /**
-     * @var Magento_ObjectManager_Factory
+     * @var \Magento\ObjectManager\Factory
      */
     protected $_factory;
 
@@ -27,20 +29,20 @@ class Magento_ObjectManager_ObjectManager implements Magento_ObjectManager
     protected $_sharedInstances = array();
 
     /**
-     * @param Magento_ObjectManager_Factory $factory
-     * @param Magento_ObjectManager_Config $config
+     * @param \Magento\ObjectManager\Factory $factory
+     * @param \Magento\ObjectManager\Config $config
      * @param array $sharedInstances
      */
     public function __construct(
-        Magento_ObjectManager_Factory $factory = null,
-        Magento_ObjectManager_Config $config = null,
+        \Magento\ObjectManager\Factory $factory = null,
+        \Magento\ObjectManager\Config $config = null,
         array $sharedInstances = array()
     ) {
-        $this->_config = $config ?: new Magento_ObjectManager_Config_Config();
-        $this->_factory = $factory ?: new Magento_ObjectManager_Factory_Factory($this->_config, $this);
+        $this->_config = $config ?: new \Magento\ObjectManager\Config\Config();
+        $this->_factory = $factory ?: new \Magento\ObjectManager\Factory\Factory($this->_config, $this);
         $this->_factory->setObjectManager($this);
         $this->_sharedInstances = $sharedInstances;
-        $this->_sharedInstances['Magento_ObjectManager'] = $this;
+        $this->_sharedInstances['Magento\ObjectManager'] = $this;
     }
 
     /**

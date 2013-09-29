@@ -10,7 +10,7 @@
  * Save administrators group role and rules
  */
 
-/** @var Magento_User_Model_Resource_Setup $this */
+/** @var \Magento\User\Model\Resource\Setup $this */
 
 $roleCollection = $this->createRoleCollection()
     ->addFieldToFilter('parent_id', 0)
@@ -51,7 +51,7 @@ if ($rulesCollection->count() == 0) {
         ))
     ->save();
 } else {
-    /** @var Magento_User_Model_Rules $rule */
+    /** @var \Magento\User\Model\Rules $rule */
     foreach ($rulesCollection as $rule) {
         $rule->setData('resource_id', 'Magento_Adminhtml::all')
             ->save();

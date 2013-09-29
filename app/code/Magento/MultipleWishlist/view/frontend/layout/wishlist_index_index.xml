@@ -17,16 +17,16 @@
         <action method="setTitle" ifconfig="wishlist/general/multiple_enabled">
             <argument translate="true" name="title" xsi:type="string">My Wish Lists</argument>
         </action>
-        <block class="Magento_MultipleWishlist_Block_Customer_Wishlist_Management" name="customer.wishlist.management" as="top" template="view/management.phtml">
+        <block class="Magento\MultipleWishlist\Block\Customer\Wishlist\Management" name="customer.wishlist.management" as="top" template="view/management.phtml">
         </block>
         <referenceBlock name="customer.wishlist.items">
-            <block class="Magento_MultipleWishlist_Block_Customer_Wishlist_Item_Column_Selector" name="customer.wishlist.item.selector" before="-" template="item/column/selector.phtml"/>
+            <block class="Magento\MultipleWishlist\Block\Customer\Wishlist\Item\Column\Selector" name="customer.wishlist.item.selector" before="-" template="item/column/selector.phtml"/>
             <referenceBlock name="customer.wishlist.item.info">
-                <block class="Magento_MultipleWishlist_Block_Customer_Wishlist_Item_Column_Management" name="customer.wishlist.item.mananagement" before="-" template="item/column/management.phtml"/>
+                <block class="Magento\MultipleWishlist\Block\Customer\Wishlist\Item\Column\Management" name="customer.wishlist.item.mananagement" before="-" template="item/column/management.phtml"/>
             </referenceBlock>
         </referenceBlock>
         <referenceContainer name="customer.wishlist.buttons">
-            <block class="Magento_MultipleWishlist_Block_Customer_Wishlist_Button_Delete" name="customer.wishlist.button.delete" template="button/delete.phtml"/>
+            <block class="Magento\MultipleWishlist\Block\Customer\Wishlist\Button\Delete" name="customer.wishlist.button.delete" template="button/delete.phtml"/>
         </referenceContainer>
     </referenceBlock>
 </layout>

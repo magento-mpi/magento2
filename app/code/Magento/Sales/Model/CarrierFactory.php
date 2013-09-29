@@ -9,31 +9,33 @@
  */
 
 /**
- * Factory class for Magento_Core_Model_Abstract
+ * Factory class for \Magento\Core\Model\AbstractModel
  */
-class Magento_Sales_Model_CarrierFactory
+namespace Magento\Sales\Model;
+
+class CarrierFactory
 {
     /**
      * Object Manager instance
      *
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager = null;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * Factory constructor
      *
-     * @param Magento_ObjectManager $objectManager
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
-        Magento_ObjectManager $objectManager,
-        Magento_Core_Model_StoreManagerInterface $storeManager
+        \Magento\ObjectManager $objectManager,
+        \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
         $this->_storeManager = $storeManager;
         $this->_objectManager = $objectManager;
@@ -44,7 +46,7 @@ class Magento_Sales_Model_CarrierFactory
      *
      * @param string $carrierCode
      * @param array $data
-     * @return Magento_Core_Model_Abstract|bool
+     * @return \Magento\Core\Model\AbstractModel|bool
      */
     public function create($carrierCode, array $data = array())
     {

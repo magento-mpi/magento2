@@ -16,10 +16,12 @@
  * @package     Magento_Tax
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Tax_Model_Resource_Report_Collection extends Magento_Sales_Model_Resource_Report_Collection_Abstract
+namespace Magento\Tax\Model\Resource\Report;
+
+class Collection extends \Magento\Sales\Model\Resource\Report\Collection\AbstractCollection
 {
     /**
-     * @var Zend_Db_Expr
+     * @var \Zend_Db_Expr
      */
     protected $_periodFormat;
 
@@ -36,18 +38,18 @@ class Magento_Tax_Model_Resource_Report_Collection extends Magento_Sales_Model_R
     protected $_selectedColumns    = array();
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_EntityFactory $entityFactory
-     * @param Magento_Sales_Model_Resource_Report $resource
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Sales\Model\Resource\Report $resource
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Logger $logger,
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_EntityFactory $entityFactory,
-        Magento_Sales_Model_Resource_Report $resource
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Sales\Model\Resource\Report $resource
     ) {
         $resource->init($this->_aggregationTable);
         parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
@@ -90,7 +92,7 @@ class Magento_Tax_Model_Resource_Report_Collection extends Magento_Sales_Model_R
     /**
      * Add selected data
      *
-     * @return Magento_Tax_Model_Resource_Report_Collection
+     * @return \Magento\Tax\Model\Resource\Report\Collection
      */
     protected function _initSelect()
     {

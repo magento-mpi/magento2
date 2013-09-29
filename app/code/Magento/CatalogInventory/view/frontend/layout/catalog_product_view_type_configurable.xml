@@ -9,6 +9,6 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <referenceContainer name="product.info.configurable.extra">
-        <block class="Magento_CatalogInventory_Block_Stockqty_Type_Configurable" template="stockqty/composite.phtml"/>
+        <block class="Magento\CatalogInventory\Block\Stockqty\Type\Configurable" template="stockqty/composite.phtml"/>
     </referenceContainer>
 </layout>

@@ -5,10 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_ObjectManager_Config_XsdTest extends PHPUnit_Framework_TestCase
+namespace Magento\ObjectManager\Config;
+
+class XsdTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_ObjectManager_Config_SchemaLocator
+     * @var \Magento\ObjectManager\Config\SchemaLocator
      */
     protected $_schemaLocator;
 
@@ -19,15 +21,15 @@ class Magento_ObjectManager_Config_XsdTest extends PHPUnit_Framework_TestCase
     protected $_xsdSchema;
 
     /**
-     * @var Magento_TestFramework_Utility_XsdValidator
+     * @var \Magento\TestFramework\Utility\XsdValidator
      */
     protected $_xsdValidator;
 
     protected function setUp()
     {
-        $this->_schemaLocator = new Magento_ObjectManager_Config_SchemaLocator();
+        $this->_schemaLocator = new \Magento\ObjectManager\Config\SchemaLocator();
         $this->_xsdSchema = $this->_schemaLocator->getSchema();
-        $this->_xsdValidator = new Magento_TestFramework_Utility_XsdValidator();
+        $this->_xsdValidator = new \Magento\TestFramework\Utility\XsdValidator();
     }
 
     /**

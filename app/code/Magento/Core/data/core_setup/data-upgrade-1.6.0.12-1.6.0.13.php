@@ -8,12 +8,12 @@
  * @license     {license_link}
  */
 
-/** @var $themeDbCollection Magento_Core_Model_Resource_Theme_Collection */
-$themeDbCollection = Mage::getResourceModel('Magento_Core_Model_Resource_Theme_Collection');
+/** @var $themeDbCollection \Magento\Core\Model\Resource\Theme\Collection */
+$themeDbCollection = \Mage::getResourceModel('Magento\Core\Model\Resource\Theme\Collection');
 
-/** @var $themeFsCollection Magento_Core_Model_Theme_Collection */
-$themeFsCollection = Mage::getModel('Magento_Core_Model_Theme_Collection');
-/** @var $theme Magento_Core_Model_Theme */
+/** @var $themeFsCollection \Magento\Core\Model\Theme\Collection */
+$themeFsCollection = \Mage::getModel('Magento\Core\Model\Theme\Collection');
+/** @var $theme \Magento\Core\Model\Theme */
 foreach ($themeFsCollection->addDefaultPattern('*') as $theme) {
     $dbTheme = $themeDbCollection->getThemeByFullPath($theme->getFullPath());
     $dbTheme->setCode($theme->getCode());

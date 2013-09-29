@@ -15,12 +15,14 @@
  * @package    Magento_GiftMessage
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GiftMessage_Block_Adminhtml_Sales_Order_View_Giftoptions extends Magento_Adminhtml_Block_Template
+namespace Magento\GiftMessage\Block\Adminhtml\Sales\Order\View;
+
+class Giftoptions extends \Magento\Adminhtml\Block\Template
 {
     /**
      * Get order item object from parent block
      *
-     * @return Magento_Sales_Model_Order_Item
+     * @return \Magento\Sales\Model\Order\Item
      */
     public function getItem()
     {

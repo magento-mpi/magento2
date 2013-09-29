@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Backup
+ * @package     \Magento\Backup
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,23 +12,25 @@
  * Backups types' source model for system configuration
  *
  * @category   Magento
- * @package    Magento_Backup
+ * @package    \Magento\Backup
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backup_Model_Config_Source_Type implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Backup\Model\Config\Source;
+
+class Type implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
      * Backup data
      *
-     * @var Magento_Backup_Helper_Data
+     * @var \Magento\Backup\Helper\Data
      */
     protected $_backupData = null;
 
     /**
-     * @param Magento_Backup_Helper_Data $backupData
+     * @param \Magento\Backup\Helper\Data $backupData
      */
     public function __construct(
-        Magento_Backup_Helper_Data $backupData
+        \Magento\Backup\Helper\Data $backupData
     ) {
         $this->_backupData = $backupData;
     }

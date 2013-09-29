@@ -8,37 +8,37 @@
  * @license    {license_link}
  */
 
-require_once realpath(__DIR__ . '/../../../../../../../../../../')
-    . '/tools/Magento/Tools/Migration/System/Configuration/Mapper/Abstract.php';
+namespace Magento\Test\Tools\Migration\System\Configuration\Mapper;
 
+require_once realpath(__DIR__ . '/../../../../../../../../../../')
+    . '/tools/Magento/Tools/Migration/System/Configuration/Mapper/AbstractMapper.php';
 require_once realpath(__DIR__ . '/../../../../../../../../../../')
     . '/tools/Magento/Tools/Migration/System/Configuration/Mapper/Field.php';
-
 require_once realpath(__DIR__ . '/../../../../../../../../../../')
     . '/tools/Magento/Tools/Migration/System/Configuration/Mapper/Group.php';
 
 /**
- * Test case for Magento_Tools_Migration_System_Configuration_Mapper_Group
+ * Test case for \Magento\Tools\Migration\System\Configuration\Mapper\Group
  */
-class Magento_Test_Tools_Migration_System_Configuration_Mapper_GroupTest extends PHPUnit_Framework_TestCase
+class GroupTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_fieldMapperMock;
 
     /**
-     * @var Magento_Tools_Migration_System_Configuration_Mapper_Group
+     * @var \Magento\Tools\Migration\System\Configuration\Mapper\Group
      */
     protected $_object;
 
     protected function setUp()
     {
-        $this->_fieldMapperMock = $this->getMock('Magento_Tools_Migration_System_Configuration_Mapper_Field',
+        $this->_fieldMapperMock = $this->getMock('Magento\Tools\Migration\System\Configuration\Mapper\Field',
             array(), array(), '', false
         );
 
-        $this->_object = new Magento_Tools_Migration_System_Configuration_Mapper_Group($this->_fieldMapperMock);
+        $this->_object = new \Magento\Tools\Migration\System\Configuration\Mapper\Group($this->_fieldMapperMock);
     }
 
     protected function tearDown()

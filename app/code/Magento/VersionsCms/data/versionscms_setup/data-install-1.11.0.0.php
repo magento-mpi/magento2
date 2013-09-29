@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/** @var $installer Magento_Core_Model_Resource_Setup */
+/** @var $installer \Magento\Core\Model\Resource\Setup */
 $installer = $this;
 $installer->startSetup();
 
@@ -34,7 +34,7 @@ $select->from(array('p' => $installer->getTable('cms_page')))
 
 $resource = $adapter->query($select);
 
-while ($page = $resource->fetch(Zend_Db::FETCH_ASSOC)) {
+while ($page = $resource->fetch(\Zend_Db::FETCH_ASSOC)) {
     $adapter->insert($installer->getTable('magento_versionscms_increment'), array(
         'increment_type'    => 0,
         'increment_node'    => $page['page_id'],
@@ -45,11 +45,11 @@ while ($page = $resource->fetch(Zend_Db::FETCH_ASSOC)) {
     $adapter->insert($installer->getTable('magento_versionscms_page_version'), array(
         'version_number'  => 1,
         'page_id'         => $page['page_id'],
-        'access_level'    => Magento_VersionsCms_Model_Page_Version::ACCESS_LEVEL_PUBLIC,
-        'user_id'         => new Zend_Db_Expr('NULL'),
+        'access_level'    => \Magento\VersionsCms\Model\Page\Version::ACCESS_LEVEL_PUBLIC,
+        'user_id'         => new \Zend_Db_Expr('NULL'),
         'revisions_count' => 1,
         'label'           => $page['title'],
-        'created_at'      => Mage::getSingleton('Magento_Core_Model_Date')->gmtDate()
+        'created_at'      => \Mage::getSingleton('Magento\Core\Model\Date')->gmtDate()
     ));
 
     $versionId = $adapter->lastInsertId($installer->getTable('magento_versionscms_page_version'), 'version_id');
@@ -70,8 +70,8 @@ while ($page = $resource->fetch(Zend_Db::FETCH_ASSOC)) {
         $_data[$attr] = $page[$attr];
     }
 
-    $_data['created_at']      = Mage::getSingleton('Magento_Core_Model_Date')->gmtDate();
-    $_data['user_id']         = new Zend_Db_Expr('NULL');
+    $_data['created_at']      = \Mage::getSingleton('Magento\Core\Model\Date')->gmtDate();
+    $_data['user_id']         = new \Zend_Db_Expr('NULL');
     $_data['revision_number'] = 1;
     $_data['version_id']      = $versionId;
     $_data['page_id']         = $page['page_id'];

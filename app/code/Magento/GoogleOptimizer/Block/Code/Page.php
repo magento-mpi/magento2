@@ -7,32 +7,34 @@
  * @copyright {copyright}
  * @license {license_link}
  */
-class Magento_GoogleOptimizer_Block_Code_Page extends Magento_GoogleOptimizer_Block_CodeAbstract
+namespace Magento\GoogleOptimizer\Block\Code;
+
+class Page extends \Magento\GoogleOptimizer\Block\CodeAbstract
 {
     /**
-     * @var Magento_Cms_Model_Page
+     * @var \Magento\Cms\Model\Page
      */
     protected $_page;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_GoogleOptimizer_Helper_Data $helper
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_GoogleOptimizer_Helper_Code $codeHelper
-     * @param Magento_Cms_Model_Page $page
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\GoogleOptimizer\Helper\Data $helper
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\GoogleOptimizer\Helper\Code $codeHelper
+     * @param \Magento\Cms\Model\Page $page
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_GoogleOptimizer_Helper_Data $helper,
-        Magento_Core_Model_Registry $registry,
-        Magento_GoogleOptimizer_Helper_Code $codeHelper,
-        Magento_Cms_Model_Page $page,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\GoogleOptimizer\Helper\Data $helper,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\GoogleOptimizer\Helper\Code $codeHelper,
+        \Magento\Cms\Model\Page $page,
         array $data = array()
     ) {
-        // Magento_Cms_Model_Page is singleton
+        // \Magento\Cms\Model\Page is singleton
         $this->_page = $page;
         parent::__construct($coreData, $context, $helper, $registry, $codeHelper, $data);
     }
@@ -40,7 +42,7 @@ class Magento_GoogleOptimizer_Block_Code_Page extends Magento_GoogleOptimizer_Bl
     /**
      * Get cms page entity
      *
-     * @return Magento_Cms_Model_Page
+     * @return \Magento\Cms\Model\Page
      */
     protected function _getEntity()
     {

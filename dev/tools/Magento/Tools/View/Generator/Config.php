@@ -11,7 +11,9 @@
 /**
  * Parses, verifies and stores command-line parameters
  */
-class Magento_Tools_View_Generator_Config
+namespace Magento\Tools\View\Generator;
+
+class Config
 {
     /**
      * @var string
@@ -31,26 +33,26 @@ class Magento_Tools_View_Generator_Config
     /**
      * @param string $appBaseDir
      * @param array $cmdOptions
-     * @throws Magento_Exception
+     * @throws \Magento\Exception
      */
     public function __construct($appBaseDir, $cmdOptions)
     {
         $sourceDir = isset($cmdOptions['source']) ? $cmdOptions['source'] : $appBaseDir;
         if (!is_dir($sourceDir)) {
-            throw new Magento_Exception('Source directory does not exist: ' . $sourceDir);
+            throw new \Magento\Exception('Source directory does not exist: ' . $sourceDir);
         }
 
         if (isset($cmdOptions['destination'])) {
             $destinationDir = $cmdOptions['destination'];
         } else {
-            $dirs = new Magento_Core_Model_Dir($sourceDir);
-            $destinationDir = $dirs->getDir(Magento_Core_Model_Dir::STATIC_VIEW);
+            $dirs = new \Magento\Core\Model\Dir($sourceDir);
+            $destinationDir = $dirs->getDir(\Magento\Core\Model\Dir::STATIC_VIEW);
         }
         if (!is_dir($destinationDir)) {
-            throw new Magento_Exception('Destination directory does not exist: ' . $destinationDir);
+            throw new \Magento\Exception('Destination directory does not exist: ' . $destinationDir);
         }
         if (glob($destinationDir . DIRECTORY_SEPARATOR . '*')) {
-            throw new Magento_Exception("Destination directory must be empty: {$destinationDir}");
+            throw new \Magento\Exception("Destination directory must be empty: {$destinationDir}");
         }
 
         $isDryRun = isset($cmdOptions['dry-run']);

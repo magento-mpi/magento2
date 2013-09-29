@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Search_Model_Catalog_Layer_Filter_AttributeTest extends PHPUnit_Framework_TestCase
+namespace Magento\Search\Model\Catalog\Layer\Filter;
+
+class AttributeTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @param string|array $givenValue
@@ -27,34 +29,34 @@ class Magento_Search_Model_Catalog_Layer_Filter_AttributeTest extends PHPUnit_Fr
             );
         }
 
-        $source = $this->getMock('Magento_Eav_Model_Entity_Attribute_Source_Config', array(), array(),
+        $source = $this->getMock('Magento\Eav\Model\Entity\Attribute\Source\Config', array(), array(),
             '', false, false);
         $source->expects($this->any())
             ->method('getAllOptions')
             ->will($this->returnValue($options));
-        $attribute = $this->getMock('Magento_Catalog_Model_Resource_Eav_Attribute', array(), array(), '', false, false);
+        $attribute = $this->getMock('Magento\Catalog\Model\Resource\Eav\Attribute', array(), array(), '', false, false);
         $attribute->expects($this->any())
             ->method('getSource')
             ->will($this->returnValue($source));
 
-        $productCollection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Search_Model_Resource_Collection');
-        $layer = $this->getMock('Magento_Search_Model_Catalog_Layer');
+        $productCollection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Search\Model\Resource\Collection');
+        $layer = $this->getMock('Magento\Search\Model\Catalog\Layer');
         $layer->expects($this->any())
             ->method('getProductCollection')
             ->will($this->returnValue($productCollection));
 
         /**
-         * @var Magento_Search_Model_Catalog_Layer_Filter_Attribute
+         * @var \Magento\Search\Model\Catalog\Layer\Filter\Attribute
          */
-        $selectModel = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Search_Model_Catalog_Layer_Filter_Attribute');
+        $selectModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Search\Model\Catalog\Layer\Filter\Attribute');
         $selectModel->setAttributeModel($attribute)->setLayer($layer);
 
         $selectModel->applyFilterToCollection($selectModel, $givenValue);
         $filterParams = $selectModel->getLayer()->getProductCollection()->getExtendedSearchParams();
-        $fieldName = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Search_Model_Resource_Engine')
+        $fieldName = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Search\Model\Resource\Engine')
             ->getSearchEngineFieldName($selectModel->getAttributeModel(), 'nav');
         $resultFilter = $filterParams[$fieldName];
 

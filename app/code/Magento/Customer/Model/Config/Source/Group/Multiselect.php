@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Customer_Model_Config_Source_Group_Multiselect implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Customer\Model\Config\Source\Group;
+
+class Multiselect implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
      * Customer groups options array
@@ -25,7 +27,7 @@ class Magento_Customer_Model_Config_Source_Group_Multiselect implements Magento_
     public function toOptionArray()
     {
         if (!$this->_options) {
-            $this->_options = Mage::getResourceModel('Magento_Customer_Model_Resource_Group_Collection')
+            $this->_options = \Mage::getResourceModel('Magento\Customer\Model\Resource\Group\Collection')
                 ->setRealGroupsFilter()
                 ->loadData()->toOptionArray();
         }

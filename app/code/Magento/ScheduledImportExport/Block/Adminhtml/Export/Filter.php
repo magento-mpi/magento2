@@ -15,8 +15,10 @@
  * @package     Magento_ScheduledImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_ScheduledImportExport_Block_Adminhtml_Export_Filter
-    extends Magento_ImportExport_Block_Adminhtml_Export_Filter
+namespace Magento\ScheduledImportExport\Block\Adminhtml\Export;
+
+class Filter
+    extends \Magento\ImportExport\Block\Adminhtml\Export\Filter
 {
     /**
      * Get grid url

@@ -10,22 +10,24 @@
  */
 
 /**
- * Test class for Magento_Page_Helper_Robots
+ * Test class for \Magento\Page\Helper\Robots
  */
-class Magento_Page_Helper_RobotsTest extends PHPUnit_Framework_TestCase
+namespace Magento\Page\Helper;
+
+class RobotsTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Page_Helper_Robots
+     * @var \Magento\Page\Helper\Robots
      */
     protected $_helper;
 
     protected function setUp()
     {
-        $this->_helper = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Page_Helper_Robots');
+        $this->_helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Page\Helper\Robots');
     }
 
     /**
-     * @covers Magento_Page_Helper_RobotsTest::getRobotsDefaultCustomInstructions
+     * @covers \Magento\Page\Helper\RobotsTest::getRobotsDefaultCustomInstructions
      */
     public function testGetRobotsDefaultCustomInstructions()
     {

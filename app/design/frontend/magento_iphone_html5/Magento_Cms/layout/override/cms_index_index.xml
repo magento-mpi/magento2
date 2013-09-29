@@ -12,7 +12,7 @@
         <container name="homepage.banner" label="Home Page Banner(Mobile)" htmlTag="div" htmlClass="front-banner"/>
     </referenceBlock>
     <referenceContainer name="content">
-        <block class="Magento_Catalog_Block_Navigation" name="hp_nav" template="navigation/top.phtml"/>
+        <block class="Magento\Catalog\Block\Navigation" name="hp_nav" template="navigation/top.phtml"/>
     </referenceContainer>
     <remove name="cms.wrapper"/>
 </layout>

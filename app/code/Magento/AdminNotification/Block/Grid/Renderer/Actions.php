@@ -7,16 +7,18 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_AdminNotification_Block_Grid_Renderer_Actions
-    extends Magento_Backend_Block_Widget_Grid_Column_Renderer_Abstract
+namespace Magento\AdminNotification\Block\Grid\Renderer;
+
+class Actions
+    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**
      * Renders grid column
      *
-     * @param   Magento_Object $row
+     * @param   \Magento\Object $row
      * @return  string
      */
-    public function render(Magento_Object $row)
+    public function render(\Magento\Object $row)
     {
         $readDetailsHtml = ($row->getUrl())
             ? '<a target="_blank" href="'. $row->getUrl() .'">' .
@@ -28,14 +30,14 @@ class Magento_AdminNotification_Block_Grid_Renderer_Actions
                 __('Mark as Read') .'</a> | '
             : '';
 
-        $encodedUrl = $this->helper('Magento_Core_Helper_Url')->getEncodedUrl();
+        $encodedUrl = $this->helper('Magento\Core\Helper\Url')->getEncodedUrl();
         return sprintf('%s%s<a href="%s" onClick="deleteConfirm(\'%s\', this.href); return false;">%s</a>',
             $readDetailsHtml,
             $markAsReadHtml,
             $this->getUrl('*/*/remove/', array(
                 '_current'=>true,
                 'id' => $row->getId(),
-                Magento_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED => $encodedUrl)
+                \Magento\Core\Controller\Front\Action::PARAM_NAME_URL_ENCODED => $encodedUrl)
             ),
             __('Are you sure?'),
             __('Remove')

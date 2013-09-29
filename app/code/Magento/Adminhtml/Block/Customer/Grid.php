@@ -15,41 +15,43 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Customer_Grid extends Magento_Adminhtml_Block_Widget_Grid
+namespace Magento\Adminhtml\Block\Customer;
+
+class Grid extends \Magento\Adminhtml\Block\Widget\Grid
 {
     /**
-     * @var Magento_Core_Model_System_Store
+     * @var \Magento\Core\Model\System\Store
      */
     protected $_systemStore;
 
     /**
-     * @var Magento_Customer_Model_Resource_Customer_CollectionFactory
+     * @var \Magento\Customer\Model\Resource\Customer\CollectionFactory
      */
     protected $_customersFactory;
 
     /**
-     * @var Magento_Customer_Model_Resource_Group_CollectionFactory
+     * @var \Magento\Customer\Model\Resource\Group\CollectionFactory
      */
     protected $_groupsFactory;
 
     /**
-     * @param Magento_Core_Model_System_Store $systemStore
-     * @param Magento_Customer_Model_Resource_Customer_CollectionFactory $customersFactory
-     * @param Magento_Customer_Model_Resource_Group_CollectionFactory $groupsFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Url $urlModel
+     * @param \Magento\Core\Model\System\Store $systemStore
+     * @param \Magento\Customer\Model\Resource\Customer\CollectionFactory $customersFactory
+     * @param \Magento\Customer\Model\Resource\Group\CollectionFactory $groupsFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_System_Store $systemStore,
-        Magento_Customer_Model_Resource_Customer_CollectionFactory $customersFactory,
-        Magento_Customer_Model_Resource_Group_CollectionFactory $groupsFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Url $urlModel,
+        \Magento\Core\Model\System\Store $systemStore,
+        \Magento\Customer\Model\Resource\Customer\CollectionFactory $customersFactory,
+        \Magento\Customer\Model\Resource\Group\CollectionFactory $groupsFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
         array $data = array()
     ) {
         $this->_systemStore = $systemStore;
@@ -213,7 +215,7 @@ class Magento_Adminhtml_Block_Customer_Grid extends Magento_Adminhtml_Block_Widg
              'url'      => $this->getUrl('*/*/massUnsubscribe')
         ));
 
-        $groups = $this->helper('Magento_Customer_Helper_Data')->getGroups()->toOptionArray();
+        $groups = $this->helper('Magento\Customer\Helper\Data')->getGroups()->toOptionArray();
 
         array_unshift($groups, array('label'=> '', 'value'=> ''));
         $this->getMassactionBlock()->addItem('assign_group', array(

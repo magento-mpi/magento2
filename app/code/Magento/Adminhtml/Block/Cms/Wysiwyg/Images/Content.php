@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Cms_Wysiwyg_Images_Content extends Magento_Adminhtml_Block_Widget_Container
+namespace Magento\Adminhtml\Block\Cms\Wysiwyg\Images;
+
+class Content extends \Magento\Adminhtml\Block\Widget\Container
 {
     /**
      * Block construction
@@ -67,7 +69,7 @@ class Magento_Adminhtml_Block_Cms_Wysiwyg_Images_Content extends Magento_Adminht
      */
     public function getFilebrowserSetupObject()
     {
-        $setupObject = new Magento_Object();
+        $setupObject = new \Magento\Object();
 
         $setupObject->setData(array(
             'newFolderPrompt'                 => __('New Folder Name:'),

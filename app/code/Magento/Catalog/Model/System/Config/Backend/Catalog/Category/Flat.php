@@ -11,19 +11,21 @@
 /**
  * Flat category on/off backend
  */
-class Magento_Catalog_Model_System_Config_Backend_Catalog_Category_Flat extends Magento_Core_Model_Config_Value
+namespace Magento\Catalog\Model\System\Config\Backend\Catalog\Category;
+
+class Flat extends \Magento\Core\Model\Config\Value
 {
     /**
      * After enable flat category required reindex
      *
-     * @return Magento_Catalog_Model_System_Config_Backend_Catalog_Category_Flat
+     * @return \Magento\Catalog\Model\System\Config\Backend\Catalog\Category\Flat
      */
     protected function _afterSave()
     {
         if ($this->isValueChanged() && $this->getValue()) {
-            Mage::getModel('Magento_Index_Model_Indexer')
-                ->getProcessByCode(Magento_Catalog_Helper_Category_Flat::CATALOG_CATEGORY_FLAT_PROCESS_CODE)
-                ->changeStatus(Magento_Index_Model_Process::STATUS_REQUIRE_REINDEX);
+            \Mage::getModel('Magento\Index\Model\Indexer')
+                ->getProcessByCode(\Magento\Catalog\Helper\Category\Flat::CATALOG_CATEGORY_FLAT_PROCESS_CODE)
+                ->changeStatus(\Magento\Index\Model\Process::STATUS_REQUIRE_REINDEX);
         }
 
         return $this;

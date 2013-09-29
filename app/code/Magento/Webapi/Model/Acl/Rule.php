@@ -8,15 +8,17 @@
  * @license     {license_link}
  *
  * @method int getRoleId() getRoleId()
- * @method Magento_Webapi_Model_Acl_Rule setRoleId() setRoleId(int $value)
+ * @method \Magento\Webapi\Model\Acl\Rule setRoleId() setRoleId(int $value)
  * @method string getResourceId() getResourceId()
- * @method Magento_Webapi_Model_Resource_Acl_Rule getResource() getResource()
- * @method Magento_Webapi_Model_Resource_Acl_Rule_Collection getCollection() getCollection()
- * @method Magento_Webapi_Model_Acl_Rule setResourceId() setResourceId(string $value)
- * @method Magento_Webapi_Model_Acl_Rule setResources() setResources(array $resources)
+ * @method \Magento\Webapi\Model\Resource\Acl\Rule getResource() getResource()
+ * @method \Magento\Webapi\Model\Resource\Acl\Rule\Collection getCollection() getCollection()
+ * @method \Magento\Webapi\Model\Acl\Rule setResourceId() setResourceId(string $value)
+ * @method \Magento\Webapi\Model\Acl\Rule setResources() setResources(array $resources)
  * @method array getResources() getResources()
  */
-class Magento_Webapi_Model_Acl_Rule extends Magento_Core_Model_Abstract
+namespace Magento\Webapi\Model\Acl;
+
+class Rule extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Web API ACL resource separator.
@@ -28,13 +30,13 @@ class Magento_Webapi_Model_Acl_Rule extends Magento_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('Magento_Webapi_Model_Resource_Acl_Rule');
+        $this->_init('Magento\Webapi\Model\Resource\Acl\Rule');
     }
 
     /**
      * Save role resources.
      *
-     * @return Magento_Webapi_Model_Acl_Rule
+     * @return \Magento\Webapi\Model\Acl\Rule
      */
     public function saveResources()
     {

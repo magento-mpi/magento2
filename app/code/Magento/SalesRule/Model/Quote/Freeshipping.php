@@ -9,27 +9,29 @@
  */
 
 
-class Magento_SalesRule_Model_Quote_Freeshipping extends Magento_Sales_Model_Quote_Address_Total_Abstract
+namespace Magento\SalesRule\Model\Quote;
+
+class Freeshipping extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
 {
     /**
      * Discount calculation object
      *
-     * @var Magento_SalesRule_Model_Validator
+     * @var \Magento\SalesRule\Model\Validator
      */
     protected $_calculator;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_SalesRule_Model_Validator $validator
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\SalesRule\Model\Validator $validator
      */
     public function __construct(
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_SalesRule_Model_Validator $validator
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\SalesRule\Model\Validator $validator
     ) {
         $this->setCode('discount');
         $this->_calculator = $validator;
@@ -39,10 +41,10 @@ class Magento_SalesRule_Model_Quote_Freeshipping extends Magento_Sales_Model_Quo
     /**
      * Collect information about free shipping for all address items
      *
-     * @param   Magento_Sales_Model_Quote_Address $address
-     * @return  Magento_SalesRule_Model_Quote_Freeshipping
+     * @param   \Magento\Sales\Model\Quote\Address $address
+     * @return  \Magento\SalesRule\Model\Quote\Freeshipping
      */
-    public function collect(Magento_Sales_Model_Quote_Address $address)
+    public function collect(\Magento\Sales\Model\Quote\Address $address)
     {
         parent::collect($address);
         $quote = $address->getQuote();
@@ -94,10 +96,10 @@ class Magento_SalesRule_Model_Quote_Freeshipping extends Magento_Sales_Model_Quo
     * Add information about free shipping for all address items to address object
     * By default we not present such information
     *
-    * @param   Magento_Sales_Model_Quote_Address $address
-    * @return  Magento_SalesRule_Model_Quote_Freeshipping
+    * @param   \Magento\Sales\Model\Quote\Address $address
+    * @return  \Magento\SalesRule\Model\Quote\Freeshipping
     */
-    public function fetch(Magento_Sales_Model_Quote_Address $address)
+    public function fetch(\Magento\Sales\Model\Quote\Address $address)
     {
         return $this;
     }

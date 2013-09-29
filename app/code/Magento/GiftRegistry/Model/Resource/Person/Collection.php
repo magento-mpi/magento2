@@ -16,7 +16,9 @@
  * @package     Magento_GiftRegistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GiftRegistry_Model_Resource_Person_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\GiftRegistry\Model\Resource\Person;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Collection initialization
@@ -24,14 +26,14 @@ class Magento_GiftRegistry_Model_Resource_Person_Collection extends Magento_Core
      */
     protected function _construct()
     {
-        $this->_init('Magento_GiftRegistry_Model_Person', 'Magento_GiftRegistry_Model_Resource_Person');
+        $this->_init('Magento\GiftRegistry\Model\Person', 'Magento\GiftRegistry\Model\Resource\Person');
     }
 
     /**
      * Apply entity filter to collection
      *
      * @param int $entityId
-     * @return Magento_GiftRegistry_Model_Resource_Person_Collection
+     * @return \Magento\GiftRegistry\Model\Resource\Person\Collection
      */
     public function addRegistryFilter($entityId)
     {

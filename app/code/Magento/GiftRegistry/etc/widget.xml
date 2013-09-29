@@ -9,13 +9,13 @@
 -->
 <widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="../../../Magento/Widget/etc/widget.xsd">
-    <widget id="magento_giftregistry_search" class="Magento_GiftRegistry_Block_Search_Widget_Form"
+    <widget id="magento_giftregistry_search" class="Magento\GiftRegistry\Block\Search\Widget\Form"
             is_email_compatible="false">
         <label translate="true">Gift Registry Search</label>
         <description translate="true">Gift Registry Quick Search Form</description>
         <parameters>
             <parameter name="types" xsi:type="multiselect" visible="true" required="true"
-                       source_model="Magento_GiftRegistry_Model_Source_Search">
+                       source_model="Magento\GiftRegistry\Model\Source\Search">
                 <label translate="true">Quick Search Form Types</label>
             </parameter>
             <parameter name="template" xsi:type="select" visible="false">

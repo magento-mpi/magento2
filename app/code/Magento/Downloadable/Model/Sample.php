@@ -11,46 +11,48 @@
 /**
  * Downloadable sample model
  *
- * @method Magento_Downloadable_Model_Resource_Sample _getResource()
- * @method Magento_Downloadable_Model_Resource_Sample getResource()
+ * @method \Magento\Downloadable\Model\Resource\Sample _getResource()
+ * @method \Magento\Downloadable\Model\Resource\Sample getResource()
  * @method int getProductId()
- * @method Magento_Downloadable_Model_Sample setProductId(int $value)
+ * @method \Magento\Downloadable\Model\Sample setProductId(int $value)
  * @method string getSampleUrl()
- * @method Magento_Downloadable_Model_Sample setSampleUrl(string $value)
+ * @method \Magento\Downloadable\Model\Sample setSampleUrl(string $value)
  * @method string getSampleFile()
- * @method Magento_Downloadable_Model_Sample setSampleFile(string $value)
+ * @method \Magento\Downloadable\Model\Sample setSampleFile(string $value)
  * @method string getSampleType()
- * @method Magento_Downloadable_Model_Sample setSampleType(string $value)
+ * @method \Magento\Downloadable\Model\Sample setSampleType(string $value)
  * @method int getSortOrder()
- * @method Magento_Downloadable_Model_Sample setSortOrder(int $value)
+ * @method \Magento\Downloadable\Model\Sample setSortOrder(int $value)
  *
  * @category    Magento
  * @package     Magento_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Downloadable_Model_Sample extends Magento_Core_Model_Abstract
+namespace Magento\Downloadable\Model;
+
+class Sample extends \Magento\Core\Model\AbstractModel
 {
     const XML_PATH_SAMPLES_TITLE = 'catalog/downloadable/samples_title';
 
     /**
-     * @var Magento_Core_Model_Dir
+     * @var \Magento\Core\Model\Dir
      */
     protected $_dirModel;
 
     /**
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Dir $dirModel
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Dir $dirModel
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_Dir $dirModel,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Dir $dirModel,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_dirModel = $dirModel;
@@ -63,7 +65,7 @@ class Magento_Downloadable_Model_Sample extends Magento_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('Magento_Downloadable_Model_Resource_Sample');
+        $this->_init('Magento\Downloadable\Model\Resource\Sample');
         parent::_construct();
     }
 
@@ -80,7 +82,7 @@ class Magento_Downloadable_Model_Sample extends Magento_Core_Model_Abstract
     /**
      * After save process
      *
-     * @return Magento_Downloadable_Model_Sample
+     * @return \Magento\Downloadable\Model\Sample
      */
     protected function _afterSave()
     {
@@ -110,7 +112,7 @@ class Magento_Downloadable_Model_Sample extends Magento_Core_Model_Abstract
      */
     public function getBaseTmpPath()
     {
-        return $this->_dirModel->getDir(Magento_Core_Model_Dir::MEDIA)
+        return $this->_dirModel->getDir(\Magento\Core\Model\Dir::MEDIA)
             . DS . 'downloadable' . DS . 'tmp' . DS . 'samples';
     }
 
@@ -121,7 +123,7 @@ class Magento_Downloadable_Model_Sample extends Magento_Core_Model_Abstract
      */
     public function getBasePath()
     {
-        return $this->_dirModel->getDir(Magento_Core_Model_Dir::MEDIA)
+        return $this->_dirModel->getDir(\Magento\Core\Model\Dir::MEDIA)
             . DS . 'downloadable' . DS . 'files' . DS . 'samples';
     }
 

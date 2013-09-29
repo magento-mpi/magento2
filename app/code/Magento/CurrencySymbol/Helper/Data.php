@@ -15,30 +15,32 @@
  * @package    Magento_CurrencySymbol
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CurrencySymbol_Helper_Data extends Magento_Core_Helper_Data
+namespace Magento\CurrencySymbol\Helper;
+
+class Data extends \Magento\Core\Helper\Data
 {
     /**
-     * @var Magento_CurrencySymbol_Model_System_Currencysymbol_Factory
+     * @var \Magento\CurrencySymbol\Model\System\Currencysymbol\Factory
      */
     protected $_symbolFactory;
 
     /**
-     * @param Magento_CurrencySymbol_Model_System_Currencysymbol_Factory $symbolFactory
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Helper_Http $coreHttp
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_Config $config
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_Encryption $encryptor
+     * @param \Magento\CurrencySymbol\Model\System\Currencysymbol\Factory $symbolFactory
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Helper\Http $coreHttp
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\Encryption $encryptor
      */
     public function __construct(
-        Magento_CurrencySymbol_Model_System_Currencysymbol_Factory $symbolFactory,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Helper_Http $coreHttp,
-        Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Config $config,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_Encryption $encryptor
+        \Magento\CurrencySymbol\Model\System\Currencysymbol\Factory $symbolFactory,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Helper\Http $coreHttp,
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\Config $config,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\Encryption $encryptor
     ) {
         $this->_symbolFactory = $symbolFactory;
         parent::__construct($eventManager, $coreHttp, $context, $config, $coreStoreConfig, $encryptor);
@@ -59,7 +61,7 @@ class Magento_CurrencySymbol_Helper_Data extends Magento_Core_Helper_Data
 
             if ($customCurrencySymbol) {
                 $currencyOptions['symbol']  = $customCurrencySymbol;
-                $currencyOptions['display'] = Zend_Currency::USE_SYMBOL;
+                $currencyOptions['display'] = \Zend_Currency::USE_SYMBOL;
             }
         }
 

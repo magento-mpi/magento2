@@ -15,29 +15,31 @@
  * @package     Magento_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Downloadable_Block_Catalog_Product_Links extends Magento_Catalog_Block_Product_Abstract
+namespace Magento\Downloadable\Block\Catalog\Product;
+
+class Links extends \Magento\Catalog\Block\Product\AbstractProduct
 {
     /**
-     * @var Magento_Tax_Model_Calculation
+     * @var \Magento\Tax\Model\Calculation
      */
     protected $_calculationModel;
 
     /**
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Tax_Helper_Data $taxData
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Tax_Model_Calculation $calculationModel
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Tax\Model\Calculation $calculationModel
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Registry $registry,
-        Magento_Tax_Helper_Data $taxData,
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Tax_Model_Calculation $calculationModel,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Tax\Model\Calculation $calculationModel,
         array $data = array()
     ) {
         $this->_calculationModel = $calculationModel;
@@ -82,7 +84,7 @@ class Magento_Downloadable_Block_Catalog_Product_Links extends Magento_Catalog_B
     }
 
     /**
-     * @param Magento_Downloadable_Model_Link $link
+     * @param \Magento\Downloadable\Model\Link $link
      * @return string
      */
     public function getFormattedLinkPrice($link)
@@ -100,7 +102,7 @@ class Magento_Downloadable_Block_Catalog_Product_Links extends Magento_Catalog_B
         }
 
         $taxHelper = $this->_taxData;
-        $coreHelper = $this->helper('Magento_Core_Helper_Data');
+        $coreHelper = $this->helper('Magento\Core\Helper\Data');
         $_priceInclTax = $taxHelper->getPrice($link->getProduct(), $price, true);
         $_priceExclTax = $taxHelper->getPrice($link->getProduct(), $price);
 
@@ -130,7 +132,7 @@ class Magento_Downloadable_Block_Catalog_Product_Links extends Magento_Catalog_B
     public function getCurrencyPrice($price)
     {
         $store = $this->getProduct()->getStore();
-        return $this->helper('Magento_Core_Helper_Data')->currencyByStore($price, $store, false);
+        return $this->helper('Magento\Core\Helper\Data')->currencyByStore($price, $store, false);
     }
 
     /**
@@ -163,7 +165,7 @@ class Magento_Downloadable_Block_Catalog_Product_Links extends Magento_Catalog_B
         if ($this->getProduct()->getLinksTitle()) {
             return $this->getProduct()->getLinksTitle();
         }
-        return $this->_storeConfig->getConfig(Magento_Downloadable_Model_Link::XML_PATH_LINKS_TITLE);
+        return $this->_storeConfig->getConfig(\Magento\Downloadable\Model\Link::XML_PATH_LINKS_TITLE);
     }
 
     /**
@@ -173,13 +175,13 @@ class Magento_Downloadable_Block_Catalog_Product_Links extends Magento_Catalog_B
      */
     public function getIsOpenInNewWindow()
     {
-        return $this->_storeConfig->getConfigFlag(Magento_Downloadable_Model_Link::XML_PATH_TARGET_NEW_WINDOW);
+        return $this->_storeConfig->getConfigFlag(\Magento\Downloadable\Model\Link::XML_PATH_TARGET_NEW_WINDOW);
     }
 
     /**
      * Returns whether link checked by default or not
      *
-     * @param Magento_Downloadable_Model_Link $link
+     * @param \Magento\Downloadable\Model\Link $link
      * @return bool
      */
     public function getIsLinkChecked($link)
@@ -195,7 +197,7 @@ class Magento_Downloadable_Block_Catalog_Product_Links extends Magento_Catalog_B
     /**
      * Returns value for link's input checkbox - either 'checked' or ''
      *
-     * @param Magento_Downloadable_Model_Link $link
+     * @param \Magento\Downloadable\Model\Link $link
      * @return string
      */
     public function getLinkCheckedValue($link)

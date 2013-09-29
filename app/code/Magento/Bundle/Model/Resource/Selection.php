@@ -16,7 +16,9 @@
  * @package     Magento_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Bundle_Model_Resource_Selection extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Bundle\Model\Resource;
+
+class Selection extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Define main table and id field
@@ -104,7 +106,7 @@ class Magento_Bundle_Model_Resource_Selection extends Magento_Core_Model_Resourc
     /**
      * Save bundle item price per website
      *
-     * @param Magento_Bundle_Model_Selection $item
+     * @param \Magento\Bundle\Model\Selection $item
      */
     public function saveSelectionPrice($item)
     {

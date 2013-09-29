@@ -9,15 +9,17 @@
  * @license     {license_link}
  */
 
-class Magento_Test_Performance_Scenario_Handler_PhpTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Performance\Scenario\Handler;
+
+class PhpTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Shell|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Shell|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_shell;
 
     /**
-     * @var Magento_TestFramework_Performance_Scenario_Handler_Php|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\TestFramework\Performance\Scenario\Handler\Php|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_object;
 
@@ -27,7 +29,7 @@ class Magento_Test_Performance_Scenario_Handler_PhpTest extends PHPUnit_Framewor
     protected $_scenarioFile;
 
     /**
-     * @var Magento_TestFramework_Performance_Scenario
+     * @var \Magento\TestFramework\Performance\Scenario
      */
     protected $_scenario;
 
@@ -40,16 +42,16 @@ class Magento_Test_Performance_Scenario_Handler_PhpTest extends PHPUnit_Framewor
     {
         $this->_scenarioFile = realpath(__DIR__ . '/../../_files/scenario.php');
         $scenarioArgs = array(
-            Magento_TestFramework_Performance_Scenario::ARG_USERS => 2,
-            Magento_TestFramework_Performance_Scenario::ARG_LOOPS => 3,
+            \Magento\TestFramework\Performance\Scenario::ARG_USERS => 2,
+            \Magento\TestFramework\Performance\Scenario::ARG_LOOPS => 3,
             'custom' => 'custom_value',
         );
-        $this->_scenario = new Magento_TestFramework_Performance_Scenario('Scenario', $this->_scenarioFile,
+        $this->_scenario = new \Magento\TestFramework\Performance\Scenario('Scenario', $this->_scenarioFile,
             $scenarioArgs, array(), array());
 
         $this->_reportFile = realpath(__DIR__ . '/../../_files/scenario.jtl');
-        $this->_shell = $this->getMock('Magento_Shell', array('execute'));
-        $this->_object = new Magento_TestFramework_Performance_Scenario_Handler_Php($this->_shell, false);
+        $this->_shell = $this->getMock('Magento\Shell', array('execute'));
+        $this->_object = new \Magento\TestFramework\Performance\Scenario\Handler\Php($this->_shell, false);
     }
 
     protected function tearDown()
@@ -61,7 +63,7 @@ class Magento_Test_Performance_Scenario_Handler_PhpTest extends PHPUnit_Framewor
 
     public function testValidateScenarioExecutable()
     {
-        $object = new Magento_TestFramework_Performance_Scenario_Handler_Php($this->_shell);
+        $object = new \Magento\TestFramework\Performance\Scenario\Handler\Php($this->_shell);
 
         $this->_shell
             ->expects($this->at(0))
@@ -96,7 +98,7 @@ class Magento_Test_Performance_Scenario_Handler_PhpTest extends PHPUnit_Framewor
     {
         $this->expectOutputRegex('/.+/'); // prevent displaying output
         $this->_object->run($this->_scenario, 'php://output');
-        $expectedDom = new DOMDocument();
+        $expectedDom = new \DOMDocument();
         $expectedDom->loadXML('
             <testResults version="1.2">
             <httpSample t="100" lt="0" ts="1349212263" s="true" lb="Scenario" rc="0" rm="" tn="1" dt="text"/>
@@ -104,19 +106,19 @@ class Magento_Test_Performance_Scenario_Handler_PhpTest extends PHPUnit_Framewor
             <httpSample t="125" lt="0" ts="1349212263" s="true" lb="Scenario" rc="0" rm="" tn="3" dt="text"/>
             </testResults>
         ');
-        $actualDom = new DOMDocument();
+        $actualDom = new \DOMDocument();
         $actualDom->loadXML($this->getActualOutput());
         $this->assertEqualXMLStructure($expectedDom->documentElement, $actualDom->documentElement, true);
     }
 
     /**
-     * @expectedException Magento_TestFramework_Performance_Scenario_FailureException
+     * @expectedException \Magento\TestFramework\Performance\Scenario\FailureException
      * @expectedExceptionMessage command failure message
      */
     public function testRunException()
     {
-        $failure = new Magento_Exception(
-            'Command returned non-zero exit code.', 0, new Exception('command failure message', 1)
+        $failure = new \Magento\Exception(
+            'Command returned non-zero exit code.', 0, new \Exception('command failure message', 1)
         );
         $this->_shell
             ->expects($this->any())

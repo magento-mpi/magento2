@@ -13,59 +13,61 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Inventory extends Magento_Adminhtml_Block_Widget
+namespace Magento\Adminhtml\Block\Catalog\Product\Edit\Tab;
+
+class Inventory extends \Magento\Adminhtml\Block\Widget
 {
     protected $_template = 'catalog/product/tab/inventory.phtml';
 
     /**
      * Catalog data
      *
-     * @var Magento_Catalog_Helper_Data
+     * @var \Magento\Catalog\Helper\Data
      */
     protected $_catalogData = null;
 
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Core_Helper_Data $coreData
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Helper\Data $coreData
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @var Magento_CatalogInventory_Model_Source_Stock
+     * @var \Magento\CatalogInventory\Model\Source\Stock
      */
     protected $_stock;
 
     /**
-     * @var Magento_CatalogInventory_Model_Source_Backorders
+     * @var \Magento\CatalogInventory\Model\Source\Backorders
      */
     protected $_backorders;
 
     /**
-     * @param Magento_CatalogInventory_Model_Source_Backorders $backorders
-     * @param Magento_CatalogInventory_Model_Source_Stock $stock
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\CatalogInventory\Model\Source\Backorders $backorders
+     * @param \Magento\CatalogInventory\Model\Source\Stock $stock
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
-        Magento_CatalogInventory_Model_Source_Backorders $backorders,
-        Magento_CatalogInventory_Model_Source_Stock $stock,
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Core_Model_StoreManager $storeManager,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $coreRegistry,
+        \Magento\CatalogInventory\Model\Source\Backorders $backorders,
+        \Magento\CatalogInventory\Model\Source\Stock $stock,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_stock = $stock;
@@ -102,7 +104,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Inventory extends Magento
     /**
      * Return current product instance
      *
-     * @return Magento_Catalog_Model_Product
+     * @return \Magento\Catalog\Model\Product
      */
     public function getProduct()
     {
@@ -112,7 +114,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Inventory extends Magento
     /**
      * Retrieve Catalog Inventory  Stock Item Model
      *
-     * @return Magento_CatalogInventory_Model_Stock_Item
+     * @return \Magento\CatalogInventory\Model\Stock\Item
      */
     public function getStockItem()
     {
@@ -130,7 +132,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Inventory extends Magento
             return $this->getStockItem()->getDataUsingMethod($field);
         }
 
-        return $this->_storeConfig->getConfig(Magento_CatalogInventory_Model_Stock_Item::XML_PATH_ITEM . $field);
+        return $this->_storeConfig->getConfig(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_ITEM . $field);
     }
 
     public function getConfigFieldValue($field)
@@ -141,12 +143,12 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Inventory extends Magento
             }
         }
 
-        return $this->_storeConfig->getConfig(Magento_CatalogInventory_Model_Stock_Item::XML_PATH_ITEM . $field);
+        return $this->_storeConfig->getConfig(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_ITEM . $field);
     }
 
     public function getDefaultConfigValue($field)
     {
-        return $this->_storeConfig->getConfig(Magento_CatalogInventory_Model_Stock_Item::XML_PATH_ITEM . $field);
+        return $this->_storeConfig->getConfig(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_ITEM . $field);
     }
 
     /**

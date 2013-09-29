@@ -12,33 +12,36 @@
 /**
  * Test class Magento_Core_Controller_Varien_Action_Forward
  */
-class Magento_Core_Controller_Varien_Action_ForwardTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Controller\Varien\Action;
+
+class ForwardTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Controller_Varien_Action_Forward
+     * @var \Magento\Core\Controller\Varien\Action\Forward
      */
     protected $_object = null;
 
     /**
-     * @var Magento_Core_Controller_Request_Http
+     * @var \Magento\Core\Controller\Request\Http
      */
     protected $_request;
 
     /**
-     * @var Magento_Core_Controller_Response_Http
+     * @var \Magento\Core\Controller\Response\Http
      */
     protected $_response;
 
     protected function setUp()
     {
-        $helperMock = $this->getMock('Magento_Backend_Helper_Data', array(), array(),
-            'Magento_Backend_Helper_DataProxy', false);
-        $this->_request  = new Magento_Core_Controller_Request_Http($helperMock);
-        $this->_response = new Magento_Core_Controller_Response_Http(
-            $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false)
+        $helperMock = $this->getMockBuilder('Magento\Backend\Helper\DataProxy')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->_request  = new \Magento\Core\Controller\Request\Http($helperMock);
+        $this->_response = new \Magento\Core\Controller\Response\Http(
+            $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false)
         );
 
-        $this->_object = new Magento_Core_Controller_Varien_Action_Forward($this->_request, $this->_response);
+        $this->_object = new \Magento\Core\Controller\Varien\Action\Forward($this->_request, $this->_response);
     }
 
     protected function tearDown()
@@ -49,7 +52,7 @@ class Magento_Core_Controller_Varien_Action_ForwardTest extends PHPUnit_Framewor
     }
 
     /**
-     * Test that Magento_Core_Controller_Varien_Action_Forward::dispatch() does not change dispatched flag
+     * Test that \Magento\Core\Controller\Varien\Action\Forward::dispatch() does not change dispatched flag
      */
     public function testDispatch()
     {

@@ -8,16 +8,16 @@
  */
 -->
 <config>
-    <job name="webhook_process_messages" instance="Magento_PubSub_Event_QueueHandler" method="handle">
+    <job name="webhook_process_messages" instance="Magento\PubSub\Event\QueueHandler" method="handle">
         <schedule>* * * * *</schedule>
     </job>
-    <job name="webhook_process_dispatchers" instance="Magento_PubSub_Job_QueueHandler" method="handle">
+    <job name="webhook_process_dispatchers" instance="Magento\PubSub\Job\QueueHandler" method="handle">
         <schedule>* * * * *</schedule>
     </job>
-    <job name="webhook_events_revoke_idling" instance="Magento_Webhook_Model_Resource_Event_Collection" method="revokeIdlingInProgress">
+    <job name="webhook_events_revoke_idling" instance="Magento\Webhook\Model\Resource\Event\Collection" method="revokeIdlingInProgress">
         <schedule>*/15 * * * *</schedule>
     </job>
-    <job name="webhook_jobs_revoke_idling" instance="Magento_Webhook_Model_Resource_Job_Collection" method="revokeIdlingInProgress">
+    <job name="webhook_jobs_revoke_idling" instance="Magento\Webhook\Model\Resource\Job\Collection" method="revokeIdlingInProgress">
         <schedule>*/15 * * * *</schedule>
     </job>
 </config>

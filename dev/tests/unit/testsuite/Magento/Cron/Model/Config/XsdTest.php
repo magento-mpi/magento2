@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Cron_Model_Config_XsdTest extends PHPUnit_Framework_TestCase
+namespace Magento\Cron\Model\Config;
+
+class XsdTest extends \PHPUnit_Framework_TestCase
 {
 
     protected $_xsdFile;
@@ -25,7 +27,7 @@ class Magento_Cron_Model_Config_XsdTest extends PHPUnit_Framework_TestCase
      */
     public function testValidXmlFile($xmlFile)
     {
-        $dom = new DOMDocument();
+        $dom = new \DOMDocument();
         $dom->load(__DIR__ . "/_files/{$xmlFile}");
         libxml_use_internal_errors(true);
         $result = $dom->schemaValidate($this->_xsdFile);
@@ -51,7 +53,7 @@ class Magento_Cron_Model_Config_XsdTest extends PHPUnit_Framework_TestCase
      */
     public function testInvalidXmlFile($xmlFile, $expectedErrors)
     {
-        $dom = new DOMDocument();
+        $dom = new \DOMDocument();
         $dom->load(__DIR__ . "/_files/{$xmlFile}");
         libxml_use_internal_errors(true);
         $dom->schemaValidate($this->_xsdFile);

@@ -8,53 +8,53 @@
  */
 -->
 <config>
-    <preference for="Magento_FullPageCache_Model_Processor_RestrictionInterface" type="Magento_FullPageCache_Model_Processor_Restriction" />
-    <preference for="Magento_FullPageCache_Model_Placeholder_ConfigInterface" type="Magento_FullPageCache_Model_Placeholder_Config" />
-    <type name="Magento_FullPageCache_Model_Request_Identifier">
+    <preference for="Magento\FullPageCache\Model\Processor\RestrictionInterface" type="Magento\FullPageCache\Model\Processor\Restriction" />
+    <preference for="Magento\FullPageCache\Model\Placeholder\ConfigInterface" type="Magento\FullPageCache\Model\Placeholder\Config" />
+    <type name="Magento\FullPageCache\Model\Request\Identifier">
         <param name="scopeCode">
-            <value type="argument">Magento_Core_Model_App::PARAM_RUN_CODE</value>
+            <value type="argument">Magento\Core\Model\App::PARAM_RUN_CODE</value>
         </param>
     </type>
-    <type name="Magento_FullPageCache_Model_Processor">
+    <type name="Magento\FullPageCache\Model\Processor">
         <param name="storeManager">
-            <instance type="Magento_Core_Model_StoreManager_Proxy" />
+            <instance type="Magento\Core\Model\StoreManager\Proxy" />
         </param>
         <param name="metadata">
-            <instance type="Magento_FullPageCache_Model_Metadata_Proxy" />
+            <instance type="Magento\FullPageCache\Model\Metadata\Proxy" />
         </param>
         <param name="requestIdentifier">
-            <instance type="Magento_FullPageCache_Model_Request_Identifier_Proxy" />
+            <instance type="Magento\FullPageCache\Model\Request\Identifier\Proxy" />
         </param>
     </type>
-    <type name="Magento_FullPageCache_Model_DesignPackage_Rules">
+    <type name="Magento\FullPageCache\Model\DesignPackage\Rules">
         <param name="designChange">
-            <instance type="Magento_Core_Model_Design_Proxy" />
+            <instance type="Magento\Core\Model\Design\Proxy" />
         </param>
         <param name="design">
-            <instance type="Magento_Core_Model_View_Design_Proxy" />
+            <instance type="Magento\Core\Model\View\Design\Proxy" />
         </param>
     </type>
-    <type name="Magento_HTTP_Handler_Composite">
+    <type name="Magento\HTTP\Handler\Composite">
         <param name="handlers">
             <value>
                 <fpc>
                     <sortOrder>25</sortOrder>
-                    <class>Magento_FullPageCache_Model_Http_Handler</class>
+                    <class>Magento\FullPageCache\Model\Http\Handler</class>
                 </fpc>
             </value>
         </param>
     </type>
-    <type name="Magento_FullPageCache_Model_Http_Handler">
+    <type name="Magento\FullPageCache\Model\Http\Handler">
         <param name="requestProcessors">
             <value>
                 <ee>
-                    <class>Magento_FullPageCache_Model_Processor</class>
+                    <class>Magento\FullPageCache\Model\Processor</class>
                     <sortOrder>50</sortOrder>
                 </ee>
             </value>
         </param>
     </type>
-    <type name="Magento_Core_Model_Cache_Frontend_Pool">
+    <type name="Magento\Core\Model\Cache\Frontend\Pool">
         <param name="advancedSettings">
             <value>
                 <full_page>

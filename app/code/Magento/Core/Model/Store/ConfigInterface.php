@@ -7,7 +7,9 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-interface Magento_Core_Model_Store_ConfigInterface
+namespace Magento\Core\Model\Store;
+
+interface ConfigInterface
 {
     /**
      * Retrieve store config value

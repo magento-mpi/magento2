@@ -28,7 +28,9 @@
  * @package     Magento_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Connect_Config implements Iterator
+namespace Magento\Connect;
+
+class Config implements \Iterator
 {
     /**
      * Config file name
@@ -200,7 +202,7 @@ class Magento_Connect_Config implements Iterator
     }
 
     /**
-     * Retrieve Packages Cache Directory
+     * Retrieve Packages Cache \Directory
      *
      * @return string
      */
@@ -210,7 +212,7 @@ class Magento_Connect_Config implements Iterator
     }
 
     /**
-     * Retrieve Channel Cache Directory
+     * Retrieve Channel Cache \Directory
      *
      * @param string $channel
      * @return string
@@ -252,7 +254,7 @@ class Magento_Connect_Config implements Iterator
         try {
             $f = fopen($this->_configFile, "r");
             fseek($f, 0, SEEK_SET);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_configError = "Cannot open config file {$this->_configFile} please check file permission";
             return false;
         }
@@ -274,7 +276,7 @@ class Magento_Connect_Config implements Iterator
 
             $size -= $headerLen;
             $contents = fread($f, $size);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_configError = "Configuration file {$this->_configFile} read error '{$e->getMessage()}'"
                                 . " please save Settings again";
             return false;
@@ -306,9 +308,9 @@ class Magento_Connect_Config implements Iterator
                 //save config over ftp
                 $confFile = $this->downloader_path . DIRECTORY_SEPARATOR . "connect.cfg";
                 try {
-                    $ftpObj = new Magento_Connect_Ftp();
+                    $ftpObj = new \Magento\Connect\Ftp();
                     $ftpObj->connect($this->remote_config);
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     $this->_configError = 'Cannot access to deployment FTP path. '
                                           . 'Check deployment FTP Installation path settings.';
                     return $result;
@@ -319,7 +321,7 @@ class Magento_Connect_Config implements Iterator
                     fwrite($f, self::HEADER);
                     fwrite($f, $data);
                     fclose($f);
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     $this->_configError = 'Cannot access to temporary file storage to save Settings.'
                                           . 'Contact your system administrator.';
                     return $result;
@@ -327,7 +329,7 @@ class Magento_Connect_Config implements Iterator
                 try {
                     $result = $ftpObj->upload($confFile, $tempFile);
                     $ftpObj->close();
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     $this->_configError = 'Cannot write file over FTP. '
                                           . 'Check deployment FTP Installation path settings.';
                     return $result;
@@ -342,7 +344,7 @@ class Magento_Connect_Config implements Iterator
                     fwrite($f, $data);
                     fclose($f);
                     $result = true;
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     $result = false;
                 }
             }

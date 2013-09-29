@@ -16,23 +16,25 @@
  * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reward_Block_Customer_Reward_Subscription extends Magento_Core_Block_Template
+namespace Magento\Reward\Block\Customer\Reward;
+
+class Subscription extends \Magento\Core\Block\Template
 {
     /**
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Customer_Model_Session $customerSession
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Customer\Model\Session $customerSession
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Customer_Model_Session $customerSession,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Customer\Model\Session $customerSession,
         array $data = array()
     ) {
         $this->_customerSession = $customerSession;
@@ -62,7 +64,7 @@ class Magento_Reward_Block_Customer_Reward_Subscription extends Magento_Core_Blo
     /**
      * Retrieve customer model
      *
-     * @return Magento_Customer_Model_Customer
+     * @return \Magento\Customer\Model\Customer
      */
     protected function _getCustomer()
     {

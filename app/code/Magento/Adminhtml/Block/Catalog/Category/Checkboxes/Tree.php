@@ -13,7 +13,9 @@
  *
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Category_Checkboxes_Tree extends Magento_Adminhtml_Block_Catalog_Category_Tree
+namespace Magento\Adminhtml\Block\Catalog\Category\Checkboxes;
+
+class Tree extends \Magento\Adminhtml\Block\Catalog\Category\Tree
 {
     protected $_selectedIds = array();
 

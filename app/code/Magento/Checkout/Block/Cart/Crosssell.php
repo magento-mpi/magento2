@@ -15,7 +15,9 @@
  * @package    Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Checkout_Block_Cart_Crosssell extends Magento_Catalog_Block_Product_Abstract
+namespace Magento\Checkout\Block\Cart;
+
+class Crosssell extends \Magento\Catalog\Block\Product\AbstractProduct
 {
     /**
      * Items quantity will be capped to this value
@@ -113,8 +115,8 @@ class Magento_Checkout_Block_Cart_Crosssell extends Magento_Catalog_Block_Produc
         $productIds = array();
         foreach ($this->getQuote()->getAllItems() as $quoteItem) {
             $productTypeOpt = $quoteItem->getOptionByCode('product_type');
-            if ($productTypeOpt instanceof Magento_Sales_Model_Quote_Item_Option
-                && $productTypeOpt->getValue() == Magento_Catalog_Model_Product_Type_Grouped::TYPE_CODE
+            if ($productTypeOpt instanceof \Magento\Sales\Model\Quote\Item\Option
+                && $productTypeOpt->getValue() == \Magento\Catalog\Model\Product\Type\Grouped::TYPE_CODE
                 && $productTypeOpt->getProductId()
             ) {
                 $productIds[] = $productTypeOpt->getProductId();
@@ -131,35 +133,35 @@ class Magento_Checkout_Block_Cart_Crosssell extends Magento_Catalog_Block_Produc
      */
     protected function _getLastAddedProductId()
     {
-        return Mage::getSingleton('Magento_Checkout_Model_Session')->getLastAddedProductId(true);
+        return \Mage::getSingleton('Magento\Checkout\Model\Session')->getLastAddedProductId(true);
     }
 
     /**
      * Get quote instance
      *
-     * @return Magento_Sales_Model_Quote
+     * @return \Magento\Sales\Model\Quote
      */
     public function getQuote()
     {
-        return Mage::getSingleton('Magento_Checkout_Model_Session')->getQuote();
+        return \Mage::getSingleton('Magento\Checkout\Model\Session')->getQuote();
     }
 
     /**
      * Get crosssell products collection
      *
-     * @return Magento_Catalog_Model_Resource_Product_Link_Product_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Link\Product\Collection
      */
     protected function _getCollection()
     {
-        $collection = Mage::getModel('Magento_Catalog_Model_Product_Link')->useCrossSellLinks()
+        $collection = \Mage::getModel('Magento\Catalog\Model\Product\Link')->useCrossSellLinks()
             ->getProductCollection()
-            ->setStoreId(Mage::app()->getStore()->getId())
+            ->setStoreId(\Mage::app()->getStore()->getId())
             ->addStoreFilter()
             ->setPageSize($this->_maxItemCount)
-            ->setVisibility(Mage::getSingleton('Magento_Catalog_Model_Product_Visibility')->getVisibleInCatalogIds());
+            ->setVisibility(\Mage::getSingleton('Magento\Catalog\Model\Product\Visibility')->getVisibleInCatalogIds());
         $this->_addProductAttributesAndPrices($collection);
 
-        Mage::getSingleton('Magento_CatalogInventory_Model_Stock')->addInStockFilterToCollection($collection);
+        \Mage::getSingleton('Magento\CatalogInventory\Model\Stock')->addInStockFilterToCollection($collection);
 
         return $collection;
     }

@@ -11,9 +11,9 @@
 
 $conditions = serialize(array());
 
-/** @var $rule Magento_Reminder_Model_Rule */
-$rule = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Reminder_Model_Rule');
+/** @var $rule \Magento\Reminder\Model\Rule */
+$rule = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Reminder\Model\Rule');
 $rule->setData(array(
     'name' => 'Rule 1',
     'description' => 'Rule 1 Desc',
@@ -28,8 +28,8 @@ $rule->setData(array(
     'to_date' => '1981-01-01',
 ))->save();
 
-$rule = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Reminder_Model_Rule');
+$rule = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Reminder\Model\Rule');
 $rule->setData(array(
     'name' => 'Rule 2',
     'description' => 'Rule 2 Desc',
@@ -45,7 +45,7 @@ $rule->setData(array(
      * For some reason any values in columns from_date and to_date are ignored
      * This has to be fixed in scope of MAGE-5166
      *
-     * Also make sure that dates will be properly formatted through Magento_DB_Adapter_*::formatDate()
+     * Also make sure that dates will be properly formatted through \Magento\DB\Adapter\*::formatDate()
      */
     'to_date' => date('Y-m-d', time() + 172800),
 ))->save();

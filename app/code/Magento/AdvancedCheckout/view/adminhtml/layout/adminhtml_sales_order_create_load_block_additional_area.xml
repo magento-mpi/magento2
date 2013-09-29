@@ -10,9 +10,9 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <referenceContainer name="content">
         <update handle="adminhtml_sku_errors_block"/>
-        <block class="Magento_AdvancedCheckout_Block_Adminhtml_Sales_Order_Create_Sku" name="additional_area" template="Magento_Adminhtml::sales/order/create/abstract.phtml">
-            <block class="Magento_AdvancedCheckout_Block_Adminhtml_Sales_Order_Create_Sku_Add"/>
+        <block class="Magento\AdvancedCheckout\Block\Adminhtml\Sales\Order\Create\Sku" name="additional_area" template="Magento_Adminhtml::sales/order/create/abstract.phtml">
+            <block class="Magento\AdvancedCheckout\Block\Adminhtml\Sales\Order\Create\Sku\Add"/>
         </block>
-        <block class="Magento_AdvancedCheckout_Block_Adminhtml_Sales_Order_Create_Sku_Errors" name="errors"/>
+        <block class="Magento\AdvancedCheckout\Block\Adminhtml\Sales\Order\Create\Sku\Errors" name="errors"/>
     </referenceContainer>
 </layout>

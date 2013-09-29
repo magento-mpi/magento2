@@ -16,52 +16,54 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Review_Block_View extends Magento_Catalog_Block_Product_Abstract
+namespace Magento\Review\Block;
+
+class View extends \Magento\Catalog\Block\Product\AbstractProduct
 {
     protected $_template = 'view.phtml';
 
     /**
-     * @var Magento_Rating_Model_Rating_Option_VoteFactory
+     * @var \Magento\Rating\Model\Rating\Option\VoteFactory
      */
     protected $_voteFactory;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Rating_Model_RatingFactory
+     * @var \Magento\Rating\Model\RatingFactory
      */
     protected $_ratingFactory;
 
     /**
-     * @var Magento_Review_Model_ReviewFactory
+     * @var \Magento\Review\Model\ReviewFactory
      */
     protected $_reviewFactory;
 
     /**
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_Tax_Helper_Data $taxData
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Rating_Model_Rating_Option_VoteFactory $voteFactory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Rating_Model_RatingFactory $ratingFactory
-     * @param Magento_Review_Model_ReviewFactory $reviewFactory
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Rating\Model\Rating\Option\VoteFactory $voteFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Rating\Model\RatingFactory $ratingFactory
+     * @param \Magento\Review\Model\ReviewFactory $reviewFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_Tax_Helper_Data $taxData,
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Rating_Model_Rating_Option_VoteFactory $voteFactory,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Rating_Model_RatingFactory $ratingFactory,
-        Magento_Review_Model_ReviewFactory $reviewFactory,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Rating\Model\Rating\Option\VoteFactory $voteFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Rating\Model\RatingFactory $ratingFactory,
+        \Magento\Review\Model\ReviewFactory $reviewFactory,
         array $data = array()
     ) {
         $this->_voteFactory = $voteFactory;
@@ -75,7 +77,7 @@ class Magento_Review_Block_View extends Magento_Catalog_Block_Product_Abstract
     /**
      * Retrieve current product model from registry
      *
-     * @return Magento_Catalog_Model_Product
+     * @return \Magento\Catalog\Model\Product
      */
     public function getProductData()
     {
@@ -85,7 +87,7 @@ class Magento_Review_Block_View extends Magento_Catalog_Block_Product_Abstract
     /**
      * Retrieve current review model from registry
      *
-     * @return Magento_Review_Model_Review
+     * @return \Magento\Review\Model\Review
      */
     public function getReviewData()
     {
@@ -105,7 +107,7 @@ class Magento_Review_Block_View extends Magento_Catalog_Block_Product_Abstract
     /**
      * Retrieve collection of ratings
      *
-     * @return Magento_Rating_Model_Resource_Rating_Option_Vote_Collection
+     * @return \Magento\Rating\Model\Resource\Rating\Option\Vote\Collection
      */
     public function getRating()
     {
@@ -161,6 +163,6 @@ class Magento_Review_Block_View extends Magento_Catalog_Block_Product_Abstract
      */
     public function dateFormat($date)
     {
-        return $this->formatDate($date, Magento_Core_Model_LocaleInterface::FORMAT_TYPE_LONG);
+        return $this->formatDate($date, \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_LONG);
     }
 }

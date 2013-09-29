@@ -8,32 +8,32 @@
  */
 -->
 <config>
-    <type name="Magento_CatalogRule_Model_Rule_Job">
+    <type name="Magento\CatalogRule\Model\Rule\Job">
         <param name="helper">
-            <instance type="Magento_CatalogRule_Helper_Data" />
+            <instance type="Magento\CatalogRule\Helper\Data" />
         </param>
     </type>
-    <type name="Magento_CatalogRule_Model_Resource_Rule">
+    <type name="Magento\CatalogRule\Model\Resource\Rule">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
-    <type name="Magento_CatalogRule_Model_Resource_Rule_Collection" shared="false" />
-    <type name="Magento_CatalogRule_Model_Observer">
+    <type name="Magento\CatalogRule\Model\Resource\Rule\Collection" shared="false" />
+    <type name="Magento\CatalogRule\Model\Observer">
         <param name="resourceRule">
-            <instance type="Magento_CatalogRule_Model_Resource_Rule_Proxy" />
+            <instance type="Magento\CatalogRule\Model\Resource\Rule\Proxy" />
         </param>
         <param name="customerSession">
-            <instance type="Magento_Customer_Model_Session_Proxy" />
+            <instance type="Magento\Customer\Model\Session\Proxy" />
         </param>
         <param name="backendSession">
-            <instance type="Magento_Backend_Model_Session_Proxy" />
+            <instance type="Magento\Backend\Model\Session\Proxy" />
         </param>
     </type>
-    <type name="Magento_Core_Model_Db_Updater">
+    <type name="Magento\Core\Model\Db\Updater">
         <param name="resourceList">
             <value>
-                <catalogrule_setup>Magento_Core_Model_Resource_Setup_Generic</catalogrule_setup>
+                <catalogrule_setup>Magento\Core\Model\Resource\Setup\Generic</catalogrule_setup>
             </value>
         </param>
     </type>

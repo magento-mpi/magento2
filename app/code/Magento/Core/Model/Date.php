@@ -14,7 +14,9 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Date
+namespace Magento\Core\Model;
+
+class Date
 {
     /**
      * Current config offset in seconds
@@ -47,7 +49,7 @@ class Magento_Core_Model_Date
      */
     protected function _getConfigTimezone()
     {
-        return Mage::app()->getStore()->getConfig('general/locale/timezone');
+        return \Mage::app()->getStore()->getConfig('general/locale/timezone');
     }
 
     /**
@@ -139,8 +141,8 @@ class Magento_Core_Model_Date
             return false;
         }
 
-        $date      = Mage::app()->getLocale()->date($result);
-        $timestamp = $date->get(Zend_Date::TIMESTAMP) - $date->get(Zend_Date::TIMEZONE_SECS);
+        $date      = \Mage::app()->getLocale()->date($result);
+        $timestamp = $date->get(\Zend_Date::TIMESTAMP) - $date->get(\Zend_Date::TIMEZONE_SECS);
 
         unset($date);
         return $timestamp;
@@ -164,8 +166,8 @@ class Magento_Core_Model_Date
             $result = strtotime($input);
         }
 
-        $date      = Mage::app()->getLocale()->date($result);
-        $timestamp = $date->get(Zend_Date::TIMESTAMP) + $date->get(Zend_Date::TIMEZONE_SECS);
+        $date      = \Mage::app()->getLocale()->date($result);
+        $timestamp = $date->get(\Zend_Date::TIMESTAMP) + $date->get(\Zend_Date::TIMEZONE_SECS);
 
         unset($date);
         return $timestamp;

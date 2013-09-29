@@ -8,25 +8,26 @@
  * @license    {license_link}
  */
 
-require_once realpath(__DIR__ . '/../../../../../../../../../../')
-    . '/tools/Magento/Tools/Migration/System/Configuration/Mapper/Abstract.php';
+namespace Magento\Test\Tools\Migration\System\Configuration\Mapper;
 
+require_once realpath(__DIR__ . '/../../../../../../../../../../')
+    . '/tools/Magento/Tools/Migration/System/Configuration/Mapper/AbstractMapper.php';
 require_once realpath(__DIR__ . '/../../../../../../../../../../')
     . '/tools/Magento/Tools/Migration/System/Configuration/Mapper/Tab.php';
 
 /**
- * Test case for Magento_Tools_Migration_System_Configuration_Mapper_Tab
+ * Test case for \Magento\Tools\Migration\System\Configuration\Mapper\Tab
  */
-class Magento_Test_Tools_Migration_System_Configuration_Mapper_TabTest extends PHPUnit_Framework_TestCase
+class TabTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Tools_Migration_System_Configuration_Mapper_Tab
+     * @var \Magento\Tools\Migration\System\Configuration\Mapper\Tab
      */
     protected $_object;
 
     protected function setUp()
     {
-        $this->_object = new Magento_Tools_Migration_System_Configuration_Mapper_Tab();
+        $this->_object = new \Magento\Tools\Migration\System\Configuration\Mapper\Tab();
     }
 
     protected function tearDown()

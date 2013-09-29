@@ -5,23 +5,25 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_PhraseTest extends PHPUnit_Framework_TestCase
+namespace Magento;
+
+class PhraseTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Phrase_RendererInterface|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Phrase\RendererInterface|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_renderer;
 
     protected function setUp()
     {
-        $this->_renderer = $this->getMock('Magento_Phrase_RendererInterface');
-        Magento_Phrase::setRenderer($this->_renderer);
+        $this->_renderer = $this->getMock('Magento\Phrase\RendererInterface');
+        \Magento\Phrase::setRenderer($this->_renderer);
     }
 
     protected function tearDown()
     {
         $this->_removeRendererFromPhrase();
-        Magento_Phrase::setRenderer(new Magento_Phrase_Renderer_Placeholder());
+        \Magento\Phrase::setRenderer(new \Magento\Phrase\Renderer\Placeholder());
     }
 
     public function testRendering()
@@ -29,7 +31,7 @@ class Magento_PhraseTest extends PHPUnit_Framework_TestCase
         $text = 'some text';
         $arguments = array('arg1', 'arg2');
         $result = 'rendered text';
-        $phrase = new Magento_Phrase($text, $arguments);
+        $phrase = new \Magento\Phrase($text, $arguments);
 
         $this->_renderer->expects($this->once())->method('render')->with($text, $arguments)
             ->will($this->returnValue($result));
@@ -41,7 +43,7 @@ class Magento_PhraseTest extends PHPUnit_Framework_TestCase
     {
         $this->_removeRendererFromPhrase();
         $result = 'some text';
-        $phrase = new Magento_Phrase($result);
+        $phrase = new \Magento\Phrase($result);
 
         $this->assertEquals($result, $phrase->render());
     }
@@ -50,7 +52,7 @@ class Magento_PhraseTest extends PHPUnit_Framework_TestCase
     {
         $this->_renderer->expects($this->never())->method('render');
 
-        new Magento_Phrase('some text');
+        new \Magento\Phrase('some text');
     }
 
     public function testThatToStringIsAliasToRender()
@@ -58,7 +60,7 @@ class Magento_PhraseTest extends PHPUnit_Framework_TestCase
         $text = 'some text';
         $arguments = array('arg1', 'arg2');
         $result = 'rendered text';
-        $phrase = new Magento_Phrase($text, $arguments);
+        $phrase = new \Magento\Phrase($text, $arguments);
 
         $this->_renderer->expects($this->once())->method('render')->with($text, $arguments)
             ->will($this->returnValue($result));
@@ -68,7 +70,7 @@ class Magento_PhraseTest extends PHPUnit_Framework_TestCase
 
     protected function _removeRendererFromPhrase()
     {
-        $property = new ReflectionProperty('Magento_Phrase', '_renderer');
+        $property = new \ReflectionProperty('Magento\Phrase', '_renderer');
         $property->setAccessible(true);
         $property->setValue(null);
     }

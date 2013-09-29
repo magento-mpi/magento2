@@ -1,52 +1,54 @@
 <?php
 /**
- * Test class for Magento_Webapi_Block_Adminhtml_Role_Edit_Tabs
+ * Test class for \Magento\Webapi\Block\Adminhtml\Role\Edit\Tabs
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Block_Adminhtml_Role_Edit_TabsTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webapi\Block\Adminhtml\Role\Edit;
+
+class TabsTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Webapi_Block_Adminhtml_Role_Edit_Tabs
+     * @var \Magento\Webapi\Block\Adminhtml\Role\Edit\Tabs
      */
     protected $_block;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject|Magento_Core_Model_Layout
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Model\Layout
      */
     protected $_layout;
 
     /**
-     * @var Magento_TestFramework_Helper_ObjectManager
+     * @var \Magento\TestFramework\Helper\ObjectManager
      */
     protected $_helper;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject|Magento_Core_Controller_Request_Http
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Controller\Request\Http
      */
     protected $_request;
 
     protected function setUp()
     {
-        /** @var Magento_Backend_Model_Url|PHPUnit_Framework_MockObject_MockObject $urlBuilder */
-        $urlBuilder = $this->getMockBuilder('Magento_Backend_Model_Url')
+        /** @var \Magento\Backend\Model\Url|PHPUnit_Framework_MockObject_MockObject $urlBuilder */
+        $urlBuilder = $this->getMockBuilder('Magento\Backend\Model\Url')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_layout = $this->getMockBuilder('Magento_Core_Model_Layout')
+        $this->_layout = $this->getMockBuilder('Magento\Core\Model\Layout')
             ->disableOriginalConstructor()
             ->setMethods(array('helper', 'getBlock'))
             ->getMock();
 
-        $backendData = $this->getMock('Magento_Backend_Helper_Data', array(), array(), '', false);
-        $this->_request = $this->getMockForAbstractClass('Magento_Core_Controller_Request_Http',
+        $backendData = $this->getMock('Magento\Backend\Helper\Data', array(), array(), '', false);
+        $this->_request = $this->getMockForAbstractClass('Magento\Core\Controller\Request\Http',
             array($backendData), '', false, false, true, array('getParam'));
 
-        $this->_helper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_block = $this->_helper->getObject('Magento_Webapi_Block_Adminhtml_Role_Edit_Tabs', array(
+        $this->_helper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $this->_block = $this->_helper->getObject('Magento\Webapi\Block\Adminhtml\Role\Edit\Tabs', array(
             'urlBuilder' => $urlBuilder,
             'layout' => $this->_layout,
             'request' => $this->_request
@@ -74,9 +76,9 @@ class Magento_Webapi_Block_Adminhtml_Role_Edit_TabsTest extends PHPUnit_Framewor
     {
         $this->_block->setApiRole($apiRole);
 
-        $mainBlock = $this->_helper->getObject('Magento_Core_Block_Text');
-        $resourceBlock = $this->_helper->getObject('Magento_Core_Block_Text');
-        $userBlock = $this->_helper->getObject('Magento_Core_Block_Text');
+        $mainBlock = $this->_helper->getObject('Magento\Core\Block\Text');
+        $resourceBlock = $this->_helper->getObject('Magento\Core\Block\Text');
+        $userBlock = $this->_helper->getObject('Magento\Core\Block\Text');
 
         $this->_layout->expects($this->any())
             ->method('getBlock')
@@ -91,7 +93,7 @@ class Magento_Webapi_Block_Adminhtml_Role_Edit_TabsTest extends PHPUnit_Framewor
         )));
 
         // TODO: do checks using toHtml() when DI is implemented for abstract blocks
-        $toHtmlMethod = new ReflectionMethod($this->_block, '_beforeToHtml');
+        $toHtmlMethod = new \ReflectionMethod($this->_block, '_beforeToHtml');
         $toHtmlMethod->setAccessible(true);
         $toHtmlMethod ->invoke($this->_block);
 
@@ -107,7 +109,7 @@ class Magento_Webapi_Block_Adminhtml_Role_Edit_TabsTest extends PHPUnit_Framewor
     {
         return array(
             array(
-                new Magento_Object(array(
+                new \Magento\Object(array(
                     'role_id' => 1,
                     'role_name' => 'some_role'
                 )),

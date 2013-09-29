@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Customer_System_Config_Validatevat extends Magento_Backend_Block_System_Config_Form_Field
+namespace Magento\Adminhtml\Block\Customer\System\Config;
+
+class Validatevat extends \Magento\Backend\Block\System\Config\Form\Field
 {
     /**
      * Merchant Country Field Name
@@ -42,7 +44,7 @@ class Magento_Adminhtml_Block_Customer_System_Config_Validatevat extends Magento
      * Set Merchant Country Field Name
      *
      * @param string $countryField
-     * @return Magento_Adminhtml_Block_Customer_System_Config_Validatevat
+     * @return \Magento\Adminhtml\Block\Customer\System\Config\Validatevat
      */
     public function setMerchantCountryField($countryField)
     {
@@ -64,7 +66,7 @@ class Magento_Adminhtml_Block_Customer_System_Config_Validatevat extends Magento
      * Set Merchant VAT Number Field
      *
      * @param string $vatNumberField
-     * @return Magento_Adminhtml_Block_Customer_System_Config_Validatevat
+     * @return \Magento\Adminhtml\Block\Customer\System\Config\Validatevat
      */
     public function setMerchantVatNumberField($vatNumberField)
     {
@@ -86,7 +88,7 @@ class Magento_Adminhtml_Block_Customer_System_Config_Validatevat extends Magento
      * Set Validate VAT Button Label
      *
      * @param string $vatButtonLabel
-     * @return Magento_Adminhtml_Block_Customer_System_Config_Validatevat
+     * @return \Magento\Adminhtml\Block\Customer\System\Config\Validatevat
      */
     public function setVatButtonLabel($vatButtonLabel)
     {
@@ -97,7 +99,7 @@ class Magento_Adminhtml_Block_Customer_System_Config_Validatevat extends Magento
     /**
      * Set template to itself
      *
-     * @return Magento_Adminhtml_Block_Customer_System_Config_Validatevat
+     * @return \Magento\Adminhtml\Block\Customer\System\Config\Validatevat
      */
     protected function _prepareLayout()
     {
@@ -111,10 +113,10 @@ class Magento_Adminhtml_Block_Customer_System_Config_Validatevat extends Magento
     /**
      * Unset some non-related element parameters
      *
-     * @param Magento_Data_Form_Element_Abstract $element
+     * @param \Magento\Data\Form\Element\AbstractElement $element
      * @return string
      */
-    public function render(Magento_Data_Form_Element_Abstract $element)
+    public function render(\Magento\Data\Form\Element\AbstractElement $element)
     {
         $element->unsScope()->unsCanUseWebsiteValue()->unsCanUseDefaultValue();
         return parent::render($element);
@@ -123,10 +125,10 @@ class Magento_Adminhtml_Block_Customer_System_Config_Validatevat extends Magento
     /**
      * Get the button and scripts contents
      *
-     * @param Magento_Data_Form_Element_Abstract $element
+     * @param \Magento\Data\Form\Element\AbstractElement $element
      * @return string
      */
-    protected function _getElementHtml(Magento_Data_Form_Element_Abstract $element)
+    protected function _getElementHtml(\Magento\Data\Form\Element\AbstractElement $element)
     {
         $originalData = $element->getOriginalData();
         $buttonLabel = !empty($originalData['button_label']) ? $originalData['button_label'] : $this->_vatButtonLabel;

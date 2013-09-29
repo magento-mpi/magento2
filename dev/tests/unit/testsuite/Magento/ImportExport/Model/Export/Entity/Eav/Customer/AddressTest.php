@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_ImportExport_Model_Export_Entity_Eav_Customer_AddressTest extends PHPUnit_Framework_TestCase
+namespace Magento\ImportExport\Model\Export\Entity\Eav\Customer;
+
+class AddressTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Test attribute code
@@ -22,7 +24,7 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer_AddressTest extends 
      * @var array
      */
     protected $_websites = array(
-        Magento_Core_Model_AppInterface::ADMIN_STORE_ID => 'admin',
+        \Magento\Core\Model\AppInterface::ADMIN_STORE_ID => 'admin',
         1                                            => 'website1',
     );
 
@@ -68,23 +70,23 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer_AddressTest extends 
     /**
      * ObjectManager helper
      *
-     * @var Magento_TestFramework_Helper_ObjectManager
+     * @var \Magento\TestFramework\Helper\ObjectManager
      */
     protected $_objectManager;
 
     /**
      * Customer address export model
      *
-     * @var Magento_ImportExport_Model_Export_Entity_Eav_Customer_Address
+     * @var \Magento\ImportExport\Model\Export\Entity\Eav\Customer\Address
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
+        $this->_objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
 
-        $coreStoreConfig = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false);
-        $this->_model = new Magento_ImportExport_Model_Export_Entity_Eav_Customer_Address(
+        $coreStoreConfig = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false);
+        $this->_model = new \Magento\ImportExport\Model\Export\Entity\Eav\Customer\Address(
             $coreStoreConfig,
             $this->_getModelDependencies()
         );
@@ -110,10 +112,10 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer_AddressTest extends 
 
         $translator = $this->getMock('stdClass');
 
-        $entityFactory = $this->getMock('Magento_Core_Model_EntityFactory', array(), array(), '', false);
+        $entityFactory = $this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false);
 
-        /** @var $attributeCollection Magento_Data_Collection|PHPUnit_Framework_TestCase */
-        $attributeCollection = $this->getMock('Magento_Data_Collection',
+        /** @var $attributeCollection \Magento\Data\Collection|PHPUnit_Framework_TestCase */
+        $attributeCollection = $this->getMock('Magento\Data\Collection',
             array('getEntityTypeCode'),
             array($entityFactory)
         );
@@ -121,9 +123,11 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer_AddressTest extends 
             ->method('getEntityTypeCode')
             ->will($this->returnValue('customer_address'));
         foreach ($this->_attributes as $attributeData) {
-            $arguments = $this->_objectManager->getConstructArguments('Magento_Eav_Model_Entity_Attribute_Abstract');
+            $arguments = $this->_objectManager->getConstructArguments(
+                'Magento\Eav\Model\Entity\Attribute\AbstractAttribute');
             $arguments['data'] = $attributeData;
-            $attribute = $this->getMockForAbstractClass('Magento_Eav_Model_Entity_Attribute_Abstract',
+            $attribute = $this->getMockForAbstractClass(
+                'Magento\Eav\Model\Entity\Attribute\AbstractAttribute',
                 $arguments, '', true, true, true, array('_construct')
             );
             $attributeCollection->addItem($attribute);
@@ -135,7 +139,7 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer_AddressTest extends 
             ->will($this->returnCallback(array($this, 'iterate')));
 
         $customerCollection = $this->getMock(
-            'Magento_Data_Collection_Db', array('addAttributeToSelect'), array(), '', false
+            'Magento\Data\Collection\Db', array('addAttributeToSelect'), array(), '', false
         );
 
         $customerEntity = $this->getMock('stdClass', array('filterEntityCollection', 'setParameters'));
@@ -175,14 +179,14 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer_AddressTest extends 
             unset($websites[0]);
         }
         foreach ($this->_websites as $id => $code) {
-            if (!$withDefault && $id == Magento_Core_Model_AppInterface::ADMIN_STORE_ID) {
+            if (!$withDefault && $id == \Magento\Core\Model\AppInterface::ADMIN_STORE_ID) {
                 continue;
             }
             $websiteData = array(
                 'id'   => $id,
                 'code' => $code,
             );
-            $websites[$id] = new Magento_Object($websiteData);
+            $websites[$id] = new \Magento\Object($websiteData);
         }
 
         return $websites;
@@ -193,14 +197,14 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer_AddressTest extends 
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      *
-     * @param Magento_Data_Collection_Db $collection
+     * @param \Magento\Data\Collection\Db $collection
      * @param int $pageSize
      * @param array $callbacks
      */
-    public function iterate(Magento_Data_Collection_Db $collection, $pageSize, array $callbacks)
+    public function iterate(\Magento\Data\Collection\Db $collection, $pageSize, array $callbacks)
     {
         $resource = $this->getMock(
-            'Magento_Customer_Model_Resource_Customer', array('getIdFieldName'), array(), '', false
+            'Magento\Customer\Model\Resource\Customer', array('getIdFieldName'), array(), '', false
         );
         $resource->expects($this->any())
             ->method('getIdFieldName')
@@ -209,8 +213,8 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer_AddressTest extends 
             'data' => $this->_customerData,
             'resource' => $resource,
         );
-        /** @var $customer Magento_Customer_Model_Customer|PHPUnit_Framework_MockObject_MockObject */
-        $customer = $this->_objectManager->getObject('Magento_Customer_Model_Customer', $arguments);
+        /** @var $customer \Magento\Customer\Model\Customer|PHPUnit_Framework_MockObject_MockObject */
+        $customer = $this->_objectManager->getObject('Magento\Customer\Model\Customer', $arguments);
 
         foreach ($callbacks as $callback) {
             call_user_func($callback, $customer);
@@ -220,11 +224,11 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer_AddressTest extends 
     /**
      * Test for method exportItem()
      *
-     * @covers Magento_ImportExport_Model_Export_Entity_Eav_Customer::exportItem
+     * @covers \Magento\ImportExport\Model\Export\Entity\Eav\Customer::exportItem
      */
     public function testExportItem()
     {
-        $writer = $this->getMockForAbstractClass('Magento_ImportExport_Model_Export_Adapter_Abstract',
+        $writer = $this->getMockForAbstractClass('Magento\ImportExport\Model\Export\Adapter\AbstractAdapter',
             array(), '', false, false, true, array('writeRow')
         );
 
@@ -235,9 +239,9 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer_AddressTest extends 
         $this->_model->setWriter($writer);
         $this->_model->setParameters(array());
 
-        $arguments = $this->_objectManager->getConstructArguments('Magento_Core_Model_Abstract');
+        $arguments = $this->_objectManager->getConstructArguments('Magento\Core\Model\AbstractModel');
         $arguments['data'] = $this->_addressData;
-        $item = $this->getMockForAbstractClass('Magento_Core_Model_Abstract', $arguments);
+        $item = $this->getMockForAbstractClass('Magento\Core\Model\AbstractModel', $arguments);
         $this->_model->exportItem($item);
     }
 
@@ -248,19 +252,19 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer_AddressTest extends 
      */
     public function validateWriteRow(array $row)
     {
-        $billingColumn = Magento_ImportExport_Model_Export_Entity_Eav_Customer_Address::COLUMN_NAME_DEFAULT_BILLING;
+        $billingColumn = \Magento\ImportExport\Model\Export\Entity\Eav\Customer\Address::COLUMN_NAME_DEFAULT_BILLING;
         $this->assertEquals($this->_customerData['default_billing'], $row[$billingColumn]);
 
-        $shippingColumn = Magento_ImportExport_Model_Export_Entity_Eav_Customer_Address::COLUMN_NAME_DEFAULT_SHIPPING;
+        $shippingColumn = \Magento\ImportExport\Model\Export\Entity\Eav\Customer\Address::COLUMN_NAME_DEFAULT_SHIPPING;
         $this->assertEquals($this->_customerData['default_shipping'], $row[$shippingColumn]);
 
-        $idColumn = Magento_ImportExport_Model_Export_Entity_Eav_Customer_Address::COLUMN_ADDRESS_ID;
+        $idColumn = \Magento\ImportExport\Model\Export\Entity\Eav\Customer\Address::COLUMN_ADDRESS_ID;
         $this->assertEquals($this->_addressData['id'], $row[$idColumn]);
 
-        $emailColumn = Magento_ImportExport_Model_Export_Entity_Eav_Customer_Address::COLUMN_EMAIL;
+        $emailColumn = \Magento\ImportExport\Model\Export\Entity\Eav\Customer\Address::COLUMN_EMAIL;
         $this->assertEquals($this->_customerData['email'], $row[$emailColumn]);
 
-        $websiteColumn = Magento_ImportExport_Model_Export_Entity_Eav_Customer_Address::COLUMN_WEBSITE;
+        $websiteColumn = \Magento\ImportExport\Model\Export\Entity\Eav\Customer\Address::COLUMN_WEBSITE;
         $this->assertEquals($this->_websites[$this->_customerData['website_id']], $row[$websiteColumn]);
 
         $this->assertEquals($this->_addressData[self::ATTRIBUTE_CODE], $row[self::ATTRIBUTE_CODE]);

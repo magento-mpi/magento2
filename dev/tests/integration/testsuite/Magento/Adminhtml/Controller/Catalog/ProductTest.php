@@ -9,10 +9,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\Controller\Catalog;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_Controller_Catalog_ProductTest extends Magento_Backend_Utility_Controller
+class ProductTest extends \Magento\Backend\Utility\Controller
 {
     /**
      * @magentoDataFixture Magento/Catalog/_files/product_configurable.php
@@ -27,27 +29,27 @@ class Magento_Adminhtml_Controller_Catalog_ProductTest extends Magento_Backend_U
 
         $this->dispatch('backend/admin/catalog_product/save');
 
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
-        /** @var $product Magento_Catalog_Model_Product */
-        $product = $objectManager->get('Magento_Core_Model_Registry')->registry('current_product');
+        /** @var $product \Magento\Catalog\Model\Product */
+        $product = $objectManager->get('Magento\Core\Model\Registry')->registry('current_product');
         $this->assertEquals($associatedProductIds, $product->getAssociatedProductIds());
 
-        /** @see Magento_Backend_Utility_Controller::assertPostConditions() */
+        /** @see \Magento\Backend\Utility\Controller::assertPostConditions() */
         $this->markTestIncomplete('Suppressing admin error messages validation until the bug MAGETWO-7044 is fixed.');
     }
 
     /**
      * Retrieve configurable attribute instance
      *
-     * @return Magento_Catalog_Model_Entity_Attribute
+     * @return \Magento\Catalog\Model\Entity\Attribute
      */
     protected function _getConfigurableAttribute()
     {
-        return Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Entity_Attribute')->loadByCode(
-                Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Eav_Model_Config')
+        return \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Entity\Attribute')->loadByCode(
+                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Eav\Model\Config')
                     ->getEntityType('catalog_product')->getId(),
                 'test_configurable'
             );
@@ -62,7 +64,7 @@ class Magento_Adminhtml_Controller_Catalog_ProductTest extends Magento_Backend_U
         ));
         $this->dispatch('backend/admin/catalog_product/save');
         $this->assertSessionMessages(
-            $this->equalTo(array('Unable to save product')), Magento_Core_Model_Message::ERROR
+            $this->equalTo(array('Unable to save product')), \Magento\Core\Model\Message::ERROR
         );
         $this->assertRedirect($this->stringContains('/backend/admin/catalog_product/edit'));
     }
@@ -76,7 +78,7 @@ class Magento_Adminhtml_Controller_Catalog_ProductTest extends Magento_Backend_U
         $this->dispatch('backend/admin/catalog_product/save/id/1');
         $this->assertRedirect($this->stringStartsWith('http://localhost/index.php/backend/admin/catalog_product/new/'));
         $this->assertSessionMessages(
-            $this->contains('You saved the product.'), Magento_Core_Model_Message::SUCCESS
+            $this->contains('You saved the product.'), \Magento\Core\Model\Message::SUCCESS
         );
     }
 
@@ -94,10 +96,10 @@ class Magento_Adminhtml_Controller_Catalog_ProductTest extends Magento_Backend_U
             $this->stringStartsWith('http://localhost/index.php/backend/admin/catalog_product/edit/id/1')
         ));
         $this->assertSessionMessages(
-            $this->contains('You saved the product.'), Magento_Core_Model_Message::SUCCESS
+            $this->contains('You saved the product.'), \Magento\Core\Model\Message::SUCCESS
         );
         $this->assertSessionMessages(
-            $this->contains('You duplicated the product.'), Magento_Core_Model_Message::SUCCESS
+            $this->contains('You duplicated the product.'), \Magento\Core\Model\Message::SUCCESS
         );
     }
 

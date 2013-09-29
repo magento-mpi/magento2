@@ -15,37 +15,39 @@
  * @package    Magento_AdvancedCheckout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Items extends Magento_Adminhtml_Block_Template
+namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage;
+
+class Items extends \Magento\Adminhtml\Block\Template
 {
     /**
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_registry;
 
     /**
-     * @var Magento_Tax_Model_Config
+     * @var \Magento\Tax\Model\Config
      */
     protected $_taxConfig;
 
     /**
-     * @var Magento_Wishlist_Model_WishlistFactory
+     * @var \Magento\Wishlist\Model\WishlistFactory
      */
     protected $_wishlistFactory;
 
     /**
-     * @param Magento_Tax_Model_Config $taxConfig
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Wishlist_Model_WishlistFactory $wishlistFactory
+     * @param \Magento\Tax\Model\Config $taxConfig
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Wishlist\Model\WishlistFactory $wishlistFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Tax_Model_Config $taxConfig,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Wishlist_Model_WishlistFactory $wishlistFactory,
+        \Magento\Tax\Model\Config $taxConfig,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Wishlist\Model\WishlistFactory $wishlistFactory,
         array $data = array()
     ) {
         $this->_taxConfig = $taxConfig;
@@ -178,7 +180,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Items extends Magento_Admi
     /**
      * Return current quote from registry
      *
-     * @return Magento_Sales_Model_Quote
+     * @return \Magento\Sales\Model\Quote
      */
     protected function getQuote()
     {
@@ -188,7 +190,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Items extends Magento_Admi
     /**
      * Return current store from registry
      *
-     * @return Magento_Core_Model_Store
+     * @return \Magento\Core\Model\Store
      */
     protected function getStore()
     {
@@ -198,7 +200,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Items extends Magento_Admi
     /**
      * Return current customer from registry
      *
-     * @return Magento_Customer_Model_Customer
+     * @return \Magento\Customer\Model\Customer
      */
     protected function getCustomer()
     {
@@ -208,7 +210,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Items extends Magento_Admi
     /**
      * Generate configure button html
      *
-     * @param  Magento_Sales_Model_Quote_Item $item
+     * @param  \Magento\Sales\Model\Quote\Item $item
      * @return string
      */
     public function getConfigureButtonHtml($item)
@@ -232,7 +234,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Items extends Magento_Admi
     /**
      * Returns whether moving to wishlist is allowed for this item
      *
-     * @param Magento_Sales_Model_Quote_Item $item
+     * @param \Magento\Sales\Model\Quote\Item $item
      * @return bool
      */
     public function isMoveToWishlistAllowed($item)
@@ -243,11 +245,11 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Items extends Magento_Admi
     /**
      * Retrieve collection of customer wishlists
      *
-     * @return Magento_Wishlist_Model_Resource_Wishlist_Collection
+     * @return \Magento\Wishlist\Model\Resource\Wishlist\Collection
      */
     public function getCustomerWishlists()
     {
-        /* @var Magento_Wishlist_Model_Resource_Wishlist_Collection $wishlistCollection */
+        /* @var \Magento\Wishlist\Model\Resource\Wishlist\Collection $wishlistCollection */
         return $this->_wishlistFactory->create()->getCollection()
             ->filterByCustomerId($this->getCustomerId());
     }

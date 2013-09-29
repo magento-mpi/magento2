@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Block_Adminhtml_Recurring_Profile_View_Items extends Magento_Adminhtml_Block_Sales_Items_Abstract
+namespace Magento\Sales\Block\Adminhtml\Recurring\Profile\View;
+
+class Items extends \Magento\Adminhtml\Block\Sales\Items\AbstractItems
 {
     /**
      * Retrieve required options from parent
@@ -23,7 +25,7 @@ class Magento_Sales_Block_Adminhtml_Recurring_Profile_View_Items extends Magento
     protected function _beforeToHtml()
     {
         if (!$this->getParentBlock()) {
-            throw new Magento_Core_Exception(__('Invalid parent block for this block'));
+            throw new \Magento\Core\Exception(__('Invalid parent block for this block'));
         }
         parent::_beforeToHtml();
     }
@@ -31,7 +33,7 @@ class Magento_Sales_Block_Adminhtml_Recurring_Profile_View_Items extends Magento
     /**
      * Return current recurring profile
      *
-     * @return Magento_Sales_Model_Recurring_Profile
+     * @return \Magento\Sales\Model\Recurring\Profile
      */
     public function _getRecurringProfile()
     {
@@ -41,7 +43,7 @@ class Magento_Sales_Block_Adminhtml_Recurring_Profile_View_Items extends Magento
     /**
      * Retrieve recurring profile item
      *
-     * @return Magento_Sales_Model_Order_Item
+     * @return \Magento\Sales\Model\Order\Item
      */
     public function getItem()
     {

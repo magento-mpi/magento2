@@ -5,35 +5,37 @@
  * @copyright {copyright}
  * @license {license_link}
  */
-class Magento_GoogleOptimizer_Model_Observer_Product_SaveTest extends PHPUnit_Framework_TestCase
+namespace Magento\GoogleOptimizer\Model\Observer\Product;
+
+class SaveTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_helperMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_eventObserverMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_productMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_codeMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_requestMock;
 
     /**
-     * @var Magento_GoogleOptimizer_Model_Observer_Product_Save
+     * @var \Magento\GoogleOptimizer\Model\Observer\Product\Save
      */
     protected $_modelObserver;
 
@@ -44,21 +46,21 @@ class Magento_GoogleOptimizer_Model_Observer_Product_SaveTest extends PHPUnit_Fr
 
     protected function setUp()
     {
-        $this->_helperMock = $this->getMock('Magento_GoogleOptimizer_Helper_Data', array(), array(), '', false);
-        $this->_productMock = $this->getMock('Magento_Catalog_Model_Product', array(), array(), '', false);
+        $this->_helperMock = $this->getMock('Magento\GoogleOptimizer\Helper\Data', array(), array(), '', false);
+        $this->_productMock = $this->getMock('Magento\Catalog\Model\Product', array(), array(), '', false);
         $this->_storeId = 0;
         $this->_productMock->expects($this->atLeastOnce())->method('getStoreId')
             ->will($this->returnValue($this->_storeId));
-        $event = $this->getMock('Magento_Event', array('getProduct'), array(), '', false);
+        $event = $this->getMock('Magento\Event', array('getProduct'), array(), '', false);
         $event->expects($this->once())->method('getProduct')->will($this->returnValue($this->_productMock));
-        $this->_eventObserverMock = $this->getMock('Magento_Event_Observer', array(), array(), '', false);
+        $this->_eventObserverMock = $this->getMock('Magento\Event\Observer', array(), array(), '', false);
         $this->_eventObserverMock->expects($this->once())->method('getEvent')->will($this->returnValue($event));
-        $this->_codeMock = $this->getMock('Magento_GoogleOptimizer_Model_Code', array(), array(), '', false);
-        $this->_requestMock = $this->getMock('Magento_Core_Controller_Request_Http', array(), array(), '', false);
+        $this->_codeMock = $this->getMock('Magento\GoogleOptimizer\Model\Code', array(), array(), '', false);
+        $this->_requestMock = $this->getMock('Magento\Core\Controller\Request\Http', array(), array(), '', false);
 
-        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_modelObserver = $objectManagerHelper->getObject(
-            'Magento_GoogleOptimizer_Model_Observer_Product_Save',
+            'Magento\GoogleOptimizer\Model\Observer\Product\Save',
             array(
                 'helper' => $this->_helperMock,
                 'modelCode' => $this->_codeMock,
@@ -83,7 +85,7 @@ class Magento_GoogleOptimizer_Model_Observer_Product_SaveTest extends PHPUnit_Fr
             )));
 
         $this->_codeMock->expects($this->once())->method('addData')->with(array(
-            'entity_type' => Magento_GoogleOptimizer_Model_Code::ENTITY_TYPE_PRODUCT,
+            'entity_type' => \Magento\GoogleOptimizer\Model\Code::ENTITY_TYPE_PRODUCT,
             'entity_id' => $productId,
             'store_id' => $this->_storeId,
             'experiment_script' => $experimentScript,
@@ -96,7 +98,7 @@ class Magento_GoogleOptimizer_Model_Observer_Product_SaveTest extends PHPUnit_Fr
 
     /**
      * @param array $params
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Wrong request parameters
      * @dataProvider dataProviderWrongRequestForCreating
      */
@@ -150,7 +152,7 @@ class Magento_GoogleOptimizer_Model_Observer_Product_SaveTest extends PHPUnit_Fr
         $this->_codeMock->expects($this->once())->method('getId')->will($this->returnValue($codeId));
 
         $this->_codeMock->expects($this->once())->method('addData')->with(array(
-            'entity_type' => Magento_GoogleOptimizer_Model_Code::ENTITY_TYPE_PRODUCT,
+            'entity_type' => \Magento\GoogleOptimizer\Model\Code::ENTITY_TYPE_PRODUCT,
             'entity_id' => $productId,
             'store_id' => $this->_storeId,
             'experiment_script' => $experimentScript,
@@ -162,7 +164,7 @@ class Magento_GoogleOptimizer_Model_Observer_Product_SaveTest extends PHPUnit_Fr
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Code does not exist
      */
     public function testEditingCodeIfCodeModelIsNotFound()

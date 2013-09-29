@@ -7,8 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_VersionsCms_Model_Hierarchy_Config extends Magento_Config_Data_Scoped
-    implements Magento_VersionsCms_Model_Hierarchy_ConfigInterface
+namespace Magento\VersionsCms\Model\Hierarchy;
+
+class Config extends \Magento\Config\Data\Scoped
+    implements \Magento\VersionsCms\Model\Hierarchy\ConfigInterface
 {
     /**
      * Menu layouts configuration
@@ -24,15 +26,15 @@ class Magento_VersionsCms_Model_Hierarchy_Config extends Magento_Config_Data_Sco
     protected $_scopePriorityScheme = array('global');
 
     /**
-     * @param Magento_VersionsCms_Model_Hierarchy_Config_Reader $reader
-     * @param Magento_Config_ScopeInterface $configScope
-     * @param Magento_Config_CacheInterface $cache
+     * @param \Magento\VersionsCms\Model\Hierarchy\Config\Reader $reader
+     * @param \Magento\Config\ScopeInterface $configScope
+     * @param \Magento\Config\CacheInterface $cache
      * @param string $cacheId
      */
     public function __construct(
-        Magento_VersionsCms_Model_Hierarchy_Config_Reader $reader,
-        Magento_Config_ScopeInterface $configScope,
-        Magento_Config_CacheInterface $cache,
+        \Magento\VersionsCms\Model\Hierarchy\Config\Reader $reader,
+        \Magento\Config\ScopeInterface $configScope,
+        \Magento\Config\CacheInterface $cache,
         $cacheId = "menuHierarchyConfigCache"
     ) {
         parent::__construct($reader, $configScope, $cache, $cacheId);
@@ -52,7 +54,7 @@ class Magento_VersionsCms_Model_Hierarchy_Config extends Magento_Config_Data_Sco
      * Return Context Menu layout by its name
      *
      * @param string $layoutName
-     * @return Magento_Object|boolean
+     * @return \Magento\Object|boolean
      */
     public function getContextMenuLayout($layoutName)
     {

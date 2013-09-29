@@ -12,12 +12,14 @@
 /**
  * Bootstrap of the application profiler
  */
-class Magento_TestFramework_Bootstrap_Profiler
+namespace Magento\TestFramework\Bootstrap;
+
+class Profiler
 {
     /**
      * Profiler driver instance
      *
-     * @var Magento_Profiler_Driver_Standard
+     * @var \Magento\Profiler\Driver\Standard
      */
     protected $_driver;
 
@@ -31,9 +33,9 @@ class Magento_TestFramework_Bootstrap_Profiler
     /**
      * Constructor
      *
-     * @param Magento_Profiler_Driver_Standard $driver
+     * @param \Magento\Profiler\Driver\Standard $driver
      */
-    public function __construct(Magento_Profiler_Driver_Standard $driver)
+    public function __construct(\Magento\Profiler\Driver\Standard $driver)
     {
         $this->_driver = $driver;
     }
@@ -45,7 +47,7 @@ class Magento_TestFramework_Bootstrap_Profiler
     {
         if (!$this->_isDriverRegistered) {
             $this->_isDriverRegistered = true;
-            Magento_Profiler::add($this->_driver);
+            \Magento\Profiler::add($this->_driver);
         }
     }
 
@@ -57,7 +59,7 @@ class Magento_TestFramework_Bootstrap_Profiler
     public function registerFileProfiler($profilerOutputFile)
     {
         $this->_registerDriver();
-        $this->_driver->registerOutput(new Magento_Profiler_Driver_Standard_Output_Csvfile(array(
+        $this->_driver->registerOutput(new \Magento\Profiler\Driver\Standard\Output\Csvfile(array(
             'filePath' => $profilerOutputFile
         )));
     }
@@ -71,7 +73,7 @@ class Magento_TestFramework_Bootstrap_Profiler
     public function registerBambooProfiler($profilerOutputFile, $profilerMetricsFile)
     {
         $this->_registerDriver();
-        $this->_driver->registerOutput(new Magento_TestFramework_Profiler_OutputBamboo(array(
+        $this->_driver->registerOutput(new \Magento\TestFramework\Profiler\OutputBamboo(array(
             'filePath' => $profilerOutputFile,
             'metrics'  => require($profilerMetricsFile)
         )));

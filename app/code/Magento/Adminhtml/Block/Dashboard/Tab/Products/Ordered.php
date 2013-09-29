@@ -16,27 +16,29 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Dashboard_Tab_Products_Ordered extends Magento_Adminhtml_Block_Dashboard_Grid
+namespace Magento\Adminhtml\Block\Dashboard\Tab\Products;
+
+class Ordered extends \Magento\Adminhtml\Block\Dashboard\Grid
 {
     /**
-     * @var Magento_Sales_Model_Resource_Report_Bestsellers_CollectionFactory
+     * @var \Magento\Sales\Model\Resource\Report\Bestsellers\CollectionFactory
      */
     protected $_collectionFactory;
 
     /**
-     * @param Magento_Sales_Model_Resource_Report_Bestsellers_CollectionFactory $collectionFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Url $urlModel
+     * @param \Magento\Sales\Model\Resource\Report\Bestsellers\CollectionFactory $collectionFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
      * @param array $data
      */
     public function __construct(
-        Magento_Sales_Model_Resource_Report_Bestsellers_CollectionFactory $collectionFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Url $urlModel,
+        \Magento\Sales\Model\Resource\Report\Bestsellers\CollectionFactory $collectionFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
         array $data = array()
     ) {
         $this->_collectionFactory = $collectionFactory;
@@ -65,7 +67,7 @@ class Magento_Adminhtml_Block_Dashboard_Tab_Products_Ordered extends Magento_Adm
         }
 
         $collection = $this->_collectionFactory->create()
-            ->setModel('Magento_Catalog_Model_Product')
+            ->setModel('Magento\Catalog\Model\Product')
             ->addStoreFilter($storeId)
         ;
 
@@ -112,7 +114,7 @@ class Magento_Adminhtml_Block_Dashboard_Tab_Products_Ordered extends Magento_Adm
      * Returns row url to show in admin dashboard
      * $row is bestseller row wrapped in Product model
      *
-     * @param Magento_Catalog_Model_Product $row
+     * @param \Magento\Catalog\Model\Product $row
      *
      * @return string
      */

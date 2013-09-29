@@ -16,12 +16,14 @@
  * @package    Magento_Eav
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Eav_Model_Entity_Setup extends Magento_Core_Model_Resource_Setup
+namespace Magento\Eav\Model\Entity;
+
+class Setup extends \Magento\Core\Model\Resource\Setup
 {
     /**
      * Application cache model
      *
-     * @var Magento_Core_Model_CacheInterface
+     * @var \Magento\Core\Model\CacheInterface
      */
     protected $_cache;
 
@@ -56,15 +58,15 @@ class Magento_Eav_Model_Entity_Setup extends Magento_Core_Model_Resource_Setup
     protected $_defaultAttributeSetName = 'Default';
 
     /**
-     * @param Magento_Core_Model_Resource_Setup_Context $context
-     * @param Magento_Core_Model_CacheInterface $cache
+     * @param \Magento\Core\Model\Resource\Setup\Context $context
+     * @param \Magento\Core\Model\CacheInterface $cache
      * @param string $resourceName
      * @param string $moduleName
      * @param string $connectionName
      */
     public function __construct(
-        Magento_Core_Model_Resource_Setup_Context $context,
-        Magento_Core_Model_CacheInterface $cache,
+        \Magento\Core\Model\Resource\Setup\Context $context,
+        \Magento\Core\Model\CacheInterface $cache,
         $resourceName,
         $moduleName = 'Magento_Eav',
         $connectionName = ''
@@ -76,18 +78,18 @@ class Magento_Eav_Model_Entity_Setup extends Magento_Core_Model_Resource_Setup
     /**
      * Clean cache
      *
-     * @return Magento_Eav_Model_Entity_Setup
+     * @return \Magento\Eav\Model\Entity\Setup
      */
     public function cleanCache()
     {
-        $this->_cache->clean(array(Magento_Eav_Model_Cache_Type::CACHE_TAG));
+        $this->_cache->clean(array(\Magento\Eav\Model\Cache\Type::CACHE_TAG));
         return $this;
     }
 
     /**
      * Install Default Group Ids
      *
-     * @return Magento_Eav_Model_Entity_Setup
+     * @return \Magento\Eav\Model\Entity\Setup
      */
     public function installDefaultGroupIds()
     {
@@ -121,7 +123,7 @@ class Magento_Eav_Model_Entity_Setup extends Magento_Core_Model_Resource_Setup
      *
      * @param string $code
      * @param array $params
-     * @return Magento_Eav_Model_Entity_Setup
+     * @return \Magento\Eav\Model\Entity\Setup
      */
     public function addEntityType($code, array $params)
     {
@@ -164,7 +166,7 @@ class Magento_Eav_Model_Entity_Setup extends Magento_Core_Model_Resource_Setup
      * @param string $code
      * @param string $field
      * @param string $value
-     * @return Magento_Eav_Model_Entity_Setup
+     * @return \Magento\Eav\Model\Entity\Setup
      */
     public function updateEntityType($code, $field, $value = null)
     {
@@ -200,7 +202,7 @@ class Magento_Eav_Model_Entity_Setup extends Magento_Core_Model_Resource_Setup
             $entityTypeId = $this->getEntityType($entityTypeId, 'entity_type_id');
         }
         if (!is_numeric($entityTypeId)) {
-            throw Mage::exception('Magento_Eav', __('Wrong entity ID'));
+            throw \Mage::exception('Magento_Eav', __('Wrong entity ID'));
         }
 
         return $entityTypeId;
@@ -210,7 +212,7 @@ class Magento_Eav_Model_Entity_Setup extends Magento_Core_Model_Resource_Setup
      * Remove entity type by Id or Code
      *
      * @param mixed $id
-     * @return Magento_Eav_Model_Entity_Setup
+     * @return \Magento\Eav\Model\Entity\Setup
      */
     public function removeEntityType($id)
     {
@@ -252,7 +254,7 @@ class Magento_Eav_Model_Entity_Setup extends Magento_Core_Model_Resource_Setup
      * @param mixed $entityTypeId
      * @param string $name
      * @param int $sortOrder
-     * @return Magento_Eav_Model_Entity_Setup
+     * @return \Magento\Eav\Model\Entity\Setup
      */
     public function addAttributeSet($entityTypeId, $name, $sortOrder = null)
     {
@@ -281,7 +283,7 @@ class Magento_Eav_Model_Entity_Setup extends Magento_Core_Model_Resource_Setup
      * @param int $id
      * @param string $field
      * @param mixed $value
-     * @return Magento_Eav_Model_Entity_Setup
+     * @return \Magento\Eav\Model\Entity\Setup
      */
     public function updateAttributeSet($entityTypeId, $id, $field, $value = null)
     {
@@ -313,7 +315,7 @@ class Magento_Eav_Model_Entity_Setup extends Magento_Core_Model_Resource_Setup
     /**
      * Retrieve Attribute Set Id By Id or Name
      *
-     * @throws Magento_Eav_Exception
+     * @throws \Magento\Eav\Exception
      * @param mixed $entityTypeId
      * @param mixed $setId
      * @return int
@@ -324,7 +326,7 @@ class Magento_Eav_Model_Entity_Setup extends Magento_Core_Model_Resource_Setup
             $setId = $this->getAttributeSet($entityTypeId, $setId, 'attribute_set_id');
         }
         if (!is_numeric($setId)) {
-            throw Mage::exception('Magento_Eav', __('Wrong attribute set ID'));
+            throw \Mage::exception('Magento_Eav', __('Wrong attribute set ID'));
         }
 
         return $setId;
@@ -335,7 +337,7 @@ class Magento_Eav_Model_Entity_Setup extends Magento_Core_Model_Resource_Setup
      *
      * @param mixed $entityTypeId
      * @param mixed $id
-     * @return Magento_Eav_Model_Entity_Setup
+     * @return \Magento\Eav\Model\Entity\Setup
      */
     public function removeAttributeSet($entityTypeId, $id)
     {
@@ -347,7 +349,7 @@ class Magento_Eav_Model_Entity_Setup extends Magento_Core_Model_Resource_Setup
      * Set Default Attribute Set to Entity Type
      *
      * @param mixed $entityType
-     * @return Magento_Eav_Model_Entity_Setup
+     * @return \Magento\Eav\Model\Entity\Setup
      */
     public function setDefaultSetToEntityType($entityType, $attributeSet = 'Default')
     {
@@ -428,7 +430,7 @@ class Magento_Eav_Model_Entity_Setup extends Magento_Core_Model_Resource_Setup
      * @param mixed $setId
      * @param string $name
      * @param int $sortOrder
-     * @return Magento_Eav_Model_Entity_Setup
+     * @return \Magento\Eav\Model\Entity\Setup
      */
     public function addAttributeGroup($entityTypeId, $setId, $name, $sortOrder = null)
     {
@@ -467,7 +469,7 @@ class Magento_Eav_Model_Entity_Setup extends Magento_Core_Model_Resource_Setup
      * @param mixed $id
      * @param string $field
      * @param mixed $value
-     * @return Magento_Eav_Model_Entity_Setup
+     * @return \Magento\Eav\Model\Entity\Setup
      */
     public function updateAttributeGroup($entityTypeId, $setId, $id, $field, $value = null)
     {
@@ -515,7 +517,7 @@ class Magento_Eav_Model_Entity_Setup extends Magento_Core_Model_Resource_Setup
      * @param mixed $entityTypeId
      * @param mixed $setId
      * @param mixed $groupId
-     * @return Magento_Eav_Model_Entity_Setup
+     * @return \Magento\Eav\Model\Entity\Setup
      */
     public function getAttributeGroupId($entityTypeId, $setId, $groupId)
     {
@@ -528,7 +530,7 @@ class Magento_Eav_Model_Entity_Setup extends Magento_Core_Model_Resource_Setup
         }
 
         if (!is_numeric($groupId)) {
-            throw Mage::exception('Magento_Eav', __('Wrong attribute group ID'));
+            throw \Mage::exception('Magento_Eav', __('Wrong attribute group ID'));
         }
         return $groupId;
     }
@@ -539,7 +541,7 @@ class Magento_Eav_Model_Entity_Setup extends Magento_Core_Model_Resource_Setup
      * @param mixed $entityTypeId
      * @param mixed $setId
      * @param mixed $id
-     * @return Magento_Eav_Model_Entity_Setup
+     * @return \Magento\Eav\Model\Entity\Setup
      */
     public function removeAttributeGroup($entityTypeId, $setId, $id)
     {
@@ -568,7 +570,7 @@ class Magento_Eav_Model_Entity_Setup extends Magento_Core_Model_Resource_Setup
         $select = $this->getConnection()->select()
             ->from($this->getTable('eav_attribute_group'), 'attribute_group_id')
             ->where('attribute_set_id = :attribute_set_id')
-            ->order(array('default_id ' . Magento_DB_Select::SQL_DESC, 'sort_order'))
+            ->order(array('default_id ' . \Magento\DB\Select::SQL_DESC, 'sort_order'))
             ->limit(1);
 
         return $this->getConnection()->fetchOne($select, $bind);
@@ -635,7 +637,7 @@ class Magento_Eav_Model_Entity_Setup extends Magento_Core_Model_Resource_Setup
             'is_unique'       => $this->_getValue($attr, 'unique', 0),
             'note'            => $this->_getValue($attr, 'note'),
             'is_global'       => $this->_getValue($attr, 'global',
-                                     Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL
+                                     \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_GLOBAL
                                  ),
         );
 
@@ -646,17 +648,17 @@ class Magento_Eav_Model_Entity_Setup extends Magento_Core_Model_Resource_Setup
      * Validate attribute data before insert into table
      *
      * @param  array $data
-     * @throws Magento_Eav_Exception
+     * @throws \Magento\Eav\Exception
      * @return true
      */
     protected function _validateAttributeData($data)
     {
-        $attributeCodeMaxLength = Magento_Eav_Model_Entity_Attribute::ATTRIBUTE_CODE_MAX_LENGTH;
+        $attributeCodeMaxLength = \Magento\Eav\Model\Entity\Attribute::ATTRIBUTE_CODE_MAX_LENGTH;
 
         if (isset($data['attribute_code']) &&
-           !Zend_Validate::is($data['attribute_code'], 'StringLength', array('max' => $attributeCodeMaxLength)))
+           !\Zend_Validate::is($data['attribute_code'], 'StringLength', array('max' => $attributeCodeMaxLength)))
         {
-            throw Mage::exception('Magento_Eav',
+            throw \Mage::exception('Magento_Eav',
                 __('Maximum length of attribute code must be less than %1 symbols', $attributeCodeMaxLength)
             );
         }
@@ -672,7 +674,7 @@ class Magento_Eav_Model_Entity_Setup extends Magento_Core_Model_Resource_Setup
      * @param string|integer $entityTypeId
      * @param string $code
      * @param array $attr
-     * @return Magento_Eav_Model_Entity_Setup
+     * @return \Magento\Eav\Model\Entity\Setup
      */
     public function addAttribute($entityTypeId, $code, array $attr)
     {
@@ -759,7 +761,7 @@ class Magento_Eav_Model_Entity_Setup extends Magento_Core_Model_Resource_Setup
 
                 // Default value
                 if (!isset($values[0])) {
-                    Mage::throwException(__('Default option value is not defined'));
+                    \Mage::throwException(__('Default option value is not defined'));
                 }
                 $condition = array('option_id =?' => $intOptionId);
                 $this->_connection->delete($optionValueTable, $condition);
@@ -800,7 +802,7 @@ class Magento_Eav_Model_Entity_Setup extends Magento_Core_Model_Resource_Setup
      * @param string $field
      * @param mixed $value
      * @param int $sortOrder
-     * @return Magento_Eav_Model_Entity_Setup
+     * @return \Magento\Eav\Model\Entity\Setup
      */
     public function updateAttribute($entityTypeId, $id, $field, $value = null, $sortOrder = null)
     {
@@ -817,7 +819,7 @@ class Magento_Eav_Model_Entity_Setup extends Magento_Core_Model_Resource_Setup
      * @param string $field
      * @param mixed $value
      * @param int $sortOrder
-     * @return Magento_Eav_Model_Entity_Setup
+     * @return \Magento\Eav\Model\Entity\Setup
      */
     protected function _updateAttribute($entityTypeId, $id, $field, $value = null, $sortOrder = null)
     {
@@ -862,7 +864,7 @@ class Magento_Eav_Model_Entity_Setup extends Magento_Core_Model_Resource_Setup
      * @param mixed $id
      * @param string $field
      * @param mixed $value
-     * @return Magento_Eav_Model_Entity_Setup
+     * @return \Magento\Eav\Model\Entity\Setup
      */
     protected function _updateAttributeAdditionalData($entityTypeId, $id, $field, $value = null)
     {
@@ -1010,7 +1012,7 @@ class Magento_Eav_Model_Entity_Setup extends Magento_Core_Model_Resource_Setup
      *
      * @param mixed $entityTypeId
      * @param mixed $code
-     * @return Magento_Eav_Model_Entity_Setup
+     * @return \Magento\Eav\Model\Entity\Setup
      */
     public function removeAttribute($entityTypeId, $code)
     {
@@ -1032,7 +1034,7 @@ class Magento_Eav_Model_Entity_Setup extends Magento_Core_Model_Resource_Setup
      * @param mixed $setId
      * @param mixed $groupId
      * @param int $sortOrder
-     * @return Magento_Eav_Model_Entity_Setup
+     * @return \Magento\Eav\Model\Entity\Setup
      */
     public function getAttributeSortOrder($entityTypeId, $setId, $groupId, $sortOrder = null)
     {
@@ -1056,7 +1058,7 @@ class Magento_Eav_Model_Entity_Setup extends Magento_Core_Model_Resource_Setup
      * @param mixed $groupId
      * @param mixed $attributeId
      * @param int $sortOrder
-     * @return Magento_Eav_Model_Entity_Setup
+     * @return \Magento\Eav\Model\Entity\Setup
      */
     public function addAttributeToSet($entityTypeId, $setId, $groupId, $attributeId, $sortOrder=null)
     {
@@ -1105,7 +1107,7 @@ class Magento_Eav_Model_Entity_Setup extends Magento_Core_Model_Resource_Setup
      * @param int|string $groupId
      * @param int|string $attributeId
      * @param int $sortOrder
-     * @return Magento_Eav_Model_Entity_Setup
+     * @return \Magento\Eav\Model\Entity\Setup
      */
     public function addAttributeToGroup($entityType, $setId, $groupId, $attributeId, $sortOrder = null)
     {
@@ -1167,7 +1169,7 @@ class Magento_Eav_Model_Entity_Setup extends Magento_Core_Model_Resource_Setup
      * Install entities
      *
      * @param array $entities
-     * @return Magento_Eav_Model_Entity_Setup
+     * @return \Magento\Eav\Model\Entity\Setup
      */
     public function installEntities($entities = null)
     {
@@ -1250,37 +1252,37 @@ class Magento_Eav_Model_Entity_Setup extends Magento_Core_Model_Resource_Setup
             $connection = $this->getConnection();
             $mainTable = $connection
                 ->newTable($this->getTable($baseTableName))
-                ->addColumn('entity_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+                ->addColumn('entity_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
                     'identity'  => true,
                     'nullable'  => false,
                     'primary'   => true,
                  ), 'Entity Id')
-                ->addColumn('entity_type_id', Magento_DB_Ddl_Table::TYPE_SMALLINT, null, array(
+                ->addColumn('entity_type_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
                     'unsigned'  => true,
                     'nullable'  => false,
                     'default'   => '0',
                 ), 'Entity Type Id')
-                ->addColumn('attribute_set_id', Magento_DB_Ddl_Table::TYPE_SMALLINT, null, array(
+                ->addColumn('attribute_set_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
                     'unsigned'  => true,
                     'nullable'  => false,
                     'default'   => '0',
                 ), 'Attribute Set Id')
-                ->addColumn('increment_id', Magento_DB_Ddl_Table::TYPE_TEXT, 50, array(
+                ->addColumn('increment_id', \Magento\DB\Ddl\Table::TYPE_TEXT, 50, array(
                     'nullable'  => false,
                     'default'   => '',
                 ), 'Increment Id')
-                ->addColumn('store_id', Magento_DB_Ddl_Table::TYPE_SMALLINT, null, array(
+                ->addColumn('store_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
                     'unsigned'  => true,
                     'nullable'  => false,
                     'default'   => '0',
                 ), 'Store Id')
-                ->addColumn('created_at', Magento_DB_Ddl_Table::TYPE_TIMESTAMP, null, array(
+                ->addColumn('created_at', \Magento\DB\Ddl\Table::TYPE_TIMESTAMP, null, array(
                     'nullable'  => false,
                 ), 'Created At')
-                ->addColumn('updated_at', Magento_DB_Ddl_Table::TYPE_TIMESTAMP, null, array(
+                ->addColumn('updated_at', \Magento\DB\Ddl\Table::TYPE_TIMESTAMP, null, array(
                     'nullable'  => false,
                 ), 'Updated At')
-                ->addColumn('is_active', Magento_DB_Ddl_Table::TYPE_SMALLINT, null, array(
+                ->addColumn('is_active', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
                     'unsigned'  => true,
                     'nullable'  => false,
                     'default'   => '1',
@@ -1291,10 +1293,10 @@ class Magento_Eav_Model_Entity_Setup extends Magento_Core_Model_Resource_Setup
                     array('store_id'))
                 ->addForeignKey($this->getFkName($baseTableName, 'entity_type_id', 'eav_entity_type', 'entity_type_id'),
                     'entity_type_id', $this->getTable('eav_entity_type'), 'entity_type_id',
-                    Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE)
+                    \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
                 ->addForeignKey($this->getFkName($baseTableName, 'store_id', 'core_store', 'store_id'),
                     'store_id', $this->getTable('core_store'), 'store_id',
-                    Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE)
+                    \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
                 ->setComment('Eav Entity Main Table');
 
             $tables[$this->getTable($baseTableName)] = $mainTable;
@@ -1303,19 +1305,19 @@ class Magento_Eav_Model_Entity_Setup extends Magento_Core_Model_Resource_Setup
         $types = array();
         if (!$isNoDefaultTypes) {
             $types = array(
-                'datetime'  => array(Magento_DB_Ddl_Table::TYPE_DATETIME, null),
-                'decimal'   => array(Magento_DB_Ddl_Table::TYPE_DECIMAL, '12,4'),
-                'int'       => array(Magento_DB_Ddl_Table::TYPE_INTEGER, null),
-                'text'      => array(Magento_DB_Ddl_Table::TYPE_TEXT, '64k'),
-                'varchar'   => array(Magento_DB_Ddl_Table::TYPE_TEXT, '255'),
-                'char'   => array(Magento_DB_Ddl_Table::TYPE_TEXT, '255')
+                'datetime'  => array(\Magento\DB\Ddl\Table::TYPE_DATETIME, null),
+                'decimal'   => array(\Magento\DB\Ddl\Table::TYPE_DECIMAL, '12,4'),
+                'int'       => array(\Magento\DB\Ddl\Table::TYPE_INTEGER, null),
+                'text'      => array(\Magento\DB\Ddl\Table::TYPE_TEXT, '64k'),
+                'varchar'   => array(\Magento\DB\Ddl\Table::TYPE_TEXT, '255'),
+                'char'   => array(\Magento\DB\Ddl\Table::TYPE_TEXT, '255')
             );
         }
 
         if (!empty($customTypes)) {
             foreach ($customTypes as $type => $fieldType) {
                 if (count($fieldType) != 2) {
-                    throw Mage::exception('Magento_Eav', __('Wrong type definition for %1', $type));
+                    throw \Mage::exception('Magento_Eav', __('Wrong type definition for %1', $type));
                 }
                 $types[$type] = $fieldType;
             }
@@ -1329,27 +1331,27 @@ class Magento_Eav_Model_Entity_Setup extends Magento_Core_Model_Resource_Setup
 
             $eavTable = $connection->newTable($this->getTable($eavTableName));
             $eavTable
-                ->addColumn('value_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+                ->addColumn('value_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
                     'identity'  => true,
                     'nullable'  => false,
                     'primary'   => true,
                     ), 'Value Id')
-                ->addColumn('entity_type_id', Magento_DB_Ddl_Table::TYPE_SMALLINT, null, array(
+                ->addColumn('entity_type_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
                     'unsigned'  => true,
                     'nullable'  => false,
                     'default'   => '0',
                     ), 'Entity Type Id')
-                ->addColumn('attribute_id', Magento_DB_Ddl_Table::TYPE_SMALLINT, null, array(
+                ->addColumn('attribute_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
                     'unsigned'  => true,
                     'nullable'  => false,
                     'default'   => '0',
                     ), 'Attribute Id')
-                ->addColumn('store_id', Magento_DB_Ddl_Table::TYPE_SMALLINT, null, array(
+                ->addColumn('store_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
                     'unsigned'  => true,
                     'nullable'  => false,
                     'default'   => '0',
                     ), 'Store Id')
-                ->addColumn('entity_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+                ->addColumn('entity_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
                     'unsigned'  => true,
                     'nullable'  => false,
                     'default'   => '0',
@@ -1375,13 +1377,13 @@ class Magento_Eav_Model_Entity_Setup extends Magento_Core_Model_Resource_Setup
             $eavTable
                 ->addForeignKey($this->getFkName($eavTableName, 'entity_id', $baseTableName, 'entity_id'),
                     'entity_id', $this->getTable($baseTableName), 'entity_id',
-                    Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE)
+                    \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
                 ->addForeignKey($this->getFkName($eavTableName, 'entity_type_id', 'eav_entity_type', 'entity_type_id'),
                     'entity_type_id', $this->getTable('eav_entity_type'), 'entity_type_id',
-                    Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE)
+                    \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
                 ->addForeignKey($this->getFkName($eavTableName, 'store_id', 'core_store', 'store_id'),
                     'store_id', $this->getTable('core_store'), 'store_id',
-                    Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE)
+                    \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
                 ->setComment('Eav Entity Value Table');
 
             $tables[$this->getTable($eavTableName)] = $eavTable;
@@ -1393,9 +1395,9 @@ class Magento_Eav_Model_Entity_Setup extends Magento_Core_Model_Resource_Setup
                 $connection->createTable($table);
             }
             $connection->commit();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
            $connection->rollBack();
-           throw Mage::exception('Magento_Eav', __('Can\'t create table: %1', $tableName));
+           throw \Mage::exception('Magento_Eav', __('Can\'t create table: %1', $tableName));
         }
 
         return $this;
@@ -1415,7 +1417,7 @@ class Magento_Eav_Model_Entity_Setup extends Magento_Core_Model_Resource_Setup
      * Insert attribute and filter data
      *
      * @param array $data
-     * @return Magento_Eav_Model_Entity_Setup
+     * @return \Magento\Eav\Model\Entity\Setup
      */
     protected function _insertAttribute(array $data)
     {
@@ -1447,7 +1449,7 @@ class Magento_Eav_Model_Entity_Setup extends Magento_Core_Model_Resource_Setup
      *
      * @param int $entityTypeId
      * @param array $data
-     * @return Magento_Eav_Model_Entity_Setup
+     * @return \Magento\Eav\Model\Entity\Setup
      */
     protected function _insertAttributeAdditionalData($entityTypeId, array $data)
     {

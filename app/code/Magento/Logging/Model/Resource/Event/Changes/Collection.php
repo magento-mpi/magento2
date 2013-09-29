@@ -16,7 +16,9 @@
  * @package     Magento_Logging
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Logging_Model_Resource_Event_Changes_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Logging\Model\Resource\Event\Changes;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Initialize resource
@@ -24,6 +26,6 @@ class Magento_Logging_Model_Resource_Event_Changes_Collection extends Magento_Co
      */
     protected function _construct()
     {
-        $this->_init('Magento_Logging_Model_Event_Changes', 'Magento_Logging_Model_Resource_Event_Changes');
+        $this->_init('Magento\Logging\Model\Event\Changes', 'Magento\Logging\Model\Resource\Event\Changes');
     }
 }

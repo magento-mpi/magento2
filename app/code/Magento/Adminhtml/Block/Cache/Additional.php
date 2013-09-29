@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Adminhtml_Block_Cache_Additional extends Magento_Adminhtml_Block_Template
+namespace Magento\Adminhtml\Block\Cache;
+
+class Additional extends \Magento\Adminhtml\Block\Template
 {
     public function getCleanImagesUrl()
     {

@@ -15,7 +15,9 @@
  * @package    Magento_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backend_Block_Widget_Accordion_Item extends Magento_Backend_Block_Widget
+namespace Magento\Backend\Block\Widget\Accordion;
+
+class Item extends \Magento\Backend\Block\Widget
 {
     protected $_accordion;
 
@@ -46,7 +48,7 @@ class Magento_Backend_Block_Widget_Accordion_Item extends Magento_Backend_Block_
         if (is_string($content)) {
             return $content;
         }
-        if ($content instanceof Magento_Core_Block_Abstract) {
+        if ($content instanceof \Magento\Core\Block\AbstractBlock) {
             return $content->toHtml();
         }
         return null;

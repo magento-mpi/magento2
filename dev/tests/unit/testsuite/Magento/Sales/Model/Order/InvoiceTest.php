@@ -9,62 +9,64 @@
  * @license     {license_link}
  */
 
-class Magento_Sales_Model_Order_InvoiceTest extends PHPUnit_Framework_TestCase
+namespace Magento\Sales\Model\Order;
+
+class InvoiceTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Sales_Model_Order_Invoice
+     * @var \Magento\Sales\Model\Order\Invoice
      */
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject|Magento_Sales_Model_Order
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Sales\Model\Order
      */
     protected $_orderMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject|Magento_Sales_Model_Order_Payment
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Sales\Model\Order\Payment
      */
     protected $_paymentMock;
 
     protected function setUp()
     {
-        $helperManager = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_orderMock = $this->getMockBuilder('Magento_Sales_Model_Order')
+        $helperManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $this->_orderMock = $this->getMockBuilder('Magento\Sales\Model\Order')
             ->disableOriginalConstructor()
             ->setMethods(array('getPayment'))
             ->getMock();
-        $this->_paymentMock = $this->getMockBuilder('Magento_Sales_Model_Order_Payment')
+        $this->_paymentMock = $this->getMockBuilder('Magento\Sales\Model\Order\Payment')
             ->disableOriginalConstructor()
             ->setMethods(array('canVoid'))
             ->getMock();
 
         $arguments = array(
             'orderFactory' => $this->getMock(
-                'Magento_Sales_Model_OrderFactory', array(), array(), '', false
+                'Magento\Sales\Model\OrderFactory', array(), array(), '', false
             ),
             'orderResourceFactory' => $this->getMock(
-                'Magento_Sales_Model_Resource_OrderFactory', array(), array(), '', false
+                'Magento\Sales\Model\Resource\OrderFactory', array(), array(), '', false
             ),
             'calculatorFactory' => $this->getMock(
-                'Magento_Core_Model_CalculatorFactory', array(), array(), '', false
+                'Magento\Core\Model\CalculatorFactory', array(), array(), '', false
             ),
             'invoiceItemCollFactory' => $this->getMock(
-                'Magento_Sales_Model_Resource_Order_Invoice_Item_CollectionFactory', array(), array(), '', false
+                'Magento\Sales\Model\Resource\Order\Invoice\Item\CollectionFactory', array(), array(), '', false
             ),
             'invoiceCommentFactory' => $this->getMock(
-                'Magento_Sales_Model_Order_Invoice_CommentFactory', array(), array(), '', false
+                'Magento\Sales\Model\Order\Invoice\CommentFactory', array(), array(), '', false
             ),
             'commentCollFactory' => $this->getMock(
-                'Magento_Sales_Model_Resource_Order_Invoice_Comment_CollectionFactory', array(), array(), '', false
+                'Magento\Sales\Model\Resource\Order\Invoice\Comment\CollectionFactory', array(), array(), '', false
             ),
             'templateMailerFactory' => $this->getMock(
-                'Magento_Core_Model_Email_Template_MailerFactory', array(), array(), '', false
+                'Magento\Core\Model\Email\Template\MailerFactory', array(), array(), '', false
             ),
             'emailInfoFactory' => $this->getMock(
-                'Magento_Core_Model_Email_InfoFactory', array(), array(), '', false
+                'Magento\Core\Model\Email\InfoFactory', array(), array(), '', false
             ),
         );
-        $this->_model = $helperManager->getObject('Magento_Sales_Model_Order_Invoice', $arguments);
+        $this->_model = $helperManager->getObject('Magento\Sales\Model\Order\Invoice', $arguments);
         $this->_model->setOrder($this->_orderMock);
     }
 
@@ -80,7 +82,7 @@ class Magento_Sales_Model_Order_InvoiceTest extends PHPUnit_Framework_TestCase
             ->with($this->equalTo($this->_model))
             ->will($this->returnValue($canVoid));
 
-        $this->_model->setState(Magento_Sales_Model_Order_Invoice::STATE_PAID);
+        $this->_model->setState(\Magento\Sales\Model\Order\Invoice::STATE_PAID);
         $this->assertEquals($canVoid, $this->_model->canVoid());
     }
 
@@ -90,7 +92,7 @@ class Magento_Sales_Model_Order_InvoiceTest extends PHPUnit_Framework_TestCase
      */
     public function testDefaultCanVoid($canVoid)
     {
-        $this->_model->setState(Magento_Sales_Model_Order_Invoice::STATE_PAID);
+        $this->_model->setState(\Magento\Sales\Model\Order\Invoice::STATE_PAID);
         $this->_model->setCanVoidFlag($canVoid);
 
         $this->assertEquals($canVoid, $this->_model->canVoid());

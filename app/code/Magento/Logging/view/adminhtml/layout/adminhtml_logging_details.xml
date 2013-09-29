@@ -9,8 +9,8 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <referenceContainer name="content">
-        <block class="Magento_Logging_Block_Adminhtml_Details" name="magento.logging.details" template="details.phtml">
-            <block class="Magento_Logging_Block_Adminhtml_Details_Grid" name="magento.logging.details.grid" as="details_grid"/>
+        <block class="Magento\Logging\Block\Adminhtml\Details" name="magento.logging.details" template="details.phtml">
+            <block class="Magento\Logging\Block\Adminhtml\Details\Grid" name="magento.logging.details.grid" as="details_grid"/>
         </block>
     </referenceContainer>
 </layout>

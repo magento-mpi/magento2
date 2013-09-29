@@ -16,19 +16,21 @@
  * @package    Magento_Wishlist
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Wishlist_Block_Share_Wishlist extends Magento_Wishlist_Block_Abstract
+namespace Magento\Wishlist\Block\Share;
+
+class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
 {
     /**
      * Customer instance
      *
-     * @var Magento_Customer_Model_Customer
+     * @var \Magento\Customer\Model\Customer
      */
     protected $_customer = null;
 
     /**
      * Prepare global layout
      *
-     * @return Magento_Wishlist_Block_Share_Wishlist
+     * @return \Magento\Wishlist\Block\Share\Wishlist
      *
      */
     protected function _prepareLayout()
@@ -45,12 +47,12 @@ class Magento_Wishlist_Block_Share_Wishlist extends Magento_Wishlist_Block_Abstr
     /**
      * Retrieve Shared Wishlist Customer instance
      *
-     * @return Magento_Customer_Model_Customer
+     * @return \Magento\Customer\Model\Customer
      */
     public function getWishlistCustomer()
     {
         if (is_null($this->_customer)) {
-            $this->_customer = Mage::getModel('Magento_Customer_Model_Customer')
+            $this->_customer = \Mage::getModel('Magento\Customer\Model\Customer')
                 ->load($this->_getWishlist()->getCustomerId());
         }
 

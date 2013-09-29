@@ -9,21 +9,23 @@
  * @license     {license_link}
  */
 
-class Magento_Reward_Block_Customer_RewardTest extends PHPUnit_Framework_TestCase
+namespace Magento\Reward\Block\Customer;
+
+class RewardTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @magentoDataFixture Magento/Reward/_files/history.php
      */
     public function testToHtml()
     {
-        $customer = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Customer_Model_Customer');
+        $customer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Customer\Model\Customer');
         $customer->load(1);
 
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Customer_Model_Session')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Customer\Model\Session')
             ->setCustomer($customer);
 
-        $utility = new Magento_Core_Utility_Layout($this);
+        $utility = new \Magento\Core\Utility\Layout($this);
         $layout = $utility->getLayoutFromFixture(__DIR__ . '/../../_files/magento_reward_customer_info.xml',
             $utility->getLayoutDependencies());
 

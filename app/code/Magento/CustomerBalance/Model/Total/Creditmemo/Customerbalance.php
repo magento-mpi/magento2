@@ -8,21 +8,23 @@
  * @license     {license_link}
  */
 
-class Magento_CustomerBalance_Model_Total_Creditmemo_Customerbalance extends Magento_Sales_Model_Order_Creditmemo_Total_Abstract
+namespace Magento\CustomerBalance\Model\Total\Creditmemo;
+
+class Customerbalance extends \Magento\Sales\Model\Order\Creditmemo\Total\AbstractTotal
 {
     /**
      * Customer balance data
      *
-     * @var Magento_CustomerBalance_Helper_Data
+     * @var \Magento\CustomerBalance\Helper\Data
      */
     protected $_customerBalanceData = null;
 
     /**
-     * @param Magento_CustomerBalance_Helper_Data $customerBalanceData
+     * @param \Magento\CustomerBalance\Helper\Data $customerBalanceData
      * @param array $data
      */
     public function __construct(
-        Magento_CustomerBalance_Helper_Data $customerBalanceData,
+        \Magento\CustomerBalance\Helper\Data $customerBalanceData,
         array $data = array()
     ) {
         $this->_customerBalanceData = $customerBalanceData;
@@ -32,10 +34,10 @@ class Magento_CustomerBalance_Model_Total_Creditmemo_Customerbalance extends Mag
     /**
      * Collect customer balance totals for credit memo
      *
-     * @param Magento_Sales_Model_Order_Creditmemo $creditmemo
-     * @return Magento_CustomerBalance_Model_Total_Creditmemo_Customerbalance
+     * @param \Magento\Sales\Model\Order\Creditmemo $creditmemo
+     * @return \Magento\CustomerBalance\Model\Total\Creditmemo\Customerbalance
      */
-    public function collect(Magento_Sales_Model_Order_Creditmemo $creditmemo)
+    public function collect(\Magento\Sales\Model\Order\Creditmemo $creditmemo)
     {
         $creditmemo->setBsCustomerBalTotalRefunded(0);
         $creditmemo->setCustomerBalTotalRefunded(0);

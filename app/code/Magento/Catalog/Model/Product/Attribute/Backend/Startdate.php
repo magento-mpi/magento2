@@ -17,12 +17,14 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Catalog_Model_Product_Attribute_Backend_Startdate extends Magento_Eav_Model_Entity_Attribute_Backend_Datetime
+namespace Magento\Catalog\Model\Product\Attribute\Backend;
+
+class Startdate extends \Magento\Eav\Model\Entity\Attribute\Backend\Datetime
 {
    /**
     * Get attribute value for save.
     *
-    * @param Magento_Object $object
+    * @param \Magento\Object $object
     * @return string|bool
     */
     protected function _getValueForSave($object)
@@ -33,7 +35,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Startdate extends Magento_
             return false;
         }
         if ($startDate == '' && $object->getSpecialPrice()) {
-            $startDate = Mage::app()->getLocale()->date();
+            $startDate = \Mage::app()->getLocale()->date();
         }
 
         return $startDate;
@@ -43,8 +45,8 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Startdate extends Magento_
     * Before save hook.
     * Prepare attribute value for save
     *
-    * @param Magento_Object $object
-    * @return Magento_Catalog_Model_Product_Attribute_Backend_Startdate
+    * @param \Magento\Object $object
+    * @return \Magento\Catalog\Model\Product\Attribute\Backend\Startdate
     */
     public function beforeSave($object)
     {
@@ -62,8 +64,8 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Startdate extends Magento_
     * Product from date attribute validate function.
     * In case invalid data throws exception.
     *
-    * @param Magento_Object $object
-    * @throws Magento_Eav_Model_Entity_Attribute_Exception
+    * @param \Magento\Object $object
+    * @throws \Magento\Eav\Model\Entity\Attribute\Exception
     * @return bool
     */
     public function validate($object)
@@ -76,13 +78,13 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Startdate extends Magento_
         }
 
         if ($maxDate) {
-            $date     = Mage::getModel('Magento_Core_Model_Date');
+            $date     = \Mage::getModel('Magento\Core\Model\Date');
             $value    = $date->timestamp($startDate);
             $maxValue = $date->timestamp($maxDate);
 
             if ($value > $maxValue) {
                 $message = __('The From Date value should be less than or equal to the To Date value.');
-                $eavExc  = new Magento_Eav_Model_Entity_Attribute_Exception($message);
+                $eavExc  = new \Magento\Eav\Model\Entity\Attribute\Exception($message);
                 $eavExc->setAttributeCode($attr->getName());
                 throw $eavExc;
             }

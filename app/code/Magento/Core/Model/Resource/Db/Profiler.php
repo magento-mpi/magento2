@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Resource_Db_Profiler extends Magento_DB_Profiler
+namespace Magento\Core\Model\Resource\Db;
+
+class Profiler extends \Magento\DB\Profiler
 {
     /**
      * Default connection type for timer name creation
@@ -33,7 +35,7 @@ class Magento_Core_Model_Resource_Db_Profiler extends Magento_DB_Profiler
     protected function _getTimerName($operation)
     {
         // default name of connection type
-        $timerName = Magento_Core_Model_Resource_Db_Profiler::DEFAULT_CONNECTION_TYPE;
+        $timerName = \Magento\Core\Model\Resource\Db\Profiler::DEFAULT_CONNECTION_TYPE;
 
         // connection type to database
         if (!empty($this->_type)) {
@@ -48,7 +50,7 @@ class Magento_Core_Model_Resource_Db_Profiler extends Magento_DB_Profiler
             $timerName .= '_' . $this->_host;
         }
 
-        return Magento_Core_Model_Resource_Db_Profiler::TIMER_PREFIX . ':' . $timerName;
+        return \Magento\Core\Model\Resource\Db\Profiler::TIMER_PREFIX . ':' . $timerName;
     }
 
     /**
@@ -69,10 +71,10 @@ class Magento_Core_Model_Resource_Db_Profiler extends Magento_DB_Profiler
     }
 
     /**
-     * Starts a query. Creates a new query profile object (Zend_Db_Profiler_Query)
+     * Starts a query. Creates a new query profile object (\Zend_Db_Profiler_Query)
      *
      * @param string $queryText SQL statement
-     * @param integer $queryType OPTIONAL Type of query, one of the Zend_Db_Profiler::* constants
+     * @param integer $queryType OPTIONAL Type of query, one of the \Zend_Db_Profiler::* constants
      * @return integer|null
      */
     public function queryStart($queryText, $queryType = null)
@@ -100,7 +102,7 @@ class Magento_Core_Model_Resource_Db_Profiler extends Magento_DB_Profiler
                 $tags['host'] = $this->_host;
             }
 
-            Magento_Profiler::start($timerName, $tags);
+            \Magento\Profiler::start($timerName, $tags);
         }
 
         return $result;
@@ -117,12 +119,12 @@ class Magento_Core_Model_Resource_Db_Profiler extends Magento_DB_Profiler
         $result = parent::queryEnd($queryId);
 
         if ($result != self::IGNORED) {
-            /** @var Zend_Db_Profiler_Query $queryProfile */
+            /** @var \Zend_Db_Profiler_Query $queryProfile */
             $queryProfile = $this->_queryProfiles[$queryId];
             $queryTypeParsed = $this->_parseQueryType($queryProfile->getQuery());
             $timerName = $this->_getTimerName($queryTypeParsed);
 
-            Magento_Profiler::stop($timerName);
+            \Magento\Profiler::stop($timerName);
         }
 
         return $result;

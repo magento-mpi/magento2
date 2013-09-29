@@ -12,7 +12,9 @@
  * PayPal-specific model for shopping cart items and totals
  * The main idea is to accommodate all possible totals into PayPal-compatible 4 totals and line items
  */
-class Magento_Paypal_Model_Cart
+namespace Magento\Paypal\Model;
+
+class Cart
 {
     /**
      * Totals that PayPal suppports when passing shopping cart
@@ -27,14 +29,14 @@ class Magento_Paypal_Model_Cart
     /**
      * Order or quote instance
      *
-     * @var Magento_Sales_Model_Order
-     * @var Magento_Sales_Model_Quote
+     * @var \Magento\Sales\Model\Order
+     * @var \Magento\Sales\Model\Quote
      */
     protected $_salesEntity = null;
 
     /**
      * Rendered cart items
-     * Array of Magento_Objects
+     * Array of \Magento\Objects
      *
      * @var array
      */
@@ -96,35 +98,35 @@ class Magento_Paypal_Model_Cart
     /**
      * Core event manager proxy
      *
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventManager = null;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param array $params
-     * @throws Exception
+     * @throws \Exception
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
+        \Magento\Core\Model\Event\Manager $eventManager,
         $params = array()
     ) {
         $this->_eventManager = $eventManager;
         $salesEntity = array_shift($params);
         if (is_object($salesEntity)
-            && (($salesEntity instanceof Magento_Sales_Model_Order)
-                || ($salesEntity instanceof Magento_Sales_Model_Quote))) {
+            && (($salesEntity instanceof \Magento\Sales\Model\Order)
+                || ($salesEntity instanceof \Magento\Sales\Model\Quote))) {
             $this->_salesEntity = $salesEntity;
         } else {
-            throw new Exception('Invalid sales entity provided.');
+            throw new \Exception('Invalid sales entity provided.');
         }
     }
 
     /**
      * Getter for the current sales entity
      *
-     * @return Magento_Sales_Model_Order
-     * @return Magento_Sales_Model_Quote
+     * @return \Magento\Sales\Model\Order
+     * @return \Magento\Sales\Model\Quote
      */
     public function getSalesEntity()
     {
@@ -189,12 +191,12 @@ class Magento_Paypal_Model_Cart
      * @param numeric $qty
      * @param float $amount
      * @param string $identifier
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function addItem($name, $qty, $amount, $identifier = null)
     {
         $this->_shouldRender = true;
-        $item = new Magento_Object(array(
+        $item = new \Magento\Object(array(
             'name'   => $name,
             'qty'    => $qty,
             'amount' => (float)$amount,
@@ -229,7 +231,7 @@ class Magento_Paypal_Model_Cart
      * @param string $code
      * @param float $amount
      * @param string $lineItemDescription
-     * @return Magento_Paypal_Model_Cart
+     * @return \Magento\Paypal\Model\Cart
      */
     public function updateTotal($code, $amount, $lineItemDescription = null)
     {
@@ -247,7 +249,7 @@ class Magento_Paypal_Model_Cart
      * Get/Set whether to render the discount total as a line item
      *
      * @param $setValue
-     * @return bool|Magento_Paypal_Model_Cart
+     * @return bool|\Magento\Paypal\Model\Cart
      */
     public function isDiscountAsItem($setValue = null)
     {
@@ -258,7 +260,7 @@ class Magento_Paypal_Model_Cart
      * Get/Set whether to render the discount total as a line item
      *
      * @param $setValue
-     * @return bool|Magento_Paypal_Model_Cart
+     * @return bool|\Magento\Paypal\Model\Cart
      */
     public function isShippingAsItem($setValue = null)
     {
@@ -286,7 +288,7 @@ class Magento_Paypal_Model_Cart
 
         // regular totals
         $shippingDescription = '';
-        if ($this->_salesEntity instanceof Magento_Sales_Model_Order) {
+        if ($this->_salesEntity instanceof \Magento\Sales\Model\Order) {
             $shippingDescription = $this->_salesEntity->getShippingDescription();
             $this->_totals = array(
                 self::TOTAL_SUBTOTAL => $this->_salesEntity->getBaseSubtotal(),
@@ -314,7 +316,7 @@ class Magento_Paypal_Model_Cart
 
         // distinguish original discount among the others
         if ($originalDiscount > 0.0001 && isset($this->_totalLineItemDescriptions[self::TOTAL_DISCOUNT])) {
-            $this->_totalLineItemDescriptions[self::TOTAL_DISCOUNT][] = __('Discount (%1)', Mage::app()->getStore()->convertPrice($originalDiscount, true, false));
+            $this->_totalLineItemDescriptions[self::TOTAL_DISCOUNT][] = __('Discount (%1)', \Mage::app()->getStore()->convertPrice($originalDiscount, true, false));
         }
 
         // discount, shipping as items
@@ -413,12 +415,12 @@ class Magento_Paypal_Model_Cart
     /**
      * Add a usual line item with amount and qty
      *
-     * @param Magento_Object $salesItem
-     * @return Magento_Object
+     * @param \Magento\Object $salesItem
+     * @return \Magento\Object
      */
-    protected function _addRegularItem(Magento_Object $salesItem)
+    protected function _addRegularItem(\Magento\Object $salesItem)
     {
-        if ($this->_salesEntity instanceof Magento_Sales_Model_Order) {
+        if ($this->_salesEntity instanceof \Magento\Sales\Model\Order) {
             $qty = (int) $salesItem->getQtyOrdered();
             $amount = (float) $salesItem->getBasePrice();
             // TODO: nominal item for order
@@ -450,7 +452,7 @@ class Magento_Paypal_Model_Cart
      *
      * @param string $var
      * @param $setValue
-     * @return bool|Magento_Paypal_Model_Cart
+     * @return bool|\Magento\Paypal\Model\Cart
      */
     private function _totalAsItem($var, $setValue = null)
     {
@@ -483,7 +485,7 @@ class Magento_Paypal_Model_Cart
      * - run shopping cart and estimate shipping
      * - go to PayPal
      *
-     * @param Magento_Core_Model_Abstract $salesEntity
+     * @param \Magento\Core\Model\AbstractModel $salesEntity
      */
     private function _applyHiddenTaxWorkaround($salesEntity)
     {

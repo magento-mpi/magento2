@@ -15,7 +15,9 @@
  * @package     Magento_Pbridge
  * @author      Magento
  */
-class Magento_Pbridge_Block_Checkout_Payment_Review_Iframe extends Magento_Pbridge_Block_Iframe_Abstract
+namespace Magento\Pbridge\Block\Checkout\Payment\Review;
+
+class Iframe extends \Magento\Pbridge\Block\Iframe\AbstractIframe
 {
     /**
      * Default iframe height
@@ -57,7 +59,7 @@ class Magento_Pbridge_Block_Checkout_Payment_Review_Iframe extends Magento_Pbrid
             'redirect_url_success' => $this->getRedirectUrlSuccess(),
             'redirect_url_error' => $this->getRedirectUrlError(),
             'request_gateway_code' => $this->getMethod()->getOriginalCode(),
-            'token' => Mage::getSingleton('Magento_Pbridge_Model_Session')->getToken(),
+            'token' => \Mage::getSingleton('Magento\Pbridge\Model\Session')->getToken(),
             'already_entered' => '1',
             'magento_payment_action' => $this->getMethod()->getConfigPaymentAction(),
             'css_url' => $this->getCssUrl(),

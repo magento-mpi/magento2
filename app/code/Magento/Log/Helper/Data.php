@@ -11,7 +11,9 @@
 /**
  * Log data helper
  */
-class Magento_Log_Helper_Data extends Magento_Core_Helper_Abstract
+namespace Magento\Log\Helper;
+
+class Data extends \Magento\Core\Helper\AbstractHelper
 {
 
 }

@@ -14,15 +14,17 @@
  * @category   Magento
  * @package    Magento_GiftRegistry
  */
-class Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Form_Renderer_Element
-    extends Magento_Adminhtml_Block_Widget_Form_Renderer_Fieldset_Element
+namespace Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Form\Renderer;
+
+class Element
+    extends \Magento\Adminhtml\Block\Widget\Form\Renderer\Fieldset\Element
 {
     protected $_template = 'form/renderer/element.phtml';
 
     /**
      * Retrieve data object related with form
      *
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function getDataObject()
     {
@@ -62,7 +64,7 @@ class Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Form_Renderer_Element
     /**
      * Disable field in default value using case
      *
-     * @return Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Form_Renderer_Fieldset_Element
+     * @return \Magento\GiftRegistry\Block\Adminhtml\Giftregistry_Form_Renderer_Fieldset_Element
      */
     public function checkFieldDisable()
     {
@@ -83,7 +85,7 @@ class Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Form_Renderer_Element
     {
         $html = '';
         $element = $this->getElement();
-        if (Mage::app()->isSingleStoreMode()) {
+        if (\Mage::app()->isSingleStoreMode()) {
             return $html;
         }
         if ($element->getScope() == 'global' || $element->getScope() === null) {

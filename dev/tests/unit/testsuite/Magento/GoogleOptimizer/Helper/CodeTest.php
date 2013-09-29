@@ -5,31 +5,33 @@
  * @copyright {copyright}
  * @license {license_link}
  */
-class Magento_GoogleOptimizer_Helper_CodeTest extends PHPUnit_Framework_TestCase
+namespace Magento\GoogleOptimizer\Helper;
+
+class CodeTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_codeModelMock;
 
     /**
-     * @var Magento_GoogleOptimizer_Helper_Code
+     * @var \Magento\GoogleOptimizer\Helper\Code
      */
     protected $_helper;
 
     protected function setUp()
     {
-        $this->_codeModelMock = $this->getMock('Magento_GoogleOptimizer_Model_Code', array(), array(), '', false);
+        $this->_codeModelMock = $this->getMock('Magento\GoogleOptimizer\Model\Code', array(), array(), '', false);
 
-        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_helper = $objectManagerHelper->getObject('Magento_GoogleOptimizer_Helper_Code', array(
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $this->_helper = $objectManagerHelper->getObject('Magento\GoogleOptimizer\Helper\Code', array(
             'code' => $this->_codeModelMock,
         ));
     }
 
     public function testLoadingCodeForCategoryEntity()
     {
-        $categoryMock = $this->getMock('Magento_Catalog_Model_Category', array(), array(), '', false);
+        $categoryMock = $this->getMock('Magento\Catalog\Model\Category', array(), array(), '', false);
 
         $categoryId = 1;
         $storeId = 1;
@@ -38,17 +40,17 @@ class Magento_GoogleOptimizer_Helper_CodeTest extends PHPUnit_Framework_TestCase
         $categoryMock->expects($this->once())->method('getStoreId')->will($this->returnValue($storeId));
         $this->_codeModelMock->expects($this->once())->method('loadByEntityIdAndType')->with(
             $categoryId,
-            Magento_GoogleOptimizer_Model_Code::ENTITY_TYPE_CATEGORY,
+            \Magento\GoogleOptimizer\Model\Code::ENTITY_TYPE_CATEGORY,
             $storeId
         );
 
         $this->assertEquals($this->_codeModelMock, $this->_helper->getCodeObjectByEntity($categoryMock,
-            Magento_GoogleOptimizer_Model_Code::ENTITY_TYPE_CATEGORY));
+            \Magento\GoogleOptimizer\Model\Code::ENTITY_TYPE_CATEGORY));
     }
 
     public function testLoadingCodeForProductEntity()
     {
-        $productMock = $this->getMock('Magento_Catalog_Model_Product', array(), array(), '', false);
+        $productMock = $this->getMock('Magento\Catalog\Model\Product', array(), array(), '', false);
 
         $categoryId = 1;
         $storeId = 1;
@@ -57,37 +59,37 @@ class Magento_GoogleOptimizer_Helper_CodeTest extends PHPUnit_Framework_TestCase
         $productMock->expects($this->once())->method('getStoreId')->will($this->returnValue($storeId));
         $this->_codeModelMock->expects($this->once())->method('loadByEntityIdAndType')->with(
             $categoryId,
-            Magento_GoogleOptimizer_Model_Code::ENTITY_TYPE_PRODUCT,
+            \Magento\GoogleOptimizer\Model\Code::ENTITY_TYPE_PRODUCT,
             $storeId
         );
 
         $this->assertEquals($this->_codeModelMock, $this->_helper->getCodeObjectByEntity($productMock,
-            Magento_GoogleOptimizer_Model_Code::ENTITY_TYPE_PRODUCT));
+            \Magento\GoogleOptimizer\Model\Code::ENTITY_TYPE_PRODUCT));
     }
 
     public function testLoadingCodeForPageEntity()
     {
-        $pageMock = $this->getMock('Magento_Cms_Model_Page', array(), array(), '', false);
+        $pageMock = $this->getMock('Magento\Cms\Model\Page', array(), array(), '', false);
 
         $categoryId = 1;
 
         $pageMock->expects($this->exactly(2))->method('getId')->will($this->returnValue($categoryId));
         $this->_codeModelMock->expects($this->once())->method('loadByEntityIdAndType')->with(
             $categoryId,
-            Magento_GoogleOptimizer_Model_Code::ENTITY_TYPE_PAGE
+            \Magento\GoogleOptimizer\Model\Code::ENTITY_TYPE_PAGE
         );
 
         $this->assertEquals($this->_codeModelMock, $this->_helper->getCodeObjectByEntity($pageMock,
-            Magento_GoogleOptimizer_Model_Code::ENTITY_TYPE_PAGE));
+            \Magento\GoogleOptimizer\Model\Code::ENTITY_TYPE_PAGE));
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage The model class is not valid
      */
     public function testExceptionNotValidEntityType()
     {
-        $entity = $this->getMock('Magento_Cms_Model_Block', array(), array(), '', false);
+        $entity = $this->getMock('Magento\Cms\Model\Block', array(), array(), '', false);
 
         $entityId = 1;
 
@@ -95,16 +97,16 @@ class Magento_GoogleOptimizer_Helper_CodeTest extends PHPUnit_Framework_TestCase
         $this->_codeModelMock->expects($this->never())->method('loadByEntityIdAndType');
 
         $this->assertEquals($this->_codeModelMock, $this->_helper->getCodeObjectByEntity($entity,
-            Magento_GoogleOptimizer_Model_Code::ENTITY_TYPE_PAGE));
+            \Magento\GoogleOptimizer\Model\Code::ENTITY_TYPE_PAGE));
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage The model is empty
      */
     public function testExceptionEmptyEntity()
     {
-        $entity = $this->getMock('Magento_Cms_Model_Block', array(), array(), '', false);
+        $entity = $this->getMock('Magento\Cms\Model\Block', array(), array(), '', false);
 
         $entityId = 0;
 
@@ -112,6 +114,6 @@ class Magento_GoogleOptimizer_Helper_CodeTest extends PHPUnit_Framework_TestCase
         $this->_codeModelMock->expects($this->never())->method('loadByEntityIdAndType');
 
         $this->assertEquals($this->_codeModelMock, $this->_helper->getCodeObjectByEntity($entity,
-            Magento_GoogleOptimizer_Model_Code::ENTITY_TYPE_PAGE));
+            \Magento\GoogleOptimizer\Model\Code::ENTITY_TYPE_PAGE));
     }
 }

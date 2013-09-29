@@ -8,12 +8,14 @@
  * @license     {license_link}
  */
 
+namespace Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Code;
+
 /**
  * Block that renders Custom tab
  *
  * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
-class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Custom extends Magento_Backend_Block_Widget_Form_Generic
+class Custom extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
      * Upload file element html id
@@ -21,24 +23,24 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Custom extends Mage
     const FILE_ELEMENT_NAME = 'css_file_uploader';
 
     /**
-     * @var Magento_DesignEditor_Model_Theme_Context
+     * @var \Magento\DesignEditor\Model\Theme\Context
      */
     protected $_themeContext;
 
     /**
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_DesignEditor_Model_Theme_Context $themeContext
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\DesignEditor\Model\Theme\Context $themeContext
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Registry $registry,
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_DesignEditor_Model_Theme_Context $themeContext,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\DesignEditor\Model\Theme\Context $themeContext,
         array $data = array()
     ) {
         parent::__construct($registry, $formFactory, $coreData, $context, $data);
@@ -49,11 +51,11 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Custom extends Mage
     /**
      * Create a form element with necessary controls
      *
-     * @return Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
+     * @return \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab\Css
      */
     protected function _prepareForm()
     {
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create(array(
             'attributes' => array(
                 'action'   => '#',
@@ -63,7 +65,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Custom extends Mage
         $this->setForm($form);
         $form->setUseContainer(true);
 
-        $form->addType('css_file', 'Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_Uploader');
+        $form->addType('css_file', 'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Uploader');
 
         $form->addField($this->getFileElementName(), 'css_file', array(
             'name'     => $this->getFileElementName(),
@@ -119,21 +121,21 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Custom extends Mage
     {
         return $this->getUrl('*/system_design_editor_files/index', array(
             'target_element_id'                           => $targetElementId,
-            Magento_Theme_Helper_Storage::PARAM_THEME_ID     => $this->_themeContext->getEditableTheme()->getId(),
-            Magento_Theme_Helper_Storage::PARAM_CONTENT_TYPE => $contentType
+            \Magento\Theme\Helper\Storage::PARAM_THEME_ID     => $this->_themeContext->getEditableTheme()->getId(),
+            \Magento\Theme\Helper\Storage::PARAM_CONTENT_TYPE => $contentType
         ));
     }
 
     /**
      * Get theme file (with custom CSS)
      *
-     * @param Magento_Core_Model_Theme $theme
-     * @return Magento_Core_Model_Theme_FileInterface|null
+     * @param \Magento\Core\Model\Theme $theme
+     * @return \Magento\Core\Model\Theme\FileInterface|null
      */
     protected function _getCustomCss($theme)
     {
         $files = $theme->getCustomization()->getFilesByType(
-            Magento_Theme_Model_Theme_Customization_File_CustomCss::TYPE
+            \Magento\Theme\Model\Theme\Customization\File\CustomCss::TYPE
         );
         return reset($files);
     }

@@ -9,10 +9,12 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Translate_InlineParserTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Translate;
+
+class InlineParserTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Translate_InlineParser
+     * @var \Magento\Core\Model\Translate\InlineParser
      */
     protected $_inlineParser;
 
@@ -21,18 +23,18 @@ class Magento_Core_Model_Translate_InlineParserTest extends PHPUnit_Framework_Te
 
     public static function setUpBeforeClass()
     {
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\View\DesignInterface')
             ->setDesignTheme('magento_demo');
     }
 
     protected function setUp()
     {
-        $this->_inlineParser = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_Translate_InlineParser');
+        $this->_inlineParser = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Translate\InlineParser');
         /* Called getConfig as workaround for setConfig bug */
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
             ->getStore($this->_storeId)->getConfig('dev/translate_inline/active');
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
             ->getStore($this->_storeId)->setConfig('dev/translate_inline/active', true);
     }
 
@@ -45,20 +47,20 @@ class Magento_Core_Model_Translate_InlineParserTest extends PHPUnit_Framework_Te
         if ($isPerStore !== null) {
             $inputArray[0]['perstore'] = $isPerStore;
         }
-        /** @var $inline Magento_Core_Model_Translate_Inline */
-        $inline = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_Translate_Inline');
+        /** @var $inline \Magento\Core\Model\Translate\Inline */
+        $inline = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Translate\Inline');
         $this->_inlineParser->processAjaxPost($inputArray, $inline);
 
-        $model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_Translate_String');
+        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Translate\String');
         $model->load($originalText);
         try {
             $this->assertEquals($translatedText, $model->getTranslate());
             $model->delete();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $model->delete();
-            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Logger')
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Logger')
                 ->logException($e);
         }
     }
@@ -76,12 +78,12 @@ class Magento_Core_Model_Translate_InlineParserTest extends PHPUnit_Framework_Te
 
     public function testSetGetIsJson()
     {
-        $isJsonProperty = new ReflectionProperty(get_class($this->_inlineParser), '_isJson');
+        $isJsonProperty = new \ReflectionProperty(get_class($this->_inlineParser), '_isJson');
         $isJsonProperty->setAccessible(true);
 
         $this->assertFalse($isJsonProperty->getValue($this->_inlineParser));
 
-        $setIsJsonMethod = new ReflectionMethod($this->_inlineParser, 'setIsJson');
+        $setIsJsonMethod = new \ReflectionMethod($this->_inlineParser, 'setIsJson');
         $setIsJsonMethod->setAccessible(true);
         $setIsJsonMethod->invoke($this->_inlineParser, true);
 

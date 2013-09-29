@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_ImportExport_Model_Export_Config_Reader extends Magento_Config_Reader_Filesystem
+namespace Magento\ImportExport\Model\Export\Config;
+
+class Reader extends \Magento\Config\Reader\Filesystem
 {
     /**
      * List of id attributes for merge
@@ -19,22 +21,22 @@ class Magento_ImportExport_Model_Export_Config_Reader extends Magento_Config_Rea
     );
 
     /**
-     * @param Magento_Config_FileResolverInterface $fileResolver
-     * @param Magento_ImportExport_Model_Export_Config_Converter $converter
-     * @param Magento_Config_ValidationStateInterface $validationState
-     * @param Magento_ImportExport_Model_Export_Config_SchemaLocator $schemaLocator
+     * @param \Magento\Config\FileResolverInterface $fileResolver
+     * @param \Magento\ImportExport\Model\Export\Config\Converter $converter
+     * @param \Magento\Config\ValidationStateInterface $validationState
+     * @param \Magento\ImportExport\Model\Export\Config\SchemaLocator $schemaLocator
      * @param string $fileName
      * @param array $idAttributes
      * @param string $domDocumentClass
      */
     public function __construct(
-        Magento_Config_FileResolverInterface $fileResolver,
-        Magento_ImportExport_Model_Export_Config_Converter $converter,
-        Magento_ImportExport_Model_Export_Config_SchemaLocator $schemaLocator,
-        Magento_Config_ValidationStateInterface $validationState,
+        \Magento\Config\FileResolverInterface $fileResolver,
+        \Magento\ImportExport\Model\Export\Config\Converter $converter,
+        \Magento\ImportExport\Model\Export\Config\SchemaLocator $schemaLocator,
+        \Magento\Config\ValidationStateInterface $validationState,
         $fileName = 'export.xml',
         $idAttributes = array(),
-        $domDocumentClass = 'Magento_Config_Dom'
+        $domDocumentClass = 'Magento\Config\Dom'
     ) {
         parent::__construct(
             $fileResolver, $converter, $schemaLocator, $validationState, $fileName, $idAttributes, $domDocumentClass

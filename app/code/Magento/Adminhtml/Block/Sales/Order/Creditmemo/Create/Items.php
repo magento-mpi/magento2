@@ -11,31 +11,33 @@
 /**
  * Adminhtml creditmemo items grid
  */
-class Magento_Adminhtml_Block_Sales_Order_Creditmemo_Create_Items extends Magento_Adminhtml_Block_Sales_Items_Abstract
+namespace Magento\Adminhtml\Block\Sales\Order\Creditmemo\Create;
+
+class Items extends \Magento\Adminhtml\Block\Sales\Items\AbstractItems
 {
     protected $_canReturnToStock;
 
     /**
      * Sales data
      *
-     * @var Magento_Sales_Helper_Data
+     * @var \Magento\Sales\Helper\Data
      */
     protected $_salesData = null;
 
     /**
-     * @param Magento_Sales_Helper_Data $salesData
-     * @param Magento_Catalog_Model_ProductFactory $productFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Sales\Helper\Data $salesData
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Sales_Helper_Data $salesData,
-        Magento_Catalog_Model_ProductFactory $productFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Sales\Helper\Data $salesData,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_salesData = $salesData;
@@ -45,12 +47,12 @@ class Magento_Adminhtml_Block_Sales_Order_Creditmemo_Create_Items extends Magent
     /**
      * Prepare child blocks
      *
-     * @return Magento_Adminhtml_Block_Sales_Order_Creditmemo_Create_Items
+     * @return \Magento\Adminhtml\Block\Sales\Order\Creditmemo\Create\Items
      */
     protected function _prepareLayout()
     {
         $onclick = "submitAndReloadArea($('creditmemo_item_container'),'".$this->getUpdateUrl()."')";
-        $this->addChild('update_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('update_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('Update Qty\'s'),
             'class'     => 'update-button',
             'onclick'   => $onclick,
@@ -58,20 +60,20 @@ class Magento_Adminhtml_Block_Sales_Order_Creditmemo_Create_Items extends Magent
 
         if ($this->getCreditmemo()->canRefund()) {
             if ($this->getCreditmemo()->getInvoice() && $this->getCreditmemo()->getInvoice()->getTransactionId()) {
-                $this->addChild('submit_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+                $this->addChild('submit_button', 'Magento\Adminhtml\Block\Widget\Button', array(
                     'label'     => __('Refund'),
                     'class'     => 'save submit-button refund',
                     'onclick'   => 'disableElements(\'submit-button\');submitCreditMemo()',
                 ));
             }
-            $this->addChild('submit_offline', 'Magento_Adminhtml_Block_Widget_Button', array(
+            $this->addChild('submit_offline', 'Magento\Adminhtml\Block\Widget\Button', array(
                 'label'     => __('Refund Offline'),
                 'class'     => 'save submit-button',
                 'onclick'   => 'disableElements(\'submit-button\');submitCreditMemoOffline()',
             ));
 
         } else {
-            $this->addChild('submit_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+            $this->addChild('submit_button', 'Magento\Adminhtml\Block\Widget\Button', array(
                 'label'     => __('Refund Offline'),
                 'class'     => 'save submit-button',
                 'onclick'   => 'disableElements(\'submit-button\');submitCreditMemoOffline()',
@@ -84,7 +86,7 @@ class Magento_Adminhtml_Block_Sales_Order_Creditmemo_Create_Items extends Magent
     /**
      * Retrieve invoice order
      *
-     * @return Magento_Sales_Model_Order
+     * @return \Magento\Sales\Model\Order
      */
     public function getOrder()
     {
@@ -94,7 +96,7 @@ class Magento_Adminhtml_Block_Sales_Order_Creditmemo_Create_Items extends Magent
     /**
      * Retrieve source
      *
-     * @return Magento_Sales_Model_Order_Creditmemo
+     * @return \Magento\Sales\Model\Order\Creditmemo
      */
     public function getSource()
     {
@@ -132,7 +134,7 @@ class Magento_Adminhtml_Block_Sales_Order_Creditmemo_Create_Items extends Magent
     /**
      * Retrieve creditmemo model instance
      *
-     * @return Magento_Sales_Model_Creditmemo
+     * @return \Magento\Sales\Model\Creditmemo
      */
     public function getCreditmemo()
     {
@@ -163,7 +165,7 @@ class Magento_Adminhtml_Block_Sales_Order_Creditmemo_Create_Items extends Magent
     public function canReturnToStock()
     {
         $canReturnToStock = $this->_storeConfig->getConfig(
-            Magento_CatalogInventory_Model_Stock_Item::XML_PATH_CAN_SUBTRACT
+            \Magento\CatalogInventory\Model\Stock\Item::XML_PATH_CAN_SUBTRACT
         );
         if ($canReturnToStock) {
             return true;
@@ -180,7 +182,7 @@ class Magento_Adminhtml_Block_Sales_Order_Creditmemo_Create_Items extends Magent
     {
         if (is_null($this->_canReturnToStock)) {
             $this->_canReturnToStock = $this->_storeConfig->getConfig(
-                Magento_CatalogInventory_Model_Stock_Item::XML_PATH_CAN_SUBTRACT
+                \Magento\CatalogInventory\Model\Stock\Item::XML_PATH_CAN_SUBTRACT
             );
             if ($this->_canReturnToStock) {
                 $canReturnToStock = false;

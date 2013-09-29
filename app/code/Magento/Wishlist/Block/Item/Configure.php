@@ -16,34 +16,36 @@
  * @package    Magento_Wishlist
  * @module     Wishlist
  */
-class Magento_Wishlist_Block_Item_Configure extends Magento_Core_Block_Template
+namespace Magento\Wishlist\Block\Item;
+
+class Configure extends \Magento\Core\Block\Template
 {
     /**
      * Wishlist data
      *
-     * @var Magento_Wishlist_Helper_Data
+     * @var \Magento\Wishlist\Helper\Data
      */
     protected $_wishlistData = null;
 
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Wishlist_Helper_Data $wishlistData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Wishlist\Helper\Data $wishlistData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Wishlist_Helper_Data $wishlistData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Wishlist\Helper\Data $wishlistData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_wishlistData = $wishlistData;
@@ -54,7 +56,7 @@ class Magento_Wishlist_Block_Item_Configure extends Magento_Core_Block_Template
     /**
      * Returns product being edited
      *
-     * @return Magento_Catalog_Model_Product
+     * @return \Magento\Catalog\Model\Product
      */
     protected function getProduct()
     {
@@ -64,7 +66,7 @@ class Magento_Wishlist_Block_Item_Configure extends Magento_Core_Block_Template
     /**
      * Returns wishlist item being configured
      *
-     * @return Magento_Catalog_Model_Product|Magento_Wishlist_Model_Item
+     * @return \Magento\Catalog\Model\Product|\Magento\Wishlist\Model\Item
      */
     protected function getWishlistItem()
     {
@@ -74,7 +76,7 @@ class Magento_Wishlist_Block_Item_Configure extends Magento_Core_Block_Template
     /**
      * Configure product view blocks
      *
-     * @return Magento_Wishlist_Block_Item_Configure
+     * @return \Magento\Wishlist\Block\Item\Configure
      */
     protected function _prepareLayout()
     {

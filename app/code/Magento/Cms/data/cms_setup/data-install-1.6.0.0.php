@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/** @var Magento_Cms_Model_Resource_Setup $this */
+/** @var \Magento\Cms\Model\Resource\Setup $this */
 
 $cmsBlocks = array(
     array(

@@ -8,34 +8,36 @@
  * @license     {license_link}
  */
 
-class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Methods extends Magento_Core_Block_Template
+namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shipping;
+
+class Methods extends \Magento\Core\Block\Template
 {
     /**
      * Tax data
      *
-     * @var Magento_Tax_Helper_Data
+     * @var \Magento\Tax\Helper\Data
      */
     protected $_taxData = null;
 
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Tax_Helper_Data $taxData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Tax_Helper_Data $taxData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;

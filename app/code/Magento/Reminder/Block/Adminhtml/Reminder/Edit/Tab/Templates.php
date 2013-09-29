@@ -11,17 +11,19 @@
 /**
  * Reminder rules edit form email templates and labels fields
  */
-class Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Templates
-    extends Magento_Backend_Block_Widget_Form_Generic
+namespace Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab;
+
+class Templates
+    extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
      * Prepare general properties form
      *
-     * @return Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Templates
+     * @return \Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab\Templates
      */
     protected function _prepareForm()
     {
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
         $model = $this->_coreRegistry->registry('current_reminder_rule');
         
@@ -31,7 +33,7 @@ class Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Templates
             'comment' => __('Only customers who registered on a store view will receive emails related to that store view.'),
         ));
 
-        foreach (Mage::app()->getWebsites() as $website) {
+        foreach (\Mage::app()->getWebsites() as $website) {
             $fieldset->addField("website_template_{$website->getId()}", 'note', array(
                 'label'    => $website->getName(),
                 'fieldset_html_class' => 'website',
@@ -81,7 +83,7 @@ class Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Templates
             'class'  => 'tree-store-scope'
         ));
 
-        foreach (Mage::app()->getWebsites() as $website) {
+        foreach (\Mage::app()->getWebsites() as $website) {
             $fieldset->addField("website_label_{$website->getId()}", 'note', array(
                 'label'    => $website->getName(),
                 'fieldset_html_class' => 'website',
@@ -125,8 +127,8 @@ class Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Templates
      */
     public function getTemplatesOptionsArray()
     {
-        $template = Mage::getModel('Magento_Backend_Model_Config_Source_Email_Template');
-        $template->setPath(Magento_Reminder_Model_Rule::XML_PATH_EMAIL_TEMPLATE);
+        $template = \Mage::getModel('Magento\Backend\Model\Config\Source\Email\Template');
+        $template->setPath(\Magento\Reminder\Model\Rule::XML_PATH_EMAIL_TEMPLATE);
 
         $options = $template->toOptionArray();
         array_unshift($options, array('value'=>'',

@@ -15,8 +15,10 @@
  * @package    Magento_Eav
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Entity_Product_Attribute_Design_Options_Container
-    extends Magento_Eav_Model_Entity_Attribute_Source_Config
+namespace Magento\Catalog\Model\Entity\Product\Attribute\Design\Options;
+
+class Container
+    extends \Magento\Eav\Model\Entity\Attribute\Source\Config
 {
     /**
      * Get a text for option value

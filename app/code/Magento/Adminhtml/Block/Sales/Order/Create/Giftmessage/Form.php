@@ -15,44 +15,47 @@
  * @category   Magento
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
- *
+ */
+namespace Magento\Adminhtml\Block\Sales\Order\Create\Giftmessage;
+
+/**
  * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
-class Magento_Adminhtml_Block_Sales_Order_Create_Giftmessage_Form extends Magento_Backend_Block_Widget_Form_Generic
+class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
      * Entity for editing of gift message
      *
-     * @var Magento_Eav_Model_Entity_Abstract
+     * @var \Magento\Eav\Model\Entity\AbstractEntity
      */
     protected $_entity;
 
     /**
      * Giftmessage object
      *
-     * @var Magento_GiftMessage_Model_Message
+     * @var \Magento\GiftMessage\Model\Message
      */
     protected $_giftMessage;
 
     /**
-     * @var Magento_Adminhtml_Model_Session_Quote
+     * @var \Magento\Adminhtml\Model\Session\Quote
      */
     protected $_sessionQuote;
 
     /**
-     * @param Magento_Adminhtml_Model_Session_Quote $sessionQuote
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
+     * @param \Magento\Adminhtml\Model\Session\Quote $sessionQuote
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Adminhtml_Model_Session_Quote $sessionQuote,
-        Magento_Core_Model_Registry $registry,
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
+        \Magento\Adminhtml\Model\Session\Quote $sessionQuote,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_sessionQuote = $sessionQuote;
@@ -62,10 +65,10 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Giftmessage_Form extends Magent
     /**
      * Set entity for form
      *
-     * @param Magento_Object $entity
-     * @return Magento_Adminhtml_Block_Sales_Order_Create_Giftmessage_Form
+     * @param \Magento\Object $entity
+     * @return \Magento\Adminhtml\Block\Sales\Order\Create\Giftmessage\Form
      */
-    public function setEntity(Magento_Object $entity)
+    public function setEntity(\Magento\Object $entity)
     {
         $this->_entity  = $entity;
         return $this;
@@ -74,7 +77,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Giftmessage_Form extends Magent
     /**
      * Retrive entity for form
      *
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function getEntity()
     {
@@ -143,7 +146,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Giftmessage_Form extends Magent
     /**
      * Prepares form
      *
-     * @return Magento_Adminhtml_Block_Sales_Order_Create_Giftmessage_Form
+     * @return \Magento\Adminhtml\Block\Sales\Order\Create\Giftmessage\Form
      */
     public function _prepareForm()
     {
@@ -188,11 +191,11 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Giftmessage_Form extends Magent
      * Prepare form fieldset
      * All fields are hidden
      *
-     * @param Magento_Data_Form_Element_Fieldset $fieldset
+     * @param \Magento\Data\Form\Element\Fieldset $fieldset
      *
-     * @return Magento_Adminhtml_Block_Sales_Order_Create_Giftmessage_Form
+     * @return \Magento\Adminhtml\Block\Sales\Order\Create\Giftmessage\Form
      */
-    protected function _prepareHiddenFields(Magento_Data_Form_Element_Fieldset $fieldset)
+    protected function _prepareHiddenFields(\Magento\Data\Form\Element\Fieldset $fieldset)
     {
         $fieldset->addField('sender', 'hidden',
             array(
@@ -217,11 +220,11 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Giftmessage_Form extends Magent
      * Prepare form fieldset
      * All fields are visible
      *
-     * @param Magento_Data_Form_Element_Fieldset $fieldset
+     * @param \Magento\Data\Form\Element\Fieldset $fieldset
      *
-     * @return Magento_Adminhtml_Block_Sales_Order_Create_Giftmessage_Form
+     * @return \Magento\Adminhtml\Block\Sales\Order\Create\Giftmessage\Form
      */
-    protected function _prepareVisibleFields(Magento_Data_Form_Element_Fieldset $fieldset)
+    protected function _prepareVisibleFields(\Magento\Data\Form\Element\Fieldset $fieldset)
     {
         $fieldset->addField('sender', 'text',
             array(
@@ -252,11 +255,11 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Giftmessage_Form extends Magent
     /**
      * Initialize gift message for entity
      *
-     * @return Magento_Adminhtml_Block_Sales_Order_Create_Giftmessage_Form
+     * @return \Magento\Adminhtml\Block\Sales\Order\Create\Giftmessage\Form
      */
     protected function _initMessage()
     {
-        $this->_giftMessage = $this->helper('Magento_GiftMessage_Helper_Message')->getGiftMessage(
+        $this->_giftMessage = $this->helper('Magento\GiftMessage\Helper\Message')->getGiftMessage(
                                    $this->getEntity()->getGiftMessageId()
                               );
         return $this;
@@ -265,7 +268,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Giftmessage_Form extends Magent
     /**
      * Retrive gift message for entity
      *
-     * @return Magento_GiftMessage_Model_Message
+     * @return \Magento\GiftMessage\Model\Message
      */
     public function getMessage()
     {
@@ -311,7 +314,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Giftmessage_Form extends Magent
     /**
      * Aplies posted data to gift message
      *
-     * @return Magento_Adminhtml_Block_Sales_Order_Create_Giftmessage_Form
+     * @return \Magento\Adminhtml\Block\Sales\Order\Create\Giftmessage\Form
      */
     protected function _applyPostData()
     {

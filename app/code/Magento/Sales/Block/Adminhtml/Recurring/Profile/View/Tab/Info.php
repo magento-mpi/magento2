@@ -11,9 +11,11 @@
 /**
  * Recurring profile information tab
  */
-class Magento_Sales_Block_Adminhtml_Recurring_Profile_View_Tab_Info
-    extends Magento_Adminhtml_Block_Widget
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+namespace Magento\Sales\Block\Adminhtml\Recurring\Profile\View\Tab;
+
+class Info
+    extends \Magento\Adminhtml\Block\Widget
+    implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
 {
     /**
      * Label getter

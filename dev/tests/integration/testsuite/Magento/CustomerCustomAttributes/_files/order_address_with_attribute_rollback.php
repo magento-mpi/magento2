@@ -9,14 +9,14 @@
  * @license     {license_link}
  */
 
-/** @var $address Magento_Sales_Model_Order_Address */
-$address = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Sales_Model_Order_Address');
+/** @var $address \Magento\Sales\Model\Order\Address */
+$address = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Sales\Model\Order\Address');
 $address->load('admin@example.com', 'email');
 $address->delete();
 
-/** @var $attribute Magento_Customer_Model_Attribute */
-$attribute = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Customer_Model_Attribute');
+/** @var $attribute \Magento\Customer\Model\Attribute */
+$attribute = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Customer\Model\Attribute');
 $attribute->loadByCode('customer_address', 'fixture_address_attribute');
 $attribute->delete();

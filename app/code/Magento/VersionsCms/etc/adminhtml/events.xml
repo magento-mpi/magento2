@@ -9,24 +9,24 @@
 -->
 <config>
     <event name="adminhtml_cms_page_edit_tab_main_prepare_form">
-        <observer name="magento_versionscms" instance="Magento_VersionsCms_Model_Observer" method="onMainTabPrepareForm" />
+        <observer name="magento_versionscms" instance="Magento\VersionsCms\Model\Observer" method="onMainTabPrepareForm" />
     </event>
     <event name="cms_page_save_before">
-        <observer name="magento_versionscms" instance="Magento_VersionsCms_Model_Observer" method="cmsPageSaveBefore" />
+        <observer name="magento_versionscms" instance="Magento\VersionsCms\Model\Observer" method="cmsPageSaveBefore" />
     </event>
     <event name="cms_page_save_after">
-        <observer name="magento_versionscms" instance="Magento_VersionsCms_Model_Observer" method="cmsPageSaveAfter" />
+        <observer name="magento_versionscms" instance="Magento\VersionsCms\Model\Observer" method="cmsPageSaveAfter" />
     </event>
     <event name="admin_user_delete_after">
-        <observer name="magento_versionscms" instance="Magento_VersionsCms_Model_Observer" method="adminUserDeleteAfter" />
+        <observer name="magento_versionscms" instance="Magento\VersionsCms\Model\Observer" method="adminUserDeleteAfter" />
     </event>
     <event name="website_delete_after">
-        <observer name="magento_versionscms" instance="Magento_VersionsCms_Model_Observer" method="deleteWebsite" />
+        <observer name="magento_versionscms" instance="Magento\VersionsCms\Model\Observer" method="deleteWebsite" />
     </event>
     <event name="store_delete_after">
-        <observer name="magento_versionscms" instance="Magento_VersionsCms_Model_Observer" method="deleteStore" />
+        <observer name="magento_versionscms" instance="Magento\VersionsCms\Model\Observer" method="deleteStore" />
     </event>
     <event name="cms_page_delete_after">
-        <observer name="magento_versionscms" instance="Magento_VersionsCms_Model_Observer" method="cmsPageDeleteAfter" />
+        <observer name="magento_versionscms" instance="Magento\VersionsCms\Model\Observer" method="cmsPageDeleteAfter" />
     </event>
 </config>

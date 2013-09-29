@@ -9,7 +9,9 @@
  */
 
 
-class Magento_Backend_Model_Config_Source_Website implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Backend\Model\Config\Source;
+
+class Website implements \Magento\Core\Model\Option\ArrayInterface
 {
     protected $_options;
 
@@ -17,7 +19,7 @@ class Magento_Backend_Model_Config_Source_Website implements Magento_Core_Model_
     {
         if (!$this->_options) {
             $this->_options = array();
-            foreach (Mage::app()->getWebsites() as $website) {
+            foreach (\Mage::app()->getWebsites() as $website) {
                 $id = $website->getId();
                 $name = $website->getName();
                 if ($id!=0) {

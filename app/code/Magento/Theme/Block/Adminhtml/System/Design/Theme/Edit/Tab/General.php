@@ -8,13 +8,15 @@
  * @license     {license_link}
  */
 
+namespace Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab;
+
 /**
  * Theme form, general tab
  *
  * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
-class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
-    extends Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_TabAbstract
+class General
+    extends \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\TabAbstract
 {
     /**
      * Whether theme is editable
@@ -24,33 +26,33 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
     protected $_isThemeEditable = false;
 
     /**
-     * @var Magento_Core_Model_Theme_Image_Path
+     * @var \Magento\Core\Model\Theme\Image\Path
      */
     protected $_themeImagePath;
 
     /**
-     * @var Magento_File_Size
+     * @var \Magento\File\Size
      */
     protected $_fileSize;
 
     /**
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_ObjectManager $objectManager
-     * @param Magento_Core_Model_Theme_Image_Path $themeImagePath
-     * @param Magento_File_Size $fileSize
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Core\Model\Theme\Image\Path $themeImagePath
+     * @param \Magento\File\Size $fileSize
      * @param array $data
      */
     public function __construct(
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_ObjectManager $objectManager,
-        Magento_Core_Model_Theme_Image_Path $themeImagePath,
-        Magento_File_Size $fileSize,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\ObjectManager $objectManager,
+        \Magento\Core\Model\Theme\Image\Path $themeImagePath,
+        \Magento\File\Size $fileSize,
         array $data = array()
     ) {
         $this->_themeImagePath = $themeImagePath;
@@ -61,12 +63,12 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
     /**
      * Create a form element with necessary controls
      *
-     * @return Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General|Magento_Backend_Block_Widget_Form
+     * @return \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab\General|\Magento\Backend\Block\Widget\Form
      */
     protected function _prepareForm()
     {
-        /** @var $session Magento_Backend_Model_Session */
-        $session = $this->_objectManager->get('Magento_Backend_Model_Session');
+        /** @var $session \Magento\Backend\Model\Session */
+        $session = $this->_objectManager->get('Magento\Backend\Model\Session');
         $formDataFromSession = $session->getThemeData();
         $this->_isThemeEditable = $this->_getCurrentTheme()->isEditable();
         $formData = $this->_getCurrentTheme()->getData();
@@ -77,7 +79,7 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
         }
         $this->setIsThemeExist(isset($formData['theme_id']));
 
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
 
         $this->_addThemeFieldset($form, $formData);
@@ -95,9 +97,9 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
     /**
      * Add theme fieldset
      *
-     * @param Magento_Data_Form $form
+     * @param \Magento\Data\Form $form
      * @param array $formData
-     * @return Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
+     * @return \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab\General
      */
     protected function _addThemeFieldset($form, $formData)
     {
@@ -112,18 +114,18 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
             ));
         }
 
-        /** @var $themesCollections Magento_Core_Model_Theme_Collection */
-        $themesCollections = $this->_objectManager->create('Magento_Core_Model_Theme_Collection');
+        /** @var $themesCollections \Magento\Core\Model\Theme\Collection */
+        $themesCollections = $this->_objectManager->create('Magento\Core\Model\Theme\Collection');
 
-        /** @var $helper Magento_Core_Helper_Data */
-        $helper = $this->_objectManager->get('Magento_Core_Helper_Data');
+        /** @var $helper \Magento\Core\Helper\Data */
+        $helper = $this->_objectManager->get('Magento\Core\Helper\Data');
 
         $onChangeScript = sprintf('parentThemeOnChange(this.value, %s)', str_replace(
             '"', '\'', $helper->jsonEncode($this->_getDefaultsInherited($themesCollections->addDefaultPattern()))
         ));
 
-        /** @var $parentTheme Magento_Core_Model_Theme */
-        $parentTheme = $this->_objectManager->create('Magento_Core_Model_Theme');
+        /** @var $parentTheme \Magento\Core\Model\Theme */
+        $parentTheme = $this->_objectManager->create('Magento\Core\Model\Theme');
         if (!empty($formData['parent_id'])) {
             $parentTheme->load($formData['parent_id']);
         }
@@ -230,7 +232,7 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
     protected function _getAdditionalElementTypes()
     {
         $element =
-            'Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Form_Element_Image';
+            'Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Form\Element\Image';
         return array('image' => $element);
     }
 
@@ -278,7 +280,7 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
     {
         $data = array('' => $this->_getDefaults());
 
-        /** @var $theme Magento_Core_Model_Theme */
+        /** @var $theme \Magento\Core\Model\Theme */
         foreach ($themesCollections as $theme) {
             $theme->load($theme->getThemePath(), 'theme_path');
             if (!$theme->getId()) {

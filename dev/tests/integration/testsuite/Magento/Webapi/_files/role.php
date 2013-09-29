@@ -8,7 +8,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/** @var Magento_Webapi_Model_Acl_Role $role */
-$role = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Webapi_Model_Acl_Role');
+/** @var \Magento\Webapi\Model\Acl\Role $role */
+$role = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Webapi\Model\Acl\Role');
 $role->setRoleName('test_role')->save();

@@ -7,13 +7,15 @@
  * @copyright {copyright}
  * @license {license_link}
  */
-class Magento_GoogleAdwords_Model_Config_Backend_ConversionId
-    extends Magento_GoogleAdwords_Model_Config_Backend_ConversionAbstract
+namespace Magento\GoogleAdwords\Model\Config\Backend;
+
+class ConversionId
+    extends \Magento\GoogleAdwords\Model\Config\Backend\ConversionAbstract
 {
     /**
      * Validation rule conversion id
      *
-     * @return Zend_Validate_Interface|null
+     * @return \Zend_Validate_Interface|null
      */
     protected function _getValidationRulesBeforeSave()
     {

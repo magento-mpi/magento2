@@ -9,12 +9,14 @@
  * @license     {license_link}
  */
 
+namespace Magento\Captcha\Model;
+
 /**
  * Test captcha observer behavior
  *
  * @magentoAppArea adminhtml
  */
-class Magento_Captcha_Model_ObserverTest extends Magento_TestFramework_TestCase_ControllerAbstract
+class ObserverTest extends \Magento\TestFramework\TestCase\ControllerAbstract
 {
     /**
      * @magentoConfigFixture admin_store admin/captcha/forms backend_login
@@ -23,13 +25,13 @@ class Magento_Captcha_Model_ObserverTest extends Magento_TestFramework_TestCase_
      */
     public function testBackendLoginActionWithInvalidCaptchaReturnsError()
     {
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Backend_Model_Url')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Backend\Model\Url')
             ->turnOffSecretKey();
 
         $post = array(
             'login' => array(
-                'username' => Magento_TestFramework_Bootstrap::ADMIN_NAME,
-                'password' => Magento_TestFramework_Bootstrap::ADMIN_PASSWORD
+                'username' => \Magento\TestFramework\Bootstrap::ADMIN_NAME,
+                'password' => \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD
             ),
             'captcha' => array(
                 'backend_login' => 'some_unrealistic_captcha_value',
@@ -50,20 +52,20 @@ class Magento_Captcha_Model_ObserverTest extends Magento_TestFramework_TestCase_
      */
     public function testCaptchaIsRequiredAfterFailedLoginAttempts()
     {
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
             ->setCurrentStore(0);
-        $captchaModel = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Captcha_Helper_Data')
+        $captchaModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Captcha\Helper\Data')
             ->getCaptcha('backend_login');
 
         try {
-            $authModel = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Backend_Model_Auth');
+            $authModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Backend\Model\Auth');
             $authModel->login(
-                Magento_TestFramework_Bootstrap::ADMIN_NAME,
+                \Magento\TestFramework\Bootstrap::ADMIN_NAME,
                 'wrong_password'
             );
         }
-        catch (Exception $e) {
+        catch (\Exception $e) {
         }
 
         $this->assertTrue($captchaModel->isRequired());
@@ -96,13 +98,13 @@ class Magento_Captcha_Model_ObserverTest extends Magento_TestFramework_TestCase_
      */
     public function testCheckUnsuccessfulMessageWhenCaptchaFailed()
     {
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Backend_Model_Url')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Backend\Model\Url')
             ->turnOffSecretKey();
         $this->getRequest()->setPost(array('email'   => 'dummy@dummy.com', 'captcha' => '1234'));
         $this->dispatch('backend/admin/auth/forgotpassword');
         $this->assertSessionMessages(
-            $this->equalTo(array('Incorrect CAPTCHA')), Magento_Core_Model_Message::ERROR,
-            'Magento_Backend_Model_Session'
+            $this->equalTo(array('Incorrect CAPTCHA')), \Magento\Core\Model\Message::ERROR,
+            'Magento\Backend\Model\Session'
         );
     }
 }

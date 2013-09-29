@@ -8,7 +8,9 @@
  * @license    {license_link}
  */
 
-class Magento_Tools_Migration_System_Configuration_Formatter
+namespace Magento\Tools\Migration\System\Configuration;
+
+class Formatter
 {
     /**
      * @param string $string

@@ -9,7 +9,9 @@
  */
 
 
-class Magento_Shipping_Model_Rate_Result_Error extends Magento_Shipping_Model_Rate_Result_Abstract
+namespace Magento\Shipping\Model\Rate\Result;
+
+class Error extends \Magento\Shipping\Model\Rate\Result\AbstractResult
 {
 
     public function getErrorMessage()

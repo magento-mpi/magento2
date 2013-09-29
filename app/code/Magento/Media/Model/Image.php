@@ -16,12 +16,14 @@
  * @package    Magento_Media
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Media_Model_Image extends Magento_Core_Model_Abstract
+namespace Magento\Media\Model;
+
+class Image extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Image config instance
      *
-     * @var Magento_Media_Model_Image_Config_Interface
+     * @var \Magento\Media\Model\Image\Config\ConfigInterface
      */
     protected $_config;
 
@@ -49,16 +51,16 @@ class Magento_Media_Model_Image extends Magento_Core_Model_Abstract
 
     protected function _construct()
     {
-        $this->_init('Magento_Media_Model_File_Image');
+        $this->_init('Magento\Media\Model\File\Image');
     }
 
     /**
      * Set media image config instance
      *
-     * @param Magento_Media_Model_Image_Config_Interface $config
+     * @param \Magento\Media\Model\Image\Config\ConfigInterface $config
      * @return unknown
      */
-    public function setConfig(Magento_Media_Model_Image_Config_Interface $config)
+    public function setConfig(\Magento\Media\Model\Image\Config\ConfigInterface $config)
     {
         $this->_config = $config;
         return $this;
@@ -67,7 +69,7 @@ class Magento_Media_Model_Image extends Magento_Core_Model_Abstract
     /**
      * Retrive media image config instance
      *
-     * @return Magento_Media_Model_Image_Config_Interface
+     * @return \Magento\Media\Model\Image\Config\ConfigInterface
      */
     public function getConfig()
     {
@@ -95,7 +97,7 @@ class Magento_Media_Model_Image extends Magento_Core_Model_Abstract
     /**
      * Retrive source dimensions object
      *
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function getDimensions()
     {
@@ -108,7 +110,7 @@ class Magento_Media_Model_Image extends Magento_Core_Model_Abstract
     /**
      * Retrive destanation dimensions object
      *
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function getDestanationDimensions()
     {

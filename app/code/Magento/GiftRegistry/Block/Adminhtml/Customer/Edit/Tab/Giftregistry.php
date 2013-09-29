@@ -8,36 +8,38 @@
  * @license     {license_link}
  */
 
-class Magento_GiftRegistry_Block_Adminhtml_Customer_Edit_Tab_Giftregistry
-    extends Magento_Backend_Block_Template
-    implements Magento_Backend_Block_Widget_Tab_Interface
+namespace Magento\GiftRegistry\Block\Adminhtml\Customer\Edit\Tab;
+
+class Giftregistry
+    extends \Magento\Backend\Block\Template
+    implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * Gift registry data
      *
-     * @var Magento_GiftRegistry_Helper_Data
+     * @var \Magento\GiftRegistry\Helper\Data
      */
     protected $_giftRegistryData = null;
 
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_GiftRegistry_Helper_Data $giftRegistryData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_GiftRegistry_Helper_Data $giftRegistryData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\GiftRegistry\Helper\Data $giftRegistryData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;

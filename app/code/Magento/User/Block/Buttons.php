@@ -8,26 +8,28 @@
  * @license     {license_link}
  */
 
-class Magento_User_Block_Buttons extends Magento_Backend_Block_Template
+namespace Magento\User\Block;
+
+class Buttons extends \Magento\Backend\Block\Template
 {
 
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -36,18 +38,18 @@ class Magento_User_Block_Buttons extends Magento_Backend_Block_Template
 
     protected function _prepareLayout()
     {
-        $this->addChild('backButton', 'Magento_Backend_Block_Widget_Button', array(
+        $this->addChild('backButton', 'Magento\Backend\Block\Widget\Button', array(
             'label'     => __('Back'),
             'onclick'   => 'window.location.href=\''.$this->getUrl('*/*/').'\'',
             'class' => 'back'
         ));
 
-        $this->addChild('resetButton', 'Magento_Backend_Block_Widget_Button', array(
+        $this->addChild('resetButton', 'Magento\Backend\Block\Widget\Button', array(
             'label'     => __('Reset'),
             'onclick'   => 'window.location.reload()'
         ));
 
-        $this->addChild('saveButton', 'Magento_Backend_Block_Widget_Button', array(
+        $this->addChild('saveButton', 'Magento\Backend\Block\Widget\Button', array(
             'label'     => __('Save Role'),
             'class' => 'save',
             'data_attribute'  => array(
@@ -57,7 +59,7 @@ class Magento_User_Block_Buttons extends Magento_Backend_Block_Template
             ),
         ));
 
-        $this->addChild('deleteButton', 'Magento_Backend_Block_Widget_Button', array(
+        $this->addChild('deleteButton', 'Magento\Backend\Block\Widget\Button', array(
             'label'     => __('Delete Role'),
             'onclick'   => 'deleteConfirm(\''
                 . __('Are you sure you want to do this?')

@@ -7,6 +7,7 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
+namespace Magento\Tools\Translate;
 
 require_once __DIR__ . '/config.inc.php';
 if (!defined('DS')) {
@@ -34,7 +35,10 @@ OPTIONAL PARAMETRS:
 MTUSAGE
 );
 
-class Magento_Tools_Translate_ModuleTranslations
+global $argv;
+global $CONFIG;
+
+class ModuleTranslations
 {
     const ACTION_CLEAN = 1;
     const ACTION_COLLECT = 2;
@@ -100,7 +104,7 @@ class Magento_Tools_Translate_ModuleTranslations
      *
      * @param string $locale Locale name (ex. en_US)
      * @return bool
-     * @throws Exception
+     * @throws \Exception
      */
     public static function collectTranslations($locale='')
     {
@@ -117,7 +121,7 @@ class Magento_Tools_Translate_ModuleTranslations
             }
         }
         if ($writeError) {
-            throw new Exception("Directory $localeDir is not writable \n\n");
+            throw new \Exception("Directory $localeDir is not writable \n\n");
         }
 
         $files = glob(BASE_PATH . DS . 'app' . DS . 'code' . DS . '*' . DS . '*' . DS .  'locale'
@@ -134,7 +138,7 @@ class Magento_Tools_Translate_ModuleTranslations
      *
      * @param string $locale Locale name (ex. en_US)
      * @return bool
-     * @throws Exception
+     * @throws \Exception
      */
     public static function distributeTranslations($locale)
     {
@@ -143,7 +147,7 @@ class Magento_Tools_Translate_ModuleTranslations
         $pathLocales = $_config['paths']['locale'];
         $localeDir = BASE_PATH . DS . $pathLocales . $locale;
         if (!is_dir($localeDir)) {
-            throw new Exception("Directory $localeDir is not writable \n\n");
+            throw new \Exception("Directory $localeDir is not writable \n\n");
         }
 
         $files = glob($localeDir . DS . '*.' . EXTENSION);
@@ -163,7 +167,7 @@ class Magento_Tools_Translate_ModuleTranslations
                 }
             }
             if ($writeError || !copy($file, $newFileName)) {
-                throw new Exception("Directory $newFilePath is not writable \n\n");
+                throw new \Exception("Directory $newFilePath is not writable \n\n");
             }
         }
         return true;
@@ -174,14 +178,14 @@ class Magento_Tools_Translate_ModuleTranslations
      *
      * @param string $locale Locale name (ex. en_US)
      * @return bool
-     * @throws Exception
+     * @throws \Exception
      */
     public static function cleanTranslations($locale)
     {
         $_config = self::getConfig();
         $localeDir = BASE_PATH . DS . $_config['paths']['locale'] . $locale;
         if (!is_dir($localeDir)) {
-            throw new Exception("Directory $localeDir is not writable \n\n");
+            throw new \Exception("Directory $localeDir is not writable \n\n");
         }
         $files = glob($localeDir . DS . '*.' . EXTENSION);
         foreach ($files as $file) {
@@ -240,7 +244,7 @@ class Magento_Tools_Translate_ModuleTranslations
     }
 }
 
-Magento_Tools_Translate_ModuleTranslations::setConfig($CONFIG);
-$moduleTranslation = new Magento_Tools_Translate_ModuleTranslations($argv);
+\Magento\Tools\Translate\ModuleTranslations::setConfig($CONFIG);
+$moduleTranslation = new \Magento\Tools\Translate\ModuleTranslations($argv);
 $moduleTranslation->run();
 echo "\n\n";

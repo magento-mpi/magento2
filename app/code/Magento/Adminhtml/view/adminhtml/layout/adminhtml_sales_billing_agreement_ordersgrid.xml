@@ -12,12 +12,12 @@
     <referenceBlock name="sales.order.grid">
         <arguments>
             <argument name="dataSource" xsi:type="object">
-                <updater>Magento_Sales_Model_Billing_Agreement_OrdersUpdater</updater>
+                <updater>Magento\Sales\Model\Billing\Agreement\OrdersUpdater</updater>
             </argument>
             <argument name="grid_url" xsi:type="url" path="*/*/ordersgrid"/>
         </arguments>
     </referenceBlock>
     <remove name="sales.order.grid.export"/>
     <remove name="sales.order.grid.massaction"/>
-    <block class="Magento_Backend_Block_Widget_Grid_Container" name="sales_order.grid.container" template="Magento_Backend::widget/grid/container/empty.phtml" output="1"/>
+    <block class="Magento\Backend\Block\Widget\Grid\Container" name="sales_order.grid.container" template="Magento_Backend::widget/grid/container/empty.phtml" output="1"/>
 </layout>

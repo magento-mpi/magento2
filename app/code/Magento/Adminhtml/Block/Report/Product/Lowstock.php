@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Report_Product_Lowstock extends Magento_Adminhtml_Block_Widget_Grid_Container
+namespace Magento\Adminhtml\Block\Report\Product;
+
+class Lowstock extends \Magento\Adminhtml\Block\Widget\Grid\Container
 {
     protected function _construct()
     {
@@ -29,7 +31,7 @@ class Magento_Adminhtml_Block_Report_Product_Lowstock extends Magento_Adminhtml_
     protected function _prepareLayout()
     {
         $this->setChild('store_switcher',
-            $this->getLayout()->createBlock('Magento_Backend_Block_Store_Switcher')
+            $this->getLayout()->createBlock('Magento\Backend\Block\Store\Switcher')
                 ->setUseConfirm(false)
                 ->setSwitchUrl($this->getUrl('*/*/*', array('store'=>null)))
                 ->setTemplate('Magento_Reports::store/switcher.phtml')

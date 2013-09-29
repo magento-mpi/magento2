@@ -9,22 +9,24 @@
  * @license     {license_link}
  */
 
-class Magento_Theme_Block_Adminhtml_System_Design_Theme_Tab_CssTest extends PHPUnit_Framework_TestCase
+namespace Magento\Theme\Block\Adminhtml\System\Design\Theme\Tab;
+
+class CssTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
+     * @var \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab\Css
      */
     protected $_model;
 
     /**
-     * @var Magento_ObjectManager|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\ObjectManager|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_objectManager;
 
     protected function setUp()
     {
         $this->_model = $this->getMock(
-            'Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css',
+            'Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab\Css',
             array('_getCurrentTheme'),
             $this->_prepareModelArguments(),
             '',
@@ -37,19 +39,19 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_Tab_CssTest extends PHPU
      */
     protected function _prepareModelArguments()
     {
-        $this->_objectManager = $this->getMock('Magento_ObjectManager');
+        $this->_objectManager = $this->getMock('Magento\ObjectManager');
 
-        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $constructArguments = $objectManagerHelper->getConstructArguments(
-            'Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css',
+            'Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab\Css',
             array(
-                'formFactory'      => $this->getMock('Magento_Data_Form_Factory', array(), array(), '', false),
+                'formFactory'      => $this->getMock('Magento\Data\Form\Factory', array(), array(), '', false),
                 'objectManager'   => $this->_objectManager,
-                'dirs'            => new Magento_Core_Model_Dir(__DIR__),
+                'dirs'            => new \Magento\Core\Model\Dir(__DIR__),
                 'uploaderService' => $this->getMock(
-                    'Magento_Theme_Model_Uploader_Service', array(), array(), '', false
+                    'Magento\Theme\Model\Uploader\Service', array(), array(), '', false
                 ),
-                'urlBuilder'      => $this->getMock('Magento_Backend_Model_Url', array(), array(), '', false)
+                'urlBuilder'      => $this->getMock('Magento\Backend\Model\Url', array(), array(), '', false)
             )
         );
         return $constructArguments;
@@ -63,12 +65,12 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_Tab_CssTest extends PHPU
     public function testGetUploadCssFileNote()
     {
         $method = self::getMethod('_getUploadCssFileNote');
-        /** @var $sizeModel Magento_File_Size */
-        $sizeModel = $this->getMock('Magento_File_Size', null, array(), '', false);
+        /** @var $sizeModel \Magento\File\Size */
+        $sizeModel = $this->getMock('Magento\File\Size', null, array(), '', false);
 
         $this->_objectManager->expects($this->any())
             ->method('get')
-            ->with('Magento_File_Size')
+            ->with('Magento\File\Size')
             ->will($this->returnValue($sizeModel));
 
         $result = $method->invokeArgs($this->_model, array());
@@ -85,18 +87,18 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_Tab_CssTest extends PHPU
     {
         $method = self::getMethod('_getAdditionalElementTypes');
 
-        /** @var $configModel Magento_Core_Model_Config */
-        $configModel = $this->getMock('Magento_Core_Model_Config', null, array(), '', false);
+        /** @var $configModel \Magento\Core\Model\Config */
+        $configModel = $this->getMock('Magento\Core\Model\Config', null, array(), '', false);
 
         $this->_objectManager->expects($this->any())
             ->method('get')
-            ->with('Magento_Core_Model_Config')
+            ->with('Magento\Core\Model\Config')
             ->will($this->returnValue($configModel));
 
         $result = $method->invokeArgs($this->_model, array());
         $expectedResult = array(
-            'links' => 'Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Form_Element_Links',
-            'css_file' => 'Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Form_Element_File'
+            'links' => 'Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Form\Element\Links',
+            'css_file' => 'Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Form\Element\File'
         );
         $this->assertEquals($expectedResult, $result);
     }
@@ -108,11 +110,11 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_Tab_CssTest extends PHPU
 
     /**
      * @param string $name
-     * @return ReflectionMethod
+     * @return \ReflectionMethod
      */
     protected static function getMethod($name)
     {
-        $class = new ReflectionClass('Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css');
+        $class = new \ReflectionClass('Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab\Css');
         $method = $class->getMethod($name);
         $method->setAccessible(true);
         return $method;

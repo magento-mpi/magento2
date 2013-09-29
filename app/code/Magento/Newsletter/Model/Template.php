@@ -11,34 +11,36 @@
 /**
  * Template model
  *
- * @method Magento_Newsletter_Model_Resource_Template _getResource()
- * @method Magento_Newsletter_Model_Resource_Template getResource()
+ * @method \Magento\Newsletter\Model\Resource\Template _getResource()
+ * @method \Magento\Newsletter\Model\Resource\Template getResource()
  * @method string getTemplateCode()
- * @method Magento_Newsletter_Model_Template setTemplateCode(string $value)
- * @method Magento_Newsletter_Model_Template setTemplateText(string $value)
- * @method Magento_Newsletter_Model_Template setTemplateTextPreprocessed(string $value)
+ * @method \Magento\Newsletter\Model\Template setTemplateCode(string $value)
+ * @method \Magento\Newsletter\Model\Template setTemplateText(string $value)
+ * @method \Magento\Newsletter\Model\Template setTemplateTextPreprocessed(string $value)
  * @method string getTemplateStyles()
- * @method Magento_Newsletter_Model_Template setTemplateStyles(string $value)
+ * @method \Magento\Newsletter\Model\Template setTemplateStyles(string $value)
  * @method int getTemplateType()
- * @method Magento_Newsletter_Model_Template setTemplateType(int $value)
+ * @method \Magento\Newsletter\Model\Template setTemplateType(int $value)
  * @method string getTemplateSubject()
- * @method Magento_Newsletter_Model_Template setTemplateSubject(string $value)
+ * @method \Magento\Newsletter\Model\Template setTemplateSubject(string $value)
  * @method string getTemplateSenderName()
- * @method Magento_Newsletter_Model_Template setTemplateSenderName(string $value)
+ * @method \Magento\Newsletter\Model\Template setTemplateSenderName(string $value)
  * @method string getTemplateSenderEmail()
- * @method Magento_Newsletter_Model_Template setTemplateSenderEmail(string $value)
+ * @method \Magento\Newsletter\Model\Template setTemplateSenderEmail(string $value)
  * @method int getTemplateActual()
- * @method Magento_Newsletter_Model_Template setTemplateActual(int $value)
+ * @method \Magento\Newsletter\Model\Template setTemplateActual(int $value)
  * @method string getAddedAt()
- * @method Magento_Newsletter_Model_Template setAddedAt(string $value)
+ * @method \Magento\Newsletter\Model\Template setAddedAt(string $value)
  * @method string getModifiedAt()
- * @method Magento_Newsletter_Model_Template setModifiedAt(string $value)
+ * @method \Magento\Newsletter\Model\Template setModifiedAt(string $value)
  *
  * @category    Magento
  * @package     Magento_Newsletter
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Newsletter_Model_Template extends Magento_Core_Model_Template
+namespace Magento\Newsletter\Model;
+
+class Template extends \Magento\Core\Model\Template
 {
     /**
      * Template Text Preprocessed flag
@@ -50,67 +52,67 @@ class Magento_Newsletter_Model_Template extends Magento_Core_Model_Template
     /**
      * Mail object
      *
-     * @var Zend_Mail
+     * @var \Zend_Mail
      */
     protected $_mail;
 
     /**
      * Store manager to emulate design
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * Http-request, used to determine current store in multi-store mode
      *
-     * @var Magento_Core_Controller_Request_Http
+     * @var \Magento\Core\Controller\Request\Http
      */
     protected $_request;
 
     /**
      * Filter for newsletter text
      *
-     * @var Magento_Newsletter_Model_Template_Filter
+     * @var \Magento\Newsletter\Model\Template\Filter
      */
     protected $_templateFilter;
 
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
      * Template factory
      *
-     * @var Magento_Newsletter_Model_TemplateFactory
+     * @var \Magento\Newsletter\Model\TemplateFactory
      */
     protected $_templateFactory;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Model_View_DesignInterface $design
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Controller_Request_Http $request
-     * @param Magento_Newsletter_Model_Template_Filter $filter
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Newsletter_Model_TemplateFactory $templateFactory
+     * @param \Magento\Core\Model\View\DesignInterface $design
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Controller\Request\Http $request
+     * @param \Magento\Newsletter\Model\Template\Filter $filter
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Newsletter\Model\TemplateFactory $templateFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_View_DesignInterface $design,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Controller_Request_Http $request,
-        Magento_Newsletter_Model_Template_Filter $filter,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Newsletter_Model_TemplateFactory $templateFactory,
+        \Magento\Core\Model\View\DesignInterface $design,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Controller\Request\Http $request,
+        \Magento\Newsletter\Model\Template\Filter $filter,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Newsletter\Model\TemplateFactory $templateFactory,
         array $data = array()
     ) {
         parent::__construct($design, $context, $registry, $data);
@@ -127,29 +129,29 @@ class Magento_Newsletter_Model_Template extends Magento_Core_Model_Template
      */
     protected function _construct()
     {
-        $this->_init('Magento_Newsletter_Model_Resource_Template');
+        $this->_init('Magento\Newsletter\Model\Resource\Template');
     }
 
     /**
      * Validate Newsletter template
      *
      * @return bool
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     public function validate()
     {
         $validators = array(
-            'template_code'         => array(Zend_Filter_Input::ALLOW_EMPTY => false),
+            'template_code'         => array(\Zend_Filter_Input::ALLOW_EMPTY => false),
             'template_type'         => 'Int',
             'template_sender_email' => 'EmailAddress',
-            'template_sender_name'  => array(Zend_Filter_Input::ALLOW_EMPTY => false)
+            'template_sender_name'  => array(\Zend_Filter_Input::ALLOW_EMPTY => false)
         );
         $data = array();
         foreach (array_keys($validators) as $validateField) {
             $data[$validateField] = $this->getDataUsingMethod($validateField);
         }
 
-        $validateInput = new Zend_Filter_Input(array(), $validators, $data);
+        $validateInput = new \Zend_Filter_Input(array(), $validators, $data);
         if (!$validateInput->isValid()) {
             $errorMessages = array();
             foreach ($validateInput->getMessages() as $messages) {
@@ -162,14 +164,14 @@ class Magento_Newsletter_Model_Template extends Magento_Core_Model_Template
                 }
             }
 
-            throw new Magento_Core_Exception(join("\n", $errorMessages));
+            throw new \Magento\Core\Exception(join("\n", $errorMessages));
         }
     }
 
     /**
      * Processing object before save data
      *
-     * @return Magento_Newsletter_Model_Template
+     * @return \Magento\Newsletter\Model\Template
      */
     protected function _beforeSave()
     {
@@ -181,7 +183,7 @@ class Magento_Newsletter_Model_Template extends Magento_Core_Model_Template
      * Load template by code
      *
      * @param string $templateCode
-     * @return Magento_Newsletter_Model_Template
+     * @return \Magento\Newsletter\Model\Template
      */
     public function loadByCode($templateCode)
     {
@@ -280,7 +282,7 @@ class Magento_Newsletter_Model_Template extends Magento_Core_Model_Template
      */
     public function getInclude($templateCode, array $variables)
     {
-        /** @var Magento_Newsletter_Model_Template $template */
+        /** @var \Magento\Newsletter\Model\Template $template */
         $template = $this->_templateFactory->create();
         $template->loadByCode($templateCode)
             ->getProcessedTemplate($variables);
@@ -295,7 +297,7 @@ class Magento_Newsletter_Model_Template extends Magento_Core_Model_Template
      */
     public function getProcessedTemplateSubject(array $variables)
     {
-        $processor = new Magento_Filter_Template();
+        $processor = new \Magento\Filter\Template();
 
         if (!$this->_preprocessFlag) {
             $variables['this'] = $this;
@@ -329,7 +331,7 @@ class Magento_Newsletter_Model_Template extends Magento_Core_Model_Template
      */
     public function isValidForSend()
     {
-        return !$this->_coreStoreConfig->getConfigFlag(Magento_Core_Helper_Data::XML_PATH_SYSTEM_SMTP_DISABLE)
+        return !$this->_coreStoreConfig->getConfigFlag(\Magento\Core\Helper\Data::XML_PATH_SYSTEM_SMTP_DISABLE)
             && $this->getTemplateSenderName()
             && $this->getTemplateSenderEmail()
             && $this->getTemplateSubject();

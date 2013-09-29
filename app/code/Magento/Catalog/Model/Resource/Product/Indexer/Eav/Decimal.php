@@ -16,8 +16,10 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Resource_Product_Indexer_Eav_Decimal
-    extends Magento_Catalog_Model_Resource_Product_Indexer_Eav_Abstract
+namespace Magento\Catalog\Model\Resource\Product\Indexer\Eav;
+
+class Decimal
+    extends \Magento\Catalog\Model\Resource\Product\Indexer\Eav\AbstractEav
 {
     /**
      * Initialize connection and define main index table
@@ -33,7 +35,7 @@ class Magento_Catalog_Model_Resource_Product_Indexer_Eav_Decimal
      *
      * @param array $entityIds      the entity ids limitation
      * @param int $attributeId      the attribute id limitation
-     * @return Magento_Catalog_Model_Resource_Product_Indexer_Eav_Decimal
+     * @return \Magento\Catalog\Model\Resource\Product\Indexer\Eav\Decimal
      */
     protected function _prepareIndex($entityIds = null, $attributeId = null)
     {
@@ -64,12 +66,12 @@ class Magento_Catalog_Model_Resource_Product_Indexer_Eav_Decimal
                 'pds.entity_id = pdd.entity_id AND pds.attribute_id = pdd.attribute_id'
                     . ' AND pds.store_id=cs.store_id',
                 array('value' => $productValueExpression))
-            ->where('pdd.store_id=?', Magento_Catalog_Model_Abstract::DEFAULT_STORE_ID)
-            ->where('cs.store_id!=?', Magento_Catalog_Model_Abstract::DEFAULT_STORE_ID)
+            ->where('pdd.store_id=?', \Magento\Catalog\Model\AbstractModel::DEFAULT_STORE_ID)
+            ->where('cs.store_id!=?', \Magento\Catalog\Model\AbstractModel::DEFAULT_STORE_ID)
             ->where('pdd.attribute_id IN(?)', $attrIds)
             ->where("{$productValueExpression} IS NOT NULL");
 
-        $statusCond = $write->quoteInto('=?', Magento_Catalog_Model_Product_Status::STATUS_ENABLED);
+        $statusCond = $write->quoteInto('=?', \Magento\Catalog\Model\Product\Status::STATUS_ENABLED);
         $this->_addAttributeToSelect($select, 'status', 'pdd.entity_id', 'cs.store_id', $statusCond);
 
         if (!is_null($entityIds)) {
@@ -81,9 +83,9 @@ class Magento_Catalog_Model_Resource_Product_Indexer_Eav_Decimal
          */
         $this->_eventManager->dispatch('prepare_catalog_product_index_select', array(
             'select'        => $select,
-            'entity_field'  => new Zend_Db_Expr('pdd.entity_id'),
-            'website_field' => new Zend_Db_Expr('cs.website_id'),
-            'store_field'   => new Zend_Db_Expr('cs.store_id')
+            'entity_field'  => new \Zend_Db_Expr('pdd.entity_id'),
+            'website_field' => new \Zend_Db_Expr('cs.website_id'),
+            'store_field'   => new \Zend_Db_Expr('cs.store_id')
         ));
 
         $query = $select->insertFromSelect($idxTable);

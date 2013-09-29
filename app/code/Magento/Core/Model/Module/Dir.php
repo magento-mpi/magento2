@@ -7,19 +7,21 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Module_Dir
+namespace Magento\Core\Model\Module;
+
+class Dir
 {
     /**
      * Directory registry
      *
-     * @var Magento_Core_Model_Dir
+     * @var \Magento\Core\Model\Dir
      */
     protected $_applicationDirs;
 
     /**
-     * @param Magento_Core_Model_Dir $applicationDirs
+     * @param \Magento\Core\Model\Dir $applicationDirs
      */
-    public function __construct(Magento_Core_Model_Dir $applicationDirs)
+    public function __construct(\Magento\Core\Model\Dir $applicationDirs)
     {
         $this->_applicationDirs = $applicationDirs;
     }
@@ -30,16 +32,16 @@ class Magento_Core_Model_Module_Dir
      * @param string $moduleName Fully-qualified module name
      * @param string $type Type of module's directory to retrieve
      * @return string
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function getDir($moduleName, $type = '')
     {
-        $result = $this->_applicationDirs->getDir(Magento_Core_Model_Dir::MODULES)
+        $result = $this->_applicationDirs->getDir(\Magento\Core\Model\Dir::MODULES)
             . DIRECTORY_SEPARATOR
             . uc_words($moduleName, DIRECTORY_SEPARATOR);
         if ($type) {
             if (!in_array($type, array('etc', 'sql', 'data', 'i18n', 'view'))) {
-                throw new InvalidArgumentException("Directory type '$type' is not recognized.");
+                throw new \InvalidArgumentException("Directory type '$type' is not recognized.");
             }
             $result .= '/' . $type;
         }

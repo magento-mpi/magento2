@@ -9,7 +9,9 @@
  */
 
 
-class Magento_Shipping_Model_Info extends Magento_Object
+namespace Magento\Shipping\Model;
+
+class Info extends \Magento\Object
 {
     /**
      * Tracking info
@@ -21,16 +23,16 @@ class Magento_Shipping_Model_Info extends Magento_Object
     /**
      * Shipping data
      *
-     * @var Magento_Shipping_Helper_Data
+     * @var \Magento\Shipping\Helper\Data
      */
     protected $_shippingData = null;
 
     /**
-     * @param Magento_Shipping_Helper_Data $shippingData
+     * @param \Magento\Shipping\Helper\Data $shippingData
      * @param array $data
      */
     public function __construct(
-        Magento_Shipping_Helper_Data $shippingData,
+        \Magento\Shipping\Helper\Data $shippingData,
         array $data = array()
     ) {
         $this->_shippingData = $shippingData;
@@ -41,11 +43,11 @@ class Magento_Shipping_Model_Info extends Magento_Object
      * Generating tracking info
      *
      * @param array $hash
-     * @return Magento_Shipping_Model_Info
+     * @return \Magento\Shipping\Model\Info
      */
     public function loadByHash($hash)
     {
-        /* @var $helper Magento_Shipping_Helper_Data */
+        /* @var $helper \Magento\Shipping\Helper\Data */
         $helper = $this->_shippingData;
         $data = $helper->decodeTrackingHash($hash);
         if (!empty($data)) {
@@ -76,11 +78,11 @@ class Magento_Shipping_Model_Info extends Magento_Object
     /**
      * Instantiate order model
      *
-     * @return Magento_Sales_Model_Order|bool
+     * @return \Magento\Sales\Model\Order|bool
      */
     protected function _initOrder()
     {
-        $order = Mage::getModel('Magento_Sales_Model_Order')->load($this->getOrderId());
+        $order = \Mage::getModel('Magento\Sales\Model\Order')->load($this->getOrderId());
 
         if (!$order->getId() || $this->getProtectCode() != $order->getProtectCode()) {
             return false;
@@ -92,12 +94,12 @@ class Magento_Shipping_Model_Info extends Magento_Object
     /**
      * Instantiate ship model
      *
-     * @return Magento_Sales_Model_Order_Shipment|bool
+     * @return \Magento\Sales\Model\Order\Shipment|bool
      */
     protected function _initShipment()
     {
-        /* @var $model Magento_Sales_Model_Order_Shipment */
-        $model = Mage::getModel('Magento_Sales_Model_Order_Shipment');
+        /* @var $model \Magento\Sales\Model\Order\Shipment */
+        $model = \Mage::getModel('Magento\Sales\Model\Order\Shipment');
         $ship = $model->load($this->getShipId());
         if (!$ship->getEntityId() || $this->getProtectCode() != $ship->getProtectCode()) {
             return false;
@@ -163,7 +165,7 @@ class Magento_Shipping_Model_Info extends Magento_Object
      */
     public function getTrackingInfoByTrackId()
     {
-        $track = Mage::getModel('Magento_Sales_Model_Order_Shipment_Track')->load($this->getTrackId());
+        $track = \Mage::getModel('Magento\Sales\Model\Order\Shipment\Track')->load($this->getTrackId());
         if ($track->getId() && $this->getProtectCode() == $track->getProtectCode()) {
             $this->_trackingInfo = array(array($track->getNumberDetail()));
         }

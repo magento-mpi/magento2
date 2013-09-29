@@ -9,16 +9,18 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Helper_HttpTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Helper;
+
+class HttpTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Helper_Http
+     * @var \Magento\Core\Helper\Http
      */
     protected $_helper = null;
 
     protected function setUp()
     {
-        $this->_helper = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Helper_Http');
+        $this->_helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Helper\Http');
     }
 
     public function testGetRemoteAddrHeaders()

@@ -11,47 +11,49 @@
 /**
  * Payment Observer
  */
-class Magento_Payment_Model_Observer
+namespace Magento\Payment\Model;
+
+class Observer
 {
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
      * Locale model
      *
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
     /**
      * Store manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * Recurring profile factory
      *
-     * @var Magento_Payment_Model_Recurring_ProfileFactory
+     * @var \Magento\Payment\Model\Recurring\ProfileFactory
      */
     protected $_profileFactory;
 
     /**
      * Construct
      *
-     * @param Magento_ObjectManager $objectManager
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Payment_Model_Recurring_ProfileFactory $profileFactory
+     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Payment\Model\Recurring\ProfileFactory $profileFactory
      */
     public function __construct(
-        Magento_ObjectManager $objectManager,
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Payment_Model_Recurring_ProfileFactory $profileFactory
+        \Magento\ObjectManager $objectManager,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Payment\Model\Recurring\ProfileFactory $profileFactory
     ) {
         $this->_objectManager = $objectManager;
         $this->_locale = $locale;
@@ -61,8 +63,8 @@ class Magento_Payment_Model_Observer
     /**
      * Set forced canCreditmemo flag
      *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_Payment_Model_Observer
+     * @param \Magento\Event\Observer $observer
+     * @return \Magento\Payment\Model\Observer
      */
     public function salesOrderBeforeSave($observer)
     {
@@ -76,7 +78,7 @@ class Magento_Payment_Model_Observer
             return $this;
         }
 
-        if ($order->isCanceled() || $order->getState() === Magento_Sales_Model_Order::STATE_CLOSED) {
+        if ($order->isCanceled() || $order->getState() === \Magento\Sales\Model\Order::STATE_CLOSED) {
             return $this;
         }
         /**
@@ -93,7 +95,7 @@ class Magento_Payment_Model_Observer
      *
      * Also sets the collected information and schedule as informational static options
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
     public function prepareProductRecurringProfileOptions($observer)
     {
@@ -104,7 +106,7 @@ class Magento_Payment_Model_Observer
             return;
         }
 
-        /** @var Magento_Payment_Model_Recurring_Profile $profile */
+        /** @var \Magento\Payment\Model\Recurring\Profile $profile */
         $profile = $this->_profileFactory->create();
         $profile->setLocale($this->_locale)
             ->setStore($this->_storeManager->getStore())
@@ -115,7 +117,7 @@ class Magento_Payment_Model_Observer
         }
 
         // add the start datetime as product custom option
-        $product->addCustomOption(Magento_Payment_Model_Recurring_Profile::PRODUCT_OPTIONS_KEY,
+        $product->addCustomOption(\Magento\Payment\Model\Recurring\Profile::PRODUCT_OPTIONS_KEY,
             serialize(array('start_datetime' => $profile->getStartDatetime()))
         );
 
@@ -137,34 +139,34 @@ class Magento_Payment_Model_Observer
     /**
      * Sets current instructions for bank transfer account
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return void
      */
-    public function beforeOrderPaymentSave(Magento_Event_Observer $observer)
+    public function beforeOrderPaymentSave(\Magento\Event\Observer $observer)
     {
-        /** @var Magento_Sales_Model_Order_Payment $payment */
+        /** @var \Magento\Sales\Model\Order\Payment $payment */
         $payment = $observer->getEvent()->getPayment();
-        if($payment->getMethod() === Magento_Payment_Model_Method_Banktransfer::PAYMENT_METHOD_BANKTRANSFER_CODE) {
+        if($payment->getMethod() === \Magento\Payment\Model\Method\Banktransfer::PAYMENT_METHOD_BANKTRANSFER_CODE) {
             $payment->setAdditionalInformation('instructions',
                 $payment->getMethodInstance()->getInstructions());
         }
     }
 
     /**
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
-    public function updateOrderStatusForPaymentMethods(Magento_Event_Observer $observer)
+    public function updateOrderStatusForPaymentMethods(\Magento\Event\Observer $observer)
     {
-        if ($observer->getEvent()->getState() !== Magento_Sales_Model_Order::STATE_NEW) {
+        if ($observer->getEvent()->getState() !== \Magento\Sales\Model\Order::STATE_NEW) {
             return;
         }
         $status = $observer->getEvent()->getStatus();
-        $defaultStatus = $this->_objectManager->get('Magento_Sales_Model_Order_Config')
-            ->getStateDefaultStatus(Magento_Sales_Model_Order::STATE_NEW);
-        $methods = $this->_objectManager->get('Magento_Payment_Model_Config')->getActiveMethods();
+        $defaultStatus = $this->_objectManager->get('Magento\Sales\Model\Order\Config')
+            ->getStateDefaultStatus(\Magento\Sales\Model\Order::STATE_NEW);
+        $methods = $this->_objectManager->get('Magento\Payment\Model\Config')->getActiveMethods();
         foreach ($methods as $method) {
             if ($method->getConfigData('order_status') == $status) {
-                $this->_objectManager->get('Magento_Core_Model_Resource_Config')
+                $this->_objectManager->get('Magento\Core\Model\Resource\Config')
                     ->saveConfig('payment/' . $method->getCode() . '/order_status', $defaultStatus, 'default', 0);
             }
         }

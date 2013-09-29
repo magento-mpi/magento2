@@ -11,8 +11,10 @@
 /**
  * Customer newsletter subscription
  */
-class Magento_CustomerSegment_Model_Segment_Condition_Customer_Newsletter
-    extends Magento_CustomerSegment_Model_Condition_Abstract
+namespace Magento\CustomerSegment\Model\Segment\Condition\Customer;
+
+class Newsletter
+    extends \Magento\CustomerSegment\Model\Condition\AbstractCondition
 {
     /**
      * @var string
@@ -20,17 +22,17 @@ class Magento_CustomerSegment_Model_Segment_Condition_Customer_Newsletter
     protected $_inputType = 'select';
 
     /**
-     * @param Magento_CustomerSegment_Model_Resource_Segment $resourceSegment
-     * @param Magento_Rule_Model_Condition_Context $context
+     * @param \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment
+     * @param \Magento\Rule\Model\Condition\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_CustomerSegment_Model_Resource_Segment $resourceSegment,
-        Magento_Rule_Model_Condition_Context $context,
+        \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment,
+        \Magento\Rule\Model\Condition\Context $context,
         array $data = array()
     ) {
         parent::__construct($resourceSegment, $context, $data);
-        $this->setType('Magento_CustomerSegment_Model_Segment_Condition_Customer_Newsletter');
+        $this->setType('Magento\CustomerSegment\Model\Segment\Condition\Customer\Newsletter');
         $this->setValue(1);
     }
 
@@ -39,7 +41,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Customer_Newsletter
      *
      * @param mixed $key
      * @param mixed $value
-     * @return Magento_CustomerSegment_Model_Segment_Condition_Customer_Newsletter
+     * @return \Magento\CustomerSegment\Model\Segment\Condition\Customer\Newsletter
      */
     public function setData($key, $value = null)
     {
@@ -118,7 +120,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Customer_Newsletter
      *
      * @param $customer
      * @param int|Zend_Db_Expr $website
-     * @return Magento_Db_Select
+     * @return \Magento\Db\Select
      */
     public function getConditionsSql($customer, $website)
     {
@@ -126,9 +128,9 @@ class Magento_CustomerSegment_Model_Segment_Condition_Customer_Newsletter
         $value = (int)$this->getValue();
 
         $select = $this->getResource()->createSelect()
-            ->from(array('main' => $table), array(new Zend_Db_Expr($value)))
+            ->from(array('main' => $table), array(new \Zend_Db_Expr($value)))
             ->where($this->_createCustomerFilter($customer, 'main.customer_id'))
-            ->where('main.subscriber_status = ?', Magento_Newsletter_Model_Subscriber::STATUS_SUBSCRIBED);
+            ->where('main.subscriber_status = ?', \Magento\Newsletter\Model\Subscriber::STATUS_SUBSCRIBED);
         $select->limit(1);
         $this->_limitByStoreWebsite($select, $website, 'main.store_id');
         if (!$value) {

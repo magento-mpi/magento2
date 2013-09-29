@@ -16,33 +16,35 @@
  * @package     Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implements Magento_Checkout_Model_Cart_Interface
+namespace Magento\Adminhtml\Model\Sales\Order;
+
+class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartInterface
 {
     /**
      * Quote session object
      *
-     * @var Magento_Adminhtml_Model_Session_Quote
+     * @var \Magento\Adminhtml\Model\Session\Quote
      */
     protected $_session;
 
     /**
      * Quote customer wishlist model object
      *
-     * @var Magento_Wishlist_Model_Wishlist
+     * @var \Magento\Wishlist\Model\Wishlist
      */
     protected $_wishlist;
 
     /**
      * Sales Quote instance
      *
-     * @var Magento_Sales_Model_Quote
+     * @var \Magento\Sales\Model\Quote
      */
     protected $_cart;
 
     /**
      * Catalog Compare List instance
      *
-     * @var Magento_Catalog_Model_Product_Compare_List
+     * @var \Magento\Catalog\Model\Product\Compare\ListCompare
      */
     protected $_compareList;
 
@@ -70,21 +72,21 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
     /**
      * Customer instance
      *
-     * @var Magento_Customer_Model_Customer
+     * @var \Magento\Customer\Model\Customer
      */
     protected $_customer;
 
     /**
      * Customer Address Form instance
      *
-     * @var Magento_Customer_Model_Form
+     * @var \Magento\Customer\Model\Form
      */
     protected $_customerAddressForm;
 
     /**
      * Customer Form instance
      *
-     * @var Magento_Customer_Model_Form
+     * @var \Magento\Customer\Model\Form
      */
     protected $_customerForm;
 
@@ -98,64 +100,64 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
     /**
      * Quote associated with the model
      *
-     * @var Magento_Sales_Model_Quote
+     * @var \Magento\Sales\Model\Quote
      */
     protected $_quote;
 
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
     /**
-     * @var Magento_Core_Model_Logger
+     * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
 
     /**
      * Core event manager proxy
      *
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventManager = null;
 
     /**
-     * @var Magento_Sales_Model_Config
+     * @var \Magento\Sales\Model\Config
      */
     protected $_salesConfig;
 
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @param Magento_ObjectManager $objectManager
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_Sales_Model_Config $salesConfig
-     * @param Magento_Adminhtml_Model_Session_Quote $sessionQuote
-     * @param Magento_Core_Model_Logger $logger
+     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Sales\Model\Config $salesConfig
+     * @param \Magento\Adminhtml\Model\Session\Quote $sessionQuote
+     * @param \Magento\Core\Model\Logger $logger
      * @param array $data
      */
     public function __construct(
-        Magento_ObjectManager $objectManager,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_Sales_Model_Config $salesConfig,
-        Magento_Adminhtml_Model_Session_Quote $sessionQuote,
-        Magento_Core_Model_Logger $logger,
+        \Magento\ObjectManager $objectManager,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Sales\Model\Config $salesConfig,
+        \Magento\Adminhtml\Model\Session\Quote $sessionQuote,
+        \Magento\Core\Model\Logger $logger,
         array $data = array()
     ) {
         $this->_objectManager = $objectManager;
@@ -172,7 +174,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
      * Set validate data in import data flag
      *
      * @param boolean $flag
-     * @return Magento_Adminhtml_Model_Sales_Order_Create
+     * @return \Magento\Adminhtml\Model\Sales\Order\Create
      */
     public function setIsValidate($flag)
     {
@@ -193,12 +195,12 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
     /**
      * Retrieve quote item
      *
-     * @param   int|Magento_Sales_Model_Quote_Item $item
-     * @return  Magento_Sales_Model_Quote_Item
+     * @param   int|\Magento\Sales\Model\Quote\Item $item
+     * @return  \Magento\Sales\Model\Quote\Item
      */
     protected function _getQuoteItem($item)
     {
-        if ($item instanceof Magento_Sales_Model_Quote_Item) {
+        if ($item instanceof \Magento\Sales\Model\Quote\Item) {
             return $item;
         } elseif (is_numeric($item)) {
             return $this->getSession()->getQuote()->getItemById($item);
@@ -209,11 +211,11 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
     /**
      * Initialize data for price rules
      *
-     * @return Magento_Adminhtml_Model_Sales_Order_Create
+     * @return \Magento\Adminhtml\Model\Sales\Order\Create
      */
     public function initRuleData()
     {
-        $this->_coreRegistry->register('rule_data', new Magento_Object(array(
+        $this->_coreRegistry->register('rule_data', new \Magento\Object(array(
             'store_id'  => $this->_session->getStore()->getId(),
             'website_id'  => $this->_session->getStore()->getWebsiteId(),
             'customer_group_id' => $this->getCustomerGroupId(),
@@ -225,7 +227,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
      * Set collect totals flag for quote
      *
      * @param   bool $flag
-     * @return  Magento_Adminhtml_Model_Sales_Order_Create
+     * @return  \Magento\Adminhtml\Model\Sales\Order\Create
      */
     public function setRecollect($flag)
     {
@@ -237,7 +239,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
      * Recollect totals for customer cart.
      * Set recollect totals flag for quote
      *
-     * @return  Magento_Adminhtml_Model_Sales_Order_Create
+     * @return  \Magento\Adminhtml\Model\Sales\Order\Create
      */
     public function recollectCart()
     {
@@ -253,7 +255,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
     /**
      * Quote saving
      *
-     * @return Magento_Adminhtml_Model_Sales_Order_Create
+     * @return \Magento\Adminhtml\Model\Sales\Order\Create
      */
     public function saveQuote()
     {
@@ -272,7 +274,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
     /**
      * Retrieve session model object of quote
      *
-     * @return Magento_Adminhtml_Model_Session_Quote
+     * @return \Magento\Adminhtml\Model\Session\Quote
      */
     public function getSession()
     {
@@ -282,7 +284,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
     /**
      * Retrieve quote object model
      *
-     * @return Magento_Sales_Model_Quote
+     * @return \Magento\Sales\Model\Quote
      */
     public function getQuote()
     {
@@ -295,10 +297,10 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
     /**
      * Set quote object
      *
-     * @param Magento_Sales_Model_Quote $quote
-     * @return Magento_Adminhtml_Model_Sales_Order_Create
+     * @param \Magento\Sales\Model\Quote $quote
+     * @return \Magento\Adminhtml\Model\Sales\Order\Create
      */
-    public function setQuote(Magento_Sales_Model_Quote $quote)
+    public function setQuote(\Magento\Sales\Model\Quote $quote)
     {
         $this->_quote = $quote;
         return $this;
@@ -307,10 +309,10 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
     /**
      * Initialize creation data from existing order
      *
-     * @param Magento_Sales_Model_Order $order
-     * @return Magento_Adminhtml_Model_Sales_Order_Create
+     * @param \Magento\Sales\Model\Order $order
+     * @return \Magento\Adminhtml\Model\Sales\Order\Create
      */
-    public function initFromOrder(Magento_Sales_Model_Order $order)
+    public function initFromOrder(\Magento\Sales\Model\Order $order)
     {
         $session = $this->getSession();
         $session->setData($order->getReordered() ? 'reordered' : 'order_id', $order->getId());
@@ -322,7 +324,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
         /* Initialize catalog rule data with new session values */
         $this->initRuleData();
         foreach ($order->getItemsCollection($this->_salesConfig->getAvailableProductTypes(), true) as $orderItem) {
-            /* @var $orderItem Magento_Sales_Model_Order_Item */
+            /* @var $orderItem \Magento\Sales\Model\Order\Item */
             if (!$orderItem->getParentItem()) {
                 $qty = $orderItem->getQtyOrdered();
                 if (!$order->getReordered()) {
@@ -332,7 +334,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
                 if ($qty > 0) {
                     $item = $this->initFromOrderItem($orderItem, $qty);
                     if (is_string($item)) {
-                        throw new Magento_Core_Exception($item);
+                        throw new \Magento\Core\Exception($item);
                     }
                 }
             }
@@ -400,7 +402,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
         return $this;
     }
 
-    protected function _initBillingAddressFromOrder(Magento_Sales_Model_Order $order)
+    protected function _initBillingAddressFromOrder(\Magento\Sales\Model\Order $order)
     {
         $this->getQuote()->getBillingAddress()->setCustomerAddressId('');
         $this->_coreData->copyFieldsetToTarget(
@@ -411,7 +413,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
         );
     }
 
-    protected function _initShippingAddressFromOrder(Magento_Sales_Model_Order $order)
+    protected function _initShippingAddressFromOrder(\Magento\Sales\Model\Order $order)
     {
         $orderShippingAddress = $order->getShippingAddress();
         $quoteShippingAddress = $this->getQuote()->getShippingAddress()
@@ -428,17 +430,17 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
     /**
      * Initialize creation data from existing order Item
      *
-     * @param Magento_Sales_Model_Order_Item $orderItem
+     * @param \Magento\Sales\Model\Order\Item $orderItem
      * @param int $qty
-     * @return Magento_Sales_Model_Quote_Item | string
+     * @return \Magento\Sales\Model\Quote\Item | string
      */
-    public function initFromOrderItem(Magento_Sales_Model_Order_Item $orderItem, $qty = null)
+    public function initFromOrderItem(\Magento\Sales\Model\Order\Item $orderItem, $qty = null)
     {
         if (!$orderItem->getId()) {
             return $this;
         }
 
-        $product = $this->_objectManager->create('Magento_Catalog_Model_Product')
+        $product = $this->_objectManager->create('Magento\Catalog\Model\Product')
             ->setStoreId($this->getSession()->getStoreId())
             ->load($orderItem->getProductId());
 
@@ -454,7 +456,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
             }
 
             if ($additionalOptions = $orderItem->getProductOptionByCode('additional_options')) {
-                $item->addOption(new Magento_Object(
+                $item->addOption(new \Magento\Object(
                     array(
                         'product' => $item->getProduct(),
                         'code' => 'additional_options',
@@ -478,7 +480,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
      *
      * @params bool $cacheReload pass cached wishlist object and get new one
      * @param bool $cacheReload
-     * @return Magento_Wishlist_Model_Wishlist
+     * @return \Magento\Wishlist\Model\Wishlist
      */
     public function getCustomerWishlist($cacheReload = false)
     {
@@ -487,7 +489,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
         }
 
         if ($this->getSession()->getCustomer()->getId()) {
-            $this->_wishlist = $this->_objectManager->create('Magento_Wishlist_Model_Wishlist')->loadByCustomer(
+            $this->_wishlist = $this->_objectManager->create('Magento\Wishlist\Model\Wishlist')->loadByCustomer(
                 $this->getSession()->getCustomer(), true
             );
             $this->_wishlist->setStore($this->getSession()->getStore())
@@ -502,7 +504,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
     /**
      * Retrieve customer cart quote object model
      *
-     * @return Magento_Sales_Model_Quote
+     * @return \Magento\Sales\Model\Quote
      */
     public function getCustomerCart()
     {
@@ -510,7 +512,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
             return $this->_cart;
         }
 
-        $this->_cart = $this->_objectManager->create('Magento_Sales_Model_Quote');
+        $this->_cart = $this->_objectManager->create('Magento\Sales\Model\Quote');
 
         if ($this->getSession()->getCustomer()->getId()) {
             $this->_cart->setStore($this->getSession()->getStore())
@@ -527,7 +529,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
     /**
      * Retrieve customer compare list model object
      *
-     * @return Magento_Catalog_Model_Product_Compare_List
+     * @return \Magento\Catalog\Model\Product\Compare\ListCompare
      */
     public function getCustomerCompareList()
     {
@@ -536,7 +538,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
         }
 
         if ($this->getSession()->getCustomer()->getId()) {
-            $this->_compareList = $this->_objectManager->create('Magento_Catalog_Model_Product_Compare_List');
+            $this->_compareList = $this->_objectManager->create('Magento\Catalog\Model\Product\Compare\ListCompare');
         } else {
             $this->_compareList = false;
         }
@@ -555,10 +557,10 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
     /**
      * Move quote item to another items list
      *
-     * @param   int|Magento_Sales_Model_Quote_Item $item
+     * @param   int|\Magento\Sales\Model\Quote\Item $item
      * @param   string $moveTo
      * @param   int $qty
-     * @return  Magento_Adminhtml_Model_Sales_Order_Create
+     * @return  \Magento\Adminhtml\Model\Sales\Order\Create
      */
     public function moveQuoteItem($item, $moveTo, $qty)
     {
@@ -572,7 +574,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
                     $info->setOptions($this->_prepareOptionsForRequest($item))
                         ->setQty($qty);
 
-                    $product = $this->_objectManager->create('Magento_Catalog_Model_Product')
+                    $product = $this->_objectManager->create('Magento\Catalog\Model\Product')
                         ->setStoreId($this->getQuote()->getStoreId())
                         ->load($item->getProduct()->getId());
 
@@ -580,7 +582,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
                     $newItem = $this->getQuote()->addProduct($product, $info);
 
                     if (is_string($newItem)) {
-                        throw new Magento_Core_Exception($newItem);
+                        throw new \Magento\Core\Exception($newItem);
                     }
                     $product->unsSkipCheckRequiredOption();
                     $newItem->checkData();
@@ -590,19 +592,19 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
                     $cart = $this->getCustomerCart();
                     if ($cart && is_null($item->getOptionByCode('additional_options'))) {
                         //options and info buy request
-                        $product = $this->_objectManager->create('Magento_Catalog_Model_Product')
+                        $product = $this->_objectManager->create('Magento\Catalog\Model\Product')
                             ->setStoreId($this->getQuote()->getStoreId())
                             ->load($item->getProduct()->getId());
 
                         $info = $item->getOptionByCode('info_buyRequest');
                         if ($info) {
-                            $info = new Magento_Object(
+                            $info = new \Magento\Object(
                                 unserialize($info->getValue())
                             );
                             $info->setQty($qty);
                             $info->setOptions($this->_prepareOptionsForRequest($item));
                         } else {
-                            $info = new Magento_Object(array(
+                            $info = new \Magento\Object(array(
                                 'product_id' => $product->getId(),
                                 'qty' => $qty,
                                 'options' => $this->_prepareOptionsForRequest($item)
@@ -611,7 +613,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
 
                         $cartItem = $cart->addProduct($product, $info);
                         if (is_string($cartItem)) {
-                            throw new Magento_Core_Exception($cartItem);
+                            throw new \Magento\Core\Exception($cartItem);
                         }
                         $cartItem->setPrice($item->getProduct()->getPrice());
                         $this->_needCollectCart = true;
@@ -621,12 +623,12 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
                 case 'wishlist':
                     $wishlist = null;
                     if (!isset($moveTo[1])) {
-                        $wishlist = $this->_objectManager->create('Magento_Wishlist_Model_Wishlist')->loadByCustomer(
+                        $wishlist = $this->_objectManager->create('Magento\Wishlist\Model\Wishlist')->loadByCustomer(
                             $this->getSession()->getCustomer(),
                             true
                         );
                     } else {
-                        $wishlist = $this->_objectManager->create('Magento_Wishlist_Model_Wishlist')->load($moveTo[1]);
+                        $wishlist = $this->_objectManager->create('Magento\Wishlist\Model\Wishlist')->load($moveTo[1]);
                         if (!$wishlist->getId()
                             || $wishlist->getCustomerId() != $this->getSession()->getCustomerId()
                         ) {
@@ -634,7 +636,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
                         }
                     }
                     if (!$wishlist) {
-                        throw new Magento_Core_Exception(__('We couldn\'t find this wish list.'));
+                        throw new \Magento\Core\Exception(__('We couldn\'t find this wish list.'));
                     }
                     $wishlist->setStore($this->getSession()->getStore())
                         ->setSharedStoreIds($this->getSession()->getStore()->getWebsite()->getStoreIds());
@@ -666,17 +668,17 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
      * Handle data sent from sidebar
      *
      * @param array $data
-     * @return Magento_Adminhtml_Model_Sales_Order_Create
+     * @return \Magento\Adminhtml\Model\Sales\Order\Create
      */
     public function applySidebarData($data)
     {
         if (isset($data['add_order_item'])) {
             foreach ($data['add_order_item'] as $orderItemId => $value) {
-                /* @var $orderItem Magento_Sales_Model_Order_Item */
-                $orderItem = $this->_objectManager->create('Magento_Sales_Model_Order_Item')->load($orderItemId);
+                /* @var $orderItem \Magento\Sales\Model\Order\Item */
+                $orderItem = $this->_objectManager->create('Magento\Sales\Model\Order\Item')->load($orderItemId);
                 $item = $this->initFromOrderItem($orderItem);
                 if (is_string($item)) {
-                    throw new Magento_Core_Exception($item);
+                    throw new \Magento\Core\Exception($item);
                 }
             }
         }
@@ -691,7 +693,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
         }
         if (isset($data['add_wishlist_item'])) {
             foreach ($data['add_wishlist_item'] as $itemId => $qty) {
-                $item = $this->_objectManager->create('Magento_Wishlist_Model_Item')
+                $item = $this->_objectManager->create('Magento\Wishlist\Model\Item')
                     ->loadWithOptions($itemId, 'info_buyRequest');
                 if ($item->getId()) {
                     $this->addProduct($item->getProduct(), $item->getBuyRequest()->toArray());
@@ -719,7 +721,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
      *
      * @param   int $itemId
      * @param   string $from
-     * @return  Magento_Adminhtml_Model_Sales_Order_Create
+     * @return  \Magento\Adminhtml\Model\Sales\Order\Create
      */
     public function removeItem($itemId, $from)
     {
@@ -738,12 +740,12 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
             case 'wishlist':
                 $wishlist = $this->getCustomerWishlist();
                 if ($wishlist) {
-                    $item = $this->_objectManager->create('Magento_Wishlist_Model_Item')->load($itemId);
+                    $item = $this->_objectManager->create('Magento\Wishlist\Model\Item')->load($itemId);
                     $item->delete();
                 }
                 break;
             case 'compared':
-                $this->_objectManager->create('Magento_Catalog_Model_Product_Compare_Item')
+                $this->_objectManager->create('Magento\Catalog\Model\Product\Compare\Item')
                     ->load($itemId)
                     ->delete();
                 break;
@@ -755,7 +757,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
      * Remove quote item
      *
      * @param   int $item
-     * @return  Magento_Adminhtml_Model_Sales_Order_Create
+     * @return  \Magento\Adminhtml\Model\Sales\Order\Create
      */
     public function removeQuoteItem($item)
     {
@@ -769,25 +771,25 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
      * $product can be either product id or product model
      * $config can be either buyRequest config, or just qty
      *
-     * @param   int|Magento_Catalog_Model_Product $product
+     * @param   int|\Magento\Catalog\Model\Product $product
      * @param array|float|int|\Magento_Object $config
-     * @return  Magento_Adminhtml_Model_Sales_Order_Create
+     * @return  \Magento\Adminhtml\Model\Sales\Order\Create
      */
     public function addProduct($product, $config = 1)
     {
-        if (!is_array($config) && !($config instanceof Magento_Object)) {
+        if (!is_array($config) && !($config instanceof \Magento\Object)) {
             $config = array('qty' => $config);
         }
-        $config = new Magento_Object($config);
+        $config = new \Magento\Object($config);
 
-        if (!($product instanceof Magento_Catalog_Model_Product)) {
+        if (!($product instanceof \Magento\Catalog\Model\Product)) {
             $productId = $product;
-            $product = $this->_objectManager->create('Magento_Catalog_Model_Product')
+            $product = $this->_objectManager->create('Magento\Catalog\Model\Product')
                 ->setStore($this->getSession()->getStore())
                 ->setStoreId($this->getSession()->getStoreId())
                 ->load($product);
             if (!$product->getId()) {
-                throw new Magento_Core_Exception(
+                throw new \Magento\Core\Exception(
                     __('We could not add a product to cart by the ID "%1".', $productId)
                 );
             }
@@ -804,18 +806,18 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
         $item = $this->getQuote()->addProductAdvanced(
             $product,
             $config,
-            Magento_Catalog_Model_Product_Type_Abstract::PROCESS_MODE_FULL
+            \Magento\Catalog\Model\Product\Type\AbstractType::PROCESS_MODE_FULL
         );
         if (is_string($item)) {
-            if ($product->getTypeId() != Magento_Catalog_Model_Product_Type_Grouped::TYPE_CODE) {
+            if ($product->getTypeId() != \Magento\Catalog\Model\Product\Type\Grouped::TYPE_CODE) {
                 $item = $this->getQuote()->addProductAdvanced(
                     $product,
                     $config,
-                    Magento_Catalog_Model_Product_Type_Abstract::PROCESS_MODE_LITE
+                    \Magento\Catalog\Model\Product\Type\AbstractType::PROCESS_MODE_LITE
                 );
             }
             if (is_string($item)) {
-                throw new Magento_Core_Exception($item);
+                throw new \Magento\Core\Exception($item);
             }
         }
         $item->checkData();
@@ -828,7 +830,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
      * Add multiple products to current order quote
      *
      * @param   array $products
-     * @return  Magento_Adminhtml_Model_Sales_Order_Create|Exception
+     * @return  \Magento\Adminhtml\Model\Sales\Order\Create|Exception
      */
     public function addProducts(array $products)
     {
@@ -836,9 +838,9 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
             $config['qty'] = isset($config['qty']) ? (float)$config['qty'] : 1;
             try {
                 $this->addProduct($productId, $config);
-            } catch (Magento_Core_Exception $e){
+            } catch (\Magento\Core\Exception $e){
                 $this->getSession()->addError($e->getMessage());
-            } catch (Exception $e){
+            } catch (\Exception $e){
                 return $e;
             }
         }
@@ -849,8 +851,8 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
      * Update quantity of order quote items
      *
      * @param   array $data
-     * @throws Exception|Magento_Core_Exception
-     * @return  Magento_Adminhtml_Model_Sales_Order_Create
+     * @throws \Exception|\Magento\Core\Exception
+     * @return  \Magento\Adminhtml\Model\Sales\Order\Create
      */
     public function updateQuoteItems($data)
     {
@@ -858,7 +860,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
             try {
                 foreach ($data as $itemId => $info) {
                     if (!empty($info['configured'])) {
-                        $item = $this->getQuote()->updateItem($itemId, new Magento_Object($info));
+                        $item = $this->getQuote()->updateItem($itemId, new \Magento\Object($info));
                         $itemQty = (float)$item->getQty();
                     } else {
                         $item       = $this->getQuote()->getItemById($itemId);
@@ -895,10 +897,10 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
                         }
                     }
                 }
-            } catch (Magento_Core_Exception $e) {
+            } catch (\Magento\Core\Exception $e) {
                 $this->recollectCart();
                 throw $e;
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->_logger->logException($e);
             }
             $this->recollectCart();
@@ -909,13 +911,13 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
     /**
      * Parse additional options and sync them with product options
      *
-     * @param Magento_Sales_Model_Quote_Item $item
+     * @param \Magento\Sales\Model\Quote\Item $item
      * @param $additionalOptions
      * @return array
      */
-    protected function _parseOptions(Magento_Sales_Model_Quote_Item $item, $additionalOptions)
+    protected function _parseOptions(\Magento\Sales\Model\Quote\Item $item, $additionalOptions)
     {
-        $productOptions = $this->_objectManager->get('Magento_Catalog_Model_Product_Option_Type_Default')
+        $productOptions = $this->_objectManager->get('Magento\Catalog\Model\Product\Option\Type\DefaultType')
             ->setProduct($item->getProduct())
             ->getProductOptions();
 
@@ -926,13 +928,13 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
             if (strlen(trim($_additionalOption))) {
                 try {
                     if (strpos($_additionalOption, ':') === false) {
-                        throw new Magento_Core_Exception(
+                        throw new \Magento\Core\Exception(
                             __('There is an error in one of the option rows.')
                         );
                     }
                     list($label,$value) = explode(':', $_additionalOption, 2);
-                } catch (Exception $e) {
-                    throw new Magento_Core_Exception(__('There is an error in one of the option rows.'));
+                } catch (\Exception $e) {
+                    throw new \Magento\Core\Exception(__('There is an error in one of the option rows.'));
                 }
                 $label = trim($label);
                 $value = trim($value);
@@ -944,7 +946,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
                     $optionId = $productOptions[$label]['option_id'];
                     $option = $item->getProduct()->getOptionById($optionId);
 
-                    $group = $this->_objectManager->get('Magento_Catalog_Model_Product_Option')
+                    $group = $this->_objectManager->get('Magento\Catalog\Model\Product\Option')
                         ->groupFactory($option->getType())
                         ->setOption($option)
                         ->setProduct($item->getProduct());
@@ -977,11 +979,11 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
     /**
      * Assign options to item
      *
-     * @param Magento_Sales_Model_Quote_Item $item
+     * @param \Magento\Sales\Model\Quote\Item $item
      * @param array $options
      * @return $this
      */
-    protected function _assignOptionsToItem(Magento_Sales_Model_Quote_Item $item, $options)
+    protected function _assignOptionsToItem(\Magento\Sales\Model\Quote\Item $item, $options)
     {
         $optionIds = $item->getOptionByCode('option_ids');
         if ($optionIds) {
@@ -995,7 +997,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
         }
         $item->save();
         if (!empty($options['options'])) {
-            $item->addOption(new Magento_Object(
+            $item->addOption(new \Magento\Object(
                 array(
                     'product' => $item->getProduct(),
                     'code' => 'option_ids',
@@ -1004,7 +1006,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
             ));
 
             foreach ($options['options'] as $optionId => $optionValue) {
-                $item->addOption(new Magento_Object(
+                $item->addOption(new \Magento\Object(
                     array(
                         'product' => $item->getProduct(),
                         'code' => 'option_'.$optionId,
@@ -1014,7 +1016,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
             }
         }
         if (!empty($options['additional_options'])) {
-            $item->addOption(new Magento_Object(
+            $item->addOption(new \Magento\Object(
                 array(
                     'product' => $item->getProduct(),
                     'code' => 'additional_options',
@@ -1029,7 +1031,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
     /**
      * Prepare options array for info buy request
      *
-     * @param Magento_Sales_Model_Quote_Item $item
+     * @param \Magento\Sales\Model\Quote\Item $item
      * @return array
      */
     protected function _prepareOptionsForRequest($item)
@@ -1041,7 +1043,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
                 $option = $item->getProduct()->getOptionById($optionId);
                 $optionValue = $item->getOptionByCode('option_'.$optionId)->getValue();
 
-                $group = $this->_objectManager->get('Magento_Catalog_Model_Product_Option')
+                $group = $this->_objectManager->get('Magento\Catalog\Model\Product\Option')
                     ->groupFactory($option->getType())
                     ->setOption($option)
                     ->setQuoteItem($item);
@@ -1054,7 +1056,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
 
     protected function _parseCustomPrice($price)
     {
-        $price = $this->_objectManager->get('Magento_Core_Model_LocaleInterface')->getNumber($price);
+        $price = $this->_objectManager->get('Magento\Core\Model\LocaleInterface')->getNumber($price);
         $price = $price > 0 ? $price : 0;
         return $price;
     }
@@ -1062,7 +1064,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
     /**
      * Retrieve oreder quote shipping address
      *
-     * @return Magento_Sales_Model_Quote_Address
+     * @return \Magento\Sales\Model\Quote\Address
      */
     public function getShippingAddress()
     {
@@ -1072,12 +1074,12 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
     /**
      * Return Customer (Checkout) Form instance
      *
-     * @return Magento_Customer_Model_Form
+     * @return \Magento\Customer\Model\Form
      */
     protected function _getCustomerForm()
     {
         if (is_null($this->_customerForm)) {
-            $this->_customerForm = $this->_objectManager->create('Magento_Customer_Model_Form')
+            $this->_customerForm = $this->_objectManager->create('Magento\Customer\Model\Form')
                 ->setFormCode('adminhtml_checkout')
                 ->ignoreInvisible(false);
         }
@@ -1087,12 +1089,12 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
     /**
      * Return Customer Address Form instance
      *
-     * @return Magento_Customer_Model_Form
+     * @return \Magento\Customer\Model\Form
      */
     protected function _getCustomerAddressForm()
     {
         if (is_null($this->_customerAddressForm)) {
-            $this->_customerAddressForm = $this->_objectManager->create('Magento_Customer_Model_Form')
+            $this->_customerAddressForm = $this->_objectManager->create('Magento\Customer\Model\Form')
                 ->setFormCode('adminhtml_customer_address')
                 ->ignoreInvisible(false);
         }
@@ -1103,20 +1105,20 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
      * Set and validate Quote address
      * All errors added to _errors
      *
-     * @param Magento_Sales_Model_Quote_Address $address
+     * @param \Magento\Sales\Model\Quote\Address $address
      * @param array $data
-     * @return Magento_Adminhtml_Model_Sales_Order_Create
+     * @return \Magento\Adminhtml\Model\Sales\Order\Create
      */
-    protected function _setQuoteAddress(Magento_Sales_Model_Quote_Address $address, array $data)
+    protected function _setQuoteAddress(\Magento\Sales\Model\Quote\Address $address, array $data)
     {
         $addressForm    = $this->_getCustomerAddressForm()
             ->setEntity($address)
-            ->setEntityType($this->_objectManager->get('Magento_Eav_Model_Config')->getEntityType('customer_address'))
+            ->setEntityType($this->_objectManager->get('Magento\Eav\Model\Config')->getEntityType('customer_address'))
             ->setIsAjaxRequest(!$this->getIsValidate());
 
         // prepare request
         // save original request structure for files
-        if ($address->getAddressType() == Magento_Sales_Model_Quote_Address::TYPE_SHIPPING) {
+        if ($address->getAddressType() == \Magento\Sales\Model\Quote\Address::TYPE_SHIPPING) {
             $requestData  = array('order' => array('shipping_address' => $data));
             $requestScope = 'order/shipping_address';
         } else {
@@ -1128,7 +1130,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
         if ($this->getIsValidate()) {
             $errors = $addressForm->validateData($addressData);
             if ($errors !== true) {
-                if ($address->getAddressType() == Magento_Sales_Model_Quote_Address::TYPE_SHIPPING) {
+                if ($address->getAddressType() == \Magento\Sales\Model\Quote\Address::TYPE_SHIPPING) {
                     $typeName = __('Shipping Address: ');
                 } else {
                     $typeName = __('Billing Address: ');
@@ -1152,14 +1154,14 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
         if (is_array($address)) {
             $address['save_in_address_book'] = isset($address['save_in_address_book'])
                 && !empty($address['save_in_address_book']);
-            $shippingAddress = $this->_objectManager->create('Magento_Sales_Model_Quote_Address')
+            $shippingAddress = $this->_objectManager->create('Magento\Sales\Model\Quote\Address')
                 ->setData($address)
-                ->setAddressType(Magento_Sales_Model_Quote_Address::TYPE_SHIPPING);
+                ->setAddressType(\Magento\Sales\Model\Quote\Address::TYPE_SHIPPING);
             if (!$this->getQuote()->isVirtual()) {
                 $this->_setQuoteAddress($shippingAddress, $address);
             }
         }
-        if ($address instanceof Magento_Sales_Model_Quote_Address) {
+        if ($address instanceof \Magento\Sales\Model\Quote\Address) {
             $shippingAddress = $address;
         }
 
@@ -1186,7 +1188,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
     /**
      * Retrieve quote billing address
      *
-     * @return Magento_Sales_Model_Quote_Address
+     * @return \Magento\Sales\Model\Quote\Address
      */
     public function getBillingAddress()
     {
@@ -1197,9 +1199,9 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
     {
         if (is_array($address)) {
             $address['save_in_address_book'] = isset($address['save_in_address_book']) ? 1 : 0;
-            $billingAddress = $this->_objectManager->create('Magento_Sales_Model_Quote_Address')
+            $billingAddress = $this->_objectManager->create('Magento\Sales\Model\Quote\Address')
                 ->setData($address)
-                ->setAddressType(Magento_Sales_Model_Quote_Address::TYPE_BILLING);
+                ->setAddressType(\Magento\Sales\Model\Quote\Address::TYPE_BILLING);
             $this->_setQuoteAddress($billingAddress, $address);
         }
 
@@ -1285,7 +1287,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
         }
 
         if (isset($data['customer_group_id'])) {
-            $groupModel = $this->_objectManager->create('Magento_Customer_Model_Group')->load($data['customer_group_id']);
+            $groupModel = $this->_objectManager->create('Magento\Customer\Model\Group')->load($data['customer_group_id']);
             $data['customer_tax_class_id'] = $groupModel->getTaxClassId();
             $this->setRecollect(true);
         }
@@ -1298,7 +1300,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
      * Parse data retrieved from request
      *
      * @param   array $data
-     * @return  Magento_Adminhtml_Model_Sales_Order_Create
+     * @return  \Magento\Adminhtml\Model\Sales\Order\Create
      */
     public function importPostData($data)
     {
@@ -1346,7 +1348,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
     /**
      * Check whether we need to create new customer (for another website) during order creation
      *
-     * @param   Magento_Core_Model_Store $store
+     * @param   \Magento\Core\Model\Store $store
      * @return  boolean
      */
     protected function _customerIsInStore($store)
@@ -1361,10 +1363,10 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
     /**
      * Set and validate Customer data
      *
-     * @param Magento_Customer_Model_Customer $customer
-     * @return Magento_Adminhtml_Model_Sales_Order_Create
+     * @param \Magento\Customer\Model\Customer $customer
+     * @return \Magento\Adminhtml\Model\Sales\Order\Create
      */
-    protected function _setCustomerData(Magento_Customer_Model_Customer $customer)
+    protected function _setCustomerData(\Magento\Customer\Model\Customer $customer)
     {
         $form = $this->_getCustomerForm();
         $form->setEntity($customer);
@@ -1392,19 +1394,19 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
     /**
      * Prepare quote customer
      *
-     * @return Magento_Adminhtml_Model_Sales_Order_Create
+     * @return \Magento\Adminhtml\Model\Sales\Order\Create
      */
     public function _prepareCustomer()
     {
-        /** @var $quote Magento_Sales_Model_Quote */
+        /** @var $quote \Magento\Sales\Model\Quote */
         $quote = $this->getQuote();
         if ($quote->getCustomerIsGuest()) {
             return $this;
         }
 
-        /** @var $customer Magento_Customer_Model_Customer */
+        /** @var $customer \Magento\Customer\Model\Customer */
         $customer = $this->getSession()->getCustomer();
-        /** @var $store Magento_Core_Model_Store */
+        /** @var $store \Magento\Core\Model\Store */
         $store = $this->getSession()->getStore();
 
         $customerIsInStore = $this->_customerIsInStore($store);
@@ -1423,7 +1425,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
             }
 
             if ($this->getBillingAddress()->getSaveInAddressBook()) {
-                /** @var $customerBillingAddress Magento_Customer_Model_Address */
+                /** @var $customerBillingAddress \Magento\Customer\Model\Address */
                 $customerBillingAddress = $this->getBillingAddress()->exportCustomerAddress();
                 $customerAddressId = $this->getBillingAddress()->getCustomerAddressId();
                 if ($customerAddressId && $customer->getId()) {
@@ -1434,7 +1436,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
             }
 
             if (!$this->getQuote()->isVirtual() && $this->getShippingAddress()->getSaveInAddressBook()) {
-                /** @var $customerShippingAddress Magento_Customer_Model_Address */
+                /** @var $customerShippingAddress \Magento\Customer\Model\Address */
                 $customerShippingAddress = $this->getShippingAddress()->exportCustomerAddress();
                 $customerAddressId = $this->getShippingAddress()->getCustomerAddressId();
                 if ($customerAddressId && $customer->getId()) {
@@ -1462,7 +1464,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
             }
         } else {
             // Prepare new customer
-            /** @var $customerBillingAddress Magento_Customer_Model_Address */
+            /** @var $customerBillingAddress \Magento\Customer\Model\Address */
             $customerBillingAddress = $this->getBillingAddress()->exportCustomerAddress();
             $customer->addData($customerBillingAddress->getData())
                 ->setPassword($customer->generatePassword())
@@ -1475,13 +1477,13 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
                 $customer->addAddress($customerBillingAddress);
             }
 
-            /** @var $shippingAddress Magento_Sales_Model_Quote_Address */
+            /** @var $shippingAddress \Magento\Sales\Model\Quote\Address */
             $shippingAddress = $this->getShippingAddress();
             if (!$this->getQuote()->isVirtual()
                 && !$shippingAddress->getSameAsBilling()
                 && $shippingAddress->getSaveInAddressBook()
             ) {
-                /** @var $customerShippingAddress Magento_Customer_Model_Address */
+                /** @var $customerShippingAddress \Magento\Customer\Model\Address */
                 $customerShippingAddress = $shippingAddress->exportCustomerAddress();
                 $customerShippingAddress->setIsDefaultShipping(true);
                 $customer->addAddress($customerShippingAddress);
@@ -1539,7 +1541,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
     /**
      * Create new order
      *
-     * @return Magento_Sales_Model_Order
+     * @return \Magento\Sales\Model\Order
      */
     public function createOrder()
     {
@@ -1548,8 +1550,8 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
         $quote = $this->getQuote();
         $this->_prepareQuoteItems();
 
-        /** @var $service Magento_Sales_Model_Service_Quote */
-        $service = $this->_objectManager->create('Magento_Sales_Model_Service_Quote', array('quote' => $quote));
+        /** @var $service \Magento\Sales\Model\Service\Quote */
+        $service = $this->_objectManager->create('Magento\Sales\Model\Service\Quote', array('quote' => $quote));
         if ($this->getSession()->getOrder()->getId()) {
             $oldOrder = $this->getSession()->getOrder();
             $originalId = $oldOrder->getOriginalIncrementId();
@@ -1597,17 +1599,17 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
     /**
      * Validate quote data before order creation
      *
-     * @return Magento_Adminhtml_Model_Sales_Order_Create
+     * @return \Magento\Adminhtml\Model\Sales\Order\Create
      */
     protected function _validate()
     {
         $customerId = $this->getSession()->getCustomerId();
         if (is_null($customerId)) {
-            throw new Magento_Core_Exception(__('Please select a customer.'));
+            throw new \Magento\Core\Exception(__('Please select a customer.'));
         }
 
         if (!$this->getSession()->getStore()->getId()) {
-            throw new Magento_Core_Exception(__('Please select a store.'));
+            throw new \Magento\Core\Exception(__('Please select a store.'));
         }
         $items = $this->getQuote()->getAllItems();
 
@@ -1640,7 +1642,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
                 } else {
                     try {
                         $method->validate();
-                    } catch (Magento_Core_Exception $e) {
+                    } catch (\Magento\Core\Exception $e) {
                         $this->_errors[] = $e->getMessage();
                     }
                 }
@@ -1651,7 +1653,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
             foreach ($this->_errors as $error) {
                 $this->getSession()->addError($error);
             }
-            throw new Magento_Core_Exception('');
+            throw new \Magento\Core\Exception('');
         }
         return $this;
     }
@@ -1659,7 +1661,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
     /**
      * Retrieve new customer email
      *
-     * @param   Magento_Customer_Model_Customer $customer
+     * @param   \Magento\Customer\Model\Customer $customer
      * @return  string
      */
     protected function _getNewCustomerEmail($customer)
@@ -1668,7 +1670,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
         if (empty($email)) {
             $host = $this->getSession()
                 ->getStore()
-                ->getConfig(Magento_Customer_Model_Customer::XML_PATH_DEFAULT_EMAIL_DOMAIN);
+                ->getConfig(\Magento\Customer\Model\Customer::XML_PATH_DEFAULT_EMAIL_DOMAIN);
             $account = $customer->getIncrementId() ? $customer->getIncrementId() : time();
             $email = $account.'@'. $host;
             $account = $this->getData('account');

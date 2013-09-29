@@ -16,6 +16,8 @@
  * @package     Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Customer_Model_Attribute_Data_Hidden extends Magento_Eav_Model_Attribute_Data_Hidden
+namespace Magento\Customer\Model\Attribute\Data;
+
+class Hidden extends \Magento\Eav\Model\Attribute\Data\Hidden
 {
 }

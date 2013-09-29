@@ -15,10 +15,12 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Report_Config_Form_Field_MtdStart extends Magento_Backend_Block_System_Config_Form_Field
+namespace Magento\Adminhtml\Block\Report\Config\Form\Field;
+
+class MtdStart extends \Magento\Backend\Block\System\Config\Form\Field
 {
 
-    protected function _getElementHtml(Magento_Data_Form_Element_Abstract $element)
+    protected function _getElementHtml(\Magento\Data\Form\Element\AbstractElement $element)
     {
         $_days = array();
         for ($i = 1; $i <= 31; $i++) {

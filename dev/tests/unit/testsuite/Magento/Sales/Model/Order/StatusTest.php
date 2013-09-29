@@ -9,25 +9,27 @@
  * @license     {license_link}
  */
 
-class Magento_Sales_Model_Order_StatusTest extends PHPUnit_Framework_TestCase
+namespace Magento\Sales\Model\Order;
+
+class StatusTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * Retrieve prepared for test Magento_Sales_Model_Order_Status
+     * Retrieve prepared for test \Magento\Sales\Model\Order\Status
      *
      * @param null|PHPUnit_Framework_MockObject_MockObject $resource
      * @param null|PHPUnit_Framework_MockObject_MockObject $eventDispatcher
-     * @return Magento_Sales_Model_Order_Status
+     * @return \Magento\Sales\Model\Order\Status
      */
     protected function _getPreparedModel($resource = null, $eventDispatcher = null)
     {
         if (!$resource) {
-            $resource = $this->getMock('Magento_Sales_Model_Resource_Order_Status', array(), array(), '', false);
+            $resource = $this->getMock('Magento\Sales\Model\Resource\Order\Status', array(), array(), '', false);
         }
         if (!$eventDispatcher) {
-            $eventDispatcher = $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false);
+            $eventDispatcher = $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false);
         }
-        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $model = $helper->getObject('Magento_Sales_Model_Order_Status', array(
+        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $model = $helper->getObject('Magento\Sales\Model\Order\Status', array(
             'resource' => $resource,
             'eventDispatcher' => $eventDispatcher
         ));
@@ -39,19 +41,19 @@ class Magento_Sales_Model_Order_StatusTest extends PHPUnit_Framework_TestCase
         $state = 'test_state';
         $status = 'test_status';
 
-        $resource = $this->getMock('Magento_Sales_Model_Resource_Order_Status', array(), array(), '', false);
+        $resource = $this->getMock('Magento\Sales\Model\Resource\Order\Status', array(), array(), '', false);
         $resource->expects($this->once())->method('beginTransaction');
         $resource->expects($this->once())->method('unassignState')
             ->with($this->equalTo($status), $this->equalTo($state));
         $resource->expects($this->once())->method('commit');
 
         $params = array('status' => $status, 'state' => $state);
-        $eventDispatcher = $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false);
+        $eventDispatcher = $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false);
         $eventDispatcher->expects($this->once())->method('dispatch')
             ->with($this->equalTo('sales_order_status_unassign'), $this->equalTo($params));
 
         $model = $this->_getPreparedModel($resource, $eventDispatcher);
         $model->setStatus($status);
-        $this->assertInstanceOf('Magento_Sales_Model_Order_Status', $model->unassignState($state));
+        $this->assertInstanceOf('Magento\Sales\Model\Order\Status', $model->unassignState($state));
     }
 }

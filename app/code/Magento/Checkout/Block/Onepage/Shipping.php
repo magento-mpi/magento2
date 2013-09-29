@@ -11,12 +11,14 @@
 /**
  * One page checkout status
  */
-class Magento_Checkout_Block_Onepage_Shipping extends Magento_Checkout_Block_Onepage_Abstract
+namespace Magento\Checkout\Block\Onepage;
+
+class Shipping extends \Magento\Checkout\Block\Onepage\AbstractOnepage
 {
     /**
      * Sales Qoute Shipping Address instance
      *
-     * @var Magento_Sales_Model_Quote_Address
+     * @var \Magento\Sales\Model\Quote\Address
      */
     protected $_address = null;
 
@@ -46,7 +48,7 @@ class Magento_Checkout_Block_Onepage_Shipping extends Magento_Checkout_Block_One
     /**
      * Return Sales Quote Address model (shipping address)
      *
-     * @return Magento_Sales_Model_Quote_Address
+     * @return \Magento\Sales\Model\Quote\Address
      */
     public function getAddress()
     {
@@ -54,7 +56,7 @@ class Magento_Checkout_Block_Onepage_Shipping extends Magento_Checkout_Block_One
             if ($this->isCustomerLoggedIn()) {
                 $this->_address = $this->getQuote()->getShippingAddress();
             } else {
-                $this->_address = Mage::getModel('Magento_Sales_Model_Quote_Address');
+                $this->_address = \Mage::getModel('Magento\Sales\Model\Quote\Address');
             }
         }
 

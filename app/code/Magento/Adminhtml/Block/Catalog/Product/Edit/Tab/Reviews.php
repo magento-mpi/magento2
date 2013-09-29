@@ -15,12 +15,14 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Reviews extends Magento_Adminhtml_Block_Review_Grid
+namespace Magento\Adminhtml\Block\Catalog\Product\Edit\Tab;
+
+class Reviews extends \Magento\Adminhtml\Block\Review\Grid
 {
     /**
      * Hide grid mass action elements
      *
-     * @return Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Reviews
+     * @return \Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Reviews
      */
     protected function _prepareMassaction()
     {

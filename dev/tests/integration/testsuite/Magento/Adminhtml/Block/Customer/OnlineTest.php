@@ -9,23 +9,26 @@
  * @license     {license_link}
  */
 
+
+namespace Magento\Adminhtml\Block\Customer;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_Block_Customer_OnlineTest extends PHPUnit_Framework_TestCase
+class OnlineTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @magentoAppIsolation enabled
      */
     public function testGetFilterFormHtml()
     {
-        /** @var $layout Magento_Core_Model_Layout */
-        $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create(
-            'Magento_Core_Model_Layout',
-            array('area' => Magento_Core_Model_App_Area::AREA_ADMINHTML)
+        /** @var $layout \Magento\Core\Model\Layout */
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Core\Model\Layout',
+            array('area' => \Magento\Core\Model\App\Area::AREA_ADMINHTML)
         );
-        /** @var $block Magento_Adminhtml_Block_Customer_Online */
-        $block = $layout->createBlock('Magento_Adminhtml_Block_Customer_Online', 'block');
+        /** @var $block \Magento\Adminhtml\Block\Customer\Online */
+        $block = $layout->createBlock('Magento\Adminhtml\Block\Customer\Online', 'block');
         $this->assertNotEmpty($block->getFilterFormHtml());
     }
 }

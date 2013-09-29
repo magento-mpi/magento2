@@ -12,7 +12,9 @@
  * Gift wrapping total block for checkout
  *
  */
-class Magento_GiftWrapping_Block_Checkout_Totals extends Magento_Checkout_Block_Total_Default
+namespace Magento\GiftWrapping\Block\Checkout;
+
+class Totals extends \Magento\Checkout\Block\Total\DefaultTotal
 {
     /**
      * Template file path
@@ -24,24 +26,24 @@ class Magento_GiftWrapping_Block_Checkout_Totals extends Magento_Checkout_Block_
     /**
      * Gift wrapping data
      *
-     * @var Magento_GiftWrapping_Helper_Data
+     * @var \Magento\GiftWrapping\Helper\Data
      */
     protected $_giftWrappingData = null;
 
     /**
-     * @param Magento_GiftWrapping_Helper_Data $giftWrappingData
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Sales_Model_Config $salesConfig
+     * @param \Magento\GiftWrapping\Helper\Data $giftWrappingData
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Sales\Model\Config $salesConfig
      * @param array $data
      */
     public function __construct(
-        Magento_GiftWrapping_Helper_Data $giftWrappingData,
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Sales_Model_Config $salesConfig,
+        \Magento\GiftWrapping\Helper\Data $giftWrappingData,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Sales\Model\Config $salesConfig,
         array $data = array()
     ) {
         $this->_giftWrappingData = $giftWrappingData;

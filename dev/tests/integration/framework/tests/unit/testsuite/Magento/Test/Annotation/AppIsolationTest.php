@@ -10,25 +10,27 @@
  */
 
 /**
- * Test class for Magento_TestFramework_Annotation_AppIsolation.
+ * Test class for \Magento\TestFramework\Annotation\AppIsolation.
  */
-class Magento_Test_Annotation_AppIsolationTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Annotation;
+
+class AppIsolationTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_TestFramework_Annotation_AppIsolation
+     * @var \Magento\TestFramework\Annotation\AppIsolation
      */
     protected $_object;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_application;
 
     protected function setUp()
     {
         $this->_application = $this->getMock(
-            'Magento_TestFramework_Application', array('reinitialize'), array(), '', false);
-        $this->_object = new Magento_TestFramework_Annotation_AppIsolation($this->_application);
+            'Magento\TestFramework\Application', array('reinitialize'), array(), '', false);
+        $this->_object = new \Magento\TestFramework\Annotation\AppIsolation($this->_application);
     }
 
     protected function tearDown()
@@ -45,7 +47,7 @@ class Magento_Test_Annotation_AppIsolationTest extends PHPUnit_Framework_TestCas
 
     /**
      * @magentoAppIsolation invalid
-     * @expectedException Magento_Exception
+     * @expectedException \Magento\Exception
      */
     public function testEndTestIsolationInvalid()
     {
@@ -55,7 +57,7 @@ class Magento_Test_Annotation_AppIsolationTest extends PHPUnit_Framework_TestCas
     /**
      * @magentoAppIsolation enabled
      * @magentoAppIsolation disabled
-     * @expectedException Magento_Exception
+     * @expectedException \Magento\Exception
      */
     public function testEndTestIsolationAmbiguous()
     {
@@ -70,8 +72,8 @@ class Magento_Test_Annotation_AppIsolationTest extends PHPUnit_Framework_TestCas
 
     public function testEndTestIsolationController()
     {
-        /** @var $controllerTest Magento_TestFramework_TestCase_ControllerAbstract */
-        $controllerTest = $this->getMockForAbstractClass('Magento_TestFramework_TestCase_ControllerAbstract');
+        /** @var $controllerTest \Magento\TestFramework\TestCase\ControllerAbstract */
+        $controllerTest = $this->getMockForAbstractClass('Magento\TestFramework\TestCase\ControllerAbstract');
         $this->_application->expects($this->once())->method('reinitialize');
         $this->_object->endTest($controllerTest);
     }

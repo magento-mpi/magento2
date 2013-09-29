@@ -1,32 +1,34 @@
 <?php
 /**
- * Magento_Page_Model_Config_Reader
+ * \Magento\Page\Model\Config\Reader
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Page_Model_Config_ReaderTest extends PHPUnit_Framework_TestCase
+namespace Magento\Page\Model\Config;
+
+class ReaderTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Page_Model_Config_Reader
+     * @var \Magento\Page\Model\Config\Reader
      */
     protected $_model;
 
-    /** @var  Magento_Config_FileResolverInterface/PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \Magento\Config\FileResolverInterface/PHPUnit_Framework_MockObject_MockObject */
     protected $_fileResolverMock;
 
     public function setUp()
     {
-        /** @var $cache Magento_Core_Model_Cache */
-        $cache = Mage::getModel('Magento_Core_Model_Cache');
+        /** @var $cache \Magento\Core\Model\Cache */
+        $cache = \Mage::getModel('Magento\Core\Model\Cache');
         $cache->clean();
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $this->_fileResolverMock = $this->getMockBuilder('Magento_Config_FileResolverInterface')
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $this->_fileResolverMock = $this->getMockBuilder('Magento\Config\FileResolverInterface')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_model = $objectManager->create('Magento_Page_Model_Config_Reader',
+        $this->_model = $objectManager->create('Magento\Page\Model\Config\Reader',
             array('fileResolver'=>$this->_fileResolverMock));
     }
 

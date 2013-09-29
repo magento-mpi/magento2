@@ -16,20 +16,22 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Product_Attribute_Backend_Stock extends Magento_Eav_Model_Entity_Attribute_Backend_Abstract
+namespace Magento\Catalog\Model\Product\Attribute\Backend;
+
+class Stock extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
 {
     /**
-     * @var Magento_CatalogInventory_Model_Stock_Item
+     * @var \Magento\CatalogInventory\Model\Stock\Item
      */
     protected $_stockItemFactory;
 
     /**
-     * @param Magento_CatalogInventory_Model_Stock_ItemFactory $stockItemFactory
-     * @param Magento_Core_Model_Logger $logger
+     * @param \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory
+     * @param \Magento\Core\Model\Logger $logger
      */
     public function __construct(
-        Magento_CatalogInventory_Model_Stock_ItemFactory $stockItemFactory,
-        Magento_Core_Model_Logger $logger
+        \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory,
+        \Magento\Core\Model\Logger $logger
     ) {
         $this->_stockItemFactory = $stockItemFactory;
         parent::__construct($logger);
@@ -38,8 +40,8 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Stock extends Magento_Eav_
     /**
      * Set inventory data to custom attribute
      *
-     * @param Magento_Object $object
-     * @return Magento_Eav_Model_Entity_Attribute_Backend_Abstract
+     * @param \Magento\Object $object
+     * @return \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
      */
     public function afterLoad($object)
     {
@@ -58,8 +60,8 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Stock extends Magento_Eav_
     /**
      * Prepare inventory data from custom attribute
      *
-     * @param Magento_Catalog_Model_Product $object
-     * @return Magento_Eav_Model_Entity_Attribute_Backend_Abstract|void
+     * @param \Magento\Catalog\Model\Product $object
+     * @return \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend|void
      */
     public function beforeSave($object)
     {
@@ -77,8 +79,8 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Stock extends Magento_Eav_
     /**
      * Validate
      *
-     * @param Magento_Catalog_Model_Product $object
-     * @throws Magento_Core_Exception
+     * @param \Magento\Catalog\Model\Product $object
+     * @throws \Magento\Core\Exception
      * @return bool
      */
     public function validate($object)
@@ -86,7 +88,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Stock extends Magento_Eav_
         $attrCode = $this->getAttribute()->getAttributeCode();
         $value = $object->getData($attrCode);
         if (!empty($value['qty']) && !preg_match('/^-?\d*(\.|,)?\d{0,4}$/i', $value['qty'])) {
-            Mage::throwException(
+            \Mage::throwException(
                 __('Please enter a valid number in this field.')
             );
         }

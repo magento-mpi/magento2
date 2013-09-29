@@ -11,13 +11,15 @@
 /**
  * Fieldset renderer for PayPal solutions group
  */
-class Magento_Paypal_Block_Adminhtml_System_Config_Fieldset_Group
-    extends Magento_Backend_Block_System_Config_Form_Fieldset
+namespace Magento\Paypal\Block\Adminhtml\System\Config\Fieldset;
+
+class Group
+    extends \Magento\Backend\Block\System\Config\Form\Fieldset
 {
     /**
      * Return header comment part of html for fieldset
      *
-     * @param Magento_Data_Form_Element_Abstract $element
+     * @param \Magento\Data\Form\Element\AbstractElement $element
      * @return string
      */
     protected function _getHeaderCommentHtml($element)
@@ -38,12 +40,12 @@ class Magento_Paypal_Block_Adminhtml_System_Config_Fieldset_Group
     /**
      * Return collapse state
      *
-     * @param Magento_Data_Form_Element_Abstract $element
+     * @param \Magento\Data\Form\Element\AbstractElement $element
      * @return bool
      */
     protected function _isCollapseState($element)
     {
-        $extra = Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getUser()->getExtra();
+        $extra = \Mage::getSingleton('Magento\Backend\Model\Auth\Session')->getUser()->getExtra();
         if (isset($extra['configState'][$element->getId()])) {
             return $extra['configState'][$element->getId()];
         }

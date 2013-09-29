@@ -5,14 +5,16 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Simplexml_ElementTest extends PHPUnit_Framework_TestCase
+namespace Magento\Simplexml;
+
+class ElementTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider xmlDataProvider
      */
     public function testUnsetSelf($xmlData)
     {
-        /** @var $xml Magento_Simplexml_Element */
+        /** @var $xml \Magento\Simplexml\Element */
         $xml = simplexml_load_file($xmlData[0], $xmlData[1]);
         $this->assertTrue(isset($xml->node3->node4));
         $xml->node3->unsetSelf();
@@ -23,12 +25,12 @@ class Magento_Simplexml_ElementTest extends PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider xmlDataProvider
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Root node could not be unset.
      */
     public function testGetParent($xmlData)
     {
-        /** @var $xml Magento_Simplexml_Element */
+        /** @var $xml \Magento\Simplexml\Element */
         $xml = simplexml_load_file($xmlData[0], $xmlData[1]);
         $this->assertTrue($xml->getName() == 'root');
         $xml->unsetSelf();
@@ -40,15 +42,15 @@ class Magento_Simplexml_ElementTest extends PHPUnit_Framework_TestCase
     public static function xmlDataProvider()
     {
         return array(
-            array(array(__DIR__ . '/_files/data.xml', 'Magento_Simplexml_Element'))
+            array(array(__DIR__ . '/_files/data.xml', 'Magento\Simplexml\Element'))
         );
     }
 
     public function testAsNiceXmlMixedData()
     {
         $dataFile = file_get_contents(__DIR__ . '/_files/mixed_data.xml');
-        /** @var Magento_Simplexml_Element $xml  */
-        $xml = simplexml_load_string($dataFile, 'Magento_Simplexml_Element');
+        /** @var \Magento\Simplexml\Element $xml  */
+        $xml = simplexml_load_string($dataFile, 'Magento\Simplexml\Element');
 
         $expected = <<<XML
 <root>
@@ -68,12 +70,12 @@ XML;
 
     public function testAppendChild()
     {
-        /** @var Magento_Simplexml_Element $baseXml */
-        $baseXml = simplexml_load_string('<root/>', 'Magento_Simplexml_Element');
-        /** @var Magento_Simplexml_Element $appendXml */
+        /** @var \Magento\Simplexml\Element $baseXml */
+        $baseXml = simplexml_load_string('<root/>', 'Magento\Simplexml\Element');
+        /** @var \Magento\Simplexml\Element $appendXml */
         $appendXml = simplexml_load_string(
             '<node_a attr="abc"><node_b>text</node_b></node_a>',
-            'Magento_Simplexml_Element'
+            'Magento\Simplexml\Element'
         );
         $baseXml->appendChild($appendXml);
 
@@ -85,8 +87,8 @@ XML;
     {
         $path = '/node1/node2';
         $value = 'value';
-        /** @var Magento_Simplexml_Element $xml */
-        $xml = simplexml_load_string('<root/>', 'Magento_Simplexml_Element');
+        /** @var \Magento\Simplexml\Element $xml */
+        $xml = simplexml_load_string('<root/>', 'Magento\Simplexml\Element');
         $this->assertEmpty($xml->xpath('/root/node1/node2'));
         $xml->setNode($path, $value);
         $this->assertNotEmpty($xml->xpath('/root/node1/node2'));

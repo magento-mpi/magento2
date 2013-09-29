@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Event_Config_Reader extends Magento_Config_Reader_Filesystem
+namespace Magento\Core\Model\Event\Config;
+
+class Reader extends \Magento\Config\Reader\Filesystem
 {
     /**
      * List of id attributes for merge
@@ -20,22 +22,22 @@ class Magento_Core_Model_Event_Config_Reader extends Magento_Config_Reader_Files
     );
 
     /**
-     * @param Magento_Config_FileResolverInterface $fileResolver
-     * @param Magento_Core_Model_Event_Config_Converter $converter
-     * @param Magento_Config_ValidationStateInterface $validationState
-     * @param Magento_Core_Model_Event_Config_SchemaLocator $schemaLocator
+     * @param \Magento\Config\FileResolverInterface $fileResolver
+     * @param \Magento\Core\Model\Event\Config\Converter $converter
+     * @param \Magento\Config\ValidationStateInterface $validationState
+     * @param \Magento\Core\Model\Event\Config\SchemaLocator $schemaLocator
      * @param string $fileName
      * @param array $idAttributes
      * @param string $domDocumentClass
      */
     public function __construct(
-        Magento_Config_FileResolverInterface $fileResolver,
-        Magento_Core_Model_Event_Config_Converter $converter,
-        Magento_Core_Model_Event_Config_SchemaLocator $schemaLocator,
-        Magento_Config_ValidationStateInterface $validationState,
+        \Magento\Config\FileResolverInterface $fileResolver,
+        \Magento\Core\Model\Event\Config\Converter $converter,
+        \Magento\Core\Model\Event\Config\SchemaLocator $schemaLocator,
+        \Magento\Config\ValidationStateInterface $validationState,
         $fileName = 'events.xml',
         $idAttributes = array(),
-        $domDocumentClass = 'Magento_Config_Dom'
+        $domDocumentClass = 'Magento\Config\Dom'
     ) {
         parent::__construct(
             $fileResolver, $converter, $schemaLocator, $validationState, $fileName, $idAttributes, $domDocumentClass

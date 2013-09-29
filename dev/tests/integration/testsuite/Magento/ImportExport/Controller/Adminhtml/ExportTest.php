@@ -9,10 +9,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\ImportExport\Controller\Adminhtml;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_ImportExport_Controller_Adminhtml_ExportTest extends Magento_Backend_Utility_Controller
+class ExportTest extends \Magento\Backend\Utility\Controller
 {
     /**
      * Set value of $_SERVER['HTTP_X_REQUESTED_WITH'] parameter here
@@ -64,6 +66,7 @@ class Magento_ImportExport_Controller_Adminhtml_ExportTest extends Magento_Backe
      */
     public function testGetFilterAction($entityType, $customerEntityType = null)
     {
+
         $this->getRequest()->setParam('isAjax', true);
 
         // Provide X_REQUESTED_WITH header in response to mark next action as ajax

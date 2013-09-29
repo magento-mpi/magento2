@@ -15,19 +15,21 @@
  * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GoogleShopping_Model_Source_Country implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\GoogleShopping\Model\Source;
+
+class Country implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
      * Config
      *
-     * @var Magento_GoogleShopping_Model_Config
+     * @var \Magento\GoogleShopping\Model\Config
      */
     protected $_config;
 
     /**
-     * @param Magento_GoogleShopping_Model_Config $config
+     * @param \Magento\GoogleShopping\Model\Config $config
      */
-    function __construct(Magento_GoogleShopping_Model_Config $config)
+    function __construct(\Magento\GoogleShopping\Model\Config $config)
     {
         $this->_config = $config;
     }

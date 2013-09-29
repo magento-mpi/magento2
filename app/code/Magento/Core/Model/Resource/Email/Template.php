@@ -16,7 +16,9 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Resource_Email_Template extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Core\Model\Resource\Email;
+
+class Template extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Initialize email template resource model
@@ -49,10 +51,10 @@ class Magento_Core_Model_Resource_Email_Template extends Magento_Core_Model_Reso
     /**
      * Check usage of template code in other templates
      *
-     * @param Magento_Core_Model_Email_Template $template
+     * @param \Magento\Core\Model\Email\Template $template
      * @return boolean
      */
-    public function checkCodeUsage(Magento_Core_Model_Email_Template $template)
+    public function checkCodeUsage(\Magento\Core\Model\Email\Template $template)
     {
         if ($template->getTemplateActual() != 0 || is_null($template->getTemplateActual())) {
             $select = $this->_getReadAdapter()->select()
@@ -79,10 +81,10 @@ class Magento_Core_Model_Resource_Email_Template extends Magento_Core_Model_Reso
     /**
      * Set template type, added at and modified at time
      *
-     * @param Magento_Core_Model_Email_Template $object
-     * @return Magento_Core_Model_Resource_Email_Template
+     * @param \Magento\Core\Model\Email\Template $object
+     * @return \Magento\Core\Model\Resource\Email\Template
      */
-    protected function _beforeSave(Magento_Core_Model_Abstract $object)
+    protected function _beforeSave(\Magento\Core\Model\AbstractModel $object)
     {
         if ($object->isObjectNew()) {
             $object->setCreatedAt($this->formatDate(true));

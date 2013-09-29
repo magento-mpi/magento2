@@ -15,39 +15,41 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Model_Sales_Order
+namespace Magento\Adminhtml\Model\Sales;
+
+class Order
 {
     /**
-     * @var Magento_Backend_Model_Session
+     * @var \Magento\Backend\Model\Session
      */
     protected $_session;
 
     /**
-     * @var Magento_Customer_Model_CustomerFactory]
+     * @var \Magento\Customer\Model\CustomerFactory]
      */
     protected $_customerFactory;
 
     /**
-     * @var Magento_Catalog_Model_ProductFactory
+     * @var \Magento\Catalog\Model\ProductFactory
      */
     protected $_productFactory;
 
     /**
-     * @param Magento_Catalog_Model_ProductFactory $productFactory
-     * @param Magento_Customer_Model_CustomerFactory $customerFactory
-     * @param Magento_Backend_Model_Session $session
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
+     * @param \Magento\Backend\Model\Session $session
      */
     public function __construct(
-        Magento_Catalog_Model_ProductFactory $productFactory,
-        Magento_Customer_Model_CustomerFactory $customerFactory,
-        Magento_Backend_Model_Session $session
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Customer\Model\CustomerFactory $customerFactory,
+        \Magento\Backend\Model\Session $session
     ) {
         $this->_productFactory = $productFactory;
         $this->_customerFactory = $customerFactory;
         $this->_session = $session;
     }
 
-    public function checkRelation(Magento_Sales_Model_Order $order)
+    public function checkRelation(\Magento\Sales\Model\Order $order)
     {
         /**
          * Check customer existing

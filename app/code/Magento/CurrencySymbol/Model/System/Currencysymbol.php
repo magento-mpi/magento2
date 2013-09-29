@@ -15,7 +15,9 @@
  * @package     Magento_CurrencySymbol
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CurrencySymbol_Model_System_Currencysymbol
+namespace Magento\CurrencySymbol\Model\System;
+
+class Currencysymbol
 {
     /**
      * Custom currency symbol properties
@@ -43,9 +45,9 @@ class Magento_CurrencySymbol_Model_System_Currencysymbol
      * @var array
      */
     protected $_cacheTypes = array(
-        Magento_Core_Model_Cache_Type_Config::TYPE_IDENTIFIER,
-        Magento_Core_Model_Cache_Type_Block::TYPE_IDENTIFIER,
-        Magento_Core_Model_Cache_Type_Layout::TYPE_IDENTIFIER,
+        \Magento\Core\Model\Cache\Type\Config::TYPE_IDENTIFIER,
+        \Magento\Core\Model\Cache\Type\Block::TYPE_IDENTIFIER,
+        \Magento\Core\Model\Cache\Type\Layout::TYPE_IDENTIFIER,
     );
 
     /**
@@ -67,66 +69,66 @@ class Magento_CurrencySymbol_Model_System_Currencysymbol
     /**
      * Core event manager proxy
      *
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventManager;
 
     /**
-     * @var Magento_Core_Model_Cache_TypeListInterface
+     * @var \Magento\Core\Model\Cache\TypeListInterface
      */
     protected $_cacheTypeList;
 
     /**
-     * @var Magento_Backend_Model_Config_Factory
+     * @var \Magento\Backend\Model\Config\Factory
      */
     protected $_configFactory;
 
     /**
-     * @var Magento_Core_Model_System_Store
+     * @var \Magento\Core\Model\System\Store
      */
     protected $_systemStore;
 
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
     /**
-     * @var Magento_Core_Model_Config
+     * @var \Magento\Core\Model\Config
      */
     protected $_coreConfig;
 
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_Config $coreConfig
-     * @param Magento_Backend_Model_Config_Factory $configFactory
-     * @param Magento_Core_Model_Cache_TypeListInterface $cacheTypeList
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Core_Model_System_Store $systemStore
-     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\Backend\Model\Config\Factory $configFactory
+     * @param \Magento\Core\Model\Cache\TypeListInterface $cacheTypeList
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Core\Model\System\Store $systemStore
+     * @param \Magento\Core\Model\Event\Manager $eventManager
      */
     public function __construct(
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_Config $coreConfig,
-        Magento_Backend_Model_Config_Factory $configFactory,
-        Magento_Core_Model_Cache_TypeListInterface $cacheTypeList,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Core_Model_System_Store $systemStore,
-        Magento_Core_Model_Event_Manager $eventManager
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\Config $coreConfig,
+        \Magento\Backend\Model\Config\Factory $configFactory,
+        \Magento\Core\Model\Cache\TypeListInterface $cacheTypeList,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Core\Model\System\Store $systemStore,
+        \Magento\Core\Model\Event\Manager $eventManager
     ) {
         $this->_coreConfig = $coreConfig;
         $this->_configFactory = $configFactory;
@@ -142,7 +144,7 @@ class Magento_CurrencySymbol_Model_System_Currencysymbol
      * Sets store Id
      *
      * @param  $storeId
-     * @return Magento_CurrencySymbol_Model_System_Currencysymbol
+     * @return \Magento\CurrencySymbol\Model\System\Currencysymbol
      */
     public function setStoreId($storeId=null)
     {
@@ -156,7 +158,7 @@ class Magento_CurrencySymbol_Model_System_Currencysymbol
      * Sets website Id
      *
      * @param  $websiteId
-     * @return Magento_CurrencySymbol_Model_System_Currencysymbol
+     * @return \Magento\CurrencySymbol\Model\System\Currencysymbol
      */
     public function setWebsiteId($websiteId=null)
     {
@@ -184,7 +186,7 @@ class Magento_CurrencySymbol_Model_System_Currencysymbol
             $this->_coreStoreConfig->getConfig(self::XML_PATH_ALLOWED_CURRENCIES, null)
         );
 
-        /* @var $storeModel Magento_Core_Model_System_Store */
+        /* @var $storeModel \Magento\Core\Model\System\Store */
         $storeModel = $this->_systemStore;
         foreach ($storeModel->getWebsiteCollection() as $website) {
             $websiteShow = false;
@@ -248,7 +250,7 @@ class Magento_CurrencySymbol_Model_System_Currencysymbol
      * Saves currency symbol to config
      *
      * @param  $symbols array
-     * @return Magento_CurrencySymbol_Model_System_Currencysymbol
+     * @return \Magento\CurrencySymbol\Model\System\Currencysymbol
      */
     public function setCurrencySymbolsData($symbols=array())
     {
@@ -307,7 +309,7 @@ class Magento_CurrencySymbol_Model_System_Currencysymbol
     /**
      * Clear translate cache
      *
-     * @return Magento_CurrencySymbol_Model_System_Currencysymbol
+     * @return \Magento\CurrencySymbol\Model\System\Currencysymbol
      */
     public function clearCache()
     {

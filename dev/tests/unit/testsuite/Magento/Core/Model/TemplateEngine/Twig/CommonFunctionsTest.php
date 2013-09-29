@@ -5,67 +5,69 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_TemplateEngine_Twig_CommonFunctionsTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\TemplateEngine\Twig;
+
+class CommonFunctionsTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var Magento_Core_Model_TemplateEngine_Twig_CommonFunctions */
+    /** @var \Magento\Core\Model\TemplateEngine\Twig\CommonFunctions */
     protected $_commonFunctions;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_urlBuilderMock;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_urlHelperMock;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_dataHelperMock;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_storeManagerMock;
 
-    /** @var Magento_Core_Model_View_Url  */
+    /** @var \Magento\Core\Model\View\Url  */
     protected $_viewUrl;
 
-    /** @var Magento_Core_Model_View_Config   */
+    /** @var \Magento\Core\Model\View\Config   */
     protected $_viewConfig;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_helperImageMock;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_loggerMock;
 
-    /** @var Magento_Core_Model_LocaleInterface  */
+    /** @var \Magento\Core\Model\LocaleInterface  */
     protected $_localeMock;
 
     protected function setUp()
     {
-        $this->_urlBuilderMock = $this->getMock('Magento_Core_Model_UrlInterface');
-        $this->_urlHelperMock = $this->getMockBuilder('Magento_Core_Helper_Url')
+        $this->_urlBuilderMock = $this->getMock('Magento\Core\Model\UrlInterface');
+        $this->_urlHelperMock = $this->getMockBuilder('Magento\Core\Helper\Url')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_dataHelperMock = $this->getMockBuilder('Magento_Core_Helper_Data')
+        $this->_dataHelperMock = $this->getMockBuilder('Magento\Core\Helper\Data')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_storeManagerMock = $this->getMockBuilder('Magento_Core_Model_StoreManager')
+        $this->_storeManagerMock = $this->getMockBuilder('Magento\Core\Model\StoreManager')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_viewUrl = $this->getMockBuilder('Magento_Core_Model_View_Url')
+        $this->_viewUrl = $this->getMockBuilder('Magento\Core\Model\View\Url')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_viewConfig = $this->getMockBuilder('Magento_Core_Model_View_Config')
+        $this->_viewConfig = $this->getMockBuilder('Magento\Core\Model\View\Config')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_helperImageMock = $this->getMockBuilder('Magento_Catalog_Helper_Image')
+        $this->_helperImageMock = $this->getMockBuilder('Magento\Catalog\Helper\Image')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_loggerMock = $this->getMockBuilder('Magento_Core_Model_Logger')
+        $this->_loggerMock = $this->getMockBuilder('Magento\Core\Model\Logger')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_localeMock = $this->getMockBuilder('Magento_Core_Model_LocaleInterface')
+        $this->_localeMock = $this->getMockBuilder('Magento\Core\Model\LocaleInterface')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_commonFunctions = new Magento_Core_Model_TemplateEngine_Twig_CommonFunctions(
+        $this->_commonFunctions = new \Magento\Core\Model\TemplateEngine\Twig\CommonFunctions(
             $this->_urlBuilderMock,
             $this->_urlHelperMock,
             $this->_dataHelperMock,
@@ -113,7 +115,7 @@ class Magento_Core_Model_TemplateEngine_Twig_CommonFunctionsTest extends PHPUnit
      */
     public function testGetViewFileUrlException()
     {
-        $magentoException = new Magento_Exception('test exception');
+        $magentoException = new \Magento\Exception('test exception');
         $notFoundUrl = 'not found';
 
         $this->_viewUrl->expects($this->once())
@@ -167,7 +169,7 @@ class Magento_Core_Model_TemplateEngine_Twig_CommonFunctionsTest extends PHPUnit
      */
     public function testGetSelectFromToHtml($fromNumber, $toNumber, $expectedOptions)
     {
-        $selectBlockMock = $this->getMockBuilder('Magento_Core_Block_Html_Select')
+        $selectBlockMock = $this->getMockBuilder('Magento\Core\Block\Html\Select')
             ->disableOriginalConstructor()
             ->getMock();;
 
@@ -185,7 +187,7 @@ class Magento_Core_Model_TemplateEngine_Twig_CommonFunctionsTest extends PHPUnit
 
     public function testGetSelectHtml()
     {
-        $selectBlockMock = $this->getMockBuilder('Magento_Core_Block_Html_Select')
+        $selectBlockMock = $this->getMockBuilder('Magento\Core\Block\Html\Select')
             ->disableOriginalConstructor()
             ->getMock();;
 

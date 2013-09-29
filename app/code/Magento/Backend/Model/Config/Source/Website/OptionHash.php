@@ -8,20 +8,22 @@
  * @license     {license_link}
  */
 
-class Magento_Backend_Model_Config_Source_Website_OptionHash
-    implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Backend\Model\Config\Source\Website;
+
+class OptionHash
+    implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
      * System Store Model
      *
-     * @var Magento_Core_Model_System_Store
+     * @var \Magento\Core\Model\System\Store
      */
     protected $_systemStore;
 
     /**
-     * @param Magento_Core_Model_System_Store
+     * @param \Magento\Core\Model\System\Store
      */
-    public function __construct(Magento_Core_Model_System_Store $systemStore)
+    public function __construct(\Magento\Core\Model\System\Store $systemStore)
     {
         $this->_systemStore = $systemStore;
     }

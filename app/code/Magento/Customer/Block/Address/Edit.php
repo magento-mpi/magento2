@@ -11,35 +11,37 @@
 /**
  * Customer address edit block
  */
-class Magento_Customer_Block_Address_Edit extends Magento_Directory_Block_Data
+namespace Magento\Customer\Block\Address;
+
+class Edit extends \Magento\Directory\Block\Data
 {
     protected $_address;
     protected $_countryCollection;
     protected $_regionCollection;
 
     /**
-     * @var Magento_Core_Model_Config
+     * @var \Magento\Core\Model\Config
      */
     protected $_config;
 
     /**
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Model_Cache_Type_Config $configCacheType
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Directory_Model_Resource_Region_CollectionFactory $regionCollFactory
-     * @param Magento_Directory_Model_Resource_Country_CollectionFactory $countryCollFactory
-     * @param Magento_Core_Model_Config $config
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory
+     * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory
+     * @param \Magento\Core\Model\Config $config
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Block_Template_Context $context,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Model_Cache_Type_Config $configCacheType,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Directory_Model_Resource_Region_CollectionFactory $regionCollFactory,
-        Magento_Directory_Model_Resource_Country_CollectionFactory $countryCollFactory,
-        Magento_Core_Model_Config $config,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Model\Cache\Type\Config $configCacheType,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory,
+        \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory,
+        \Magento\Core\Model\Config $config,
         array $data = array()
     ) {
         parent::__construct(
@@ -58,12 +60,12 @@ class Magento_Customer_Block_Address_Edit extends Magento_Directory_Block_Data
     protected function _prepareLayout()
     {
         parent::_prepareLayout();
-        $this->_address = Mage::getModel('Magento_Customer_Model_Address');
+        $this->_address = \Mage::getModel('Magento\Customer\Model\Address');
 
         // Init address object
         if ($id = $this->getRequest()->getParam('id')) {
             $this->_address->load($id);
-            if ($this->_address->getCustomerId() != Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId()) {
+            if ($this->_address->getCustomerId() != \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerId()) {
                 $this->_address->setData(array());
             }
         }
@@ -80,7 +82,7 @@ class Magento_Customer_Block_Address_Edit extends Magento_Directory_Block_Data
             $headBlock->setTitle($this->getTitle());
         }
 
-        if ($postedData = Mage::getSingleton('Magento_Customer_Model_Session')->getAddressFormData(true)) {
+        if ($postedData = \Mage::getSingleton('Magento\Customer\Model\Session')->getAddressFormData(true)) {
             $this->_address->addData($postedData);
         }
     }
@@ -93,7 +95,7 @@ class Magento_Customer_Block_Address_Edit extends Magento_Directory_Block_Data
     public function getNameBlockHtml()
     {
         $nameBlock = $this->getLayout()
-            ->createBlock('Magento_Customer_Block_Widget_Name')
+            ->createBlock('Magento\Customer\Block\Widget\Name')
             ->setObject($this->getAddress());
 
         return $nameBlock->toHtml();
@@ -128,7 +130,7 @@ class Magento_Customer_Block_Address_Edit extends Magento_Directory_Block_Data
 
     public function getSaveUrl()
     {
-        return Mage::getUrl('customer/address/formPost', array('_secure'=>true, 'id'=>$this->getAddress()->getId()));
+        return \Mage::getUrl('customer/address/formPost', array('_secure'=>true, 'id'=>$this->getAddress()->getId()));
     }
 
     public function getAddress()
@@ -151,7 +153,7 @@ class Magento_Customer_Block_Address_Edit extends Magento_Directory_Block_Data
 
     public function getCustomerAddressCount()
     {
-        return count(Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer()->getAddresses());
+        return count(\Mage::getSingleton('Magento\Customer\Model\Session')->getCustomer()->getAddresses());
     }
 
     public function canSetAsDefaultBilling()
@@ -172,19 +174,19 @@ class Magento_Customer_Block_Address_Edit extends Magento_Directory_Block_Data
 
     public function isDefaultBilling()
     {
-        $defaultBilling = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer()->getDefaultBilling();
+        $defaultBilling = \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomer()->getDefaultBilling();
         return $this->getAddress()->getId() && $this->getAddress()->getId() == $defaultBilling;
     }
 
     public function isDefaultShipping()
     {
-        $defaultShipping = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer()->getDefaultShipping();
+        $defaultShipping = \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomer()->getDefaultShipping();
         return $this->getAddress()->getId() && $this->getAddress()->getId() == $defaultShipping;
     }
 
     public function getCustomer()
     {
-        return Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer();
+        return \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomer();
     }
 
     public function getBackButtonUrl()
@@ -198,7 +200,7 @@ class Magento_Customer_Block_Address_Edit extends Magento_Directory_Block_Data
 
     /**
      * @param string $path
-     * @return Magento_Core_Model_Config_Element
+     * @return \Magento\Core\Model\Config\Element
      */
     public function getConfigNode($path)
     {

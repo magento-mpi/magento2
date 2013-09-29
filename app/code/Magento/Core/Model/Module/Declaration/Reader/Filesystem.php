@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Module_Declaration_Reader_Filesystem extends Magento_Config_Reader_Filesystem
+namespace Magento\Core\Model\Module\Declaration\Reader;
+
+class Filesystem extends \Magento\Config\Reader\Filesystem
 {
     /**
      * The list of allowed modules
@@ -25,23 +27,23 @@ class Magento_Core_Model_Module_Declaration_Reader_Filesystem extends Magento_Co
     );
 
     /**
-     * @param Magento_Core_Model_Module_Declaration_FileResolver $fileResolver
-     * @param Magento_Core_Model_Module_Declaration_Converter_Dom $converter
-     * @param Magento_Core_Model_Module_Declaration_SchemaLocator $schemaLocator
-     * @param Magento_Config_ValidationStateInterface $validationState
+     * @param \Magento\Core\Model\Module\Declaration\FileResolver $fileResolver
+     * @param \Magento\Core\Model\Module\Declaration\Converter\Dom $converter
+     * @param \Magento\Core\Model\Module\Declaration\SchemaLocator $schemaLocator
+     * @param \Magento\Config\ValidationStateInterface $validationState
      * @param string $fileName
      * @param array $idAttributes
      * @param string $domDocumentClass
      * @param array $allowedModules
      */
     public function __construct(
-        Magento_Core_Model_Module_Declaration_FileResolver $fileResolver,
-        Magento_Core_Model_Module_Declaration_Converter_Dom $converter,
-        Magento_Core_Model_Module_Declaration_SchemaLocator $schemaLocator,
-        Magento_Config_ValidationStateInterface $validationState,
+        \Magento\Core\Model\Module\Declaration\FileResolver $fileResolver,
+        \Magento\Core\Model\Module\Declaration\Converter\Dom $converter,
+        \Magento\Core\Model\Module\Declaration\SchemaLocator $schemaLocator,
+        \Magento\Config\ValidationStateInterface $validationState,
         $fileName = 'module.xml',
         $idAttributes = array(),
-        $domDocumentClass = 'Magento_Config_Dom',
+        $domDocumentClass = 'Magento\Config\Dom',
         array $allowedModules = array()
     ) {
         parent::__construct(
@@ -86,14 +88,14 @@ class Magento_Core_Model_Module_Declaration_Reader_Filesystem extends Magento_Co
      *
      * @param array $moduleConfig
      * @param array $activeModules
-     * @throws Exception
+     * @throws \Exception
      */
     protected function _checkModuleDependencies(array $moduleConfig, array $activeModules)
     {
         // Check that required modules are active
         foreach ($moduleConfig['dependencies']['modules'] as $moduleName) {
             if (!isset($activeModules[$moduleName])) {
-                throw new Exception(
+                throw new \Exception(
                     "Module '{$moduleConfig['name']}' depends on '{$moduleName}' that is missing or not active."
                 );
             }
@@ -103,7 +105,7 @@ class Magento_Core_Model_Module_Declaration_Reader_Filesystem extends Magento_Co
             $extensionName = $extensionData['name'];
             $minVersion = isset($extensionData['minVersion']) ? $extensionData['minVersion'] : null;
             if (!$this->_isPhpExtensionLoaded($extensionName, $minVersion)) {
-                throw new Exception(
+                throw new \Exception(
                     "Module '{$moduleConfig['name']}' depends on '{$extensionName}' PHP extension that is not loaded."
                 );
             }
@@ -118,7 +120,7 @@ class Magento_Core_Model_Module_Declaration_Reader_Filesystem extends Magento_Co
      *
      * @param string $moduleName
      * @param array $altExtensions
-     * @throws Exception
+     * @throws \Exception
      */
     protected function _checkAlternativeExtensions($moduleName, array $altExtensions)
     {
@@ -132,7 +134,7 @@ class Magento_Core_Model_Module_Declaration_Reader_Filesystem extends Magento_Co
             $extensionNames[] = $extensionName;
         }
         if (!empty($extensionNames)) {
-            throw new Exception(
+            throw new \Exception(
                 "Module '{$moduleName}' depends on at least one of the following PHP extensions: "
                     . implode(',', $extensionNames) . '.'
             );
@@ -207,7 +209,7 @@ class Magento_Core_Model_Module_Declaration_Reader_Filesystem extends Magento_Co
      * @param array $modules
      * @param array $usedModules
      * @return array
-     * @throws Exception
+     * @throws \Exception
      */
     protected function _getExtendedModuleDependencies($moduleName,  array $modules, array $usedModules = array())
     {
@@ -215,7 +217,7 @@ class Magento_Core_Model_Module_Declaration_Reader_Filesystem extends Magento_Co
         $dependencyList = $modules[$moduleName]['dependencies']['modules'];
         foreach ($dependencyList as $relatedModuleName) {
             if (in_array($relatedModuleName, $usedModules)) {
-                throw new Exception(
+                throw new \Exception(
                     "Module '$moduleName' cannot depend on '$relatedModuleName' since it creates circular dependency."
                 );
             }

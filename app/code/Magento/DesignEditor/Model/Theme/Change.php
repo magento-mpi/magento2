@@ -11,14 +11,16 @@
 /**
  * Design editor theme change
  */
-class Magento_DesignEditor_Model_Theme_Change extends Magento_Core_Model_Abstract
+namespace Magento\DesignEditor\Model\Theme;
+
+class Change extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Theme model initialization
      */
     protected function _construct()
     {
-        $this->_init('Magento_DesignEditor_Model_Theme_Resource_Change');
+        $this->_init('Magento\DesignEditor\Model\Theme\Resource\Change');
     }
 
     /**

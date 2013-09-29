@@ -9,23 +9,25 @@
  * @license     {license_link}
  */
 
+namespace Magento\User\Model\Resource;
+
 /**
  * Role resource test
  *
  * @magentoAppArea adminhtml
  */
-class Magento_User_Model_Resource_RoleTest extends PHPUnit_Framework_TestCase
+class RoleTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetRoleUsers()
     {
-        $role = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_User_Model_Role');
-        $roleResource = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_User_Model_Resource_Role');
+        $role = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\User\Model\Role');
+        $roleResource = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\User\Model\Resource\Role');
 
         $this->assertEmpty($roleResource->getRoleUsers($role));
 
-        $role->load(Magento_TestFramework_Bootstrap::ADMIN_ROLE_NAME, 'role_name');
+        $role->load(\Magento\TestFramework\Bootstrap::ADMIN_ROLE_NAME, 'role_name');
         $this->assertNotEmpty($roleResource->getRoleUsers($role));
     }
 }

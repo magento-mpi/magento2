@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Connect_Structures_Node
+namespace Magento\Connect\Structures;
+
+class Node
 {
     
     protected $_data = null;    
@@ -19,7 +21,7 @@ class Magento_Connect_Structures_Node
     /**
      * Node graph getter
      *
-     * @return Magento_Connect_Structures_Graph
+     * @return \Magento\Connect\Structures\Graph
      */
     public function &getGraph() 
     {
@@ -94,7 +96,7 @@ class Magento_Connect_Structures_Node
                 $a = null;
                 return $a;
         } else {
-            throw new Exception(__METHOD__." : requested key doesn't exist: {$key}");            
+            throw new \Exception(__METHOD__." : requested key doesn't exist: {$key}");            
         }
     }
 
@@ -142,16 +144,16 @@ class Magento_Connect_Structures_Node
     {
         $class = get_class($this);
         if(!$destinationNode instanceof $class) {
-            throw new Exception(__METHOD__." : argument should be instance of {$class}");
+            throw new \Exception(__METHOD__." : argument should be instance of {$class}");
         }
          
         // Nodes must already be in graphs to be connected
         if ($this->_graph == null) {
-            throw new Exception(__METHOD__." : tried to connect to null graph");
+            throw new \Exception(__METHOD__." : tried to connect to null graph");
         }
 
         if ($destinationNode->getGraph() == null) {
-            throw new Exception(__METHOD__." : tried to connect to node that is not connected to any graph");
+            throw new \Exception(__METHOD__." : tried to connect to node that is not connected to any graph");
         }
 
         // Connect here

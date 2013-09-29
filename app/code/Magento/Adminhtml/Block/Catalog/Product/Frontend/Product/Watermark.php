@@ -15,46 +15,48 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Frontend_Product_Watermark
-    extends Magento_Backend_Block_Abstract
-    implements Magento_Data_Form_Element_Renderer_Interface
+namespace Magento\Adminhtml\Block\Catalog\Product\Frontend\Product;
+
+class Watermark
+    extends \Magento\Backend\Block\AbstractBlock
+    implements \Magento\Data\Form\Element\Renderer\RendererInterface
 {
     const XML_PATH_IMAGE_TYPES = 'global/catalog/product/media/image_types';
 
     /**
-     * @var Magento_Data_Form_Element_Factory
+     * @var \Magento\Data\Form\Element\Factory
      */
     protected $_elementFactory;
 
     /**
-     * @var Magento_Core_Model_Config
+     * @var \Magento\Core\Model\Config
      */
     protected $_coreConfig;
 
     /**
-     * @var Magento_Backend_Block_System_Config_Form_Field
+     * @var \Magento\Backend\Block\System\Config\Form\Field
      */
     protected $_formField;
 
     /**
-     * @var Magento_Catalog_Model_Config_Source_Watermark_Position
+     * @var \Magento\Catalog\Model\Config\Source\Watermark\Position
      */
     protected $_watermarkPosition;
 
     /**
-     * @param Magento_Catalog_Model_Config_Source_Watermark_Position $watermarkPosition
-     * @param Magento_Backend_Block_System_Config_Form_Field $formField
-     * @param Magento_Data_Form_Element_Factory $elementFactory
-     * @param Magento_Backend_Block_Context $context
-     * @param Magento_Core_Model_Config $coreConfig
+     * @param \Magento\Catalog\Model\Config\Source\Watermark\Position $watermarkPosition
+     * @param \Magento\Backend\Block\System\Config\Form\Field $formField
+     * @param \Magento\Data\Form\Element\Factory $elementFactory
+     * @param \Magento\Backend\Block\Context $context
+     * @param \Magento\Core\Model\Config $coreConfig
      * @param array $data
      */
     public function __construct(
-        Magento_Catalog_Model_Config_Source_Watermark_Position $watermarkPosition,
-        Magento_Backend_Block_System_Config_Form_Field $formField,
-        Magento_Data_Form_Element_Factory $elementFactory,
-        Magento_Backend_Block_Context $context,
-        Magento_Core_Model_Config $coreConfig,
+        \Magento\Catalog\Model\Config\Source\Watermark\Position $watermarkPosition,
+        \Magento\Backend\Block\System\Config\Form\Field $formField,
+        \Magento\Data\Form\Element\Factory $elementFactory,
+        \Magento\Backend\Block\Context $context,
+        \Magento\Core\Model\Config $coreConfig,
         array $data = array()
     ) {
         $this->_watermarkPosition = $watermarkPosition;
@@ -64,7 +66,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Frontend_Product_Watermark
         parent::__construct($context, $data);
     }
 
-    public function render(Magento_Data_Form_Element_Abstract $element)
+    public function render(\Magento\Data\Form\Element\AbstractElement $element)
     {
         $html = $this->_getHeaderHtml($element);
         $attributes = $this->_coreConfig->getNode(self::XML_PATH_IMAGE_TYPES)->asArray();
@@ -73,7 +75,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Frontend_Product_Watermark
             /**
              * Watermark size field
              */
-            /** @var Magento_Data_Form_Element_Text $field */
+            /** @var \Magento\Data\Form\Element\Text $field */
             $field = $this->_elementFactory->create('text');
             $field->setName("groups[watermark][fields][{$key}_size][value]")
                 ->setForm($this->getForm())
@@ -84,7 +86,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Frontend_Product_Watermark
             /**
              * Watermark upload field
              */
-            /** @var Magento_Data_Form_Element_Imagefile $field */
+            /** @var \Magento\Data\Form\Element\Imagefile $field */
             $field = $this->_elementFactory->create('imagefile');
             $field->setName("groups[watermark][fields][{$key}_image][value]")
                 ->setForm($this->getForm())
@@ -95,7 +97,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Frontend_Product_Watermark
             /**
              * Watermark position field
              */
-            /** @var Magento_Data_Form_Element_Select $field */
+            /** @var \Magento\Data\Form\Element\Select $field */
             $field = $this->_elementFactory->create('select');
             $field->setName("groups[watermark][fields][{$key}_position][value]")
                 ->setForm($this->getForm())

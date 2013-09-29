@@ -6,13 +6,15 @@
  * @license   {license_link}
  */
 
-class Magento_AdminNotification_Controller_Adminhtml_System_Message extends Magento_Backend_Controller_ActionAbstract
+namespace Magento\AdminNotification\Controller\Adminhtml\System;
+
+class Message extends \Magento\Backend\Controller\AbstractAction
 {
     public function listAction()
     {
         $severity = $this->getRequest()->getParam('severity');
         $messageCollection = $this->_objectManager
-            ->get('Magento_AdminNotification_Model_Resource_System_Message_Collection');
+            ->get('Magento\AdminNotification\Model\Resource\System\Message\Collection');
         if ($severity) {
             $messageCollection->setSeverity($severity);
         }
@@ -24,6 +26,6 @@ class Magento_AdminNotification_Controller_Adminhtml_System_Message extends Mage
         }
         $this->getResponse()
             ->setHeader('Content-Type', 'application/json')
-            ->setBody($this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($result));
+            ->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result));
     }
 }

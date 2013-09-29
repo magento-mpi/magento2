@@ -16,45 +16,47 @@
  * @package     Magento_CatalogSearch
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CatalogSearch_Model_Resource_Fulltext_Collection extends Magento_Catalog_Model_Resource_Product_Collection
+namespace Magento\CatalogSearch\Model\Resource\Fulltext;
+
+class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
 {
     /**
      * Catalog search data
      *
-     * @var Magento_CatalogSearch_Helper_Data
+     * @var \Magento\CatalogSearch\Helper\Data
      */
     protected $_catalogSearchData = null;
 
     /**
      * Catalog search fulltext
      *
-     * @var Magento_CatalogSearch_Model_Fulltext
+     * @var \Magento\CatalogSearch\Model\Fulltext
      */
     protected $_catalogSearchFulltext;
 
     /**
      * Construct
      *
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Catalog_Helper_Product_Flat $catalogProductFlat
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_EntityFactory $entityFactory
-     * @param Magento_CatalogSearch_Model_Fulltext $catalogSearchFulltext
-     * @param Magento_CatalogSearch_Helper_Data $catalogSearchData
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Catalog\Helper\Product\Flat $catalogProductFlat
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\CatalogSearch\Model\Fulltext $catalogSearchFulltext
+     * @param \Magento\CatalogSearch\Helper\Data $catalogSearchData
      */
     public function __construct(
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Catalog_Helper_Product_Flat $catalogProductFlat,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Logger $logger,
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_EntityFactory $entityFactory,
-        Magento_CatalogSearch_Model_Fulltext $catalogSearchFulltext,
-        Magento_CatalogSearch_Helper_Data $catalogSearchData
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Catalog\Helper\Product\Flat $catalogProductFlat,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\CatalogSearch\Model\Fulltext $catalogSearchFulltext,
+        \Magento\CatalogSearch\Helper\Data $catalogSearchData
     ) {
         $this->_catalogSearchFulltext = $catalogSearchFulltext;
         $this->_catalogSearchData = $catalogSearchData;
@@ -66,7 +68,7 @@ class Magento_CatalogSearch_Model_Resource_Fulltext_Collection extends Magento_C
     /**
      * Retrieve query model object
      *
-     * @return Magento_CatalogSearch_Model_Query
+     * @return \Magento\CatalogSearch\Model\Query
      */
     protected function _getQuery()
     {
@@ -77,7 +79,7 @@ class Magento_CatalogSearch_Model_Resource_Fulltext_Collection extends Magento_C
      * Add search query filter
      *
      * @param string $query
-     * @return Magento_CatalogSearch_Model_Resource_Fulltext_Collection
+     * @return \Magento\CatalogSearch\Model\Resource\Fulltext\Collection
      */
     public function addSearchFilter($query)
     {
@@ -100,7 +102,7 @@ class Magento_CatalogSearch_Model_Resource_Fulltext_Collection extends Magento_C
      *
      * @param string $attribute
      * @param string $dir
-     * @return Magento_CatalogSearch_Model_Resource_Fulltext_Collection
+     * @return \Magento\CatalogSearch\Model\Resource\Fulltext\Collection
      */
     public function setOrder($attribute, $dir = 'desc')
     {
@@ -115,7 +117,7 @@ class Magento_CatalogSearch_Model_Resource_Fulltext_Collection extends Magento_C
     /**
      * Stub method for campatibility with other search engines
      *
-     * @return Magento_CatalogSearch_Model_Resource_Fulltext_Collection
+     * @return \Magento\CatalogSearch\Model\Resource\Fulltext\Collection
      */
     public function setGeneralDefaultQuery()
     {

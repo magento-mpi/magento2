@@ -5,7 +5,9 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-interface Magento_Core_Model_StoreManagerInterface extends Magento_Core_Model_Store_ListInterface
+namespace Magento\Core\Model;
+
+interface StoreManagerInterface extends \Magento\Core\Model\Store\ListInterface
 {
 
     /**#@+
@@ -19,8 +21,8 @@ interface Magento_Core_Model_StoreManagerInterface extends Magento_Core_Model_St
     /**
      * Retrieve application store object without Store_Exception
      *
-     * @param string|int|Magento_Core_Model_Store $storeId
-     * @return Magento_Core_Model_Store
+     * @param string|int|\Magento\Core\Model\Store $storeId
+     * @return \Magento\Core\Model\Store
      */
     public function getSafeStore($storeId = null);
 

@@ -16,21 +16,23 @@
  * @package     Magento_Tax
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Tax_Model_Resource_Calculation_Rule_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Tax\Model\Resource\Calculation\Rule;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Resource initialization
      */
     protected function _construct()
     {
-        $this->_init('Magento_Tax_Model_Calculation_Rule', 'Magento_Tax_Model_Resource_Calculation_Rule');
+        $this->_init('Magento\Tax\Model\Calculation\Rule', 'Magento\Tax\Model\Resource\Calculation\Rule');
     }
 
     /**
      * Join calculation data to result
      *
      * @param string $alias table alias
-     * @return Magento_Tax_Model_Resource_Calculation_Rule_Collection
+     * @return \Magento\Tax\Model\Resource\Calculation\Rule\Collection
      */
     public function joinCalculationData($alias)
     {
@@ -52,7 +54,7 @@ class Magento_Tax_Model_Resource_Calculation_Rule_Collection extends Magento_Cor
      * @param string $secondaryJoinField
      * @param string $titleField
      * @param string $dataField
-     * @return Magento_Tax_Model_Resource_Calculation_Rule_Collection
+     * @return \Magento\Tax\Model\Resource\Calculation\Rule\Collection
      */
     protected function _add($itemTable, $primaryJoinField, $secondaryJoinField, $titleField, $dataField)
     {
@@ -93,7 +95,7 @@ class Magento_Tax_Model_Resource_Calculation_Rule_Collection extends Magento_Cor
     /**
      * Add product tax classes to result
      *
-     * @return Magento_Tax_Model_Resource_Calculation_Rule_Collection
+     * @return \Magento\Tax\Model\Resource\Calculation\Rule\Collection
      */
     public function addProductTaxClassesToResult()
     {
@@ -103,7 +105,7 @@ class Magento_Tax_Model_Resource_Calculation_Rule_Collection extends Magento_Cor
     /**
      * Add customer tax classes to result
      *
-     * @return Magento_Tax_Model_Resource_Calculation_Rule_Collection
+     * @return \Magento\Tax\Model\Resource\Calculation\Rule\Collection
      */
     public function addCustomerTaxClassesToResult()
     {
@@ -113,7 +115,7 @@ class Magento_Tax_Model_Resource_Calculation_Rule_Collection extends Magento_Cor
     /**
      * Add rates to result
      *
-     * @return Magento_Tax_Model_Resource_Calculation_Rule_Collection
+     * @return \Magento\Tax\Model\Resource\Calculation\Rule\Collection
      */
     public function addRatesToResult()
     {
@@ -125,20 +127,20 @@ class Magento_Tax_Model_Resource_Calculation_Rule_Collection extends Magento_Cor
      *
      * @param string $type
      * @param int $id
-     * @throws Magento_Core_Exception
-     * @return Magento_Tax_Model_Resource_Calculation_Rule_Collection
+     * @throws \Magento\Core\Exception
+     * @return \Magento\Tax\Model\Resource\Calculation\Rule\Collection
      */
     public function setClassTypeFilter($type, $id)
     {
         switch ($type) {
-            case Magento_Tax_Model_Class::TAX_CLASS_TYPE_PRODUCT:
+            case \Magento\Tax\Model\ClassModel::TAX_CLASS_TYPE_PRODUCT:
                 $field = 'cd.product_tax_class_id';
                 break;
-            case Magento_Tax_Model_Class::TAX_CLASS_TYPE_CUSTOMER:
+            case \Magento\Tax\Model\ClassModel::TAX_CLASS_TYPE_CUSTOMER:
                 $field = 'cd.customer_tax_class_id';
                 break;
             default:
-                Mage::throwException('Invalid type supplied');
+                \Mage::throwException('Invalid type supplied');
         }
 
         $this->joinCalculationData('cd');

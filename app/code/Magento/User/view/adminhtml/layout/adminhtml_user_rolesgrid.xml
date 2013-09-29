@@ -9,6 +9,6 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <container name="root" label="Root" output="1">
-        <block class="Magento_User_Block_User_Edit_Tab_Roles" name="adminhtml.user.rolesgrid"/>
+        <block class="Magento\User\Block\User\Edit\Tab\Roles" name="adminhtml.user.rolesgrid"/>
     </container>
 </layout>

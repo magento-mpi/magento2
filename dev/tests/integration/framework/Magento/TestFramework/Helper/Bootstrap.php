@@ -12,33 +12,35 @@
 /**
  * Helper providing exclusive restricted access to the underlying bootstrap instance
  */
-class Magento_TestFramework_Helper_Bootstrap
+namespace Magento\TestFramework\Helper;
+
+class Bootstrap
 {
     /**
-     * @var Magento_TestFramework_Helper_Bootstrap
+     * @var \Magento\TestFramework\Helper\Bootstrap
      */
     private static $_instance;
 
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     private static $_objectManager;
 
     /**
-     * @var Magento_TestFramework_Bootstrap
+     * @var \Magento\TestFramework\Bootstrap
      */
     protected $_bootstrap;
 
     /**
      * Set self instance for static access
      *
-     * @param Magento_TestFramework_Helper_Bootstrap $instance
-     * @throws Magento_Exception
+     * @param \Magento\TestFramework\Helper\Bootstrap $instance
+     * @throws \Magento\Exception
      */
-    public static function setInstance(Magento_TestFramework_Helper_Bootstrap $instance)
+    public static function setInstance(\Magento\TestFramework\Helper\Bootstrap $instance)
     {
         if (self::$_instance) {
-            throw new Magento_Exception('Helper instance cannot be redefined.');
+            throw new \Magento\Exception('Helper instance cannot be redefined.');
         }
         self::$_instance = $instance;
     }
@@ -46,13 +48,13 @@ class Magento_TestFramework_Helper_Bootstrap
     /**
      * Self instance getter
      *
-     * @return Magento_TestFramework_Helper_Bootstrap
-     * @throws Magento_Exception
+     * @return \Magento\TestFramework\Helper\Bootstrap
+     * @throws \Magento\Exception
      */
     public static function getInstance()
     {
         if (!self::$_instance) {
-            throw new Magento_Exception('Helper instance is not defined yet.');
+            throw new \Magento\Exception('Helper instance is not defined yet.');
         }
         return self::$_instance;
     }
@@ -73,9 +75,9 @@ class Magento_TestFramework_Helper_Bootstrap
     /**
      * Constructor
      *
-     * @param Magento_TestFramework_Bootstrap $bootstrap
+     * @param \Magento\TestFramework\Bootstrap $bootstrap
      */
-    public function __construct(Magento_TestFramework_Bootstrap $bootstrap)
+    public function __construct(\Magento\TestFramework\Bootstrap $bootstrap)
     {
         $this->_bootstrap = $bootstrap;
     }
@@ -125,10 +127,10 @@ class Magento_TestFramework_Helper_Bootstrap
      * Perform the full request processing by the application instance optionally passing parameters to be overridden.
      * Intended to be used by the controller tests.
      *
-     * @param Magento_TestFramework_Request $request
-     * @param Magento_TestFramework_Response $response
+     * @param \Magento\TestFramework\Request $request
+     * @param \Magento\TestFramework\Response $response
      */
-    public function runApp(Magento_TestFramework_Request $request, Magento_TestFramework_Response $response)
+    public function runApp(\Magento\TestFramework\Request $request, \Magento\TestFramework\Response $response)
     {
         $this->_bootstrap->getApplication()->run($request, $response);
     }
@@ -136,7 +138,7 @@ class Magento_TestFramework_Helper_Bootstrap
     /**
      * Retrieve object manager
      *
-     * @return Magento_ObjectManager
+     * @return \Magento\ObjectManager
      */
     public static function getObjectManager()
     {
@@ -146,9 +148,9 @@ class Magento_TestFramework_Helper_Bootstrap
     /**
      * Set object manager
      *
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public static function setObjectManager(Magento_ObjectManager $objectManager)
+    public static function setObjectManager(\Magento\ObjectManager $objectManager)
     {
         self::$_objectManager = $objectManager;
     }

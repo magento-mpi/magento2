@@ -10,10 +10,12 @@
  */
 
 
+namespace Magento\Tax\Model\Calculation;
+
 /**
  * @magentoDataFixture Magento/Tax/_files/tax_classes.php
  */
-class Magento_Tax_Model_Calculation_RuleTest extends PHPUnit_Framework_TestCase
+class RuleTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Test that first value in multiselect applied as default if there is no default value in config
@@ -22,15 +24,15 @@ class Magento_Tax_Model_Calculation_RuleTest extends PHPUnit_Framework_TestCase
      */
     public function testGetCustomerTaxClassWithDefaultFirstValue()
     {
-        $model = new Magento_Tax_Model_Calculation_Rule(
-            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Event_Manager'),
-            Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_Context'),
+        $model = new \Magento\Tax\Model\Calculation\Rule(
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Event\Manager'),
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Context'),
             $this->_getRegistryClassMock(),
-            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Tax_Helper_Data'),
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Tax\Helper\Data'),
             $this->_getTaxClassMock(
                 'getCustomerClasses',
-                Magento_Tax_Model_Class::TAX_CLASS_TYPE_CUSTOMER
+                \Magento\Tax\Model\ClassModel::TAX_CLASS_TYPE_CUSTOMER
             ),
             null,
             null,
@@ -46,15 +48,15 @@ class Magento_Tax_Model_Calculation_RuleTest extends PHPUnit_Framework_TestCase
      */
     public function testGetCustomerTaxClassWithDefaultFromConfig()
     {
-        $model = new Magento_Tax_Model_Calculation_Rule(
-            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Event_Manager'),
-            Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_Context'),
+        $model = new \Magento\Tax\Model\Calculation\Rule(
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Event\Manager'),
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Context'),
             $this->_getRegistryClassMock(),
-            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Tax_Helper_Data'),
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Tax\Helper\Data'),
             $this->_getTaxClassMock(
                 'getCustomerClasses',
-                Magento_Tax_Model_Class::TAX_CLASS_TYPE_CUSTOMER
+                \Magento\Tax\Model\ClassModel::TAX_CLASS_TYPE_CUSTOMER
             ),
             null,
             null,
@@ -70,15 +72,15 @@ class Magento_Tax_Model_Calculation_RuleTest extends PHPUnit_Framework_TestCase
      */
     public function testGetProductTaxClassWithDefaultFirstValue()
     {
-        $model = new Magento_Tax_Model_Calculation_Rule(
-            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Event_Manager'),
-            Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_Context'),
+        $model = new \Magento\Tax\Model\Calculation\Rule(
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Event\Manager'),
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Context'),
             $this->_getRegistryClassMock(),
-            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Tax_Helper_Data'),
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Tax\Helper\Data'),
             $this->_getTaxClassMock(
                 'getProductClasses',
-                 Magento_Tax_Model_Class::TAX_CLASS_TYPE_PRODUCT
+                 \Magento\Tax\Model\ClassModel::TAX_CLASS_TYPE_PRODUCT
             ),
             null,
             null,
@@ -94,15 +96,15 @@ class Magento_Tax_Model_Calculation_RuleTest extends PHPUnit_Framework_TestCase
      */
     public function testGetProductTaxClassWithDefaultFromConfig()
     {
-        $model = new Magento_Tax_Model_Calculation_Rule(
-            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Event_Manager'),
-            Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_Context'),
+        $model = new \Magento\Tax\Model\Calculation\Rule(
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Event\Manager'),
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Context'),
             $this->_getRegistryClassMock(),
-            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Tax_Helper_Data'),
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Tax\Helper\Data'),
             $this->_getTaxClassMock(
                 'getProductClasses',
-                 Magento_Tax_Model_Class::TAX_CLASS_TYPE_PRODUCT
+                 \Magento\Tax\Model\ClassModel::TAX_CLASS_TYPE_PRODUCT
             ),
             null,
             null,
@@ -118,14 +120,14 @@ class Magento_Tax_Model_Calculation_RuleTest extends PHPUnit_Framework_TestCase
      */
     public function testGetAllOptions($classFilter, $expected)
     {
-        $model = new Magento_Tax_Model_Calculation_Rule(
-            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Event_Manager'),
-            Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_Context'),
+        $model = new \Magento\Tax\Model\Calculation\Rule(
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Event\Manager'),
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Context'),
             $this->_getRegistryClassMock(),
-            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Tax_Helper_Data'),
-            Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Tax_Model_Class'),
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Tax\Helper\Data'),
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Tax\Model\ClassModel'),
             null,
             null,
             array()
@@ -146,23 +148,23 @@ class Magento_Tax_Model_Calculation_RuleTest extends PHPUnit_Framework_TestCase
     {
         return array(
             array(
-                Magento_Tax_Model_Class::TAX_CLASS_TYPE_CUSTOMER,
+                \Magento\Tax\Model\ClassModel::TAX_CLASS_TYPE_CUSTOMER,
                 array('Retail Customer', 'CustomerTaxClass1', 'CustomerTaxClass2')
             ),
             array(
-                Magento_Tax_Model_Class::TAX_CLASS_TYPE_PRODUCT,
+                \Magento\Tax\Model\ClassModel::TAX_CLASS_TYPE_PRODUCT,
                 array('Taxable Goods', 'ProductTaxClass1', 'ProductTaxClass2')
             ),
         );
     }
 
     /**
-     * @return Magento_Core_Model_Registry
+     * @return \Magento\Core\Model\Registry
      */
     protected function _getRegistryClassMock()
     {
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        return $objectManager->get('Magento_Core_Model_Registry');
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        return $objectManager->get('Magento\Core\Model\Registry');
     }
 
     /**
@@ -170,12 +172,12 @@ class Magento_Tax_Model_Calculation_RuleTest extends PHPUnit_Framework_TestCase
      *
      * @param string $callback
      * @param string $filter
-     * @return Magento_Tax_Model_Class
+     * @return \Magento\Tax\Model\ClassModel
      */
     protected function _getTaxClassMock($callback, $filter)
     {
         $collection = $this->getMock(
-            'Magento_Tax_Model_Resource_Class_Collection',
+            'Magento\Tax\Model\Resource\ClassResource\Collection',
             array('setClassTypeFilter', 'toOptionArray'),
             array(), '', false
         );
@@ -188,16 +190,16 @@ class Magento_Tax_Model_Calculation_RuleTest extends PHPUnit_Framework_TestCase
             ->method('toOptionArray')
             ->will($this->returnCallback(array($this, $callback)));
 
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $mock = $this->getMock(
-            'Magento_Tax_Model_Class',
+            'Magento\Tax\Model\ClassModel',
             array('getCollection'),
             array(
-                Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_Context'),
-                $objectManager->get('Magento_Core_Model_Registry'),
-                Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Tax_Model_Class_Factory'),
+                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Context'),
+                $objectManager->get('Magento\Core\Model\Registry'),
+                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Tax\Model\TaxClass\Factory'),
             ),
             '',
             true

@@ -15,13 +15,15 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Magento_Adminhtml_Block_Widget_Tabs
+namespace Magento\Adminhtml\Block\Catalog\Product\Edit;
+
+class Tabs extends \Magento\Adminhtml\Block\Widget\Tabs
 {
     const BASIC_TAB_GROUP_CODE = 'basic';
     const ADVANCED_TAB_GROUP_CODE = 'advanced';
 
     /** @var string */
-    protected $_attributeTabBlock = 'Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes';
+    protected $_attributeTabBlock = 'Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Attributes';
 
     /** @var string */
     protected $_template = 'Magento_Catalog::product/edit/tabs.phtml';
@@ -29,45 +31,45 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Magento_Adminhtm
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
     
     /**
      * Catalog data
      *
-     * @var Magento_Catalog_Helper_Data
+     * @var \Magento\Catalog\Helper\Data
      */
     protected $_catalogData = null;
 
     /**
      * Adminhtml catalog
      *
-     * @var Magento_Adminhtml_Helper_Catalog
+     * @var \Magento\Adminhtml\Helper\Catalog
      */
     protected $_adminhtmlCatalog = null;
 
     /**
-     * @var Magento_Eav_Model_Resource_Entity_Attribute_Group_CollectionFactory
+     * @var \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory
      */
     protected $_collectionFactory;
 
     /**
-     * @param Magento_Eav_Model_Resource_Entity_Attribute_Group_CollectionFactory $collectionFactory
-     * @param Magento_Adminhtml_Helper_Catalog $adminhtmlCatalog
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $collectionFactory
+     * @param \Magento\Adminhtml\Helper\Catalog $adminhtmlCatalog
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Eav_Model_Resource_Entity_Attribute_Group_CollectionFactory $collectionFactory,
-        Magento_Adminhtml_Helper_Catalog $adminhtmlCatalog,
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $collectionFactory,
+        \Magento\Adminhtml\Helper\Catalog $adminhtmlCatalog,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_collectionFactory = $collectionFactory;
@@ -103,7 +105,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Magento_Adminhtm
             );
             $advancedGroups = array();
             foreach ($groupCollection as $group) {
-                /** @var $group Magento_Eav_Model_Entity_Attribute_Group*/
+                /** @var $group \Magento\Eav\Model\Entity\Attribute\Group*/
                 $attributes = $product->getAttributes($group->getId(), true);
 
                 foreach ($attributes as $key => $attribute) {
@@ -144,7 +146,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Magento_Adminhtm
                 $this->addTab('websites', array(
                     'label'     => __('Websites'),
                     'content'   => $this->_translateHtml($this->getLayout()
-                        ->createBlock('Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Websites')->toHtml()),
+                        ->createBlock('Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Websites')->toHtml()),
                     'group_code' => self::BASIC_TAB_GROUP_CODE,
                 ));
             }
@@ -158,15 +160,15 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Magento_Adminhtm
                 $this->addTab('advanced-inventory', array(
                     'label'     => __('Advanced Inventory'),
                     'content'   => $this->_translateHtml($this->getLayout()
-                        ->createBlock('Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Inventory')->toHtml()),
+                        ->createBlock('Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Inventory')->toHtml()),
                     'group_code' => self::ADVANCED_TAB_GROUP_CODE,
                 ));
             }
 
             /**
              * Do not change this tab id
-             * @see Magento_Adminhtml_Block_Catalog_Product_Edit_Tabs_Configurable
-             * @see Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tabs
+             * @see \Magento\Adminhtml\Block\Catalog\Product\Edit\Tabs\Configurable
+             * @see \Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tabs
              */
             if (!$product->isGrouped()) {
                 $this->addTab('customer_options', array(
@@ -209,7 +211,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Magento_Adminhtm
                 $this->addTab('product-alerts', array(
                     'label'     => __('Product Alerts'),
                     'content'   => $this->_translateHtml($this->getLayout()
-                        ->createBlock('Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Alerts', 'admin.alerts.products')
+                        ->createBlock('Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Alerts', 'admin.alerts.products')
                         ->toHtml()
                     ),
                     'group_code' => self::ADVANCED_TAB_GROUP_CODE,
@@ -255,11 +257,11 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Magento_Adminhtm
     /**
      * Retrieve product object from object if not from registry
      *
-     * @return Magento_Catalog_Model_Product
+     * @return \Magento\Catalog\Model\Product
      */
     public function getProduct()
     {
-        if (!($this->getData('product') instanceof Magento_Catalog_Model_Product)) {
+        if (!($this->getData('product') instanceof \Magento\Catalog\Model\Product)) {
             $this->setData('product', $this->_coreRegistry->registry('product'));
         }
         return $this->getData('product');

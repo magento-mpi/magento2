@@ -16,24 +16,26 @@
  * @package    Magento_Newsletter
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Newsletter_Helper_Data extends Magento_Core_Helper_Abstract
+namespace Magento\Newsletter\Helper;
+
+class Data extends \Magento\Core\Helper\AbstractHelper
 {
     /**
      * Url
      *
-     * @var Magento_Core_Model_UrlInterface
+     * @var \Magento\Core\Model\UrlInterface
      */
     protected $_url;
 
     /**
      * Constructor
      *
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_UrlInterface $url
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\UrlInterface $url
      */
     public function __construct(
-        Magento_Core_Helper_Context $context,
-        Magento_Core_Model_UrlInterface $url
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\UrlInterface $url
     ) {
         parent::__construct($context);
         $this->_url = $url;
@@ -42,7 +44,7 @@ class Magento_Newsletter_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Retrieve subsription confirmation url
      *
-     * @param Magento_Newsletter_Model_Subscriber $subscriber
+     * @param \Magento\Newsletter\Model\Subscriber $subscriber
      * @return string
      */
     public function getConfirmationUrl($subscriber)
@@ -58,7 +60,7 @@ class Magento_Newsletter_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Retrieve unsubsription url
      *
-     * @param Magento_Newsletter_Model_Subscriber $subscriber
+     * @param \Magento\Newsletter\Model\Subscriber $subscriber
      * @return string
      */
     public function getUnsubscribeUrl($subscriber)

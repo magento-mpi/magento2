@@ -7,19 +7,21 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_DataService_Config_Reader extends Magento_Config_XmlAbstract
+namespace Magento\Core\Model\DataService\Config;
+
+class Reader extends \Magento\Config\XmlAbstract
 {
     /**
-     * @var Magento_Core_Model_Config_Modules_Reader
+     * @var \Magento\Core\Model\Config\Modules\Reader
      */
     private $_modulesReader;
 
     /**
-     * @param Magento_Core_Model_Config_Modules_Reader $moduleReader
+     * @param \Magento\Core\Model\Config\Modules\Reader $moduleReader
      * @param array $configFiles
      */
     public function __construct(
-        Magento_Core_Model_Config_Modules_Reader $moduleReader,
+        \Magento\Core\Model\Config\Modules\Reader $moduleReader,
         array $configFiles
     ) {
         if (count($configFiles)) {
@@ -41,11 +43,11 @@ class Magento_Core_Model_DataService_Config_Reader extends Magento_Config_XmlAbs
     /**
      * Extract configuration data from the DOM structure
      *
-     * @param DOMDocument $dom
+     * @param \DOMDocument $dom
      * @return array
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    protected function _extractData(DOMDocument $dom)
+    protected function _extractData(\DOMDocument $dom)
     {
         return array();
     }
@@ -73,7 +75,7 @@ class Magento_Core_Model_DataService_Config_Reader extends Magento_Config_XmlAbs
     /**
      * Retrieve Service Calls
      *
-     * @return DOMDocument
+     * @return \DOMDocument
      */
     public function getServiceCallConfig()
     {
@@ -96,8 +98,8 @@ class Magento_Core_Model_DataService_Config_Reader extends Magento_Config_XmlAbs
     /**
      * Perform xml validation
      *
-     * @return Magento_Config_XmlAbstract
-     * @throws Magento_Exception if invalid XML-file passed
+     * @return \Magento\Config\XmlAbstract
+     * @throws \Magento\Exception if invalid XML-file passed
      */
     public function validate()
     {

@@ -16,7 +16,9 @@
  * @package     Magento_Pbridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Pbridge_Helper_Data extends Magento_Core_Helper_Abstract
+namespace Magento\Pbridge\Helper;
+
+class Data extends \Magento\Core\Helper\AbstractHelper
 {
     /**
      * Payment Bridge action name to fetch Payment Bridge gateway form
@@ -50,7 +52,7 @@ class Magento_Pbridge_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Encryptor model
      *
-     * @var Magento_Pbridge_Model_Encryption
+     * @var \Magento\Pbridge\Model\Encryption
      */
     protected $_encryptor = null;
 
@@ -64,17 +66,17 @@ class Magento_Pbridge_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      */
     public function __construct(
-        Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\Store\Config $coreStoreConfig
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($context);
@@ -83,7 +85,7 @@ class Magento_Pbridge_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Check if Payment Bridge Magento Module is enabled in configuration
      *
-     * @param Magento_Core_Model_Store $store
+     * @param \Magento\Core\Model\Store $store
      * @return bool
      */
     public function isEnabled($store = null)
@@ -94,7 +96,7 @@ class Magento_Pbridge_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Check if Payment Bridge supports Payment Profiles
      *
-     * @param Magento_Core_Model_Store $store
+     * @param \Magento\Core\Model\Store $store
      * @return bool
      */
     public function arePaymentProfilesEnables($store = null)
@@ -107,7 +109,7 @@ class Magento_Pbridge_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Check if enough config paramters to use Pbridge module
      *
-     * @param Magento_Core_Model_Store | integer $store
+     * @param \Magento\Core\Model\Store | integer $store
      * @return boolean
      */
     public function isAvailable($store = null)
@@ -120,15 +122,15 @@ class Magento_Pbridge_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Getter
      *
-     * @param Magento_Sales_Model_Quote $quote
-     * @return Magento_Sales_Model_Quote | null
+     * @param \Magento\Sales\Model\Quote $quote
+     * @return \Magento\Sales\Model\Quote | null
      */
     protected function _getQuote($quote = null)
     {
-        if ($quote && $quote instanceof Magento_Sales_Model_Quote) {
+        if ($quote && $quote instanceof \Magento\Sales\Model\Quote) {
             return $quote;
         }
-        return Mage::getSingleton('Magento_Checkout_Model_Session')->getQuote();
+        return \Mage::getSingleton('Magento\Checkout\Model\Session')->getQuote();
     }
 
     /**
@@ -141,7 +143,7 @@ class Magento_Pbridge_Helper_Data extends Magento_Core_Helper_Abstract
     public function getCustomerIdentifierByEmail($email, $storeId = null)
     {
         if (is_null($storeId)) {
-            $storeId = Mage::app()->getStore()->getId();
+            $storeId = \Mage::app()->getStore()->getId();
         }
 
         $merchantCode = $this->_coreStoreConfig->getConfig('payment/pbridge/merchantcode', $storeId);
@@ -189,12 +191,12 @@ class Magento_Pbridge_Helper_Data extends Magento_Core_Helper_Abstract
     public function getRequestParams(array $params = array())
     {
         $params = array_merge(array(
-            'locale' => Mage::app()->getLocale()->getLocaleCode(),
+            'locale' => \Mage::app()->getLocale()->getLocaleCode(),
         ), $params);
 
         $params['merchant_key']  = trim($this->_coreStoreConfig->getConfig('payment/pbridge/merchantkey', $this->_storeId));
 
-        $params['scope'] = Mage::app()->getStore()->isAdmin() ? 'backend' : 'frontend';
+        $params['scope'] = \Mage::app()->getStore()->isAdmin() ? 'backend' : 'frontend';
 
         return $params;
     }
@@ -203,7 +205,7 @@ class Magento_Pbridge_Helper_Data extends Magento_Core_Helper_Abstract
      * Return payment Bridge request URL to display gateway form
      *
      * @param array $params OPTIONAL
-     * @param Magento_Sales_Model_Quote $quote
+     * @param \Magento\Sales\Model\Quote $quote
      * @return string
      */
     public function getGatewayFormUrl(array $params = array(), $quote = null)
@@ -243,7 +245,7 @@ class Magento_Pbridge_Helper_Data extends Magento_Core_Helper_Abstract
     {
         $params = $this->getRequestParams($params);
         $params['action'] = self::PAYMENT_GATEWAY_PAYMENT_PROFILE_ACTION;
-        $customer = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer();
+        $customer = \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomer();
         $params['customer_name'] = $customer->getName();
         $params['customer_email'] = $customer->getEmail();
         return $this->_prepareRequestUrl($params, true);
@@ -264,13 +266,13 @@ class Magento_Pbridge_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Return a modified encryptor
      *
-     * @return Magento_Pbridge_Model_Encryption
+     * @return \Magento\Pbridge\Model\Encryption
      */
     public function getEncryptor()
     {
         if ($this->_encryptor === null) {
             $key = trim((string)$this->_coreStoreConfig->getConfig('payment/pbridge/transferkey', $this->_storeId));
-            $this->_encryptor = Mage::getModel('Magento_Pbridge_Model_Encryption', array('key' => $key));
+            $this->_encryptor = \Mage::getModel('Magento\Pbridge\Model\Encryption', array('key' => $key));
             $this->_encryptor->setHelper($this);
         }
         return $this->_encryptor;
@@ -320,12 +322,12 @@ class Magento_Pbridge_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Prepare cart from order
      *
-     * @param Magento_Core_Model_Abstract $order
+     * @param \Magento\Core\Model\AbstractModel $order
      * @return array
      */
     public function prepareCart($order)
     {
-        $paypalCart = Mage::getModel('Magento_Paypal_Model_Cart',
+        $paypalCart = \Mage::getModel('Magento\Paypal\Model\Cart',
             array('params' => array($order)))
             ->isDiscountAsItem(true);
         return array($paypalCart->getItems(true), $paypalCart->getTotals());
@@ -360,7 +362,7 @@ class Magento_Pbridge_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getReviewButtonTemplate($name, $block)
     {
-        $quote = Mage::getSingleton('Magento_Checkout_Model_Session')->getQuote();
+        $quote = \Mage::getSingleton('Magento\Checkout\Model\Session')->getQuote();
         if ($quote) {
             $payment = $quote->getPayment();
             if ($payment->getMethodInstance()->getIsDeferred3dCheck()) {
@@ -368,7 +370,7 @@ class Magento_Pbridge_Helper_Data extends Magento_Core_Helper_Abstract
             }
         }
 
-        if ($blockObject = Mage::app()->getLayout()->getBlock($block)) {
+        if ($blockObject = \Mage::app()->getLayout()->getBlock($block)) {
             return $blockObject->getTemplate();
         }
 

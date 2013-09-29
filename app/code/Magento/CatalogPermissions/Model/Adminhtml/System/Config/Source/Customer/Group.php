@@ -14,20 +14,22 @@
  * @category   Magento
  * @package    Magento_CatalogPermissions
  */
-class Magento_CatalogPermissions_Model_Adminhtml_System_Config_Source_Customer_Group
-    implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\CatalogPermissions\Model\Adminhtml\System\Config\Source\Customer;
+
+class Group
+    implements \Magento\Core\Model\Option\ArrayInterface
 {
     protected $_options;
 
     /**
-     * @var Magento_Customer_Model_Resource_Group_CollectionFactory
+     * @var \Magento\Customer\Model\Resource\Group\CollectionFactory
      */
     protected $_groupCollFactory;
 
     /**
-     * @param Magento_Customer_Model_Resource_Group_CollectionFactory $groupCollFactory
+     * @param \Magento\Customer\Model\Resource\Group\CollectionFactory $groupCollFactory
      */
-    public function __construct(Magento_Customer_Model_Resource_Group_CollectionFactory $groupCollFactory)
+    public function __construct(\Magento\Customer\Model\Resource\Group\CollectionFactory $groupCollFactory)
     {
         $this->_groupCollFactory = $groupCollFactory;
     }

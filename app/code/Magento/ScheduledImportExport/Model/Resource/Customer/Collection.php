@@ -16,8 +16,10 @@
  * @package     Magento_ScheduledImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_ScheduledImportExport_Model_Resource_Customer_Collection
-    extends Magento_Customer_Model_Resource_Customer_Collection
+namespace Magento\ScheduledImportExport\Model\Resource\Customer;
+
+class Collection
+    extends \Magento\Customer\Model\Resource\Customer\Collection
 {
     /**
      * Additional filters to use
@@ -27,39 +29,39 @@ class Magento_ScheduledImportExport_Model_Resource_Customer_Collection
     protected $_usedFiltersNotNull = array();
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Reward_Model_Resource_Reward
+     * @var \Magento\Reward\Model\Resource\Reward
      */
     protected $_resourceReward;
 
     /**
-     * @var Magento_CustomerBalance_Model_Resource_Balance
+     * @var \Magento\CustomerBalance\Model\Resource\Balance
      */
     protected $resourceBalance;
 
     /**
-     * @param Magento_Reward_Model_Resource_Reward $resourceReward
-     * @param Magento_CustomerBalance_Model_Resource_Balance $resourceBalance
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_EntityFactory $entityFactory
-     * @param Magento_Core_Model_Fieldset_Config $fieldsetConfig
+     * @param \Magento\Reward\Model\Resource\Reward $resourceReward
+     * @param \Magento\CustomerBalance\Model\Resource\Balance $resourceBalance
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Core\Model\Fieldset\Config $fieldsetConfig
      */
     public function __construct(
-        Magento_Reward_Model_Resource_Reward $resourceReward,
-        Magento_CustomerBalance_Model_Resource_Balance $resourceBalance,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Logger $logger,
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_EntityFactory $entityFactory,
-        Magento_Core_Model_Fieldset_Config $fieldsetConfig
+        \Magento\Reward\Model\Resource\Reward $resourceReward,
+        \Magento\CustomerBalance\Model\Resource\Balance $resourceBalance,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Core\Model\Fieldset\Config $fieldsetConfig
     ) {
         $this->_resourceReward = $resourceReward;
         $this->_resourceBalance = $resourceBalance;
@@ -70,19 +72,19 @@ class Magento_ScheduledImportExport_Model_Resource_Customer_Collection
     /**
      * Join with reward points table
      *
-     * @return Magento_ScheduledImportExport_Model_Resource_Customer_Collection
+     * @return \Magento\ScheduledImportExport\Model\Resource\Customer\Collection
      */
     public function joinWithRewardPoints()
     {
         $joinFlag = 'join_reward_points';
         if (!$this->getFlag($joinFlag)) {
-            /** @var $website Magento_Core_Model_Website */
+            /** @var $website \Magento\Core\Model\Website */
             foreach ($this->_storeManager->getWebsites() as $website) {
                 $tableName  = $this->_resourceReward->getMainTable();
                 $tableAlias = $tableName . $website->getId();
                 $fieldName  = $tableAlias . '.points_balance';
                 $fieldAlias = $website->getCode() . '_'
-                    . Magento_ScheduledImportExport_Model_Resource_Customer_Attribute_Finance_Collection
+                    . \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection
                     ::COLUMN_REWARD_POINTS;
 
                 $this->joinTable(
@@ -104,19 +106,19 @@ class Magento_ScheduledImportExport_Model_Resource_Customer_Collection
     /**
      * Join with store credit table
      *
-     * @return Magento_ScheduledImportExport_Model_Resource_Customer_Collection
+     * @return \Magento\ScheduledImportExport\Model\Resource\Customer\Collection
      */
     public function joinWithCustomerBalance()
     {
         $joinFlag = 'join_customer_balance';
         if (!$this->getFlag($joinFlag)) {
-            /** @var $website Magento_Core_Model_Website */
+            /** @var $website \Magento\Core\Model\Website */
             foreach ($this->_storeManager->getWebsites() as $website) {
                 $tableName  = $this->_resourceBalance->getMainTable();
                 $tableAlias = $tableName . $website->getId();
                 $fieldName  = $tableAlias . '.amount';
                 $fieldAlias = $website->getCode() . '_'
-                    . Magento_ScheduledImportExport_Model_Resource_Customer_Attribute_Finance_Collection
+                    . \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection
                     ::COLUMN_CUSTOMER_BALANCE;
 
                 $this->joinTable(
@@ -138,7 +140,7 @@ class Magento_ScheduledImportExport_Model_Resource_Customer_Collection
     /**
      * Additional filters
      *
-     * @return Magento_ScheduledImportExport_Model_Resource_Customer_Collection
+     * @return \Magento\ScheduledImportExport\Model\Resource\Customer\Collection
      */
     protected function _beforeLoad()
     {

@@ -11,7 +11,9 @@
 /**
  * Ogone Payment Action Dropdown source
  */
-class Magento_Ogone_Model_Source_PaymentAction implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Ogone\Model\Source;
+
+class PaymentAction implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
      * Prepare payment action list as optional array
@@ -22,8 +24,8 @@ class Magento_Ogone_Model_Source_PaymentAction implements Magento_Core_Model_Opt
     {
         return array(
             array('value' => '', 'label' => __('Ogone Default Operation')),
-            array('value' => Magento_Payment_Model_Method_Abstract::ACTION_AUTHORIZE, 'label' => __('Authorization')),
-            array('value' => Magento_Payment_Model_Method_Abstract::ACTION_AUTHORIZE_CAPTURE, 'label' => __('Direct Sale')),
+            array('value' => \Magento\Payment\Model\Method\AbstractMethod::ACTION_AUTHORIZE, 'label' => __('Authorization')),
+            array('value' => \Magento\Payment\Model\Method\AbstractMethod::ACTION_AUTHORIZE_CAPTURE, 'label' => __('Direct Sale')),
         );
     }
 }

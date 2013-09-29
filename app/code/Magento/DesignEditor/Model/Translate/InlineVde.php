@@ -10,7 +10,9 @@
 /**
  * Inline translation specific to Vde.
  */
-class Magento_DesignEditor_Model_Translate_InlineVde implements Magento_Core_Model_Translate_InlineInterface
+namespace Magento\DesignEditor\Model\Translate;
+
+class InlineVde implements \Magento\Core\Model\Translate\InlineInterface
 {
     /**
      * data-translate-mode attribute name
@@ -43,17 +45,17 @@ class Magento_DesignEditor_Model_Translate_InlineVde implements Magento_Core_Mod
     const ELEMENT_SCRIPT = self::MODE_SCRIPT;
 
     /**
-     * @var Magento_DesignEditor_Helper_Data
+     * @var \Magento\DesignEditor\Helper\Data
      */
     protected $_helper;
 
     /**
-     * @var Magento_Core_Model_Translate_InlineParser
+     * @var \Magento\Core\Model\Translate\InlineParser
      */
     protected $_parser;
 
     /**
-     * @var Magento_Core_Model_Url
+     * @var \Magento\Core\Model\Url
      */
     protected $_url;
 
@@ -65,23 +67,23 @@ class Magento_DesignEditor_Model_Translate_InlineVde implements Magento_Core_Mod
     protected $_isScriptInserted = false;
 
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
      * Initialize inline translation model specific for vde
      *
-     * @param Magento_Core_Model_Translate_InlineParser $parser
-     * @param Magento_DesignEditor_Helper_Data $helper
-     * @param Magento_Core_Model_Url $url
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\Core\Model\Translate\InlineParser $parser
+     * @param \Magento\DesignEditor\Helper\Data $helper
+     * @param \Magento\Core\Model\Url $url
+     * @param \Magento\ObjectManager $objectManager
      */
     public function __construct(
-        Magento_Core_Model_Translate_InlineParser $parser,
-        Magento_DesignEditor_Helper_Data $helper,
-        Magento_Core_Model_Url $url,
-        Magento_ObjectManager $objectManager
+        \Magento\Core\Model\Translate\InlineParser $parser,
+        \Magento\DesignEditor\Helper\Data $helper,
+        \Magento\Core\Model\Url $url,
+        \Magento\ObjectManager $objectManager
     ) {
         $this->_parser = $parser;
         $this->_helper = $helper;
@@ -104,7 +106,7 @@ class Magento_DesignEditor_Model_Translate_InlineVde implements Magento_Core_Mod
      *
      * @param array|string $body
      * @param bool $isJson
-     * @return Magento_DesignEditor_Model_Translate_InlineVde
+     * @return \Magento\DesignEditor\Model\Translate\InlineVde
      */
     public function processResponseBody(&$body, $isJson)
     {
@@ -144,11 +146,11 @@ class Magento_DesignEditor_Model_Translate_InlineVde implements Magento_Core_Mod
         $store = $this->_parser->getStoreManager()->getStore();
         $ajaxUrl = $this->_url->getUrl('core/ajax/translate', array(
             '_secure' => $store->isCurrentlySecure(),
-            Magento_DesignEditor_Helper_Data::TRANSLATION_MODE => $this->_helper->getTranslationMode()
+            \Magento\DesignEditor\Helper\Data::TRANSLATION_MODE => $this->_helper->getTranslationMode()
         ));
 
-        /** @var $block Magento_Core_Block_Template */
-        $block = $this->_objectManager->create('Magento_Core_Block_Template');
+        /** @var $block \Magento\Core\Block\Template */
+        $block = $this->_objectManager->create('Magento\Core\Block\Template');
 
         $block->setArea($this->_parser->getDesignPackage()->getArea());
         $block->setAjaxUrl($ajaxUrl);
@@ -171,12 +173,12 @@ class Magento_DesignEditor_Model_Translate_InlineVde implements Magento_Core_Mod
      */
     protected function _getFrameUrl()
     {
-        /** @var Magento_Backend_Model_Session $backendSession */
-        $backendSession = $this->_objectManager->get('Magento_Backend_Model_Session');
+        /** @var \Magento\Backend\Model\Session $backendSession */
+        $backendSession = $this->_objectManager->get('Magento\Backend\Model\Session');
 
-        /** @var $vdeUrlModel Magento_DesignEditor_Model_Url_NavigationMode */
-        $vdeUrlModel = $this->_objectManager->create('Magento_DesignEditor_Model_Url_NavigationMode');
-        $currentUrl = $backendSession->getData(Magento_DesignEditor_Model_State::CURRENT_URL_SESSION_KEY);
+        /** @var $vdeUrlModel \Magento\DesignEditor\Model\Url\NavigationMode */
+        $vdeUrlModel = $this->_objectManager->create('Magento\DesignEditor\Model\Url\NavigationMode');
+        $currentUrl = $backendSession->getData(\Magento\DesignEditor\Model\State::CURRENT_URL_SESSION_KEY);
 
         return $vdeUrlModel->getUrl(ltrim($currentUrl, '/'));
     }

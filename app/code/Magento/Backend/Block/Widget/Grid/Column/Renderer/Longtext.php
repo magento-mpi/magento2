@@ -15,24 +15,26 @@
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backend_Block_Widget_Grid_Column_Renderer_Longtext
-    extends Magento_Backend_Block_Widget_Grid_Column_Renderer_Abstract
+namespace Magento\Backend\Block\Widget\Grid\Column\Renderer;
+
+class Longtext
+    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**
      * Core string
      *
-     * @var Magento_Core_Helper_String
+     * @var \Magento\Core\Helper\String
      */
     protected $_coreString = null;
 
     /**
-     * @param Magento_Core_Helper_String $coreString
-     * @param Magento_Backend_Block_Context $context
+     * @param \Magento\Core\Helper\String $coreString
+     * @param \Magento\Backend\Block\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_String $coreString,
-        Magento_Backend_Block_Context $context,
+        \Magento\Core\Helper\String $coreString,
+        \Magento\Backend\Block\Context $context,
         array $data = array()
     ) {
         $this->_coreString = $coreString;
@@ -45,10 +47,10 @@ class Magento_Backend_Block_Widget_Grid_Column_Renderer_Longtext
      * Text will be truncated as specified in string_limit, truncate or 250 by default
      * Also it can be html-escaped and nl2br()
      *
-     * @param Magento_Object $row
+     * @param \Magento\Object $row
      * @return string
      */
-    public function render(Magento_Object $row)
+    public function render(\Magento\Object $row)
     {
         $truncateLength = 250;
         // stringLength() is for legacy purposes

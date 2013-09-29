@@ -11,12 +11,14 @@
  /**
   * Totals item block
   */
-class Magento_Adminhtml_Block_Sales_Order_Totals_Item extends Magento_Adminhtml_Block_Sales_Order_Totals
+namespace Magento\Adminhtml\Block\Sales\Order\Totals;
+
+class Item extends \Magento\Adminhtml\Block\Sales\Order\Totals
 {
     /**
      * Determine display parameters before rendering HTML
      *
-     * @return Magento_Adminhtml_Block_Sales_Order_Totals_Item
+     * @return \Magento\Adminhtml\Block\Sales\Order\Totals\Item
      */
     protected function _beforeToHtml()
     {
@@ -32,11 +34,11 @@ class Magento_Adminhtml_Block_Sales_Order_Totals_Item extends Magento_Adminhtml_
     /**
      * Initialize totals object
      *
-     * @return Magento_Adminhtml_Block_Sales_Order_Totals_Item
+     * @return \Magento\Adminhtml\Block\Sales\Order\Totals\Item
      */
     public function initTotals()
     {
-        $total = new Magento_Object(array(
+        $total = new \Magento\Object(array(
             'code'      => $this->getNameInLayout(),
             'block_name'=> $this->getNameInLayout(),
             'area'      => $this->getDisplayArea(),
@@ -59,7 +61,7 @@ class Magento_Adminhtml_Block_Sales_Order_Totals_Item extends Magento_Adminhtml_
      */
     public function displayPrices($baseAmount, $amount)
     {
-        return $this->helper('Magento_Adminhtml_Helper_Sales')->displayPrices($this->getOrder(), $baseAmount, $amount);
+        return $this->helper('Magento\Adminhtml\Helper\Sales')->displayPrices($this->getOrder(), $baseAmount, $amount);
     }
 
     /**
@@ -72,13 +74,13 @@ class Magento_Adminhtml_Block_Sales_Order_Totals_Item extends Magento_Adminhtml_
      */
     public function displayPriceAttribute($code, $strong = false, $separator = '<br/>')
     {
-        return $this->helper('Magento_Adminhtml_Helper_Sales')->displayPriceAttribute($this->getSource(), $code, $strong, $separator);
+        return $this->helper('Magento\Adminhtml\Helper\Sales')->displayPriceAttribute($this->getSource(), $code, $strong, $separator);
     }
 
     /**
      * Source order getter
      *
-     * @return Magento_Sales_Model_Order
+     * @return \Magento\Sales\Model\Order
      */
     public function getSource()
     {

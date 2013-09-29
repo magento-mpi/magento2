@@ -16,23 +16,27 @@
  * @package     Magento_Rma
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rma_Block_Link extends Magento_Page_Block_Link_Current
+namespace Magento\Rma\Block;
+
+class Link extends \Magento\Page\Block\Link\Current
 {
     /**
-     * @var Magento_Rma_Helper_Data
+     * @var \Magento\Rma\Helper\Data
+     *
+     * @var \Magento\Rma\Helper\Data
      */
     protected $_rmaHelper = null;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Rma_Helper_Data $rmaHelper
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Rma\Helper\Data $rmaHelper
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Rma_Helper_Data $rmaHelper,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Rma\Helper\Data $rmaHelper,
         array $data = array()
     ) {
         parent::__construct($coreData, $context, $data);

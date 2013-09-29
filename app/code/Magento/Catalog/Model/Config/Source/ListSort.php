@@ -16,7 +16,9 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Config_Source_ListSort implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Catalog\Model\Config\Source;
+
+class ListSort implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
      * Retrieve option values array
@@ -42,9 +44,9 @@ class Magento_Catalog_Model_Config_Source_ListSort implements Magento_Core_Model
     /**
      * Retrieve Catalog Config Singleton
      *
-     * @return Magento_Catalog_Model_Config
+     * @return \Magento\Catalog\Model\Config
      */
     protected function _getCatalogConfig() {
-        return Mage::getSingleton('Magento_Catalog_Model_Config');
+        return \Mage::getSingleton('Magento\Catalog\Model\Config');
     }
 }

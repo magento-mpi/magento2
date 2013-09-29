@@ -12,7 +12,9 @@
 /**
  * Configuration XML-files merger
  */
-abstract class Magento_Config_XmlAbstract
+namespace Magento\Config;
+
+abstract class XmlAbstract
 {
     /**
      * Data extracted from the merged configuration files
@@ -23,7 +25,7 @@ abstract class Magento_Config_XmlAbstract
 
     /**
      * Dom configuration model
-     * @var Magento_Config_Dom
+     * @var \Magento\Config\Dom
      */
     protected $_domConfig = null;
 
@@ -31,12 +33,12 @@ abstract class Magento_Config_XmlAbstract
      * Instantiate with the list of files to merge
      *
      * @param array $configFiles
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function __construct(array $configFiles)
     {
         if (empty($configFiles)) {
-            throw new InvalidArgumentException('There must be at least one configuration file specified.');
+            throw new \InvalidArgumentException('There must be at least one configuration file specified.');
         }
         $this->_data = $this->_extractData($this->_merge($configFiles));
     }
@@ -61,28 +63,28 @@ abstract class Magento_Config_XmlAbstract
     /**
      * Extract configuration data from the DOM structure
      *
-     * @param DOMDocument $dom
+     * @param \DOMDocument $dom
      * @return array
      */
-    abstract protected function _extractData(DOMDocument $dom);
+    abstract protected function _extractData(\DOMDocument $dom);
 
     /**
      * Merge the config XML-files
      *
      * @param array $configFiles
-     * @return DOMDocument
-     * @throws Magento_Exception if a non-existing or invalid XML-file passed
+     * @return \DOMDocument
+     * @throws \Magento\Exception if a non-existing or invalid XML-file passed
      */
     protected function _merge($configFiles)
     {
         foreach ($configFiles as $file) {
             if (!file_exists($file)) {
-                throw new Magento_Exception("File does not exist: {$file}");
+                throw new \Magento\Exception("File does not exist: {$file}");
             }
             try {
                 $this->_getDomConfigModel()->merge(file_get_contents($file));
-            } catch (Magento_Config_Dom_ValidationException $e) {
-                throw new Magento_Exception("Invalid XML in file " . $file . ":\n" . $e->getMessage());
+            } catch (\Magento\Config\Dom\ValidationException $e) {
+                throw new \Magento\Exception("Invalid XML in file " . $file . ":\n" . $e->getMessage());
             }
         }
         if ($this->_isRuntimeValidated()) {
@@ -95,14 +97,14 @@ abstract class Magento_Config_XmlAbstract
      * Perform xml validation
      *
      * @param string $file
-     * @return Magento_Config_XmlAbstract
-     * @throws Magento_Exception if invalid XML-file passed
+     * @return \Magento\Config\XmlAbstract
+     * @throws \Magento\Exception if invalid XML-file passed
      */
     protected function _performValidate($file = null)
     {
         if (!$this->_getDomConfigModel()->validate($this->getSchemaFile(), $errors)) {
             $message = is_null($file) ?  "Invalid Document \n" : "Invalid XML-file: {$file}\n";
-            throw new Magento_Exception($message . implode("\n", $errors));
+            throw new \Magento\Exception($message . implode("\n", $errors));
         }
         return $this;
     }
@@ -120,8 +122,8 @@ abstract class Magento_Config_XmlAbstract
     /**
      * Get Dom configuration model
      *
-     * @return Magento_Config_Dom
-     * @throws Magento_Config_Dom_ValidationException
+     * @return \Magento\Config\Dom
+     * @throws \Magento\Config\Dom\ValidationException
      */
     protected function _getDomConfigModel()
     {
@@ -129,7 +131,8 @@ abstract class Magento_Config_XmlAbstract
             $schemaFile = $this->getPerFileSchemaFile() && $this->_isRuntimeValidated()
                 ? $this->getPerFileSchemaFile()
                 : null;
-            $this->_domConfig = new Magento_Config_Dom($this->_getInitialXml(), $this->_getIdAttributes(), $schemaFile);
+            $this->_domConfig =
+                new \Magento\Config\Dom($this->_getInitialXml(), $this->_getIdAttributes(), $schemaFile);
         }
         return $this->_domConfig;
     }

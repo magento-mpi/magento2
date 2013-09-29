@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Rma_Block_Adminhtml_Rma_Edit_Tabs extends Magento_Adminhtml_Block_Widget_Tabs
+namespace Magento\Rma\Block\Adminhtml\Rma\Edit;
+
+class Tabs extends \Magento\Adminhtml\Block\Widget\Tabs
 {
     /**
      * Initialize RMA edit page tabs

@@ -16,7 +16,9 @@
  * @package     Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_System_Store_Delete extends Magento_Adminhtml_Block_Widget_Form_Container
+namespace Magento\Adminhtml\Block\System\Store;
+
+class Delete extends \Magento\Adminhtml\Block\Widget\Form\Container
 {
 
     /**
@@ -64,7 +66,7 @@ class Magento_Adminhtml_Block_System_Store_Delete extends Magento_Adminhtml_Bloc
      * Set store type title
      *
      * @param string $title
-     * @return Magento_Adminhtml_Block_System_Store_Delete
+     * @return \Magento\Adminhtml\Block\System\Store\Delete
      */
     public function setStoreTypeTitle($title)
     {
@@ -76,7 +78,7 @@ class Magento_Adminhtml_Block_System_Store_Delete extends Magento_Adminhtml_Bloc
      * Set back URL for "Cancel" and "Back" buttons
      *
      * @param string $url
-     * @return Magento_Adminhtml_Block_System_Store_Delete
+     * @return \Magento\Adminhtml\Block\System\Store\Delete
      */
     public function setBackUrl($url)
     {

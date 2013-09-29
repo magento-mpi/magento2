@@ -16,17 +16,19 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Sales_Block_Adminhtml_Report_Filter_Form_Order extends Magento_Sales_Block_Adminhtml_Report_Filter_Form
+namespace Magento\Sales\Block\Adminhtml\Report\Filter\Form;
+
+class Order extends \Magento\Sales\Block\Adminhtml\Report\Filter\Form
 {
     protected function _prepareForm()
     {
         parent::_prepareForm();
         $form = $this->getForm();
         $htmlIdPrefix = $form->getHtmlIdPrefix();
-        /** @var Magento_Data_Form_Element_Fieldset $fieldset */
+        /** @var \Magento\Data\Form\Element\Fieldset $fieldset */
         $fieldset = $this->getForm()->getElement('base_fieldset');
 
-        if (is_object($fieldset) && $fieldset instanceof Magento_Data_Form_Element_Fieldset) {
+        if (is_object($fieldset) && $fieldset instanceof \Magento\Data\Form\Element\Fieldset) {
 
             $fieldset->addField('show_actual_columns', 'select', array(
                 'name'       => 'show_actual_columns',

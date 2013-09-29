@@ -9,52 +9,54 @@
 /**
  * Recurring profile info/options product view block
  */
-class Magento_Payment_Block_Catalog_Product_View_Profile extends Magento_Core_Block_Template
+namespace Magento\Payment\Block\Catalog\Product\View;
+
+class Profile extends \Magento\Core\Block\Template
 {
     /**
      * Recurring profile instance
      *
-     * @var Magento_Payment_Model_Recurring_Profile
+     * @var \Magento\Payment\Model\Recurring\Profile
      */
     protected $_profile = false;
 
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * Locale model
      *
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
     /**
      * Recurring profile factory
      *
-     * @var Magento_Payment_Model_Recurring_ProfileFactory
+     * @var \Magento\Payment\Model\Recurring\ProfileFactory
      */
     protected $_profileFactory;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Payment_Model_Recurring_ProfileFactory $profileFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Payment\Model\Recurring\ProfileFactory $profileFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Payment_Model_Recurring_ProfileFactory $profileFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Payment\Model\Recurring\ProfileFactory $profileFactory,
         array $data = array()
     ) {
         parent::__construct($coreData, $context, $data);
@@ -90,13 +92,13 @@ class Magento_Payment_Block_Catalog_Product_View_Profile extends Magento_Core_Bl
         if ($this->_profile->getStartDateIsEditable()) {
             $this->setDateHtmlId('recurring_start_date');
             $calendar = $this->getLayout()
-                ->createBlock('Magento_Core_Block_Html_Date')
+                ->createBlock('Magento\Core\Block\Html\Date')
                 ->setId('recurring_start_date')
-                ->setName(Magento_Payment_Model_Recurring_Profile::BUY_REQUEST_START_DATETIME)
+                ->setName(\Magento\Payment\Model\Recurring\Profile::BUY_REQUEST_START_DATETIME)
                 ->setClass('datetime-picker input-text')
                 ->setImage($this->getViewFileUrl('Magento_Core::calendar.gif'))
-                ->setDateFormat($this->_locale->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT))
-                ->setTimeFormat($this->_locale->getTimeFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT));
+                ->setDateFormat($this->_locale->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT))
+                ->setTimeFormat($this->_locale->getTimeFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT));
             return $calendar->getHtml();
         }
     }
@@ -104,7 +106,7 @@ class Magento_Payment_Block_Catalog_Product_View_Profile extends Magento_Core_Bl
     /**
      * Determine current product and initialize its recurring profile model
      *
-     * @return Magento_Payment_Block_Catalog_Product_View_Profile
+     * @return \Magento\Payment\Block\Catalog\Product\View\Profile
      */
     protected function _prepareLayout()
     {

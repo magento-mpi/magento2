@@ -1,38 +1,40 @@
 <?php
 /**
- * Plugin for Magento_Log_Model_Resource_Log model
+ * Plugin for \Magento\Log\Model\Resource\Log model
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Reports_Model_Plugin_Log
+namespace Magento\Reports\Model\Plugin;
+
+class Log
 {
     /**
-     * @var Magento_Reports_Model_Event
+     * @var \Magento\Reports\Model\Event
      */
     protected $_reportEvent;
 
     /**
-     * @var Magento_Reports_Model_Product_Index_Compared
+     * @var \Magento\Reports\Model\Product\Index\Compared
      */
     protected $_comparedProductIdx;
 
     /**
-     * @var Magento_Reports_Model_Product_Index_Viewed
+     * @var \Magento\Reports\Model\Product\Index\Viewed
      */
     protected $_viewedProductIdx;
 
     /**
-     * @param Magento_Reports_Model_Event $reportEvent
-     * @param Magento_Reports_Model_Product_Index_Compared $comparedProductIdx
-     * @param Magento_Reports_Model_Product_Index_Viewed $viewedProductIdx
+     * @param \Magento\Reports\Model\Event $reportEvent
+     * @param \Magento\Reports\Model\Product\Index\Compared $comparedProductIdx
+     * @param \Magento\Reports\Model\Product\Index\Viewed $viewedProductIdx
      */
     public function __construct(
-        Magento_Reports_Model_Event $reportEvent,
-        Magento_Reports_Model_Product_Index_Compared $comparedProductIdx,
-        Magento_Reports_Model_Product_Index_Viewed $viewedProductIdx
+        \Magento\Reports\Model\Event $reportEvent,
+        \Magento\Reports\Model\Product\Index\Compared $comparedProductIdx,
+        \Magento\Reports\Model\Product\Index\Viewed $viewedProductIdx
     ) {
         $this->_reportEvent = $reportEvent;
         $this->_comparedProductIdx = $comparedProductIdx;
@@ -45,8 +47,8 @@ class Magento_Reports_Model_Plugin_Log
      *
      * @see Global Log Clean Settings
      *
-     * @param Magento_Log_Model_Resource_Log $logResourceModel
-     * @return Magento_Log_Model_Resource_Log
+     * @param \Magento\Log\Model\Resource\Log $logResourceModel
+     * @return \Magento\Log\Model\Resource\Log
      */
     public function afterClean($logResourceModel)
     {

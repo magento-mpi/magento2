@@ -15,10 +15,12 @@
  * @package     Magento_Webapi
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Webapi_Model_Source_Acl_Role implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Webapi\Model\Source\Acl;
+
+class Role implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
-     * @var Magento_Webapi_Model_Resource_Acl_Role
+     * @var \Magento\Webapi\Model\Resource\Acl\Role
      */
     protected $_resource = null;
 
@@ -32,7 +34,7 @@ class Magento_Webapi_Model_Source_Acl_Role implements Magento_Core_Model_Option_
         if (isset($data['resource'])) {
             $this->_resource = $data['resource'];
         } else {
-            $this->_resource = Mage::getResourceModel('Magento_Webapi_Model_Resource_Acl_Role');
+            $this->_resource = \Mage::getResourceModel('Magento\Webapi\Model\Resource\Acl\Role');
         }
     }
 
@@ -54,7 +56,7 @@ class Magento_Webapi_Model_Source_Acl_Role implements Magento_Core_Model_Option_
     /**
      * Get roles resource model.
      *
-     * @return Magento_Webapi_Model_Resource_Acl_Role
+     * @return \Magento\Webapi\Model\Resource\Acl\Role
      */
     protected function _getResourceModel()
     {

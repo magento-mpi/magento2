@@ -6,13 +6,15 @@
  * @license     {license_link}
  */
 
+namespace Magento\CatalogEvent\Controller;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_CatalogEvent_Controller_CategoryTest extends Magento_Backend_Utility_Controller
+class CategoryTest extends \Magento\Backend\Utility\Controller
 {
     /**
-     * Covers Magento_CatalogEvent_Block_Adminhtml_Catalog_Category_Edit_Buttons::addButtons for Add Event button
+     * Covers \Magento\CatalogEvent\Block\Adminhtml\Catalog\Category\Edit\Buttons::addButtons for Add Event button
      *
      * @magentoDataFixture Magento/Catalog/_files/categories.php
      */
@@ -26,7 +28,7 @@ class Magento_CatalogEvent_Controller_CategoryTest extends Magento_Backend_Utili
     }
 
     /**
-     * Covers Magento_CatalogEvent_Block_Adminhtml_Catalog_Category_Edit_Buttons::addButtons for Edit Event button
+     * Covers \Magento\CatalogEvent\Block\Adminhtml\Catalog\Category\Edit\Buttons::addButtons for Edit Event button
      *
      * @magentoDataFixture Magento/Catalog/_files/categories.php
      * @magentoDataFixture eventDataFixture
@@ -42,8 +44,9 @@ class Magento_CatalogEvent_Controller_CategoryTest extends Magento_Backend_Utili
 
     public static function eventDataFixture()
     {
-        /** @var $event Magento_CatalogEvent_Model_Event */
-        $event = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_CatalogEvent_Model_Event');
+        /** @var $event \Magento\CatalogEvent\Model\Event */
+        $event = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\CatalogEvent\Model\Event');
         $event->setStoreId(0);
         $event->setCategoryId('3');
         $event->setStoreDateStart(date('Y-m-d H:i:s'))->setStoreDateEnd(date('Y-m-d H:i:s', time() + 3600));

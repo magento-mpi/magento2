@@ -7,10 +7,12 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Core_Model_Module_ResourceResolver implements Magento_Core_Model_Module_ResourceResolverInterface
+namespace Magento\Core\Model\Module;
+
+class ResourceResolver implements \Magento\Core\Model\Module\ResourceResolverInterface
 {
     /**
-     * @var Magento_Core_Model_Config_Modules_Reader
+     * @var \Magento\Core\Model\Config\Modules\Reader
      */
     protected $_moduleReader;
 
@@ -22,9 +24,9 @@ class Magento_Core_Model_Module_ResourceResolver implements Magento_Core_Model_M
     protected $_moduleResources = array();
 
     /**
-     * @param Magento_Core_Model_Config_Modules_Reader $moduleReader
+     * @param \Magento\Core\Model\Config\Modules\Reader $moduleReader
      */
-    public function __construct(Magento_Core_Model_Config_Modules_Reader $moduleReader)
+    public function __construct(\Magento\Core\Model\Config\Modules\Reader $moduleReader)
     {
         $this->_moduleReader = $moduleReader;
     }

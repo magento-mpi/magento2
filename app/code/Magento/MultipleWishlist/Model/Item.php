@@ -15,13 +15,15 @@
  * @package     Magento_MultipleWishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_MultipleWishlist_Model_Item extends Magento_Wishlist_Model_Item
+namespace Magento\MultipleWishlist\Model;
+
+class Item extends \Magento\Wishlist\Model\Item
 {
     /**
      * Initialize resource model
      */
     protected function _construct()
     {
-        $this->_init('Magento_MultipleWishlist_Model_Resource_Item');
+        $this->_init('Magento\MultipleWishlist\Model\Resource\Item');
     }
 }

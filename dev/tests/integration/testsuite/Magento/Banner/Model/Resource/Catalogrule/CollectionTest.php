@@ -6,19 +6,21 @@
  * @license     {license_link}
  */
 
+namespace Magento\Banner\Model\Resource\Catalogrule;
+
 /**
  * @magentoDataFixture Magento/Catalog/_files/product_simple.php
  * @magentoDataFixture Magento/Banner/_files/banner_catalog_rule.php
  */
-class Magento_Banner_Model_Resource_Catalogrule_CollectionTest extends PHPUnit_Framework_TestCase
+class CollectionTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Banner_Model_Resource_Catalogrule_Collection
+     * @var \Magento\Banner\Model\Resource\Catalogrule\Collection
      */
     protected $_collection;
 
     /**
-     * @var Magento_Banner_Model_Banner
+     * @var \Magento\Banner\Model\Banner
      */
     protected $_banner;
 
@@ -30,14 +32,14 @@ class Magento_Banner_Model_Resource_Catalogrule_CollectionTest extends PHPUnit_F
     /**
      * @var int
      */
-    protected $_customerGroupId = Magento_Customer_Model_Group::NOT_LOGGED_IN_ID;
+    protected $_customerGroupId = \Magento\Customer\Model\Group::NOT_LOGGED_IN_ID;
 
     protected function setUp()
     {
-        $this->_collection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Banner_Model_Resource_Catalogrule_Collection');
-        $this->_banner = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Banner_Model_Banner');
+        $this->_collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Banner\Model\Resource\Catalogrule\Collection');
+        $this->_banner = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Banner\Model\Banner');
         $this->_banner->load('Test Banner', 'name');
     }
 

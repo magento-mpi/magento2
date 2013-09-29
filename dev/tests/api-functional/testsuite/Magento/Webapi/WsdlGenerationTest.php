@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_WsdlGenerationTest extends Magento_TestFramework_TestCase_WebapiAbstract
+namespace Magento\Webapi;
+
+class WsdlGenerationTest extends \Magento\TestFramework\TestCase\WebapiAbstract
 {
     protected function setUp()
     {
@@ -19,7 +21,7 @@ class Magento_Webapi_WsdlGenerationTest extends Magento_TestFramework_TestCase_W
     {
         $itemId = 1;
         $serviceInfo = array(
-            'serviceInterface' => 'Magento_TestModule1_Service_AllSoapAndRestV1Interface',
+            'serviceInterface' => 'Magento\TestModule1\Service\AllSoapAndRestV1Interface',
             'method' => 'item'
         );
         $requestData = array('id' => $itemId);
@@ -35,7 +37,7 @@ class Magento_Webapi_WsdlGenerationTest extends Magento_TestFramework_TestCase_W
      */
     public function testMultiServiceWsdl($entityId, $soapOperation, $expectedResponse)
     {
-        /** @var Magento_TestFramework_TestCase_Webapi_Adapter_Soap $soapAdapter */
+        /** @var \Magento\TestFramework\TestCase\Webapi\Adapter\Soap $soapAdapter */
         $soapAdapter = $this->_getWebApiAdapter(self::ADAPTER_SOAP);
         $wsdlUrl = $soapAdapter->generateWsdlUrl(
             array(
@@ -90,7 +92,7 @@ class Magento_Webapi_WsdlGenerationTest extends Magento_TestFramework_TestCase_W
     public function testWsdlGenerationWithNestedTypes()
     {
         $serviceInfo = array(
-            'serviceInterface' => 'Magento_TestModule1_Service_AllSoapAndRestV1Interface',
+            'serviceInterface' => 'Magento\TestModule1\Service\AllSoapAndRestV1Interface',
             'method' => 'items'
         );
         $actualResult = $this->_webApiCall($serviceInfo);
@@ -136,7 +138,7 @@ class Magento_Webapi_WsdlGenerationTest extends Magento_TestFramework_TestCase_W
         $connection = curl_init($wsdlUrl);
         curl_setopt($connection, CURLOPT_RETURNTRANSFER, 1);
         $responseContent = curl_exec($connection);
-        $responseDom = new DOMDocument();
+        $responseDom = new \DOMDocument();
         $this->assertTrue(
             $responseDom->loadXML($responseContent),
             "Valid XML is always expected as a response for WSDL request."
@@ -151,7 +153,7 @@ class Magento_Webapi_WsdlGenerationTest extends Magento_TestFramework_TestCase_W
      */
     protected function _getBaseWsdlUrl()
     {
-        /** @var Magento_TestFramework_TestCase_Webapi_Adapter_Soap $soapAdapter */
+        /** @var \Magento\TestFramework\TestCase\Webapi\Adapter\Soap $soapAdapter */
         $soapAdapter = $this->_getWebApiAdapter(self::ADAPTER_SOAP);
         $wsdlUrl = $soapAdapter->generateWsdlUrl(array());
         return $wsdlUrl;

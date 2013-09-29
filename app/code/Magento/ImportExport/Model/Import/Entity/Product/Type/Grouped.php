@@ -15,8 +15,10 @@
  * @package     Magento_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_ImportExport_Model_Import_Entity_Product_Type_Grouped
-    extends Magento_ImportExport_Model_Import_Entity_Product_Type_Abstract
+namespace Magento\ImportExport\Model\Import\Entity\Product\Type;
+
+class Grouped
+    extends \Magento\ImportExport\Model\Import\Entity\Product\Type\AbstractType
 {
     /**
      * Column names that holds values with particular meaning.
@@ -42,7 +44,7 @@ class Magento_ImportExport_Model_Import_Entity_Product_Type_Grouped
     public function getBehavior()
     {
         if (is_null($this->_behavior)) {
-            $this->_behavior = Magento_ImportExport_Model_Import::getDataSourceModel()->getBehavior();
+            $this->_behavior = \Magento\ImportExport\Model\Import::getDataSourceModel()->getBehavior();
         }
         return $this->_behavior;
     }
@@ -50,13 +52,13 @@ class Magento_ImportExport_Model_Import_Entity_Product_Type_Grouped
     /**
      * Save product type specific data.
      *
-     * @return Magento_ImportExport_Model_Import_Entity_Product_Type_Abstract
+     * @return \Magento\ImportExport\Model\Import\Entity\Product\Type\AbstractType
      */
     public function saveData()
     {
-        $groupedLinkId = Magento_Catalog_Model_Product_Link::LINK_TYPE_GROUPED;
-        $connection    = Mage::getSingleton('Magento_Core_Model_Resource')->getConnection('core_write');
-        $resource      = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Link');
+        $groupedLinkId = \Magento\Catalog\Model\Product\Link::LINK_TYPE_GROUPED;
+        $connection    = \Mage::getSingleton('Magento\Core\Model\Resource')->getConnection('core_write');
+        $resource      = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Link');
         $mainTable     = $resource->getMainTable();
         $relationTable = $resource->getTable('catalog_product_relation');
         $newSku        = $this->_entityModel->getNewSku();
@@ -99,16 +101,16 @@ class Magento_ImportExport_Model_Import_Entity_Product_Type_Grouped
                     continue;
                 }
                 $scope = $this->_entityModel->getRowScope($rowData);
-                if (Magento_ImportExport_Model_Import_Entity_Product::SCOPE_DEFAULT == $scope) {
-                    $productData = $newSku[$rowData[Magento_ImportExport_Model_Import_Entity_Product::COL_SKU]];
+                if (\Magento\ImportExport\Model\Import\Entity\Product::SCOPE_DEFAULT == $scope) {
+                    $productData = $newSku[$rowData[\Magento\ImportExport\Model\Import\Entity\Product::COL_SKU]];
                 } else {
-                    $colAttrSet = Magento_ImportExport_Model_Import_Entity_Product::COL_ATTR_SET;
+                    $colAttrSet = \Magento\ImportExport\Model\Import\Entity\Product::COL_ATTR_SET;
                     $rowData[$colAttrSet] = $productData['attr_set_code'];
-                    $rowData[Magento_ImportExport_Model_Import_Entity_Product::COL_TYPE] = $productData['type_id'];
+                    $rowData[\Magento\ImportExport\Model\Import\Entity\Product::COL_TYPE] = $productData['type_id'];
                 }
                 $productId = $productData['entity_id'];
 
-                if ($this->_type != $rowData[Magento_ImportExport_Model_Import_Entity_Product::COL_TYPE]) {
+                if ($this->_type != $rowData[\Magento\ImportExport\Model\Import\Entity\Product::COL_TYPE]) {
                     continue;
                 }
                 $linksData['product_ids'][$productId] = true;
@@ -134,7 +136,7 @@ class Magento_ImportExport_Model_Import_Entity_Product_Type_Grouped
                 }
             }
             // save links and relations
-            if ($linksData['product_ids'] && $this->getBehavior() != Magento_ImportExport_Model_Import::BEHAVIOR_APPEND) {
+            if ($linksData['product_ids'] && $this->getBehavior() != \Magento\ImportExport\Model\Import::BEHAVIOR_APPEND) {
                 $connection->delete(
                     $mainTable,
                     $connection->quoteInto(
@@ -162,7 +164,7 @@ class Magento_ImportExport_Model_Import_Entity_Product_Type_Grouped
             if ($linksData['attr_product_ids']) {
                 $savedData = $connection->fetchPairs($connection->select()
                     ->from($mainTable, array(
-                        new Zend_Db_Expr('CONCAT_WS(" ", product_id, linked_product_id)'), 'link_id'
+                        new \Zend_Db_Expr('CONCAT_WS(" ", product_id, linked_product_id)'), 'link_id'
                     ))
                     ->where(
                         'product_id IN (?) AND link_type_id = ' . $groupedLinkId,

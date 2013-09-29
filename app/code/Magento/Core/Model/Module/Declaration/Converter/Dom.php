@@ -5,33 +5,35 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Core_Model_Module_Declaration_Converter_Dom implements Magento_Config_ConverterInterface
+namespace Magento\Core\Model\Module\Declaration\Converter;
+
+class Dom implements \Magento\Config\ConverterInterface
 {
     /**
      * {@inheritdoc}
-     * @throws Exception
+     * @throws \Exception
      */
     public function convert($source)
     {
         $modules = array();
-        $xpath = new DOMXPath($source);
-        /** @var $moduleNode DOMNode */
+        $xpath = new \DOMXPath($source);
+        /** @var $moduleNode \DOMNode */
         foreach ($xpath->query('/config/module') as $moduleNode) {
             $moduleData = array();
             $moduleAttributes = $moduleNode->attributes;
             $nameNode = $moduleAttributes->getNamedItem('name');
             if (is_null($nameNode)) {
-                throw new Exception('Attribute "name" is required for module node.');
+                throw new \Exception('Attribute "name" is required for module node.');
             }
             $moduleData['name'] = $nameNode->nodeValue;
             $versionNode = $moduleAttributes->getNamedItem('version');
             if (is_null($versionNode)) {
-                throw new Exception('Attribute "version" is required for module node.');
+                throw new \Exception('Attribute "version" is required for module node.');
             }
             $moduleData['version'] = $versionNode->nodeValue;
             $activeNode = $moduleAttributes->getNamedItem('active');
             if (is_null($activeNode)) {
-                throw new Exception('Attribute "active" is required for module node.');
+                throw new \Exception('Attribute "active" is required for module node.');
             }
             $moduleData['active'] = ($activeNode->nodeValue == 'false') ? false : true;
             $moduleData['dependencies'] =array(
@@ -41,7 +43,7 @@ class Magento_Core_Model_Module_Declaration_Converter_Dom implements Magento_Con
                     'alternatives' => array(),
                 ),
             );
-            /** @var $childNode DOMNode */
+            /** @var $childNode \DOMNode */
             foreach ($moduleNode->childNodes as $childNode) {
                 switch ($childNode->nodeName) {
                     case 'depends':
@@ -67,11 +69,11 @@ class Magento_Core_Model_Module_Declaration_Converter_Dom implements Magento_Con
     /**
      * Convert extension depends node into assoc array
      *
-     * @param DOMNode $dependsNode
+     * @param \DOMNode $dependsNode
      * @return array
-     * @throws Exception
+     * @throws \Exception
      */
-    protected function _convertExtensionDependencies(DOMNode $dependsNode)
+    protected function _convertExtensionDependencies(\DOMNode $dependsNode)
     {
         $dependencies = array(
             'extensions' => array(
@@ -79,7 +81,7 @@ class Magento_Core_Model_Module_Declaration_Converter_Dom implements Magento_Con
                 'alternatives' => array(),
             ),
         );
-        /** @var $childNode DOMNode */
+        /** @var $childNode \DOMNode */
         foreach ($dependsNode->childNodes as $childNode) {
             switch ($childNode->nodeName) {
                 case 'extension':
@@ -87,7 +89,7 @@ class Magento_Core_Model_Module_Declaration_Converter_Dom implements Magento_Con
                     break;
                 case 'choice':
                     $alternatives = array();
-                    /** @var $extensionNode DOMNode */
+                    /** @var $extensionNode \DOMNode */
                     foreach ($childNode->childNodes as $extensionNode) {
                         switch ($extensionNode->nodeName) {
                             case 'extension':
@@ -96,7 +98,7 @@ class Magento_Core_Model_Module_Declaration_Converter_Dom implements Magento_Con
                         }
                     }
                     if (empty($alternatives)) {
-                        throw new Exception('Node "choice" cannot be empty.');
+                        throw new \Exception('Node "choice" cannot be empty.');
                     }
                     $dependencies['extensions']['alternatives'][] = $alternatives;
                     break;
@@ -108,16 +110,16 @@ class Magento_Core_Model_Module_Declaration_Converter_Dom implements Magento_Con
     /**
      * Convert extension node into assoc array
      *
-     * @param DOMNode $extensionNode
+     * @param \DOMNode $extensionNode
      * @return array
-     * @throws Exception
+     * @throws \Exception
      */
-    protected function _convertExtensionNode(DOMNode $extensionNode)
+    protected function _convertExtensionNode(\DOMNode $extensionNode)
     {
         $extensionData = array();
         $nameNode = $extensionNode->attributes->getNamedItem('name');
         if (is_null($nameNode)) {
-            throw new Exception('Attribute "name" is required for extension node.');
+            throw new \Exception('Attribute "name" is required for extension node.');
         }
         $extensionData['name'] = $nameNode->nodeValue;
         $minVersionNode = $extensionNode->attributes->getNamedItem('minVersion');
@@ -130,22 +132,22 @@ class Magento_Core_Model_Module_Declaration_Converter_Dom implements Magento_Con
     /**
      * Convert module depends node into assoc array
      *
-     * @param DOMNode $dependsNode
+     * @param \DOMNode $dependsNode
      * @return array
-     * @throws Exception
+     * @throws \Exception
      */
-    protected function _convertModuleDependencies(DOMNode $dependsNode)
+    protected function _convertModuleDependencies(\DOMNode $dependsNode)
     {
         $dependencies = array(
             'modules' => array(),
         );
-        /** @var $childNode DOMNode */
+        /** @var $childNode \DOMNode */
         foreach ($dependsNode->childNodes as $childNode) {
             switch ($childNode->nodeName) {
                 case 'module':
                     $nameNode = $childNode->attributes->getNamedItem('name');
                     if (is_null($nameNode)) {
-                        throw new Exception('Attribute "name" is required for module node.');
+                        throw new \Exception('Attribute "name" is required for module node.');
                     }
                     $dependencies['modules'][] = $nameNode->nodeValue;
                     break;

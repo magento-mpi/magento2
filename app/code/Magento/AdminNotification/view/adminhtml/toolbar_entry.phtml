@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 ?>
-<?php /** @var $this Magento_AdminNotification_Block_ToolbarEntry */ ?>
+<?php /** @var $this \Magento\AdminNotification\Block\ToolbarEntry */ ?>
 <?php $notificationCount = $this->getUnreadNotificationCount(); ?>
 <div class="notifications" data-notification-count="<?php echo $this->escapeHtml($notificationCount); ?>">
     <?php if ($notificationCount > 0) : ?>
@@ -17,7 +17,7 @@
         </a>
         <ul class="dropdown-menu" data-mark-as-read-url="<?php echo $this->getUrl('adminhtml/notification/ajaxMarkAsRead'); ?>">
             <?php foreach ($this->getLatestUnreadNotifications() as $notification) : ?>
-            <?php /** @var $notification Magento_AdminNotification_Model_Inbox*/ ?>
+            <?php /** @var $notification \Magento\AdminNotification\Model\Inbox*/ ?>
             <li class="notification-entry<?php if ($notification->getSeverity() == 1): ?> notification-critical<?php endif; ?>"
                 data-notification-id="<?php echo $this->escapeHtml($notification->getId()); ?>"
                 data-notification-severity="<?php if ($notification->getSeverity() == 1): ?>1<?php endif; ?>">

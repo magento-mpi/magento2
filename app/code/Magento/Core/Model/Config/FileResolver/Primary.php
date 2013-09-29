@@ -7,17 +7,22 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Config_FileResolver_Primary implements Magento_Config_FileResolverInterface
+namespace Magento\Core\Model\Config\FileResolver;
+
+/***
+ * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+ */
+class Primary implements \Magento\Config\FileResolverInterface
 {
     /**
-     * @var Magento_Core_Model_Dir
+     * @var \Magento\Core\Model\Dir
      */
     protected $_applicationDirs;
 
     /**
-     * @param Magento_Core_Model_Dir $dirs
+     * @param \Magento\Core\Model\Dir $dirs
      */
-    public function __construct(Magento_Core_Model_Dir $dirs)
+    public function __construct(\Magento\Core\Model\Dir $dirs)
     {
         $this->_applicationDirs = $dirs;
     }
@@ -28,10 +33,11 @@ class Magento_Core_Model_Config_FileResolver_Primary implements Magento_Config_F
      * @param string $filename
      * @param string $scope
      * @return array
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function get($filename, $scope)
     {
-        $configDir = $this->_applicationDirs->getDir(Magento_Core_Model_Dir::CONFIG);
+        $configDir = $this->_applicationDirs->getDir(\Magento\Core\Model\Dir::CONFIG);
         $fileList = glob($configDir . DIRECTORY_SEPARATOR . '*' . DIRECTORY_SEPARATOR . $filename);
 
         if (file_exists($configDir . DIRECTORY_SEPARATOR . $filename)) {

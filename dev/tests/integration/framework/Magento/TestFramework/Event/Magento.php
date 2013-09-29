@@ -10,28 +10,30 @@
  */
 
 /**
- * Observer of Magento events triggered using Magento_Core_Model_Magento_TestFramework_EventManager::dispatch()
+ * Observer of Magento events triggered using Magento_Core_Model_\Magento\TestFramework\EventManager::dispatch()
  */
-class Magento_TestFramework_Event_Magento
+namespace Magento\TestFramework\Event;
+
+class Magento
 {
     /**
      * Used when Magento framework instantiates the class on its own and passes nothing to the constructor
      *
-     * @var Magento_TestFramework_EventManager
+     * @var \Magento\TestFramework\EventManager
      */
     protected static $_defaultEventManager;
 
     /**
-     * @var Magento_TestFramework_EventManager
+     * @var \Magento\TestFramework\EventManager
      */
     protected $_eventManager;
 
     /**
      * Assign default event manager instance
      *
-     * @param Magento_TestFramework_EventManager $eventManager
+     * @param \Magento\TestFramework\EventManager $eventManager
      */
-    public static function setDefaultEventManager(Magento_TestFramework_EventManager $eventManager = null)
+    public static function setDefaultEventManager(\Magento\TestFramework\EventManager $eventManager = null)
     {
         self::$_defaultEventManager = $eventManager;
     }
@@ -39,14 +41,14 @@ class Magento_TestFramework_Event_Magento
     /**
      * Constructor
      *
-     * @param Magento_TestFramework_EventManager $eventManager
-     * @throws Magento_Exception
+     * @param \Magento\TestFramework\EventManager $eventManager
+     * @throws \Magento\Exception
      */
     public function __construct($eventManager = null)
     {
         $this->_eventManager = $eventManager ?: self::$_defaultEventManager;
-        if (!($this->_eventManager instanceof Magento_TestFramework_EventManager)) {
-            throw new Magento_Exception('Instance of the "Magento_TestFramework_EventManager" is expected.');
+        if (!($this->_eventManager instanceof \Magento\TestFramework\EventManager)) {
+            throw new \Magento\Exception('Instance of the "Magento\TestFramework\EventManager" is expected.');
         }
     }
 

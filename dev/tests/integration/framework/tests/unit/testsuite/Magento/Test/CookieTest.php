@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Test_CookieTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test;
+
+class CookieTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Name of the sample cookie to be used in tests
@@ -17,22 +19,23 @@ class Magento_Test_CookieTest extends PHPUnit_Framework_TestCase
     const SAMPLE_COOKIE_NAME = 'sample_cookie';
 
     /**
-     * @var Magento_TestFramework_Cookie
+     * @var \Magento\TestFramework\Cookie
      */
     protected $_model;
 
     protected function setUp()
     {
-        $helperMock = $this->getMock('Magento_Backend_Helper_Data', array(), array(),
-            'Magento_Backend_Helper_DataProxy', false);
-        $coreStoreConfig = $this->getMockBuilder('Magento_Core_Model_Store_Config')
+        $helperMock = $this->getMockBuilder('Magento\Backend\Helper\DataProxy')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_model = new Magento_TestFramework_Cookie(
+        $coreStoreConfig = $this->getMockBuilder('Magento\Core\Model\Store\Config')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->_model = new \Magento\TestFramework\Cookie(
             $coreStoreConfig,
-            new Magento_TestFramework_Request($helperMock),
-            new Magento_TestFramework_Response(
-                $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false)
+            new \Magento\TestFramework\Request($helperMock),
+            new \Magento\TestFramework\Response(
+                $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false)
             )
         );
     }

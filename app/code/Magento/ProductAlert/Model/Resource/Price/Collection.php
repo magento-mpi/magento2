@@ -16,7 +16,9 @@
  * @package     Magento_ProductAlert
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_ProductAlert_Model_Resource_Price_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\ProductAlert\Model\Resource\Price;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Define price collection
@@ -24,20 +26,20 @@ class Magento_ProductAlert_Model_Resource_Price_Collection extends Magento_Core_
      */
     protected function _construct()
     {
-        $this->_init('Magento_ProductAlert_Model_Price', 'Magento_ProductAlert_Model_Resource_Price');
+        $this->_init('Magento\ProductAlert\Model\Price', 'Magento\ProductAlert\Model\Resource\Price');
     }
 
     /**
      * Add customer filter
      *
      * @param mixed $customer
-     * @return Magento_ProductAlert_Model_Resource_Price_Collection
+     * @return \Magento\ProductAlert\Model\Resource\Price\Collection
      */
     public function addCustomerFilter($customer)
     {
         if (is_array($customer)) {
             $condition = $this->getConnection()->quoteInto('customer_id IN(?)', $customer);
-        } elseif ($customer instanceof Magento_Customer_Model_Customer) {
+        } elseif ($customer instanceof \Magento\Customer\Model\Customer) {
             $condition = $this->getConnection()->quoteInto('customer_id=?', $customer->getId());
         } else {
             $condition = $this->getConnection()->quoteInto('customer_id=?', $customer);
@@ -50,7 +52,7 @@ class Magento_ProductAlert_Model_Resource_Price_Collection extends Magento_Core_
      * Add website filter
      *
      * @param mixed $website
-     * @return Magento_ProductAlert_Model_Resource_Price_Collection
+     * @return \Magento\ProductAlert\Model\Resource\Price\Collection
      */
     public function addWebsiteFilter($website)
     {
@@ -59,7 +61,7 @@ class Magento_ProductAlert_Model_Resource_Price_Collection extends Magento_Core_
         }
         if (is_array($website)) {
             $condition = $this->getConnection()->quoteInto('website_id IN(?)', $website);
-        } elseif ($website instanceof Magento_Core_Model_Website) {
+        } elseif ($website instanceof \Magento\Core\Model\Website) {
             $condition = $this->getConnection()->quoteInto('website_id=?', $website->getId());
         } else {
             $condition = $this->getConnection()->quoteInto('website_id=?', $website);
@@ -72,7 +74,7 @@ class Magento_ProductAlert_Model_Resource_Price_Collection extends Magento_Core_
      * Set order by customer
      *
      * @param string $sort
-     * @return Magento_ProductAlert_Model_Resource_Price_Collection
+     * @return \Magento\ProductAlert\Model\Resource\Price\Collection
      */
     public function setCustomerOrder($sort = 'ASC')
     {

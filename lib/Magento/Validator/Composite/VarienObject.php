@@ -9,15 +9,17 @@
  */
 
 /**
- * Validator encapsulates multiple validation rules for Magento_Object.
+ * Validator encapsulates multiple validation rules for \Magento\Object.
  * Able to validate both individual fields and a whole object.
  */
-class Magento_Validator_Composite_VarienObject implements Zend_Validate_Interface
+namespace Magento\Validator\Composite;
+
+class VarienObject implements \Zend_Validate_Interface
 {
     /**
      * Validation rules per scope (particular fields or entire entity)
      *
-     * @var Zend_Validate_Interface[]
+     * @var \Zend_Validate_Interface[]
      */
     private $_rules = array();
 
@@ -31,18 +33,18 @@ class Magento_Validator_Composite_VarienObject implements Zend_Validate_Interfac
     /**
      * Add rule to be applied to a validation scope
      *
-     * @param Zend_Validate_Interface $validator
+     * @param \Zend_Validate_Interface $validator
      * @param string $fieldName Field name to apply validation to, or empty value to validate entity as a whole
-     * @return Magento_Validator_Composite_VarienObject
+     * @return \Magento\Validator\Composite\VarienObject
      */
-    public function addRule(Zend_Validate_Interface $validator, $fieldName = '')
+    public function addRule(\Zend_Validate_Interface $validator, $fieldName = '')
     {
         if (!array_key_exists($fieldName, $this->_rules)) {
             $this->_rules[$fieldName] = $validator;
         } else {
             $existingValidator = $this->_rules[$fieldName];
-            if (!($existingValidator instanceof Zend_Validate)) {
-                $compositeValidator = new Zend_Validate();
+            if (!($existingValidator instanceof \Zend_Validate)) {
+                $compositeValidator = new \Zend_Validate();
                 $compositeValidator->addValidator($existingValidator);
                 $this->_rules[$fieldName] = $compositeValidator;
             }
@@ -54,15 +56,15 @@ class Magento_Validator_Composite_VarienObject implements Zend_Validate_Interfac
     /**
      * Check whether the entity is valid according to defined validation rules
      *
-     * @param Magento_Object $entity
+     * @param \Magento\Object $entity
      * @return bool
      *
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     public function isValid($entity)
     {
         $this->_messages = array();
-        /** @var $validator Zend_Validate_Interface */
+        /** @var $validator \Zend_Validate_Interface */
         foreach ($this->_rules as $fieldName => $validator) {
             $value = $fieldName ? $entity->getDataUsingMethod($fieldName) : $entity;
             if (!$validator->isValid($value)) {

@@ -8,12 +8,12 @@
  */
 -->
 <config>
-    <type name="Magento_Catalog_Model_Session">
+    <type name="Magento\Catalog\Model\Session">
         <param name="sessionName">
             <value>frontend</value>
         </param>
     </type>
-    <type name="Magento_Sales_Model_Convert_Quote">
-        <plugin name="copy_quote_files_to_order" type="Magento_Catalog_Model_Plugin_QuoteItemProductOption"/>
+    <type name="Magento\Sales\Model\Convert\Quote">
+        <plugin name="copy_quote_files_to_order" type="Magento\Catalog\Model\Plugin\QuoteItemProductOption"/>
     </type>
 </config>

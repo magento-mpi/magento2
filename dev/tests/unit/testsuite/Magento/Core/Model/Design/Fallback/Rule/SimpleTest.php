@@ -6,15 +6,17 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Design_Fallback_Rule_SimpleTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Design\Fallback\Rule;
+
+class SimpleTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Required parameter 'required_parameter' was not passed
      */
     public function testGetPatternDirsException()
     {
-        $model = new Magento_Core_Model_Design_Fallback_Rule_Simple('<required_parameter> other text');
+        $model = new \Magento\Core\Model\Design\Fallback\Rule\Simple('<required_parameter> other text');
         $model->getPatternDirs(array());
     }
 
@@ -27,7 +29,7 @@ class Magento_Core_Model_Design_Fallback_Rule_SimpleTest extends PHPUnit_Framewo
             'optional_parameter' => $optionalParameter,
             'required_parameter' => 'required_parameter',
         );
-        $model = new Magento_Core_Model_Design_Fallback_Rule_Simple($pattern, array('optional_parameter'));
+        $model = new \Magento\Core\Model\Design\Fallback\Rule\Simple($pattern, array('optional_parameter'));
 
         $this->assertEquals(
             $expectedResult,

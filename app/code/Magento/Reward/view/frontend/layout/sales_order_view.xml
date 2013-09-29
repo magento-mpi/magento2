@@ -9,6 +9,6 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <referenceBlock name="order_totals">
-        <block class="Magento_Reward_Block_Sales_Order_Total" name="reward.sales.order.total"/>
+        <block class="Magento\Reward\Block\Sales\Order\Total" name="reward.sales.order.total"/>
     </referenceBlock>
 </layout>

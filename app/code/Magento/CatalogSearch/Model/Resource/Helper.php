@@ -16,7 +16,9 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CatalogSearch_Model_Resource_Helper extends Magento_Eav_Model_Resource_Helper
+namespace Magento\CatalogSearch\Model\Resource;
+
+class Helper extends \Magento\Eav\Model\Resource\Helper
 {
     /**
      * Construct
@@ -33,12 +35,12 @@ class Magento_CatalogSearch_Model_Resource_Helper extends Magento_Eav_Model_Reso
      *
      * @param string $table
      * @param string $alias
-     * @param  Magento_DB_Select $select
-     * @return Magento_DB_Select $select
+     * @param  \Magento\DB\Select $select
+     * @return \Magento\DB\Select $select
      */
     public function chooseFulltext($table, $alias, $select)
     {
-        $field = new Zend_Db_Expr('MATCH (' . $alias . '.data_index) AGAINST (:query IN BOOLEAN MODE)');
+        $field = new \Zend_Db_Expr('MATCH (' . $alias . '.data_index) AGAINST (:query IN BOOLEAN MODE)');
         $select->columns(array('relevance' => $field));
         return $field;
     }

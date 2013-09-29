@@ -7,25 +7,27 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Adminhtml_Block_Sales_Order_Creditmemo_Create_Adjustments extends Magento_Adminhtml_Block_Template
+namespace Magento\Adminhtml\Block\Sales\Order\Creditmemo\Create;
+
+class Adjustments extends \Magento\Adminhtml\Block\Template
 {
     protected $_source;
 
     /**
-     * @var Magento_Tax_Model_Config
+     * @var \Magento\Tax\Model\Config
      */
     protected $_taxConfig;
 
     /**
-     * @param Magento_Tax_Model_Config $taxConfig
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
+     * @param \Magento\Tax\Model\Config $taxConfig
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Tax_Model_Config $taxConfig,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
+        \Magento\Tax\Model\Config $taxConfig,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_taxConfig = $taxConfig;
@@ -35,13 +37,13 @@ class Magento_Adminhtml_Block_Sales_Order_Creditmemo_Create_Adjustments extends 
     /**
      * Initialize creditmemo agjustment totals
      *
-     * @return Magento_Tax_Block_Sales_Order_Tax
+     * @return \Magento\Tax\Block\Sales\Order\Tax
      */
     public function initTotals()
     {
         $parent = $this->getParentBlock();
         $this->_source  = $parent->getSource();
-        $total = new Magento_Object(array(
+        $total = new \Magento\Object(array(
             'code'      => 'agjustments',
             'block_name'=> $this->getNameInLayout()
         ));

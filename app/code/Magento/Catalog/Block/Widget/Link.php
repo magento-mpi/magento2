@@ -16,13 +16,15 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Catalog_Block_Widget_Link
-    extends Magento_Core_Block_Html_Link
-    implements Magento_Widget_Block_Interface
+namespace Magento\Catalog\Block\Widget;
+
+class Link
+    extends \Magento\Core\Block\Html\Link
+    implements \Magento\Widget\Block\BlockInterface
 {
     /**
      * Entity model name which must be used to retrieve entity specific data.
-     * @var null|Magento_Catalog_Model_Resource_Abstract
+     * @var null|\Magento\Catalog\Model\Resource\AbstractResource
      */
     protected $_entityResource = null;
 
@@ -51,16 +53,16 @@ class Magento_Catalog_Block_Widget_Link
         if (!$this->_href) {
 
             if($this->hasStoreId()) {
-                $store = Mage::app()->getStore($this->getStoreId());
+                $store = \Mage::app()->getStore($this->getStoreId());
             } else {
-                $store = Mage::app()->getStore();
+                $store = \Mage::app()->getStore();
             }
 
-            /* @var $store Magento_Core_Model_Store */
+            /* @var $store \Magento\Core\Model\Store */
             $href = "";
             if ($this->getData('id_path')) {
-                /* @var $urlRewriteResource Magento_Core_Model_Resource_Url_Rewrite */
-                $urlRewriteResource = Mage::getResourceSingleton('Magento_Core_Model_Resource_Url_Rewrite');
+                /* @var $urlRewriteResource \Magento\Core\Model\Resource\Url\Rewrite */
+                $urlRewriteResource = \Mage::getResourceSingleton('Magento\Core\Model\Resource\Url\Rewrite');
                 $href = $urlRewriteResource->getRequestPathByIdPath($this->getData('id_path'), $store);
                 if (!$href) {
                     return false;
@@ -92,7 +94,7 @@ class Magento_Catalog_Block_Widget_Link
                 if (isset($idPath[1])) {
                     $id = $idPath[1];
                     if ($id) {
-                        $this->_anchorText = $this->_entityResource->getAttributeRawValue($id, 'name', Mage::app()->getStore());
+                        $this->_anchorText = $this->_entityResource->getAttributeRawValue($id, 'name', \Mage::app()->getStore());
                     }
                 }
             } else {

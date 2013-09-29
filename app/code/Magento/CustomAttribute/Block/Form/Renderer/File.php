@@ -16,7 +16,9 @@
  * @package     Magento_CustomAttribute
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CustomAttribute_Block_Form_Renderer_File extends Magento_CustomAttribute_Block_Form_Renderer_Abstract
+namespace Magento\CustomAttribute\Block\Form\Renderer;
+
+class File extends \Magento\CustomAttribute\Block\Form\Renderer\AbstractRenderer
 {
     /**
      * Return escaped value

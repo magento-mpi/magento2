@@ -9,13 +9,15 @@
 /**
  * Interface of locating layout files in the file system
  */
-interface Magento_Core_Model_Layout_File_SourceInterface
+namespace Magento\Core\Model\Layout\File;
+
+interface SourceInterface
 {
     /**
      * Retrieve instances of layout files
      *
-     * @param Magento_Core_Model_ThemeInterface $theme Theme that defines the design context
-     * @return Magento_Core_Model_Layout_File[]
+     * @param \Magento\Core\Model\ThemeInterface $theme Theme that defines the design context
+     * @return \Magento\Core\Model\Layout\File[]
      */
-    public function getFiles(Magento_Core_Model_ThemeInterface $theme);
+    public function getFiles(\Magento\Core\Model\ThemeInterface $theme);
 }

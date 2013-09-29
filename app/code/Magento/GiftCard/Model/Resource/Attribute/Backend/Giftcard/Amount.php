@@ -16,22 +16,24 @@
  * @package     Magento_GiftCard
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GiftCard_Model_Resource_Attribute_Backend_Giftcard_Amount extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\GiftCard\Model\Resource\Attribute\Backend\Giftcard;
+
+class Amount extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Store manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Resource $resource
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Resource $resource
      */
     public function __construct(
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Resource $resource
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Resource $resource
     ) {
         $this->_storeManager = $storeManager;
         parent::__construct($resource);
@@ -50,8 +52,8 @@ class Magento_GiftCard_Model_Resource_Attribute_Backend_Giftcard_Amount extends 
     /**
      * Load product data by product and attribute_id
      *
-     * @param Magento_Catalog_Model_Product $product
-     * @param Magento_Eav_Model_Entity_Attribute $attribute
+     * @param \Magento\Catalog\Model\Product $product
+     * @param \Magento\Eav\Model\Entity\Attribute $attribute
      * @return array
      */
     public function loadProductData($product, $attribute)
@@ -82,9 +84,9 @@ class Magento_GiftCard_Model_Resource_Attribute_Backend_Giftcard_Amount extends 
     /**
      * Delete product data
      *
-     * @param Magento_Catalog_Model_Product $product
-     * @param Magento_Eav_Model_Entity_Attribute $attribute
-     * @return Magento_GiftCard_Model_Resource_Attribute_Backend_Giftcard_Amount
+     * @param \Magento\Catalog\Model\Product $product
+     * @param \Magento\Eav\Model\Entity\Attribute $attribute
+     * @return \Magento\GiftCard\Model\Resource\Attribute\Backend\Giftcard\Amount
      */
     public function deleteProductData($product, $attribute)
     {
@@ -106,9 +108,9 @@ class Magento_GiftCard_Model_Resource_Attribute_Backend_Giftcard_Amount extends 
     /**
      * Insert product data
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @param array $data
-     * @return Magento_GiftCard_Model_Resource_Attribute_Backend_Giftcard_Amount
+     * @return \Magento\GiftCard\Model\Resource\Attribute\Backend\Giftcard\Amount
      */
     public function insertProductData($product, $data)
     {

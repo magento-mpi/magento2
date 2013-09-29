@@ -17,48 +17,50 @@
  * @package     Magento_Pci
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Pci_Model_Resource_Key_Change extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Pci\Model\Resource\Key;
+
+class Change extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
-     * @var Magento_Pci_Model_Encryption
+     * @var \Magento\Pci\Model\Encryption
      */
     protected $_encryptor;
 
     /**
-     * @var Magento_Filesystem
+     * @var \Magento\Filesystem
      */
     protected $_filesystem;
 
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
     /**
-     * @var Magento_Core_Model_Dir
+     * @var \Magento\Core\Model\Dir
      */
     protected $_dir;
 
     /**
-     * @var Magento_Backend_Model_Config_Structure
+     * @var \Magento\Backend\Model\Config\Structure
      */
     protected $_structure;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Filesystem $filesystem
-     * @param Magento_Core_Model_Dir $dir
-     * @param Magento_Backend_Model_Config_Structure $structure
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\Core\Model\Dir $dir
+     * @param \Magento\Backend\Model\Config\Structure $structure
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Model_Resource $resource,
-        Magento_Filesystem $filesystem,
-        Magento_Core_Model_Dir $dir,
-        Magento_Backend_Model_Config_Structure $structure
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Filesystem $filesystem,
+        \Magento\Core\Model\Dir $dir,
+        \Magento\Backend\Model\Config\Structure $structure
     ) {
         $this->_coreData = $coreData;
         $this->_dir = $dir;
@@ -79,7 +81,7 @@ class Magento_Pci_Model_Resource_Key_Change extends Magento_Core_Model_Resource_
     /**
      * Re-encrypt all encrypted data in the database
      *
-     * @throws Exception
+     * @throws \Exception
      * @param bool $safe Specifies whether wrapping re-encryption into the database transaction or not
      */
     public function reEncryptDatabaseValues($safe = true)
@@ -97,7 +99,7 @@ class Magento_Pci_Model_Resource_Key_Change extends Magento_Core_Model_Resource_
                 $this->commit();
             }
         }
-        catch (Exception $e) {
+        catch (\Exception $e) {
             if ($safe) {
                 $this->rollBack();
             }
@@ -108,18 +110,18 @@ class Magento_Pci_Model_Resource_Key_Change extends Magento_Core_Model_Resource_
     /**
      * Change encryption key
      *
-     * @throws Exception
+     * @throws \Exception
      * @param string $key
      * @return string
      */
     public function changeEncryptionKey($key = null)
     {
-        $this->_filesystem->setWorkingDirectory($this->_dir->getDir(Magento_Core_Model_Dir::CONFIG));
+        $this->_filesystem->setWorkingDirectory($this->_dir->getDir(\Magento\Core\Model\Dir::CONFIG));
         // prepare new key, encryptor and new file contents
-        $file = $this->_dir->getDir(Magento_Core_Model_Dir::CONFIG) . DS . 'local.xml';
+        $file = $this->_dir->getDir(\Magento\Core\Model\Dir::CONFIG) . DS . 'local.xml';
 
         if (!$this->_filesystem->isWritable($file)) {
-            throw new Exception(__('File %1 is not writeable.', $file));
+            throw new \Exception(__('File %1 is not writeable.', $file));
         }
 
         $contents = $this->_filesystem->read($file);
@@ -141,7 +143,7 @@ class Magento_Pci_Model_Resource_Key_Change extends Magento_Core_Model_Resource_
             $this->commit();
             return $key;
         }
-        catch (Exception $e) {
+        catch (\Exception $e) {
             $this->rollBack();
             throw $e;
         }
@@ -154,11 +156,11 @@ class Magento_Pci_Model_Resource_Key_Change extends Magento_Core_Model_Resource_
     protected function _reEncryptSystemConfigurationValues()
     {
         // look for encrypted node entries in all system.xml files
-        /** @var Magento_Backend_Model_Config_Structure $configStructure  */
+        /** @var \Magento\Backend\Model\Config\Structure $configStructure  */
         $configStructure = $this->_structure;
         $paths = $configStructure->getFieldPathsByAttribute(
             'backend_model',
-            'Magento_Backend_Model_Config_Backend_Encrypted'
+            'Magento\Backend\Model\Config\Backend\Encrypted'
         );
 
         // walk through found data and re-encrypt it

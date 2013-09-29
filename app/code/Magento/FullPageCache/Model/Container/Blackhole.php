@@ -11,7 +11,9 @@
 /**
  * Placeholder container for absent block
  */
-class Magento_FullPageCache_Model_Container_Blackhole extends Magento_FullPageCache_Model_Container_Abstract
+namespace Magento\FullPageCache\Model\Container;
+
+class Blackhole extends \Magento\FullPageCache\Model\Container\AbstractContainer
 {
 
 }

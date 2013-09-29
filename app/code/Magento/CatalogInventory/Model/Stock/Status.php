@@ -11,20 +11,22 @@
 /**
  * CatalogInventory Stock Status per website Model
  *
- * @method Magento_CatalogInventory_Model_Resource_Stock_Status _getResource()
- * @method Magento_CatalogInventory_Model_Resource_Stock_Status getResource()
+ * @method \Magento\CatalogInventory\Model\Resource\Stock\Status _getResource()
+ * @method \Magento\CatalogInventory\Model\Resource\Stock\Status getResource()
  * @method int getProductId()
- * @method Magento_CatalogInventory_Model_Stock_Status setProductId(int $value)
+ * @method \Magento\CatalogInventory\Model\Stock\Status setProductId(int $value)
  * @method int getWebsiteId()
- * @method Magento_CatalogInventory_Model_Stock_Status setWebsiteId(int $value)
+ * @method \Magento\CatalogInventory\Model\Stock\Status setWebsiteId(int $value)
  * @method int getStockId()
- * @method Magento_CatalogInventory_Model_Stock_Status setStockId(int $value)
+ * @method \Magento\CatalogInventory\Model\Stock\Status setStockId(int $value)
  * @method float getQty()
- * @method Magento_CatalogInventory_Model_Stock_Status setQty(float $value)
+ * @method \Magento\CatalogInventory\Model\Stock\Status setQty(float $value)
  * @method int getStockStatus()
- * @method Magento_CatalogInventory_Model_Stock_Status setStockStatus(int $value)
+ * @method \Magento\CatalogInventory\Model\Stock\Status setStockStatus(int $value)
  */
-class Magento_CatalogInventory_Model_Stock_Status extends Magento_Core_Model_Abstract
+namespace Magento\CatalogInventory\Model\Stock;
+
+class Status extends \Magento\Core\Model\AbstractModel
 {
     const STATUS_OUT_OF_STOCK       = 0;
     const STATUS_IN_STOCK           = 1;
@@ -46,53 +48,53 @@ class Magento_CatalogInventory_Model_Stock_Status extends Magento_Core_Model_Abs
     /**
      * Catalog inventory data
      *
-     * @var Magento_CatalogInventory_Helper_Data
+     * @var \Magento\CatalogInventory\Helper\Data
      */
     protected $_catalogInventoryData;
 
     /**
-     * @var Magento_Catalog_Model_Product_Type
+     * @var \Magento\Catalog\Model\Product\Type
      */
     protected $_productType;
 
     /**
      * Store model manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * Stock item factory
      *
-     * @var Magento_CatalogInventory_Model_Stock_ItemFactory
+     * @var \Magento\CatalogInventory\Model\Stock\ItemFactory
      */
     protected $_stockItemFactory;
 
     /**
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Catalog_Model_Product_Type $productType
-     * @param Magento_Catalog_Model_Product_Status $productStatus
-     * @param Magento_Catalog_Model_Product_Website $productWebsite
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_CatalogInventory_Model_Stock_ItemFactory $stockItemFactory
-     * @param Magento_CatalogInventory_Helper_Data $catalogInventoryData
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Catalog\Model\Product\Type $productType
+     * @param \Magento\Catalog\Model\Product\Status $productStatus
+     * @param \Magento\Catalog\Model\Product\Website $productWebsite
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory
+     * @param \Magento\CatalogInventory\Helper\Data $catalogInventoryData
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Catalog_Model_Product_Type $productType,
-        Magento_Catalog_Model_Product_Status $productStatus,
-        Magento_Catalog_Model_Product_Website $productWebsite,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_CatalogInventory_Model_Stock_ItemFactory $stockItemFactory,
-        Magento_CatalogInventory_Helper_Data $catalogInventoryData,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Catalog\Model\Product\Type $productType,
+        \Magento\Catalog\Model\Product\Status $productStatus,
+        \Magento\Catalog\Model\Product\Website $productWebsite,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory,
+        \Magento\CatalogInventory\Helper\Data $catalogInventoryData,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
@@ -111,7 +113,7 @@ class Magento_CatalogInventory_Model_Stock_Status extends Magento_Core_Model_Abs
      */
     protected function _construct()
     {
-        $this->_init('Magento_CatalogInventory_Model_Resource_Stock_Status');
+        $this->_init('Magento\CatalogInventory\Model\Resource\Stock\Status');
     }
 
     /**
@@ -123,7 +125,7 @@ class Magento_CatalogInventory_Model_Stock_Status extends Magento_Core_Model_Abs
     public function getProductTypeInstances()
     {
         if (empty($this->_productTypes)) {
-            $productEmulator     = new Magento_Object();
+            $productEmulator     = new \Magento\Object();
 
             foreach (array_keys($this->_productType->getTypes()) as $typeId) {
                 $productEmulator->setTypeId($typeId);
@@ -137,7 +139,7 @@ class Magento_CatalogInventory_Model_Stock_Status extends Magento_Core_Model_Abs
      * Retrieve Product Type Instance By Product Type
      *
      * @param string $productType
-     * @return Magento_Catalog_Model_Product_Type_Abstract
+     * @return \Magento\Catalog\Model\Product\Type\AbstractType
      */
     public function getProductTypeInstance($productType)
     {
@@ -189,16 +191,16 @@ class Magento_CatalogInventory_Model_Stock_Status extends Magento_Core_Model_Abs
      */
     public function getProductStatusEnabled()
     {
-        return Magento_Catalog_Model_Product_Status::STATUS_ENABLED;
+        return \Magento\Catalog\Model\Product\Status::STATUS_ENABLED;
     }
 
     /**
      * Change Stock Item status process
      *
-     * @param Magento_CatalogInventory_Model_Stock_Item $item
-     * @return Magento_CatalogInventory_Model_Stock_Status
+     * @param \Magento\CatalogInventory\Model\Stock\Item $item
+     * @return \Magento\CatalogInventory\Model\Stock\Status
      */
-    public function changeItemStatus(Magento_CatalogInventory_Model_Stock_Item $item)
+    public function changeItemStatus(\Magento\CatalogInventory\Model\Stock\Item $item)
     {
         $productId  = $item->getProductId();
         if (!$productType = $item->getProductTypeId()) {
@@ -217,12 +219,12 @@ class Magento_CatalogInventory_Model_Stock_Status extends Magento_Core_Model_Abs
     /**
      * Assign Stock Status to Product
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @param int $stockId
      * @param int $stockStatus
-     * @return Magento_CatalogInventory_Model_Stock_Status
+     * @return \Magento\CatalogInventory\Model\Stock\Status
      */
-    public function assignProduct(Magento_Catalog_Model_Product $product, $stockId = 1, $stockStatus = null)
+    public function assignProduct(\Magento\Catalog\Model\Product $product, $stockId = 1, $stockStatus = null)
     {
         if (is_null($stockStatus)) {
             $websiteId = $product->getStore()->getWebsiteId();
@@ -239,7 +241,7 @@ class Magento_CatalogInventory_Model_Stock_Status extends Magento_Core_Model_Abs
      * Rebuild stock status for all products
      *
      * @param int $websiteId
-     * @return Magento_CatalogInventory_Model_Stock_Status
+     * @return \Magento\CatalogInventory\Model\Stock\Status
      */
     public function rebuild($websiteId = null)
     {
@@ -265,7 +267,7 @@ class Magento_CatalogInventory_Model_Stock_Status extends Magento_Core_Model_Abs
      * @param int $productId
      * @param string $productType
      * @param int $websiteId
-     * @return Magento_CatalogInventory_Model_Stock_Status
+     * @return \Magento\CatalogInventory\Model\Stock\Status
      */
     public function updateStatus($productId, $productType = null, $websiteId = null)
     {
@@ -299,7 +301,7 @@ class Magento_CatalogInventory_Model_Stock_Status extends Magento_Core_Model_Abs
      * @param int $stockId
      * @param int $websiteId
      *
-     * @return Magento_CatalogInventory_Model_Stock_Status
+     * @return \Magento\CatalogInventory\Model\Stock\Status
      */
     protected function _processChildren(
         $productId,
@@ -318,7 +320,7 @@ class Magento_CatalogInventory_Model_Stock_Status extends Magento_Core_Model_Abs
         $websites   = $this->getWebsites($websiteId);
 
         foreach (array_keys($websites) as $websiteId) {
-            /* @var $website Magento_Core_Model_Website */
+            /* @var $website \Magento\Core\Model\Website */
             $statuses[$websiteId] = $status;
         }
 
@@ -370,13 +372,13 @@ class Magento_CatalogInventory_Model_Stock_Status extends Magento_Core_Model_Abs
      * @param int $productId
      * @param int $stockId
      * @param int $websiteId
-     * @return Magento_CatalogInventory_Model_Stock_Status
+     * @return \Magento\CatalogInventory\Model\Stock\Status
      */
     protected function _processParents($productId, $stockId = 1, $websiteId = null)
     {
         $parentIds = array();
         foreach ($this->getProductTypeInstances() as $typeInstance) {
-            /* @var $typeInstance Magento_Catalog_Model_Product_Type_Abstract */
+            /* @var $typeInstance \Magento\Catalog\Model\Product\Type\AbstractType */
             $parentIds = array_merge($parentIds, $typeInstance->getParentIdsByChild($productId));
         }
 
@@ -415,7 +417,7 @@ class Magento_CatalogInventory_Model_Stock_Status extends Magento_Core_Model_Abs
      * @param int $qty
      * @param int $stockId
      * @param int|null $websiteId
-     * @return Magento_CatalogInventory_Model_Stock_Status
+     * @return \Magento\CatalogInventory\Model\Stock\Status
      */
     public function saveProductStatus($productId, $status, $qty = 0, $stockId = 1, $websiteId = null)
     {
@@ -479,15 +481,15 @@ class Magento_CatalogInventory_Model_Stock_Status extends Magento_Core_Model_Abs
     /**
      * Add information about stock status to product collection
      *
-     * @param   Magento_Catalog_Model_Resource_Product_Collection $productCollection
+     * @param   \Magento\Catalog\Model\Resource\Product\Collection $productCollection
      * @param   int|null $websiteId
      * @param   int|null $stockId
-     * @return  Magento_CatalogInventory_Model_Stock_Status
+     * @return  \Magento\CatalogInventory\Model\Stock\Status
      */
     public function addStockStatusToProducts($productCollection, $websiteId = null, $stockId = null)
     {
         if ($stockId === null) {
-            $stockId = Magento_CatalogInventory_Model_Stock::DEFAULT_STOCK_ID;
+            $stockId = \Magento\CatalogInventory\Model\Stock::DEFAULT_STOCK_ID;
         }
         if ($websiteId === null) {
             $websiteId = $this->_storeManager->getStore()->getWebsiteId();
@@ -511,7 +513,7 @@ class Magento_CatalogInventory_Model_Stock_Status extends Magento_Core_Model_Abs
 
         /* back compatible stock item */
         foreach ($productCollection as $product) {
-            $object = new Magento_Object(array('is_in_stock' => $product->getData('is_salable')));
+            $object = new \Magento\Object(array('is_in_stock' => $product->getData('is_salable')));
             $product->setStockItem($object);
         }
 
@@ -521,11 +523,11 @@ class Magento_CatalogInventory_Model_Stock_Status extends Magento_Core_Model_Abs
     /**
      * Add stock status to prepare index select
      *
-     * @param Magento_DB_Select $select
-     * @param Magento_Core_Model_Website $website
-     * @return Magento_CatalogInventory_Model_Stock_Status
+     * @param \Magento\DB\Select $select
+     * @param \Magento\Core\Model\Website $website
+     * @return \Magento\CatalogInventory\Model\Stock\Status
      */
-    public function addStockStatusToSelect(Magento_DB_Select $select, Magento_Core_Model_Website $website)
+    public function addStockStatusToSelect(\Magento\DB\Select $select, \Magento\Core\Model\Website $website)
     {
         $this->_getResource()->addStockStatusToSelect($select, $website);
         return $this;
@@ -534,12 +536,12 @@ class Magento_CatalogInventory_Model_Stock_Status extends Magento_Core_Model_Abs
     /**
      * Add stock status limitation to catalog product price index select object
      *
-     * @param Magento_DB_Select $select
+     * @param \Magento\DB\Select $select
      * @param string|Zend_Db_Expr $entityField
      * @param string|Zend_Db_Expr $websiteField
-     * @return Magento_CatalogInventory_Model_Stock_Status
+     * @return \Magento\CatalogInventory\Model\Stock\Status
      */
-    public function prepareCatalogProductIndexSelect(Magento_DB_Select $select, $entityField, $websiteField)
+    public function prepareCatalogProductIndexSelect(\Magento\DB\Select $select, $entityField, $websiteField)
     {
         if ($this->_catalogInventoryData->isShowOutOfStock()) {
             return $this;
@@ -553,8 +555,8 @@ class Magento_CatalogInventory_Model_Stock_Status extends Magento_Core_Model_Abs
     /**
      * Add only is in stock products filter to product collection
      *
-     * @param Magento_Catalog_Model_Resource_Product_Collection $collection
-     * @return Magento_CatalogInventory_Model_Stock_Status
+     * @param \Magento\Catalog\Model\Resource\Product\Collection $collection
+     * @return \Magento\CatalogInventory\Model\Stock\Status
      */
     public function addIsInStockFilterToCollection($collection)
     {
@@ -571,11 +573,11 @@ class Magento_CatalogInventory_Model_Stock_Status extends Magento_Core_Model_Abs
     {
         return array(
             array(
-                'value' => Magento_CatalogInventory_Model_Stock::STOCK_IN_STOCK,
+                'value' => \Magento\CatalogInventory\Model\Stock::STOCK_IN_STOCK,
                 'label' => __('In Stock'),
             ),
             array(
-                'value' => Magento_CatalogInventory_Model_Stock::STOCK_OUT_OF_STOCK,
+                'value' => \Magento\CatalogInventory\Model\Stock::STOCK_OUT_OF_STOCK,
                 'label' => __('Out of Stock')
             ),
         );

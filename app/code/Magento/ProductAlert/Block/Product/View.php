@@ -11,38 +11,48 @@
 /**
  * Product view price and stock alerts
  */
-class Magento_ProductAlert_Block_Product_View extends Magento_Core_Block_Template
+namespace Magento\ProductAlert\Block\Product;
+
+class View extends \Magento\Core\Block\Template
 {
     /**
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_registry;
 
     /**
      * Current product instance
      *
-     * @var null|Magento_Catalog_Model_Product
+     * @var null|\Magento\Catalog\Model\Product
      */
     protected $_product = null;
 
     /**
      * Helper instance
      *
-     * @var Magento_ProductAlert_Helper_Data
+     * @var \Magento\ProductAlert\Helper\Data
      */
     protected $_helper;
 
     /**
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_ProductAlert_Helper_Data $helper
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Core\Block\Template\Context $context
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\ProductAlert\Helper\Data $productAlertData
+     * @param \Magento\ProductAlert\Helper\Data $helper
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Block_Template_Context $context,
-        Magento_ProductAlert_Helper_Data $helper,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Helper_Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\ProductAlert\Helper\Data $helper,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Helper\Data $coreData,
         array $data = array()
     ) {
         parent::__construct($coreData, $context, $data);
@@ -53,7 +63,7 @@ class Magento_ProductAlert_Block_Product_View extends Magento_Core_Block_Templat
     /**
      * Get current product instance
      *
-     * @return Magento_ProductAlert_Block_Product_View
+     * @return \Magento\ProductAlert\Block\Product\View
      */
     protected function _prepareLayout()
     {

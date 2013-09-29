@@ -15,18 +15,20 @@
  * @package     Magento_Rma
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Quantity
-    extends Magento_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
+namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer;
+
+class Quantity
+    extends \Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**
      * Renders quantity as integer
      *
-     * @param Magento_Object $row
+     * @param \Magento\Object $row
      * @return int|string
      */
-    public function _getValue(Magento_Object $row)
+    public function _getValue(\Magento\Object $row)
     {
-        if ($row->getProductType() == Magento_Catalog_Model_Product_Type::TYPE_BUNDLE) {
+        if ($row->getProductType() == \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE) {
             return '';
         }
         $quantity = parent::_getValue($row);

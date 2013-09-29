@@ -9,9 +9,11 @@
  */
 
 
-class Magento_Shipping_Model_Carrier_Tablerate
-    extends Magento_Shipping_Model_Carrier_Abstract
-    implements Magento_Shipping_Model_Carrier_Interface
+namespace Magento\Shipping\Model\Carrier;
+
+class Tablerate
+    extends \Magento\Shipping\Model\Carrier\AbstractCarrier
+    implements \Magento\Shipping\Model\Carrier\CarrierInterface
 {
 
     protected $_code = 'tablerate';
@@ -21,11 +23,11 @@ class Magento_Shipping_Model_Carrier_Tablerate
     protected $_conditionNames = array();
 
     /**
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Store_Config $coreStoreConfig,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
         array $data = array()
     ) {
         parent::__construct($coreStoreConfig, $data);
@@ -35,10 +37,12 @@ class Magento_Shipping_Model_Carrier_Tablerate
     }
 
     /**
-     * @param Magento_Shipping_Model_Rate_Request $request
-     * @return Magento_Shipping_Model_Rate_Result
+     * @param \Magento\Shipping\Model\Rate\Request $request
+     *
+     * @param \Magento\Shipping\Model\Rate\Request $data
+     * @return \Magento\Shipping\Model\Rate\Result
      */
-    public function collectRates(Magento_Shipping_Model_Rate_Request $request)
+    public function collectRates(\Magento\Shipping\Model\Rate\Request $request)
     {
         if (!$this->getConfigFlag('active')) {
             return false;
@@ -100,14 +104,14 @@ class Magento_Shipping_Model_Carrier_Tablerate
         $request->setPackageWeight($request->getFreeMethodWeight());
         $request->setPackageQty($oldQty - $freeQty);
 
-        $result = Mage::getModel('Magento_Shipping_Model_Rate_Result');
+        $result = \Mage::getModel('Magento\Shipping\Model\Rate\Result');
         $rate = $this->getRate($request);
 
         $request->setPackageWeight($oldWeight);
         $request->setPackageQty($oldQty);
 
         if (!empty($rate) && $rate['price'] >= 0) {
-            $method = Mage::getModel('Magento_Shipping_Model_Rate_Result_Method');
+            $method = \Mage::getModel('Magento\Shipping\Model\Rate\Result\Method');
 
             $method->setCarrier('tablerate');
             $method->setCarrierTitle($this->getConfigData('title'));
@@ -130,9 +134,9 @@ class Magento_Shipping_Model_Carrier_Tablerate
         return $result;
     }
 
-    public function getRate(Magento_Shipping_Model_Rate_Request $request)
+    public function getRate(\Magento\Shipping\Model\Rate\Request $request)
     {
-        return Mage::getResourceModel('Magento_Shipping_Model_Resource_Carrier_Tablerate')->getRate($request);
+        return \Mage::getResourceModel('Magento\Shipping\Model\Resource\Carrier\Tablerate')->getRate($request);
     }
 
     public function getCode($type, $code='')
@@ -154,7 +158,7 @@ class Magento_Shipping_Model_Carrier_Tablerate
         );
 
         if (!isset($codes[$type])) {
-            throw Mage::exception('Magento_Shipping', __('Please correct Table Rate code type: %1.', $type));
+            throw \Mage::exception('Magento_Shipping', __('Please correct Table Rate code type: %1.', $type));
         }
 
         if (''===$code) {
@@ -162,7 +166,7 @@ class Magento_Shipping_Model_Carrier_Tablerate
         }
 
         if (!isset($codes[$type][$code])) {
-            throw Mage::exception('Magento_Shipping', __('Please correct Table Rate code for type %1: %2.', $type, $code));
+            throw \Mage::exception('Magento_Shipping', __('Please correct Table Rate code for type %1: %2.', $type, $code));
         }
 
         return $codes[$type][$code];

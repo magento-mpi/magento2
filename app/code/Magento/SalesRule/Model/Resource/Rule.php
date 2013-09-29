@@ -16,7 +16,9 @@
  * @package Magento_SalesRule
  * @author Magento Core Team <core@magentocommerce.com>
  */
-class Magento_SalesRule_Model_Resource_Rule extends Magento_Rule_Model_Resource_Abstract
+namespace Magento\SalesRule\Model\Resource;
+
+class Rule extends \Magento\Rule\Model\Resource\AbstractResource
 {
     /**
      * Store associated with rule entities information map
@@ -39,24 +41,24 @@ class Magento_SalesRule_Model_Resource_Rule extends Magento_Rule_Model_Resource_
     /**
      * Core string
      *
-     * @var Magento_Core_Helper_String
+     * @var \Magento\Core\Helper\String
      */
     protected $_coreString = null;
 
     /**
-     * @var Magento_SalesRule_Model_Resource_Coupon
+     * @var \Magento\SalesRule\Model\Resource\Coupon
      */
     protected $_resourceCoupon;
 
     /**
-     * @param Magento_Core_Helper_String $coreString
-     * @param Magento_Core_Model_Resource $resource
-     * @param Magento_SalesRule_Model_Resource_Coupon $resourceCoupon
+     * @param \Magento\Core\Helper\String $coreString
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\SalesRule\Model\Resource\Coupon $resourceCoupon
      */
     public function __construct(
-        Magento_Core_Helper_String $coreString,
-        Magento_Core_Model_Resource $resource,
-        Magento_SalesRule_Model_Resource_Coupon $resourceCoupon
+        \Magento\Core\Helper\String $coreString,
+        \Magento\Core\Model\Resource $resource,
+        \Magento\SalesRule\Model\Resource\Coupon $resourceCoupon
     ) {
         $this->_coreString = $coreString;
         $this->_resourceCoupon = $resourceCoupon;
@@ -74,11 +76,11 @@ class Magento_SalesRule_Model_Resource_Rule extends Magento_Rule_Model_Resource_
     /**
      * Add customer group ids and website ids to rule data after load
      *
-     * @param Magento_Core_Model_Abstract $object
+     * @param \Magento\Core\Model\AbstractModel $object
      *
-     * @return Magento_SalesRule_Model_Resource_Rule
+     * @return \Magento\SalesRule\Model\Resource\Rule
      */
-    protected function _afterLoad(Magento_Core_Model_Abstract $object)
+    protected function _afterLoad(\Magento\Core\Model\AbstractModel $object)
     {
         $object->setData('customer_group_ids', (array)$this->getCustomerGroupIds($object->getId()));
         $object->setData('website_ids', (array)$this->getWebsiteIds($object->getId()));
@@ -90,14 +92,14 @@ class Magento_SalesRule_Model_Resource_Rule extends Magento_Rule_Model_Resource_
     /**
      * Prepare sales rule's discount quantity
      *
-     * @param Magento_Core_Model_Abstract $object
+     * @param \Magento\Core\Model\AbstractModel $object
      *
-     * @return Magento_SalesRule_Model_Resource_Rule
+     * @return \Magento\SalesRule\Model\Resource\Rule
      */
-    public function _beforeSave(Magento_Core_Model_Abstract $object)
+    public function _beforeSave(\Magento\Core\Model\AbstractModel $object)
     {
         if (!$object->getDiscountQty()) {
-            $object->setDiscountQty(new Zend_Db_Expr('NULL'));
+            $object->setDiscountQty(new \Zend_Db_Expr('NULL'));
         }
 
         parent::_beforeSave($object);
@@ -109,11 +111,11 @@ class Magento_SalesRule_Model_Resource_Rule extends Magento_Rule_Model_Resource_
      * Save rule's associated store labels.
      * Save product attributes used in rule.
      *
-     * @param Magento_Core_Model_Abstract $object
+     * @param \Magento\Core\Model\AbstractModel $object
      *
-     * @return Magento_SalesRule_Model_Resource_Rule
+     * @return \Magento\SalesRule\Model\Resource\Rule
      */
-    protected function _afterSave(Magento_Core_Model_Abstract $object)
+    protected function _afterSave(\Magento\Core\Model\AbstractModel $object)
     {
         if ($object->hasStoreLabels()) {
             $this->saveStoreLabels($object->getId(), $object->getStoreLabels());
@@ -154,7 +156,7 @@ class Magento_SalesRule_Model_Resource_Rule extends Magento_Rule_Model_Resource_
     /**
      * Retrieve coupon/rule uses for specified customer
      *
-     * @param Magento_SalesRule_Model_Rule $rule
+     * @param \Magento\SalesRule\Model\Rule $rule
      * @param int $customerId
      *
      * @return string
@@ -173,8 +175,8 @@ class Magento_SalesRule_Model_Resource_Rule extends Magento_Rule_Model_Resource_
      *
      * @param int $ruleId
      * @param array $labels
-     * @throws Exception
-     * @return Magento_SalesRule_Model_Resource_Rule
+     * @throws \Exception
+     * @return \Magento\SalesRule\Model\Resource\Rule
      */
     public function saveStoreLabels($ruleId, $labels)
     {
@@ -207,7 +209,7 @@ class Magento_SalesRule_Model_Resource_Rule extends Magento_Rule_Model_Resource_
                     'store_id IN (?)' => $deleteByStoreIds
                 ));
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $adapter->rollback();
             throw $e;
         }
@@ -259,7 +261,7 @@ class Magento_SalesRule_Model_Resource_Rule extends Magento_Rule_Model_Resource_
         $read = $this->_getReadAdapter();
         $select = $read->select()
             ->from(array('a' => $this->getTable('salesrule_product_attribute')),
-                new Zend_Db_Expr('DISTINCT ea.attribute_code'))
+                new \Zend_Db_Expr('DISTINCT ea.attribute_code'))
             ->joinInner(array('ea' => $this->getTable('eav_attribute')), 'ea.attribute_id = a.attribute_id', array());
         return $read->fetchAll($select);
     }
@@ -267,9 +269,9 @@ class Magento_SalesRule_Model_Resource_Rule extends Magento_Rule_Model_Resource_
     /**
      * Save product attributes currently used in conditions and actions of rule
      *
-     * @param Magento_SalesRule_Model_Rule $rule
+     * @param \Magento\SalesRule\Model\Rule $rule
      * @param mixed $attributes
-     * @return Magento_SalesRule_Model_Resource_Rule
+     * @return \Magento\SalesRule\Model\Resource\Rule
      */
     public function setActualProductAttributes($rule, $attributes)
     {

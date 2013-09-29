@@ -7,10 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  *
- * @method Magento_Object getApiUser() getApiUser()
- * @method Magento_Webapi_Block_Adminhtml_User_Edit_Tabs setApiUser() setApiUser(Magento_Object $apiUser)
+ * @method \Magento\Object getApiUser() getApiUser()
+ * @method \Magento\Webapi\Block\Adminhtml\User\Edit\Tabs setApiUser() setApiUser(\Magento\Object $apiUser)
  */
-class Magento_Webapi_Block_Adminhtml_User_Edit_Tabs extends Magento_Backend_Block_Widget_Tabs
+namespace Magento\Webapi\Block\Adminhtml\User\Edit;
+
+class Tabs extends \Magento\Backend\Block\Widget\Tabs
 {
     /**
      * Internal constructor.
@@ -27,11 +29,11 @@ class Magento_Webapi_Block_Adminhtml_User_Edit_Tabs extends Magento_Backend_Bloc
     /**
      * Before to HTML.
      *
-     * @return Magento_Core_Block_Abstract
+     * @return \Magento\Core\Block\AbstractBlock
      */
     protected function _beforeToHtml()
     {
-        /** @var Magento_Webapi_Block_Adminhtml_User_Edit_Tab_Main $mainTab */
+        /** @var \Magento\Webapi\Block\Adminhtml\User\Edit\Tab\Main $mainTab */
         $mainTab = $this->getLayout()->getBlock('webapi.user.edit.tab.main');
         $mainTab->setApiUser($this->getApiUser());
         $this->addTab('main_section', array(

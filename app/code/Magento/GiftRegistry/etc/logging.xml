@@ -20,21 +20,21 @@
         <group name="magento_giftregistry_type">
             <label translate="true">Gift Registry Type</label>
             <expected_models>
-                <expected_model class="Magento_GiftRegistry_Model_Type" />
+                <expected_model class="Magento\GiftRegistry\Model\Type" />
             </expected_models>
             <events>
                 <event controller_action="adminhtml_giftregistry_edit" action_alias="edit" />
                 <event controller_action="adminhtml_giftregistry_save"
                        action_alias="save"
-                       post_dispatch="Magento_GiftRegistry_Model_Type::postDispatchTypeSave" />
+                       post_dispatch="Magento\GiftRegistry\Model\Type::postDispatchTypeSave" />
                 <event controller_action="adminhtml_giftregistry_delete" action_alias="delete" />
             </events>
         </group>
         <group name="magento_giftregistry_entity">
             <label translate="true">Gift Registry Entity</label>
             <expected_models>
-                <expected_model class="Magento_GiftRegistry_Model_Entity" />
-                <expected_model class="Magento_GiftRegistry_Model_Item" />
+                <expected_model class="Magento\GiftRegistry\Model\Entity" />
+                <expected_model class="Magento\GiftRegistry\Model\Item" />
             </expected_models>
             <events>
                 <event controller_action="adminhtml_giftregistry_customer_add"
@@ -43,7 +43,7 @@
                        action_alias="edit" />
                 <event controller_action="adminhtml_giftregistry_customer_share"
                        action_alias="share"
-                       post_dispatch="Magento_GiftRegistry_Model_Entity::postDispatchShare" />
+                       post_dispatch="Magento\GiftRegistry\Model\Entity::postDispatchShare" />
                 <event controller_action="adminhtml_giftregistry_customer_delete"
                        action_alias="delete" />
             </events>

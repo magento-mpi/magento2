@@ -6,24 +6,30 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_EncryptionTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model;
+
+class EncryptionTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider setHelperGetHashDataProvider
      */
     public function testSetHelperGetHash($input)
     {
-        $objectManager = $this->getMock('Magento_ObjectManager');
+        $helper = $this->getMockBuilder('Magento\Core\Helper\Data')
+                      ->disableOriginalConstructor()
+                      ->setMockClassName('Magento_Core_Helper_Data_Stub')
+                      ->getMock();
+        $objectManager = $this->getMock('Magento\ObjectManager');
         $objectManager->expects($this->once())
             ->method('get')
-            ->with($this->stringContains('Magento_Core_Helper_Data'))
-            ->will($this->returnValue($this->getMock('Magento_Core_Helper_Data', array(), array(), '', false, false)));
-        $coreConfig = $this->getMock('Magento_Core_Model_Config', array(), array(), '', false);
+            ->with($this->stringContains('Magento_Core_Helper_Data_Stub'))
+            ->will($this->returnValue($helper));
+        $coreConfig = $this->getMock('Magento\Core\Model\Config', array(), array(), '', false);
 
         /**
-         * @var Magento_Core_Model_Encryption
+         * @var \Magento\Core\Model\Encryption
          */
-        $model = new Magento_Core_Model_Encryption($objectManager, $coreConfig, 'cryptKey');
+        $model = new \Magento\Core\Model\Encryption($objectManager, $coreConfig, 'cryptKey');
         $model->setHelper($input);
         $model->getHash('password', 1);
     }
@@ -33,26 +39,30 @@ class Magento_Core_Model_EncryptionTest extends PHPUnit_Framework_TestCase
      */
     public function setHelperGetHashDataProvider()
     {
+        $helper = $this->getMockBuilder('Magento\Core\Helper\Data')
+                      ->disableOriginalConstructor()
+                      ->setMockClassName('Magento_Core_Helper_Data_Stub')
+                      ->getMock();
         return array(
-            'string' => array('Magento_Core_Helper_Data'),
-            'object' => array($this->getMock('Magento_Core_Helper_Data', array(), array(), '', false, false)),
+            'string' => array('Magento_Core_Helper_Data_Stub'),
+            'object' => array($helper),
         );
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testSetHelperException()
     {
-        $objectManager = $this->getMock('Magento_ObjectManager');
-        $coreConfig = $this->getMock('Magento_Core_Model_Config', array(), array(), '', false);
+        $objectManager = $this->getMock('Magento\ObjectManager');
+        $coreConfig = $this->getMock('Magento\Core\Model\Config', array(), array(), '', false);
 
         /**
-         * @var Magento_Core_Model_Encryption
+         * @var \Magento\Core\Model\Encryption
          */
-        $model = new Magento_Core_Model_Encryption($objectManager, $coreConfig);
-        /** Mock object is not instance of Magento_Code_Helper_Data and should not pass validation */
-        $input = $this->getMock('Magento_Code_Helper_Data', array(), array(), '', false);
+        $model = new \Magento\Core\Model\Encryption($objectManager, $coreConfig);
+        /** Mock object is not instance of \Magento\Code\Helper\Data and should not pass validation */
+        $input = $this->getMock('Magento\Code\Helper\Data', array(), array(), '', false);
         $model->setHelper($input);
     }
 }

@@ -9,5 +9,5 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <remove name="root"/>
-    <block class="Magento_AdvancedCheckout_Block_Adminhtml_Manage_Items" name="checkout.items" template="manage/items.phtml" output="1"/>
+    <block class="Magento\AdvancedCheckout\Block\Adminhtml\Manage\Items" name="checkout.items" template="manage/items.phtml" output="1"/>
 </layout>

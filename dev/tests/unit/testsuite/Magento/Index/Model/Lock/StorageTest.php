@@ -8,7 +8,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Index_Model_Lock_StorageTest extends PHPUnit_Framework_TestCase
+namespace Magento\Index\Model\Lock;
+
+class StorageTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Keep current process id for tests
@@ -18,19 +20,19 @@ class Magento_Index_Model_Lock_StorageTest extends PHPUnit_Framework_TestCase
     protected $_callbackProcessId;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_dirsMock;
 
     public function testGetFile()
     {
-        $this->_dirsMock = $this->getMock('Magento_Core_Model_Dir', array(), array(), '', false, false);
+        $this->_dirsMock = $this->getMock('Magento\Core\Model\Dir', array(), array(), '', false, false);
         $this->_dirsMock->expects($this->any())
             ->method('getDir')
-            ->with(Magento_Core_Model_Dir::VAR_DIR)
+            ->with(\Magento\Core\Model\Dir::VAR_DIR)
             ->will($this->returnValue(__DIR__ . DIRECTORY_SEPARATOR. 'var'));
 
-        $fileModel = $this->getMock('Magento_Index_Model_Process_File',
+        $fileModel = $this->getMock('Magento\Index\Model\Process\File',
             array(
                 'setAllowCreateFolders',
                 'open',
@@ -52,14 +54,14 @@ class Magento_Index_Model_Lock_StorageTest extends PHPUnit_Framework_TestCase
             ->method('streamWrite')
             ->with($this->isType('string'));
 
-        $fileFactory = $this->getMock('Magento_Index_Model_Process_FileFactory', array('create'), array(), '',
+        $fileFactory = $this->getMock('Magento\Index\Model\Process\FileFactory', array('create'), array(), '',
             false
         );
         $fileFactory->expects($this->exactly(2))
             ->method('create')
             ->will($this->returnValue($fileModel));
 
-        $storage = new Magento_Index_Model_Lock_Storage($this->_dirsMock, $fileFactory);
+        $storage = new \Magento\Index\Model\Lock\Storage($this->_dirsMock, $fileFactory);
 
         /**
          * List if test process IDs.
@@ -68,7 +70,7 @@ class Magento_Index_Model_Lock_StorageTest extends PHPUnit_Framework_TestCase
         $processIdList = array(1, 2, 2);
         foreach ($processIdList as $processId) {
             $this->_callbackProcessId = $processId;
-            $this->assertInstanceOf('Magento_Index_Model_Process_File', $storage->getFile($processId));
+            $this->assertInstanceOf('Magento\Index\Model\Process\File', $storage->getFile($processId));
         }
         $this->assertAttributeCount(2, '_fileHandlers', $storage);
     }

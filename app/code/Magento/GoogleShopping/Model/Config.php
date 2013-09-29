@@ -15,7 +15,9 @@
  * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GoogleShopping_Model_Config extends Magento_Object
+namespace Magento\GoogleShopping\Model;
+
+class Config extends \Magento\Object
 {
     /**
      * Config values cache
@@ -25,35 +27,35 @@ class Magento_GoogleShopping_Model_Config extends Magento_Object
     protected $_config = array();
 
     /**
-     * @var Magento_Core_Helper_Data|null
+     * @var \Magento\Core\Helper\Data|null
      */
     protected $_coreData = null;
 
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
      * Store manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
+     * @param \Magento\Core\Helper\Data $coreData
      *
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;

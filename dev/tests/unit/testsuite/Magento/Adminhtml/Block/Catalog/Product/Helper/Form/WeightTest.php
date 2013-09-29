@@ -9,37 +9,39 @@
  * @license     {license_link}
  */
 
-class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_WeightTest extends PHPUnit_Framework_TestCase
+namespace Magento\Adminhtml\Block\Catalog\Product\Helper\Form;
+
+class WeightTest extends \PHPUnit_Framework_TestCase
 {
     const VIRTUAL_FIELD_HTML_ID = 'weight_and_type_switcher';
 
     /**
-     * @var Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Weight
+     * @var \Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Weight
      */
     protected $_model;
 
     /**
-     * @var Magento_Data_Form_Element_Checkbox
+     * @var \Magento\Data\Form\Element\Checkbox
      */
     protected $_virtual;
 
     public function testSetForm()
     {
-        $coreHelper = $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false);
-        $factory = $this->getMock('Magento_Data_Form_Element_Factory', array(), array(), '', false);
-        $session = $this->getMock('Magento_Core_Model_Session', array(), array(), '', false);
-        $collectionFactory = $this->getMock('Magento_Data_Form_Element_CollectionFactory', array('create'),
+        $coreHelper = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
+        $factory = $this->getMock('Magento\Data\Form\Element\Factory', array(), array(), '', false);
+        $session = $this->getMock('Magento\Core\Model\Session', array(), array(), '', false);
+        $collectionFactory = $this->getMock('Magento\Data\Form\Element\CollectionFactory', array('create'),
             array(), '', false);
 
-        $form = new Magento_Data_Form($session, $factory, $collectionFactory);
+        $form = new \Magento\Data\Form($session, $factory, $collectionFactory);
 
-        $helper = $this->getMock('Magento_Catalog_Helper_Product', array('getTypeSwitcherControlLabel'),
+        $helper = $this->getMock('Magento\Catalog\Helper\Product', array('getTypeSwitcherControlLabel'),
             array(), '', false, false
         );
         $helper->expects($this->any())->method('getTypeSwitcherControlLabel')
             ->will($this->returnValue('Virtual / Downloadable'));
 
-        $this->_virtual = $this->getMock('Magento_Data_Form_Element_Checkbox',
+        $this->_virtual = $this->getMock('Magento\Data\Form\Element\Checkbox',
             array('setId', 'setName', 'setLabel', 'setForm'),
             array(), '', false, false);
         $this->_virtual->expects($this->any())
@@ -61,7 +63,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_WeightTest extends PHP
             ->with($this->equalTo('checkbox'))
             ->will($this->returnValue($this->_virtual));
 
-        $this->_model = new Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Weight($coreHelper, $factory,
+        $this->_model = new \Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Weight($coreHelper, $factory,
             $collectionFactory, $helper);
         $this->_model->setForm($form);
     }

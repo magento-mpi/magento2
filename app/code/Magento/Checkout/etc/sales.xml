@@ -11,7 +11,7 @@
     <section name="quote">
         <group name="totals">
             <item name="nominal">
-                <renderer name="frontend" instance="Magento_Checkout_Block_Total_Nominal" />
+                <renderer name="frontend" instance="Magento\Checkout\Block\Total\Nominal" />
             </item>
         </group>
     </section>

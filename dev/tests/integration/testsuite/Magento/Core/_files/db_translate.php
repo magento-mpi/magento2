@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-/** @var Magento_Core_Model_Resource_Translate_String $translateString */
-$translateString = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Core_Model_Resource_Translate_String');
+/** @var \Magento\Core\Model\Resource\Translate\String $translateString */
+$translateString = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Core\Model\Resource\Translate\String');
 $translateString->saveTranslate('Fixture String', 'Fixture Db Translation');

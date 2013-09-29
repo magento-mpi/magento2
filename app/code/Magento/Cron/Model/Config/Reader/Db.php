@@ -8,32 +8,34 @@
  * @license     {license_link}
  */
 
+namespace Magento\Cron\Model\Config\Reader;
+
 /**
  * Reader for cron parameters from data base storage
  */
-class Magento_Cron_Model_Config_Reader_Db
+class Db
 {
     /**
      * Converter instance
      *
-     * @var Magento_Cron_Model_Config_Converter_Db
+     * @var \Magento\Cron\Model\Config\Converter\Db
      */
     protected $_converter;
 
     /**
-     * @var Magento_Core_Model_Config_Section_Reader_DefaultReader
+     * @var \Magento\Core\Model\Config\Section\Reader\DefaultReader
      */
     protected $_defaultReader;
 
     /**
      * Initialize parameters
      *
-     * @param Magento_Core_Model_Config_Section_Reader_DefaultReader $defaultReader
-     * @param Magento_Cron_Model_Config_Converter_Db                 $converter
+     * @param \Magento\Core\Model\Config\Section\Reader\DefaultReader $defaultReader
+     * @param \Magento\Cron\Model\Config\Converter\Db                 $converter
      */
     public function __construct(
-        Magento_Core_Model_Config_Section_Reader_DefaultReader $defaultReader,
-        Magento_Cron_Model_Config_Converter_Db $converter
+        \Magento\Core\Model\Config\Section\Reader\DefaultReader $defaultReader,
+        \Magento\Cron\Model\Config\Converter\Db $converter
     ) {
         $this->_defaultReader = $defaultReader;
         $this->_converter = $converter;

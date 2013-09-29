@@ -12,15 +12,17 @@
  * Recursive renderer that uses several templates
  *
  * @method string getHtml()
- * @method Magento_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Recursive setHtml($html)
+ * @method \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer\Recursive setHtml($html)
  */
-class Magento_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Recursive extends Magento_Backend_Block_Template
-    implements Magento_Data_Form_Element_Renderer_Interface
+namespace Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer;
+
+class Recursive extends \Magento\Backend\Block\Template
+    implements \Magento\Data\Form\Element\Renderer\RendererInterface
 {
     /**
      * Form element to render
      *
-     * @var Magento_Data_Form_Element_Abstract
+     * @var \Magento\Data\Form\Element\AbstractElement
      */
     protected $_element;
 
@@ -45,7 +47,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Recursive extend
     /**
      * Get element renderer bound to
      *
-     * @return Magento_Data_Form_Element_Abstract
+     * @return \Magento\Data\Form\Element\AbstractElement
      */
     public function getElement()
     {
@@ -55,10 +57,10 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Recursive extend
     /**
      * Render form element as HTML
      *
-     * @param Magento_Data_Form_Element_Abstract $element
+     * @param \Magento\Data\Form\Element\AbstractElement $element
      * @return string
      */
-    public function render(Magento_Data_Form_Element_Abstract $element)
+    public function render(\Magento\Data\Form\Element\AbstractElement $element)
     {
         $this->_element = $element;
 

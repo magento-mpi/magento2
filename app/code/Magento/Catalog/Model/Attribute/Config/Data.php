@@ -7,15 +7,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Catalog_Model_Attribute_Config_Data extends Magento_Config_Data
+namespace Magento\Catalog\Model\Attribute\Config;
+
+class Data extends \Magento\Config\Data
 {
     /**
-     * @param Magento_Catalog_Model_Attribute_Config_Reader $reader
-     * @param Magento_Config_CacheInterface $cache
+     * @param \Magento\Catalog\Model\Attribute\Config\Reader $reader
+     * @param \Magento\Config\CacheInterface $cache
      */
     public function __construct(
-        Magento_Catalog_Model_Attribute_Config_Reader $reader,
-        Magento_Config_CacheInterface $cache
+        \Magento\Catalog\Model\Attribute\Config\Reader $reader,
+        \Magento\Config\CacheInterface $cache
     ) {
         parent::__construct($reader, $cache, 'catalog_attributes');
     }

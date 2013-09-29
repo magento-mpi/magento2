@@ -8,25 +8,25 @@
  */
 -->
 <config>
-    <type name="Magento_Downloadable_Helper_Download">
+    <type name="Magento\Downloadable\Helper\Download">
         <param name="coreFileStorageDb">
-            <instance type="Magento_Core_Helper_File_Storage_DatabaseProxy" />
+            <instance type="Magento\Core\Helper\File\Storage\DatabaseProxy" />
         </param>
     </type>
-    <type name="Magento_Downloadable_Model_Sales_Order_Pdf_Items_Creditmemo">
+    <type name="Magento\Downloadable\Model\Sales\Order\Pdf\Items\Creditmemo">
         <param name="helper">
-            <instance type="Magento_Core_Helper_StringProxy" />
+            <instance type="Magento\Core\Helper\StringProxy" />
         </param>
     </type>
-    <type name="Magento_Catalog_Helper_Product">
+    <type name="Magento\Catalog\Helper\Product">
         <param name="typeSwitcherLabel">
             <value>Virtual / Downloadable</value>
         </param>
     </type>
-    <type name="Magento_Core_Model_Db_Updater">
+    <type name="Magento\Core\Model\Db\Updater">
         <param name="resourceList">
             <value>
-                <downloadable_setup>Magento_Catalog_Model_Resource_Setup</downloadable_setup>
+                <downloadable_setup>Magento\Catalog\Model\Resource\Setup</downloadable_setup>
             </value>
         </param>
     </type>

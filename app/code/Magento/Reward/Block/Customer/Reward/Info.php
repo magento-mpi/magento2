@@ -15,53 +15,55 @@
  * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reward_Block_Customer_Reward_Info extends Magento_Core_Block_Template
+namespace Magento\Reward\Block\Customer\Reward;
+
+class Info extends \Magento\Core\Block\Template
 {
     /**
      * Reward pts model instance
      *
-     * @var Magento_Reward_Model_Reward
+     * @var \Magento\Reward\Model\Reward
      */
     protected $_rewardInstance = null;
 
     /**
      * Reward data
      *
-     * @var Magento_Reward_Helper_Data
+     * @var \Magento\Reward\Helper\Data
      */
     protected $_rewardData = null;
 
     /**
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
 
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Reward_Model_RewardFactory
+     * @var \Magento\Reward\Model\RewardFactory
      */
     protected $_rewardFactory;
 
     /**
-     * @param Magento_Reward_Helper_Data $rewardData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Customer_Model_Session $customerSession
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Reward_Model_RewardFactory $rewardFactory
+     * @param \Magento\Reward\Helper\Data $rewardData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Reward\Model\RewardFactory $rewardFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Reward_Helper_Data $rewardData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Customer_Model_Session $customerSession,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Reward_Model_RewardFactory $rewardFactory,
+        \Magento\Reward\Helper\Data $rewardData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Reward\Model\RewardFactory $rewardFactory,
         array $data = array()
     ) {
         $this->_rewardData = $rewardData;

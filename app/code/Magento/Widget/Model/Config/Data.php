@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Widget_Model_Config_Data extends Magento_Config_Data_Scoped
+namespace Magento\Widget\Model\Config;
+
+class Data extends \Magento\Config\Data\Scoped
 {
     /**
      * Scope priority loading scheme

@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Tax_Model_Resource_Calculation_Rule_CollectionTest extends PHPUnit_Framework_TestCase
+namespace Magento\Tax\Model\Resource\Calculation\Rule;
+
+class CollectionTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Test setClassTypeFilter with correct Class Type
@@ -22,8 +24,8 @@ class Magento_Tax_Model_Resource_Calculation_Rule_CollectionTest extends PHPUnit
      */
     public function testSetClassTypeFilter($classType, $elementId, $expected)
     {
-        $collection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Tax_Model_Resource_Calculation_Rule_Collection');
+        $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Tax\Model\Resource\Calculation\Rule\Collection');
         $collection->setClassTypeFilter($classType, $elementId);
         $this->assertRegExp($expected, (string)$collection->getSelect());
     }
@@ -31,9 +33,9 @@ class Magento_Tax_Model_Resource_Calculation_Rule_CollectionTest extends PHPUnit
     public function setClassTypeFilterDataProvider()
     {
         return array(
-            array(Magento_Tax_Model_Class::TAX_CLASS_TYPE_PRODUCT, 1,
+            array(\Magento\Tax\Model\ClassModel::TAX_CLASS_TYPE_PRODUCT, 1,
                 '/`?cd`?\.`?product_tax_class_id`? = [\S]{0,1}1[\S]{0,1}/'),
-            array(Magento_Tax_Model_Class::TAX_CLASS_TYPE_CUSTOMER, 1,
+            array(\Magento\Tax\Model\ClassModel::TAX_CLASS_TYPE_CUSTOMER, 1,
                 '/`?cd`?\.`?customer_tax_class_id`? = [\S]{0,1}1[\S]{0,1}/')
         );
     }
@@ -41,12 +43,12 @@ class Magento_Tax_Model_Resource_Calculation_Rule_CollectionTest extends PHPUnit
     /**
      * Test setClassTypeFilter with wrong Class Type
      *
-     * @expectedException Magento_Core_Exception
+     * @expectedException \Magento\Core\Exception
      */
     public function testSetClassTypeFilterWithWrongType()
     {
-        $collection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Tax_Model_Resource_Calculation_Rule_Collection');
+        $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Tax\Model\Resource\Calculation\Rule\Collection');
         $collection->setClassTypeFilter('WrongType', 1);
     }
 }

@@ -5,36 +5,38 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Catalog_Model_Attribute_Config_ReaderTest extends PHPUnit_Framework_TestCase
+namespace Magento\Catalog\Model\Attribute\Config;
+
+class ReaderTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Catalog_Model_Attribute_Config_Reader
+     * @var \Magento\Catalog\Model\Attribute\Config\Reader
      */
     protected $_model;
 
     /**
-     * @var Magento_Config_FileResolverInterface|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Config\FileResolverInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_fileResolverMock;
 
     /**
-     * @var Magento_Catalog_Model_Attribute_Config_Converter|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Catalog\Model\Attribute\Config\Converter|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_converter;
 
     /**
-     * @var Magento_Catalog_Model_Attribute_Config_SchemaLocator
+     * @var \Magento\Catalog\Model\Attribute\Config\SchemaLocator
      */
     protected $_schemaLocator;
 
     /**
-     * @var Magento_Config_ValidationStateInterface|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Config\ValidationStateInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_validationState;
 
     protected function setUp()
     {
-        $this->_fileResolverMock = $this->getMock('Magento_Config_FileResolverInterface');
+        $this->_fileResolverMock = $this->getMock('Magento\Config\FileResolverInterface');
         $this->_fileResolverMock
             ->expects($this->once())
             ->method('get')
@@ -45,22 +47,22 @@ class Magento_Catalog_Model_Attribute_Config_ReaderTest extends PHPUnit_Framewor
             )))
         ;
 
-        $this->_converter = $this->getMock('Magento_Catalog_Model_Attribute_Config_Converter', array('convert'));
+        $this->_converter = $this->getMock('Magento\Catalog\Model\Attribute\Config\Converter', array('convert'));
 
         $moduleReader = $this->getMock(
-            'Magento_Core_Model_Config_Modules_Reader', array('getModuleDir'), array(), '', false
+            'Magento\Core\Model\Config\Modules\Reader', array('getModuleDir'), array(), '', false
         );
         $moduleReader
             ->expects($this->once())
             ->method('getModuleDir')->with('etc', 'Magento_Catalog')
             ->will($this->returnValue('stub'))
         ;
-        $this->_schemaLocator = new Magento_Catalog_Model_Attribute_Config_SchemaLocator($moduleReader);
+        $this->_schemaLocator = new \Magento\Catalog\Model\Attribute\Config\SchemaLocator($moduleReader);
 
-        $this->_validationState = $this->getMock('Magento_Config_ValidationStateInterface');
+        $this->_validationState = $this->getMock('Magento\Config\ValidationStateInterface');
         $this->_validationState->expects($this->once())->method('isValidated')->will($this->returnValue(false));
 
-        $this->_model = new Magento_Catalog_Model_Attribute_Config_Reader(
+        $this->_model = new \Magento\Catalog\Model\Attribute\Config\Reader(
             $this->_fileResolverMock,
             $this->_converter,
             $this->_schemaLocator,
@@ -70,13 +72,13 @@ class Magento_Catalog_Model_Attribute_Config_ReaderTest extends PHPUnit_Framewor
 
     public function testRead()
     {
-        $expectedResult = new stdClass();
-        $constraint = function (DOMDOcument $actual) {
+        $expectedResult = new \stdClass();
+        $constraint = function (\DOMDocument $actual) {
             try {
                 $expected = __DIR__ . '/_files/attributes_config_merged.xml';
-                PHPUnit_Framework_Assert::assertXmlStringEqualsXmlFile($expected, $actual->saveXML());
+                \PHPUnit_Framework_Assert::assertXmlStringEqualsXmlFile($expected, $actual->saveXML());
                 return true;
-            } catch (PHPUnit_Framework_AssertionFailedError $e) {
+            } catch (\PHPUnit_Framework_AssertionFailedError $e) {
                 return false;
             }
         };

@@ -15,7 +15,9 @@
  * @package    Magento_Paypal
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Paypal_Block_Payflow_Advanced_Iframe extends Magento_Paypal_Block_Payflow_Link_Iframe
+namespace Magento\Paypal\Block\Payflow\Advanced;
+
+class Iframe extends \Magento\Paypal\Block\Payflow\Link\Iframe
 {
     /**
      * Set payment method code
@@ -23,7 +25,7 @@ class Magento_Paypal_Block_Payflow_Advanced_Iframe extends Magento_Paypal_Block_
     protected function _construct()
     {
         parent::_construct();
-        $this->_paymentMethodCode = Magento_Paypal_Model_Config::METHOD_PAYFLOWADVANCED;
+        $this->_paymentMethodCode = \Magento\Paypal\Model\Config::METHOD_PAYFLOWADVANCED;
     }
 
     /**
@@ -44,7 +46,7 @@ class Magento_Paypal_Block_Payflow_Advanced_Iframe extends Magento_Paypal_Block_
     public function isTestMode()
     {
         $mode = $this->_paymentData
-            ->getMethodInstance(Magento_Paypal_Model_Config::METHOD_PAYFLOWADVANCED)
+            ->getMethodInstance(\Magento\Paypal\Model\Config::METHOD_PAYFLOWADVANCED)
             ->getConfigData('sandbox_flag');
         return (bool) $mode;
     }

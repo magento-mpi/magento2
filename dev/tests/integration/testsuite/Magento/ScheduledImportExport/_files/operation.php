@@ -9,9 +9,9 @@
  * @license     {license_link}
  */
 
-/** @var $operation Magento_ScheduledImportExport_Model_Scheduled_Operation */
-$operation = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_ScheduledImportExport_Model_Scheduled_Operation');
+/** @var $operation \Magento\ScheduledImportExport\Model\Scheduled\Operation */
+$operation = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\ScheduledImportExport\Model\Scheduled\Operation');
 
 $data = array(
     'operation_type'    => 'export',
@@ -23,7 +23,7 @@ $data = array(
         'file_path'   => 'export',
     ),
     'start_time'        => '00:00:00',
-    'freq'              => Magento_Cron_Model_Config_Source_Frequency::CRON_DAILY,
+    'freq'              => \Magento\Cron\Model\Config\Source\Frequency::CRON_DAILY,
     'status'            => '1',
     'email_receiver'    => 'general',
     'email_sender'      => 'general',

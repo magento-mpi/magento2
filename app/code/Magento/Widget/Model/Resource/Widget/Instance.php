@@ -16,7 +16,9 @@
  * @package     Magento_Widget
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Widget_Model_Resource_Widget_Instance extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Widget\Model\Resource\Widget;
+
+class Instance extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Define main table
@@ -30,10 +32,10 @@ class Magento_Widget_Model_Resource_Widget_Instance extends Magento_Core_Model_R
     /**
      * Perform actions after object load
      *
-     * @param Magento_Widget_Model_Widget_Instance $object
-     * @return Magento_Widget_Model_Resource_Widget_Instance
+     * @param \Magento\Widget\Model\Widget\Instance $object
+     * @return \Magento\Widget\Model\Resource\Widget\Instance
      */
-    protected function _afterLoad(Magento_Core_Model_Abstract $object)
+    protected function _afterLoad(\Magento\Core\Model\AbstractModel $object)
     {
         $adapter = $this->_getReadAdapter();
         $select = $adapter->select()
@@ -47,10 +49,10 @@ class Magento_Widget_Model_Resource_Widget_Instance extends Magento_Core_Model_R
     /**
      * Perform actions after object save
      *
-     * @param Magento_Widget_Model_Widget_Instance $object
-     * @return Magento_Widget_Model_Resource_Widget_Instance
+     * @param \Magento\Widget\Model\Widget\Instance $object
+     * @return \Magento\Widget\Model\Resource\Widget\Instance
      */
-    protected function _afterSave(Magento_Core_Model_Abstract $object)
+    protected function _afterSave(\Magento\Core\Model\AbstractModel $object)
     {
         $pageTable         = $this->getTable('widget_instance_page');
         $pageLayoutTable   = $this->getTable('widget_instance_page_layout');
@@ -111,7 +113,7 @@ class Magento_Widget_Model_Resource_Widget_Instance extends Magento_Core_Model_R
     /**
      * Prepare and save layout updates data
      *
-     * @param Magento_Widget_Model_Widget_Instance $widgetInstance
+     * @param \Magento\Widget\Model\Widget\Instance $widgetInstance
      * @param array $pageGroupData
      * @return array of inserted layout updates ids
      */
@@ -171,10 +173,10 @@ class Magento_Widget_Model_Resource_Widget_Instance extends Magento_Core_Model_R
      * Perform actions before object delete.
      * Collect page ids and layout update ids and set to object for further delete
      *
-     * @param Magento_Object $object
-     * @return Magento_Widget_Model_Resource_Widget_Instance
+     * @param \Magento\Object $object
+     * @return \Magento\Widget\Model\Resource\Widget\Instance
      */
-    protected function _beforeDelete(Magento_Core_Model_Abstract $object)
+    protected function _beforeDelete(\Magento\Core\Model\AbstractModel $object)
     {
         $writeAdapter = $this->_getWriteAdapter();
         $select = $writeAdapter->select()
@@ -194,10 +196,10 @@ class Magento_Widget_Model_Resource_Widget_Instance extends Magento_Core_Model_R
      * Perform actions after object delete.
      * Delete layout updates by layout update ids collected in _beforeSave
      *
-     * @param Magento_Widget_Model_Widget_Instance $object
-     * @return Magento_Widget_Model_Resource_Widget_Instance
+     * @param \Magento\Widget\Model\Widget\Instance $object
+     * @return \Magento\Widget\Model\Resource\Widget\Instance
      */
-    protected function _afterDelete(Magento_Core_Model_Abstract $object)
+    protected function _afterDelete(\Magento\Core\Model\AbstractModel $object)
     {
         $this->_deleteLayoutUpdates($object->getLayoutUpdateIdsToDelete());
         return parent::_afterDelete($object);
@@ -207,7 +209,7 @@ class Magento_Widget_Model_Resource_Widget_Instance extends Magento_Core_Model_R
      * Delete widget instance pages by given ids
      *
      * @param array $pageIds
-     * @return Magento_Widget_Model_Resource_Widget_Instance
+     * @return \Magento\Widget\Model\Resource\Widget\Instance
      */
     protected function _deleteWidgetInstancePages($pageIds)
     {
@@ -228,7 +230,7 @@ class Magento_Widget_Model_Resource_Widget_Instance extends Magento_Core_Model_R
      * Delete layout updates by given ids
      *
      * @param array $layoutUpdateIds
-     * @return Magento_Widget_Model_Resource_Widget_Instance
+     * @return \Magento\Widget\Model\Resource\Widget\Instance
      */
     protected function _deleteLayoutUpdates($layoutUpdateIds)
     {

@@ -7,41 +7,43 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Adminhtml_Block_System_Design_Edit_Tab_General extends Magento_Backend_Block_Widget_Form_Generic
+namespace Magento\Adminhtml\Block\System\Design\Edit\Tab;
+
+class General extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
-     * @var Magento_Core_Model_Theme_LabelFactory
+     * @var \Magento\Core\Model\Theme\LabelFactory
      */
     protected $_labelFactory;
 
     /**
-     * @var Magento_Backend_Model_Session
+     * @var \Magento\Backend\Model\Session
      */
     protected $_backendSession;
 
     /**
-     * @var Magento_Core_Model_System_Store
+     * @var \Magento\Core\Model\System\Store
      */
     protected $_systemStore;
 
     /**
-     * @param Magento_Core_Model_Theme_LabelFactory $labelFactory
-     * @param Magento_Backend_Model_Session $backendSession
-     * @param Magento_Core_Model_System_Store $systemStore
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
+     * @param \Magento\Core\Model\Theme\LabelFactory $labelFactory
+     * @param \Magento\Backend\Model\Session $backendSession
+     * @param \Magento\Core\Model\System\Store $systemStore
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Theme_LabelFactory $labelFactory,
-        Magento_Backend_Model_Session $backendSession,
-        Magento_Core_Model_System_Store $systemStore,
-        Magento_Core_Model_Registry $registry,
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
+        \Magento\Core\Model\Theme\LabelFactory $labelFactory,
+        \Magento\Backend\Model\Session $backendSession,
+        \Magento\Core\Model\System\Store $systemStore,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_labelFactory = $labelFactory;
@@ -53,11 +55,11 @@ class Magento_Adminhtml_Block_System_Design_Edit_Tab_General extends Magento_Bac
     /**
      * Initialise form fields
      *
-     * @return Magento_Adminhtml_Block_System_Design_Edit_Tab_General
+     * @return \Magento\Adminhtml\Block\System\Design\Edit\Tab\General
      */
     protected function _prepareForm()
     {
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
 
         $fieldset = $form->addFieldset('general', array(
@@ -73,7 +75,7 @@ class Magento_Adminhtml_Block_System_Design_Edit_Tab_General extends Magento_Bac
                 'required' => true,
             ));
             $renderer = $this->getLayout()
-                ->createBlock('Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
+                ->createBlock('Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element');
             $field->setRenderer($renderer);
         } else {
             $fieldset->addField('store_id', 'hidden', array(
@@ -82,7 +84,7 @@ class Magento_Adminhtml_Block_System_Design_Edit_Tab_General extends Magento_Bac
             ));
         }
 
-        /** @var $label Magento_Core_Model_Theme_Label */
+        /** @var $label \Magento\Core\Model\Theme\Label */
         $label = $this->_labelFactory->create();
         $options = $label->getLabelsCollection(__('-- Please Select --'));
         $fieldset->addField('design', 'select', array(
@@ -93,7 +95,7 @@ class Magento_Adminhtml_Block_System_Design_Edit_Tab_General extends Magento_Bac
             'required' => true,
         ));
 
-        $dateFormat = $this->_locale->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
+        $dateFormat = $this->_locale->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
         $fieldset->addField('date_from', 'date', array(
             'label'    => __('Date From'),
             'title'    => __('Date From'),

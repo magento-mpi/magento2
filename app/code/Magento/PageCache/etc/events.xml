@@ -9,9 +9,9 @@
 -->
 <config>
     <event name="design_editor_activate">
-        <observer name="magento_pagecache" instance="Magento_PageCache_Model_Observer" method="setNoCacheCookie" />
+        <observer name="magento_pagecache" instance="Magento\PageCache\Model\Observer" method="setNoCacheCookie" />
     </event>
     <event name="design_editor_deactivate">
-        <observer name="magento_pagecache" instance="Magento_PageCache_Model_Observer" method="deleteNoCacheCookie" />
+        <observer name="magento_pagecache" instance="Magento\PageCache\Model\Observer" method="deleteNoCacheCookie" />
     </event>
 </config>

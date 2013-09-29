@@ -8,6 +8,8 @@
  * @license     {license_link}
  */
 
+namespace Magento\Test\Tools\Migration\Acl;
+
 require_once realpath(__DIR__ . '/../../../../../../../../')
     . '/tools/Magento/Tools/Migration/Acl/Generator.php';
 require_once realpath(__DIR__ . '/../../../../../../../../')
@@ -18,10 +20,11 @@ require_once realpath(__DIR__ . '/../../../../../../../../')
 /**
  * Tools_Migration_Acl test case
  */
-class Magento_Test_Tools_Migration_Acl_GeneratorSaveTest extends PHPUnit_Framework_TestCase
+
+class GeneratorSaveTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var $model Magento_Tools_Migration_Acl_Generator
+     * @var $model \Magento\Tools\Migration\Acl\Generator
      */
     protected $_model;
 
@@ -41,20 +44,20 @@ class Magento_Test_Tools_Migration_Acl_GeneratorSaveTest extends PHPUnit_Framewo
     protected $_aclFile;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_xmlFormatterMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_fileManagerMock;
 
     protected function setUp()
     {
-        $this->_xmlFormatterMock = $this->getMock('Magento_Tools_Migration_Acl_Formatter');
-        $this->_fileManagerMock = $this->getMock('Magento_Tools_Migration_Acl_FileManager');
-        $this->_model = new Magento_Tools_Migration_Acl_Generator($this->_xmlFormatterMock, $this->_fileManagerMock);
+        $this->_xmlFormatterMock = $this->getMock('Magento\Tools\Migration\Acl\Formatter');
+        $this->_fileManagerMock = $this->getMock('Magento\Tools\Migration\Acl\FileManager');
+        $this->_model = new \Magento\Tools\Migration\Acl\Generator($this->_xmlFormatterMock, $this->_fileManagerMock);
 
         $this->_fixturePath = realpath(__DIR__) . DIRECTORY_SEPARATOR . '_files';
         $path = $this->_fixturePath . DIRECTORY_SEPARATOR . 'save' . DIRECTORY_SEPARATOR;
@@ -62,7 +65,7 @@ class Magento_Test_Tools_Migration_Acl_GeneratorSaveTest extends PHPUnit_Framewo
         $this->_originFile = $path . 'adminhtml.xml';
         $this->_aclFile = $path . 'adminhtml' . DIRECTORY_SEPARATOR . 'acl.xml';
 
-        $dom = new DOMDocument();
+        $dom = new \DOMDocument();
         $config = $dom->createElement('config');
         $dom->appendChild($config);
         $acl = $dom->createElement('acl');

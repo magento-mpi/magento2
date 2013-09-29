@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Controller_AjaxTest extends Magento_TestFramework_TestCase_ControllerAbstract
+namespace Magento\Core\Controller;
+
+class AjaxTest extends \Magento\TestFramework\TestCase\ControllerAbstract
 {
     /**
      * @dataProvider translateActionDataProvider

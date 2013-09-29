@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/* @var $installer Magento_Pci_Model_Resource_Setup */
+/* @var $installer \Magento\Pci\Model\Resource\Setup */
 
 $installer = $this;
 $installer->startSetup();
@@ -18,25 +18,25 @@ $installer->startSetup();
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('enterprise_admin_passwords'))
-    ->addColumn('password_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('password_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
         'nullable'  => false,
         'primary'   => true,
         ), 'Password Id')
-    ->addColumn('user_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('user_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '0',
         ), 'User Id')
-    ->addColumn('password_hash', Magento_DB_Ddl_Table::TYPE_TEXT, 100, array(
+    ->addColumn('password_hash', \Magento\DB\Ddl\Table::TYPE_TEXT, 100, array(
         ), 'Password Hash')
-    ->addColumn('expires', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('expires', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '0',
         ), 'Expires')
-    ->addColumn('last_updated', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('last_updated', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '0',
@@ -45,32 +45,32 @@ $table = $installer->getConnection()
         array('user_id'))
     ->addForeignKey($installer->getFkName('enterprise_admin_passwords', 'user_id', 'admin_user', 'user_id'),
         'user_id', $installer->getTable('admin_user'), 'user_id',
-        Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE)
+        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Enterprise Admin Passwords');
 $installer->getConnection()->createTable($table);
 
 $tableAdmins     = $installer->getTable('admin_user');
 
 $installer->getConnection()->changeColumn($tableAdmins, 'password', 'password', array(
-    'type'      => Magento_DB_Ddl_Table::TYPE_TEXT,
+    'type'      => \Magento\DB\Ddl\Table::TYPE_TEXT,
     'length'    => 100,
     'comment'   => 'User Password'
 ));
 
 $installer->getConnection()->addColumn($tableAdmins, 'failures_num', array(
-    'type'      => Magento_DB_Ddl_Table::TYPE_SMALLINT,
+    'type'      => \Magento\DB\Ddl\Table::TYPE_SMALLINT,
     'nullable'  => true,
     'default'   => 0,
     'comment'   => 'Failure Number'
 ));
 
 $installer->getConnection()->addColumn($tableAdmins, 'first_failure', array(
-    'type'      => Magento_DB_Ddl_Table::TYPE_TIMESTAMP,
+    'type'      => \Magento\DB\Ddl\Table::TYPE_TIMESTAMP,
     'comment'   => 'First Failure'
 ));
 
 $installer->getConnection()->addColumn($tableAdmins, 'lock_expires', array(
-    'type'      => Magento_DB_Ddl_Table::TYPE_TIMESTAMP,
+    'type'      => \Magento\DB\Ddl\Table::TYPE_TIMESTAMP,
     'comment'   => 'Expiration Lock Dates'
 ));
 

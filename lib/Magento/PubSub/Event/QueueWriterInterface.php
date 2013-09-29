@@ -9,13 +9,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Magento_PubSub_Event_QueueWriterInterface
+namespace Magento\PubSub\Event;
+
+interface QueueWriterInterface
 {
     /**
      * Adds the event to the queue.
      *
-     * @param Magento_PubSub_EventInterface $event
+     * @param \Magento\PubSub\EventInterface $event
      * @return null
      */
-    public function offer(Magento_PubSub_EventInterface $event);
+    public function offer(\Magento\PubSub\EventInterface $event);
 }

@@ -11,42 +11,44 @@
 /**
  * Customer Address Attribute General Tab Block
  */
-class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Address_Attribute_Edit_Tab_General
-    extends Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract
-    implements Magento_Backend_Block_Widget_Tab_Interface
+namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Address\Attribute\Edit\Tab;
+
+class General
+    extends \Magento\Eav\Block\Adminhtml\Attribute\Edit\Main\AbstractMain
+    implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * Customer data
      *
-     * @var Magento_CustomerCustomAttributes_Helper_Data
+     * @var \Magento\CustomerCustomAttributes\Helper\Data
      */
     protected $_customerData;
 
     /**
-     * @var Magento_Backend_Model_Config_Source_Yesno
+     * @var \Magento\Backend\Model\Config\Source\Yesno
      */
     protected $_sourceFactory;
 
     /**
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_CustomerCustomAttributes_Helper_Data $customerData
-     * @param Magento_Eav_Helper_Data $eavData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Eav_Model_Entity_Attribute_Config $attributeConfig
-     * @param Magento_Backend_Model_Config_Source_YesnoFactory $sourceFactory
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\CustomerCustomAttributes\Helper\Data $customerData
+     * @param \Magento\Eav\Helper\Data $eavData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Eav\Model\Entity\Attribute\Config $attributeConfig
+     * @param \Magento\Backend\Model\Config\Source\YesnoFactory $sourceFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Data_Form_Factory $formFactory,
-        Magento_CustomerCustomAttributes_Helper_Data $customerData,
-        Magento_Eav_Helper_Data $eavData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Eav_Model_Entity_Attribute_Config $attributeConfig,
-        Magento_Backend_Model_Config_Source_YesnoFactory $sourceFactory,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\CustomerCustomAttributes\Helper\Data $customerData,
+        \Magento\Eav\Helper\Data $eavData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Eav\Model\Entity\Attribute\Config $attributeConfig,
+        \Magento\Backend\Model\Config\Source\YesnoFactory $sourceFactory,
         array $data = array()
     ) {
         $this->_customerData = $customerData;
@@ -57,14 +59,14 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Address_Attribut
     /**
      * Preparing global layout
      *
-     * @return Magento_Core_Block_Abstract
+     * @return \Magento\Core\Block\AbstractBlock
      */
     protected function _prepareLayout()
     {
         $result = parent::_prepareLayout();
         $renderer = $this->getLayout()->getBlock('fieldset_element_renderer');
-        if ($renderer instanceof Magento_Data_Form_Element_Renderer_Interface) {
-            Magento_Data_Form::setFieldsetElementRenderer($renderer);
+        if ($renderer instanceof \Magento\Data\Form\Element\Renderer\RendererInterface) {
+            \Magento\Data\Form::setFieldsetElementRenderer($renderer);
         }
         return $result;
     }
@@ -72,7 +74,7 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Address_Attribut
     /**
      * Adding customer address attribute form elements for edit form
      *
-     * @return Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Address_Attribute_Edit_Tab_General
+     * @return \Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Address\Attribute\Edit\Tab_General
      */
     protected function _prepareForm()
     {
@@ -173,7 +175,7 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Address_Attribut
             'date_format' => $this->_customerData->getDateFormat()
         ), 'date_range_min');
 
-        /** @var $source Magento_Backend_Model_Config_Source_Yesno */
+        /** @var $source \Magento\Backend\Model\Config\Source\Yesno */
         $source = $this->_sourceFactory->create();
         $yesnoSource = $source->toOptionArray();
 
@@ -265,7 +267,7 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Address_Attribut
     /**
      * Initialize form fileds values
      *
-     * @return Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract
+     * @return \Magento\Eav\Block\Adminhtml\Attribute\Edit\Main\AbstractMain
      */
     protected function _initFormValues()
     {

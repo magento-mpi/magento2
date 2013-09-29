@@ -6,20 +6,22 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Page_Asset_MergeStrategy_FileExistsTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Page\Asset\MergeStrategy;
+
+class FileExistsTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Page_Asset_MergeStrategy_FileExists
+     * @var \Magento\Core\Model\Page\Asset\MergeStrategy\FileExists
      */
     protected $_object;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_filesystem;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_strategy;
 
@@ -35,10 +37,10 @@ class Magento_Core_Model_Page_Asset_MergeStrategy_FileExistsTest extends PHPUnit
 
     protected function setUp()
     {
-        $this->_filesystem = $this->getMock('Magento_Filesystem', array(), array(), '', false);
-        $this->_strategy = $this->getMock('Magento_Core_Model_Page_Asset_MergeStrategyInterface');
+        $this->_filesystem = $this->getMock('Magento\Filesystem', array(), array(), '', false);
+        $this->_strategy = $this->getMock('Magento\Core\Model\Page\Asset\MergeStrategyInterface');
 
-        $this->_object = new Magento_Core_Model_Page_Asset_MergeStrategy_FileExists(
+        $this->_object = new \Magento\Core\Model\Page\Asset\MergeStrategy\FileExists(
             $this->_strategy,
             $this->_filesystem
         );

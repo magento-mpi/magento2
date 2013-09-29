@@ -8,5 +8,5 @@
  */
 -->
 <layout>
-    <block class="Magento_Core_Block_Template" template="fixture_template_two.phtml"/>
+    <block class="Magento\Core\Block\Template" template="fixture_template_two.phtml"/>
 </layout>

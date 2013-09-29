@@ -16,13 +16,15 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Resource_Product_Indexer_Price_Configurable
-    extends Magento_Catalog_Model_Resource_Product_Indexer_Price_Default
+namespace Magento\Catalog\Model\Resource\Product\Indexer\Price;
+
+class Configurable
+    extends \Magento\Catalog\Model\Resource\Product\Indexer\Price\DefaultPrice
 {
     /**
      * Reindex temporary (price result data) for all products
      *
-     * @return Magento_Catalog_Model_Resource_Product_Indexer_Price_Configurable
+     * @return \Magento\Catalog\Model\Resource\Product\Indexer\Price\Configurable
      */
     public function reindexAll()
     {
@@ -34,7 +36,7 @@ class Magento_Catalog_Model_Resource_Product_Indexer_Price_Configurable
             $this->_applyConfigurableOption();
             $this->_movePriceDataToIndexTable();
             $this->commit();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->rollBack();
             throw $e;
         }
@@ -45,7 +47,7 @@ class Magento_Catalog_Model_Resource_Product_Indexer_Price_Configurable
      * Reindex temporary (price result data) for defined product(s)
      *
      * @param int|array $entityIds
-     * @return Magento_Catalog_Model_Resource_Product_Indexer_Price_Configurable
+     * @return \Magento\Catalog\Model\Resource\Product\Indexer\Price\Configurable
      */
     public function reindexEntity($entityIds)
     {
@@ -86,7 +88,7 @@ class Magento_Catalog_Model_Resource_Product_Indexer_Price_Configurable
     /**
      * Prepare table structure for custom option temporary aggregation data
      *
-     * @return Magento_Catalog_Model_Resource_Product_Indexer_Price_Configurable
+     * @return \Magento\Catalog\Model\Resource\Product\Indexer\Price\Configurable
      */
     protected function _prepareConfigurableOptionAggregateTable()
     {
@@ -97,7 +99,7 @@ class Magento_Catalog_Model_Resource_Product_Indexer_Price_Configurable
     /**
      * Prepare table structure for custom option prices data
      *
-     * @return Magento_Catalog_Model_Resource_Product_Indexer_Price_Configurable
+     * @return \Magento\Catalog\Model\Resource\Product\Indexer\Price\Configurable
      */
     protected function _prepareConfigurableOptionPriceTable()
     {
@@ -109,7 +111,7 @@ class Magento_Catalog_Model_Resource_Product_Indexer_Price_Configurable
      * Calculate minimal and maximal prices for configurable product options
      * and apply it to final price
      *
-     * @return Magento_Catalog_Model_Resource_Product_Indexer_Price_Configurable
+     * @return \Magento\Catalog\Model\Resource\Product\Indexer\Price\Configurable
      */
     protected function _applyConfigurableOption()
     {
@@ -158,7 +160,7 @@ class Magento_Catalog_Model_Resource_Product_Indexer_Price_Configurable
         $roundExpr = "ROUND(i.price * ({$priceExpression} / 100), 4)";
         $roundPriceExpr = $write->getCheckSql("{$percentExpr} = 1", $roundExpr, $priceExpression);
         $priceColumn = $write->getCheckSql("{$priceExpression} IS NULL", '0', $roundPriceExpr);
-        $priceColumn = new Zend_Db_Expr("SUM({$priceColumn})");
+        $priceColumn = new \Zend_Db_Expr("SUM({$priceColumn})");
 
         $tierPrice = $priceExpression;
         $tierRoundPriceExp = $write->getCheckSql("{$percentExpr} = 1", $roundExpr, $tierPrice);
@@ -199,8 +201,8 @@ class Magento_Catalog_Model_Resource_Product_Indexer_Price_Configurable
                     .' AND i.website_id = io.website_id',
                 array());
         $select->columns(array(
-            'min_price'   => new Zend_Db_Expr('i.min_price + io.min_price'),
-            'max_price'   => new Zend_Db_Expr('i.max_price + io.max_price'),
+            'min_price'   => new \Zend_Db_Expr('i.min_price + io.min_price'),
+            'max_price'   => new \Zend_Db_Expr('i.max_price + io.max_price'),
             'tier_price'  => $write->getCheckSql('i.tier_price IS NOT NULL', 'i.tier_price + io.tier_price', 'NULL'),
             'group_price' => $write->getCheckSql(
                 'i.group_price IS NOT NULL',

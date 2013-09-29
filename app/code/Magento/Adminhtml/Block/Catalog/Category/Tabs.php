@@ -15,50 +15,52 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Category_Tabs extends Magento_Backend_Block_Widget_Tabs
+namespace Magento\Adminhtml\Block\Catalog\Category;
+
+class Tabs extends \Magento\Backend\Block\Widget\Tabs
 {
     /**
      * Default Attribute Tab Block
      *
      * @var string
      */
-    protected $_attributeTabBlock = 'Magento_Adminhtml_Block_Catalog_Category_Tab_Attributes';
+    protected $_attributeTabBlock = 'Magento\Adminhtml\Block\Catalog\Category\Tab\Attributes';
 
     protected $_template = 'widget/tabshoriz.phtml';
 
    /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * Adminhtml catalog
      *
-     * @var Magento_Adminhtml_Helper_Catalog
+     * @var \Magento\Adminhtml\Helper\Catalog
      */
     protected $_adminhtmlCatalog = null;
 
     /**
-     * @var Magento_Eav_Model_Resource_Entity_Attribute_Group_CollectionFactory
+     * @var \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory
      */
     protected $_collectionFactory;
 
     /**
-     * @param Magento_Eav_Model_Resource_Entity_Attribute_Group_CollectionFactory $collectionFactory
-     * @param Magento_Adminhtml_Helper_Catalog $adminhtmlCatalog
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $collectionFactory
+     * @param \Magento\Adminhtml\Helper\Catalog $adminhtmlCatalog
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Eav_Model_Resource_Entity_Attribute_Group_CollectionFactory $collectionFactory,
-        Magento_Adminhtml_Helper_Catalog $adminhtmlCatalog,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $collectionFactory,
+        \Magento\Adminhtml\Helper\Catalog $adminhtmlCatalog,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_collectionFactory = $collectionFactory;
@@ -83,7 +85,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tabs extends Magento_Backend_Bloc
     /**
      * Retrieve cattegory object
      *
-     * @return Magento_Catalog_Model_Category
+     * @return \Magento\Catalog\Model\Category
      */
     public function getCategory()
     {
@@ -106,7 +108,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tabs extends Magento_Backend_Bloc
     /**
      * Prepare Layout Content
      *
-     * @return Magento_Adminhtml_Block_Catalog_Category_Tabs
+     * @return \Magento\Adminhtml\Block\Catalog\Category\Tabs
      */
     protected function _prepareLayout()
     {
@@ -121,24 +123,24 @@ class Magento_Adminhtml_Block_Catalog_Category_Tabs extends Magento_Backend_Bloc
         }
 
         $attributeSetId     = $this->getCategory()->getDefaultAttributeSetId();
-        /** @var $groupCollection Magento_Eav_Model_Resource_Entity_Attribute_Group_Collection */
+        /** @var $groupCollection \Magento\Eav\Model\Resource\Entity\Attribute\Group\Collection */
         $groupCollection = $this->_collectionFactory->create()
             ->setAttributeSetFilter($attributeSetId)
             ->setSortOrder()
             ->load();
         $defaultGroupId = 0;
         foreach ($groupCollection as $group) {
-            /* @var $group Magento_Eav_Model_Entity_Attribute_Group */
+            /* @var $group \Magento\Eav\Model\Entity\Attribute\Group */
             if ($defaultGroupId == 0 or $group->getIsDefault()) {
                 $defaultGroupId = $group->getId();
             }
         }
 
         foreach ($groupCollection as $group) {
-            /* @var $group Magento_Eav_Model_Entity_Attribute_Group */
+            /* @var $group \Magento\Eav\Model\Entity\Attribute\Group */
             $attributes = array();
             foreach ($categoryAttributes as $attribute) {
-                /* @var $attribute Magento_Eav_Model_Entity_Attribute */
+                /* @var $attribute \Magento\Eav\Model\Entity\Attribute */
                 if ($attribute->isInGroup($attributeSetId, $group->getId())) {
                     $attributes[] = $attribute;
                 }
@@ -166,7 +168,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tabs extends Magento_Backend_Bloc
         $this->addTab('products', array(
             'label'     => __('Category Products'),
             'content'   => $this->getLayout()->createBlock(
-                'Magento_Adminhtml_Block_Catalog_Category_Tab_Product',
+                'Magento\Adminhtml\Block\Catalog\Category\Tab\Product',
                 'category.product.grid'
             )->toHtml(),
         ));

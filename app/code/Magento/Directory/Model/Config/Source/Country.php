@@ -9,19 +9,21 @@
  */
 
 
-class Magento_Directory_Model_Config_Source_Country implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Directory\Model\Config\Source;
+
+class Country implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
      * Countries
      *
-     * @var Magento_Directory_Model_Resource_Country_Collection
+     * @var \Magento\Directory\Model\Resource\Country\Collection
      */
     protected $_countryCollection;
 
     /**
-     * @param Magento_Directory_Model_Resource_Country_Collection $countryCollection
+     * @param \Magento\Directory\Model\Resource\Country\Collection $countryCollection
      */
-    public function __construct(Magento_Directory_Model_Resource_Country_Collection $countryCollection)
+    public function __construct(\Magento\Directory\Model\Resource\Country\Collection $countryCollection)
     {
         $this->_countryCollection = $countryCollection;
     }

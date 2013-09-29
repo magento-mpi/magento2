@@ -14,17 +14,19 @@
  * @package    Magento_Logging
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Logging_Block_Adminhtml_Grid_Renderer_Download
-    extends Magento_Backend_Block_Widget_Grid_Column_Renderer_Text
+namespace Magento\Logging\Block\Adminhtml\Grid\Renderer;
+
+class Download
+    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Text
 {
     /**
      * Renders grid column
      *
-     * @param Magento_Object $row
+     * @param \Magento\Object $row
      *
      * @return mixed
      */
-    public function _getValue(Magento_Object $row)
+    public function _getValue(\Magento\Object $row)
     {
         return '<a href="' . $this->getUrl('*/*/download', array('basename' => $row->getBasename())) . '">'
                . $row->getBasename() . '</a>';

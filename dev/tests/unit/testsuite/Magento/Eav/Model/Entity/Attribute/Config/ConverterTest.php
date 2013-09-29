@@ -5,10 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Eav_Model_Entity_Attribute_Config_ConverterTest extends PHPUnit_Framework_TestCase
+namespace Magento\Eav\Model\Entity\Attribute\Config;
+
+class ConverterTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Eav_Model_Entity_Attribute_Config_Converter
+     * @var \Magento\Eav\Model\Entity\Attribute\Config\Converter
      */
     protected $_model;
 
@@ -21,14 +23,14 @@ class Magento_Eav_Model_Entity_Attribute_Config_ConverterTest extends PHPUnit_Fr
 
     protected function setUp()
     {
-        $this->_model = new Magento_Eav_Model_Entity_Attribute_Config_Converter();
+        $this->_model = new \Magento\Eav\Model\Entity\Attribute\Config\Converter();
         $this->_filePath = realpath(__DIR__)
             . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR;
     }
 
     public function testConvert()
     {
-        $dom = new DOMDocument();
+        $dom = new \DOMDocument();
         $path = $this->_filePath . 'eav_attributes.xml';
         $dom->load($path);
         $expectedData = include($this->_filePath . 'eav_attributes.php');

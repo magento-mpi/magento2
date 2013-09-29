@@ -11,29 +11,31 @@
 /**
  * Model that finds file paths by their fileId
  */
-class Magento_Core_Model_View_FileSystem
+namespace Magento\Core\Model\View;
+
+class FileSystem
 {
     /**
      * Model, used to resolve the file paths
      *
-     * @var Magento_Core_Model_Design_FileResolution_StrategyPool
+     * @var \Magento\Core\Model\Design\FileResolution\StrategyPool
      */
     protected $_resolutionPool = null;
 
     /**
-     * @var Magento_Core_Model_View_Service
+     * @var \Magento\Core\Model\View\Service
      */
     protected $_viewService;
 
     /**
      * View files system model
      *
-     * @param Magento_Core_Model_Design_FileResolution_StrategyPool $resolutionPool
-     * @param Magento_Core_Model_View_Service $viewService
+     * @param \Magento\Core\Model\Design\FileResolution\StrategyPool $resolutionPool
+     * @param \Magento\Core\Model\View\Service $viewService
      */
     public function __construct(
-        Magento_Core_Model_Design_FileResolution_StrategyPool $resolutionPool,
-        Magento_Core_Model_View_Service $viewService
+        \Magento\Core\Model\Design\FileResolution\StrategyPool $resolutionPool,
+        \Magento\Core\Model\View\Service $viewService
     ) {
         $this->_resolutionPool = $resolutionPool;
         $this->_viewService = $viewService;
@@ -97,8 +99,8 @@ class Magento_Core_Model_View_FileSystem
     {
         $skipProxy = isset($params['skipProxy']) && $params['skipProxy'];
         $strategy = $this->_resolutionPool->getViewStrategy($skipProxy);
-        if ($strategy instanceof Magento_Core_Model_Design_FileResolution_Strategy_View_NotifiableInterface) {
-            /** @var $strategy Magento_Core_Model_Design_FileResolution_Strategy_View_NotifiableInterface  */
+        if ($strategy instanceof \Magento\Core\Model\Design\FileResolution\Strategy\View\NotifiableInterface) {
+            /** @var $strategy \Magento\Core\Model\Design\FileResolution\Strategy\View\NotifiableInterface  */
             $filePath = $this->_viewService->extractScope($fileId, $params);
             $this->_viewService->updateDesignParams($params);
             $strategy->setViewFilePathToMap(

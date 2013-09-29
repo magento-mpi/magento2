@@ -8,25 +8,27 @@
  * @license     {license_link}
  */
 
-class Magento_Shipping_Block_Tracking_Popup extends Magento_Core_Block_Template
+namespace Magento\Shipping\Block\Tracking;
+
+class Popup extends \Magento\Core\Block\Template
 {
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -40,7 +42,7 @@ class Magento_Shipping_Block_Tracking_Popup extends Magento_Core_Block_Template
      */
     public function getTrackingInfo()
     {
-        /* @var $info Magento_Shipping_Model_Info */
+        /* @var $info \Magento\Shipping\Model\Info */
         $info = $this->_coreRegistry->registry('current_shipping_info');
 
         return $info->getTrackingInfo();
@@ -66,10 +68,10 @@ class Magento_Shipping_Block_Tracking_Popup extends Magento_Core_Block_Template
      */
     public function formatDeliveryDate($date)
     {
-        /* @var $locale Magento_Core_Model_LocaleInterface */
-        $locale = Mage::app()->getLocale();
-        $format = $locale->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM);
-        return $locale->date(strtotime($date), Zend_Date::TIMESTAMP, null, false)
+        /* @var $locale \Magento\Core\Model\LocaleInterface */
+        $locale = \Mage::app()->getLocale();
+        $format = $locale->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM);
+        return $locale->date(strtotime($date), \Zend_Date::TIMESTAMP, null, false)
             ->toString($format);
     }
 
@@ -86,11 +88,11 @@ class Magento_Shipping_Block_Tracking_Popup extends Magento_Core_Block_Template
             $time = $date . ' ' . $time;
         }
 
-        /* @var $locale Magento_Core_Model_LocaleInterface */
-        $locale = Mage::app()->getLocale();
+        /* @var $locale \Magento\Core\Model\LocaleInterface */
+        $locale = \Mage::app()->getLocale();
 
-        $format = $locale->getTimeFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
-        return $locale->date(strtotime($time), Zend_Date::TIMESTAMP, null, false)
+        $format = $locale->getTimeFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
+        return $locale->date(strtotime($time), \Zend_Date::TIMESTAMP, null, false)
             ->toString($format);
     }
 

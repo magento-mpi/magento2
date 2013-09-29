@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Test_Integrity_Magento_Widget_WidgetConfigTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Integrity\Magento\Widget;
+
+class WidgetConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @param string $configFile
@@ -16,7 +18,7 @@ class Magento_Test_Integrity_Magento_Widget_WidgetConfigTest extends PHPUnit_Fra
      */
     public function testXml($configFile)
     {
-        $schema = Magento_TestFramework_Utility_Files::init()->getPathToSource()
+        $schema = \Magento\TestFramework\Utility\Files::init()->getPathToSource()
             . '/app/code/Magento/Widget/etc/widget.xsd';
         $this->_validateFileExpectSuccess($configFile, $schema);
     }
@@ -28,7 +30,7 @@ class Magento_Test_Integrity_Magento_Widget_WidgetConfigTest extends PHPUnit_Fra
      */
     public function xmlDataProvider()
     {
-        $utilityFiles = Magento_TestFramework_Utility_Files::init();
+        $utilityFiles = \Magento\TestFramework\Utility\Files::init();
         return array_merge(
             $utilityFiles->getConfigFiles('widget.xml'),
             $utilityFiles->getLayoutConfigFiles('widget.xml')
@@ -38,7 +40,7 @@ class Magento_Test_Integrity_Magento_Widget_WidgetConfigTest extends PHPUnit_Fra
     public function testSchemaUsingValidXml()
     {
         $xmlFile = __DIR__ . '/_files/widget.xml';
-        $schema = Magento_TestFramework_Utility_Files::init()->getPathToSource()
+        $schema = \Magento\TestFramework\Utility\Files::init()->getPathToSource()
             . '/app/code/Magento/Widget/etc/widget.xsd';
         $this->_validateFileExpectSuccess($xmlFile, $schema);
     }
@@ -46,7 +48,7 @@ class Magento_Test_Integrity_Magento_Widget_WidgetConfigTest extends PHPUnit_Fra
     public function testSchemaUsingInvalidXml()
     {
         $xmlFile = __DIR__ . '/_files/invalid_widget.xml';
-        $schema = Magento_TestFramework_Utility_Files::init()->getPathToSource()
+        $schema = \Magento\TestFramework\Utility\Files::init()->getPathToSource()
             . '/app/code/Magento/Widget/etc/widget.xsd';
         $this->_validateFileExpectFailure($xmlFile, $schema);
     }
@@ -54,7 +56,7 @@ class Magento_Test_Integrity_Magento_Widget_WidgetConfigTest extends PHPUnit_Fra
     public function testFileSchemaUsingXml()
     {
         $xmlFile = __DIR__ . '/_files/widget_file.xml';
-        $schema = Magento_TestFramework_Utility_Files::init()->getPathToSource()
+        $schema = \Magento\TestFramework\Utility\Files::init()->getPathToSource()
             . '/app/code/Magento/Widget/etc/widget_file.xsd';
         $this->_validateFileExpectSuccess($xmlFile, $schema);
     }
@@ -62,7 +64,7 @@ class Magento_Test_Integrity_Magento_Widget_WidgetConfigTest extends PHPUnit_Fra
     public function testFileSchemaUsingInvalidXml()
     {
         $xmlFile = __DIR__ . '/_files/invalid_widget.xml';
-        $schema = Magento_TestFramework_Utility_Files::init()->getPathToSource()
+        $schema = \Magento\TestFramework\Utility\Files::init()->getPathToSource()
             . '/app/code/Magento/Widget/etc/widget_file.xsd';
         $this->_validateFileExpectFailure($xmlFile, $schema);
     }
@@ -77,9 +79,9 @@ class Magento_Test_Integrity_Magento_Widget_WidgetConfigTest extends PHPUnit_Fra
      */
     protected function _validateFileExpectFailure($xmlFile, $schemaFile)
     {
-        $dom = new DOMDocument();
+        $dom = new \DOMDocument();
         $dom->loadXML(file_get_contents($xmlFile));
-        $errors = Magento_Config_Dom::validateDomDocument($dom, $schemaFile);
+        $errors = \Magento\Config\Dom::validateDomDocument($dom, $schemaFile);
         if (!$errors) {
             $this->fail('There is a problem with the schema.  A known bad XML file passed validation');
         }
@@ -95,9 +97,9 @@ class Magento_Test_Integrity_Magento_Widget_WidgetConfigTest extends PHPUnit_Fra
      */
     protected function _validateFileExpectSuccess($xmlFile, $schemaFile)
     {
-        $dom = new DOMDocument();
+        $dom = new \DOMDocument();
         $dom->loadXML(file_get_contents($xmlFile));
-        $errors = Magento_Config_Dom::validateDomDocument($dom, $schemaFile);
+        $errors = \Magento\Config\Dom::validateDomDocument($dom, $schemaFile);
         if ($errors) {
             $this->fail('There is a problem with the schema.  A known good XML file failed validation: '
                 . PHP_EOL . implode(PHP_EOL . PHP_EOL, $errors));

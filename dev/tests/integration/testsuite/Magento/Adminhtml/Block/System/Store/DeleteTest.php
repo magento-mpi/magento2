@@ -9,19 +9,21 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\Block\System\Store;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_Block_System_Store_DeleteTest extends PHPUnit_Framework_TestCase
+class DeleteTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetHeaderText()
     {
-        /** @var $layout Magento_Core_Model_Layout */
-        $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout');
-        /** @var $block Magento_Adminhtml_Block_System_Store_Delete */
-        $block = $layout->createBlock('Magento_Adminhtml_Block_System_Store_Delete', 'block');
+        /** @var $layout \Magento\Core\Model\Layout */
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout');
+        /** @var $block \Magento\Adminhtml\Block\System\Store\Delete */
+        $block = $layout->createBlock('Magento\Adminhtml\Block\System\Store\Delete', 'block');
 
-        $dataObject = new Magento_Object;
+        $dataObject = new \Magento\Object;
         $form = $block->getChildBlock('form');
         $form->setDataObject($dataObject);
 

@@ -9,7 +9,9 @@
 /**
  * Hosted Sole Solution helper
  */
-class Magento_Paypal_Helper_Hss extends Magento_Core_Helper_Abstract
+namespace Magento\Paypal\Helper;
+
+class Hss extends \Magento\Core\Helper\AbstractHelper
 {
     /**
      * Hosted Sole Solution methods
@@ -17,9 +19,9 @@ class Magento_Paypal_Helper_Hss extends Magento_Core_Helper_Abstract
      * @var array
      */
     protected $_hssMethods = array(
-        Magento_Paypal_Model_Config::METHOD_HOSTEDPRO,
-        Magento_Paypal_Model_Config::METHOD_PAYFLOWLINK,
-        Magento_Paypal_Model_Config::METHOD_PAYFLOWADVANCED
+        \Magento\Paypal\Model\Config::METHOD_HOSTEDPRO,
+        \Magento\Paypal\Model\Config::METHOD_PAYFLOWLINK,
+        \Magento\Paypal\Model\Config::METHOD_PAYFLOWADVANCED
     );
 
     /**
@@ -31,7 +33,7 @@ class Magento_Paypal_Helper_Hss extends Magento_Core_Helper_Abstract
      */
     public function getReviewButtonTemplate($name, $block)
     {
-        $quote = Mage::getSingleton('Magento_Checkout_Model_Session')->getQuote();
+        $quote = \Mage::getSingleton('Magento\Checkout\Model\Session')->getQuote();
         if ($quote) {
             $payment = $quote->getPayment();
             if ($payment && in_array($payment->getMethod(), $this->_hssMethods)) {
@@ -39,7 +41,7 @@ class Magento_Paypal_Helper_Hss extends Magento_Core_Helper_Abstract
             }
         }
 
-        if ($blockObject = Mage::app()->getLayout()->getBlock($block)) {
+        if ($blockObject = \Mage::app()->getLayout()->getBlock($block)) {
             return $blockObject->getTemplate();
         }
 

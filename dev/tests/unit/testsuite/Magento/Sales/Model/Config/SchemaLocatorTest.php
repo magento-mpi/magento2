@@ -9,15 +9,17 @@
  * @license     {license_link}
  */
 
-class Magento_Sales_Model_Config_SchemaLocatorTest extends PHPUnit_Framework_TestCase
+namespace Magento\Sales\Model\Config;
+
+class SchemaLocatorTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_moduleReaderMock;
 
     /**
-     * @var Magento_Sales_Model_Config_SchemaLocator
+     * @var \Magento\Sales\Model\Config\SchemaLocator
      */
     protected $_locator;
 
@@ -26,12 +28,12 @@ class Magento_Sales_Model_Config_SchemaLocatorTest extends PHPUnit_Framework_Tes
      */
     protected function setUp()
     {
-        $this->_moduleReaderMock = $this->getMockBuilder('Magento_Core_Model_Config_Modules_Reader')
+        $this->_moduleReaderMock = $this->getMockBuilder('Magento\Core\Model\Config\Modules\Reader')
             ->disableOriginalConstructor()
             ->getMock();
         $this->_moduleReaderMock->expects($this->once())
             ->method('getModuleDir')->with('etc', 'Magento_Sales')->will($this->returnValue('schema_dir'));
-        $this->_locator = new Magento_Sales_Model_Config_SchemaLocator($this->_moduleReaderMock);
+        $this->_locator = new \Magento\Sales\Model\Config\SchemaLocator($this->_moduleReaderMock);
     }
 
     /**

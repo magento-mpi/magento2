@@ -15,10 +15,12 @@
  * @package    Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Checkout_Block_Multishipping_State extends Magento_Core_Block_Template
+namespace Magento\Checkout\Block\Multishipping;
+
+class State extends \Magento\Core\Block\Template
 {
     public function getSteps()
     {
-        return Mage::getSingleton('Magento_Checkout_Model_Type_Multishipping_State')->getSteps();
+        return \Mage::getSingleton('Magento\Checkout\Model\Type\Multishipping\State')->getSteps();
     }
 }

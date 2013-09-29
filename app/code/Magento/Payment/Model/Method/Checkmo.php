@@ -9,17 +9,19 @@
  */
 
 
-class Magento_Payment_Model_Method_Checkmo extends Magento_Payment_Model_Method_Abstract
+namespace Magento\Payment\Model\Method;
+
+class Checkmo extends \Magento\Payment\Model\Method\AbstractMethod
 {
     protected $_code  = 'checkmo';
-    protected $_formBlockType = 'Magento_Payment_Block_Form_Checkmo';
-    protected $_infoBlockType = 'Magento_Payment_Block_Info_Checkmo';
+    protected $_formBlockType = 'Magento\Payment\Block\Form\Checkmo';
+    protected $_infoBlockType = 'Magento\Payment\Block\Info\Checkmo';
 
     /**
      * Assign data to info model instance
      *
      * @param   mixed $data
-     * @return  Magento_Payment_Model_Method_Checkmo
+     * @return  \Magento\Payment\Model\Method\Checkmo
      */
     public function assignData($data)
     {

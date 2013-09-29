@@ -10,30 +10,32 @@
  */
 
 /**
- * Test for Magento_Eav_Model_Validator_Attribute_Backend
+ * Test for \Magento\Eav\Model\Validator\Attribute\Backend
  */
-class Magento_Eav_Model_Validator_Attribute_BackendTest extends PHPUnit_Framework_TestCase
+namespace Magento\Eav\Model\Validator\Attribute;
+
+class BackendTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Eav_Model_Validator_Attribute_Backend
+     * @var \Magento\Eav\Model\Validator\Attribute\Backend
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = new Magento_Eav_Model_Validator_Attribute_Backend();
+        $this->_model = new \Magento\Eav\Model\Validator\Attribute\Backend();
     }
 
     /**
-     * Test method for Magento_Eav_Model_Validator_Attribute_Backend::isValid
+     * Test method for \Magento\Eav\Model\Validator\Attribute\Backend::isValid
      *
      * @magentoDataFixture Magento/Customer/_files/customer.php
      */
     public function testIsValid()
     {
-        /** @var $entity Magento_Customer_Model_Customer */
-        $entity = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Customer_Model_Customer')->load(1);
+        /** @var $entity \Magento\Customer\Model\Customer */
+        $entity = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Customer\Model\Customer')->load(1);
 
         $this->assertTrue($this->_model->isValid($entity));
         $this->assertEmpty($this->_model->getMessages());

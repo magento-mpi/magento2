@@ -11,11 +11,13 @@
 /**
  * Date range combo
  *
- * @method Magento_CustomerSegment_Model_Segment_Condition_Daterange setType(string $type)
- * @method Magento_CustomerSegment_Model_Segment_Condition_Daterange setValue(string $value)
+ * @method \Magento\CustomerSegment\Model\Segment\Condition\Daterange setType(string $type)
+ * @method \Magento\CustomerSegment\Model\Segment\Condition\Daterange setValue(string $value)
  */
-class Magento_CustomerSegment_Model_Segment_Condition_Daterange
-    extends Magento_CustomerSegment_Model_Condition_Abstract
+namespace Magento\CustomerSegment\Model\Segment\Condition;
+
+class Daterange
+    extends \Magento\CustomerSegment\Model\Condition\AbstractCondition
 {
     /**
      * Input type for operator options
@@ -27,33 +29,33 @@ class Magento_CustomerSegment_Model_Segment_Condition_Daterange
     /**
      * Value form element
      *
-     * @var Magento_Data_Form_Element_Text
+     * @var \Magento\Data\Form\Element\Text
      */
     private $_valueElement = null;
 
     /**
      * Adminhtml data
      *
-     * @var Magento_Adminhtml_Helper_Data
+     * @var \Magento\Adminhtml\Helper\Data
      */
     protected $_adminhtmlData = null;
 
     /**
-     * @param Magento_CustomerSegment_Model_Resource_Segment $resourceSegment
-     * @param Magento_Adminhtml_Helper_Data $adminhtmlData
-     * @param Magento_Rule_Model_Condition_Context $context
+     * @param \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment
+     * @param \Magento\Adminhtml\Helper\Data $adminhtmlData
+     * @param \Magento\Rule\Model\Condition\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_CustomerSegment_Model_Resource_Segment $resourceSegment,
-        Magento_Adminhtml_Helper_Data $adminhtmlData,
-        Magento_Rule_Model_Condition_Context $context,
+        \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment,
+        \Magento\Adminhtml\Helper\Data $adminhtmlData,
+        \Magento\Rule\Model\Condition\Context $context,
         array $data = array()
     ) {
         $this->_adminhtmlData = $adminhtmlData;
         parent::__construct($resourceSegment, $context, $data);
 
-        $this->setType('Magento_CustomerSegment_Model_Segment_Condition_Daterange');
+        $this->setType('Magento\CustomerSegment\Model\Segment\Condition\Daterange');
         $this->setValue(null);
     }
 

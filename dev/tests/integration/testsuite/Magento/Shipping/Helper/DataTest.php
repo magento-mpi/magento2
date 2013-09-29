@@ -9,17 +9,19 @@
  * @license     {license_link}
  */
 
-class Magento_Shipping_Helper_DataTest extends PHPUnit_Framework_TestCase
+namespace Magento\Shipping\Helper;
+
+class DataTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Shipping_Helper_Data
+     * @var \Magento\Shipping\Helper\Data
      */
     protected $_helper = null;
 
     protected function setUp()
     {
-        $this->_helper = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Shipping_Helper_Data');
+        $this->_helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Shipping\Helper\Data');
     }
 
     /**
@@ -32,12 +34,12 @@ class Magento_Shipping_Helper_DataTest extends PHPUnit_Framework_TestCase
      */
     public function testGetTrackingPopupUrlBySalesModel($modelName, $getIdMethod, $entityId, $code, $expected)
     {
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $constructArgs = array();
-        if ('Magento_Sales_Model_Order_Shipment' == $modelName) {
+        if ('Magento\Sales\Model\Order\Shipment' == $modelName) {
             $orderFactory = $this->_getMockOrderFactory($code);
             $constructArgs['orderFactory'] = $orderFactory;
-        } elseif ('Magento_Sales_Model_Order_Shipment_Track' == $modelName) {
+        } elseif ('Magento\Sales\Model\Order\Shipment\Track' == $modelName) {
             $shipmentFactory = $this->_getMockShipmentFactory($code);
             $constructArgs['shipmentFactory'] = $shipmentFactory;
         }
@@ -45,7 +47,7 @@ class Magento_Shipping_Helper_DataTest extends PHPUnit_Framework_TestCase
         $model = $objectManager->create($modelName, $constructArgs);
         $model->$getIdMethod($entityId);
 
-        if ('Magento_Sales_Model_Order' == $modelName) {
+        if ('Magento\Sales\Model\Order' == $modelName) {
             $model->setProtectCode($code);
         }
 
@@ -55,31 +57,31 @@ class Magento_Shipping_Helper_DataTest extends PHPUnit_Framework_TestCase
 
     /**
      * @param $code
-     * @return Magento_Sales_Model_OrderFactory
+     * @return \Magento\Sales\Model\OrderFactory
      */
     protected function _getMockOrderFactory($code)
     {
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $order = $objectManager->create('Magento_Sales_Model_Order');
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $order = $objectManager->create('Magento\Sales\Model\Order');
         $order->setProtectCode($code);
-        $orderFactory = $this->getMock('Magento_Sales_Model_OrderFactory', array('create'), array(), '', false);
+        $orderFactory = $this->getMock('Magento\Sales\Model\OrderFactory', array('create'), array(), '', false);
         $orderFactory->expects($this->atLeastOnce())->method('create')->will($this->returnValue($order));
         return $orderFactory;
     }
 
     /**
      * @param $code
-     * @return PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getMockShipmentFactory($code)
     {
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $orderFactory = $this->_getMockOrderFactory($code);
         $shipmentArgs = array('orderFactory' => $orderFactory);
 
-        $shipment = $objectManager->create('Magento_Sales_Model_Order_Shipment', $shipmentArgs);
+        $shipment = $objectManager->create('Magento\Sales\Model\Order\Shipment', $shipmentArgs);
         $shipmentFactory = $this->getMock(
-            'Magento_Sales_Model_Order_ShipmentFactory', array('create'), array(), '', false
+            'Magento\Sales\Model\Order\ShipmentFactory', array('create'), array(), '', false
         );
         $shipmentFactory->expects($this->atLeastOnce())->method('create')->will($this->returnValue($shipment));
         return $shipmentFactory;
@@ -92,21 +94,21 @@ class Magento_Shipping_Helper_DataTest extends PHPUnit_Framework_TestCase
     {
         return array(
             array(
-                'Magento_Sales_Model_Order',
+                'Magento\Sales\Model\Order',
                 'setId',
                 42,
                 'abc',
                 'http://localhost/index.php/shipping/tracking/popup/hash/b3JkZXJfaWQ6NDI6YWJj/'
             ),
             array(
-                'Magento_Sales_Model_Order_Shipment',
+                'Magento\Sales\Model\Order\Shipment',
                 'setId',
                 42,
                 'abc',
                 'http://localhost/index.php/shipping/tracking/popup/hash/c2hpcF9pZDo0MjphYmM,/'
             ),
             array(
-                'Magento_Sales_Model_Order_Shipment_Track',
+                'Magento\Sales\Model\Order\Shipment\Track',
                 'setEntityId',
                 42,
                 'abc',

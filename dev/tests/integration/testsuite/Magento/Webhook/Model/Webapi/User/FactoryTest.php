@@ -1,9 +1,5 @@
 <?php
 /**
- * Magento_Webhook_Model_Webapi_User_Factory
- *
- * @magentoDbIsolation enabled
- *
  * {license_notice}
  *
  * @category    Magento
@@ -12,7 +8,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_Webapi_User_FactoryTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webhook\Model\Webapi\User;
+
+/**
+ * \Magento\Webhook\Model\Webapi\User\Factory
+ *
+ * @magentoDbIsolation enabled
+ */
+class FactoryTest extends \PHPUnit_Framework_TestCase
 {
     /** Values being sent to user service */
     const VALUE_COMPANY_NAME = 'company name';
@@ -38,23 +41,23 @@ class Magento_Webhook_Model_Webapi_User_FactoryTest extends PHPUnit_Framework_Te
 
     protected function tearDown()
     {
-        /** @var Magento_Webapi_Model_Acl_User $user */
-        $user = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Webapi_Model_Acl_User');
+        /** @var \Magento\Webapi\Model\Acl\User $user */
+        $user = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webapi\Model\Acl\User');
         $user->load($this->_apiUserId);
         $user->delete();
     }
 
     public function testCreate()
     {
-        /** @var Magento_Webhook_Model_Webapi_User_Factory $userFactory */
-        $userFactory = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Webhook_Model_Webapi_User_Factory');
+        /** @var \Magento\Webhook\Model\Webapi\User\Factory $userFactory */
+        $userFactory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webhook\Model\Webapi\User\Factory');
         $this->_apiUserId = $userFactory->createUser($this->_userContext, array('webhook/create'));
 
-        /** @var Magento_Webapi_Model_Acl_User $user */
-        $user = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Webapi_Model_Acl_User');
+        /** @var \Magento\Webapi\Model\Acl\User $user */
+        $user = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webapi\Model\Acl\User');
         $user->load($this->_apiUserId);
 
         $this->assertEquals(self::VALUE_COMPANY_NAME, $user->getCompanyName());
@@ -63,9 +66,9 @@ class Magento_Webhook_Model_Webapi_User_FactoryTest extends PHPUnit_Framework_Te
         $this->assertEquals(self::VALUE_KEY_VALUE, $user->getApiKey());
         $this->assertNotEquals(0, $user->getRoleId());
 
-        /** @var Magento_Webapi_Model_Resource_Acl_Rule $ruleResources */
-        $ruleResources = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Webapi_Model_Resource_Acl_Rule');
+        /** @var \Magento\Webapi\Model\Resource\Acl\Rule $ruleResources */
+        $ruleResources = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webapi\Model\Resource\Acl\Rule');
         $rules = $ruleResources->getResourceIdsByRole($user->getRoleId());
         $this->assertNotEmpty($rules);
     }

@@ -11,32 +11,34 @@
 /**
  * Customer reviews controller
  */
-class Magento_Rss_Controller_Catalog extends Magento_Core_Controller_Front_Action
+namespace Magento\Rss\Controller;
+
+class Catalog extends \Magento\Core\Controller\Front\Action
 {
     /**
-     * @var Magento_Core_Model_Config_Scope
+     * @var \Magento\Core\Model\Config\Scope
      */
     protected $_configScope;
 
     /**
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_storeConfig;
 
     /**
-     * @var Magento_Core_Model_Logger
+     * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
 
     /**
-     * @param Magento_Core_Controller_Varien_Action_Context $context
-     * @param Magento_Core_Model_Config_Scope $configScope
-     * @param Magento_Core_Model_Store_Config $storeConfig
+     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\Core\Model\Config\Scope $configScope
+     * @param \Magento\Core\Model\Store\Config $storeConfig
      */
     public function __construct(
-        Magento_Core_Controller_Varien_Action_Context $context,
-        Magento_Core_Model_Config_Scope $configScope,
-        Magento_Core_Model_Store_Config $storeConfig
+        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\Core\Model\Config\Scope $configScope,
+        \Magento\Core\Model\Store\Config $storeConfig
     ) {
         $this->_configScope = $configScope;
         $this->_storeConfig = $storeConfig;
@@ -58,7 +60,7 @@ class Magento_Rss_Controller_Catalog extends Magento_Core_Controller_Front_Actio
             'review' => 'Magento_Review::reviews_all',
         );
         if (isset($acl[$action])) {
-            $this->_configScope->setCurrentScope(Magento_Core_Model_App_Area::AREA_ADMINHTML);
+            $this->_configScope->setCurrentScope(\Magento\Core\Model\App\Area::AREA_ADMINHTML);
             if ($this->authenticateAndAuthorizeAdmin($acl[$action], $this->_logger)) {
                 return;
             }

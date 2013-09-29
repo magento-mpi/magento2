@@ -11,9 +11,11 @@
 /**
  * Theme selector abstract tab
  */
-abstract class Magento_DesignEditor_Block_Adminhtml_Theme_Selector_Tab_TabAbstract
-    extends Magento_Backend_Block_Template
-    implements Magento_Backend_Block_Widget_Tab_Interface
+namespace Magento\DesignEditor\Block\Adminhtml\Theme\Selector\Tab;
+
+abstract class TabAbstract
+    extends \Magento\Backend\Block\Template
+    implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * Return Tab label

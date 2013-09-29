@@ -14,7 +14,9 @@
  * @category   Magento
  * @package    Magento_License
  */
-class Magento_License_Model_Observer
+namespace Magento\License\Model;
+
+class Observer
 {
     /**
      * Key to retrieve the license expiration date from the properties of the license.
@@ -25,15 +27,15 @@ class Magento_License_Model_Observer
     /**
      * License data
      *
-     * @var Magento_License_Helper_Data
+     * @var \Magento\License\Helper\Data
      */
     protected $_licenseData = null;
 
     /**
-     * @param Magento_License_Helper_Data $licenseData
+     * @param \Magento\License\Helper\Data $licenseData
      */
     public function __construct(
-        Magento_License_Helper_Data $licenseData
+        \Magento\License\Helper\Data $licenseData
     ) {
         $this->_licenseData = $licenseData;
     }
@@ -60,7 +62,7 @@ class Magento_License_Model_Observer
     public function preDispatch()
     {
         if ($this->_licenseData->isIoncubeLoaded() && $this->_licenseData->isIoncubeEncoded()) {
-            $lastCalculation = Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getDaysLeftBeforeExpired();
+            $lastCalculation = \Mage::getSingleton('Magento\Backend\Model\Auth\Session')->getDaysLeftBeforeExpired();
 
             $dayOfLastCalculation = date('d', $lastCalculation['updatedAt']);
 
@@ -68,7 +70,7 @@ class Magento_License_Model_Observer
 
             $isComeNewDay = ($currentDay != $dayOfLastCalculation);
 
-            if (!Mage::getSingleton('Magento_Backend_Model_Auth_Session')->hasDaysLeftBeforeExpired()
+            if (!\Mage::getSingleton('Magento\Backend\Model\Auth\Session')->hasDaysLeftBeforeExpired()
                 || $isComeNewDay) {
                 $this->_calculateDaysLeftToExpired();
             }
@@ -95,7 +97,7 @@ class Magento_License_Model_Observer
 
             $daysLeftBeforeExpired = floor(($expiredTimestamp - time()) / 86400);
 
-            Mage::getSingleton('Magento_Backend_Model_Auth_Session')->setDaysLeftBeforeExpired(
+            \Mage::getSingleton('Magento\Backend\Model\Auth\Session')->setDaysLeftBeforeExpired(
                 array(
                     'daysLeftBeforeExpired' => $daysLeftBeforeExpired,
                     'updatedAt' => time()

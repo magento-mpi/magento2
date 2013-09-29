@@ -15,72 +15,74 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Model_Session_Quote extends Magento_Core_Model_Session_Abstract
+namespace Magento\Adminhtml\Model\Session;
+
+class Quote extends \Magento\Core\Model\Session\AbstractSession
 {
     const XML_PATH_DEFAULT_CREATEACCOUNT_GROUP = 'customer/create_account/default_group';
 
     /**
      * Quote model object
      *
-     * @var Magento_Sales_Model_Quote
+     * @var \Magento\Sales\Model\Quote
      */
     protected $_quote   = null;
 
     /**
      * Customer mofrl object
      *
-     * @var Magento_Customer_Model_Customer
+     * @var \Magento\Customer\Model\Customer
      */
     protected $_customer= null;
 
     /**
      * Store model object
      *
-     * @var Magento_Core_Model_Store
+     * @var \Magento\Core\Model\Store
      */
     protected $_store   = null;
 
     /**
      * Order model object
      *
-     * @var Magento_Sales_Model_Order
+     * @var \Magento\Sales\Model\Order
      */
     protected $_order   = null;
 
     /**
-     * @var Magento_Sales_Model_OrderFactory
+     * @var \Magento\Sales\Model\OrderFactory
      */
     protected $_orderFactory;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Customer_Model_CustomerFactory
+     * @var \Magento\Customer\Model\CustomerFactory
      */
     protected $_customerFactory;
 
     /**
-     * @var Magento_Sales_Model_QuoteFactory
+     * @var \Magento\Sales\Model\QuoteFactory
      */
     protected $_quoteFactory;
 
     /**
-     * @param Magento_Core_Model_Session_Context $context
-     * @param Magento_Sales_Model_QuoteFactory $quoteFactory
-     * @param Magento_Customer_Model_CustomerFactory $customerFactory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Sales_Model_OrderFactory $orderFactory
+     * @param \Magento\Core\Model\Session\Context $context
+     * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
+     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Session_Context $context,
-        Magento_Sales_Model_QuoteFactory $quoteFactory,
-        Magento_Customer_Model_CustomerFactory $customerFactory,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Sales_Model_OrderFactory $orderFactory,
+        \Magento\Core\Model\Session\Context $context,
+        \Magento\Sales\Model\QuoteFactory $quoteFactory,
+        \Magento\Customer\Model\CustomerFactory $customerFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Sales\Model\OrderFactory $orderFactory,
         array $data = array()
     ) {
         $this->_quoteFactory = $quoteFactory;
@@ -97,7 +99,7 @@ class Magento_Adminhtml_Model_Session_Quote extends Magento_Core_Model_Session_A
     /**
      * Retrieve quote model object
      *
-     * @return Magento_Sales_Model_Quote
+     * @return \Magento\Sales\Model\Quote
      */
     public function getQuote()
     {
@@ -123,10 +125,10 @@ class Magento_Adminhtml_Model_Session_Quote extends Magento_Core_Model_Session_A
     /**
      * Set customer model object
      * To enable quick switch of preconfigured customer
-     * @param Magento_Customer_Model_Customer $customer
-     * @return Magento_Adminhtml_Model_Session_Quote
+     * @param \Magento\Customer\Model\Customer $customer
+     * @return \Magento\Adminhtml\Model\Session\Quote
      */
-    public function setCustomer(Magento_Customer_Model_Customer $customer)
+    public function setCustomer(\Magento\Customer\Model\Customer $customer)
     {
         $this->_customer = $customer;
         return $this;
@@ -136,7 +138,7 @@ class Magento_Adminhtml_Model_Session_Quote extends Magento_Core_Model_Session_A
      * Retrieve customer model object
      * @param bool $forceReload
      * @param bool $useSetStore
-     * @return Magento_Customer_Model_Customer
+     * @return \Magento\Customer\Model\Customer
      */
     public function getCustomer($forceReload=false, $useSetStore=false)
     {
@@ -155,7 +157,7 @@ class Magento_Adminhtml_Model_Session_Quote extends Magento_Core_Model_Session_A
     /**
      * Retrieve store model object
      *
-     * @return Magento_Core_Model_Store
+     * @return \Magento\Core\Model\Store
      */
     public function getStore()
     {
@@ -171,7 +173,7 @@ class Magento_Adminhtml_Model_Session_Quote extends Magento_Core_Model_Session_A
     /**
      * Retrieve order model object
      *
-     * @return Magento_Sales_Model_Order
+     * @return \Magento\Sales\Model\Order
      */
     public function getOrder()
     {

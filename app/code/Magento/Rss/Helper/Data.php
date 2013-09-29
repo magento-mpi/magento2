@@ -16,29 +16,31 @@
  * @package    Magento_Rss
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rss_Helper_Data extends Magento_Core_Helper_Abstract
+namespace Magento\Rss\Helper;
+
+class Data extends \Magento\Core\Helper\AbstractHelper
 {
     /**
      * Catalog product flat
      *
-     * @var Magento_Catalog_Helper_Product_Flat
+     * @var \Magento\Catalog\Helper\Product\Flat
      */
     protected $_catalogProductFlat;
 
     /**
-     * @var Magento_Core_Model_App_EmulationFactory
+     * @var \Magento\Core\Model\App\EmulationFactory
      */
     protected $_emulationFactory;
 
     /**
-     * @param Magento_Catalog_Helper_Product_Flat $catalogProductFlat
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_App_EmulationFactory $emulationFactory
+     * @param \Magento\Catalog\Helper\Product\Flat $catalogProductFlat
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\App\EmulationFactory $emulationFactory
      */
     public function __construct(
-        Magento_Catalog_Helper_Product_Flat $catalogProductFlat,
-        Magento_Core_Helper_Context $context,
-        Magento_Core_Model_App_EmulationFactory $emulationFactory
+        \Magento\Catalog\Helper\Product\Flat $catalogProductFlat,
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\App\EmulationFactory $emulationFactory
     ) {
         $this->_catalogProductFlat = $catalogProductFlat;
         $this->_emulationFactory = $emulationFactory;
@@ -54,11 +56,11 @@ class Magento_Rss_Helper_Data extends Magento_Core_Helper_Abstract
     public function disableFlat()
     {
         if ($this->_catalogProductFlat->isAvailable()) {
-            /* @var $emulationModel Magento_Core_Model_App_Emulation */
+            /* @var $emulationModel \Magento\Core\Model\App\Emulation */
             $emulationModel = $this->_emulationFactory->create();
             // Emulate admin environment to disable using flat model - otherwise we won't get global stats
             // for all stores
-            $emulationModel->startEnvironmentEmulation(0, Magento_Core_Model_App_Area::AREA_ADMIN);
+            $emulationModel->startEnvironmentEmulation(0, \Magento\Core\Model\App\Area::AREA_ADMIN);
         }
     }
 }

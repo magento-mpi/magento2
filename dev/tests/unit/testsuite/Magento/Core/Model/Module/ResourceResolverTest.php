@@ -5,23 +5,25 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Core_Model_Module_ResourceResolverTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Module;
+
+class ResourceResolverTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var  Magento_Core_Model_Module_ResourceResolver
+     * @var  \Magento\Core\Model\Module\ResourceResolver
      */
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_moduleReaderMock;
 
     protected function setUp()
     {
-        $this->_moduleReaderMock = $this->getMock('Magento_Core_Model_Config_Modules_Reader',
+        $this->_moduleReaderMock = $this->getMock('Magento\Core\Model\Config\Modules\Reader',
             array(), array(), '', false);
-        $this->_model = new Magento_Core_Model_Module_ResourceResolver($this->_moduleReaderMock);
+        $this->_model = new \Magento\Core\Model\Module\ResourceResolver($this->_moduleReaderMock);
     }
 
     public function testGetResourceList()

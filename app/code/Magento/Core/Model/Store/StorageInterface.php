@@ -5,7 +5,9 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-interface Magento_Core_Model_Store_StorageInterface extends Magento_Core_Model_Store_ListInterface
+namespace Magento\Core\Model\Store;
+
+interface StorageInterface extends \Magento\Core\Model\Store\ListInterface
 {
     /**
      * Initialize current application store

@@ -11,7 +11,9 @@
 /**
  * Database config installation block
  */
-class Magento_Install_Block_Db_Main extends Magento_Core_Block_Template
+namespace Magento\Install\Block\Db;
+
+class Main extends \Magento\Core\Block\Template
 {
     /**
      * Array of Database blocks keyed by name
@@ -26,7 +28,7 @@ class Magento_Install_Block_Db_Main extends Magento_Core_Block_Template
      * @param  string $type database type
      * @param  string $block database block type
      * @param  string $template
-     * @return Magento_Install_Block_Db_Main
+     * @return \Magento\Install\Block\Db\Main
      */
     public function addDatabaseBlock($type, $block, $template)
     {
@@ -43,7 +45,7 @@ class Magento_Install_Block_Db_Main extends Magento_Core_Block_Template
      * Retrieve database block by type
      *
      * @param  string $type database model type
-     * @return bool|Magento_Core_Block_Template
+     * @return bool|\Magento\Core\Block\Template
      */
     public function getDatabaseBlock($type)
     {
@@ -78,17 +80,17 @@ class Magento_Install_Block_Db_Main extends Magento_Core_Block_Template
     /**
      * Retrieve configuration form data object
      *
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function getFormData()
     {
         $data = $this->getData('form_data');
         if (is_null($data)) {
-            $data = Mage::getSingleton('Magento_Install_Model_Session')->getConfigData(true);
+            $data = \Mage::getSingleton('Magento\Install\Model\Session')->getConfigData(true);
             if (empty($data)) {
-                $data = Mage::getModel('Magento_Install_Model_Installer_Config')->getFormData();
+                $data = \Mage::getModel('Magento\Install\Model\Installer\Config')->getFormData();
             } else {
-                $data = new Magento_Object($data);
+                $data = new \Magento\Object($data);
             }
             $this->setFormData($data);
         }

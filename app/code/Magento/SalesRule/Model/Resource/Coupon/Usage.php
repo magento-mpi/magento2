@@ -16,7 +16,9 @@
  * @package     Magento_SalesRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_SalesRule_Model_Resource_Coupon_Usage extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\SalesRule\Model\Resource\Coupon;
+
+class Usage extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Constructor
@@ -71,12 +73,12 @@ class Magento_SalesRule_Model_Resource_Coupon_Usage extends Magento_Core_Model_R
      * Load an object by customer_id & coupon_id
      *
      *
-     * @param Magento_Object $object
+     * @param \Magento\Object $object
      * @param unknown_type $customerId
      * @param unknown_type $couponId
-     * @return Magento_SalesRule_Model_Resource_Coupon_Usage
+     * @return \Magento\SalesRule\Model\Resource\Coupon\Usage
      */
-    public function loadByCustomerCoupon(Magento_Object $object, $customerId, $couponId)
+    public function loadByCustomerCoupon(\Magento\Object $object, $customerId, $couponId)
     {
         $read = $this->_getReadAdapter();
         if ($read && $couponId && $customerId) {
@@ -89,7 +91,7 @@ class Magento_SalesRule_Model_Resource_Coupon_Usage extends Magento_Core_Model_R
                 $object->setData($data);
             }
         }
-        if ($object instanceof Magento_Core_Model_Abstract) {
+        if ($object instanceof \Magento\Core\Model\AbstractModel) {
             $this->_afterLoad($object);
         }
         return $this;

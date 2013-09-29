@@ -9,23 +9,25 @@
  */
 
 /**
- * @method Magento_Index_Model_Resource_Event _getResource()
- * @method Magento_Index_Model_Resource_Event getResource()
- * @method Magento_Index_Model_Event setType(string $value)
- * @method Magento_Index_Model_Event setEntity(string $value)
+ * @method \Magento\Index\Model\Resource\Event _getResource()
+ * @method \Magento\Index\Model\Resource\Event getResource()
+ * @method \Magento\Index\Model\Event setType(string $value)
+ * @method \Magento\Index\Model\Event setEntity(string $value)
  * @method int getEntityPk()
- * @method Magento_Index_Model_Event setEntityPk(int $value)
+ * @method \Magento\Index\Model\Event setEntityPk(int $value)
  * @method string getCreatedAt()
- * @method Magento_Index_Model_Event setCreatedAt(string $value)
- * @method Magento_Index_Model_Event setOldData(string $value)
- * @method Magento_Index_Model_Event setNewData(string $value)
- * @method Magento_Object getDataObject()
+ * @method \Magento\Index\Model\Event setCreatedAt(string $value)
+ * @method \Magento\Index\Model\Event setOldData(string $value)
+ * @method \Magento\Index\Model\Event setNewData(string $value)
+ * @method \Magento\Object getDataObject()
  *
  * @category    Magento
  * @package     Magento_Index
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Index_Model_Event extends Magento_Core_Model_Abstract
+namespace Magento\Index\Model;
+
+class Event extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Predefined event types
@@ -54,24 +56,24 @@ class Magento_Index_Model_Event extends Magento_Core_Model_Abstract
     protected $_process = null;
 
     /**
-     * @var Magento_Index_Model_Indexer
+     * @var \Magento\Index\Model\Indexer
      */
     protected $_indexer;
 
     /**
-     * @param Magento_Index_Model_Indexer $indexer
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Index\Model\Indexer $indexer
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Index_Model_Indexer $indexer,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Index\Model\Indexer $indexer,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_indexer = $indexer;
@@ -83,13 +85,13 @@ class Magento_Index_Model_Event extends Magento_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('Magento_Index_Model_Resource_Event');
+        $this->_init('Magento\Index\Model\Resource\Event');
     }
 
     /**
      * Specify process object
      *
-     * @param null|Magento_Index_Model_Process $process
+     * @param null|\Magento\Index\Model\Process $process
      * @return $this
      */
     public function setProcess($process)
@@ -101,7 +103,7 @@ class Magento_Index_Model_Event extends Magento_Core_Model_Abstract
     /**
      * Get related process object
      *
-     * @return Magento_Index_Model_Process|null
+     * @return \Magento\Index\Model\Process|null
      */
     public function getProcess()
     {
@@ -120,7 +122,7 @@ class Magento_Index_Model_Event extends Magento_Core_Model_Abstract
     /**
      * Reset old and new data arrays
      *
-     * @return Magento_Index_Model_Event
+     * @return \Magento\Index\Model\Event
      */
     public function resetData()
     {
@@ -139,9 +141,9 @@ class Magento_Index_Model_Event extends Magento_Core_Model_Abstract
      *
      * @param string|int $processId
      * @param string $status
-     * @return  Magento_Index_Model_Event
+     * @return  \Magento\Index\Model\Event
      */
-    public function addProcessId($processId, $status = Magento_Index_Model_Process::EVENT_STATUS_NEW)
+    public function addProcessId($processId, $status = \Magento\Index\Model\Process::EVENT_STATUS_NEW)
     {
         $this->_processIds[$processId] = $status;
         return $this;
@@ -193,7 +195,7 @@ class Magento_Index_Model_Event extends Magento_Core_Model_Abstract
      * Used for events duplicated protection
      *
      * @param array $data
-     * @return Magento_Index_Model_Event
+     * @return \Magento\Index\Model\Event
      */
     public function mergePreviousData($data)
     {
@@ -214,7 +216,7 @@ class Magento_Index_Model_Event extends Magento_Core_Model_Abstract
     /**
      * Clean new data, unset data for done processes
      *
-     * @return Magento_Index_Model_Event
+     * @return \Magento\Index\Model\Event
      */
     public function cleanNewData()
     {
@@ -225,7 +227,7 @@ class Magento_Index_Model_Event extends Magento_Core_Model_Abstract
 
         $newData = $this->getNewData(false);
         foreach ($processIds as $processId => $processStatus) {
-            if ($processStatus == Magento_Index_Model_Process::EVENT_STATUS_DONE) {
+            if ($processStatus == \Magento\Index\Model\Process::EVENT_STATUS_DONE) {
                 $process = $this->_indexer->getProcessById($processId);
                 if ($process) {
                     $namespace = get_class($process->getIndexer());
@@ -278,7 +280,7 @@ class Magento_Index_Model_Event extends Magento_Core_Model_Abstract
      * @deprecated since 1.6.2.0
      * @param array|string $key
      * @param null|mixed $value
-     * @return Magento_Index_Model_Event
+     * @return \Magento\Index\Model\Event
      */
     public function addOldData($key, $value = null)
     {
@@ -290,7 +292,7 @@ class Magento_Index_Model_Event extends Magento_Core_Model_Abstract
      *
      * @param array|string $key
      * @param null|mixed $value
-     * @return Magento_Index_Model_Event
+     * @return \Magento\Index\Model\Event
      */
     public function addNewData($key, $value = null)
     {
@@ -335,7 +337,7 @@ class Magento_Index_Model_Event extends Magento_Core_Model_Abstract
     /**
      * Serelaize old and new data arrays before saving
      *
-     * @return Magento_Index_Model_Event
+     * @return \Magento\Index\Model\Event
      */
     protected function _beforeSave()
     {

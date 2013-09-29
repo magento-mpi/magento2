@@ -8,15 +8,15 @@
  */
 -->
 <config>
-    <type name="Magento_TargetRule_Model_Index">
+    <type name="Magento\TargetRule\Model\Index">
         <param name="customerSession">
-            <instance type="Magento_Customer_Model_SessionProxy" />
+            <instance type="Magento\Customer\Model\SessionProxy" />
         </param>
     </type>
-    <type name="Magento_Core_Model_Db_Updater">
+    <type name="Magento\Core\Model\Db\Updater">
         <param name="resourceList">
             <value>
-                <targetrule_setup>Magento_TargetRule_Model_Resource_Setup</targetrule_setup>
+                <targetrule_setup>Magento\TargetRule\Model\Resource\Setup</targetrule_setup>
             </value>
         </param>
     </type>

@@ -8,11 +8,13 @@
  * @license     {license_link}
  */
 
-class Magento_GiftCardAccount_Block_Checkout_Onepage_Payment_Additional extends Magento_Core_Block_Template
+namespace Magento\GiftCardAccount\Block\Checkout\Onepage\Payment;
+
+class Additional extends \Magento\Core\Block\Template
 {
     public function getQuote()
     {
-        return Mage::getSingleton('Magento_Checkout_Model_Session')->getQuote();
+        return \Mage::getSingleton('Magento\Checkout\Model\Session')->getQuote();
     }
 
     public function getAppliedGiftCardAmount()

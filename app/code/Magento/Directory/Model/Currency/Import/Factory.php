@@ -5,25 +5,27 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Directory_Model_Currency_Import_Factory
+namespace Magento\Directory\Model\Currency\Import;
+
+class Factory
 {
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @var Magento_Directory_Model_Currency_Import_Config
+     * @var \Magento\Directory\Model\Currency\Import\Config
      */
     protected $_serviceConfig;
 
     /**
-     * @param Magento_ObjectManager $objectManager
-     * @param Magento_Directory_Model_Currency_Import_Config $serviceConfig
+     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Directory\Model\Currency\Import\Config $serviceConfig
      */
     public function __construct(
-        Magento_ObjectManager $objectManager,
-        Magento_Directory_Model_Currency_Import_Config $serviceConfig
+        \Magento\ObjectManager $objectManager,
+        \Magento\Directory\Model\Currency\Import\Config $serviceConfig
     ) {
         $this->_objectManager = $objectManager;
         $this->_serviceConfig = $serviceConfig;
@@ -34,20 +36,20 @@ class Magento_Directory_Model_Currency_Import_Factory
      *
      * @param string $serviceName
      * @param array $data
-     * @throws InvalidArgumentException
-     * @throws UnexpectedValueException
-     * @return Magento_Directory_Model_Currency_Import_Interface
+     * @throws \InvalidArgumentException
+     * @throws \UnexpectedValueException
+     * @return \Magento\Directory\Model\Currency\Import\ImportInterface
      */
     public function create($serviceName, array $data = array())
     {
         $serviceClass = $this->_serviceConfig->getServiceClass($serviceName);
         if (!$serviceClass) {
-            throw new InvalidArgumentException("Currency import service '$serviceName' is not defined.");
+            throw new \InvalidArgumentException("Currency import service '$serviceName' is not defined.");
         }
         $serviceInstance = $this->_objectManager->create($serviceClass, $data);
-        if (!($serviceInstance instanceof Magento_Directory_Model_Currency_Import_Interface)) {
-            throw new UnexpectedValueException(
-                "Class '$serviceClass' has to implement Magento_Directory_Model_Currency_Import_Interface."
+        if (!($serviceInstance instanceof \Magento\Directory\Model\Currency\Import\ImportInterface)) {
+            throw new \UnexpectedValueException(
+                "Class '$serviceClass' has to implement \Magento\Directory\Model\Currency\Import\ImportInterface."
             );
         }
         return $serviceInstance;

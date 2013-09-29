@@ -9,9 +9,9 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <referenceContainer name="my.account.wrapper">
-        <block class="Magento_Sales_Block_Order_Info" name="magento.rma.info"/>
+        <block class="Magento\Sales\Block\Order\Info" name="magento.rma.info"/>
     </referenceContainer>
     <referenceBlock name="sales.order.info.buttons">
-        <block class="Magento_Rma_Block_Order_Button" name="magento.rma.info.button" template="order/button.phtml"/>
+        <block class="Magento\Rma\Block\Order\Button" name="magento.rma.info.button" template="order/button.phtml"/>
     </referenceBlock>
 </layout>

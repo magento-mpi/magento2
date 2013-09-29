@@ -16,7 +16,9 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Resource_Quote_Item_Option_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Sales\Model\Resource\Quote\Item\Option;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Array of option ids grouped by item id
@@ -38,13 +40,13 @@ class Magento_Sales_Model_Resource_Quote_Item_Option_Collection extends Magento_
      */
     protected function _construct()
     {
-        $this->_init('Magento_Sales_Model_Quote_Item_Option', 'Magento_Sales_Model_Resource_Quote_Item_Option');
+        $this->_init('Magento\Sales\Model\Quote\Item\Option', 'Magento\Sales\Model\Resource\Quote\Item\Option');
     }
 
     /**
      * Fill array of options by item and product
      *
-     * @return Magento_Sales_Model_Resource_Quote_Item_Option_Collection
+     * @return \Magento\Sales\Model\Resource\Quote\Item\Option\Collection
      */
     protected function _afterLoad()
     {
@@ -73,7 +75,7 @@ class Magento_Sales_Model_Resource_Quote_Item_Option_Collection extends Magento_
      * Apply quote item(s) filter to collection
      *
      * @param int | array $item
-     * @return Magento_Sales_Model_Resource_Quote_Item_Option_Collection
+     * @return \Magento\Sales\Model\Resource\Quote\Item\Option\Collection
      */
     public function addItemFilter($item)
     {
@@ -83,7 +85,7 @@ class Magento_Sales_Model_Resource_Quote_Item_Option_Collection extends Magento_
             //$this->addFieldToFilter('item_id', '');
         } elseif (is_array($item)) {
             $this->addFieldToFilter('item_id', array('in' => $item));
-        } elseif ($item instanceof Magento_Sales_Model_Quote_Item) {
+        } elseif ($item instanceof \Magento\Sales\Model\Quote\Item) {
             $this->addFieldToFilter('item_id', $item->getId());
         } else {
             $this->addFieldToFilter('item_id', $item);
@@ -112,7 +114,7 @@ class Magento_Sales_Model_Resource_Quote_Item_Option_Collection extends Magento_
      */
     public function getOptionsByItem($item)
     {
-        if ($item instanceof Magento_Sales_Model_Quote_Item) {
+        if ($item instanceof \Magento\Sales\Model\Quote\Item) {
             $itemId = $item->getId();
         } else {
             $itemId = $item;
@@ -133,12 +135,12 @@ class Magento_Sales_Model_Resource_Quote_Item_Option_Collection extends Magento_
     /**
      * Get all option for item
      *
-     * @param int | Magento_Catalog_Model_Product $product
+     * @param int | \Magento\Catalog\Model\Product $product
      * @return array
      */
     public function getOptionsByProduct($product)
     {
-        if ($product instanceof Magento_Catalog_Model_Product) {
+        if ($product instanceof \Magento\Catalog\Model\Product) {
             $productId = $product->getId();
         } else {
             $productId = $product;

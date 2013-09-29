@@ -7,7 +7,9 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-interface Magento_JobQueue_Client_ConfigInterface
+namespace Magento\JobQueue\Client;
+
+interface ConfigInterface
 {
     /**
      * Retrieve comma spearated list of queue servers

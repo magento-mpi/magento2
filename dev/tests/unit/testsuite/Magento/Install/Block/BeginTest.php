@@ -8,25 +8,26 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Install\Block;
 
 /**
- * Test class for Magento_Install_Block_Begin
+ * Test class for \Magento\Install\Block\Begin
  */
-class Magento_Install_Block_BeginTest extends PHPUnit_Framework_TestCase
+class BeginTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Get block model
      *
-     * @param PHPUnit_Framework_MockObject_MockObject|Magento_Filesystem $contextFileSystem
+     * @param \PHPUnit_Framework_MockObject_MockObject|\Magento\Filesystem $contextFileSystem
      * @param string|null $fileName
-     * @return Magento_Install_Block_Begin
+     * @return \Magento\Install\Block\Begin
      */
     public function getBlockModel($contextFileSystem, $fileName = null)
     {
-        $helper = $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false);
-        $context = $this->getMock('Magento_Core_Block_Template_Context', array(), array(), '', false);
+        $helper = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
+        $context = $this->getMock('Magento\Core\Block\Template\Context', array(), array(), '', false);
         $context->expects($this->once())->method('getFileSystem')->will($this->returnValue($contextFileSystem));
-        $block = new Magento_Install_Block_Begin($helper, $context, array(), $fileName);
+        $block = new \Magento\Install\Block\Begin($helper, $context, array(), $fileName);
         return $block;
     }
 
@@ -38,7 +39,7 @@ class Magento_Install_Block_BeginTest extends PHPUnit_Framework_TestCase
      */
     public function testGetLicenseHtmlWhenFileExists($fileName, $expectedTxt)
     {
-        $fileSystem = $this->getMock('Magento_Filesystem', array(), array(), '', false);
+        $fileSystem = $this->getMock('Magento\Filesystem', array(), array(), '', false);
         $fileSystem->expects($this->once())
             ->method('read')
             ->with($this->equalTo(BP . DS . $fileName))
@@ -57,7 +58,7 @@ class Magento_Install_Block_BeginTest extends PHPUnit_Framework_TestCase
      */
     public function testGetLicenseHtmlWhenFileIsEmpty($fileName)
     {
-        $fileSystem = $this->getMock('Magento_Filesystem', array(), array(), '', false);
+        $fileSystem = $this->getMock('Magento\Filesystem', array(), array(), '', false);
         $fileSystem->expects($this->never())->method('read');
 
         $block = $this->getBlockModel($fileSystem, $fileName);

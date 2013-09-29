@@ -16,7 +16,9 @@
  * @package    Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Block_Product_View_Type_Grouped extends Magento_Catalog_Block_Product_View_Abstract
+namespace Magento\Catalog\Block\Product\View\Type;
+
+class Grouped extends \Magento\Catalog\Block\Product\View\AbstractView
 {
     public function getAssociatedProducts()
     {
@@ -28,7 +30,7 @@ class Magento_Catalog_Block_Product_View_Type_Grouped extends Magento_Catalog_Bl
     /**
      * Set preconfigured values to grouped associated products
      *
-     * @return Magento_Catalog_Block_Product_View_Type_Grouped
+     * @return \Magento\Catalog\Block\Product\View\Type\Grouped
      */
     public function setPreconfiguredValue() {
         $configValues = $this->getProduct()->getPreconfiguredValues()->getSuperGroup();

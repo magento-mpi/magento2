@@ -6,22 +6,24 @@
  * @license     {license_link}
  */
 
-class Magento_Sales_Model_Order_Pdf_ConfigTest extends PHPUnit_Framework_TestCase
+namespace Magento\Sales\Model\Order\Pdf;
+
+class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Sales_Model_Order_Pdf_Config
+     * @var \Magento\Sales\Model\Order\Pdf\Config
      */
     protected $_model;
 
     /**
-     * @var Magento_Config_Data|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Config\Data|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_dataStorage;
 
     protected function setUp()
     {
-        $this->_dataStorage = $this->getMock('Magento_Config_Data', array(), array(), '', false);
-        $this->_model = new Magento_Sales_Model_Order_Pdf_Config($this->_dataStorage);
+        $this->_dataStorage = $this->getMock('Magento\Config\Data', array(), array(), '', false);
+        $this->_model = new \Magento\Sales\Model\Order\Pdf\Config($this->_dataStorage);
     }
 
     public function testGetRenderersPerProduct()

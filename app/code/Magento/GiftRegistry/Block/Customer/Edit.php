@@ -14,7 +14,9 @@
  * @category   Magento
  * @package    Magento_GiftRegistry
  */
-class Magento_GiftRegistry_Block_Customer_Edit extends Magento_Directory_Block_Data
+namespace Magento\GiftRegistry\Block\Customer;
+
+class Edit extends \Magento\Directory\Block\Data
 {
     /**
      * Template container
@@ -26,28 +28,28 @@ class Magento_GiftRegistry_Block_Customer_Edit extends Magento_Directory_Block_D
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_Core_Model_Cache_Type_Config $configCacheType
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Directory_Model_Resource_Region_CollectionFactory $regionCollFactory
-     * @param Magento_Directory_Model_Resource_Country_CollectionFactory $countryCollFactory
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory
+     * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_Core_Model_Cache_Type_Config $configCacheType,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Directory_Model_Resource_Region_CollectionFactory $regionCollFactory,
-        Magento_Directory_Model_Resource_Country_CollectionFactory $countryCollFactory,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Core\Model\Cache\Type\Config $configCacheType,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory,
+        \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
@@ -83,7 +85,7 @@ class Magento_GiftRegistry_Block_Customer_Edit extends Magento_Directory_Block_D
      */
     public function getFormDataPost()
     {
-        return Mage::getSingleton('Magento_Customer_Model_Session')->getGiftRegistryEntityFormData(true);
+        return \Mage::getSingleton('Magento\Customer\Model\Session')->getGiftRegistryEntityFormData(true);
     }
 
     /**
@@ -115,8 +117,8 @@ class Magento_GiftRegistry_Block_Customer_Edit extends Magento_Directory_Block_D
      */
     public function getTypeList()
     {
-        $storeId = Mage::app()->getStore()->getId();
-        $collection = Mage::getModel('Magento_GiftRegistry_Model_Type')
+        $storeId = \Mage::app()->getStore()->getId();
+        $collection = \Mage::getModel('Magento\GiftRegistry\Model\Type')
             ->getCollection()
             ->addStoreData($storeId)
             ->applyListedFilter()
@@ -180,7 +182,7 @@ class Magento_GiftRegistry_Block_Customer_Edit extends Magento_Directory_Block_D
      *
      * @param string $type
      * @param string $template
-     * @return Magento_GiftRegistry_Block_Customer_Edit
+     * @return \Magento\GiftRegistry\Block\Customer\Edit
      */
     public function addInputTypeTemplate($type, $template)
     {

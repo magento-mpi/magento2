@@ -16,13 +16,15 @@
  * @package     Magento_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Bundle_Model_Resource_Indexer_Price extends Magento_Catalog_Model_Resource_Product_Indexer_Price_Default
+namespace Magento\Bundle\Model\Resource\Indexer;
+
+class Price extends \Magento\Catalog\Model\Resource\Product\Indexer\Price\DefaultPrice
 {
     /**
      * Reindex temporary (price result data) for all products
      *
-     * @return $this|Magento_Catalog_Model_Resource_Product_Indexer_Price_Default
-     * @throws Exception
+     * @return $this|\Magento\Catalog\Model\Resource\Product\Indexer\Price\Default
+     * @throws \Exception
      */
     public function reindexAll()
     {
@@ -32,7 +34,7 @@ class Magento_Bundle_Model_Resource_Indexer_Price extends Magento_Catalog_Model_
         try {
             $this->_prepareBundlePrice();
             $this->commit();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->rollBack();
             throw $e;
         }
@@ -44,7 +46,7 @@ class Magento_Bundle_Model_Resource_Indexer_Price extends Magento_Catalog_Model_
      * Reindex temporary (price result data) for defined product(s)
      *
      * @param int|array $entityIds
-     * @return Magento_Bundle_Model_Resource_Indexer_Price
+     * @return \Magento\Bundle\Model\Resource\Indexer\Price
      */
     public function reindexEntity($entityIds)
     {
@@ -95,7 +97,7 @@ class Magento_Bundle_Model_Resource_Indexer_Price extends Magento_Catalog_Model_
     /**
      * Prepare temporary price index table for fixed bundle products
      *
-     * @return Magento_Bundle_Model_Resource_Indexer_Price
+     * @return \Magento\Bundle\Model\Resource\Indexer\Price
      */
     protected function _prepareBundlePriceTable()
     {
@@ -106,7 +108,7 @@ class Magento_Bundle_Model_Resource_Indexer_Price extends Magento_Catalog_Model_
     /**
      * Prepare table structure for temporary bundle selection prices index
      *
-     * @return Magento_Bundle_Model_Resource_Indexer_Price
+     * @return \Magento\Bundle\Model\Resource\Indexer\Price
      */
     protected function _prepareBundleSelectionTable()
     {
@@ -117,7 +119,7 @@ class Magento_Bundle_Model_Resource_Indexer_Price extends Magento_Catalog_Model_
     /**
      * Prepare table structure for temporary bundle option prices index
      *
-     * @return Magento_Bundle_Model_Resource_Indexer_Price
+     * @return \Magento\Bundle\Model\Resource\Indexer\Price
      */
     protected function _prepareBundleOptionTable()
     {
@@ -130,7 +132,7 @@ class Magento_Bundle_Model_Resource_Indexer_Price extends Magento_Catalog_Model_
      *
      * @param int $priceType
      * @param int|array $entityIds the entity ids limitatation
-     * @return Magento_Bundle_Model_Resource_Indexer_Price
+     * @return \Magento\Bundle\Model\Resource\Indexer\Price
      */
     protected function _prepareBundlePriceByType($priceType, $entityIds = null)
     {
@@ -167,16 +169,16 @@ class Magento_Bundle_Model_Resource_Indexer_Price extends Magento_Catalog_Model_
             ->where('e.type_id=?', $this->getTypeId());
 
         // add enable products limitation
-        $statusCond = $write->quoteInto('=?', Magento_Catalog_Model_Product_Status::STATUS_ENABLED);
+        $statusCond = $write->quoteInto('=?', \Magento\Catalog\Model\Product\Status::STATUS_ENABLED);
         $this->_addAttributeToSelect($select, 'status', 'e.entity_id', 'cs.store_id', $statusCond, true);
         if ($this->_coreData->isModuleEnabled('Magento_Tax')) {
             $taxClassId = $this->_addAttributeToSelect($select, 'tax_class_id', 'e.entity_id', 'cs.store_id');
         } else {
-            $taxClassId = new Zend_Db_Expr('0');
+            $taxClassId = new \Zend_Db_Expr('0');
         }
 
-        if ($priceType == Magento_Bundle_Model_Product_Price::PRICE_TYPE_DYNAMIC) {
-            $select->columns(array('tax_class_id' => new Zend_Db_Expr('0')));
+        if ($priceType == \Magento\Bundle\Model\Product\Price::PRICE_TYPE_DYNAMIC) {
+            $select->columns(array('tax_class_id' => new \Zend_Db_Expr('0')));
         } else {
             $select->columns(
                 array('tax_class_id' => $write->getCheckSql($taxClassId . ' IS NOT NULL', $taxClassId, 0))
@@ -190,7 +192,7 @@ class Magento_Bundle_Model_Resource_Indexer_Price extends Magento_Catalog_Model_
         $specialPrice   = $this->_addAttributeToSelect($select, 'special_price', 'e.entity_id', 'cs.store_id');
         $specialFrom    = $this->_addAttributeToSelect($select, 'special_from_date', 'e.entity_id', 'cs.store_id');
         $specialTo      = $this->_addAttributeToSelect($select, 'special_to_date', 'e.entity_id', 'cs.store_id');
-        $curentDate     = new Zend_Db_Expr('cwd.website_date');
+        $curentDate     = new \Zend_Db_Expr('cwd.website_date');
 
         $specialExpr    = $write->getCheckSql(
             $write->getCheckSql(
@@ -222,9 +224,9 @@ class Magento_Bundle_Model_Resource_Indexer_Price extends Magento_Catalog_Model_
             '0'
         );
 
-        $tierExpr       = new Zend_Db_Expr("tp.min_price");
+        $tierExpr       = new \Zend_Db_Expr("tp.min_price");
 
-        if ($priceType == Magento_Bundle_Model_Product_Price::PRICE_TYPE_FIXED) {
+        if ($priceType == \Magento\Bundle\Model\Product\Price::PRICE_TYPE_FIXED) {
             $finalPrice = $write->getCheckSql(
                 $specialExpr . ' > 0',
                 'ROUND(' . $price . ' * (' . $specialExpr . '  / 100), 4)',
@@ -246,13 +248,13 @@ class Magento_Bundle_Model_Resource_Indexer_Price extends Magento_Catalog_Model_
                 $finalPrice
             );
         } else {
-            $finalPrice     = new Zend_Db_Expr("0");
+            $finalPrice     = new \Zend_Db_Expr("0");
             $tierPrice      = $write->getCheckSql($tierExpr . ' IS NOT NULL', '0', 'NULL');
             $groupPrice     = $write->getCheckSql($groupPriceExpr . ' > 0', $groupPriceExpr, 'NULL');
         }
 
         $select->columns(array(
-            'price_type'          => new Zend_Db_Expr($priceType),
+            'price_type'          => new \Zend_Db_Expr($priceType),
             'special_price'       => $specialExpr,
             'tier_percent'        => $tierExpr,
             'orig_price'          => $write->getCheckSql($price . ' IS NULL', '0', $price),
@@ -263,7 +265,7 @@ class Magento_Bundle_Model_Resource_Indexer_Price extends Magento_Catalog_Model_
             'base_tier'           => $tierPrice,
             'group_price'         => $groupPrice,
             'base_group_price'    => $groupPrice,
-            'group_price_percent' => new Zend_Db_Expr('gp.price'),
+            'group_price_percent' => new \Zend_Db_Expr('gp.price'),
         ));
 
         if (!is_null($entityIds)) {
@@ -275,9 +277,9 @@ class Magento_Bundle_Model_Resource_Indexer_Price extends Magento_Catalog_Model_
          */
         $this->_eventManager->dispatch('catalog_product_prepare_index_select', array(
             'select'        => $select,
-            'entity_field'  => new Zend_Db_Expr('e.entity_id'),
-            'website_field' => new Zend_Db_Expr('cw.website_id'),
-            'store_field'   => new Zend_Db_Expr('cs.store_id')
+            'entity_field'  => new \Zend_Db_Expr('e.entity_id'),
+            'website_field' => new \Zend_Db_Expr('cw.website_id'),
+            'store_field'   => new \Zend_Db_Expr('cs.store_id')
         ));
 
         $query = $select->insertFromSelect($table);
@@ -289,15 +291,15 @@ class Magento_Bundle_Model_Resource_Indexer_Price extends Magento_Catalog_Model_
     /**
      * Calculate fixed bundle product selections price
      *
-     * @return Magento_Bundle_Model_Resource_Indexer_Price
+     * @return \Magento\Bundle\Model\Resource\Indexer\Price
      */
     protected function _calculateBundleOptionPrice()
     {
         $write = $this->_getWriteAdapter();
 
         $this->_prepareBundleSelectionTable();
-        $this->_calculateBundleSelectionPrice(Magento_Bundle_Model_Product_Price::PRICE_TYPE_FIXED);
-        $this->_calculateBundleSelectionPrice(Magento_Bundle_Model_Product_Price::PRICE_TYPE_DYNAMIC);
+        $this->_calculateBundleSelectionPrice(\Magento\Bundle\Model\Product\Price::PRICE_TYPE_FIXED);
+        $this->_calculateBundleSelectionPrice(\Magento\Bundle\Model\Product\Price::PRICE_TYPE_DYNAMIC);
 
         $this->_prepareBundleOptionTable();
 
@@ -322,12 +324,12 @@ class Magento_Bundle_Model_Resource_Indexer_Price extends Magento_Catalog_Model_
 
         $this->_prepareDefaultFinalPriceTable();
 
-        $minPrice  = new Zend_Db_Expr($write->getCheckSql(
+        $minPrice  = new \Zend_Db_Expr($write->getCheckSql(
             'SUM(io.min_price) = 0',
             'MIN(io.alt_price)',
             'SUM(io.min_price)'
         ) . ' + i.price');
-        $maxPrice  = new Zend_Db_Expr("SUM(io.max_price) + i.price");
+        $maxPrice  = new \Zend_Db_Expr("SUM(io.max_price) + i.price");
         $tierPrice = $write->getCheckSql(
             'MIN(i.tier_percent) IS NOT NULL',
             $write->getCheckSql(
@@ -381,13 +383,13 @@ class Magento_Bundle_Model_Resource_Indexer_Price extends Magento_Catalog_Model_
      * Calculate bundle product selections price by product type
      *
      * @param int $priceType
-     * @return Magento_Bundle_Model_Resource_Indexer_Price
+     * @return \Magento\Bundle\Model\Resource\Indexer\Price
      */
     protected function _calculateBundleSelectionPrice($priceType)
     {
         $write = $this->_getWriteAdapter();
 
-        if ($priceType == Magento_Bundle_Model_Product_Price::PRICE_TYPE_FIXED) {
+        if ($priceType == \Magento\Bundle\Model\Product\Price::PRICE_TYPE_FIXED) {
 
             $selectionPriceValue = $write->getCheckSql(
                 'bsp.selection_price_value IS NULL',
@@ -399,7 +401,7 @@ class Magento_Bundle_Model_Resource_Indexer_Price extends Magento_Catalog_Model_
                 'bs.selection_price_type',
                 'bsp.selection_price_type'
             );
-            $priceExpr = new Zend_Db_Expr(
+            $priceExpr = new \Zend_Db_Expr(
                 $write->getCheckSql(
                     $selectionPriceType . ' = 1',
                     'ROUND(i.price * (' . $selectionPriceValue . ' / 100),4)',
@@ -440,11 +442,11 @@ class Magento_Bundle_Model_Resource_Indexer_Price extends Magento_Catalog_Model_
                 ) . ' * bs.selection_qty',
                 'NULL'
             );
-            $priceExpr = new Zend_Db_Expr(
+            $priceExpr = new \Zend_Db_Expr(
                 $write->getCheckSql("{$groupExpr} < {$priceExpr}", $groupExpr, $priceExpr)
             );
         } else {
-            $priceExpr = new Zend_Db_Expr(
+            $priceExpr = new \Zend_Db_Expr(
                 $write->getCheckSql(
                     'i.special_price > 0 AND i.special_price < 100',
                     'ROUND(idx.min_price * (i.special_price / 100), 4)',
@@ -461,14 +463,14 @@ class Magento_Bundle_Model_Resource_Indexer_Price extends Magento_Catalog_Model_
                 'ROUND(idx.min_price * (i.base_group_price / 100), 4)* bs.selection_qty',
                 'NULL'
             );
-            $groupPriceExpr = new Zend_Db_Expr(
+            $groupPriceExpr = new \Zend_Db_Expr(
                 $write->getCheckSql(
                     'i.base_group_price IS NOT NULL AND i.base_group_price > 0 AND i.base_group_price < 100',
                     'ROUND(idx.min_price - idx.min_price * (i.base_group_price / 100), 4)',
                     'idx.min_price'
                 ) . ' * bs.selection_qty'
             );
-            $priceExpr = new Zend_Db_Expr(
+            $priceExpr = new \Zend_Db_Expr(
                 $write->getCheckSql("{$groupPriceExpr} < {$priceExpr}", $groupPriceExpr, $priceExpr)
             );
         }
@@ -527,15 +529,15 @@ class Magento_Bundle_Model_Resource_Indexer_Price extends Magento_Catalog_Model_
      * Prepare temporary index price for bundle products
      *
      * @param int|array $entityIds  the entity ids limitation
-     * @return Magento_Bundle_Model_Resource_Indexer_Price
+     * @return \Magento\Bundle\Model\Resource\Indexer\Price
      */
     protected function _prepareBundlePrice($entityIds = null)
     {
         $this->_prepareTierPriceIndex($entityIds);
         $this->_prepareGroupPriceIndex($entityIds);
         $this->_prepareBundlePriceTable();
-        $this->_prepareBundlePriceByType(Magento_Bundle_Model_Product_Price::PRICE_TYPE_FIXED, $entityIds);
-        $this->_prepareBundlePriceByType(Magento_Bundle_Model_Product_Price::PRICE_TYPE_DYNAMIC, $entityIds);
+        $this->_prepareBundlePriceByType(\Magento\Bundle\Model\Product\Price::PRICE_TYPE_FIXED, $entityIds);
+        $this->_prepareBundlePriceByType(\Magento\Bundle\Model\Product\Price::PRICE_TYPE_DYNAMIC, $entityIds);
 
         /**
          * Add possibility modify prices from external events
@@ -566,10 +568,10 @@ class Magento_Bundle_Model_Resource_Indexer_Price extends Magento_Catalog_Model_
     /**
      * Prepare percentage tier price for bundle products
      *
-     * @see Magento_Catalog_Model_Resource_Product_Indexer_Price::_prepareTierPriceIndex
+     * @see \Magento\Catalog\Model\Resource\Product\Indexer\Price::_prepareTierPriceIndex
      *
      * @param int|array $entityIds
-     * @return Magento_Bundle_Model_Resource_Indexer_Price
+     * @return \Magento\Bundle\Model\Resource\Indexer\Price
      */
     protected function _prepareTierPriceIndex($entityIds = null)
     {
@@ -609,7 +611,7 @@ class Magento_Bundle_Model_Resource_Indexer_Price extends Magento_Catalog_Model_
             )
             ->where('cw.website_id != 0')
             ->where('e.type_id=?', $this->getTypeId())
-            ->columns(new Zend_Db_Expr('MIN(tp.value)'))
+            ->columns(new \Zend_Db_Expr('MIN(tp.value)'))
             ->group(array('tp.entity_id', 'cg.customer_group_id', 'cw.website_id'));
 
         if (!empty($entityIds)) {
@@ -625,10 +627,10 @@ class Magento_Bundle_Model_Resource_Indexer_Price extends Magento_Catalog_Model_
     /**
      * Prepare percentage group price for bundle products
      *
-     * @see Magento_Catalog_Model_Resource_Product_Indexer_Price::_prepareGroupPriceIndex
+     * @see \Magento\Catalog\Model\Resource\Product\Indexer\Price::_prepareGroupPriceIndex
      *
      * @param int|array $entityIds
-     * @return Magento_Bundle_Model_Resource_Indexer_Price
+     * @return \Magento\Bundle\Model\Resource\Indexer\Price
      */
     protected function _prepareGroupPriceIndex($entityIds = null)
     {
@@ -668,7 +670,7 @@ class Magento_Bundle_Model_Resource_Indexer_Price extends Magento_Catalog_Model_
             )
             ->where('cw.website_id != 0')
             ->where('e.type_id=?', $this->getTypeId())
-            ->columns(new Zend_Db_Expr('MIN(gp.value)'))
+            ->columns(new \Zend_Db_Expr('MIN(gp.value)'))
             ->group(array('gp.entity_id', 'cg.customer_group_id', 'cw.website_id'));
 
         if (!empty($entityIds)) {

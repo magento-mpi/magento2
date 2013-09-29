@@ -11,44 +11,46 @@
 /**
  * Directory data block
  */
-class Magento_Directory_Block_Data extends Magento_Core_Block_Template
+namespace Magento\Directory\Block;
+
+class Data extends \Magento\Core\Block\Template
 {
     /**
-     * @var Magento_Core_Model_Cache_Type_Config
+     * @var \Magento\Core\Model\Cache\Type\Config
      */
     protected $_configCacheType;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Directory_Model_Resource_Region_CollectionFactory
+     * @var \Magento\Directory\Model\Resource\Region\CollectionFactory
      */
     protected $_regionCollFactory;
 
     /**
-     * @var Magento_Directory_Model_Resource_Country_CollectionFactory
+     * @var \Magento\Directory\Model\Resource\Country\CollectionFactory
      */
     protected $_countryCollFactory;
 
     /**
-     * @param Magento_Core_Model_Cache_Type_Config $configCacheType
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Directory_Model_Resource_Region_CollectionFactory $regionCollFactory
-     * @param Magento_Directory_Model_Resource_Country_CollectionFactory $countryCollFactory
+     * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory
+     * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Cache_Type_Config $configCacheType,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Directory_Model_Resource_Region_CollectionFactory $regionCollFactory,
-        Magento_Directory_Model_Resource_Country_CollectionFactory $countryCollFactory,
+        \Magento\Core\Model\Cache\Type\Config $configCacheType,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory,
+        \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory,
         array $data = array()
     ) {
         parent::__construct($coreData, $context, $data);
@@ -67,7 +69,7 @@ class Magento_Directory_Block_Data extends Magento_Core_Block_Template
     }
 
     /**
-     * @return Magento_Directory_Model_Resource_Country_Collection
+     * @return \Magento\Directory\Model\Resource\Country\Collection
      */
     public function getCountryCollection()
     {
@@ -89,7 +91,7 @@ class Magento_Directory_Block_Data extends Magento_Core_Block_Template
      */
     public function getCountryHtmlSelect($defValue = null, $name = 'country_id', $id = 'country', $title = 'Country')
     {
-        Magento_Profiler::start('TEST: ' . __METHOD__, array('group' => 'TEST', 'method' => __METHOD__));
+        \Magento\Profiler::start('TEST: ' . __METHOD__, array('group' => 'TEST', 'method' => __METHOD__));
         if (is_null($defValue)) {
             $defValue = $this->getCountryId();
         }
@@ -101,7 +103,7 @@ class Magento_Directory_Block_Data extends Magento_Core_Block_Template
             $options = $this->getCountryCollection()->toOptionArray();
             $this->_configCacheType->save(serialize($options), $cacheKey);
         }
-        $html = $this->getLayout()->createBlock('Magento_Core_Block_Html_Select')
+        $html = $this->getLayout()->createBlock('Magento\Core\Block\Html\Select')
             ->setName($name)
             ->setId($id)
             ->setTitle(__($title))
@@ -110,12 +112,12 @@ class Magento_Directory_Block_Data extends Magento_Core_Block_Template
             ->setOptions($options)
             ->getHtml();
 
-        Magento_Profiler::stop('TEST: ' . __METHOD__);
+        \Magento\Profiler::stop('TEST: ' . __METHOD__);
         return $html;
     }
 
     /**
-     * @return Magento_Directory_Model_Resource_Region_Collection
+     * @return \Magento\Directory\Model\Resource\Region\Collection
      */
     public function getRegionCollection()
     {
@@ -135,7 +137,7 @@ class Magento_Directory_Block_Data extends Magento_Core_Block_Template
      */
     public function getRegionHtmlSelect()
     {
-        Magento_Profiler::start('TEST: ' . __METHOD__, array('group' => 'TEST', 'method' => __METHOD__));
+        \Magento\Profiler::start('TEST: ' . __METHOD__, array('group' => 'TEST', 'method' => __METHOD__));
         $cacheKey = 'DIRECTORY_REGION_SELECT_STORE' . $this->_storeManager->getStore()->getId();
         $cache = $this->_configCacheType->load($cacheKey);
         if ($cache) {
@@ -144,7 +146,7 @@ class Magento_Directory_Block_Data extends Magento_Core_Block_Template
             $options = $this->getRegionCollection()->toOptionArray();
             $this->_configCacheType->save(serialize($options), $cacheKey);
         }
-        $html = $this->getLayout()->createBlock('Magento_Core_Block_Html_Select')
+        $html = $this->getLayout()->createBlock('Magento\Core\Block\Html\Select')
             ->setName('region')
             ->setTitle(__('State/Province'))
             ->setId('state')
@@ -152,7 +154,7 @@ class Magento_Directory_Block_Data extends Magento_Core_Block_Template
             ->setValue(intval($this->getRegionId()))
             ->setOptions($options)
             ->getHtml();
-        Magento_Profiler::start('TEST: ' . __METHOD__, array('group' => 'TEST', 'method' => __METHOD__));
+        \Magento\Profiler::start('TEST: ' . __METHOD__, array('group' => 'TEST', 'method' => __METHOD__));
         return $html;
     }
 
@@ -173,7 +175,7 @@ class Magento_Directory_Block_Data extends Magento_Core_Block_Template
      */
     public function getRegionsJs()
     {
-        Magento_Profiler::start('TEST: ' . __METHOD__, array('group' => 'TEST', 'method' => __METHOD__));
+        \Magento\Profiler::start('TEST: ' . __METHOD__, array('group' => 'TEST', 'method' => __METHOD__));
         $regionsJs = $this->getData('regions_js');
         if (!$regionsJs) {
             $countryIds = array();
@@ -195,7 +197,7 @@ class Magento_Directory_Block_Data extends Magento_Core_Block_Template
             }
             $regionsJs = $this->_coreData->jsonEncode($regions);
         }
-        Magento_Profiler::stop('TEST: ' . __METHOD__);
+        \Magento\Profiler::stop('TEST: ' . __METHOD__);
         return $regionsJs;
     }
 }

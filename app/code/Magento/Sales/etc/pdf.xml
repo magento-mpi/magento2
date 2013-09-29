@@ -10,15 +10,15 @@
 <config>
     <renderers>
         <page type="invoice">
-            <renderer product_type="default">Magento_Sales_Model_Order_Pdf_Items_Invoice_Default</renderer>
-            <renderer product_type="grouped">Magento_Sales_Model_Order_Pdf_Items_Invoice_Grouped</renderer>
+            <renderer product_type="default">Magento\Sales\Model\Order\Pdf\Items\Invoice\DefaultInvoice</renderer>
+            <renderer product_type="grouped">Magento\Sales\Model\Order\Pdf\Items\Invoice\Grouped</renderer>
         </page>
         <page type="shipment">
-            <renderer product_type="default">Magento_Sales_Model_Order_Pdf_Items_Shipment_Default</renderer>
+            <renderer product_type="default">Magento\Sales\Model\Order\Pdf\Items\Shipment\DefaultShipment</renderer>
         </page>
         <page type="creditmemo">
-            <renderer product_type="default">Magento_Sales_Model_Order_Pdf_Items_Creditmemo_Default</renderer>
-            <renderer product_type="grouped">Magento_Sales_Model_Order_Pdf_Items_Creditmemo_Grouped</renderer>
+            <renderer product_type="default">Magento\Sales\Model\Order\Pdf\Items\Creditmemo\DefaultCreditmemo</renderer>
+            <renderer product_type="grouped">Magento\Sales\Model\Order\Pdf\Items\Creditmemo\Grouped</renderer>
         </page>
     </renderers>
     <totals>

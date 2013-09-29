@@ -8,7 +8,7 @@
  */
 -->
 <config>
-    <job name="catalog_product_index_price_reindex_all" instance="Magento_Catalog_Model_Observer" method="reindexProductPrices">
+    <job name="catalog_product_index_price_reindex_all" instance="Magento\Catalog\Model\Observer" method="reindexProductPrices">
         <schedule>0 2 * * *</schedule>
     </job>
 </config>

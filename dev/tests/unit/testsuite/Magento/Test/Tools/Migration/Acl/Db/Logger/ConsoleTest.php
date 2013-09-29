@@ -8,17 +8,20 @@
  * @license     {license_link}
  */
 
+namespace Magento\Test\Tools\Migration\Acl\Db\Logger;
+
 require_once realpath(__DIR__ . '/../../../../../../../../../../')
     . '/tools/Magento/Tools/Migration/Acl/Db/LoggerAbstract.php';
+
 require_once realpath(__DIR__ . '/../../../../../../../../../../')
     . '/tools/Magento/Tools/Migration/Acl/Db/Logger/Console.php';
 
-class Magento_Test_Tools_Migration_Acl_Db_Logger_ConsoleTest extends PHPUnit_Framework_TestCase
+class ConsoleTest extends \PHPUnit_Framework_TestCase
 {
     public function testReport()
     {
         $this->expectOutputRegex('/^Mapped items count: 0(.)*/');
-        $model = new Magento_Tools_Migration_Acl_Db_Logger_Console();
+        $model = new \Magento\Tools\Migration\Acl\Db\Logger\Console();
         $model->report();
     }
 }

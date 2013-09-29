@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Code_Generator_EntityTestAbstract extends PHPUnit_Framework_TestCase
+namespace Magento\Code\Generator;
+
+class EntityTestAbstract extends \PHPUnit_Framework_TestCase
 {
     /**#@+
      * Source and result class parameters
@@ -27,11 +29,11 @@ class Magento_Code_Generator_EntityTestAbstract extends PHPUnit_Framework_TestCa
     protected static $_expectedMethods = array();
 
     /**
-     * @return Magento_Code_Generator_Io|PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\Code\Generator\Io|PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getIoObjectMock()
     {
-        $ioObjectMock = $this->getMock('Magento_Code_Generator_Io',
+        $ioObjectMock = $this->getMock('Magento\Code\Generator\Io',
             array('getResultFileName', 'makeGenerationDirectory', 'makeResultFileDirectory', 'fileExists',
                 'writeResultFile'
             ), array(), '', false
@@ -56,11 +58,11 @@ class Magento_Code_Generator_EntityTestAbstract extends PHPUnit_Framework_TestCa
     }
 
     /**
-     * @return Magento_Autoload_IncludePath|PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\Autoload\IncludePath|PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getAutoloaderMock()
     {
-        $autoLoaderMock = $this->getMock('Magento_Autoload_IncludePath', array('getFile'), array(), '', false);
+        $autoLoaderMock = $this->getMock('Magento\Autoload\IncludePath', array('getFile'), array(), '', false);
         $autoLoaderMock->staticExpects($this->at(0))
             ->method('getFile')
             ->with(static::SOURCE_CLASS)
@@ -75,12 +77,12 @@ class Magento_Code_Generator_EntityTestAbstract extends PHPUnit_Framework_TestCa
 
     /**
      * @param array $methodNames
-     * @return Magento_Code_Generator_CodeGenerator_Zend|PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\Code\Generator\CodeGenerator\Zend|PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getCodeGeneratorMock(array $methodNames)
     {
         $codeGeneratorMock
-            = $this->getMock('Magento_Code_Generator_CodeGenerator_Zend', $methodNames, array(), '', false);
+            = $this->getMock('Magento\Code\Generator\CodeGenerator\Zend', $methodNames, array(), '', false);
         $codeGeneratorMock->expects($this->once())
             ->method('setName')
             ->with(static::RESULT_CLASS)

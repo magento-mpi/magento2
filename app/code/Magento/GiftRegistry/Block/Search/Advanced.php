@@ -11,7 +11,9 @@
 /**
  * Gift registry advanced search block
  */
-class Magento_GiftRegistry_Block_Search_Advanced extends Magento_GiftRegistry_Block_Form_Element
+namespace Magento\GiftRegistry\Block\Search;
+
+class Advanced extends \Magento\GiftRegistry\Block\Form\Element
 {
     protected $_attributes = null;
     protected $_formData = null;
@@ -19,22 +21,22 @@ class Magento_GiftRegistry_Block_Search_Advanced extends Magento_GiftRegistry_Bl
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Core_Model_Cache_Type_Config $configCacheType
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
+     * @param \Magento\Core\Model\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Core_Model_Cache_Type_Config $configCacheType,
-        Magento_Core_Model_Registry $coreRegistry,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\Cache\Type\Config $configCacheType,
+        \Magento\Core\Model\Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
@@ -71,7 +73,7 @@ class Magento_GiftRegistry_Block_Search_Advanced extends Magento_GiftRegistry_Bl
     public function getFormData($key)
     {
         if (is_null($this->_formData)) {
-            $this->_formData = Mage::getSingleton('Magento_Customer_Model_Session')->getRegistrySearchData();
+            $this->_formData = \Mage::getSingleton('Magento\Customer\Model\Session')->getRegistrySearchData();
         }
         if (!$this->_formData || !isset($this->_formData[$key])) {
             return null;
@@ -88,7 +90,7 @@ class Magento_GiftRegistry_Block_Search_Advanced extends Magento_GiftRegistry_Bl
     {
         if (is_null($this->_attributes)) {
             $type = $this->_coreRegistry->registry('current_giftregistry_type');
-            $config = Mage::getSingleton('Magento_GiftRegistry_Model_Attribute_Config');
+            $config = \Mage::getSingleton('Magento\GiftRegistry\Model\Attribute\Config');
             $staticTypes = $config->getStaticTypesCodes();
 
             $attributes = array();

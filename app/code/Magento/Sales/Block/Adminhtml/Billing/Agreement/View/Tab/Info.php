@@ -13,37 +13,39 @@
  *
  * @author Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Block_Adminhtml_Billing_Agreement_View_Tab_Info extends Magento_Backend_Block_Template
-    implements Magento_Backend_Block_Widget_Tab_Interface
+namespace Magento\Sales\Block\Adminhtml\Billing\Agreement\View\Tab;
+
+class Info extends \Magento\Backend\Block\Template
+    implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     protected $_template = 'billing/agreement/view/tab/info.phtml';
 
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * Core registry
      *
-     * @var Magento_Customer_Model_CustomerFactory
+     * @var \Magento\Customer\Model\CustomerFactory
      */
     protected $_customerFactory;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Customer_Model_CustomerFactory $customerFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Customer_Model_CustomerFactory $customerFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Customer\Model\CustomerFactory $customerFactory,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -94,7 +96,7 @@ class Magento_Sales_Block_Adminhtml_Billing_Agreement_View_Tab_Info extends Mage
     /**
      * Retrieve billing agreement model
      *
-     * @return Magento_Sales_Model_Billing_Agreement
+     * @return \Magento\Sales\Model\Billing\Agreement
      */
     protected function _getBillingAgreement()
     {
@@ -117,11 +119,11 @@ class Magento_Sales_Block_Adminhtml_Billing_Agreement_View_Tab_Info extends Mage
         $this->setCustomerEmail($customer->getEmail());
         $this->setStatus($agreement->getStatusLabel());
         $this->setCreatedAt(
-            $this->helper('Magento_Core_Helper_Data')->formatDate($agreement->getCreatedAt(), 'short', true)
+            $this->helper('Magento\Core\Helper\Data')->formatDate($agreement->getCreatedAt(), 'short', true)
         );
         $this->setUpdatedAt(
             ($agreement->getUpdatedAt())
-                ? $this->helper('Magento_Core_Helper_Data')->formatDate($agreement->getUpdatedAt(), 'short', true)
+                ? $this->helper('Magento\Core\Helper\Data')->formatDate($agreement->getUpdatedAt(), 'short', true)
                 : __('N/A')
         );
 

@@ -9,26 +9,26 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <referenceBlock name="head">
-        <block class="Magento_Page_Block_Html_Head_Script" name="magento-adminhtml-wysiwyg-widget-js">
+        <block class="Magento\Page\Block\Html\Head\Script" name="magento-adminhtml-wysiwyg-widget-js">
             <arguments>
                 <argument name="file" xsi:type="string">mage/adminhtml/wysiwyg/widget.js</argument>
             </arguments>
         </block>
-        <block class="Magento_Page_Block_Html_Head_Css" name="prototype-windows-themes-default-css">
+        <block class="Magento\Page\Block\Html\Head\Css" name="prototype-windows-themes-default-css">
             <arguments>
                 <argument name="file" xsi:type="string">prototype/windows/themes/default.css</argument>
             </arguments>
         </block>
-        <block class="Magento_Page_Block_Html_Head_Css" name="magento-core-prototype-magento-css">
+        <block class="Magento\Page\Block\Html\Head\Css" name="magento-core-prototype-magento-css">
             <arguments>
                 <argument name="file" xsi:type="string">Magento_Core::prototype/magento.css</argument>
             </arguments>
         </block>
     </referenceBlock>
     <referenceContainer name="content">
-        <block class="Magento_Reminder_Block_Adminhtml_Reminder_Edit" name="adminhtml_reminder_edit"/>
+        <block class="Magento\Reminder\Block\Adminhtml\Reminder\Edit" name="adminhtml_reminder_edit"/>
     </referenceContainer>
     <referenceContainer name="left">
-        <block class="Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tabs" name="adminhtml_reminder_edit_tabs"/>
+        <block class="Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tabs" name="adminhtml_reminder_edit_tabs"/>
     </referenceContainer>
 </layout>

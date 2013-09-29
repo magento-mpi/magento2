@@ -9,7 +9,9 @@
  */
 
 
-class Magento_GoogleCheckout_Model_Source_Shipping_Units implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\GoogleCheckout\Model\Source\Shipping;
+
+class Units implements \Magento\Core\Model\Option\ArrayInterface
 {
     public function toOptionArray()
     {

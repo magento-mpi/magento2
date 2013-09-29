@@ -15,41 +15,43 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Category extends Magento_Data_Form_Element_Multiselect
+namespace Magento\Adminhtml\Block\Catalog\Product\Helper\Form;
+
+class Category extends \Magento\Data\Form\Element\Multiselect
 {
     /**
-     * @var Magento_Core_Model_Layout
+     * @var \Magento\Core\Model\Layout
      */
     protected $_layout;
 
     /**
      * Backend data
      *
-     * @var Magento_Backend_Helper_Data
+     * @var \Magento\Backend\Helper\Data
      */
     protected $_backendData = null;
 
     /**
-     * @var Magento_Catalog_Model_Resource_Category_CollectionFactory
+     * @var \Magento\Catalog\Model\Resource\Category\CollectionFactory
      */
     protected $_collectionFactory;
 
     /**
-     * @param Magento_Catalog_Model_Resource_Category_CollectionFactory $collectionFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Data_Form_Element_Factory $factoryElement
-     * @param Magento_Data_Form_Element_CollectionFactory $factoryCollection
-     * @param Magento_Backend_Helper_Data $backendData
-     * @param Magento_Core_Model_Layout $layout
+     * @param \Magento\Catalog\Model\Resource\Category\CollectionFactory $collectionFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Data\Form\Element\Factory $factoryElement
+     * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
+     * @param \Magento\Backend\Helper\Data $backendData
+     * @param \Magento\Core\Model\Layout $layout
      * @param array $attributes
      */
     public function __construct(
-        Magento_Catalog_Model_Resource_Category_CollectionFactory $collectionFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Data_Form_Element_Factory $factoryElement,
-        Magento_Data_Form_Element_CollectionFactory $factoryCollection,
-        Magento_Backend_Helper_Data $backendData,
-        Magento_Core_Model_Layout $layout,
+        \Magento\Catalog\Model\Resource\Category\CollectionFactory $collectionFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Data\Form\Element\Factory $factoryElement,
+        \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
+        \Magento\Backend\Helper\Data $backendData,
+        \Magento\Core\Model\Layout $layout,
         array $attributes = array()
     ) {
         $this->_collectionFactory = $collectionFactory;
@@ -85,7 +87,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Category extends Magen
 
     /**
      * Get categories collection
-     * @return Magento_Catalog_Model_Resource_Category_Collection
+     * @return \Magento\Catalog\Model\Resource\Category\Collection
      */
     protected function _getCategoriesCollection()
     {
@@ -105,7 +107,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Category extends Magen
         $newCategoryCaption = __('New Category');
 
         $button = $this->_layout
-            ->createBlock('Magento_Backend_Block_Widget_Button')
+            ->createBlock('Magento\Backend\Block\Widget\Button')
             ->setData(array(
                 'id'        => 'add_category_button',
                 'label'     => $newCategoryCaption,

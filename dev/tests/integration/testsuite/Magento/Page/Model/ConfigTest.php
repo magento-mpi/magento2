@@ -1,36 +1,38 @@
 <?php
 /**
- * Magento_Page_Model_Config
+ * \Magento\Page\Model\Config
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Page_Model_ConfigTest extends PHPUnit_Framework_TestCase
+namespace Magento\Page\Model;
+
+class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Page_Model_Config
+     * @var \Magento\Page\Model\Config
      */
     protected $_model;
 
     public function setUp()
     {
-        /** @var $cache Magento_Core_Model_Cache */
-        $cache = Mage::getModel('Magento_Core_Model_Cache');
+        /** @var $cache \Magento\Core\Model\Cache */
+        $cache = \Mage::getModel('Magento\Core\Model\Cache');
         $cache->clean();
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $fileResolverMock = $this->getMockBuilder('Magento_Config_FileResolverInterface')
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $fileResolverMock = $this->getMockBuilder('Magento\Config\FileResolverInterface')
             ->disableOriginalConstructor()
             ->getMock();
         $configFile = __DIR__ . '/_files/page_layouts.xml';
         $fileResolverMock->expects($this->any())
             ->method('get')
             ->will($this->returnValue(array($configFile)));
-        $reader = $objectManager->create('Magento_Page_Model_Config_Reader',
+        $reader = $objectManager->create('Magento\Page\Model\Config\Reader',
             array('fileResolver'=>$fileResolverMock));
-        $data = $objectManager->create('Magento_Page_Model_Config_Data', array('reader'=> $reader));
-        $this->_model = $objectManager->create('Magento_Page_Model_Config', array('dataStorage'=>$data));
+        $data = $objectManager->create('Magento\Page\Model\Config\Data', array('reader'=> $reader));
+        $this->_model = $objectManager->create('Magento\Page\Model\Config', array('dataStorage'=>$data));
     }
 
     public function testGetPageLayouts()

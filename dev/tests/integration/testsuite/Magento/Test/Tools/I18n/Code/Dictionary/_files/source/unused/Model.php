@@ -5,7 +5,9 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-class Magento_FirstModule_Model_Model
+namespace Magento\FirstModule\Model;
+
+class Model
 {
     /**
      * @return void

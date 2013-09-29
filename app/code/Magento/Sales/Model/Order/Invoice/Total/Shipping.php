@@ -15,9 +15,11 @@
  * @package    Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Order_Invoice_Total_Shipping extends Magento_Sales_Model_Order_Invoice_Total_Abstract
+namespace Magento\Sales\Model\Order\Invoice\Total;
+
+class Shipping extends \Magento\Sales\Model\Order\Invoice\Total\AbstractTotal
 {
-    public function collect(Magento_Sales_Model_Order_Invoice $invoice)
+    public function collect(\Magento\Sales\Model\Order\Invoice $invoice)
     {
         $invoice->setShippingAmount(0);
         $invoice->setBaseShippingAmount(0);

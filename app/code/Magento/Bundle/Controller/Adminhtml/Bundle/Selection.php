@@ -15,13 +15,15 @@
  * @package     Magento_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Bundle_Controller_Adminhtml_Bundle_Selection extends Magento_Adminhtml_Controller_Action
+namespace Magento\Bundle\Controller\Adminhtml\Bundle;
+
+class Selection extends \Magento\Adminhtml\Controller\Action
 {
     public function searchAction()
     {
         return $this->getResponse()->setBody(
             $this->getLayout()
-                ->createBlock('Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Search')
+                ->createBlock('Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle\Option\Search')
                 ->setIndex($this->getRequest()->getParam('index'))
                 ->setFirstShow(true)
                 ->toHtml()
@@ -32,7 +34,7 @@ class Magento_Bundle_Controller_Adminhtml_Bundle_Selection extends Magento_Admin
     {
         return $this->getResponse()->setBody(
             $this->getLayout()
-                ->createBlock('Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Search_Grid',
+                ->createBlock('Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle\Option\Search\Grid',
                     'adminhtml.catalog.product.edit.tab.bundle.option.search.grid')
                 ->setIndex($this->getRequest()->getParam('index'))
                 ->toHtml()

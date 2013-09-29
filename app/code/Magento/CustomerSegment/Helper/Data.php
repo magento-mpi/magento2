@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_CustomerSegment_Helper_Data extends Magento_Core_Helper_Abstract
+namespace Magento\CustomerSegment\Helper;
+
+class Data extends \Magento\Core\Helper\AbstractHelper
 {
     /**
      * XPath where customer segment's on/off status is stored
@@ -13,24 +15,24 @@ class Magento_CustomerSegment_Helper_Data extends Magento_Core_Helper_Abstract
     const XML_PATH_CUSTOMER_SEGMENT_ENABLER = 'customer/magento_customersegment/is_enabled';
 
     /**
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     private $_storeConfig;
 
     /**
-     * @var Magento_CustomerSegment_Model_Resource_Segment_Collection
+     * @var \Magento\CustomerSegment\Model\Resource\Segment\Collection
      */
     private $_segmentCollection;
 
     /**
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_Store_Config $storeConfig
-     * @param Magento_CustomerSegment_Model_Resource_Segment_Collection $segmentCollection
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\Store\Config $storeConfig
+     * @param \Magento\CustomerSegment\Model\Resource\Segment\Collection $segmentCollection
      */
     public function __construct(
-        Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Store_Config $storeConfig,
-        Magento_CustomerSegment_Model_Resource_Segment_Collection $segmentCollection
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\Store\Config $storeConfig,
+        \Magento\CustomerSegment\Model\Resource\Segment\Collection $segmentCollection
     ) {
         parent::__construct($context);
         $this->_storeConfig = $storeConfig;
@@ -61,11 +63,11 @@ class Magento_CustomerSegment_Helper_Data extends Magento_Core_Helper_Abstract
             ),
             array(
                 'label' => __('Union'),
-                'value' => Magento_CustomerSegment_Model_Segment::VIEW_MODE_UNION_CODE
+                'value' => \Magento\CustomerSegment\Model\Segment::VIEW_MODE_UNION_CODE
             ),
             array(
                 'label' => __('Intersection'),
-                'value' => Magento_CustomerSegment_Model_Segment::VIEW_MODE_INTERSECT_CODE
+                'value' => \Magento\CustomerSegment\Model\Segment::VIEW_MODE_INTERSECT_CODE
             )
         );
     }
@@ -89,14 +91,14 @@ class Magento_CustomerSegment_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Add customer segment fields to a form and its data
      *
-     * @param Magento_Data_Form $form
-     * @param Magento_Object $formData
-     * @param Magento_Backend_Block_Widget_Form_Element_Dependence $fieldDependencies
+     * @param \Magento\Data\Form $form
+     * @param \Magento\Object $formData
+     * @param \Magento\Backend\Block\Widget\Form\Element\Dependence $fieldDependencies
      */
     public function addSegmentFieldsToForm(
-        Magento_Data_Form $form,
-        Magento_Object $formData,
-        Magento_Backend_Block_Widget_Form_Element_Dependence $fieldDependencies
+        \Magento\Data\Form $form,
+        \Magento\Object $formData,
+        \Magento\Backend\Block\Widget\Form\Element\Dependence $fieldDependencies
     ) {
         if (!$this->isEnabled()) {
             return;
@@ -106,7 +108,7 @@ class Magento_CustomerSegment_Helper_Data extends Magento_Core_Helper_Abstract
 
         $htmlIdPrefix = $form->getHtmlIdPrefix();
 
-        /** @var Magento_Data_Form_Element_Fieldset $fieldset */
+        /** @var \Magento\Data\Form\Element\Fieldset $fieldset */
         $fieldset = $form->getElement('base_fieldset');
 
         $fieldset->addField('use_customer_segment', 'select', array(

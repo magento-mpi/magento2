@@ -9,7 +9,9 @@
  */
 
 
-class Magento_GiftCardAccount_Block_Adminhtml_System_Config_Generate extends Magento_Backend_Block_System_Config_Form_Field
+namespace Magento\GiftCardAccount\Block\Adminhtml\System\Config;
+
+class Generate extends \Magento\Backend\Block\System\Config\Form\Field
 {
 
     protected $_template = 'config/generate.phtml';
@@ -17,10 +19,10 @@ class Magento_GiftCardAccount_Block_Adminhtml_System_Config_Generate extends Mag
     /**
      * Get the button and scripts contents
      *
-     * @param Magento_Data_Form_Element_Abstract $element
+     * @param \Magento\Data\Form\Element\AbstractElement $element
      * @return string
      */
-    protected function _getElementHtml(Magento_Data_Form_Element_Abstract $element)
+    protected function _getElementHtml(\Magento\Data\Form\Element\AbstractElement $element)
     {
         $this->setElement($element);
         return $this->_toHtml();
@@ -29,10 +31,10 @@ class Magento_GiftCardAccount_Block_Adminhtml_System_Config_Generate extends Mag
     /**
      * Return code pool usage
      *
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function getUsage()
     {
-        return Mage::getModel('Magento_GiftCardAccount_Model_Pool')->getPoolUsageInfo();
+        return \Mage::getModel('Magento\GiftCardAccount\Model\Pool')->getPoolUsageInfo();
     }
 }

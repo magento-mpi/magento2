@@ -1,22 +1,24 @@
 <?php
 /**
- * Test class for Magento_Profiler_Driver_Standard_Output_Firebug
+ * Test class for \Magento\Profiler\Driver\Standard\Output\Firebug
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Profiler_Driver_Standard_Output_FirebugTest extends PHPUnit_Framework_TestCase
+namespace Magento\Profiler\Driver\Standard\Output;
+
+class FirebugTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Profiler_Driver_Standard_Output_Firebug
+     * @var \Magento\Profiler\Driver\Standard\Output\Firebug
      */
     protected $_output;
 
     protected function setUp()
     {
-        $this->_output = new Magento_Profiler_Driver_Standard_Output_Firebug();
+        $this->_output = new \Magento\Profiler\Driver\Standard\Output\Firebug();
     }
 
     protected function tearDown()

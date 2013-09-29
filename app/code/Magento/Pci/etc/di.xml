@@ -8,14 +8,14 @@
  */
 -->
 <config>
-    <type name="Magento_Pci_Model_Observer">
+    <type name="Magento\Pci\Model\Observer">
         <param name="authorization">
-            <instance type="Magento_Authorization_Proxy" />
+            <instance type="Magento\Authorization" />
         </param>
     </type>
-    <type name="Magento_Core_Helper_Data">
+    <type name="Magento\Core\Helper\Data">
         <param name="encryptor">
-            <instance type="Magento_Pci_Model_Encryption" />
+            <instance type="Magento\Pci\Model\Encryption" />
         </param>
     </type>
 </config>

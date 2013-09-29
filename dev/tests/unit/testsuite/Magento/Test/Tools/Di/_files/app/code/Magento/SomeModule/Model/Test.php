@@ -5,7 +5,13 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-class Magento_SomeModule_Model_Test
+namespace Magento\SomeModule\Model;
+
+
+/**
+ * @SuppressWarnings(PHPMD.ConstructorWithNameAsEnclosingClass)
+ */
+class Test
 {
     public function __construct()
     {
@@ -16,7 +22,7 @@ class Magento_SomeModule_Model_Test
      * @param Magento_SomeModule_ModelFactory $factory
      * @param array $data
      */
-    public function test(Magento_SomeModule_ModelFactory $factory, array $data = array())
+    public function testModel(Magento_SomeModule_ModelFactory $factory, array $data = array())
     {
         $factory->create('Magento_SomeModule_Model_BlockFactory', array('data' => $data));
     }

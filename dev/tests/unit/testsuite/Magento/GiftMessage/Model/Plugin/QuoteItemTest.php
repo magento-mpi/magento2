@@ -5,44 +5,46 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_GiftMessage_Model_Plugin_QuoteItemTest extends PHPUnit_Framework_TestCase
+namespace Magento\GiftMessage\Model\Plugin;
+
+class QuoteItemTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var Magento_Bundle_Model_Plugin_QuoteItem */
+    /** @var \Magento\Bundle\Model\Plugin\QuoteItem */
     protected $_model;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_quoteItemMock;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_invocationChainMock;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_orderItemMock;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_helperMock;
 
     protected function setUp()
     {
         $this->_orderItemMock = $this->getMock(
-            'Magento_Sales_Model_Order_Item',
+            'Magento\Sales\Model\Order\Item',
             array('setGiftMessageId', 'setGiftMessageAvailable'),
             array(),
             '',
             false
         );
         $this->_quoteItemMock = $this->getMock(
-            'Magento_Sales_Model_Quote_Item',
+            'Magento\Sales\Model\Quote\Item',
             array('getGiftMessageId', 'getStoreId'),
             array(),
             '',
             false
         );
-        $this->_invocationChainMock = $this->getMock('Magento_Code_Plugin_InvocationChain',
+        $this->_invocationChainMock = $this->getMock('Magento\Code\Plugin\InvocationChain',
             array(), array(), '', false);
-        $this->_helperMock = $this->getMock('Magento_GiftMessage_Helper_Message',
+        $this->_helperMock = $this->getMock('Magento\GiftMessage\Helper\Message',
             array('setGiftMessageId', 'isMessagesAvailable'), array(), '', false);
-        $this->_model = new Magento_GiftMessage_Model_Plugin_QuoteItem($this->_helperMock);
+        $this->_model = new \Magento\GiftMessage\Model\Plugin\QuoteItem($this->_helperMock);
     }
 
     public function testAroundItemToOrderItem()

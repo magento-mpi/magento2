@@ -15,54 +15,56 @@
  * @package    Magento_CatalogSearch
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CatalogSearch_Block_Advanced_Result extends Magento_Core_Block_Template
+namespace Magento\CatalogSearch\Block\Advanced;
+
+class Result extends \Magento\Core\Block\Template
 {
     /**
      * Url factory
      *
-     * @var Magento_Core_Model_UrlFactory
+     * @var \Magento\Core\Model\UrlFactory
      */
     protected $_urlFactory;
 
     /**
      * Store manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * Catalog layer
      *
-     * @var Magento_Catalog_Model_Layer
+     * @var \Magento\Catalog\Model\Layer
      */
     protected $_catalogLayer;
 
     /**
      * Catalog search advanced
      *
-     * @var Magento_CatalogSearch_Model_Advanced
+     * @var \Magento\CatalogSearch\Model\Advanced
      */
     protected $_catalogSearchAdvanced;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_CatalogSearch_Model_Advanced $catalogSearchAdvanced
-     * @param Magento_Catalog_Model_Layer $catalogLayer
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_UrlFactory $urlFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\CatalogSearch\Model\Advanced $catalogSearchAdvanced
+     * @param \Magento\Catalog\Model\Layer $catalogLayer
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\UrlFactory $urlFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_CatalogSearch_Model_Advanced $catalogSearchAdvanced,
-        Magento_Catalog_Model_Layer $catalogLayer,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_UrlFactory $urlFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\CatalogSearch\Model\Advanced $catalogSearchAdvanced,
+        \Magento\Catalog\Model\Layer $catalogLayer,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\UrlFactory $urlFactory,
         array $data = array()
     ) {
         $this->_catalogSearchAdvanced = $catalogSearchAdvanced;
@@ -91,7 +93,7 @@ class Magento_CatalogSearch_Block_Advanced_Result extends Magento_Core_Block_Tem
 
     public function setListOrders() {
         $category = $this->_catalogLayer->getCurrentCategory();
-        /* @var $category Magento_Catalog_Model_Category */
+        /* @var $category \Magento\Catalog\Model\Category */
 
         $availableOrders = $category->getAvailableSortByOptions();
         unset($availableOrders['position']);

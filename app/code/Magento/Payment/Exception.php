@@ -16,7 +16,9 @@
  * @package    Magento_Payment
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Payment_Exception extends Exception
+namespace Magento\Payment;
+
+class Exception extends \Exception
 {
     protected $_code = null;
 

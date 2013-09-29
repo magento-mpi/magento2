@@ -11,7 +11,9 @@
 /**
  * Cart sidebar container
  */
-class Magento_FullPageCache_Model_Container_Messages extends Magento_FullPageCache_Model_Container_Abstract
+namespace Magento\FullPageCache\Model\Container;
+
+class Messages extends \Magento\FullPageCache\Model\Container\AbstractContainer
 {
     /**
      * Check for new messages. New message flag will be reseted if needed.
@@ -20,8 +22,8 @@ class Magento_FullPageCache_Model_Container_Messages extends Magento_FullPageCac
      */
     protected function _isNewMessageRecived()
     {
-        return $this->_getCookieValue(Magento_FullPageCache_Model_Cookie::COOKIE_MESSAGE)
-            || array_key_exists(Magento_FullPageCache_Model_Cache::REQUEST_MESSAGE_GET_PARAM, $_GET);
+        return $this->_getCookieValue(\Magento\FullPageCache\Model\Cookie::COOKIE_MESSAGE)
+            || array_key_exists(\Magento\FullPageCache\Model\Cache::REQUEST_MESSAGE_GET_PARAM, $_GET);
     }
 
     /**
@@ -45,7 +47,7 @@ class Magento_FullPageCache_Model_Container_Messages extends Magento_FullPageCac
      */
     protected function _renderBlock()
     {
-        Mage::getSingleton('Magento_Core_Model_Cookie')->delete(Magento_FullPageCache_Model_Cookie::COOKIE_MESSAGE);
+        \Mage::getSingleton('Magento\Core\Model\Cookie')->delete(\Magento\FullPageCache\Model\Cookie::COOKIE_MESSAGE);
 
         $block = $this->_getPlaceHolderBlock();
 
@@ -62,11 +64,11 @@ class Magento_FullPageCache_Model_Container_Messages extends Magento_FullPageCac
      * Add messages from storage to message block
      *
      * @param string $messagesStorage
-     * @param Magento_Core_Block_Messages $block
+     * @param \Magento\Core\Block\Messages $block
      */
-    protected function _addMessagesToBlock($messagesStorage, Magento_Core_Block_Messages $block)
+    protected function _addMessagesToBlock($messagesStorage, \Magento\Core\Block\Messages $block)
     {
-        if ($storage = Mage::getSingleton($messagesStorage)) {
+        if ($storage = \Mage::getSingleton($messagesStorage)) {
             $block->addMessages($storage->getMessages(true));
             $block->setEscapeMessageFlag($storage->getEscapeMessages(true));
         }

@@ -11,19 +11,21 @@
 /**
  * Sales total nodes config model
  */
-class Magento_Sales_Model_Config implements Magento_Sales_Model_ConfigInterface
+namespace Magento\Sales\Model;
+
+class Config implements \Magento\Sales\Model\ConfigInterface
 {
     /**
      * Modules configuration model
      *
-     * @var Magento_Sales_Model_Config_Data
+     * @var \Magento\Sales\Model\Config\Data
      */
     protected $_dataContainer;
 
     /**
-     * @param Magento_Sales_Model_Config_Data $dataContainer
+     * @param \Magento\Sales\Model\Config\Data $dataContainer
      */
-    public function __construct(Magento_Sales_Model_Config_Data $dataContainer)
+    public function __construct(\Magento\Sales\Model\Config\Data $dataContainer)
     {
         $this->_dataContainer = $dataContainer;
     }

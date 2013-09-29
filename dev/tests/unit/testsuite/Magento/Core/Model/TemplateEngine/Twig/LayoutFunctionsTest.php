@@ -5,27 +5,29 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_TemplateEngine_Twig_LayoutFunctionsTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\TemplateEngine\Twig;
+
+class LayoutFunctionsTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var Magento_Core_Model_TemplateEngine_Twig_LayoutFunctions */
+    /** @var \Magento\Core\Model\TemplateEngine\Twig\LayoutFunctions */
     protected $_layoutFunctions;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_layoutMock;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject  */
+    /** @var \PHPUnit_Framework_MockObject_MockObject  */
     protected $_blockTrackerMock;
 
     protected function setUp()
     {
-        $this->_layoutMock = $this->getMockBuilder('Magento_Core_Model_Layout')
+        $this->_layoutMock = $this->getMockBuilder('Magento\Core\Model\Layout')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_blockTrackerMock = $this->getMockBuilder('Magento_Core_Model_TemplateEngine_BlockTrackerInterface')
+        $this->_blockTrackerMock = $this->getMockBuilder('Magento\Core\Model\TemplateEngine\BlockTrackerInterface')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_layoutFunctions = new Magento_Core_Model_TemplateEngine_Twig_LayoutFunctions(
+        $this->_layoutFunctions = new \Magento\Core\Model\TemplateEngine\Twig\LayoutFunctions(
             $this->_layoutMock
         );
         $this->_layoutFunctions->setBlockTracker($this->_blockTrackerMock);
@@ -56,7 +58,7 @@ class Magento_Core_Model_TemplateEngine_Twig_LayoutFunctionsTest extends PHPUnit
     {
         $childBlockHtml = '<p>block mock B</p>';
 
-        $parentBlockMock = $this->getMockBuilder('Magento_Core_Block_Template')
+        $parentBlockMock = $this->getMockBuilder('Magento\Core\Block\Template')
             ->disableOriginalConstructor()
             ->getMock();
         $parentBlockMock->expects($this->any())
@@ -93,7 +95,7 @@ class Magento_Core_Model_TemplateEngine_Twig_LayoutFunctionsTest extends PHPUnit
     {
         $childBlockHtml = '<p>child block mock</p>';
 
-        $parentBlockMock = $this->getMockBuilder('Magento_Core_Block_Template')
+        $parentBlockMock = $this->getMockBuilder('Magento\Core\Block\Template')
             ->disableOriginalConstructor()
             ->getMock();
         $parentBlockMock->expects($this->any())
@@ -123,7 +125,7 @@ class Magento_Core_Model_TemplateEngine_Twig_LayoutFunctionsTest extends PHPUnit
         $key = 'aKey';
         $someData = 'this is some data';
 
-        $blockMock = $this->getMockBuilder('Magento_Core_Block_Template')
+        $blockMock = $this->getMockBuilder('Magento\Core\Block\Template')
             ->disableOriginalConstructor()
             ->getMock();;
         $blockMock->expects($this->any())

@@ -1,6 +1,6 @@
 <?php
 /**
- * Test for Magento_Webapi_Block_Adminhtml_User_Edit_Tabs block.
+ * Test for \Magento\Webapi\Block\Adminhtml\User\Edit\Tabs block.
  *
  * {license_notice}
  *
@@ -8,23 +8,25 @@
  * @license     {license_link}
  */
 
+namespace Magento\Webapi\Block\Adminhtml\User\Edit;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Webapi_Block_Adminhtml_User_Edit_TabsTest extends PHPUnit_Framework_TestCase
+class TabsTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_TestFramework_ObjectManager
+     * @var \Magento\TestFramework\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @var Magento_Core_Model_Layout
+     * @var \Magento\Core\Model\Layout
      */
     protected $_layout;
 
     /**
-     * @var Magento_Webapi_Block_Adminhtml_User_Edit_Tabs
+     * @var \Magento\Webapi\Block\Adminhtml\User\Edit\Tabs
      */
     protected $_block;
 
@@ -32,15 +34,15 @@ class Magento_Webapi_Block_Adminhtml_User_Edit_TabsTest extends PHPUnit_Framewor
     {
         parent::setUp();
 
-        $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $this->_layout = $this->_objectManager->get('Magento_Core_Model_Layout');
-        $this->_block = $this->_layout->createBlock('Magento_Webapi_Block_Adminhtml_User_Edit_Tabs',
+        $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $this->_layout = $this->_objectManager->get('Magento\Core\Model\Layout');
+        $this->_block = $this->_layout->createBlock('Magento\Webapi\Block\Adminhtml\User\Edit\Tabs',
             'webapi.user.edit.tabs');
     }
 
     protected function tearDown()
     {
-        $this->_objectManager->removeSharedInstance('Magento_Core_Model_Layout');
+        $this->_objectManager->removeSharedInstance('Magento\Core\Model\Layout');
         unset($this->_objectManager, $this->_layout, $this->_block);
     }
 
@@ -50,20 +52,20 @@ class Magento_Webapi_Block_Adminhtml_User_Edit_TabsTest extends PHPUnit_Framewor
     public function testBeforeToHtml()
     {
         // TODO: Move to unit tests after MAGETWO-4015 complete.
-        /** @var Magento_Webapi_Block_Adminhtml_User_Edit_Tab_Main $mainTabBlock */
+        /** @var \Magento\Webapi\Block\Adminhtml\User\Edit\Tab\Main $mainTabBlock */
         $mainTabBlock = $this->_layout->addBlock(
-            'Magento_Core_Block_Text',
+            'Magento\Core\Block\Text',
             'webapi.user.edit.tab.main',
             'webapi.user.edit.tabs'
         )->setText('Main Block Content');
 
         $this->_layout->addBlock(
-            'Magento_Core_Block_Text',
+            'Magento\Core\Block\Text',
             'webapi.user.edit.tab.roles.grid',
             'webapi.user.edit.tabs'
         )->setText('Grid Block Content');
 
-        $apiUser = new Magento_Object(array(
+        $apiUser = new \Magento\Object(array(
             'role_id' => 1
         ));
         $this->_block->setApiUser($apiUser);
@@ -73,7 +75,7 @@ class Magento_Webapi_Block_Adminhtml_User_Edit_TabsTest extends PHPUnit_Framewor
 
         $tabs = $this->_getProtectedTabsValue($this->_block);
         $this->assertArrayHasKey('main_section', $tabs);
-        $this->assertInstanceOf('Magento_Object', $tabs['main_section']);
+        $this->assertInstanceOf('Magento\Object', $tabs['main_section']);
         $this->assertEquals(array(
             'label' => 'User Info',
             'title' => 'User Info',
@@ -85,7 +87,7 @@ class Magento_Webapi_Block_Adminhtml_User_Edit_TabsTest extends PHPUnit_Framewor
         ), $tabs['main_section']->getData());
 
         $this->assertArrayHasKey('roles_section', $tabs);
-        $this->assertInstanceOf('Magento_Object', $tabs['roles_section']);
+        $this->assertInstanceOf('Magento\Object', $tabs['roles_section']);
         $this->assertEquals(array(
             'label' => 'User Role',
             'title' => 'User Role',
@@ -97,20 +99,20 @@ class Magento_Webapi_Block_Adminhtml_User_Edit_TabsTest extends PHPUnit_Framewor
     }
 
     /**
-     * Get protected _tabs property of Magento_Backend_Block_Widget_Tabs block.
+     * Get protected _tabs property of \Magento\Backend\Block\Widget\Tabs block.
      *
-     * @param Magento_Backend_Block_Widget_Tabs $tabs
+     * @param \Magento\Backend\Block\Widget\Tabs $tabs
      * @return array
      */
-    protected function _getProtectedTabsValue(Magento_Backend_Block_Widget_Tabs $tabs)
+    protected function _getProtectedTabsValue(\Magento\Backend\Block\Widget\Tabs $tabs)
     {
         $result = null;
         try {
-            $classReflection = new ReflectionClass(get_class($tabs));
+            $classReflection = new \ReflectionClass(get_class($tabs));
             $tabsProperty = $classReflection->getProperty('_tabs');
             $tabsProperty->setAccessible(true);
             $result = $tabsProperty->getValue($tabs);
-        } catch (ReflectionException $exception) {
+        } catch (\ReflectionException $exception) {
             $this->fail('Cannot get tabs value');
 
         }

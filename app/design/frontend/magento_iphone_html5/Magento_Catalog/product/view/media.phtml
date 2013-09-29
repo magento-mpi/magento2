@@ -11,25 +11,25 @@
 /**
  * Product media data template
  *
- * @see Magento_Catalog_Block_Product_View_BaseImage
+ * @see \Magento\Catalog\Block\Product\View\BaseImage
  */
 ?>
 <?php
     $_product = $this->getProduct();
-    $_helper = $this->helper('Magento_Catalog_Helper_Output');
+    $_helper = $this->helper('Magento\Catalog\Helper\Output');
 ?>
 <div class="product-image-wrap">
     <div class="product-image">
         <ul><!--
             --><li>
                 <?php
-            $_img = '<a href="'.$this->getGalleryUrl().'"><img src="'.$this->helper('Magento_Catalog_Helper_Image')->init($_product, 'image')->resize(290).'" width="145" alt="'.$this->escapeHtml($this->getImageLabel()).'" title="'.$this->escapeHtml($this->getImageLabel()).'" /></a>';
+            $_img = '<a href="'.$this->getGalleryUrl().'"><img src="'.$this->helper('Magento\Catalog\Helper\Image')->init($_product, 'image')->resize(290).'" width="145" alt="'.$this->escapeHtml($this->getImageLabel()).'" title="'.$this->escapeHtml($this->getImageLabel()).'" /></a>';
                     echo $_helper->productAttribute($_product, $_img, 'image');
                 ?>
             </li><!--
             <?php if (count($this->getGalleryImages()) > 0): ?>
                 <?php foreach ($this->getGalleryImages() as $_image): ?>
-                    --><li><a href="<?php echo $this->getGalleryUrl($_image) ?>" title="<?php echo $this->escapeHtml($_image->getLabel()) ?>"><img src="<?php echo $this->helper('Magento_Catalog_Helper_Image')->init($this->getProduct(), 'thumbnail', $_image->getFile())->resize(290); ?>" width="145" height="145" alt="<?php echo $this->escapeHtml($_image->getLabel()) ?>" /></a></li><!--
+                    --><li><a href="<?php echo $this->getGalleryUrl($_image) ?>" title="<?php echo $this->escapeHtml($_image->getLabel()) ?>"><img src="<?php echo $this->helper('Magento\Catalog\Helper\Image')->init($this->getProduct(), 'thumbnail', $_image->getFile())->resize(290); ?>" width="145" height="145" alt="<?php echo $this->escapeHtml($_image->getLabel()) ?>" /></a></li><!--
                 <?php endforeach; ?>
             <?php endif; ?>
         --></ul>

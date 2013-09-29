@@ -8,7 +8,7 @@
  */
 -->
 <config>
-    <type name="Magento_Cms_Model_Page">
-        <plugin name="versionscms_cms_page_plugin" type="Magento_VersionsCms_Model_Plugin_CmsPage"/>
+    <type name="Magento\Cms\Model\Page">
+        <plugin name="versionscms_cms_page_plugin" type="Magento\VersionsCms\Model\Plugin\CmsPage"/>
     </type>
 </config>

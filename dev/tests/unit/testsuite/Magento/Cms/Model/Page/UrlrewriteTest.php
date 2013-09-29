@@ -10,17 +10,19 @@
  */
 
 /**
- * Test for Magento_Cms_Model_Page_UrlrewriteTest
+ * Test for \Magento\Cms\Model\Page\UrlrewriteTest
  */
-class Magento_Cms_Model_Page_UrlrewriteTest extends PHPUnit_Framework_TestCase
+namespace Magento\Cms\Model\Page;
+
+class UrlrewriteTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Cms_Model_Page_Urlrewrite
+     * @var \Magento\Cms\Model\Page\Urlrewrite
      */
     protected $_model = null;
 
     /**
-     * @var Magento_Object
+     * @var \Magento\Object
      */
     protected $_cmsPage = null;
 
@@ -29,11 +31,11 @@ class Magento_Cms_Model_Page_UrlrewriteTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->_model = $this->getMockBuilder('Magento_Cms_Model_Page_Urlrewrite')
+        $this->_model = $this->getMockBuilder('Magento\Cms\Model\Page\Urlrewrite')
             ->setMethods(array('getResourceModelInstance'))
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_cmsPage = new Magento_Object(array(
+        $this->_cmsPage = new \Magento\Object(array(
             'id' => 3,
             'identifier' => 'cms-page'
         ));

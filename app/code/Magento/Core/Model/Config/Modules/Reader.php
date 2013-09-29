@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Config_Modules_Reader
+namespace Magento\Core\Model\Config\Modules;
+
+class Reader
 {
     /**
      * Module directories that were set explicitly
@@ -19,33 +21,33 @@ class Magento_Core_Model_Config_Modules_Reader
     /**
      * Directory registry
      *
-     * @var Magento_Core_Model_Module_Dir
+     * @var \Magento\Core\Model\Module\Dir
      */
     protected $_moduleDirs;
 
     /**
      * Modules configuration provider
      *
-     * @var Magento_Core_Model_ModuleListInterface
+     * @var \Magento\Core\Model\ModuleListInterface
      */
     protected $_modulesList;
 
     /**
      * Base config factory
      *
-     * @var Magento_Core_Model_Config_BaseFactory
+     * @var \Magento\Core\Model\Config\BaseFactory
      */
     protected $_prototypeFactory;
 
     /**
-     * @param Magento_Core_Model_Module_Dir $moduleDirs
-     * @param Magento_Core_Model_Config_BaseFactory $prototypeFactory
-     * @param Magento_Core_Model_ModuleListInterface $moduleList
+     * @param \Magento\Core\Model\Module\Dir $moduleDirs
+     * @param \Magento\Core\Model\Config\BaseFactory $prototypeFactory
+     * @param \Magento\Core\Model\ModuleListInterface $moduleList
      */
     public function __construct(
-        Magento_Core_Model_Module_Dir $moduleDirs,
-        Magento_Core_Model_Config_BaseFactory $prototypeFactory,
-        Magento_Core_Model_ModuleListInterface $moduleList
+        \Magento\Core\Model\Module\Dir $moduleDirs,
+        \Magento\Core\Model\Config\BaseFactory $prototypeFactory,
+        \Magento\Core\Model\ModuleListInterface $moduleList
     ) {
         $this->_moduleDirs = $moduleDirs;
         $this->_prototypeFactory = $prototypeFactory;
@@ -57,8 +59,8 @@ class Magento_Core_Model_Config_Modules_Reader
      *
      * @param string $configFile
      * @param string $moduleName
-     * @param Magento_Core_Model_Config_Base $mergeToObject
-     * @param Magento_Core_Model_Config_Base $mergeModel
+     * @param \Magento\Core\Model\Config\Base $mergeToObject
+     * @param \Magento\Core\Model\Config\Base $mergeModel
      */
     public function _loadFileConfig($configFile, $moduleName, $mergeToObject, $mergeModel)
     {
@@ -73,16 +75,16 @@ class Magento_Core_Model_Config_Modules_Reader
      * specified xml file name to one object
      *
      * @param string $fileName
-     * @param Magento_Core_Model_Config_Base|null $mergeToObject
-     * @param Magento_Core_Model_Config_Base|null $mergeModel
-     * @return Magento_Core_Model_Config_Base|null
+     * @param \Magento\Core\Model\Config\Base|null $mergeToObject
+     * @param \Magento\Core\Model\Config\Base|null $mergeModel
+     * @return \Magento\Core\Model\Config\Base|null
      */
     public function loadModulesConfiguration($fileName, $mergeToObject = null, $mergeModel = null)
     {
         $mergeToObject = null === $mergeToObject ? $this->_prototypeFactory->create('<config/>') : $mergeToObject;
         $mergeModel = null === $mergeModel ? $mergeModel = $this->_prototypeFactory->create('<config/>'): $mergeModel;
 
-        /** @var $module Magento_Core_Model_Config_Element */
+        /** @var $module \Magento\Core\Model\Config\Element */
         foreach (array_keys($this->_modulesList->getModules()) as $moduleName) {
             if (!is_array($fileName)) {
                 $fileName = array($fileName);

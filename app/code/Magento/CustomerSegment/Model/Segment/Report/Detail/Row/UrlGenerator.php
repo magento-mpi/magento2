@@ -7,12 +7,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_CustomerSegment_Model_Segment_Report_Detail_Row_UrlGenerator
-    implements Magento_Backend_Model_Widget_Grid_Row_GeneratorInterface
+namespace Magento\CustomerSegment\Model\Segment\Report\Detail\Row;
+
+class UrlGenerator
+    implements \Magento\Backend\Model\Widget\Grid\Row\GeneratorInterface
 {
     /**
      * Create url for passed item using passed url model
-     * @param Magento_Object $item
+     * @param \Magento\Object $item
      * @return null
      */
     public function getUrl($item)

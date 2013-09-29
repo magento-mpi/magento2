@@ -14,9 +14,11 @@
  * @category   Magento
  * @package    Magento_Sitemap
  */
-class Magento_Adminhtml_Block_Sitemap_Grid_Renderer_Action extends Magento_Adminhtml_Block_Widget_Grid_Column_Renderer_Action
+namespace Magento\Adminhtml\Block\Sitemap\Grid\Renderer;
+
+class Action extends \Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\Action
 {
-    public function render(Magento_Object $row)
+    public function render(\Magento\Object $row)
     {
         $this->getColumn()->setActions(array(array(
             'url'     => $this->getUrl('*/sitemap/generate', array('sitemap_id' => $row->getSitemapId())),

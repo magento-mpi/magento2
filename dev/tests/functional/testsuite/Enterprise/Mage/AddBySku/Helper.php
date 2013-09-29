@@ -63,6 +63,8 @@ class Enterprise_Mage_AddBySku_Helper extends Mage_Selenium_AbstractHelper
      * @param string $lineName
      * @param array $skipFields
      * @return array
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     public function getProductInfoInTable(
         $headName = 'product_table_head',
@@ -342,6 +344,7 @@ class Enterprise_Mage_AddBySku_Helper extends Mage_Selenium_AbstractHelper
      * @param string $productType
      * @param array $msgShoppingCart
      * @param array $msgAttentionGrid
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function frontConfigureProduct(array $product, $productType, array $msgShoppingCart, array $msgAttentionGrid)
     {

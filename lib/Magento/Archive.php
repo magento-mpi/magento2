@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Archive
+ * @package     \Magento\Archive
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,10 +12,12 @@
  * Class to work with archives
  *
  * @category    Magento
- * @package     Magento_Archive
+ * @package     \Magento\Archive
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Archive
+namespace Magento;
+
+class Archive
 {
 
     /**
@@ -31,7 +33,7 @@ class Magento_Archive
     /**
     * Current archiver is used for compress.
     *
-    * @var Magento_Archiver_Tar|Magento_Archiver_Gz|Magento_Archiver_Bz
+    * @var \Magento\Archiver_Tar|\Magento\Archiver_Gz|\Magento\Archiver_Bz
     */
     protected $_archiver=null;
 
@@ -59,7 +61,7 @@ class Magento_Archive
     * Create object of current archiver by $extension.
     *
     * @param string $extension
-    * @return Magento_Archiver_Tar|Magento_Archiver_Gz|Magento_Archiver_Bz
+    * @return \Magento\Archiver_Tar|\Magento\Archiver_Gz|\Magento\Archiver_Bz
     */
     protected function _getArchiver($extension)
     {
@@ -68,7 +70,7 @@ class Magento_Archive
         } else {
             $format = self::DEFAULT_ARCHIVER;
         }
-        $class = 'Magento_Archive_'.ucfirst($format);
+        $class = '\\Magento\Archive_'.ucfirst($format);
         $this->_archiver = new $class();
         return $this->_archiver;
     }

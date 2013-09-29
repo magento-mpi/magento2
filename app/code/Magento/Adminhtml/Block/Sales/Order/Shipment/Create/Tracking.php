@@ -15,32 +15,34 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Sales_Order_Shipment_Create_Tracking extends Magento_Adminhtml_Block_Template
+namespace Magento\Adminhtml\Block\Sales\Order\Shipment\Create;
+
+class Tracking extends \Magento\Adminhtml\Block\Template
 {
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @var Magento_Shipping_Model_Config
+     * @var \Magento\Shipping\Model\Config
      */
     protected $_shippingConfig;
 
     /**
-     * @param Magento_Shipping_Model_Config $shippingConfig
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Shipping\Model\Config $shippingConfig
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Shipping_Model_Config $shippingConfig,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Shipping\Model\Config $shippingConfig,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_shippingConfig = $shippingConfig;
@@ -51,11 +53,11 @@ class Magento_Adminhtml_Block_Sales_Order_Shipment_Create_Tracking extends Magen
     /**
      * Prepares layout of block
      *
-     * @return Magento_Adminhtml_Block_Sales_Order_View_Giftmessage
+     * @return \Magento\Adminhtml\Block\Sales\Order\View\Giftmessage
      */
     protected function _prepareLayout()
     {
-        $this->addChild('add_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('add_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label'   => __('Add Tracking Number'),
             'class'   => '',
             'onclick' => 'trackingControl.add()'
@@ -66,7 +68,7 @@ class Magento_Adminhtml_Block_Sales_Order_Shipment_Create_Tracking extends Magen
     /**
      * Retrieve shipment model instance
      *
-     * @return Magento_Sales_Model_Order_Shipment
+     * @return \Magento\Sales\Model\Order\Shipment
      */
     public function getShipment()
     {

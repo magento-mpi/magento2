@@ -15,7 +15,9 @@
  * @package     Magento_GoogleCheckout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GoogleCheckout_Block_Form extends Magento_Payment_Block_Form
+namespace Magento\GoogleCheckout\Block;
+
+class Form extends \Magento\Payment\Block\Form
 {
     protected $_template = 'form.phtml';
 }

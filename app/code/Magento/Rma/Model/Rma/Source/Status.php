@@ -11,7 +11,9 @@
 /**
  * RMA Item status attribute model
  */
-class Magento_Rma_Model_Rma_Source_Status extends Magento_Rma_Model_Rma_Source_Abstract
+namespace Magento\Rma\Model\Rma\Source;
+
+class Status extends \Magento\Rma\Model\Rma\Source\AbstractSource
 {
     /**
      * Status constants
@@ -30,17 +32,17 @@ class Magento_Rma_Model_Rma_Source_Status extends Magento_Rma_Model_Rma_Source_A
     const STATE_PROCESSED_CLOSED   = 'processed_closed';
 
     /**
-     * @var Magento_Rma_Model_Item_Attribute_Source_StatusFactory
+     * @var \Magento\Rma\Model\Item\Attribute\Source\StatusFactory
      */
     protected $_statusFactory;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Rma_Model_Item_Attribute_Source_StatusFactory $statusFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Rma\Model\Item\Attribute\Source\StatusFactory $statusFactory
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Rma_Model_Item_Attribute_Source_StatusFactory $statusFactory
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Rma\Model\Item\Attribute\Source\StatusFactory $statusFactory
     ) {
         $this->_statusFactory = $statusFactory;
         parent::__construct($coreData);
@@ -85,32 +87,32 @@ class Magento_Rma_Model_Rma_Source_Status extends Magento_Rma_Model_Rma_Source_A
      *
      * @param array $itemStatusArray Array of RMA items status
      * @return string
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     public function getStatusByItems($itemStatusArray)
     {
         if (!is_array($itemStatusArray) || empty($itemStatusArray)) {
-            throw new Magento_Core_Exception(__('This is the wrong RMA item status.'));
+            throw new \Magento\Core\Exception(__('This is the wrong RMA item status.'));
         }
 
         $itemStatusArray = array_unique($itemStatusArray);
 
-        /** @var $itemStatusModel Magento_Rma_Model_Item_Attribute_Source_Status */
+        /** @var $itemStatusModel \Magento\Rma\Model\Item\Attribute\Source\Status */
         $itemStatusModel = $this->_statusFactory->create();
 
         foreach ($itemStatusArray as $status) {
             if (!$itemStatusModel->checkStatus($status)) {
-                throw new Magento_Core_Exception(__('This is the wrong RMA item status.'));
+                throw new \Magento\Core\Exception(__('This is the wrong RMA item status.'));
             }
         }
 
         $itemStatusToBits = array(
-            Magento_Rma_Model_Item_Attribute_Source_Status::STATE_PENDING => 1,
-            Magento_Rma_Model_Item_Attribute_Source_Status::STATE_AUTHORIZED => 2,
-            Magento_Rma_Model_Item_Attribute_Source_Status::STATE_DENIED => 4,
-            Magento_Rma_Model_Item_Attribute_Source_Status::STATE_RECEIVED => 8,
-            Magento_Rma_Model_Item_Attribute_Source_Status::STATE_APPROVED => 16,
-            Magento_Rma_Model_Item_Attribute_Source_Status::STATE_REJECTED => 32,
+            \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_PENDING => 1,
+            \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_AUTHORIZED => 2,
+            \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_DENIED => 4,
+            \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_RECEIVED => 8,
+            \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_APPROVED => 16,
+            \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_REJECTED => 32,
         );
         $rmaBitMaskStatus = 0;
         foreach ($itemStatusArray as $status) {

@@ -17,34 +17,36 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Revision_Edit_Tab_Design
-    extends Magento_Adminhtml_Block_Cms_Page_Edit_Tab_Design
+namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit\Tab;
+
+class Design
+    extends \Magento\Adminhtml\Block\Cms\Page\Edit\Tab\Design
 {
     /**
      * Cms data
      *
-     * @var Magento_VersionsCms_Helper_Data
+     * @var \Magento\VersionsCms\Helper\Data
      */
     protected $_cmsData = null;
 
     /**
-     * @param Magento_VersionsCms_Helper_Data $cmsData
-     * @param Magento_Page_Model_Source_Layout $pageLayout
-     * @param Magento_Core_Model_Theme_LabelFactory $labelFactory
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
+     * @param \Magento\VersionsCms\Helper\Data $cmsData
+     * @param \Magento\Page\Model\Source\Layout $pageLayout
+     * @param \Magento\Core\Model\Theme\LabelFactory $labelFactory
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_VersionsCms_Helper_Data $cmsData,
-        Magento_Page_Model_Source_Layout $pageLayout,
-        Magento_Core_Model_Theme_LabelFactory $labelFactory,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
+        \Magento\VersionsCms\Helper\Data $cmsData,
+        \Magento\Page\Model\Source\Layout $pageLayout,
+        \Magento\Core\Model\Theme\LabelFactory $labelFactory,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_cmsData = $cmsData;
@@ -54,7 +56,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Revision_Edit_Tab_Design
     /**
      * Adding onchange js call
      *
-     * @return Magento_VersionsCms_Block_Adminhtml_Cms_Page_Revision_Edit_Tab_Design
+     * @return \Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit\Tab_Design
      */
     protected function _prepareForm()
     {

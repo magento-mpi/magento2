@@ -15,7 +15,9 @@
  * @package    Magento_AdvancedCheckout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion extends Magento_Adminhtml_Block_Widget_Accordion
+namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage;
+
+class Accordion extends \Magento\Adminhtml\Block\Widget\Accordion
 {
     /**
      * Add accordion items based on layout updates
@@ -26,7 +28,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion extends Magento_
             return parent::_toHtml();
         }
         $layout = $this->getLayout();
-        /** @var $child Magento_Core_Block_Abstract  */
+        /** @var $child \Magento\Core\Block\AbstractBlock  */
         foreach ($layout->getChildBlocks($this->getNameInLayout()) as $child) {
             $name = $child->getNameInLayout();
             $data = array(

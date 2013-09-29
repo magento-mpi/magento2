@@ -16,15 +16,17 @@
  * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reward_Model_Total_Creditmemo_Reward extends Magento_Sales_Model_Order_Creditmemo_Total_Abstract
+namespace Magento\Reward\Model\Total\Creditmemo;
+
+class Reward extends \Magento\Sales\Model\Order\Creditmemo\Total\AbstractTotal
 {
     /**
      * Collect reward totals for credit memo
      *
-     * @param Magento_Sales_Model_Order_Creditmemo $creditmemo
-     * @return Magento_Reward_Model_Total_Creditmemo_Reward
+     * @param \Magento\Sales\Model\Order\Creditmemo $creditmemo
+     * @return \Magento\Reward\Model\Total\Creditmemo\Reward
      */
-    public function collect(Magento_Sales_Model_Order_Creditmemo $creditmemo)
+    public function collect(\Magento\Sales\Model\Order\Creditmemo $creditmemo)
     {
         $order = $creditmemo->getOrder();
         $rewardCurrecnyAmountLeft = $order->getRwrdCurrencyAmountInvoiced() - $order->getRwrdCrrncyAmntRefunded();

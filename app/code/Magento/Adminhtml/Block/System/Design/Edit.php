@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Adminhtml_Block_System_Design_Edit extends Magento_Adminhtml_Block_Widget
+namespace Magento\Adminhtml\Block\System\Design;
+
+class Edit extends \Magento\Adminhtml\Block\Widget
 {
 
     protected $_template = 'system/design/edit.phtml';
@@ -16,20 +18,20 @@ class Magento_Adminhtml_Block_System_Design_Edit extends Magento_Adminhtml_Block
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -45,13 +47,13 @@ class Magento_Adminhtml_Block_System_Design_Edit extends Magento_Adminhtml_Block
 
     protected function _prepareLayout()
     {
-        $this->addChild('back_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('back_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('Back'),
             'onclick'   => 'setLocation(\'' . $this->getUrl('*/*/') . '\')',
             'class' => 'back'
         ));
 
-        $this->addChild('save_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('save_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('Save'),
             'class' => 'save',
             'data_attribute'  => array(
@@ -61,7 +63,7 @@ class Magento_Adminhtml_Block_System_Design_Edit extends Magento_Adminhtml_Block
             ),
         ));
 
-        $this->addChild('delete_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('delete_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('Delete'),
             'onclick'   => 'confirmSetLocation(\'' . __('Are you sure?') . '\', \'' . $this->getDeleteUrl() . '\')',
             'class'  => 'delete'

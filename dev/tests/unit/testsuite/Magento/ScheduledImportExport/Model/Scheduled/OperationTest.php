@@ -8,7 +8,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_ScheduledImportExport_Model_Scheduled_OperationTest extends PHPUnit_Framework_TestCase
+namespace Magento\ScheduledImportExport\Model\Scheduled;
+
+class OperationTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Default date value
@@ -61,13 +63,13 @@ class Magento_ScheduledImportExport_Model_Scheduled_OperationTest extends PHPUni
      * Get mocked model
      *
      * @param array $fileInfo
-     * @return Magento_ScheduledImportExport_Model_Scheduled_Operation|PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\ScheduledImportExport\Model\Scheduled\Operation|PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getScheduledOperationModel(array $fileInfo)
     {
-        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
 
-        $dateModelMock = $this->getMock('Magento_Core_Model_Date', array('date'), array(), '', false);
+        $dateModelMock = $this->getMock('Magento\Core\Model\Date', array('date'), array(), '', false);
         $dateModelMock->expects($this->any())
             ->method('date')
             ->will($this->returnCallback(array($this, 'getDateCallback')));
@@ -75,19 +77,19 @@ class Magento_ScheduledImportExport_Model_Scheduled_OperationTest extends PHPUni
         //TODO Get rid of mocking methods from testing model when this model will be re-factored
 
         $operationFactory = $this->getMOck(
-            'Magento_ScheduledImportExport_Model_Scheduled_Operation_DataFactory', array(), array(), '', false
+            'Magento\ScheduledImportExport\Model\Scheduled\Operation\DataFactory', array(), array(), '', false
         );
-        $emailInfoFactory = $this->getMOck('Magento_Core_Model_Email_InfoFactory', array(), array(), '', false);
+        $emailInfoFactory = $this->getMOck('Magento\Core\Model\Email\InfoFactory', array(), array(), '', false);
         $params = array(
             'operationFactory' => $operationFactory,
             'emailInfoFactory' => $emailInfoFactory,
         );
         $arguments = $objectManagerHelper->getConstructArguments(
-            'Magento_ScheduledImportExport_Model_Scheduled_Operation', $params
+            'Magento\ScheduledImportExport\Model\Scheduled\Operation', $params
         );
         $arguments['dateModel'] = $dateModelMock;
         $model = $this->getMock(
-            'Magento_ScheduledImportExport_Model_Scheduled_Operation',
+            'Magento\ScheduledImportExport\Model\Scheduled\Operation',
             array(
                 'getOperationType',
                 'getEntityType',
@@ -115,7 +117,7 @@ class Magento_ScheduledImportExport_Model_Scheduled_OperationTest extends PHPUni
     }
 
     /**
-     * Callback to use instead of Magento_Core_Model_Date::date()
+     * Callback to use instead of \Magento\Core\Model\Date::date()
      *
      * @param string $format
      * @param int|string $input

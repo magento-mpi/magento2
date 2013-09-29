@@ -16,7 +16,9 @@
  * @package     Magento_GiftRegistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GiftRegistry_Model_Resource_Item extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\GiftRegistry\Model\Resource;
+
+class Item extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Resource model initialization
@@ -30,10 +32,10 @@ class Magento_GiftRegistry_Model_Resource_Item extends Magento_Core_Model_Resour
     /**
      * Add creation date to object
      *
-     * @param Magento_Core_Model_Abstract $object
-     * @return Magento_Core_Model_Resource_Db_Abstract
+     * @param \Magento\Core\Model\AbstractModel $object
+     * @return \Magento\Core\Model\Resource\Db\AbstractDb
      */
-    protected function _beforeSave(Magento_Core_Model_Abstract $object)
+    protected function _beforeSave(\Magento\Core\Model\AbstractModel $object)
     {
         if (!$object->getAddedAt()) {
             $object->setAddedAt($this->formatDate(true));
@@ -44,10 +46,10 @@ class Magento_GiftRegistry_Model_Resource_Item extends Magento_Core_Model_Resour
     /**
      * Load item by registry id and product id
      *
-     * @param Magento_GiftRegistry_Model_Item $object
+     * @param \Magento\GiftRegistry\Model\Item $object
      * @param int $registryId
      * @param int $productId
-     * @return Magento_GiftRegistry_Model_Resource_Item
+     * @return \Magento\GiftRegistry\Model\Resource\Item
      */
     public function loadByProductRegistry($object, $registryId, $productId)
     {

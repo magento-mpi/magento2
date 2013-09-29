@@ -13,7 +13,9 @@
  *
  * @author Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Block_Billing_Agreement_View extends Magento_Core_Block_Template
+namespace Magento\Sales\Block\Billing\Agreement;
+
+class View extends \Magento\Core\Block\Template
 {
     /**
      * Payment methods array
@@ -25,55 +27,55 @@ class Magento_Sales_Block_Billing_Agreement_View extends Magento_Core_Block_Temp
     /**
      * Billing Agreement instance
      *
-     * @var Magento_Sales_Model_Billing_Agreement
+     * @var \Magento\Sales\Model\Billing\Agreement
      */
     protected $_billingAgreementInstance = null;
 
     /**
      * Related orders collection
      *
-     * @var Magento_Sales_Model_Resource_Order_Collection
+     * @var \Magento\Sales\Model\Resource\Order\Collection
      */
     protected $_relatedOrders = null;
 
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @var Magento_Sales_Model_Resource_Order_CollectionFactory
+     * @var \Magento\Sales\Model\Resource\Order\CollectionFactory
      */
     protected $_orderCollectionFactory;
 
     /**
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
 
     /**
-     * @var Magento_Sales_Model_Order_Config
+     * @var \Magento\Sales\Model\Order\Config
      */
     protected $_orderConfig;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Sales_Model_Resource_Order_CollectionFactory $orderCollectionFactory
-     * @param Magento_Customer_Model_Session $customerSession
-     * @param Magento_Sales_Model_Order_Config $orderConfig
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Sales\Model\Resource\Order\CollectionFactory $orderCollectionFactory
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Sales\Model\Order\Config $orderConfig
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Sales_Model_Resource_Order_CollectionFactory $orderCollectionFactory,
-        Magento_Customer_Model_Session $customerSession,
-        Magento_Sales_Model_Order_Config $orderConfig,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Sales\Model\Resource\Order\CollectionFactory $orderCollectionFactory,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Sales\Model\Order\Config $orderConfig,
         array $data = array()
     ) {
         $this->_orderCollectionFactory = $orderCollectionFactory;
@@ -86,7 +88,7 @@ class Magento_Sales_Block_Billing_Agreement_View extends Magento_Core_Block_Temp
     /**
      * Retrieve related orders collection
      *
-     * @return Magento_Sales_Model_Resource_Order_Collection
+     * @return \Magento\Sales\Model\Resource\Order\Collection
      */
     public function getRelatedOrders()
     {
@@ -107,11 +109,11 @@ class Magento_Sales_Block_Billing_Agreement_View extends Magento_Core_Block_Temp
     /**
      * Retrieve order item value by key
      *
-     * @param Magento_Sales_Model_Order $order
+     * @param \Magento\Sales\Model\Order $order
      * @param string $key
      * @return string
      */
-    public function getOrderItemValue(Magento_Sales_Model_Order $order, $key)
+    public function getOrderItemValue(\Magento\Sales\Model\Order $order, $key)
     {
         $escape = true;
         switch ($key) {
@@ -119,7 +121,7 @@ class Magento_Sales_Block_Billing_Agreement_View extends Magento_Core_Block_Temp
                 $value = $order->getIncrementId();
                 break;
             case 'created_at':
-                $value = $this->helper('Magento_Core_Helper_Data')->formatDate($order->getCreatedAt(), 'short', true);
+                $value = $this->helper('Magento\Core\Helper\Data')->formatDate($order->getCreatedAt(), 'short', true);
                 break;
             case 'shipping_address':
                 $value = $order->getShippingAddress()
@@ -145,7 +147,7 @@ class Magento_Sales_Block_Billing_Agreement_View extends Magento_Core_Block_Temp
     /**
      * Set pager
      *
-     * @return Magento_Core_Block_Abstract
+     * @return \Magento\Core\Block\AbstractBlock
      */
     protected function _prepareLayout()
     {
@@ -154,7 +156,7 @@ class Magento_Sales_Block_Billing_Agreement_View extends Magento_Core_Block_Temp
         }
         parent::_prepareLayout();
 
-        $pager = $this->getLayout()->createBlock('Magento_Page_Block_Html_Pager')
+        $pager = $this->getLayout()->createBlock('Magento\Page\Block\Html\Pager')
             ->setCollection($this->getRelatedOrders())->setIsOutputRequired(false);
         $this->setChild('pager', $pager);
         $this->getRelatedOrders()->load();
@@ -170,7 +172,7 @@ class Magento_Sales_Block_Billing_Agreement_View extends Magento_Core_Block_Temp
     protected function _loadPaymentMethods()
     {
         if (!$this->_paymentMethods) {
-            foreach ($this->helper('Magento_Payment_Helper_Data')->getBillingAgreementMethods() as $paymentMethod) {
+            foreach ($this->helper('Magento\Payment\Helper\Data')->getBillingAgreementMethods() as $paymentMethod) {
                 $this->_paymentMethods[$paymentMethod->getCode()] = $paymentMethod->getTitle();
             }
         }
@@ -203,12 +205,12 @@ class Magento_Sales_Block_Billing_Agreement_View extends Magento_Core_Block_Temp
             $updatedAt = $this->_billingAgreementInstance->getUpdatedAt();
             $this->setAgreementCreatedAt(
                 ($createdAt)
-                    ? $this->helper('Magento_Core_Helper_Data')->formatDate($createdAt, 'short', true)
+                    ? $this->helper('Magento\Core\Helper\Data')->formatDate($createdAt, 'short', true)
                     : __('N/A')
             );
             if ($updatedAt) {
                 $this->setAgreementUpdatedAt(
-                    $this->helper('Magento_Core_Helper_Data')->formatDate($updatedAt, 'short', true)
+                    $this->helper('Magento\Core\Helper\Data')->formatDate($updatedAt, 'short', true)
                 );
             }
             $this->setAgreementStatus($this->_billingAgreementInstance->getStatusLabel());

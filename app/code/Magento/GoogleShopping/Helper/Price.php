@@ -18,29 +18,31 @@
  * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GoogleShopping_Helper_Price
+namespace Magento\GoogleShopping\Helper;
+
+class Price
 {
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * Store manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_Core_Model_StoreManagerInterface $storeManager
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_storeManager = $storeManager;
@@ -49,21 +51,21 @@ class Magento_GoogleShopping_Helper_Price
     /**
      * Tries to return price that looks like price in catalog
      *
-     * @param Magento_Catalog_Model_Product $product
-     * @param null|Magento_Core_Model_Store $store Store view
+     * @param \Magento\Catalog\Model\Product $product
+     * @param null|\Magento\Core\Model\Store $store Store view
      * @return null|float Price
      */
-    public function getCatalogPrice(Magento_Catalog_Model_Product $product, $store = null, $inclTax = null)
+    public function getCatalogPrice(\Magento\Catalog\Model\Product $product, $store = null, $inclTax = null)
     {
         switch ($product->getTypeId()) {
-            case Magento_Catalog_Model_Product_Type::TYPE_GROUPED:
+            case \Magento\Catalog\Model\Product\Type::TYPE_GROUPED:
                 // Workaround to avoid loading stock status by admin's website
-                if ($store instanceof Magento_Core_Model_Store) {
+                if ($store instanceof \Magento\Core\Model\Store) {
                     $oldStore = $this->_storeManager->getStore();
                     $this->_storeManager->setCurrentStore($store);
                 }
                 $subProducts = $product->getTypeInstance()->getAssociatedProducts($product);
-                if ($store instanceof Magento_Core_Model_Store) {
+                if ($store instanceof \Magento\Core\Model\Store) {
                     $this->_storeManager->setCurrentStore($oldStore);
                 }
                 if (!count($subProducts)) {
@@ -82,21 +84,21 @@ class Magento_GoogleShopping_Helper_Price
                 }
                 return $minPrice;
 
-            case Magento_Catalog_Model_Product_Type::TYPE_BUNDLE:
-                if ($store instanceof Magento_Core_Model_Store) {
+            case \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE:
+                if ($store instanceof \Magento\Core\Model\Store) {
                     $oldStore = $this->_storeManager->getStore();
                     $this->_storeManager->setCurrentStore($store);
                 }
 
                 $this->_coreRegistry->unregister('rule_data');
-                $this->_coreRegistry->register('rule_data', new Magento_Object(array(
+                $this->_coreRegistry->register('rule_data', new \Magento\Object(array(
                     'store_id'          => $product->getStoreId(),
                     'website_id'        => $product->getWebsiteId(),
                     'customer_group_id' => $product->getCustomerGroupId())));
 
                 $minPrice = $product->getPriceModel()->getTotalPrices($product, 'min', $inclTax);
 
-                if ($store instanceof Magento_Core_Model_Store) {
+                if ($store instanceof \Magento\Core\Model\Store) {
                     $this->_storeManager->setCurrentStore($oldStore);
                 }
                 return $minPrice;
@@ -112,14 +114,14 @@ class Magento_GoogleShopping_Helper_Price
     /**
      * Tries calculate price without discount; if can't returns nul
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @param mixed $store
      */
-    public function getCatalogRegularPrice(Magento_Catalog_Model_Product $product, $store = null)
+    public function getCatalogRegularPrice(\Magento\Catalog\Model\Product $product, $store = null)
     {
         switch ($product->getTypeId()) {
-            case Magento_Catalog_Model_Product_Type::TYPE_GROUPED:
-            case Magento_Catalog_Model_Product_Type::TYPE_BUNDLE:
+            case \Magento\Catalog\Model\Product\Type::TYPE_GROUPED:
+            case \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE:
             case 'giftcard':
                 return null;
 

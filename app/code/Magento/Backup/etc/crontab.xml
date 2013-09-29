@@ -8,5 +8,5 @@
  */
 -->
 <config>
-    <job name="system_backup" instance="Magento_Backup_Model_Observer" method="scheduledBackup" />
+    <job name="system_backup" instance="Magento\Backup\Model\Observer" method="scheduledBackup" />
 </config>

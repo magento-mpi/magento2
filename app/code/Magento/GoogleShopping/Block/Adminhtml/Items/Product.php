@@ -15,56 +15,58 @@
  * @package     Magento_GoogleShopping
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GoogleShopping_Block_Adminhtml_Items_Product extends Magento_Backend_Block_Widget_Grid_Extended
+namespace Magento\GoogleShopping\Block\Adminhtml\Items;
+
+class Product extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
      * Product type
      *
-     * @var Magento_Catalog_Model_Product_Type
+     * @var \Magento\Catalog\Model\Product\Type
      */
     protected $_productType;
 
     /**
      * Product factory
      *
-     * @var Magento_Catalog_Model_ProductFactory
+     * @var \Magento\Catalog\Model\ProductFactory
      */
     protected $_productFactory;
 
     /**
      * EAV attribute set collection factory
      *
-     * @var Magento_Eav_Model_Resource_Entity_Attribute_Set_CollectionFactory
+     * @var \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory
      */
     protected $_eavCollectionFactory;
 
     /**
      * Item collection factory
      *
-     * @var Magento_GoogleShopping_Model_Resource_Item_CollectionFactory
+     * @var \Magento\GoogleShopping\Model\Resource\Item\CollectionFactory
      */
     protected $_itemCollectionFactory;
 
     /**
-     * @param Magento_GoogleShopping_Model_Resource_Item_CollectionFactory $itemCollectionFactory
-     * @param Magento_Eav_Model_Resource_Entity_Attribute_Set_CollectionFactory $eavCollectionFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Url $urlModel
-     * @param Magento_Catalog_Model_Product_Type $productType
-     * @param Magento_Catalog_Model_ProductFactory $productFactory
+     * @param \Magento\GoogleShopping\Model\Resource\Item\CollectionFactory $itemCollectionFactory
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory $eavCollectionFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Catalog\Model\Product\Type $productType
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param array $data
      */
     public function __construct(
-        Magento_GoogleShopping_Model_Resource_Item_CollectionFactory $itemCollectionFactory,
-        Magento_Eav_Model_Resource_Entity_Attribute_Set_CollectionFactory $eavCollectionFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Url $urlModel,
-        Magento_Catalog_Model_Product_Type $productType,
-        Magento_Catalog_Model_ProductFactory $productFactory,
+        \Magento\GoogleShopping\Model\Resource\Item\CollectionFactory $itemCollectionFactory,
+        \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory $eavCollectionFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        \Magento\Catalog\Model\Product\Type $productType,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
         array $data = array()
     ) {
         $this->_itemCollectionFactory = $itemCollectionFactory;
@@ -85,7 +87,7 @@ class Magento_GoogleShopping_Block_Adminhtml_Items_Product extends Magento_Backe
     /**
      * Before rendering html, but after trying to load cache
      *
-     * @return Magento_GoogleShopping_Block_Adminhtml_Items_Product
+     * @return \Magento\GoogleShopping\Block\Adminhtml\Items\Product
      */
     protected function _beforeToHtml()
     {
@@ -98,7 +100,7 @@ class Magento_GoogleShopping_Block_Adminhtml_Items_Product extends Magento_Backe
     /**
      * Prepare grid collection object
      *
-     * @return Magento_GoogleShopping_Block_Adminhtml_Items_Product
+     * @return \Magento\GoogleShopping\Block\Adminhtml\Items\Product
      */
     protected function _prepareCollection()
     {
@@ -126,7 +128,7 @@ class Magento_GoogleShopping_Block_Adminhtml_Items_Product extends Magento_Backe
     /**
      * Prepare grid columns
      *
-     * @return Magento_GoogleShopping_Block_Adminhtml_Items_Product
+     * @return \Magento\GoogleShopping\Block\Adminhtml\Items\Product
      */
     protected function _prepareColumns()
     {
@@ -186,7 +188,7 @@ class Magento_GoogleShopping_Block_Adminhtml_Items_Product extends Magento_Backe
     /**
      * Prepare grid massaction actions
      *
-     * @return Magento_GoogleShopping_Block_Adminhtml_Items_Product
+     * @return \Magento\GoogleShopping\Block\Adminhtml\Items\Product
      */
     protected function _prepareMassaction()
     {
@@ -228,7 +230,7 @@ class Magento_GoogleShopping_Block_Adminhtml_Items_Product extends Magento_Backe
     /**
      * Get store model by request param
      *
-     * @return Magento_Core_Model_Store
+     * @return \Magento\Core\Model\Store
      */
     protected function _getStore()
     {

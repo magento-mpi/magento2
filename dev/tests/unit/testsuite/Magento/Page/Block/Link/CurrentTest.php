@@ -5,17 +5,18 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Page\Block\Link;
 
-class Magento_Page_Block_Link_CurrentTest extends PHPUnit_Framework_TestCase
+class CurrentTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_TestFramework_Helper_ObjectManager
+     * @var \Magento\TestFramework\Helper\ObjectManager
      */
     protected $_objectManagerHelper;
 
     protected function setUp()
     {
-        $this->_objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $this->_objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
     }
 
     public function testGetUrl()
@@ -23,13 +24,13 @@ class Magento_Page_Block_Link_CurrentTest extends PHPUnit_Framework_TestCase
         $path = 'test/path';
         $url = 'http://example.com/asdasd';
 
-        /** @var  Magento_Core_Block_Template_Context $context */
-        $context = $this->_objectManagerHelper->getObject('Magento_Core_Block_Template_Context');
+        /** @var  \Magento\Core\Block\Template\Context $context */
+        $context = $this->_objectManagerHelper->getObject('Magento\Core\Block\Template\Context');
         $urlBuilder = $context->getUrlBuilder();
         $urlBuilder->expects($this->once())->method('getUrl')->with($path)->will($this->returnValue($url));
 
         $link = $this->_objectManagerHelper->getObject(
-            'Magento_Page_Block_Link_Current',
+            'Magento\Page\Block\Link\Current',
             array(
                 'context' => $context,
             )
@@ -41,7 +42,7 @@ class Magento_Page_Block_Link_CurrentTest extends PHPUnit_Framework_TestCase
 
     public function testIsCurrentIfIsset()
     {
-        $link = $this->_objectManagerHelper->getObject('Magento_Page_Block_Link_Current');
+        $link = $this->_objectManagerHelper->getObject('Magento\Page\Block\Link\Current');
         $link->setCurrent(true);
         $this->assertTrue($link->IsCurrent());
     }
@@ -51,8 +52,8 @@ class Magento_Page_Block_Link_CurrentTest extends PHPUnit_Framework_TestCase
         $path = 'test/path';
         $url = 'http://example.com/a/b';
 
-        /** @var  Magento_Core_Block_Template_Context $context */
-        $context = $this->_objectManagerHelper->getObject('Magento_Core_Block_Template_Context');
+        /** @var  \Magento\Core\Block\Template\Context $context */
+        $context = $this->_objectManagerHelper->getObject('Magento\Core\Block\Template\Context');
 
         $request = $context->getRequest();
         $request->expects($this->once())->method('getModuleName')->will($this->returnValue('a'));
@@ -68,9 +69,9 @@ class Magento_Page_Block_Link_CurrentTest extends PHPUnit_Framework_TestCase
             $this->returnValue($url)
         );
 
-        /** @var Magento_Page_Block_Link_Current $link */
+        /** @var \Magento\Page\Block\Link\Current $link */
         $link = $this->_objectManagerHelper->getObject(
-            'Magento_Page_Block_Link_Current',
+            'Magento\Page\Block\Link\Current',
             array(
                 'context' => $context,
             )
@@ -81,16 +82,16 @@ class Magento_Page_Block_Link_CurrentTest extends PHPUnit_Framework_TestCase
 
     public function testIsCurrentFalse()
     {
-        /** @var  Magento_Core_Block_Template_Context $context */
-        $context = $this->_objectManagerHelper->getObject('Magento_Core_Block_Template_Context');
+        /** @var  \Magento\Core\Block\Template\Context $context */
+        $context = $this->_objectManagerHelper->getObject('Magento\Core\Block\Template\Context');
 
         $urlBuilder = $context->getUrlBuilder();
         $urlBuilder->expects($this->at(0))->method('getUrl')->will($this->returnValue('1'));
         $urlBuilder->expects($this->at(1))->method('getUrl')->will($this->returnValue('2'));
 
-        /** @var Magento_Page_Block_Link_Current $link */
+        /** @var \Magento\Page\Block\Link\Current $link */
         $link = $this->_objectManagerHelper->getObject(
-            'Magento_Page_Block_Link_Current',
+            'Magento\Page\Block\Link\Current',
             array(
                 'context' => $context,
             )

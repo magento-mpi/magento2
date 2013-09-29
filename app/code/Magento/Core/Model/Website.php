@@ -11,9 +11,9 @@
 /**
  * Core Website model
  *
- * @method Magento_Core_Model_Resource_Website _getResource()
- * @method Magento_Core_Model_Resource_Website getResource()
- * @method Magento_Core_Model_Website setCode(string $value)
+ * @method \Magento\Core\Model\Resource\Website _getResource()
+ * @method \Magento\Core\Model\Resource\Website getResource()
+ * @method \Magento\Core\Model\Website setCode(string $value)
  * @method string getName()
  * @method string getGroupTitle()
  * @method string getStoreTitle()
@@ -21,14 +21,16 @@
  * @method int getGroupId()
  * @method int getWebsiteId()
  * @method bool hasWebsiteId()
- * @method Magento_Core_Model_Website setName(string $value)
+ * @method \Magento\Core\Model\Website setName(string $value)
  * @method int getSortOrder()
- * @method Magento_Core_Model_Website setSortOrder(int $value)
- * @method Magento_Core_Model_Website setDefaultGroupId(int $value)
+ * @method \Magento\Core\Model\Website setSortOrder(int $value)
+ * @method \Magento\Core\Model\Website setDefaultGroupId(int $value)
  * @method int getIsDefault()
- * @method Magento_Core_Model_Website setIsDefault(int $value)
+ * @method \Magento\Core\Model\Website setIsDefault(int $value)
  */
-class Magento_Core_Model_Website extends Magento_Core_Model_Abstract
+namespace Magento\Core\Model;
+
+class Website extends \Magento\Core\Model\AbstractModel
 {
     const ENTITY    = 'core_website';
     const CACHE_TAG = 'website';
@@ -103,14 +105,14 @@ class Magento_Core_Model_Website extends Magento_Core_Model_Abstract
     /**
      * Website default group
      *
-     * @var Magento_Core_Model_Store_Group
+     * @var \Magento\Core\Model\Store\Group
      */
     protected $_defaultGroup;
 
     /**
      * Website default store
      *
-     * @var Magento_Core_Model_Store
+     * @var \Magento\Core\Model\Store
      */
     protected $_defaultStore;
 
@@ -127,26 +129,26 @@ class Magento_Core_Model_Website extends Magento_Core_Model_Abstract
     private $_isReadOnly = false;
 
     /**
-     * @var Magento_Core_Model_Resource_Config_Data
+     * @var \Magento\Core\Model\Resource\Config\Data
      */
     protected $_configDataResource;
 
     /**
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Resource_Config_Data $configDataResource
-     * @param Magento_Core_Model_Config $coreConfig
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Resource\Config\Data $configDataResource
+     * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_Resource_Config_Data $configDataResource,
-        Magento_Core_Model_Config $coreConfig,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Resource\Config\Data $configDataResource,
+        \Magento\Core\Model\Config $coreConfig,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
@@ -160,7 +162,7 @@ class Magento_Core_Model_Website extends Magento_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('Magento_Core_Model_Resource_Website');
+        $this->_init('Magento\Core\Model\Resource\Website');
     }
 
     /**
@@ -168,7 +170,7 @@ class Magento_Core_Model_Website extends Magento_Core_Model_Abstract
      *
      * @param int|string $id
      * @param string $field
-     * @return Magento_Core_Model_Website
+     * @return \Magento\Core\Model\Website
      */
     public function load($id, $field = null)
     {
@@ -220,7 +222,7 @@ class Magento_Core_Model_Website extends Magento_Core_Model_Abstract
      * Set website groups
      *
      * @param array $groups
-     * @return Magento_Core_Model_Website
+     * @return \Magento\Core\Model\Website
      */
     public function setGroups($groups)
     {
@@ -240,11 +242,11 @@ class Magento_Core_Model_Website extends Magento_Core_Model_Abstract
     /**
      * Retrieve new (not loaded) Group collection object with website filter
      *
-     * @return Magento_Core_Model_Resource_Store_Group_Collection
+     * @return \Magento\Core\Model\Resource\Store\Group\Collection
      */
     public function getGroupCollection()
     {
-        return Mage::getModel('Magento_Core_Model_Store_Group')
+        return \Mage::getModel('Magento\Core\Model\Store\Group')
             ->getCollection()
             ->addWebsiteFilter($this->getId());
     }
@@ -252,7 +254,7 @@ class Magento_Core_Model_Website extends Magento_Core_Model_Abstract
     /**
      * Retrieve website groups
      *
-     * @return Magento_Core_Model_Store_Group[]
+     * @return \Magento\Core\Model\Store\Group[]
      */
     public function getGroups()
     {
@@ -291,7 +293,7 @@ class Magento_Core_Model_Website extends Magento_Core_Model_Abstract
     /**
      * Retrieve default group model
      *
-     * @return Magento_Core_Model_Store_Group
+     * @return \Magento\Core\Model\Store\Group
      */
     public function getDefaultGroup()
     {
@@ -346,11 +348,11 @@ class Magento_Core_Model_Website extends Magento_Core_Model_Abstract
     /**
      * Retrieve new (not loaded) Store collection object with website filter
      *
-     * @return Magento_Core_Model_Resource_Store_Collection
+     * @return \Magento\Core\Model\Resource\Store\Collection
      */
     public function getStoreCollection()
     {
-        return Mage::getModel('Magento_Core_Model_Store')
+        return \Mage::getModel('Magento\Core\Model\Store')
             ->getCollection()
             ->addWebsiteFilter($this->getId());
     }
@@ -418,7 +420,7 @@ class Magento_Core_Model_Website extends Magento_Core_Model_Abstract
             return false;
         }
         if (is_null($this->_isCanDelete)) {
-            $this->_isCanDelete = (Mage::getModel('Magento_Core_Model_Website')->getCollection()->getSize() > 2)
+            $this->_isCanDelete = (\Mage::getModel('Magento\Core\Model\Website')->getCollection()->getSize() > 2)
                 && !$this->getIsDefault();
         }
         return $this->_isCanDelete;
@@ -454,11 +456,11 @@ class Magento_Core_Model_Website extends Magento_Core_Model_Abstract
     /**
      * rewrite in order to clear configuration cache
      *
-     * @return Magento_Core_Model_Website
+     * @return \Magento\Core\Model\Website
      */
     protected function _afterDelete()
     {
-        Mage::app()->clearWebsiteCache($this->getId());
+        \Mage::app()->clearWebsiteCache($this->getId());
         parent::_afterDelete();
         $this->_coreConfig->removeCache();
         return $this;
@@ -471,25 +473,25 @@ class Magento_Core_Model_Website extends Magento_Core_Model_Abstract
      */
     public function getBaseCurrencyCode()
     {
-        if ($this->getConfig(Magento_Core_Model_Store::XML_PATH_PRICE_SCOPE)
-            == Magento_Core_Model_Store::PRICE_SCOPE_GLOBAL
+        if ($this->getConfig(\Magento\Core\Model\Store::XML_PATH_PRICE_SCOPE)
+            == \Magento\Core\Model\Store::PRICE_SCOPE_GLOBAL
         ) {
-            return Mage::app()->getBaseCurrencyCode();
+            return \Mage::app()->getBaseCurrencyCode();
         } else {
-            return $this->getConfig(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE);
+            return $this->getConfig(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE);
         }
     }
 
     /**
      * Retrieve website base currency
      *
-     * @return Magento_Directory_Model_Currency
+     * @return \Magento\Directory\Model\Currency
      */
     public function getBaseCurrency()
     {
         $currency = $this->getData('base_currency');
         if (is_null($currency)) {
-            $currency = Mage::getModel('Magento_Directory_Model_Currency')->load($this->getBaseCurrencyCode());
+            $currency = \Mage::getModel('Magento\Directory\Model\Currency')->load($this->getBaseCurrencyCode());
             $this->setData('base_currency', $currency);
         }
         return $currency;
@@ -498,7 +500,7 @@ class Magento_Core_Model_Website extends Magento_Core_Model_Abstract
     /**
      * Retrieve Default Website Store or null
      *
-     * @return Magento_Core_Model_Store
+     * @return \Magento\Core\Model\Store
      */
     public function getDefaultStore()
     {
@@ -512,7 +514,7 @@ class Magento_Core_Model_Website extends Magento_Core_Model_Abstract
      * Select fields website_id, store_id
      *
      * @param bool $withDefault include/exclude default admin website
-     * @return Magento_DB_Select
+     * @return \Magento\DB\Select
      */
     public function getDefaultStoresSelect($withDefault = false)
     {

@@ -16,26 +16,28 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute extends Magento_Adminhtml_Block_Widget
+namespace Magento\Adminhtml\Block\Catalog\Product\Edit\Action;
+
+class Attribute extends \Magento\Adminhtml\Block\Widget
 {
 
     /**
      * Adminhtml catalog product edit action attribute
      *
-     * @var Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute
+     * @var \Magento\Adminhtml\Helper\Catalog\Product\Edit\Action\Attribute
      */
     protected $_helperActionAttribute = null;
 
     /**
-     * @param Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute $helperActionAttribute
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
+     * @param \Magento\Adminhtml\Helper\Catalog\Product\Edit\Action\Attribute $helperActionAttribute
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute $helperActionAttribute,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
+        \Magento\Adminhtml\Helper\Catalog\Product\Edit\Action\Attribute $helperActionAttribute,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_helperActionAttribute = $helperActionAttribute;
@@ -44,18 +46,18 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute extends Mage
 
     protected function _prepareLayout()
     {
-        $this->addChild('back_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('back_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('Back'),
             'onclick'   => 'setLocation(\''.$this->getUrl('*/catalog_product/', array('store'=>$this->getRequest()->getParam('store', 0))).'\')',
             'class' => 'back'
         ));
 
-        $this->addChild('reset_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('reset_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('Reset'),
             'onclick'   => 'setLocation(\''.$this->getUrl('*/*/*', array('_current'=>true)).'\')'
         ));
 
-        $this->addChild('save_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('save_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('Save'),
             'class'     => 'save',
             'data_attribute'  => array(
@@ -79,11 +81,11 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute extends Mage
     /**
      * Retrieve block attributes update helper
      *
-     * @return Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute
+     * @return \Magento\Adminhtml\Helper\Catalog\Product\Edit\Action\Attribute
      */
     protected function _getHelper()
     {
-        return $this->helper('Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute');
+        return $this->helper('Magento\Adminhtml\Helper\Catalog\Product\Edit\Action\Attribute');
     }
 
     /**

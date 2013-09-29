@@ -9,15 +9,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Magento_Outbound_AuthenticationInterface
+namespace Magento\Outbound;
+
+interface AuthenticationInterface
 {
     /**
      * Get authentication signature to add to the headers
      *
      * @param string                         $body
-     * @param Magento_Outbound_UserInterface $user
+     * @param \Magento\Outbound\UserInterface $user
      *
      * @return array Headers to add to message
      */
-    public function getSignatureHeaders($body, Magento_Outbound_UserInterface $user);
+    public function getSignatureHeaders($body, \Magento\Outbound\UserInterface $user);
 }

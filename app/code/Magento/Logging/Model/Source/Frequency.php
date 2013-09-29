@@ -11,7 +11,9 @@
  /**
   * Source model for logging frequency
   */
-class Magento_Logging_Model_Source_Frequency implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Logging\Model\Source;
+
+class Frequency implements \Magento\Core\Model\Option\ArrayInterface
 {
     public function toOptionArray()
     {

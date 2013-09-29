@@ -5,32 +5,34 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Webapi_Model_Acl_Resource_Provider implements Magento_Webapi_Model_Acl_Resource_ProviderInterface
+namespace Magento\Webapi\Model\Acl\Resource;
+
+class Provider implements \Magento\Webapi\Model\Acl\Resource\ProviderInterface
 {
     /**
-     * @var Magento_Webapi_Model_Acl_Resource_Config_Reader_Filesystem
+     * @var \Magento\Webapi\Model\Acl\Resource\Config\Reader\Filesystem
      */
     protected $_configReader;
 
     /**
-     * @var Magento_Acl_Resource_TreeBuilder
+     * @var \Magento\Acl\Resource\TreeBuilder
      */
     protected $_resourceTreeBuilder;
 
     /**
-     * @var Magento_Config_ScopeInterface
+     * @var \Magento\Config\ScopeInterface
      */
     protected $_scope;
 
     /**
-     * @param Magento_Webapi_Model_Acl_Resource_Config_Reader_Filesystem $configReader
-     * @param Magento_Config_ScopeInterface $scope
-     * @param Magento_Acl_Resource_TreeBuilder $resourceTreeBuilder
+     * @param \Magento\Webapi\Model\Acl\Resource\Config\Reader\Filesystem $configReader
+     * @param \Magento\Config\ScopeInterface $scope
+     * @param \Magento\Acl\Resource\TreeBuilder $resourceTreeBuilder
      */
     public function __construct(
-        Magento_Webapi_Model_Acl_Resource_Config_Reader_Filesystem $configReader,
-        Magento_Config_ScopeInterface $scope,
-        Magento_Acl_Resource_TreeBuilder $resourceTreeBuilder
+        \Magento\Webapi\Model\Acl\Resource\Config\Reader\Filesystem $configReader,
+        \Magento\Config\ScopeInterface $scope,
+        \Magento\Acl\Resource\TreeBuilder $resourceTreeBuilder
     ) {
         $this->_configReader = $configReader;
         $this->_scope = $scope;

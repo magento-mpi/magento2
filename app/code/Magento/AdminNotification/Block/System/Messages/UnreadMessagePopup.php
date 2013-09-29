@@ -5,7 +5,9 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_AdminNotification_Block_System_Messages_UnreadMessagePopup extends Magento_Backend_Block_Template
+namespace Magento\AdminNotification\Block\System\Messages;
+
+class UnreadMessagePopup extends \Magento\Backend\Block\Template
 {
     /**
      * List of item classes per severity
@@ -13,27 +15,27 @@ class Magento_AdminNotification_Block_System_Messages_UnreadMessagePopup extends
      * @var array
      */
     protected $_itemClasses = array(
-        Magento_AdminNotification_Model_System_MessageInterface::SEVERITY_CRITICAL => 'error',
-        Magento_AdminNotification_Model_System_MessageInterface::SEVERITY_MAJOR => 'warning'
+        \Magento\AdminNotification\Model\System\MessageInterface::SEVERITY_CRITICAL => 'error',
+        \Magento\AdminNotification\Model\System\MessageInterface::SEVERITY_MAJOR => 'warning'
     );
 
     /**
      * System Message list
      *
-     * @var Magento_AdminNotification_Model_Resource_System_Message_Collection
+     * @var \Magento\AdminNotification\Model\Resource\System\Message\Collection
      */
     protected $_messages;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_AdminNotification_Model_Resource_System_Message_Collection_Synchronized $messages
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\AdminNotification\Model\Resource\System\Message\Collection\Synchronized $messages
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_AdminNotification_Model_Resource_System_Message_Collection_Synchronized $messages,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\AdminNotification\Model\Resource\System\Message\Collection\Synchronized $messages,
         array $data = array()
     ) {
         parent::__construct($coreData, $context, $data);
@@ -81,10 +83,10 @@ class Magento_AdminNotification_Block_System_Messages_UnreadMessagePopup extends
     /**
      * Retrieve item class by severity
      *
-     * @param Magento_AdminNotification_Model_System_MessageInterface $message
+     * @param \Magento\AdminNotification\Model\System\MessageInterface $message
      * @return mixed
      */
-    public function getItemClass(Magento_AdminNotification_Model_System_MessageInterface $message)
+    public function getItemClass(\Magento\AdminNotification\Model\System\MessageInterface $message)
     {
         return $this->_itemClasses[$message->getSeverity()];
     }

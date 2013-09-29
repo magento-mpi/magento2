@@ -1,18 +1,20 @@
 <?php
 /**
- * Converter of attributes configuration from DOMDocument to array
+ * Converter of attributes configuration from \DOMDocument to array
  *
  * {license_notice}
  *
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Catalog_Model_Attribute_Config_Converter implements Magento_Config_ConverterInterface
+namespace Magento\Catalog\Model\Attribute\Config;
+
+class Converter implements \Magento\Config\ConverterInterface
 {
     /**
      * Convert dom node tree to array
      *
-     * @param DOMDocument $source
+     * @param \DOMDocument $source
      * @return array
      */
     public function convert($source)

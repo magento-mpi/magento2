@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_TestFramework_Db_ConnectionAdapter extends Magento_Core_Model_Resource_Type_Db_Pdo_Mysql
+namespace Magento\TestFramework\Db;
+
+class ConnectionAdapter extends \Magento\Core\Model\Resource\Type\Db\Pdo\Mysql
 {
     /**
      * Retrieve DB adapter class name
@@ -16,6 +18,6 @@ class Magento_TestFramework_Db_ConnectionAdapter extends Magento_Core_Model_Reso
      */
     protected function _getDbAdapterClassName()
     {
-        return 'Magento_TestFramework_Db_Adapter_Mysql';
+        return 'Magento\TestFramework\Db\Adapter\Mysql';
     }
 }

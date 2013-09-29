@@ -15,8 +15,10 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Controller_Sales_Order_Creditmemo
-    extends Magento_Adminhtml_Controller_Sales_Creditmemo_CreditmemoAbstract
+namespace Magento\Adminhtml\Controller\Sales\Order;
+
+class Creditmemo
+    extends \Magento\Adminhtml\Controller\Sales\Creditmemo\CreditmemoAbstract
 {
     /**
      * Get requested items qtys and return to stock flags
@@ -25,7 +27,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Creditmemo
     {
         $data = $this->getRequest()->getParam('creditmemo');
         if (!$data) {
-            $data = $this->_objectManager->get('Magento_Adminhtml_Model_Session')->getFormData(true);
+            $data = $this->_objectManager->get('Magento\Adminhtml\Model\Session')->getFormData(true);
         }
 
         if (isset($data['items'])) {
@@ -38,7 +40,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Creditmemo
 
     /**
      * Check if creditmeno can be created for order
-     * @param Magento_Sales_Model_Order $order
+     * @param \Magento\Sales\Model\Order $order
      * @return bool
      */
     protected function _canCreditmemo($order)
@@ -71,7 +73,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Creditmemo
     {
         $invoiceId = $this->getRequest()->getParam('invoice_id');
         if ($invoiceId) {
-            $invoice = $this->_objectManager->create('Magento_Sales_Model_Order_Invoice')
+            $invoice = $this->_objectManager->create('Magento\Sales\Model\Order\Invoice')
                 ->load($invoiceId)
                 ->setOrder($order);
             if ($invoice->getId()) {
@@ -85,7 +87,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Creditmemo
      * Initialize creditmemo model instance
      *
      * @param bool $update
-     * @return Magento_Sales_Model_Order_Creditmemo
+     * @return \Magento\Sales\Model\Order\Creditmemo
      */
     protected function _initCreditmemo($update = false)
     {
@@ -95,11 +97,11 @@ class Magento_Adminhtml_Controller_Sales_Order_Creditmemo
         $creditmemoId = $this->getRequest()->getParam('creditmemo_id');
         $orderId = $this->getRequest()->getParam('order_id');
         if ($creditmemoId) {
-            $creditmemo = $this->_objectManager->create('Magento_Sales_Model_Order_Creditmemo')
+            $creditmemo = $this->_objectManager->create('Magento\Sales\Model\Order\Creditmemo')
                 ->load($creditmemoId);
         } elseif ($orderId) {
             $data   = $this->getRequest()->getParam('creditmemo');
-            $order  = $this->_objectManager->create('Magento_Sales_Model_Order')->load($orderId);
+            $order  = $this->_objectManager->create('Magento\Sales\Model\Order')->load($orderId);
             $invoice = $this->_initInvoice($order);
 
             if (!$this->_canCreditmemo($order)) {
@@ -120,7 +122,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Creditmemo
             }
             $data['qtys'] = $qtys;
 
-            $service = $this->_objectManager->create('Magento_Sales_Model_Service_Order', array('order' => $order));
+            $service = $this->_objectManager->create('Magento\Sales\Model\Service\Order', array('order' => $order));
             if ($invoice) {
                 $creditmemo = $service->prepareInvoiceCreditmemo($invoice, $data);
             } else {
@@ -139,7 +141,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Creditmemo
                     $creditmemoItem->setBackToStock(true);
                 } elseif (empty($savedData)) {
                     $creditmemoItem->setBackToStock(
-                        $this->_objectManager->get('Magento_CatalogInventory_Helper_Data')->isAutoReturnEnabled()
+                        $this->_objectManager->get('Magento\CatalogInventory\Helper\Data')->isAutoReturnEnabled()
                     );
                 } else {
                     $creditmemoItem->setBackToStock(false);
@@ -152,19 +154,19 @@ class Magento_Adminhtml_Controller_Sales_Order_Creditmemo
             'request' => $this->getRequest(),
         ));
 
-        $this->_objectManager->get('Magento_Core_Model_Registry')->register('current_creditmemo', $creditmemo);
+        $this->_objectManager->get('Magento\Core\Model\Registry')->register('current_creditmemo', $creditmemo);
         return $creditmemo;
     }
 
     /**
      * Save creditmemo and related order, invoice in one transaction
      *
-     * @param Magento_Sales_Model_Order_Creditmemo $creditmemo
+     * @param \Magento\Sales\Model\Order\Creditmemo $creditmemo
      * @return $this
      */
     protected function _saveCreditmemo($creditmemo)
     {
-        $transactionSave = $this->_objectManager->create('Magento_Core_Model_Resource_Transaction')
+        $transactionSave = $this->_objectManager->create('Magento\Core\Model\Resource\Transaction')
             ->addObject($creditmemo)
             ->addObject($creditmemo->getOrder());
         if ($creditmemo->getInvoice()) {
@@ -221,7 +223,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Creditmemo
                 $this->_title(__("New Memo"));
             }
 
-            if ($comment = $this->_objectManager->get('Magento_Adminhtml_Model_Session')->getCommentText(true)) {
+            if ($comment = $this->_objectManager->get('Magento\Adminhtml\Model\Session')->getCommentText(true)) {
                 $creditmemo->setCommentText($comment);
             }
 
@@ -242,18 +244,18 @@ class Magento_Adminhtml_Controller_Sales_Order_Creditmemo
             $creditmemo = $this->_initCreditmemo(true);
             $this->loadLayout();
             $response = $this->getLayout()->getBlock('order_items')->toHtml();
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $response = array(
                 'error'     => true,
                 'message'   => $e->getMessage()
             );
-            $response = $this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($response);
-        } catch (Exception $e) {
+            $response = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($response);
+        } catch (\Exception $e) {
             $response = array(
                 'error'     => true,
                 'message'   => __('Cannot update the item\'s quantity.')
             );
-            $response = $this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($response);
+            $response = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($response);
         }
         $this->getResponse()->setBody($response);
     }
@@ -272,7 +274,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Creditmemo
             $creditmemo = $this->_initCreditmemo();
             if ($creditmemo) {
                 if (($creditmemo->getGrandTotal() <=0) && (!$creditmemo->getAllowZeroGrandTotal())) {
-                    throw new Magento_Core_Exception(
+                    throw new \Magento\Core\Exception(
                         __('Credit memo\'s total must be positive.')
                     );
                 }
@@ -295,7 +297,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Creditmemo
                 if (isset($data['do_offline'])) {
                     //do not allow online refund for Refund to Store Credit
                     if (!$data['do_offline'] && !empty($data['refund_customerbalance_return_enable'])) {
-                        throw new Magento_Core_Exception(
+                        throw new \Magento\Core\Exception(
                             __('Cannot create online refund for Refund to Store Credit.')
                         );
                     }
@@ -318,11 +320,11 @@ class Magento_Adminhtml_Controller_Sales_Order_Creditmemo
                 $this->_forward('noRoute');
                 return;
             }
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
             $this->_getSession()->setFormData($data);
-        } catch (Exception $e) {
-            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+        } catch (\Exception $e) {
+            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
             $this->_getSession()->addError(__('Cannot save the credit memo.'));
         }
         $this->_redirect('*/*/new', array('_current' => true));
@@ -339,9 +341,9 @@ class Magento_Adminhtml_Controller_Sales_Order_Creditmemo
                 $creditmemo->cancel();
                 $this->_saveCreditmemo($creditmemo);
                 $this->_getSession()->addSuccess(__('The credit memo has been canceled.'));
-            } catch (Magento_Core_Exception $e) {
+            } catch (\Magento\Core\Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->_getSession()->addError(__('You canceled the credit memo.'));
             }
             $this->_redirect('*/*/view', array('creditmemo_id'=>$creditmemo->getId()));
@@ -361,9 +363,9 @@ class Magento_Adminhtml_Controller_Sales_Order_Creditmemo
                 $creditmemo->void();
                 $this->_saveCreditmemo($creditmemo);
                 $this->_getSession()->addSuccess(__('You voided the credit memo.'));
-            } catch (Magento_Core_Exception $e) {
+            } catch (\Magento\Core\Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->_getSession()->addError(__('We can\'t void the credit memo.'));
             }
             $this->_redirect('*/*/view', array('creditmemo_id'=>$creditmemo->getId()));
@@ -384,7 +386,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Creditmemo
             );
             $data = $this->getRequest()->getPost('comment');
             if (empty($data['comment'])) {
-                throw new Magento_Core_Exception(__('The Comment Text field cannot be empty.'));
+                throw new \Magento\Core\Exception(__('The Comment Text field cannot be empty.'));
             }
             $creditmemo = $this->_initCreditmemo();
             $comment = $creditmemo->addComment(
@@ -397,18 +399,18 @@ class Magento_Adminhtml_Controller_Sales_Order_Creditmemo
 
             $this->loadLayout();
             $response = $this->getLayout()->getBlock('creditmemo_comments')->toHtml();
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $response = array(
                 'error'     => true,
                 'message'   => $e->getMessage()
             );
-            $response = $this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($response);
-        } catch (Exception $e) {
+            $response = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($response);
+        } catch (\Exception $e) {
             $response = array(
                 'error'     => true,
                 'message'   => __('Cannot add new comment.')
             );
-            $response = $this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($response);
+            $response = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($response);
         }
         $this->getResponse()->setBody($response);
     }

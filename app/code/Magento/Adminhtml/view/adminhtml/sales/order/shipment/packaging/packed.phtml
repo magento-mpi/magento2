@@ -18,8 +18,8 @@
             <div class="popup-window-content">
             <?php foreach ($this->getPackages() as $packageId => $package): ?>
                 <div class="package">
-                    <?php $package = new Magento_Object($package) ?>
-                    <?php $params = new Magento_Object($package->getParams()) ?>
+                    <?php $package = new \Magento\Object($package) ?>
+                    <?php $params = new \Magento\Object($package->getParams()) ?>
                     <div class="package-number popup-fieldset-title">
                         <div class="title"><?php echo __('Package') . ' ' . $packageId ?></div>
                     </div>
@@ -32,7 +32,7 @@
                                     <th><?php echo __('Length') ?></th>
                                     <td>
                                         <?php if ($params->getLength() != null): ?>
-                                            <?php echo $params->getLength() .' '. $this->helper('Magento_Usa_Helper_Data')->getMeasureDimensionName($params->getDimensionUnits()) ?>
+                                            <?php echo $params->getLength() .' '. $this->helper('Magento\Usa\Helper\Data')->getMeasureDimensionName($params->getDimensionUnits()) ?>
                                         <?php else: ?>
                                             --
                                         <?php endif; ?>
@@ -51,12 +51,12 @@
                                         <td><?php echo $this->displayCustomsPrice($params->getCustomsValue()) ?></td>
                                     <?php else: ?>
                                         <th><?php echo __('Total Weight') ?></th>
-                                        <td><?php echo $params->getWeight() .' '. $this->helper('Magento_Usa_Helper_Data')->getMeasureWeightName($params->getWeightUnits()) ?></td>
+                                        <td><?php echo $params->getWeight() .' '. $this->helper('Magento\Usa\Helper\Data')->getMeasureWeightName($params->getWeightUnits()) ?></td>
                                     <?php endif; ?>
                                     <th><?php echo __('Width') ?></th>
                                     <td>
                                         <?php if ($params->getWidth() != null): ?>
-                                            <?php echo $params->getWidth() .' '. $this->helper('Magento_Usa_Helper_Data')->getMeasureDimensionName($params->getDimensionUnits()) ?>
+                                            <?php echo $params->getWidth() .' '. $this->helper('Magento\Usa\Helper\Data')->getMeasureDimensionName($params->getDimensionUnits()) ?>
                                         <?php else: ?>
                                             --
                                         <?php endif; ?>
@@ -76,7 +76,7 @@
                                 <tr>
                                     <?php if ($this->displayCustomsValue()): ?>
                                         <th><?php echo __('Total Weight') ?></th>
-                                        <td><?php echo $params->getWeight() .' '. $this->helper('Magento_Usa_Helper_Data')->getMeasureWeightName($params->getWeightUnits()) ?></td>
+                                        <td><?php echo $params->getWeight() .' '. $this->helper('Magento\Usa\Helper\Data')->getMeasureWeightName($params->getWeightUnits()) ?></td>
                                     <?php else: ?>
                                         <th>&nbsp;</th>
                                         <td>&nbsp;</td>
@@ -84,7 +84,7 @@
                                     <th><?php echo __('Height') ?></th>
                                     <td>
                                         <?php if ($params->getHeight() != null): ?>
-                                            <?php echo $params->getHeight() .' '. $this->helper('Magento_Usa_Helper_Data')->getMeasureDimensionName($params->getDimensionUnits()) ?>
+                                            <?php echo $params->getHeight() .' '. $this->helper('Magento\Usa\Helper\Data')->getMeasureDimensionName($params->getDimensionUnits()) ?>
                                         <?php else: ?>
                                             --
                                         <?php endif; ?>
@@ -102,7 +102,7 @@
                                     <?php endif; ?>
                                     <?php if ($params->getGirth()): ?>
                                         <th><?php echo __('Girth') ?></th>
-                                        <td><?php echo $params->getGirth() .' '. $this->helper('Magento_Usa_Helper_Data')->getMeasureDimensionName($params->getGirthDimensionUnits()) ?></td>
+                                        <td><?php echo $params->getGirth() .' '. $this->helper('Magento\Usa\Helper\Data')->getMeasureDimensionName($params->getGirthDimensionUnits()) ?></td>
                                     <?php else: ?>
                                         <th>&nbsp;</th>
                                         <td>&nbsp;</td>
@@ -131,7 +131,7 @@
                             </thead>
                             <tbody id="">
                             <?php foreach($package->getItems() as $itemId => $item) : ?>
-                                <?php $item = new Magento_Object($item) ?>
+                                <?php $item = new \Magento\Object($item) ?>
                                 <tr title="#" id="" class="">
                                     <td class="col-product name">
                                         <?php echo $item->getName(); ?>

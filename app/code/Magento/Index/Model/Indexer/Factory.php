@@ -7,24 +7,26 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Index_Model_Indexer_Factory
+namespace Magento\Index\Model\Indexer;
+
+class Factory
 {
     /**
-     * @var Magento_ObjectManager|null
+     * @var \Magento\ObjectManager|null
      */
     protected $_objectManager = null;
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
 
     /**
      * @param string $indexerInstanceName
-     * @return Magento_Index_Model_Indexer_Abstract|null
+     * @return \Magento\Index\Model\Indexer\AbstractIndexer|null
      */
     public function create($indexerInstanceName)
     {

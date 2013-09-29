@@ -16,12 +16,14 @@
  * @package     Magento_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Downloadable_Model_Resource_Indexer_Price extends Magento_Catalog_Model_Resource_Product_Indexer_Price_Default
+namespace Magento\Downloadable\Model\Resource\Indexer;
+
+class Price extends \Magento\Catalog\Model\Resource\Product\Indexer\Price\DefaultPrice
 {
     /**
      * Reindex temporary (price result data) for all products
      *
-     * @return Magento_Downloadable_Model_Resource_Indexer_Price
+     * @return \Magento\Downloadable\Model\Resource\Indexer\Price
      */
     public function reindexAll()
     {
@@ -33,7 +35,7 @@ class Magento_Downloadable_Model_Resource_Indexer_Price extends Magento_Catalog_
             $this->_applyDownloadableLink();
             $this->_movePriceDataToIndexTable();
             $this->commit();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->rollBack();
             throw $e;
         }
@@ -44,7 +46,7 @@ class Magento_Downloadable_Model_Resource_Indexer_Price extends Magento_Catalog_
      * Reindex temporary (price result data) for defined product(s)
      *
      * @param int|array $entityIds
-     * @return Magento_Downloadable_Model_Resource_Indexer_Price
+     * @return \Magento\Downloadable\Model\Resource\Indexer\Price
      */
     public function reindexEntity($entityIds)
     {
@@ -74,7 +76,7 @@ class Magento_Downloadable_Model_Resource_Indexer_Price extends Magento_Catalog_
     /**
      * Prepare downloadable links price temporary index table
      *
-     * @return Magento_Downloadable_Model_Resource_Indexer_Price
+     * @return \Magento\Downloadable\Model\Resource\Indexer\Price
      */
     protected function _prepareDownloadableLinkPriceTable()
     {
@@ -85,7 +87,7 @@ class Magento_Downloadable_Model_Resource_Indexer_Price extends Magento_Catalog_
     /**
      * Calculate and apply Downloadable links price to index
      *
-     * @return Magento_Downloadable_Model_Resource_Indexer_Price
+     * @return \Magento\Downloadable\Model\Resource\Indexer\Price
      */
     protected function _applyDownloadableLink()
     {
@@ -122,8 +124,8 @@ class Magento_Downloadable_Model_Resource_Indexer_Price extends Magento_Catalog_
             ->where('dl.value = ?', 1)
             ->group(array('i.entity_id', 'i.customer_group_id', 'i.website_id'))
             ->columns(array(
-                'min_price' => new Zend_Db_Expr('MIN('.$ifPrice.')'),
-                'max_price' => new Zend_Db_Expr('SUM('.$ifPrice.')')
+                'min_price' => new \Zend_Db_Expr('MIN('.$ifPrice.')'),
+                'max_price' => new \Zend_Db_Expr('SUM('.$ifPrice.')')
             ));
 
         $query = $select->insertFromSelect($table);
@@ -139,10 +141,10 @@ class Magento_Downloadable_Model_Resource_Indexer_Price extends Magento_Catalog_
                     .' AND i.website_id = id.website_id',
                 array())
             ->columns(array(
-                'min_price'   => new Zend_Db_Expr('i.min_price + id.min_price'),
-                'max_price'   => new Zend_Db_Expr('i.max_price + id.max_price'),
-                'tier_price'  => new Zend_Db_Expr($ifTierPrice),
-                'group_price' => new Zend_Db_Expr($ifGroupPrice),
+                'min_price'   => new \Zend_Db_Expr('i.min_price + id.min_price'),
+                'max_price'   => new \Zend_Db_Expr('i.max_price + id.max_price'),
+                'tier_price'  => new \Zend_Db_Expr($ifTierPrice),
+                'group_price' => new \Zend_Db_Expr($ifGroupPrice),
             ));
 
         $query = $select->crossUpdateFromSelect(array('i' => $this->_getDefaultFinalPriceTable()));

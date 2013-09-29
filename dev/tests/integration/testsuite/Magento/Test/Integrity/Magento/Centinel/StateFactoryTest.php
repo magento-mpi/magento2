@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Test_Integrity_Magento_Centinel_StateFactoryTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Integrity\Magento\Centinel;
+
+class StateFactoryTest extends \PHPUnit_Framework_TestCase
 {
 
     public function testFactoryTypes()
@@ -28,10 +30,10 @@ class Magento_Test_Integrity_Magento_Centinel_StateFactoryTest extends PHPUnit_F
      */
     private function _getFactoryTypes()
     {
-        /** @var Magento_Centinel_Model_StateFactory $stateFactory */
-        $stateFactory = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Centinel_Model_StateFactory');
-        $reflectionObj = new ReflectionClass($stateFactory);
+        /** @var \Magento\Centinel\Model\StateFactory $stateFactory */
+        $stateFactory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Centinel\Model\StateFactory');
+        $reflectionObj = new \ReflectionClass($stateFactory);
         $stateMapProp = $reflectionObj->getProperty('_stateClassMap');
         $stateMapProp->setAccessible(true);
         $stateClassMap = $stateMapProp->getValue($stateFactory);
@@ -46,9 +48,9 @@ class Magento_Test_Integrity_Magento_Centinel_StateFactoryTest extends PHPUnit_F
      */
     private function _getCcTypes()
     {
-        /** @var Magento_Payment_Model_Config $paymentConfig */
-        $paymentConfig = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Payment_Model_Config');
+        /** @var \Magento\Payment\Model\Config $paymentConfig */
+        $paymentConfig = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Payment\Model\Config');
         $ccTypes = array_keys($paymentConfig->getCcTypes());
         return $ccTypes;
     }

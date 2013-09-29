@@ -11,26 +11,28 @@
 /**
  * Permission model
  *
- * @method Magento_CatalogPermissions_Model_Resource_Permission _getResource()
- * @method Magento_CatalogPermissions_Model_Resource_Permission getResource()
+ * @method \Magento\CatalogPermissions\Model\Resource\Permission _getResource()
+ * @method \Magento\CatalogPermissions\Model\Resource\Permission getResource()
  * @method int getCategoryId()
- * @method Magento_CatalogPermissions_Model_Permission setCategoryId(int $value)
+ * @method \Magento\CatalogPermissions\Model\Permission setCategoryId(int $value)
  * @method int getWebsiteId()
- * @method Magento_CatalogPermissions_Model_Permission setWebsiteId(int $value)
+ * @method \Magento\CatalogPermissions\Model\Permission setWebsiteId(int $value)
  * @method int getCustomerGroupId()
- * @method Magento_CatalogPermissions_Model_Permission setCustomerGroupId(int $value)
+ * @method \Magento\CatalogPermissions\Model\Permission setCustomerGroupId(int $value)
  * @method int getGrantCatalogCategoryView()
- * @method Magento_CatalogPermissions_Model_Permission setGrantCatalogCategoryView(int $value)
+ * @method \Magento\CatalogPermissions\Model\Permission setGrantCatalogCategoryView(int $value)
  * @method int getGrantCatalogProductPrice()
- * @method Magento_CatalogPermissions_Model_Permission setGrantCatalogProductPrice(int $value)
+ * @method \Magento\CatalogPermissions\Model\Permission setGrantCatalogProductPrice(int $value)
  * @method int getGrantCheckoutItems()
- * @method Magento_CatalogPermissions_Model_Permission setGrantCheckoutItems(int $value)
+ * @method \Magento\CatalogPermissions\Model\Permission setGrantCheckoutItems(int $value)
  *
  * @category    Magento
  * @package     Magento_CatalogPermissions
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CatalogPermissions_Model_Permission extends Magento_Core_Model_Abstract
+namespace Magento\CatalogPermissions\Model;
+
+class Permission extends \Magento\Core\Model\AbstractModel
 {
     const PERMISSION_ALLOW = -1;
     const PERMISSION_DENY = -2;
@@ -41,6 +43,6 @@ class Magento_CatalogPermissions_Model_Permission extends Magento_Core_Model_Abs
      */
     protected function _construct()
     {
-        $this->_init('Magento_CatalogPermissions_Model_Resource_Permission');
+        $this->_init('Magento\CatalogPermissions\Model\Resource\Permission');
     }
 }

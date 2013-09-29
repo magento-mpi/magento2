@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_VersionsCms_Model_Config_XsdForMenuMergedTest extends PHPUnit_Framework_TestCase
+namespace Magento\VersionsCms\Model\Config;
+
+class XsdForMenuMergedTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Path to xsd schema file
@@ -14,14 +16,14 @@ class Magento_VersionsCms_Model_Config_XsdForMenuMergedTest extends PHPUnit_Fram
     protected $_xsdSchema;
 
     /**
-     * @var Magento_TestFramework_Utility_XsdValidator
+     * @var \Magento\TestFramework\Utility\XsdValidator
      */
     protected $_xsdValidator;
 
     protected function setUp()
     {
         $this->_xsdSchema = BP . '/app/code/Magento/VersionsCms/etc/menu_hierarchy_merged.xsd';
-        $this->_xsdValidator = new Magento_TestFramework_Utility_XsdValidator();
+        $this->_xsdValidator = new \Magento\TestFramework\Utility\XsdValidator();
     }
 
     /**

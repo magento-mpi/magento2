@@ -31,7 +31,7 @@
         <dbName><![CDATA[magento2]]></dbName>
         <initStatements><![CDATA[SET NAMES utf8]]></initStatements>
         <model><![CDATA[mysql4]]></model>
-        <adapter>Magento_TestFramework_Db_ConnectionAdapter</adapter>
+        <adapter>Magento\TestFramework\Db\ConnectionAdapter</adapter>
         <active>1</active>
     </connection>
     <session_save><![CDATA[files]]></session_save>

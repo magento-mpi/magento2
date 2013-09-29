@@ -14,7 +14,9 @@
  * @author Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Tax_Block_Checkout_Shipping extends Magento_Checkout_Block_Total_Default
+namespace Magento\Tax\Block\Checkout;
+
+class Shipping extends \Magento\Checkout\Block\Total\DefaultTotal
 {
     protected $_template = 'checkout/shipping.phtml';
 
@@ -25,7 +27,7 @@ class Magento_Tax_Block_Checkout_Shipping extends Magento_Checkout_Block_Total_D
      */
     public function displayBoth()
     {
-        return Mage::getSingleton('Magento_Tax_Model_Config')->displayCartShippingBoth($this->getStore());
+        return \Mage::getSingleton('Magento\Tax\Model\Config')->displayCartShippingBoth($this->getStore());
     }
 
     /**
@@ -35,7 +37,7 @@ class Magento_Tax_Block_Checkout_Shipping extends Magento_Checkout_Block_Total_D
      */
     public function displayIncludeTax()
     {
-        return Mage::getSingleton('Magento_Tax_Model_Config')->displayCartShippingInclTax($this->getStore());
+        return \Mage::getSingleton('Magento\Tax\Model\Config')->displayCartShippingInclTax($this->getStore());
     }
 
     /**

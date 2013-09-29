@@ -10,7 +10,7 @@
 ?>
 <?php
 /**
- * @see Magento_Bundle_Block_Adminhtml_Sales_Order_Items_Renderer
+ * @see \Magento\Bundle\Block\Adminhtml\Sales\Order\Items\Renderer
  */
 ?>
 
@@ -46,7 +46,7 @@
             <div class="product-title"><?php echo $this->escapeHtml($_item->getName()) ?></div>
             <div>
                 <strong><?php echo __('SKU') ?>:</strong>
-                <?php echo implode('<br />', $this->helper('Magento_Catalog_Helper_Data')->splitSku($this->escapeHtml($_item->getSku()))); ?>
+                <?php echo implode('<br />', $this->helper('Magento\Catalog\Helper\Data')->splitSku($this->escapeHtml($_item->getSku()))); ?>
             </div>
         </td>
         <?php else: ?>
@@ -79,7 +79,7 @@
                     <?php if (isset($option['custom_view']) && $option['custom_view']): ?>
                         <?php echo $option['value'];?>
                     <?php else: ?>
-                        <?php echo $this->helper('Magento_Core_Helper_String')->truncate($option['value'], 55, '', $_remainder);?>
+                        <?php echo $this->helper('Magento\Core\Helper\String')->truncate($option['value'], 55, '', $_remainder);?>
                         <?php if ($_remainder):?>
                             ... <span id="<?php echo $_id = 'id' . uniqid()?>"><?php echo $_remainder ?></span>
                             <script type="text/javascript">

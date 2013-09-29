@@ -8,20 +8,20 @@
  */
 -->
 <config>
-    <type name="Magento_Core_Model_RouterList">
+    <type name="Magento\Core\Model\RouterList">
         <param name="routerList">
             <value>
                 <cms>
-                    <instance>Magento_Cms_Controller_Router</instance>
+                    <instance>Magento\Cms\Controller\Router</instance>
                     <disable type="bool">false</disable>
                     <sortOrder>60</sortOrder>
                 </cms>
             </value>
         </param>
     </type>
-    <type name="Magento_Cms_Model_Wysiwyg_Config">
+    <type name="Magento\Cms\Model\Wysiwyg\Config">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
         <param name="windowSize">
             <value>
@@ -30,7 +30,7 @@
             </value>
         </param>
     </type>
-    <type name="Magento_Cms_Model_Wysiwyg_Images_Storage">
+    <type name="Magento\Cms\Model\Wysiwyg\Images\Storage">
         <param name="resizeParameters">
             <value>
                 <height type="int">75</height>
@@ -68,58 +68,58 @@
             </value>
         </param>
     </type>
-    <type name="Magento_Cms_Helper_Page">
+    <type name="Magento\Cms\Helper\Page">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
-    <type name="Magento_Cms_Helper_Wysiwyg_Images">
+    <type name="Magento\Cms\Helper\Wysiwyg\Images">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
-    <type name="Magento_Cms_Model_Page">
+    <type name="Magento\Cms\Model\Page">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>       
     </type>
-    <type name="Magento_Core_Helper_Data">
+    <type name="Magento\Core\Helper\Data">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
         <param name="config">
-            <instance type="Magento_Core_Model_ConfigProxy" />
+            <instance type="Magento\Core\Model\ConfigProxy" />
         </param>
     </type>
-    <type name="Magento_Core_Model_Layout">
+    <type name="Magento\Core\Model\Layout">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
-    <type name="Magento_Core_Model_Locale">
+    <type name="Magento\Core\Model\Locale">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
-    <type name="Magento_Core_Model_Resource_Db_Collection_Abstract">
+    <type name="Magento\Core\Model\Resource\Db\Collection\AbstractCollection">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
-    <type name="Magento_Core_Model_Resource_Setup">
+    <type name="Magento\Core\Model\Resource\Setup">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
-    <type name="Magento_Core_Model_Session_Abstract">
+    <type name="Magento\Core\Model\Session\AbstractSession">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
-    <type name="Magento_Core_Model_Db_Updater">
+    <type name="Magento\Core\Model\Db\Updater">
         <param name="resourceList">
             <value>
-                <cms_setup>Magento_Cms_Model_Resource_Setup</cms_setup>
+                <cms_setup>Magento\Cms\Model\Resource\Setup</cms_setup>
             </value>
         </param>
     </type>

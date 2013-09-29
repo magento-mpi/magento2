@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Autoload_Simple
+namespace Magento\Autoload;
+
+class Simple
 {
     private static $_instance;
 

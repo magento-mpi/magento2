@@ -16,41 +16,43 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Search_Model_Resource_Index extends Magento_CatalogSearch_Model_Resource_Fulltext
+namespace Magento\Search\Model\Resource;
+
+class Index extends \Magento\CatalogSearch\Model\Resource\Fulltext
 {
     /**
      * Store manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * Core resource helper
      *
-     * @var Magento_Core_Model_Resource_Helper
+     * @var \Magento\Core\Model\Resource\Helper
      */
     protected $_resourceHelper;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Helper_String $coreString
-     * @param Magento_CatalogSearch_Helper_Data $catalogSearchData
-     * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Resource_Helper $resourceHelper
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Helper\String $coreString
+     * @param \Magento\CatalogSearch\Helper\Data $catalogSearchData
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Resource\Helper $resourceHelper
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Helper_String $coreString,
-        Magento_CatalogSearch_Helper_Data $catalogSearchData,
-        Magento_Core_Model_Resource $resource,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Resource_Helper $resourceHelper
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Helper\String $coreString,
+        \Magento\CatalogSearch\Helper\Data $catalogSearchData,
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Resource\Helper $resourceHelper
     ) {
         parent::__construct($eventManager, $coreString, $catalogSearchData, $resource, $coreStoreConfig);
         $this->_storeManager = $storeManager;

@@ -15,22 +15,24 @@
  * @package     Magento_Search
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Search_Model_Resource_Recommendations extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Search\Model\Resource;
+
+class Recommendations extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
-     * @var Magento_CatalogSearch_Model_Query
+     * @var \Magento\CatalogSearch\Model\Query
      */
     protected $_searchQueryModel;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Model_Resource $resource
-     * @param Magento_CatalogSearch_Model_QueryFactory $queryFactory
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\CatalogSearch\Model\QueryFactory $queryFactory
      */
     public function __construct(
-        Magento_Core_Model_Resource $resource,
-        Magento_CatalogSearch_Model_QueryFactory $queryFactory
+        \Magento\Core\Model\Resource $resource,
+        \Magento\CatalogSearch\Model\QueryFactory $queryFactory
     ) {
         parent::__construct($resource);
         $this->_searchQueryModel = $queryFactory->create();
@@ -50,7 +52,7 @@ class Magento_Search_Model_Resource_Recommendations extends Magento_Core_Model_R
      *
      * @param int $queryId
      * @param array $relatedQueries
-     * @return Magento_Search_Model_Resource_Query
+     * @return \Magento\Search\Model\Resource\Query
      */
     public function saveRelatedQueries($queryId, $relatedQueries = array())
     {
@@ -102,7 +104,7 @@ class Magento_Search_Model_Resource_Recommendations extends Magento_Core_Model_R
                 array('sr' => $collection->getTable('catalogsearch_recommendations')),
                 '(sr.query_id=main_table.query_id OR sr.relation_id=main_table.query_id) AND ' . $queryIdCond
             )
-            ->reset(Zend_Db_Select::COLUMNS)
+            ->reset(\Zend_Db_Select::COLUMNS)
             ->columns(array(
                  'rel_id' => $adapter->getCheckSql('main_table.query_id=sr.query_id', 'sr.relation_id', 'sr.query_id')
             ));
@@ -187,7 +189,7 @@ class Magento_Search_Model_Resource_Recommendations extends Magento_Core_Model_R
             ->from($this->_searchQueryModel->getResource()->getMainTable(), array(
                 'query_id'
             ))
-            ->where(new Zend_Db_Expr($likeCondition))
+            ->where(new \Zend_Db_Expr($likeCondition))
             ->where('store_id=?', $this->_searchQueryModel->getStoreId())
             ->order('num_results DESC')
             ->limit($searchRecommendationsCount + 1);

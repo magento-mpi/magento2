@@ -10,7 +10,7 @@
 
 
 /**
- * Core Session Exception
+ * Core Session \Exception
  *
  * Allows dispatching before and after events for each controller action
  *
@@ -18,5 +18,7 @@
  * @package    Magento_Payment
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Payment_Model_Info_Exception extends Magento_Core_Exception
+namespace Magento\Payment\Model\Info;
+
+class Exception extends \Magento\Core\Exception
 {}

@@ -10,9 +10,11 @@
  */
 
 /**
- * Test for Magento_Webapi_Model_Source_Acl_Role.
+ * Test for \Magento\Webapi\Model\Source\Acl\Role.
  */
-class Magento_Webapi_Model_Source_Acl_RoleTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webapi\Model\Source\Acl;
+
+class RoleTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Check output format.
@@ -25,7 +27,7 @@ class Magento_Webapi_Model_Source_Acl_RoleTest extends PHPUnit_Framework_TestCas
      */
     public function testToOptionHashFormat($addEmpty, $data, $expected)
     {
-        $resourceMock = $this->getMockBuilder('Magento_Webapi_Model_Resource_Acl_Role')
+        $resourceMock = $this->getMockBuilder('Magento\Webapi\Model\Resource\Acl\Role')
             ->setMethods(array('getRolesList'))
             ->disableOriginalConstructor()
             ->getMock();
@@ -33,7 +35,7 @@ class Magento_Webapi_Model_Source_Acl_RoleTest extends PHPUnit_Framework_TestCas
             ->method('getRolesList')
             ->will($this->returnValue($data));
 
-        $model = new Magento_Webapi_Model_Source_Acl_Role(array(
+        $model = new \Magento\Webapi\Model\Source\Acl\Role(array(
             'resource' => $resourceMock
         ));
 

@@ -12,24 +12,26 @@
 /**
  * Eav Form Type Model
  *
- * @method Magento_Eav_Model_Resource_Form_Type _getResource()
- * @method Magento_Eav_Model_Resource_Form_Type getResource()
+ * @method \Magento\Eav\Model\Resource\Form\Type _getResource()
+ * @method \Magento\Eav\Model\Resource\Form\Type getResource()
  * @method string getCode()
- * @method Magento_Eav_Model_Form_Type setCode(string $value)
+ * @method \Magento\Eav\Model\Form\Type setCode(string $value)
  * @method string getLabel()
- * @method Magento_Eav_Model_Form_Type setLabel(string $value)
+ * @method \Magento\Eav\Model\Form\Type setLabel(string $value)
  * @method int getIsSystem()
- * @method Magento_Eav_Model_Form_Type setIsSystem(int $value)
+ * @method \Magento\Eav\Model\Form\Type setIsSystem(int $value)
  * @method string getTheme()
- * @method Magento_Eav_Model_Form_Type setTheme(string $value)
+ * @method \Magento\Eav\Model\Form\Type setTheme(string $value)
  * @method int getStoreId()
- * @method Magento_Eav_Model_Form_Type setStoreId(int $value)
+ * @method \Magento\Eav\Model\Form\Type setStoreId(int $value)
  *
  * @category    Magento
  * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Eav_Model_Form_Type extends Magento_Core_Model_Abstract
+namespace Magento\Eav\Model\Form;
+
+class Type extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Prefix of model events names
@@ -44,13 +46,13 @@ class Magento_Eav_Model_Form_Type extends Magento_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('Magento_Eav_Model_Resource_Form_Type');
+        $this->_init('Magento\Eav\Model\Resource\Form\Type');
     }
 
     /**
      * Retrieve resource instance wrapper
      *
-     * @return Magento_Eav_Model_Resource_Form_Type
+     * @return \Magento\Eav\Model\Resource\Form\Type
      */
     protected function _getResource()
     {
@@ -60,7 +62,7 @@ class Magento_Eav_Model_Form_Type extends Magento_Core_Model_Abstract
     /**
      * Retrieve resource collection instance wrapper
      *
-     * @return Magento_Eav_Model_Resource_Form_Type_Collection
+     * @return \Magento\Eav\Model\Resource\Form\Type\Collection
      */
     public function getCollection()
     {
@@ -84,7 +86,7 @@ class Magento_Eav_Model_Form_Type extends Magento_Core_Model_Abstract
      * Set assigned Eav Entity types
      *
      * @param array $entityTypes
-     * @return Magento_Eav_Model_Form_Type
+     * @return \Magento\Eav\Model\Form\Type
      */
     public function setEntityTypes(array $entityTypes)
     {
@@ -96,7 +98,7 @@ class Magento_Eav_Model_Form_Type extends Magento_Core_Model_Abstract
      * Assign Entity Type to Form Type
      *
      * @param int $entityTypeId
-     * @return Magento_Eav_Model_Form_Type
+     * @return \Magento\Eav\Model\Form\Type
      */
     public function addEntityType($entityTypeId)
     {
@@ -111,23 +113,23 @@ class Magento_Eav_Model_Form_Type extends Magento_Core_Model_Abstract
     /**
      * Copy Form Type properties from skeleton form type
      *
-     * @param Magento_Eav_Model_Form_Type $skeleton
-     * @return Magento_Eav_Model_Form_Type
+     * @param \Magento\Eav\Model\Form\Type $skeleton
+     * @return \Magento\Eav\Model\Form\Type
      */
-    public function createFromSkeleton(Magento_Eav_Model_Form_Type $skeleton)
+    public function createFromSkeleton(\Magento\Eav\Model\Form\Type $skeleton)
     {
-        $fieldsetCollection = Mage::getModel('Magento_Eav_Model_Form_Fieldset')->getCollection()
+        $fieldsetCollection = \Mage::getModel('Magento\Eav\Model\Form\Fieldset')->getCollection()
             ->addTypeFilter($skeleton)
             ->setSortOrder();
-        $elementCollection = Mage::getModel('Magento_Eav_Model_Form_Element')->getCollection()
+        $elementCollection = \Mage::getModel('Magento\Eav\Model\Form\Element')->getCollection()
             ->addTypeFilter($skeleton)
             ->setSortOrder();
 
         // copy fieldsets
         $fieldsetMap = array();
         foreach ($fieldsetCollection as $skeletonFieldset) {
-            /* @var $skeletonFieldset Magento_Eav_Model_Form_Fieldset */
-            $fieldset = Mage::getModel('Magento_Eav_Model_Form_Fieldset');
+            /* @var $skeletonFieldset \Magento\Eav\Model\Form\Fieldset */
+            $fieldset = \Mage::getModel('Magento\Eav\Model\Form\Fieldset');
             $fieldset->setTypeId($this->getId())
                 ->setCode($skeletonFieldset->getCode())
                 ->setLabels($skeletonFieldset->getLabels())
@@ -138,8 +140,8 @@ class Magento_Eav_Model_Form_Type extends Magento_Core_Model_Abstract
 
         // copy elements
         foreach ($elementCollection as $skeletonElement) {
-            /* @var $skeletonElement Magento_Eav_Model_Form_Element */
-            $element = Mage::getModel('Magento_Eav_Model_Form_Element');
+            /* @var $skeletonElement \Magento\Eav\Model\Form\Element */
+            $element = \Mage::getModel('Magento\Eav\Model\Form\Element');
             $fieldsetId = null;
             if ($skeletonElement->getFieldsetId()) {
                 $fieldsetId = $fieldsetMap[$skeletonElement->getFieldsetId()];

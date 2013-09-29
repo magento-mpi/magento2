@@ -11,7 +11,9 @@
 /**
  * System configuration comment model interface
  */
-interface Magento_Backend_Model_Config_CommentInterface
+namespace Magento\Backend\Model\Config;
+
+interface CommentInterface
 {
     /**
      * Retrieve element comment by element value

@@ -9,23 +9,25 @@
  */
 
 /**
- * Factory class for Magento_Sales_Model_Order_Pdf_Items_Abstract
+ * Factory class for \Magento\Sales\Model\Order\Pdf\Items\AbstractItems
  */
-class Magento_Sales_Model_Order_Pdf_ItemsFactory
+namespace Magento\Sales\Model\Order\Pdf;
+
+class ItemsFactory
 {
     /**
      * Object Manager instance
      *
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager = null;
 
     /**
      * Factory constructor
      *
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
@@ -35,7 +37,7 @@ class Magento_Sales_Model_Order_Pdf_ItemsFactory
      *
      * @param string $instanceName
      * @param array $data
-     * @return Magento_Sales_Model_Order_Pdf_Items_Abstract
+     * @return \Magento\Sales\Model\Order\Pdf\Items\AbstractItems
      */
     public function get($instanceName, array $data = array())
     {

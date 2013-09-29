@@ -9,7 +9,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Magento_Profiler_DriverInterface
+namespace Magento\Profiler;
+
+interface DriverInterface
 {
     /**
      * Start timer

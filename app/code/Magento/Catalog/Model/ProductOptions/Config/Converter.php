@@ -5,14 +5,16 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Catalog_Model_ProductOptions_Config_Converter implements Magento_Config_ConverterInterface
+namespace Magento\Catalog\Model\ProductOptions\Config;
+
+class Converter implements \Magento\Config\ConverterInterface
 {
     /**
      * Convert dom node tree to array
      *
-     * @param DOMDocument $source
+     * @param \DOMDocument $source
      * @return array
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function convert($source)
     {
@@ -51,7 +53,7 @@ class Magento_Catalog_Model_ProductOptions_Config_Converter implements Magento_C
      * @param mixed $defaultValue
      * @return null|string
      */
-    protected function _getAttributeValue(DOMNode $node, $attributeName, $defaultValue = null)
+    protected function _getAttributeValue(\DOMNode $node, $attributeName, $defaultValue = null)
     {
         $attributeNode = $node->attributes->getNamedItem($attributeName);
         $output = $defaultValue;

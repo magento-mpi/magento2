@@ -20,7 +20,7 @@ create_shopping_cart_price_rule:
                             -
                                 apply_for_rule_condition:
                                     pageelements:
-                                        customer_segments: //select[@id='conditions__1__new_child']//option[@value='Magento_CustomerSegment_Model_Segment_Condition_Segment']
+                                        customer_segments: //select[@id='conditions__1__new_child']//option[@value='Magento\CustomerSegment\Model\Segment\Condition\Segment']
                                         weight_attribute: //option[contains(@value, 'Model_Rule_Condition_Product|weight')]
                 -
                     rule_related_banners:

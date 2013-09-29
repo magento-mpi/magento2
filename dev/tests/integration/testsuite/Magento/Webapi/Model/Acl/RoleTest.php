@@ -1,6 +1,8 @@
 <?php
+namespace Magento\Webapi\Model\Acl;
+
 /**
- * Test for Magento_Webapi_Model_Acl_Role model.
+ * Test for \Magento\Webapi\Model\Acl\Role model.
  *
  * {license_notice}
  *
@@ -8,15 +10,15 @@
  * @license     {license_link}
  * @magentoDataFixture Magento/Webapi/_files/role.php
  */
-class Magento_Webapi_Model_Acl_RoleTest extends PHPUnit_Framework_TestCase
+class RoleTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_TestFramework_ObjectManager
+     * @var \Magento\TestFramework\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @var Magento_Webapi_Model_Acl_Role
+     * @var \Magento\Webapi\Model\Acl\Role
      */
     protected $_model;
 
@@ -25,8 +27,8 @@ class Magento_Webapi_Model_Acl_RoleTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $this->_model = $this->_objectManager->create('Magento_Webapi_Model_Acl_Role');
+        $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $this->_model = $this->_objectManager->create('Magento\Webapi\Model\Acl\Role');
     }
 
     /**
@@ -35,7 +37,7 @@ class Magento_Webapi_Model_Acl_RoleTest extends PHPUnit_Framework_TestCase
     public function testCRUD()
     {
         $this->_model->setRoleName('Test Role Name');
-        $crud = new Magento_TestFramework_Entity($this->_model, array('role_name' => '_Role_Name_'));
+        $crud = new \Magento\TestFramework\Entity($this->_model, array('role_name' => '_Role_Name_'));
         $crud->testCrud();
     }
 }

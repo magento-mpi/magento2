@@ -1,13 +1,15 @@
 <?php
 /**
- * Magento_Core_Model_DataService_Invoker
+ * \Magento\Core\Model\DataService\Invoker
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_DataService_InvokerTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\DataService;
+
+class InvokerTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Fake info for service and classes.
@@ -21,22 +23,22 @@ class Magento_Core_Model_DataService_InvokerTest extends PHPUnit_Framework_TestC
     const TEST_NAMESPACE_ALIAS = 'TEST_NAMESPACE_ALIAS';
 
     /**
-     * @var Magento_Core_Model_DataService_Invoker
+     * @var \Magento\Core\Model\DataService\Invoker
      */
     protected $_invoker;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_configMock;
 
     /**
-     * @var  PHPUnit_Framework_MockObject_MockObject
+     * @var  \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_objectManagerMock;
 
     /**
-     * @var  PHPUnit_Framework_MockObject_MockObject
+     * @var  \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_compositeMock;
 
@@ -48,7 +50,7 @@ class Magento_Core_Model_DataService_InvokerTest extends PHPUnit_Framework_TestC
     protected $_dataServiceMock;
 
     /**
-     * @var  PHPUnit_Framework_MockObject_MockObject
+     * @var  \PHPUnit_Framework_MockObject_MockObject
      */
     private $_navigator;
 
@@ -64,19 +66,19 @@ class Magento_Core_Model_DataService_InvokerTest extends PHPUnit_Framework_TestC
 
     protected function setUp()
     {
-        $this->_configMock = $this->getMockBuilder('Magento_Core_Model_DataService_ConfigInterface')
+        $this->_configMock = $this->getMockBuilder('Magento\Core\Model\DataService\ConfigInterface')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_objectManagerMock = $this->getMockBuilder('Magento_ObjectManager')
+        $this->_objectManagerMock = $this->getMockBuilder('Magento\ObjectManager')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_compositeMock = $this->getMockBuilder('Magento_Core_Model_DataService_Path_Composite')
+        $this->_compositeMock = $this->getMockBuilder('Magento\Core\Model\DataService\Path\Composite')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_navigator = $this->getMockBuilder('Magento_Core_Model_DataService_Path_Navigator')
+        $this->_navigator = $this->getMockBuilder('Magento\Core\Model\DataService\Path\Navigator')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_invoker = new Magento_Core_Model_DataService_Invoker(
+        $this->_invoker = new \Magento\Core\Model\DataService\Invoker(
             $this->_configMock,
             $this->_objectManagerMock,
             $this->_compositeMock,
@@ -130,7 +132,7 @@ class Magento_Core_Model_DataService_InvokerTest extends PHPUnit_Framework_TestC
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage return an array
      */
     public function testGetServiceDataFailsIfNotArray()

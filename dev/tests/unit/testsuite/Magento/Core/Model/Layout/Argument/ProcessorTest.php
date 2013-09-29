@@ -10,43 +10,45 @@
  */
 
 /**
- * Test class for Magento_Core_Model_Layout_Argument_Processor
+ * Test class for \Magento\Core\Model\Layout\Argument\Processor
  */
-class Magento_Core_Model_Layout_Argument_ProcessorTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Layout\Argument;
+
+class ProcessorTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Layout_Argument_Processor
+     * @var \Magento\Core\Model\Layout\Argument\Processor
      */
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_argumentUpdaterMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_handlerFactory;
 
     protected function setUp()
     {
         $this->_argumentUpdaterMock = $this->getMock(
-            'Magento_Core_Model_Layout_Argument_Updater',
+            'Magento\Core\Model\Layout\Argument\Updater',
             array(),
             array(),
             '',
             false
         );
         $this->_handlerFactory = $this->getMock(
-            'Magento_Core_Model_Layout_Argument_HandlerFactory',
+            'Magento\Core\Model\Layout\Argument\HandlerFactory',
             array(),
             array(),
             '',
             false
         );
 
-        $this->_model = new Magento_Core_Model_Layout_Argument_Processor($this->_argumentUpdaterMock,
+        $this->_model = new \Magento\Core\Model\Layout\Argument\Processor($this->_argumentUpdaterMock,
             $this->_handlerFactory
         );
     }
@@ -60,7 +62,7 @@ class Magento_Core_Model_Layout_Argument_ProcessorTest extends PHPUnit_Framework
     public function testProcess(array $argument, $isUpdater, $result)
     {
         $argumentHandlerMock = $this->getMock(
-            'Magento_Core_Model_Layout_Argument_HandlerInterface', array(), array(), '', false
+            'Magento\Core\Model\Layout\Argument\HandlerInterface', array(), array(), '', false
         );
         $argumentHandlerMock->expects($this->once())
             ->method('process')
@@ -112,13 +114,13 @@ class Magento_Core_Model_Layout_Argument_ProcessorTest extends PHPUnit_Framework
 
     public function testParse()
     {
-        // Because descendants of SimpleXMLElement couldn't be mocked
-        $argument = new Magento_Core_Model_Layout_Element('<argument xsi:type="string" name="argumentName" '
+        // Because descendants of \SimpleXMLElement couldn't be mocked
+        $argument = new \Magento\Core\Model\Layout\Element('<argument xsi:type="string" name="argumentName" '
             . 'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Value</argument>'
         );
 
         $argumentHandlerMock = $this->getMock(
-            'Magento_Core_Model_Layout_Argument_HandlerInterface', array(), array(), '', false
+            'Magento\Core\Model\Layout\Argument\HandlerInterface', array(), array(), '', false
         );
         $argumentHandlerMock->expects($this->once())
             ->method('parse')

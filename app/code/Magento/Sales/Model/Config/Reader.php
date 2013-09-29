@@ -12,7 +12,9 @@
  * Sales configuration filesystem loader. Loads all totals (incl. nominal, creditmemo, invoice)
  * configuration from XML file
  */
-class Magento_Sales_Model_Config_Reader extends Magento_Config_Reader_Filesystem
+namespace Magento\Sales\Model\Config;
+
+class Reader extends \Magento\Config\Reader\Filesystem
 {
 
     /**
@@ -28,22 +30,22 @@ class Magento_Sales_Model_Config_Reader extends Magento_Config_Reader_Filesystem
     );
 
     /**
-     * @param Magento_Config_FileResolverInterface $fileResolver
-     * @param Magento_Sales_Model_Config_Converter $converter
-     * @param Magento_Config_ValidationStateInterface $validationState
-     * @param Magento_Sales_Model_Config_SchemaLocator $schemaLocator
+     * @param \Magento\Config\FileResolverInterface $fileResolver
+     * @param \Magento\Sales\Model\Config\Converter $converter
+     * @param \Magento\Config\ValidationStateInterface $validationState
+     * @param \Magento\Sales\Model\Config\SchemaLocator $schemaLocator
      * @param string $fileName
      * @param array $idAttributes
      * @param string $domDocumentClass
      */
     public function __construct(
-        Magento_Config_FileResolverInterface $fileResolver,
-        Magento_Sales_Model_Config_Converter $converter,
-        Magento_Sales_Model_Config_SchemaLocator $schemaLocator,
-        Magento_Config_ValidationStateInterface $validationState,
+        \Magento\Config\FileResolverInterface $fileResolver,
+        \Magento\Sales\Model\Config\Converter $converter,
+        \Magento\Sales\Model\Config\SchemaLocator $schemaLocator,
+        \Magento\Config\ValidationStateInterface $validationState,
         $fileName = 'sales.xml',
         $idAttributes = array(),
-        $domDocumentClass = 'Magento_Config_Dom'
+        $domDocumentClass = 'Magento\Config\Dom'
     ) {
         parent::__construct(
             $fileResolver, $converter, $schemaLocator, $validationState, $fileName, $idAttributes, $domDocumentClass

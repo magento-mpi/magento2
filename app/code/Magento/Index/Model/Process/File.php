@@ -11,7 +11,9 @@
 /**
  * Process file entity
  */
-class Magento_Index_Model_Process_File extends Magento_Io_File
+namespace Magento\Index\Model\Process;
+
+class File extends \Magento\Io\File
 {
     /**
      * Process lock flag:

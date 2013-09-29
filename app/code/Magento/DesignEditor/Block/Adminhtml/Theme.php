@@ -11,10 +11,12 @@
 /**
  * Design editor theme
  *
- * @method Magento_DesignEditor_Block_Adminhtml_Theme setTheme(Magento_Core_Model_Theme $theme)
- * @method Magento_Core_Model_Theme getTheme()
+ * @method \Magento\DesignEditor\Block\Adminhtml\Theme setTheme(\Magento\Core\Model\Theme $theme)
+ * @method \Magento\Core\Model\Theme getTheme()
  */
-class Magento_DesignEditor_Block_Adminhtml_Theme extends Magento_Backend_Block_Template
+namespace Magento\DesignEditor\Block\Adminhtml;
+
+class Theme extends \Magento\Backend\Block\Template
 {
     /**
      * Buttons array
@@ -26,8 +28,8 @@ class Magento_DesignEditor_Block_Adminhtml_Theme extends Magento_Backend_Block_T
     /**
      * Add button
      *
-     * @param Magento_Backend_Block_Widget_Button $button
-     * @return Magento_DesignEditor_Block_Adminhtml_Theme
+     * @param \Magento\Backend\Block\Widget\Button $button
+     * @return \Magento\DesignEditor\Block\Adminhtml\Theme
      */
     public function addButton($button)
     {
@@ -38,7 +40,7 @@ class Magento_DesignEditor_Block_Adminhtml_Theme extends Magento_Backend_Block_T
     /**
      * Clear buttons
      *
-     * @return Magento_DesignEditor_Block_Adminhtml_Theme
+     * @return \Magento\DesignEditor\Block\Adminhtml\Theme
      */
     public function clearButtons()
     {
@@ -54,7 +56,7 @@ class Magento_DesignEditor_Block_Adminhtml_Theme extends Magento_Backend_Block_T
     public function getButtonsHtml()
     {
         $output = '';
-        /** @var $button Magento_Backend_Block_Widget_Button */
+        /** @var $button \Magento\Backend\Block\Widget\Button */
         foreach ($this->_buttons as $button) {
             $output .= $button->toHtml();
         }
@@ -69,7 +71,7 @@ class Magento_DesignEditor_Block_Adminhtml_Theme extends Magento_Backend_Block_T
     public function getStoresTitles()
     {
         $storesTitles = array();
-        /** @var $store Magento_Core_Model_Store */
+        /** @var $store \Magento\Core\Model\Store */
         foreach ($this->getTheme()->getAssignedStores() as $store) {
             $storesTitles[] = $store->getName();
         }
@@ -89,20 +91,20 @@ class Magento_DesignEditor_Block_Adminhtml_Theme extends Magento_Backend_Block_T
             'theme_title' => $theme->getThemeTitle()
         );
 
-        /** @var $helper Magento_Core_Helper_Data */
-        $helper = $this->helper('Magento_Core_Helper_Data');
+        /** @var $helper \Magento\Core\Helper\Data */
+        $helper = $this->helper('Magento\Core\Helper\Data');
         return $helper->jsonEncode($options);
     }
 
     /**
      * Get quick save button
      *
-     * @return Magento_Backend_Block_Widget_Button
+     * @return \Magento\Backend\Block\Widget\Button
      */
     public function getQuickSaveButton()
     {
-        /** @var $saveButton Magento_Backend_Block_Widget_Button */
-        $saveButton = $this->getLayout()->createBlock('Magento_Backend_Block_Widget_Button');
+        /** @var $saveButton \Magento\Backend\Block\Widget\Button */
+        $saveButton = $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button');
         $saveButton->setData(array(
             'label'     => __('Save'),
             'class'     => 'action-save',

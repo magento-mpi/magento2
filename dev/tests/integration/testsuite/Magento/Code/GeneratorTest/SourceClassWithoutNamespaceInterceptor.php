@@ -1,26 +1,28 @@
 <?php
 /**
- * Interceptor class for Magento_Code_GeneratorTest_SourceClassWithoutNamespace
+ * Interceptor class for \Magento\Code\GeneratorTest\SourceClassWithoutNamespace
  *
  * {license_notice}
  *
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Code_GeneratorTest_SourceClassWithoutNamespaceInterceptor
-    extends \Magento_Code_GeneratorTest_SourceClassWithoutNamespace
+namespace Magento\Code\GeneratorTest;
+
+class SourceClassWithoutNamespaceInterceptor
+    extends \Magento\Code\GeneratorTest\SourceClassWithoutNamespace
 {
     /**
      * Object Manager factory
      *
-     * @var \Magento_ObjectManager_Factory
+     * @var \Magento\ObjectManager\Factory
      */
     protected $_factory = null;
 
     /**
      * Object Manager instance
      *
-     * @var \Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager = null;
 
@@ -34,14 +36,14 @@ class Magento_Code_GeneratorTest_SourceClassWithoutNamespaceInterceptor
     /**
      * Subject
      *
-     * @var \Magento_Code_GeneratorTest_SourceClassWithoutNamespace
+     * @var \Magento\Code\GeneratorTest\SourceClassWithoutNamespace
      */
     protected $_subject = null;
 
     /**
      * List of plugins
      *
-     * @var \Magento_Interception_PluginList
+     * @var \Magento\Interception\PluginList
      */
     protected $_pluginList = null;
 
@@ -55,17 +57,17 @@ class Magento_Code_GeneratorTest_SourceClassWithoutNamespaceInterceptor
     /**
      * Interceptor constructor
      *
-     * @param \Magento_ObjectManager_Factory $factory
-     * @param \Magento_ObjectManager_ObjectManager $objectManager
+     * @param \Magento\ObjectManager\Factory $factory
+     * @param \Magento\ObjectManager\ObjectManager $objectManager
      * @param string $subjectType
-     * @param \Magento_Interception_PluginList $pluginList
+     * @param \Magento\Interception\PluginList $pluginList
      * @param array $arguments
      */
     public function __construct(
-        \Magento_ObjectManager_Factory $factory,
-        \Magento_ObjectManager_ObjectManager $objectManager,
+        \Magento\ObjectManager\Factory $factory,
+        \Magento\ObjectManager\ObjectManager $objectManager,
         $subjectType,
-        \Magento_Interception_PluginList $pluginList,
+        \Magento\Interception\PluginList $pluginList,
         array $arguments
     ) {
         $this->_factory = $factory;
@@ -102,7 +104,7 @@ class Magento_Code_GeneratorTest_SourceClassWithoutNamespaceInterceptor
             $methodArguments = $this->_objectManager->get($plugin)
                 ->$beforeMethodName($methodArguments);
         }
-        $invocationChain = new \Magento_Code_Plugin_InvocationChain(
+        $invocationChain = new \Magento\Code\Plugin\InvocationChain(
             $this->_getSubject(),
             $methodName,
             $this->_objectManager,
@@ -142,8 +144,8 @@ class Magento_Code_GeneratorTest_SourceClassWithoutNamespaceInterceptor
      */
     public function __wakeup()
     {
-        $this->_objectManager = Magento_Core_Model_ObjectManager::getInstance();
-        $this->_pluginList = $this->_objectManager->get('Magento_Interception_PluginList');
+        $this->_objectManager = \Magento\Core\Model\ObjectManager::getInstance();
+        $this->_pluginList = $this->_objectManager->get('Magento\Interception\PluginList');
     }
 
     /**

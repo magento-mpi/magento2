@@ -11,7 +11,9 @@
  *
  * @author Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Oauth_Model_Resource_Consumer extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Oauth\Model\Resource;
+
+class Consumer extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Initialize resource model
@@ -26,10 +28,10 @@ class Magento_Oauth_Model_Resource_Consumer extends Magento_Core_Model_Resource_
     /**
      * Set updated_at automatically before saving
      *
-     * @param Magento_Core_Model_Abstract $object
-     * @return Magento_Oauth_Model_Resource_Consumer
+     * @param \Magento\Core\Model\AbstractModel $object
+     * @return \Magento\Oauth\Model\Resource\Consumer
      */
-    public function _beforeSave(Magento_Core_Model_Abstract $object)
+    public function _beforeSave(\Magento\Core\Model\AbstractModel $object)
     {
         $object->setUpdatedAt($this->formatDate(time()));
         return parent::_beforeSave($object);
@@ -38,10 +40,10 @@ class Magento_Oauth_Model_Resource_Consumer extends Magento_Core_Model_Resource_
     /**
      * Delete all Nonce entries associated with the consumer
      *
-     * @param Magento_Core_Model_Abstract $object
-     * @return Magento_Oauth_Model_Resource_Consumer
+     * @param \Magento\Core\Model\AbstractModel $object
+     * @return \Magento\Oauth\Model\Resource\Consumer
      */
-    public function _afterDelete(Magento_Core_Model_Abstract $object)
+    public function _afterDelete(\Magento\Core\Model\AbstractModel $object)
     {
         $adapter = $this->_getWriteAdapter();
         $adapter->delete($this->getTable('oauth_nonce'), array('consumer_id' => $object->getId()));

@@ -15,32 +15,34 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Sales_Order_Create_Shipping_Method_Form
-    extends Magento_Adminhtml_Block_Sales_Order_Create_Abstract
+namespace Magento\Adminhtml\Block\Sales\Order\Create\Shipping\Method;
+
+class Form
+    extends \Magento\Adminhtml\Block\Sales\Order\Create\AbstractCreate
 {
     protected $_rates;
 
     /**
      * Tax data
      *
-     * @var Magento_Tax_Helper_Data
+     * @var \Magento\Tax\Helper\Data
      */
     protected $_taxData = null;
 
     /**
-     * @param Magento_Tax_Helper_Data $taxData
-     * @param Magento_Adminhtml_Model_Session_Quote $sessionQuote
-     * @param Magento_Adminhtml_Model_Sales_Order_Create $orderCreate
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Adminhtml\Model\Session\Quote $sessionQuote
+     * @param \Magento\Adminhtml\Model\Sales\Order\Create $orderCreate
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Tax_Helper_Data $taxData,
-        Magento_Adminhtml_Model_Session_Quote $sessionQuote,
-        Magento_Adminhtml_Model_Sales_Order_Create $orderCreate,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Adminhtml\Model\Session\Quote $sessionQuote,
+        \Magento\Adminhtml\Model\Sales\Order\Create $orderCreate,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_taxData = $taxData;
@@ -56,7 +58,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Shipping_Method_Form
     /**
      * Retrieve quote shipping address model
      *
-     * @return Magento_Sales_Model_Quote_Address
+     * @return \Magento\Sales\Model\Quote\Address
      */
     public function getAddress()
     {
@@ -114,7 +116,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Shipping_Method_Form
     /**
      * Retrieve rate of active shipping method
      *
-     * @return Magento_Sales_Model_Quote_Address_Rate || false
+     * @return \Magento\Sales\Model\Quote\Address\Rate || false
      */
     public function getActiveMethodRate()
     {

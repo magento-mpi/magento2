@@ -11,39 +11,41 @@
 /**
  * Websites fieldset for admin roles edit tab
  */
-class Magento_AdminGws_Block_Adminhtml_Permissions_Tab_Rolesedit_Gws extends Magento_Backend_Block_Template
+namespace Magento\AdminGws\Block\Adminhtml\Permissions\Tab\Rolesedit;
+
+class Gws extends \Magento\Backend\Block\Template
 {
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager;
 
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @var Magento_AdminGws_Model_Role
+     * @var \Magento\AdminGws\Model\Role
      */
     protected $_adminGwsRole;
 
     /**
-     * @param Magento_AdminGws_Model_Role $adminGwsRole
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\AdminGws\Model\Role $adminGwsRole
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
-        Magento_AdminGws_Model_Role $adminGwsRole,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManager $storeManager,
-        Magento_Core_Model_Registry $coreRegistry,
+        \Magento\AdminGws\Model\Role $adminGwsRole,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_adminGwsRole = $adminGwsRole;
@@ -73,7 +75,7 @@ class Magento_AdminGws_Block_Adminhtml_Permissions_Tab_Rolesedit_Gws extends Mag
     /**
      * Get the role object
      *
-     * @return Magento_User_Model_Role
+     * @return \Magento\User\Model\Role
      */
     public function getRole()
     {
@@ -112,7 +114,7 @@ class Magento_AdminGws_Block_Adminhtml_Permissions_Tab_Rolesedit_Gws extends Mag
     /**
      * Get websites
      *
-     * @return Magento_Core_Model_Website[]
+     * @return \Magento\Core\Model\Website[]
      */
     public function getWebsites()
     {

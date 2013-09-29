@@ -7,30 +7,32 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Controller_Rest_RequestTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webapi\Controller\Rest;
+
+class RequestTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Request mock.
      *
-     * @var Magento_Webapi_Controller_Rest_Request
+     * @var \Magento\Webapi\Controller\Rest\Request
      */
     protected $_request;
 
-    /** @var Magento_Webapi_Controller_Rest_Request_Deserializer_Factory */
+    /** @var \Magento\Webapi\Controller\Rest\Request\Deserializer\Factory */
     protected $_deserializerFactory;
 
     protected function setUp()
     {
         /** Prepare mocks for request constructor arguments. */
         $this->_deserializerFactory =
-            $this->getMockBuilder('Magento_Webapi_Controller_Rest_Request_Deserializer_Factory')
+            $this->getMockBuilder('Magento\Webapi\Controller\Rest\Request\Deserializer\Factory')
                 ->setMethods(array('deserialize', 'get'))
                 ->disableOriginalConstructor()
                 ->getMock();
-        $applicationMock = $this->getMockBuilder('Magento_Core_Model_App')
+        $applicationMock = $this->getMockBuilder('Magento\Core\Model\App')
             ->disableOriginalConstructor()
             ->getMock();
-        $configMock = $this->getMockBuilder('Magento_Core_Model_Config')
+        $configMock = $this->getMockBuilder('Magento\Core\Model\Config')
             ->disableOriginalConstructor()
             ->getMock();
         $applicationMock->expects($this->once())->method('getConfig')->will($this->returnValue($configMock));
@@ -38,7 +40,7 @@ class Magento_Webapi_Controller_Rest_RequestTest extends PHPUnit_Framework_TestC
         /** Instantiate request. */
         // TODO: Get rid of SUT mocks.
         $this->_request = $this->getMock(
-            'Magento_Webapi_Controller_Rest_Request',
+            'Magento\Webapi\Controller\Rest\Request',
             array('getHeader', 'getMethod', 'isGet', 'isPost', 'isPut', 'isDelete', 'getRawBody'),
             array($applicationMock, $this->_deserializerFactory)
         );
@@ -100,7 +102,7 @@ class Magento_Webapi_Controller_Rest_RequestTest extends PHPUnit_Framework_TestC
             ->method('getHeader')
             ->with('Content-Type')
             ->will($this->returnValue($contentType));
-        $deserializer = $this->getMockBuilder('Magento_Webapi_Controller_Rest_Request_Deserializer_Json')
+        $deserializer = $this->getMockBuilder('Magento\Webapi\Controller\Rest\Request\Deserializer\Json')
             ->disableOriginalConstructor()
             ->setMethods(array('deserialize'))
             ->getMock();
@@ -120,7 +122,7 @@ class Magento_Webapi_Controller_Rest_RequestTest extends PHPUnit_Framework_TestC
      * @dataProvider providerContentType
      * @param string $contentTypeHeader 'Content-Type' header value
      * @param string $contentType Appropriate content type for header value
-     * @param string|boolean $exceptionMessage Exception message (boolean FALSE if exception is not expected)
+     * @param string|boolean $exceptionMessage \Exception message (boolean FALSE if exception is not expected)
      */
     public function testGetContentType($contentTypeHeader, $contentType, $exceptionMessage = false)
     {
@@ -132,7 +134,7 @@ class Magento_Webapi_Controller_Rest_RequestTest extends PHPUnit_Framework_TestC
 
         try {
             $this->assertEquals($contentType, $this->_request->getContentType());
-        } catch (Magento_Webapi_Exception $e) {
+        } catch (\Magento\Webapi\Exception $e) {
             if ($exceptionMessage) {
                 $this->assertEquals(
                     $exceptionMessage,

@@ -8,23 +8,23 @@
  */
 -->
 <config>
-    <type name="Magento_Sales_Model_Convert_Quote">
-        <plugin name="append_gift_card_data_to_order" type="Magento_GiftCard_Model_Plugin_QuoteItem"/>
+    <type name="Magento\Sales\Model\Convert\Quote">
+        <plugin name="append_gift_card_data_to_order" type="Magento\GiftCard\Model\Plugin\QuoteItem"/>
     </type>
-    <virtualType name="Magento_GiftCard_Model_Resource_Helper" type="Magento_Eav_Model_Resource_Helper">
+    <virtualType name="Magento\GiftCard\Model\Resource\Helper" type="Magento\Eav\Model\Resource\Helper">
         <param name="modulePrefix">
             <value>Eav</value>
         </param>
     </virtualType>
-    <type name="Magento_GiftCard_Model_Source_Open">
+    <type name="Magento\GiftCard\Model\Source\Open">
         <param name="resourceHelper">
-            <instance type="Magento_GiftCard_Model_Resource_Helper" />
+            <instance type="Magento\GiftCard\Model\Resource\Helper" />
         </param>
     </type>
-    <type name="Magento_Core_Model_Db_Updater">
+    <type name="Magento\Core\Model\Db\Updater">
         <param name="resourceList">
             <value>
-                <giftcard_setup>Magento_Catalog_Model_Resource_Setup</giftcard_setup>
+                <giftcard_setup>Magento\Catalog\Model\Resource\Setup</giftcard_setup>
             </value>
         </param>
     </type>

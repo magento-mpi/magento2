@@ -15,14 +15,16 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Layout_Argument_Handler_Boolean extends Magento_Core_Model_Layout_Argument_HandlerAbstract
+namespace Magento\Core\Model\Layout\Argument\Handler;
+
+class Boolean extends \Magento\Core\Model\Layout\Argument\AbstractHandler
 {
     /**
      * Process argument value
      *
      * @param array $argument
      * @return mixed
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function process(array $argument)
     {
@@ -32,13 +34,13 @@ class Magento_Core_Model_Layout_Argument_Handler_Boolean extends Magento_Core_Mo
 
     /**
      * @param array $argument
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     protected function _validate(array $argument)
     {
         parent::_validate($argument);
         if (!in_array($argument['value'], array('true', 'false'))) {
-            throw new InvalidArgumentException('Value is not boolean argument. ' . $this->_getArgumentInfo($argument));
+            throw new \InvalidArgumentException('Value is not boolean argument. ' . $this->_getArgumentInfo($argument));
         }
     }
 }

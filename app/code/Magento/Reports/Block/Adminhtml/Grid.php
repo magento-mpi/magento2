@@ -15,7 +15,9 @@
  * @package    Magento_Reports
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reports_Block_Adminhtml_Grid extends Magento_Backend_Block_Widget_Grid
+namespace Magento\Reports\Block\Adminhtml;
+
+class Grid extends \Magento\Backend\Block\Widget\Grid
 {
     /**
      * Should Store Switcher block be visible
@@ -80,14 +82,14 @@ class Magento_Reports_Block_Adminhtml_Grid extends Magento_Backend_Block_Widget_
     /**
      * Locale instance
      *
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
     /**
      * Apply sorting and filtering to collection
      *
-     * @return Magento_Backend_Block_Widget_Grid|Magento_Reports_Block_Adminhtml_Grid
+     * @return \Magento\Backend\Block\Widget\Grid|\Magento\Reports\Block\Adminhtml\Grid
      */
     protected function _prepareCollection()
     {
@@ -104,13 +106,13 @@ class Magento_Reports_Block_Adminhtml_Grid extends Magento_Backend_Block_Widget_
 
             if (!isset($data['report_from'])) {
                 // getting all reports from 2001 year
-                $date = new Zend_Date(mktime(0, 0, 0, 1, 1, 2001));
+                $date = new \Zend_Date(mktime(0, 0, 0, 1, 1, 2001));
                 $data['report_from'] = $date->toString($this->getLocale()->getDateFormat('short'));
             }
 
             if (!isset($data['report_to'])) {
                 // getting all reports from 2001 year
-                $date = new Zend_Date();
+                $date = new \Zend_Date();
                 $data['report_to'] = $date->toString($this->getLocale()->getDateFormat('short'));
             }
 
@@ -121,7 +123,7 @@ class Magento_Reports_Block_Adminhtml_Grid extends Magento_Backend_Block_Widget_
             $this->_setFilterValues($this->_defaultFilter);
         }
 
-        /** @var $collection Magento_Reports_Model_Resource_Report_Collection */
+        /** @var $collection \Magento\Reports\Model\Resource\Report\Collection */
         $collection = $this->getCollection();
         if ($collection) {
             $collection->setPeriod($this->getFilter('report_period'));
@@ -131,12 +133,12 @@ class Magento_Reports_Block_Adminhtml_Grid extends Magento_Backend_Block_Widget_
                  * Validate from and to date
                  */
                 try {
-                    $from = $this->getLocale()->date($this->getFilter('report_from'), Zend_Date::DATE_SHORT, null, false);
-                    $to   = $this->getLocale()->date($this->getFilter('report_to'), Zend_Date::DATE_SHORT, null, false);
+                    $from = $this->getLocale()->date($this->getFilter('report_from'), \Zend_Date::DATE_SHORT, null, false);
+                    $to   = $this->getLocale()->date($this->getFilter('report_to'), \Zend_Date::DATE_SHORT, null, false);
 
                     $collection->setInterval($from, $to);
                 }
-                catch (Exception $e) {
+                catch (\Exception $e) {
                     $this->_errors[] = __('Invalid date specified');
                 }
             }
@@ -169,13 +171,13 @@ class Magento_Reports_Block_Adminhtml_Grid extends Magento_Backend_Block_Widget_
         if ($this->getRequest()->getParam('store')) {
             $storeIds = array($this->getParam('store'));
         } elseif ($this->getRequest()->getParam('website')){
-            $storeIds = Mage::app()->getWebsite($this->getRequest()->getParam('website'))->getStoreIds();
+            $storeIds = \Mage::app()->getWebsite($this->getRequest()->getParam('website'))->getStoreIds();
         } elseif ($this->getRequest()->getParam('group')){
-            $storeIds = Mage::app()->getGroup($this->getRequest()->getParam('group'))->getStoreIds();
+            $storeIds = \Mage::app()->getGroup($this->getRequest()->getParam('group'))->getStoreIds();
         }
 
         // By default storeIds array contains only allowed stores
-        $allowedStoreIds = array_keys(Mage::app()->getStores());
+        $allowedStoreIds = array_keys(\Mage::app()->getStores());
         // And then array_intersect with post data for prevent unauthorized stores reports
         $storeIds = array_intersect($allowedStoreIds, $storeIds);
         // If selected all websites or unauthorized stores use only allowed
@@ -192,7 +194,7 @@ class Magento_Reports_Block_Adminhtml_Grid extends Magento_Backend_Block_Widget_
      * Set filter values
      *
      * @param mixed $data
-     * @return Magento_Backend_Block_Widget_Grid|Magento_Reports_Block_Adminhtml_Grid
+     * @return \Magento\Backend\Block\Widget\Grid|\Magento\Reports\Block\Adminhtml\Grid
      */
     protected function _setFilterValues($data)
     {
@@ -279,7 +281,7 @@ class Magento_Reports_Block_Adminhtml_Grid extends Magento_Backend_Block_Widget_
      */
     public function getDateFormat()
     {
-        return $this->getLocale()->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
+        return $this->getLocale()->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
     }
 
     /**
@@ -342,12 +344,12 @@ class Magento_Reports_Block_Adminhtml_Grid extends Magento_Backend_Block_Widget_
     /**
      * Retrieve locale
      *
-     * @return Magento_Core_Model_LocaleInterface
+     * @return \Magento\Core\Model\LocaleInterface
      */
     public function getLocale()
     {
         if (!$this->_locale) {
-            $this->_locale = Mage::app()->getLocale();
+            $this->_locale = \Mage::app()->getLocale();
         }
         return $this->_locale;
     }
@@ -367,7 +369,7 @@ class Magento_Reports_Block_Adminhtml_Grid extends Magento_Backend_Block_Widget_
      */
     protected function _prepareFilterButtons()
     {
-        $this->addChild('refresh_button', 'Magento_Backend_Block_Widget_Button', array(
+        $this->addChild('refresh_button', 'Magento\Backend\Block\Widget\Button', array(
             'label'     => __('Refresh'),
             'onclick'   => "{$this->getJsObjectName()}.doFilter();",
             'class'     => 'task'

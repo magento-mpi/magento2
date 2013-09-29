@@ -16,8 +16,10 @@
  * @package     Magento_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Bundle_Block_Adminhtml_Catalog_Product_Composite_Fieldset_Options_Type_Multi
-    extends Magento_Bundle_Block_Catalog_Product_View_Type_Bundle_Option_Multi
+namespace Magento\Bundle\Block\Adminhtml\Catalog\Product\Composite\Fieldset\Options\Type;
+
+class Multi
+    extends \Magento\Bundle\Block\Catalog\Product\View\Type\Bundle\Option\Multi
 {
     protected $_template = 'product/composite/fieldset/options/type/multi.phtml';
 

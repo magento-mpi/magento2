@@ -8,20 +8,22 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_CacheTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model;
+
+class CacheTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Cache
+     * @var \Magento\Core\Model\Cache
      */
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject[]
+     * @var \PHPUnit_Framework_MockObject_MockObject[]
      */
     protected $_cacheTypeMocks;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_cacheFrontendMock;
 
@@ -30,10 +32,10 @@ class Magento_Core_Model_CacheTest extends PHPUnit_Framework_TestCase
         $this->_initCacheTypeMocks();
 
         $this->_cacheFrontendMock = $this->getMockForAbstractClass(
-            'Magento_Cache_FrontendInterface', array(), '', true, true, true, array('clean')
+            'Magento\Cache\FrontendInterface', array(), '', true, true, true, array('clean')
         );
 
-        $frontendPoolMock = $this->getMock('Magento_Core_Model_Cache_Frontend_Pool', array(), array(), '', false);
+        $frontendPoolMock = $this->getMock('Magento\Core\Model\Cache\Frontend\Pool', array(), array(), '', false);
         $frontendPoolMock
             ->expects($this->any())
             ->method('valid')
@@ -46,10 +48,10 @@ class Magento_Core_Model_CacheTest extends PHPUnit_Framework_TestCase
         $frontendPoolMock
             ->expects($this->any())
             ->method('get')
-            ->with(Magento_Core_Model_Cache_Frontend_Pool::DEFAULT_FRONTEND_ID)
+            ->with(\Magento\Core\Model\Cache\Frontend\Pool::DEFAULT_FRONTEND_ID)
             ->will($this->returnValue($this->_cacheFrontendMock));
 
-        $this->_model = new Magento_Core_Model_Cache($frontendPoolMock);
+        $this->_model = new \Magento\Core\Model\Cache($frontendPoolMock);
     }
 
     /**
@@ -57,10 +59,10 @@ class Magento_Core_Model_CacheTest extends PHPUnit_Framework_TestCase
      */
     protected function _initCacheTypeMocks()
     {
-        $cacheTypes = array('Magento_Cache_Frontend_Decorator_TagScope', 'Magento_Cache_Frontend_Decorator_Bare');
+        $cacheTypes = array('Magento\Cache\Frontend\Decorator\TagScope', 'Magento\Cache\Frontend\Decorator\Bare');
         foreach ($cacheTypes as $type) {
             $this->_cacheTypeMocks[$type] = $this->getMock($type, array('clean'), array(
-                $this->getMockForAbstractClass('Magento_Cache_FrontendInterface'), 'FIXTURE_TAG'
+                $this->getMockForAbstractClass('Magento\Cache\FrontendInterface'), 'FIXTURE_TAG'
             ));
         }
     }
@@ -69,7 +71,7 @@ class Magento_Core_Model_CacheTest extends PHPUnit_Framework_TestCase
      * Callback for the object manager to get different cache type mocks
      *
      * @param string $type Class of the cache type
-     * @return PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit_Framework_MockObject_MockObject
      */
     public function getTypeMock($type)
     {
@@ -126,7 +128,7 @@ class Magento_Core_Model_CacheTest extends PHPUnit_Framework_TestCase
 
     public function saveDataProvider()
     {
-        $configTag = Magento_Core_Model_Config::CACHE_TAG;
+        $configTag = \Magento\Core\Model\Config::CACHE_TAG;
         return array(
             'default tags' => array(
                 'test_data', 'test_id', array(), 'test_data', 'test_id', array()
@@ -172,7 +174,7 @@ class Magento_Core_Model_CacheTest extends PHPUnit_Framework_TestCase
         $this->_cacheFrontendMock
             ->expects($this->once())
             ->method('clean')
-            ->with(Zend_Cache::CLEANING_MODE_MATCHING_ANY_TAG, $expectedTags)
+            ->with(\Zend_Cache::CLEANING_MODE_MATCHING_ANY_TAG, $expectedTags)
             ->will($this->returnValue(true))
         ;
         $this->assertTrue($this->_model->clean($expectedTags));
@@ -183,7 +185,7 @@ class Magento_Core_Model_CacheTest extends PHPUnit_Framework_TestCase
         $this->_cacheFrontendMock
             ->expects($this->once())
             ->method('clean')
-            ->with(Zend_Cache::CLEANING_MODE_ALL)
+            ->with(\Zend_Cache::CLEANING_MODE_ALL)
             ->will($this->returnValue(true))
         ;
         $this->assertTrue($this->_model->clean());

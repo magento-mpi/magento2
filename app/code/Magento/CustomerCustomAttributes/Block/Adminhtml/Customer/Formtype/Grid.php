@@ -11,35 +11,37 @@
 /**
  * Form Types Grid Block
  */
-class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Formtype_Grid
-    extends Magento_Backend_Block_Widget_Grid_Extended
+namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Formtype;
+
+class Grid
+    extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
-     * @var Magento_Eav_Model_Resource_Form_Type_CollectionFactory
+     * @var \Magento\Eav\Model\Resource\Form\Type\CollectionFactory
      */
     protected $_formTypesFactory;
 
     /**
-     * @var Magento_Core_Model_Theme_LabelFactory
+     * @var \Magento\Core\Model\Theme\LabelFactory
      */
     protected $_themeLabelFactory;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Url $urlModel
-     * @param Magento_Eav_Model_Resource_Form_Type_CollectionFactory $formTypesFactory
-     * @param Magento_Core_Model_Theme_LabelFactory $themeLabelFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Eav\Model\Resource\Form\Type\CollectionFactory $formTypesFactory
+     * @param \Magento\Core\Model\Theme\LabelFactory $themeLabelFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Url $urlModel,
-        Magento_Eav_Model_Resource_Form_Type_CollectionFactory $formTypesFactory,
-        Magento_Core_Model_Theme_LabelFactory $themeLabelFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        \Magento\Eav\Model\Resource\Form\Type\CollectionFactory $formTypesFactory,
+        \Magento\Core\Model\Theme\LabelFactory $themeLabelFactory,
         array $data = array()
     ) {
         $this->_formTypesFactory = $formTypesFactory;
@@ -62,11 +64,11 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Formtype_Grid
     /**
      * Prepare grid collection object
      *
-     * @return Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Formtype_Grid
+     * @return \Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Formtype\Grid
      */
     protected function _prepareCollection()
     {
-        /** @var $collection Magento_Eav_Model_Resource_Form_Type_Collection */
+        /** @var $collection \Magento\Eav\Model\Resource\Form\Type\Collection */
         $collection = $this->_formTypesFactory->create();
         $this->setCollection($collection);
         return parent::_prepareCollection();
@@ -75,7 +77,7 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Formtype_Grid
     /**
      * Prepare Grid columns
      *
-     * @return Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Formtype_Grid
+     * @return \Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Formtype\Grid
      */
     protected function _prepareColumns()
     {
@@ -95,7 +97,7 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Formtype_Grid
             'type'      => 'store'
         ));
 
-        /** @var $label Magento_Core_Model_Theme_Label */
+        /** @var $label \Magento\Core\Model\Theme\Label */
         $label = $this->_themeLabelFactory->create();
         $design = $label->getLabelsCollection();
         array_unshift($design, array(
@@ -127,7 +129,7 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Formtype_Grid
     /**
      * Retrieve row click URL
      *
-     * @param Magento_Object $row
+     * @param \Magento\Object $row
      * @return string
      */
     public function getRowUrl($row)

@@ -16,6 +16,8 @@
  * @package     Magento_Pbridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Pbridge_Block_Checkout_Payment_Payone_Gate extends Magento_Pbridge_Block_Payment_Form_Abstract
+namespace Magento\Pbridge\Block\Checkout\Payment\Payone;
+
+class Gate extends \Magento\Pbridge\Block\Payment\Form\AbstractForm
 {
 }

@@ -15,7 +15,9 @@
  * @category   Magento
  * @package    Magento_Catalog
  */
-class Magento_Catalog_Model_Config_Source_Product_Thumbnail implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Catalog\Model\Config\Source\Product;
+
+class Thumbnail implements \Magento\Core\Model\Option\ArrayInterface
 {
     public function toOptionArray()
     {

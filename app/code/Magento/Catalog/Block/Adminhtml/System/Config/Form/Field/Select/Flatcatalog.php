@@ -16,12 +16,14 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Block_Adminhtml_System_Config_Form_Field_Select_Flatcatalog
-    extends Magento_Backend_Block_System_Config_Form_Field
+namespace Magento\Catalog\Block\Adminhtml\System\Config\Form\Field\Select;
+
+class Flatcatalog
+    extends \Magento\Backend\Block\System\Config\Form\Field
 {
-    protected function _getElementHtml(Magento_Data_Form_Element_Abstract $element)
+    protected function _getElementHtml(\Magento\Data\Form\Element\AbstractElement $element)
     {
-        if (!$this->helper('Magento_Catalog_Helper_Category_Flat')->isBuilt()) {
+        if (!$this->helper('Magento\Catalog\Helper\Category\Flat')->isBuilt()) {
             $element->setDisabled(true)
                 ->setValue(0);
         }

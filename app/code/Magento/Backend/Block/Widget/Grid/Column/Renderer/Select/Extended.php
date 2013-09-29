@@ -5,8 +5,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Backend_Block_Widget_Grid_Column_Renderer_Select_Extended
-    extends Magento_Backend_Block_Widget_Grid_Column_Renderer_Select
+namespace Magento\Backend\Block\Widget\Grid\Column\Renderer\Select;
+
+class Extended
+    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Select
 {
     /**
      * Prepare data for renderer

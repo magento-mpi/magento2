@@ -7,17 +7,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/* @var $this Magento_Wishlist_Block_Customer_Wishlist_Render_Item_Price */
+/* @var $this \Magento\Wishlist\Block\Customer\Wishlist_Render_Item_Price */
 ?>
 
 <?php echo $this->getCleanProductPriceHtml(); ?>
 
-<?php /* @var $product Magento_Catalog_Model_Product */ ?>
+<?php /* @var $product \Magento\Catalog\Model\Product */ ?>
 <?php $product = $this->getProduct(); ?>
 <?php $finalPrice = $product->getFinalPrice(1); ?>
 <?php if ($product->canConfigure()): ?>
     <p class="configured-price">
         <span class="price-label"><?php echo __('Configured Price:') ?></span>
-        <span class="price"><?php echo $this->helper('Magento_Core_Helper_Data')->currency($finalPrice, true, false); ?></span>
+        <span class="price"><?php echo $this->helper('Magento\Core\Helper\Data')->currency($finalPrice, true, false); ?></span>
     </p>
 <?php endif; ?>

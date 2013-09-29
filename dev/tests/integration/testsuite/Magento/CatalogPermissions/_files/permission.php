@@ -9,16 +9,16 @@
  * @license     {license_link}
  */
 
-/** @var $permission Magento_CatalogPermissions_Model_Permission */
-$permission = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_CatalogPermissions_Model_Permission');
+/** @var $permission \Magento\CatalogPermissions\Model\Permission */
+$permission = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\CatalogPermissions\Model\Permission');
 $permission->setWebsiteId(
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Core_Model_StoreManagerInterface')->getWebsite()->getId()
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Core\Model\StoreManagerInterface')->getWebsite()->getId()
     )
     ->setCategoryId(6)
     ->setCustomerGroupId(1)
-    ->setGrantCatalogCategoryView(Magento_CatalogPermissions_Model_Permission::PERMISSION_DENY)
-    ->setGrantCatalogProductPrice(Magento_CatalogPermissions_Model_Permission::PERMISSION_DENY)
-    ->setGrantCheckoutItems(Magento_CatalogPermissions_Model_Permission::PERMISSION_DENY)
+    ->setGrantCatalogCategoryView(\Magento\CatalogPermissions\Model\Permission::PERMISSION_DENY)
+    ->setGrantCatalogProductPrice(\Magento\CatalogPermissions\Model\Permission::PERMISSION_DENY)
+    ->setGrantCheckoutItems(\Magento\CatalogPermissions\Model\Permission::PERMISSION_DENY)
     ->save();

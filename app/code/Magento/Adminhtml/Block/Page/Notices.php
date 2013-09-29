@@ -15,7 +15,9 @@
  * @package     Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Page_Notices extends Magento_Adminhtml_Block_Template
+namespace Magento\Adminhtml\Block\Page;
+
+class Notices extends \Magento\Adminhtml\Block\Template
 {
 
     /**

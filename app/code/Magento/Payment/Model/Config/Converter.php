@@ -7,7 +7,9 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Payment_Model_Config_Converter implements Magento_Config_ConverterInterface
+namespace Magento\Payment\Model\Config;
+
+class Converter implements \Magento\Config\ConverterInterface
 {
     /**
      * {@inheritdoc}
@@ -15,14 +17,14 @@ class Magento_Payment_Model_Config_Converter implements Magento_Config_Converter
     public function convert($source)
     {
         $configs = array();
-        $xpath = new DOMXPath($source);
+        $xpath = new \DOMXPath($source);
 
         $creditCards = array();
-        /** @var DOMNode $type */
+        /** @var \DOMNode $type */
         foreach ($xpath->query('/payment/credit_cards/type') as $type) {
             $typeArray = array();
 
-            /** @var $typeSubNode DOMNode */
+            /** @var $typeSubNode \DOMNode */
             foreach ($type->childNodes as $typeSubNode) {
                 switch ($typeSubNode->nodeName) {
                     case 'label':
@@ -44,12 +46,12 @@ class Magento_Payment_Model_Config_Converter implements Magento_Config_Converter
         }
 
         $configs['groups'] = array();
-        /** @var DOMNode $group */
+        /** @var \DOMNode $group */
         foreach ($xpath->query('/payment/groups/group') as $group) {
             $groupAttributes = $group->attributes;
             $id = $groupAttributes->getNamedItem('id')->nodeValue;
 
-            /** @var $groupSubNode DOMNode */
+            /** @var $groupSubNode \DOMNode */
             foreach ($group->childNodes as $groupSubNode) {
                 switch ($groupSubNode->nodeName) {
                     case 'label':

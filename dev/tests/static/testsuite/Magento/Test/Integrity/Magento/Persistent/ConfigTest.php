@@ -10,7 +10,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Test_Integrity_Magento_Persistent_ConfigTest extends Integrity_ConfigAbstract
+namespace Magento\Test\Integrity\Magento\Persistent;
+
+class ConfigTest extends \Magento\TestFramework\Integrity\ConfigAbstract
 {
 
     /**

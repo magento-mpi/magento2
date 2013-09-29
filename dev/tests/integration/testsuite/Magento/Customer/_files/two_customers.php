@@ -10,8 +10,8 @@
 
 require 'customer.php';
 
-$customer = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Customer_Model_Customer');
+$customer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Customer\Model\Customer');
 $customer
     ->setWebsiteId(1)
     ->setEntityId(2)

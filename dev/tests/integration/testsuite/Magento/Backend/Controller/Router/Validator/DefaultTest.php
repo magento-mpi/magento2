@@ -9,29 +9,30 @@
  * @license     {license_link}
  */
 
+namespace Magento\Backend\Controller\Router\Validator;
+
 /**
- * Test class Magento_Backend_Controller_Router_Default
  * @magentoAppArea adminhtml
  */
-class Magento_Backend_Controller_Router_Validator_DefaultTest extends PHPUnit_Framework_TestCase
+class DefaultTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @magentoConfigFixture global/areas/adminhtml/frontName 0
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @magentoAppIsolation enabled
      */
     public function testConstructWithEmptyAreaFrontName()
     {
-        $dataHelperMock = $this->getMock('Magento_Backend_Helper_Data', array(), array(), '', false);
+        $dataHelperMock = $this->getMock('Magento\Backend\Helper\Data', array(), array(), '', false);
         $dataHelperMock->expects($this->once())->method('getAreaFrontName')->will($this->returnValue(null));
 
         $options = array(
-            'areaCode' => Magento_Core_Model_App_Area::AREA_ADMINHTML,
-            'baseController' => 'Magento_Backend_Controller_ActionAbstract',
+            'areaCode' => \Magento\Core\Model\App\Area::AREA_ADMINHTML,
+            'baseController' => 'Magento\Backend\Controller\ActionAbstract',
             'backendData' => $dataHelperMock,
         );
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Backend_Controller_Router_Default', $options);
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Backend\Controller\Router\DefaultRouter', $options);
     }
 
     /**
@@ -41,10 +42,10 @@ class Magento_Backend_Controller_Router_Validator_DefaultTest extends PHPUnit_Fr
     public function testConstructWithNotEmptyAreaFrontName()
     {
         $options = array(
-            'areaCode'       => Magento_Core_Model_App_Area::AREA_ADMINHTML,
-            'baseController' => 'Magento_Backend_Controller_ActionAbstract',
+            'areaCode'       => \Magento\Core\Model\App\Area::AREA_ADMINHTML,
+            'baseController' => 'Magento\Backend\Controller\ActionAbstract',
         );
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Backend_Controller_Router_Default', $options);
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Backend\Controller\Router\DefaultRouter', $options);
     }
 }

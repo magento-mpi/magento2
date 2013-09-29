@@ -1,6 +1,6 @@
 <?php
 /**
- * Test class for Magento_Core_Model_Config_Cache
+ * Test class for \Magento\Core\Model\Config\Cache
  *
  * {license_notice}
  *
@@ -8,29 +8,31 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Config_CacheTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Config;
+
+class CacheTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Config_Cache
+     * @var \Magento\Core\Model\Config\Cache
      */
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_baseFactoryMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_cacheMock;
 
     protected function setUp()
     {
-        $this->_cacheMock = $this->getMock('Magento_Core_Model_Cache_Type_Config', array(), array(), '', false, false);
-        $this->_baseFactoryMock = $this->getMock('Magento_Core_Model_Config_BaseFactory',
+        $this->_cacheMock = $this->getMock('Magento\Core\Model\Cache\Type\Config', array(), array(), '', false, false);
+        $this->_baseFactoryMock = $this->getMock('Magento\Core\Model\Config\BaseFactory',
             array(), array(), '', false, false);
-        $this->_model = new Magento_Core_Model_Config_Cache($this->_cacheMock, $this->_baseFactoryMock);
+        $this->_model = new \Magento\Core\Model\Config\Cache($this->_cacheMock, $this->_baseFactoryMock);
     }
 
     protected function tearDown()
@@ -71,7 +73,7 @@ class Magento_Core_Model_Config_CacheTest extends PHPUnit_Framework_TestCase
 
     public function testSave()
     {
-        $configMock = $this->getMock('Magento_Core_Model_Config_Base', array(), array(), '', false);
+        $configMock = $this->getMock('Magento\Core\Model\Config\Base', array(), array(), '', false);
         $nodeMock = $this->getMock('stdClass', array('asNiceXml'));
 
         $configMock->expects($this->once())->method('getNode')->will($this->returnValue($nodeMock));

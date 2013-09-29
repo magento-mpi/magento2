@@ -9,15 +9,17 @@
  * @license     {license_link}
  */
 
-class Magento_Backend_Block_System_Config_Form_FieldTest extends PHPUnit_Framework_TestCase
+namespace Magento\Backend\Block\System\Config\Form;
+
+class FieldTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Backend_Block_System_Config_Form_Field
+     * @var \Magento\Backend\Block\System\Config\Form\Field
      */
     protected $_object;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_elementMock;
 
@@ -27,27 +29,27 @@ class Magento_Backend_Block_System_Config_Form_FieldTest extends PHPUnit_Framewo
     protected $_testData;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_appModelMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_layoutMock;
 
     protected function setUp()
     {
-        $this->_appModelMock = $this->getMock('Magento_Core_Model_App', array(), array(), '', false, false);
-        $this->_layoutMock = $this->getMock('Magento_Core_Model_Layout', array(), array(), '', false, false);
+        $this->_appModelMock = $this->getMock('Magento\Core\Model\App', array(), array(), '', false, false);
+        $this->_layoutMock = $this->getMock('Magento\Core\Model\Layout', array(), array(), '', false, false);
 
         $data = array(
             'layout' => $this->_layoutMock,
             'application' => $this->_appModelMock,
-            'urlBuilder' => $this->getMock('Magento_Backend_Model_Url', array(), array(), '', false)
+            'urlBuilder' => $this->getMock('Magento\Backend\Model\Url', array(), array(), '', false)
         );
-        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_object = $helper->getObject('Magento_Backend_Block_System_Config_Form_Field', $data);
+        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $this->_object = $helper->getObject('Magento\Backend\Block\System\Config\Form\Field', $data);
 
         $this->_testData = array(
             'htmlId' => 'test_field_id',
@@ -56,7 +58,7 @@ class Magento_Backend_Block_System_Config_Form_FieldTest extends PHPUnit_Framewo
             'elementHTML' => 'test_html',
         );
 
-        $this->_elementMock = $this->getMock('Magento_Data_Form_Element_Text',
+        $this->_elementMock = $this->getMock('Magento\Data\Form\Element\Text',
             array('getHtmlId' , 'getName', 'getLabel', 'getElementHtml', 'getComment', 'getHint', 'getScope',
                 'getScopeLabel', 'getInherit', 'getCanUseWebsiteValue', 'getCanUseDefaultValue', 'setDisabled'
             ),

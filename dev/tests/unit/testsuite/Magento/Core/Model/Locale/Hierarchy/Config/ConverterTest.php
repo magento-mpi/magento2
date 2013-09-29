@@ -9,21 +9,23 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Locale_Hierarchy_Config_ConverterTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Locale\Hierarchy\Config;
+
+class ConverterTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Locale_Hierarchy_Config_Converter
+     * @var \Magento\Core\Model\Locale\Hierarchy\Config\Converter
      */
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_configMock;
 
     protected function setUp()
     {
-        $this->_model = new Magento_Core_Model_Locale_Hierarchy_Config_Converter();
+        $this->_model = new \Magento\Core\Model\Locale\Hierarchy\Config\Converter();
     }
 
     /**
@@ -31,7 +33,7 @@ class Magento_Core_Model_Locale_Hierarchy_Config_ConverterTest extends PHPUnit_F
      */
     public function testComposeLocaleHierarchy($localeConfig, $localeHierarchy)
     {
-        $dom = new DOMDocument();
+        $dom = new \DOMDocument();
         $dom->loadXML($localeConfig);
         $this->assertEquals($localeHierarchy, $this->_model->convert($dom));
     }

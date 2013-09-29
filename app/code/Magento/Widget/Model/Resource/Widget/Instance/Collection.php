@@ -16,7 +16,9 @@
  * @package     Magento_Widget
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Widget_Model_Resource_Widget_Instance_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Widget\Model\Resource\Widget\Instance;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Fields map for corellation names & real selected fields
@@ -33,7 +35,7 @@ class Magento_Widget_Model_Resource_Widget_Instance_Collection extends Magento_C
     protected function _construct()
     {
         parent::_construct();
-        $this->_init('Magento_Widget_Model_Widget_Instance', 'Magento_Widget_Model_Resource_Widget_Instance');
+        $this->_init('Magento\Widget\Model\Widget\Instance', 'Magento\Widget\Model\Resource\Widget\Instance');
     }
 
     /**
@@ -41,7 +43,7 @@ class Magento_Widget_Model_Resource_Widget_Instance_Collection extends Magento_C
      *
      * @param array|integer $storeIds
      * @param boolean $withDefaultStore if TRUE also filter by store id '0'
-     * @return Magento_Widget_Model_Resource_Widget_Instance_Collection
+     * @return \Magento\Widget\Model\Resource\Widget\Instance\Collection
      */
     public function addStoreFilter($storeIds = array(), $withDefaultStore = true)
     {

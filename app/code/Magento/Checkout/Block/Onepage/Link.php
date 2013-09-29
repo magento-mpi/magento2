@@ -15,7 +15,9 @@
  * @package    Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Checkout_Block_Onepage_Link extends Magento_Core_Block_Template
+namespace Magento\Checkout\Block\Onepage;
+
+class Link extends \Magento\Core\Block\Template
 {
     public function getCheckoutUrl()
     {
@@ -24,11 +26,11 @@ class Magento_Checkout_Block_Onepage_Link extends Magento_Core_Block_Template
 
     public function isDisabled()
     {
-        return !Mage::getSingleton('Magento_Checkout_Model_Session')->getQuote()->validateMinimumAmount();
+        return !\Mage::getSingleton('Magento\Checkout\Model\Session')->getQuote()->validateMinimumAmount();
     }
 
     public function isPossibleOnepageCheckout()
     {
-        return $this->helper('Magento_Checkout_Helper_Data')->canOnepageCheckout();
+        return $this->helper('Magento\Checkout\Helper\Data')->canOnepageCheckout();
     }
 }

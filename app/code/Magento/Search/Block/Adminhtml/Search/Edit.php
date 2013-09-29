@@ -15,7 +15,9 @@
  * @package    Magento_Search
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Search_Block_Adminhtml_Search_Edit extends Magento_Adminhtml_Block_Widget_Grid_Container
+namespace Magento\Search\Block\Adminhtml\Search;
+
+class Edit extends \Magento\Adminhtml\Block\Widget\Grid\Container
 {
     /**
      * Enable grid container

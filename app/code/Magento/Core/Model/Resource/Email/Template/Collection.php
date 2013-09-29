@@ -16,7 +16,9 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Resource_Email_Template_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Core\Model\Resource\Email\Template;
+
+class Collection extends  \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Template table name
@@ -31,7 +33,7 @@ class Magento_Core_Model_Resource_Email_Template_Collection extends Magento_Core
      */
     public function _construct()
     {
-        $this->_init('Magento_Core_Model_Email_Template', 'Magento_Core_Model_Resource_Email_Template');
+        $this->_init('Magento\Core\Model\Email\Template', 'Magento\Core\Model\Resource\Email\Template');
         $this->_templateTable = $this->getMainTable();
     }
 

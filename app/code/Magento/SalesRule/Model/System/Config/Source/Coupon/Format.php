@@ -15,20 +15,22 @@
  * @package     Magento_SalesRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_SalesRule_Model_System_Config_Source_Coupon_Format implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\SalesRule\Model\System\Config\Source\Coupon;
+
+class Format implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
      * Sales rule coupon
      *
-     * @var Magento_SalesRule_Helper_Coupon
+     * @var \Magento\SalesRule\Helper\Coupon
      */
     protected $_salesRuleCoupon = null;
 
     /**
-     * @param Magento_SalesRule_Helper_Coupon $salesRuleCoupon
+     * @param \Magento\SalesRule\Helper\Coupon $salesRuleCoupon
      */
     public function __construct(
-        Magento_SalesRule_Helper_Coupon $salesRuleCoupon
+        \Magento\SalesRule\Helper\Coupon $salesRuleCoupon
     ) {
         $this->_salesRuleCoupon = $salesRuleCoupon;
     }

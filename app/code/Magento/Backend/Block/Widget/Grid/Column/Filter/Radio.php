@@ -15,7 +15,9 @@
  * @package    Magento_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backend_Block_Widget_Grid_Column_Filter_Radio extends Magento_Backend_Block_Widget_Grid_Column_Filter_Select
+namespace Magento\Backend\Block\Widget\Grid\Column\Filter;
+
+class Radio extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Select
 {
     protected function _getOptions()
     {
@@ -42,7 +44,7 @@ class Magento_Backend_Block_Widget_Grid_Column_Filter_Radio extends Magento_Back
         } else {
             return array(
                 array('neq'=>$this->getColumn()->getValue()),
-                array('is'=>new Zend_Db_Expr('NULL'))
+                array('is'=>new \Zend_Db_Expr('NULL'))
             );
         }
     }

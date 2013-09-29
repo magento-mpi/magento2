@@ -11,7 +11,9 @@
 /**
  * Matched rule customer grid block
  */
-class Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Customers extends Magento_Adminhtml_Block_Widget_Grid
+namespace Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab;
+
+class Customers extends \Magento\Adminhtml\Block\Widget\Grid
 {
     /**
      * Intialize grid
@@ -28,12 +30,12 @@ class Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Customers extends Magen
     /**
      * Instantiate and prepare collection
      *
-     * @return Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Customers
+     * @return \Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab\Customers
      */
     protected function _prepareCollection()
     {
-        /* @var $collection Magento_Reminder_Model_Resource_Customer_Collection */
-        $collection = Mage::getResourceModel('Magento_Reminder_Model_Resource_Customer_Collection');
+        /* @var $collection \Magento\Reminder\Model\Resource\Customer\Collection */
+        $collection = \Mage::getResourceModel('Magento\Reminder\Model\Resource\Customer\Collection');
         $this->setCollection($collection);
 
         return parent::_prepareCollection();
@@ -42,7 +44,7 @@ class Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Customers extends Magen
     /**
      * Prepare columns for grid
      *
-     * @return Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Customers
+     * @return \Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab\Customers
      */
     protected function _prepareColumns()
     {
@@ -51,7 +53,7 @@ class Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Customers extends Magen
             'align'    => 'center',
             'width'    => 50,
             'index'    => 'entity_id',
-            'renderer' => 'Magento_Reminder_Block_Adminhtml_Widget_Grid_Column_Renderer_Id'
+            'renderer' => 'Magento\Reminder\Block\Adminhtml\Widget\Grid\Column\Renderer\Id'
         ));
 
         $this->addColumn('grid_email', array(
@@ -59,7 +61,7 @@ class Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Customers extends Magen
             'type'     => 'text',
             'align'    => 'left',
             'index'    => 'email',
-            'renderer' => 'Magento_Reminder_Block_Adminhtml_Widget_Grid_Column_Renderer_Email'
+            'renderer' => 'Magento\Reminder\Block\Adminhtml\Widget\Grid\Column\Renderer\Email'
         ));
 
         $this->addColumn('grid_associated_at', array(

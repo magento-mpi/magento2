@@ -1,23 +1,25 @@
 <?php
 /**
- * Test class for Magento_Webapi_Model_Resource_Acl_Rule
+ * Test class for \Magento\Webapi\Model\Resource\Acl\Rule
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Model_Resource_Acl_RuleTest extends Magento_Webapi_Model_Resource_Acl_TestAbstract
+namespace Magento\Webapi\Model\Resource\Acl;
+
+class RuleTest extends \Magento\Webapi\Model\Resource\Acl\TestAbstract
 {
     /**
      * Create resource model.
      *
-     * @param Magento_DB_Select $selectMock
-     * @return Magento_Webapi_Model_Resource_Acl_Rule
+     * @param \Magento\DB\Select $selectMock
+     * @return \Magento\Webapi\Model\Resource\Acl\Rule
      */
     protected function _createModel($selectMock = null)
     {
-        $this->_resource = $this->getMockBuilder('Magento_Core_Model_Resource')
+        $this->_resource = $this->getMockBuilder('Magento\Core\Model\Resource')
             ->disableOriginalConstructor()
             ->setMethods(array('getConnection', 'getTableName'))
             ->getMock();
@@ -27,7 +29,7 @@ class Magento_Webapi_Model_Resource_Acl_RuleTest extends Magento_Webapi_Model_Re
             ->withAnyParameters()
             ->will($this->returnArgument(0));
 
-        $this->_adapter = $this->getMockBuilder('Magento_DB_Adapter_Pdo_Mysql')
+        $this->_adapter = $this->getMockBuilder('Magento\DB\Adapter\Pdo\Mysql')
             ->disableOriginalConstructor()
             ->setMethods(array('select', 'fetchCol', 'fetchAll',
                 'beginTransaction', 'commit', 'rollback', 'insertArray', 'delete'))
@@ -44,8 +46,8 @@ class Magento_Webapi_Model_Resource_Acl_RuleTest extends Magento_Webapi_Model_Re
             ->will($this->returnValue(array(array('key' => 'value'))));
 
         if (!$selectMock) {
-            $selectMock = new Magento_DB_Select(
-                $this->getMock('Magento_DB_Adapter_Pdo_Mysql', array(), array(), '', false));
+            $selectMock = new \Magento\DB\Select(
+                $this->getMock('Magento\DB\Adapter\Pdo\Mysql', array(), array(), '', false));
         }
 
         $this->_adapter->expects($this->any())
@@ -63,7 +65,7 @@ class Magento_Webapi_Model_Resource_Acl_RuleTest extends Magento_Webapi_Model_Re
             ->withAnyParameters()
             ->will($this->returnValue($this->_adapter));
 
-        return $this->_helper->getObject('Magento_Webapi_Model_Resource_Acl_Rule', array(
+        return $this->_helper->getObject('Magento\Webapi\Model\Resource\Acl\Rule', array(
             'resource' => $this->_resource,
         ));
     }
@@ -84,8 +86,8 @@ class Magento_Webapi_Model_Resource_Acl_RuleTest extends Magento_Webapi_Model_Re
      */
     public function testGetRuleList()
     {
-        $selectMock = $this->getMockBuilder('Magento_DB_Select')
-            ->setConstructorArgs(array($this->getMock('Magento_DB_Adapter_Pdo_Mysql', array(), array(), '', false)))
+        $selectMock = $this->getMockBuilder('Magento\DB\Select')
+            ->setConstructorArgs(array($this->getMock('Magento\DB\Adapter\Pdo\Mysql', array(), array(), '', false)))
             ->setMethods(array('from'))
             ->getMock();
 
@@ -104,8 +106,8 @@ class Magento_Webapi_Model_Resource_Acl_RuleTest extends Magento_Webapi_Model_Re
      */
     public function testGetResourceIdsByRole()
     {
-        $selectMock = $this->getMockBuilder('Magento_DB_Select')
-            ->setConstructorArgs(array($this->getMock('Magento_DB_Adapter_Pdo_Mysql', array(), array(), '', false)))
+        $selectMock = $this->getMockBuilder('Magento\DB\Select')
+            ->setConstructorArgs(array($this->getMock('Magento\DB\Adapter\Pdo\Mysql', array(), array(), '', false)))
             ->setMethods(array('from', 'where'))
             ->getMock();
 
@@ -130,7 +132,7 @@ class Magento_Webapi_Model_Resource_Acl_RuleTest extends Magento_Webapi_Model_Re
     public function testSaveResources()
     {
         // Init rule resource.
-        $ruleResource = $this->getMockBuilder('Magento_Webapi_Model_Resource_Acl_Rule')
+        $ruleResource = $this->getMockBuilder('Magento\Webapi\Model\Resource\Acl\Rule')
             ->disableOriginalConstructor()
             ->setMethods(array('saveResources', 'getIdFieldName', 'getReadConnection', 'getResources'))
             ->getMock();
@@ -143,13 +145,13 @@ class Magento_Webapi_Model_Resource_Acl_RuleTest extends Magento_Webapi_Model_Re
         $ruleResource->expects($this->any())
             ->method('getReadConnection')
             ->withAnyParameters()
-            ->will($this->returnValue($this->getMock('Magento_DB_Adapter_Pdo_Mysql', array(), array(), '', false)));
+            ->will($this->returnValue($this->getMock('Magento\DB\Adapter\Pdo\Mysql', array(), array(), '', false)));
 
         // Init rule.
-        $rule = $this->getMockBuilder('Magento_Webapi_Model_Acl_Rule')
+        $rule = $this->getMockBuilder('Magento\Webapi\Model\Acl\Rule')
             ->setConstructorArgs(array(
-                'context' => $this->getMock('Magento_Core_Model_Context', array(), array(), '', false),
-                'coreRegistry' => $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false),
+                'context' => $this->getMock('Magento\Core\Model\Context', array(), array(), '', false),
+                'coreRegistry' => $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false),
                 'resource' => $ruleResource
             ))
             ->setMethods(array('getResources'))
@@ -181,9 +183,9 @@ class Magento_Webapi_Model_Resource_Acl_RuleTest extends Magento_Webapi_Model_Re
         $this->_adapter->expects($this->any())
             ->method('delete')
             ->withAnyParameters()
-            ->will($this->throwException(new Zend_Db_Adapter_Exception('DB Exception')));
+            ->will($this->throwException(new \Zend_Db_Adapter_Exception('DB \Exception')));
 
-        $this->setExpectedException('Zend_Db_Adapter_Exception', 'DB Exception');
+        $this->setExpectedException('Zend_Db_Adapter_Exception', 'DB \Exception');
         $model->saveResources($rule);
     }
 }

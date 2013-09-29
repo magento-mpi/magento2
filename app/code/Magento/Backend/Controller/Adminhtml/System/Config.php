@@ -15,7 +15,9 @@
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backend_Controller_Adminhtml_System_Config extends Magento_Backend_Controller_System_ConfigAbstract
+namespace Magento\Backend\Controller\Adminhtml\System;
+
+class Config extends \Magento\Backend\Controller\System\AbstractConfig
 {
     /**
      * Index action
@@ -38,9 +40,9 @@ class Magento_Backend_Controller_Adminhtml_System_Config extends Magento_Backend
         $website = $this->getRequest()->getParam('website');
         $store   = $this->getRequest()->getParam('store');
 
-        /** @var $configStructure Magento_Backend_Model_Config_Structure */
-        $configStructure = Mage::getSingleton('Magento_Backend_Model_Config_Structure');
-        /** @var $section Magento_Backend_Model_Config_Structure_Element_Section */
+        /** @var $configStructure \Magento\Backend\Model\Config\Structure */
+        $configStructure = \Mage::getSingleton('Magento\Backend\Model\Config\Structure');
+        /** @var $section \Magento\Backend\Model\Config\Structure\Element\Section */
         $section = $configStructure->getElement($current);
         if ($current && !$section->isVisible($website, $store)) {
             return $this->_redirect('*/*/', array('website' => $website, 'store' => $store));
@@ -82,9 +84,9 @@ class Magento_Backend_Controller_Adminhtml_System_Config extends Magento_Backend
     public function exportTableratesAction()
     {
         $fileName   = 'tablerates.csv';
-        /** @var $gridBlock Magento_Adminhtml_Block_Shipping_Carrier_Tablerate_Grid */
-        $gridBlock  = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Shipping_Carrier_Tablerate_Grid');
-        $website    = Mage::app()->getWebsite($this->getRequest()->getParam('website'));
+        /** @var $gridBlock \Magento\Adminhtml\Block\Shipping\Carrier\Tablerate\Grid */
+        $gridBlock  = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Shipping\Carrier\Tablerate\Grid');
+        $website    = \Mage::app()->getWebsite($this->getRequest()->getParam('website'));
         if ($this->getRequest()->getParam('conditionName')) {
             $conditionName = $this->getRequest()->getParam('conditionName');
         } else {

@@ -8,10 +8,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\Cron\Model\Config\Converter;
+
 /**
  * Converts cron parameters from XML files
  */
-class Magento_Cron_Model_Config_Converter_Xml implements Magento_Config_ConverterInterface
+class Xml implements \Magento\Config\ConverterInterface
 {
     /**
      * Converting data to array type
@@ -24,7 +26,7 @@ class Magento_Cron_Model_Config_Converter_Xml implements Magento_Config_Converte
     {
         $output = array();
 
-        if (!$source instanceof DOMDocument) {
+        if (!$source instanceof \DOMDocument) {
             return $output;
         }
 
@@ -35,7 +37,7 @@ class Magento_Cron_Model_Config_Converter_Xml implements Magento_Config_Converte
             $jobName = $jobConfig->getAttribute('name');
 
             if (!$jobName) {
-                throw new InvalidArgumentException('Attribute "name" does not exist');
+                throw new \InvalidArgumentException('Attribute "name" does not exist');
             }
             $config['name'] = $jobName;
             $config += $this->_convertCronConfig($jobConfig);
@@ -60,7 +62,7 @@ class Magento_Cron_Model_Config_Converter_Xml implements Magento_Config_Converte
      *
      * @param DOMElement $jobConfig
      * @return array
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     protected function _convertCronConfig($jobConfig)
     {
@@ -68,10 +70,10 @@ class Magento_Cron_Model_Config_Converter_Xml implements Magento_Config_Converte
         $methodName = $jobConfig->getAttribute('method');
 
         if (!isset($instanceName)) {
-            throw new InvalidArgumentException('Attribute "instance" does not exist');
+            throw new \InvalidArgumentException('Attribute "instance" does not exist');
         }
         if (!isset($methodName)) {
-            throw new InvalidArgumentException('Attribute "method" does not exist');
+            throw new \InvalidArgumentException('Attribute "method" does not exist');
         }
         return array('instance' => $instanceName, 'method' => $methodName);
     }

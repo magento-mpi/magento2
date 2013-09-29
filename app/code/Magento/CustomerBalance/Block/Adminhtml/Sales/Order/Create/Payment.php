@@ -12,50 +12,52 @@
  * Customer balance block for order creation page
  *
  */
-class Magento_CustomerBalance_Block_Adminhtml_Sales_Order_Create_Payment
-extends Magento_Core_Block_Template
+namespace Magento\CustomerBalance\Block\Adminhtml\Sales\Order\Create;
+
+class Payment
+extends \Magento\Core\Block\Template
 {
     /**
-     * @var Magento_CustomerBalance_Model_Balance
+     * @var \Magento\CustomerBalance\Model\Balance
      */
     protected $_balanceInstance;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Adminhtml_Model_Sales_Order_Create
+     * @var \Magento\Adminhtml\Model\Sales\Order\Create
      */
     protected $_orderCreate;
 
     /**
-     * @var Magento_Adminhtml_Model_Session_Quote
+     * @var \Magento\Adminhtml\Model\Session\Quote
      */
     protected $_sessionQuote;
 
     /**
-     * @var Magento_CustomerBalance_Model_BalanceFactory
+     * @var \Magento\CustomerBalance\Model\BalanceFactory
      */
     protected $_balanceFactory;
 
     /**
-     * @param Magento_CustomerBalance_Model_BalanceFactory $balanceFactory
-     * @param Magento_Adminhtml_Model_Session_Quote $sessionQuote
-     * @param Magento_Adminhtml_Model_Sales_Order_Create $orderCreate
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
+     * @param \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory
+     * @param \Magento\Adminhtml\Model\Session\Quote $sessionQuote
+     * @param \Magento\Adminhtml\Model\Sales\Order\Create $orderCreate
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_CustomerBalance_Model_BalanceFactory $balanceFactory,
-        Magento_Adminhtml_Model_Session_Quote $sessionQuote,
-        Magento_Adminhtml_Model_Sales_Order_Create $orderCreate,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
+        \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory,
+        \Magento\Adminhtml\Model\Session\Quote $sessionQuote,
+        \Magento\Adminhtml\Model\Sales\Order\Create $orderCreate,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_balanceFactory = $balanceFactory;
@@ -68,7 +70,7 @@ extends Magento_Core_Block_Template
     /**
      * Retrieve order create model
      *
-     * @return Magento_Adminhtml_Model_Sales_Order_Create
+     * @return \Magento\Adminhtml\Model\Sales\Order\Create
      */
     protected function _getOrderCreateModel()
     {
@@ -78,7 +80,7 @@ extends Magento_Core_Block_Template
     /**
      * Return store manager instance
      *
-     * @return Magento_Core_Model_StoreManager
+     * @return \Magento\Core\Model\StoreManager
      */
     protected function _getStoreManagerModel()
     {
@@ -105,7 +107,7 @@ extends Magento_Core_Block_Template
     public function getBalance($convertPrice = false)
     {
         if (
-            !$this->_helperFactory->get('Magento_CustomerBalance_Helper_Data')->isEnabled()
+            !$this->_helperFactory->get('Magento\CustomerBalance\Helper\Data')->isEnabled()
             || !$this->_getBalanceInstance()
         ) {
             return 0.0;
@@ -153,7 +155,7 @@ extends Magento_Core_Block_Template
     /**
      * Instantiate/load balance and return it
      *
-     * @return Magento_CustomerBalance_Model_Balance|false
+     * @return \Magento\CustomerBalance\Model\Balance|false
      */
     protected function _getBalanceInstance()
     {

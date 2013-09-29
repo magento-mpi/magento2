@@ -6,10 +6,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\System;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_System_AccountTest extends Magento_Backend_Utility_Controller
+class AccountTest extends \Magento\Backend\Utility\Controller
 {
     /**
      * @magentoDbIsolation enabled
@@ -17,9 +19,9 @@ class Magento_Adminhtml_System_AccountTest extends Magento_Backend_Utility_Contr
     public function testSaveAction()
     {
         $userId = $this->_session->getUser()->getId();
-        /** @var $user Magento_User_Model_User */
-        $user = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_User_Model_User')->load($userId);
+        /** @var $user \Magento\User\Model\User */
+        $user = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\User\Model\User')->load($userId);
         $oldPassword = $user->getPassword();
 
         $password = uniqid('123q');
@@ -29,12 +31,12 @@ class Magento_Adminhtml_System_AccountTest extends Magento_Backend_Utility_Contr
             ->setParam('password', $password)->setParam('password_confirmation', $password);
         $this->dispatch('backend/admin/system_account/save');
 
-        /** @var $user Magento_User_Model_User */
-        $user = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_User_Model_User')->load($userId);
+        /** @var $user \Magento\User\Model\User */
+        $user = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\User\Model\User')->load($userId);
         $this->assertNotEquals($oldPassword, $user->getPassword());
         $this->assertTrue(
-            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Helper_Data')
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Helper\Data')
                 ->validateHash($password, $user->getPassword())
         );
     }

@@ -16,13 +16,13 @@ umask(0);
 
 try {
     $params = array(
-        Magento_Core_Model_App::PARAM_RUN_CODE => 'admin',
-        Magento_Core_Model_Store::CUSTOM_ENTRY_POINT_PARAM => true
+        \Magento\Core\Model\App::PARAM_RUN_CODE => 'admin',
+        \Magento\Core\Model\Store::CUSTOM_ENTRY_POINT_PARAM => true
     );
-    $config = new Magento_Core_Model_Config_Primary(BP, $params);
-    $entryPoint = new Magento_Core_Model_EntryPoint_Cron($config);
+    $config = new \Magento\Core\Model\Config\Primary(BP, $params);
+    $entryPoint = new \Magento\Core\Model\EntryPoint\Cron($config);
     $entryPoint->processRequest();
-} catch (Exception $e) {
-    Mage::printException($e);
+} catch (\Exception $e) {
+    \Mage::printException($e);
 }
 Magento_Profiler::stop('mage');

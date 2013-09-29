@@ -16,7 +16,9 @@
  * @package     Magento_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reports_Model_Resource_Wishlist_Product_Collection extends Magento_Wishlist_Model_Resource_Item_Collection
+namespace Magento\Reports\Model\Resource\Wishlist\Product;
+
+class Collection extends \Magento\Wishlist\Model\Resource\Item\Collection
 {
     /**
      * Resource initialization
@@ -24,13 +26,13 @@ class Magento_Reports_Model_Resource_Wishlist_Product_Collection extends Magento
      */
     public function _construct()
     {
-        $this->_init('Magento_Wishlist_Model_Wishlist', 'Magento_Wishlist_Model_Resource_Wishlist');
+        $this->_init('Magento\Wishlist\Model\Wishlist', 'Magento\Wishlist\Model\Resource\Wishlist');
     }
 
     /**
      * Add wishlist count
      *
-     * @return Magento_Reports_Model_Resource_Wishlist_Product_Collection
+     * @return \Magento\Reports\Model\Resource\Wishlist\Product\Collection
      */
     public function addWishlistCount()
     {
@@ -39,7 +41,7 @@ class Magento_Reports_Model_Resource_Wishlist_Product_Collection extends Magento
             ->join(
                 array('wi' => $wishlistItemTable),
                 'wi.product_id = e.entity_id',
-                array('wishlists' => new Zend_Db_Expr('COUNT(wi.wishlist_item_id)')))
+                array('wishlists' => new \Zend_Db_Expr('COUNT(wi.wishlist_item_id)')))
             ->where('wi.product_id = e.entity_id')
             ->group('wi.product_id');
 
@@ -50,7 +52,7 @@ class Magento_Reports_Model_Resource_Wishlist_Product_Collection extends Magento
     /**
      * add customer count to result
      *
-     * @return Magento_Reports_Model_Resource_Wishlist_Product_Collection
+     * @return \Magento\Reports\Model\Resource\Wishlist\Product\Collection
      */
     public function getCustomerCount()
     {
@@ -60,7 +62,7 @@ class Magento_Reports_Model_Resource_Wishlist_Product_Collection extends Magento
             ->from(
                 array('wishlist' => $this->getTable('wishlist')),
                 array(
-                    'wishlist_cnt' => new Zend_Db_Expr('COUNT(wishlist.wishlist_id)'),
+                    'wishlist_cnt' => new \Zend_Db_Expr('COUNT(wishlist.wishlist_id)'),
                     'wishlist.customer_id'
                 ))
             ->group('wishlist.customer_id');
@@ -75,11 +77,11 @@ class Magento_Reports_Model_Resource_Wishlist_Product_Collection extends Magento
     public function getSelectCountSql()
     {
         $countSelect = clone $this->getSelect();
-        $countSelect->reset(Zend_Db_Select::ORDER);
-        $countSelect->reset(Zend_Db_Select::LIMIT_COUNT);
-        $countSelect->reset(Zend_Db_Select::LIMIT_OFFSET);
-        $countSelect->reset(Zend_Db_Select::GROUP);
-        $countSelect->reset(Zend_Db_Select::COLUMNS);
+        $countSelect->reset(\Zend_Db_Select::ORDER);
+        $countSelect->reset(\Zend_Db_Select::LIMIT_COUNT);
+        $countSelect->reset(\Zend_Db_Select::LIMIT_OFFSET);
+        $countSelect->reset(\Zend_Db_Select::GROUP);
+        $countSelect->reset(\Zend_Db_Select::COLUMNS);
         $countSelect->columns("COUNT(*)");
 
         return $countSelect;
@@ -90,7 +92,7 @@ class Magento_Reports_Model_Resource_Wishlist_Product_Collection extends Magento
      *
      * @param string $attribute
      * @param string $dir
-     * @return Magento_Reports_Model_Resource_Wishlist_Product_Collection
+     * @return \Magento\Reports\Model\Resource\Wishlist\Product\Collection
      */
     public function setOrder($attribute, $dir = self::SORT_ORDER_DESC)
     {

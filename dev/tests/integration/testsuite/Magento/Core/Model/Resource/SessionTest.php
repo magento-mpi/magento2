@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Resource_SessionTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Resource;
+
+class SessionTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Test session ID
@@ -49,21 +51,21 @@ class Magento_Core_Model_Resource_SessionTest extends PHPUnit_Framework_TestCase
     protected $_sessionData;
 
     /**
-     * @var Magento_TestFramework_ObjectManager
+     * @var \Magento\TestFramework\ObjectManager
      */
     protected $_objectManager;
 
     /**
      * Model under test
      *
-     * @var Magento_Core_Model_Resource_Session
+     * @var \Magento\Core\Model\Resource\Session
      */
     protected $_model;
 
     /**
      * Write connection adapter
      *
-     * @var Magento_DB_Adapter_Interface
+     * @var \Magento\DB\Adapter\AdapterInterface
      */
     protected $_connection;
 
@@ -76,18 +78,18 @@ class Magento_Core_Model_Resource_SessionTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $this->_model         = $this->_objectManager->get('Magento_Core_Model_Resource_Session');
+        $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $this->_model         = $this->_objectManager->get('Magento\Core\Model\Resource\Session');
 
-        /** @var $resource Magento_Core_Model_Resource */
-        $resource            = $this->_objectManager->get('Magento_Core_Model_Resource');
+        /** @var $resource \Magento\Core\Model\Resource */
+        $resource            = $this->_objectManager->get('Magento\Core\Model\Resource');
         $this->_connection   = $resource->getConnection('core_write');
         $this->_sessionTable = $resource->getTableName('core_session');
 
         // session stores serialized objects with protected properties
         // we need to test this case to ensure that DB adapter successfully processes "\0" symbols in serialized data
         foreach ($this->_sourceData as $key => $data) {
-            $this->_sessionData[$key] = new Magento_Object($data);
+            $this->_sessionData[$key] = new \Magento\Object($data);
         }
     }
 

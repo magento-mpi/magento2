@@ -15,7 +15,9 @@
  * @package    Magento_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backend_Model_Config_Backend_Datashare extends Magento_Core_Model_Config_Value
+namespace Magento\Backend\Model\Config\Backend;
+
+class Datashare extends \Magento\Core\Model\Config\Value
 {
     protected function _afterSave()
     {

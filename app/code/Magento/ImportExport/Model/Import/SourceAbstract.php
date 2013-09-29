@@ -11,7 +11,9 @@
 /**
  * Data source with columns for Magento_ImportExport
  */
-abstract class Magento_ImportExport_Model_Import_SourceAbstract implements SeekableIterator
+namespace Magento\ImportExport\Model\Import;
+
+abstract class SourceAbstract implements \SeekableIterator
 {
     /**
      * @var array
@@ -45,15 +47,15 @@ abstract class Magento_ImportExport_Model_Import_SourceAbstract implements Seeka
      * Get and validate column names
      *
      * @param array $colNames
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function __construct(array $colNames)
     {
         if (empty($colNames)) {
-            throw new InvalidArgumentException('Empty column names');
+            throw new \InvalidArgumentException('Empty column names');
         }
         if (count(array_unique($colNames)) != count($colNames)) {
-            throw new InvalidArgumentException('Duplicates found in column names: ' . var_export($colNames, 1));
+            throw new \InvalidArgumentException('Duplicates found in column names: ' . var_export($colNames, 1));
         }
         $this->_colNames = $colNames;
         $this->_colQty = count($colNames);
@@ -86,7 +88,7 @@ abstract class Magento_ImportExport_Model_Import_SourceAbstract implements Seeka
     }
 
     /**
-     * Move forward to next element (Iterator interface)
+     * Move forward to next element (\Iterator interface)
      */
     public function next()
     {
@@ -110,7 +112,7 @@ abstract class Magento_ImportExport_Model_Import_SourceAbstract implements Seeka
     abstract protected function _getNextRow();
 
     /**
-     * Return the key of the current element (Iterator interface)
+     * Return the key of the current element (\Iterator interface)
      *
      * @return int -1 if out of bounds, 0 or more otherwise
      */
@@ -120,7 +122,7 @@ abstract class Magento_ImportExport_Model_Import_SourceAbstract implements Seeka
     }
 
     /**
-     * Checks if current position is valid (Iterator interface)
+     * Checks if current position is valid (\Iterator interface)
      *
      * @return bool
      */
@@ -131,7 +133,7 @@ abstract class Magento_ImportExport_Model_Import_SourceAbstract implements Seeka
 
 
     /**
-     * Rewind the Iterator to the first element (Iterator interface)
+     * Rewind the \Iterator to the first element (\Iterator interface)
      */
     public function rewind()
     {
@@ -144,7 +146,7 @@ abstract class Magento_ImportExport_Model_Import_SourceAbstract implements Seeka
      * Seeks to a position (Seekable interface)
      *
      * @param int $position The position to seek to 0 or more
-     * @throws OutOfBoundsException
+     * @throws \OutOfBoundsException
      */
     public function seek($position)
     {
@@ -162,6 +164,6 @@ abstract class Magento_ImportExport_Model_Import_SourceAbstract implements Seeka
                 }
             } while ($this->_key != -1);
         }
-        throw new OutOfBoundsException('Please correct the seek position.');
+        throw new \OutOfBoundsException('Please correct the seek position.');
     }
 }

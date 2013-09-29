@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Backup_Dialogs extends Magento_Adminhtml_Block_Template
+namespace Magento\Adminhtml\Block\Backup;
+
+class Dialogs extends \Magento\Adminhtml\Block\Template
 {
     /**
      * Block's template
@@ -27,13 +29,13 @@ class Magento_Adminhtml_Block_Backup_Dialogs extends Magento_Adminhtml_Block_Tem
     /**
      * Include backup.js file in page before rendering
      *
-     * @see Magento_Core_Block_Abstract::_prepareLayout()
+     * @see \Magento\Core\Block\AbstractBlock::_prepareLayout()
      */
     protected function _prepareLayout()
     {
         $this->getLayout()->getBlock('head')->addChild(
             'magento-adminhtml-backup-js',
-            'Magento_Page_Block_Html_Head_Script',
+            'Magento\Page\Block\Html\Head\Script',
             array(
                 'file' => 'mage/adminhtml/backup.js'
             )

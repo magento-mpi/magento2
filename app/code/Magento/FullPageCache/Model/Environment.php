@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_FullPageCache_Model_Environment
+namespace Magento\FullPageCache\Model;
+
+class Environment
 {
     /**
      * Get value from storage

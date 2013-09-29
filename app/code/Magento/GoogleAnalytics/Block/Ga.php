@@ -16,39 +16,41 @@
  * @package    Magento_GoogleAnalytics
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GoogleAnalytics_Block_Ga extends Magento_Core_Block_Template
+namespace Magento\GoogleAnalytics\Block;
+
+class Ga extends \Magento\Core\Block\Template
 {
     /**
      * Google analytics data
      *
-     * @var Magento_GoogleAnalytics_Helper_Data
+     * @var \Magento\GoogleAnalytics\Helper\Data
      */
     protected $_googleAnalyticsData = null;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Sales_Model_Resource_Order_CollectionFactory
+     * @var \Magento\Sales\Model\Resource\Order\CollectionFactory
      */
     protected $_salesOrderCollection;
 
     /**
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Sales_Model_Resource_Order_CollectionFactory $salesOrderCollection
-     * @param Magento_GoogleAnalytics_Helper_Data $googleAnalyticsData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Sales\Model\Resource\Order\CollectionFactory $salesOrderCollection
+     * @param \Magento\GoogleAnalytics\Helper\Data $googleAnalyticsData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Sales_Model_Resource_Order_CollectionFactory $salesOrderCollection,
-        Magento_GoogleAnalytics_Helper_Data $googleAnalyticsData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Sales\Model\Resource\Order\CollectionFactory $salesOrderCollection,
+        \Magento\GoogleAnalytics\Helper\Data $googleAnalyticsData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_googleAnalyticsData = $googleAnalyticsData;

@@ -6,28 +6,30 @@
  * @license   {license_link}
  */
 
-class Magento_Reward_Model_Observer_PlaceOrder_Restriction_BackendTest extends PHPUnit_Framework_TestCase
+namespace Magento\Reward\Model\Observer\PlaceOrder\Restriction;
+
+class BackendTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Reward_Model_Observer_PlaceOrder_Restriction_Backend
+     * @var \Magento\Reward\Model\Observer\PlaceOrder\Restriction\Backend
      */
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_helper;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_authorizationMock;
 
     protected function setUp()
     {
-        $this->_helper = $this->getMock('Magento_Reward_Helper_Data', array(), array(), '', false);
-        $this->_authorizationMock = $this->getMock('Magento_AuthorizationInterface');
-        $this->_model = new Magento_Reward_Model_Observer_PlaceOrder_Restriction_Backend(
+        $this->_helper = $this->getMock('Magento\Reward\Helper\Data', array(), array(), '', false);
+        $this->_authorizationMock = $this->getMock('Magento\AuthorizationInterface');
+        $this->_model = new \Magento\Reward\Model\Observer\PlaceOrder\Restriction\Backend(
             $this->_helper,
             $this->_authorizationMock
         );

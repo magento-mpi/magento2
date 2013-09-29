@@ -9,20 +9,22 @@
  * @license     {license_link}
  */
 
+namespace Magento\Newsletter\Model;
+
 /**
  * @magentoDataFixture Magento/Core/_files/store.php
  */
-class Magento_Newsletter_Model_TemplateTest extends PHPUnit_Framework_TestCase
+class TemplateTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Newsletter_Model_Template
+     * @var \Magento\Newsletter\Model\Template
      */
     protected  $_model = null;
 
     protected function setUp()
     {
-        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Newsletter_Model_Template');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Newsletter\Model\Template');
     }
 
     /**

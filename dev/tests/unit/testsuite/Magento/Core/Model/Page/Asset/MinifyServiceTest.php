@@ -6,46 +6,48 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Page_Asset_MinifyServiceTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Page\Asset;
+
+class MinifyServiceTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Store_Config|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Model\Store\Config|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_storeConfig;
 
     /**
-     * @var Magento_ObjectManager|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\ObjectManager|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_objectManager;
 
     /**
-     * @var Magento_Core_Model_Page_Asset_MinifyService
+     * @var \Magento\Core\Model\Page\Asset\MinifyService
      */
     protected $_model;
 
     /**
-     * @var Magento_Core_Model_App_State|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Model\App\State|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_appState;
 
     protected function setUp()
     {
-        $this->_storeConfig = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false);
-        $dirs = $this->getMock('Magento_Core_Model_Dir', array(), array(), '', false);
-        $this->_objectManager = $this->getMock('Magento_ObjectManager');
-        $this->_appState = $this->getMock('Magento_Core_Model_App_State', array(), array(), '', false);
+        $this->_storeConfig = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false);
+        $dirs = $this->getMock('Magento\Core\Model\Dir', array(), array(), '', false);
+        $this->_objectManager = $this->getMock('Magento\ObjectManager');
+        $this->_appState = $this->getMock('Magento\Core\Model\App\State', array(), array(), '', false);
 
-        $this->_model = new Magento_Core_Model_Page_Asset_MinifyService($this->_storeConfig, $this->_objectManager,
+        $this->_model = new \Magento\Core\Model\Page\Asset\MinifyService($this->_storeConfig, $this->_objectManager,
             $dirs, $this->_appState);
     }
 
     public function testGetAssets()
     {
-        $assetOne = $this->getMockForAbstractClass('Magento_Core_Model_Page_Asset_LocalInterface');
+        $assetOne = $this->getMockForAbstractClass('Magento\Core\Model\Page\Asset\LocalInterface');
         $assetOne->expects($this->once())
             ->method('getContentType')
             ->will($this->returnValue('js'));
-        $assetTwo = $this->getMockForAbstractClass('Magento_Core_Model_Page_Asset_LocalInterface');
+        $assetTwo = $this->getMockForAbstractClass('Magento\Core\Model\Page\Asset\LocalInterface');
         $assetTwo->expects($this->once())
             ->method('getContentType')
             ->will($this->returnValue('js'));
@@ -57,7 +59,7 @@ class Magento_Core_Model_Page_Asset_MinifyServiceTest extends PHPUnit_Framework_
         $this->_storeConfig->expects($this->once())
             ->method('getConfig')
             ->with('dev/js/minify_adapter')
-            ->will($this->returnValue('Magento_Code_Minifier_AdapterInterface'));
+            ->will($this->returnValue('Magento\Code\Minifier\AdapterInterface'));
 
         $self = $this;
         $this->_objectManager->expects($this->any())
@@ -71,13 +73,13 @@ class Magento_Core_Model_Page_Asset_MinifyServiceTest extends PHPUnit_Framework_
         $minifiedAssets = $this->_model->getAssets(array($assetOne, $assetTwo));
         $this->assertCount(2, $minifiedAssets);
         $this->assertNotSame($minifiedAssets[0], $minifiedAssets[1]);
-        $this->assertInstanceOf('Magento_Core_Model_Page_Asset_Minified', $minifiedAssets[0]);
-        $this->assertInstanceOf('Magento_Core_Model_Page_Asset_Minified', $minifiedAssets[1]);
+        $this->assertInstanceOf('Magento\Core\Model\Page\Asset\Minified', $minifiedAssets[0]);
+        $this->assertInstanceOf('Magento\Core\Model\Page\Asset\Minified', $minifiedAssets[1]);
     }
 
     public function testGetAssetsDisabled()
     {
-        $asset = $this->getMockForAbstractClass('Magento_Core_Model_Page_Asset_LocalInterface');
+        $asset = $this->getMockForAbstractClass('Magento\Core\Model\Page\Asset\LocalInterface');
         $asset->expects($this->once())
             ->method('getContentType')
             ->will($this->returnValue('js'));
@@ -95,7 +97,7 @@ class Magento_Core_Model_Page_Asset_MinifyServiceTest extends PHPUnit_Framework_
     }
 
     /**
-     * @expectedException Magento_Core_Exception
+     * @expectedException \Magento\Core\Exception
      * @expectedExceptionMessage Minification adapter is not specified for 'js' content type
      */
     public function testGetAssetsNoAdapterDefined()
@@ -104,7 +106,7 @@ class Magento_Core_Model_Page_Asset_MinifyServiceTest extends PHPUnit_Framework_
             ->method('getConfigFlag')
             ->with('dev/js/minify_files')
             ->will($this->returnValue(true));
-        $asset = $this->getMockForAbstractClass('Magento_Core_Model_Page_Asset_LocalInterface');
+        $asset = $this->getMockForAbstractClass('Magento\Core\Model\Page\Asset\LocalInterface');
         $asset->expects($this->once())
             ->method('getContentType')
             ->will($this->returnValue('js'));
@@ -122,7 +124,7 @@ class Magento_Core_Model_Page_Asset_MinifyServiceTest extends PHPUnit_Framework_
             ->method('getMode')
             ->will($this->returnValue($mode));
 
-        $asset = $this->getMockForAbstractClass('Magento_Core_Model_Page_Asset_LocalInterface');
+        $asset = $this->getMockForAbstractClass('Magento\Core\Model\Page\Asset\LocalInterface');
         $asset->expects($this->once())
             ->method('getContentType')
             ->will($this->returnValue('js'));
@@ -134,7 +136,7 @@ class Magento_Core_Model_Page_Asset_MinifyServiceTest extends PHPUnit_Framework_
         $this->_storeConfig->expects($this->once())
             ->method('getConfig')
             ->with('dev/js/minify_adapter')
-            ->will($this->returnValue('Magento_Code_Minifier_AdapterInterface'));
+            ->will($this->returnValue('Magento\Code\Minifier\AdapterInterface'));
 
         $this->_objectManager->expects($this->at(1))
             ->method('create')
@@ -150,16 +152,16 @@ class Magento_Core_Model_Page_Asset_MinifyServiceTest extends PHPUnit_Framework_
     {
         return array(
             'production' => array(
-                Magento_Core_Model_App_State::MODE_PRODUCTION,
-                'Magento_Code_Minifier_Strategy_Lite'
+                \Magento\Core\Model\App\State::MODE_PRODUCTION,
+                'Magento\Code\Minifier\Strategy\Lite'
             ),
             'default'    => array(
-                Magento_Core_Model_App_State::MODE_DEFAULT,
-                'Magento_Code_Minifier_Strategy_Generate'
+                \Magento\Core\Model\App\State::MODE_DEFAULT,
+                'Magento\Code\Minifier\Strategy\Generate'
             ),
             'developer'  => array(
-                Magento_Core_Model_App_State::MODE_DEVELOPER,
-                'Magento_Code_Minifier_Strategy_Generate'
+                \Magento\Core\Model\App\State::MODE_DEVELOPER,
+                'Magento\Code\Minifier\Strategy\Generate'
             ),
         );
     }

@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Controller_Report extends Magento_Adminhtml_Controller_Action
+namespace Magento\Adminhtml\Controller;
+
+class Report extends \Magento\Adminhtml\Controller\Action
 {
     public function _initAction()
     {

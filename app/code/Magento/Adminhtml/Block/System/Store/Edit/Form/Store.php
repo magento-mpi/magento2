@@ -14,38 +14,41 @@
  * @category    Magento
  * @package     Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
- *
+ */
+namespace Magento\Adminhtml\Block\System\Store\Edit\Form;
+
+/**
  * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
-class Magento_Adminhtml_Block_System_Store_Edit_Form_Store
-    extends Magento_Adminhtml_Block_System_Store_Edit_FormAbstract
+class Store
+    extends \Magento\Adminhtml\Block\System\Store\Edit\AbstractForm
 {
     /**
-     * @var Magento_Core_Model_Website_Factory
+     * @var \Magento\Core\Model\Website\Factory
      */
     protected $_websiteFactory;
 
     /**
-     * @var Magento_Core_Model_Store_Group_Factory
+     * @var \Magento\Core\Model\Store\Group\Factory
      */
     protected $_groupFactory;
 
     /**
-     * @param Magento_Core_Model_Store_Group_Factory $groupFactory
-     * @param Magento_Core_Model_Website_Factory $websiteFactory
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
+     * @param \Magento\Core\Model\Store\Group\Factory $groupFactory
+     * @param \Magento\Core\Model\Website\Factory $websiteFactory
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Store_Group_Factory $groupFactory,
-        Magento_Core_Model_Website_Factory $websiteFactory,
-        Magento_Core_Model_Registry $registry,
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
+        \Magento\Core\Model\Store\Group\Factory $groupFactory,
+        \Magento\Core\Model\Website\Factory $websiteFactory,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_groupFactory = $groupFactory;
@@ -56,9 +59,9 @@ class Magento_Adminhtml_Block_System_Store_Edit_Form_Store
     /**
      * Prepare store specific fieldset
      *
-     * @param Magento_Data_Form $form
+     * @param \Magento\Data\Form $form
      */
-    protected function _prepareStoreFieldset(Magento_Data_Form $form)
+    protected function _prepareStoreFieldset(\Magento\Data\Form $form)
     {
         $storeModel = $this->_coreRegistry->registry('store_data');
         $postData = $this->_coreRegistry->registry('store_post_data');

@@ -9,13 +9,15 @@
  * @license     {license_link}
  */
 
+namespace Magento\Backend\Model\Config\Backend\Admin;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Backend_Model_Config_Backend_Admin_RobotsTest extends PHPUnit_Framework_TestCase
+class RobotsTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Backend_Model_Config_Backend_Admin_Robots
+     * @var \Magento\Backend\Model\Config\Backend\Admin\Robots
      */
     protected $_model = null;
 
@@ -26,8 +28,8 @@ class Magento_Backend_Model_Config_Backend_Admin_RobotsTest extends PHPUnit_Fram
     {
         parent::setUp();
 
-        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Backend_Model_Config_Backend_Admin_Robots');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Backend\Model\Config\Backend\Admin\Robots');
         $this->_model->setPath('design/search_engine_robots/custom_instructions');
         $this->_model->afterLoad();
     }
@@ -59,8 +61,8 @@ class Magento_Backend_Model_Config_Backend_Admin_RobotsTest extends PHPUnit_Fram
      */
     public function testAfterSaveFileNotExists()
     {
-        $robotsTxtPath = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-                ->get('Magento_Core_Model_Dir')->getDir() . DS . 'robots.txt';
+        $robotsTxtPath = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                ->get('Magento\Core\Model\Dir')->getDir() . DS . 'robots.txt';
         $this->assertFileNotExists($robotsTxtPath, 'robots.txt exists');
 
         $this->_modifyConfig();
@@ -74,7 +76,7 @@ class Magento_Backend_Model_Config_Backend_Admin_RobotsTest extends PHPUnit_Fram
      */
     public function testAfterSaveFileExists()
     {
-        $robotsTxtPath = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Dir')
+        $robotsTxtPath = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Dir')
                 ->getDir() . DS . 'robots.txt';
         $this->assertFileExists($robotsTxtPath, 'robots.txt exists');
 
@@ -89,8 +91,8 @@ class Magento_Backend_Model_Config_Backend_Admin_RobotsTest extends PHPUnit_Fram
         $robotsTxt = "User-Agent: *\nDisallow: /checkout";
         $this->_model->setValue($robotsTxt)->save();
         $this->assertStringEqualsFile(
-            Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-                ->get('Magento_Core_Model_Dir')->getDir() . DS . 'robots.txt',
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                ->get('Magento\Core\Model\Dir')->getDir() . DS . 'robots.txt',
             $robotsTxt
         );
     }

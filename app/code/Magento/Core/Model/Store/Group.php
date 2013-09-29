@@ -10,17 +10,20 @@
 
 /**
  * Store group model
- *
- * @method Magento_Core_Model_Resource_Store_Group _getResource()
- * @method Magento_Core_Model_Resource_Store_Group getResource()
- * @method Magento_Core_Model_Store_Group setWebsiteId(int $value)
+ */
+namespace Magento\Core\Model\Store;
+
+/**
+ * @method \Magento\Core\Model\Resource\Store\Group _getResource()
+ * @method \Magento\Core\Model\Resource\Store\Group getResource()
+ * @method \Magento\Core\Model\Store\Group setWebsiteId(int $value)
  * @method string getName()
  * @method string getCode()
- * @method Magento_Core_Model_Store_Group setName(string $value)
- * @method Magento_Core_Model_Store_Group setRootCategoryId(int $value)
- * @method Magento_Core_Model_Store_Group setDefaultStoreId(int $value)
+ * @method \Magento\Core\Model\Store\Group setName(string $value)
+ * @method \Magento\Core\Model\Store\Group setRootCategoryId(int $value)
+ * @method \Magento\Core\Model\Store\Group setDefaultStoreId(int $value)
  */
-class Magento_Core_Model_Store_Group extends Magento_Core_Model_Abstract
+class Group extends \Magento\Core\Model\AbstractModel
 {
     const ENTITY         = 'store_group';
     const CACHE_TAG      = 'store_group';
@@ -68,7 +71,7 @@ class Magento_Core_Model_Store_Group extends Magento_Core_Model_Abstract
     /**
      * Group default store
      *
-     * @var Magento_Core_Model_Store
+     * @var \Magento\Core\Model\Store
      */
     protected $_defaultStore;
 
@@ -78,24 +81,24 @@ class Magento_Core_Model_Store_Group extends Magento_Core_Model_Abstract
     private $_isReadOnly = false;
 
     /**
-     * @var Magento_Core_Model_Resource_Config_Data
+     * @var \Magento\Core\Model\Resource\Config\Data
      */
     protected $_configDataResource;
 
     /**
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Resource_Config_Data $configDataResource
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Resource\Config\Data $configDataResource
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_Resource_Config_Data $configDataResource,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Resource\Config\Data $configDataResource,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_configDataResource = $configDataResource;
@@ -109,7 +112,7 @@ class Magento_Core_Model_Store_Group extends Magento_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('Magento_Core_Model_Resource_Store_Group');
+        $this->_init('Magento\Core\Model\Resource\Store\Group');
     }
 
     /**
@@ -154,11 +157,11 @@ class Magento_Core_Model_Store_Group extends Magento_Core_Model_Abstract
     /**
      * Retrieve new (not loaded) Store collection object with group filter
      *
-     * @return Magento_Core_Model_Resource_Store_Collection
+     * @return \Magento\Core\Model\Resource\Store\Collection
      */
     public function getStoreCollection()
     {
-        return Mage::getModel('Magento_Core_Model_Store')
+        return \Mage::getModel('Magento\Core\Model\Store')
             ->getCollection()
             ->addGroupFilter($this->getId());
     }
@@ -213,7 +216,7 @@ class Magento_Core_Model_Store_Group extends Magento_Core_Model_Abstract
     /**
      * Retrieve default store model
      *
-     * @return Magento_Core_Model_Store
+     * @return \Magento\Core\Model\Store
      */
     public function getDefaultStore()
     {
@@ -232,7 +235,7 @@ class Magento_Core_Model_Store_Group extends Magento_Core_Model_Abstract
      * If group has no stores - null is returned
      *
      * @param string $locale
-     * @return Magento_Core_Model_Store|null
+     * @return \Magento\Core\Model\Store|null
      */
     public function getDefaultStoreByLocale($locale)
     {
@@ -258,7 +261,7 @@ class Magento_Core_Model_Store_Group extends Magento_Core_Model_Abstract
     {
         $stores = array();
         foreach ($this->getStores() as $store) {
-            /* @var $store Magento_Core_Model_Store */
+            /* @var $store \Magento\Core\Model\Store */
             if ($store->getLocaleCode() == $locale) {
                 array_push($stores, $store);
             }
@@ -269,9 +272,9 @@ class Magento_Core_Model_Store_Group extends Magento_Core_Model_Abstract
     /**
      * Set relation to the website
      *
-     * @param Magento_Core_Model_Website $website
+     * @param \Magento\Core\Model\Website $website
      */
-    public function setWebsite(Magento_Core_Model_Website $website)
+    public function setWebsite(\Magento\Core\Model\Website $website)
     {
         $this->setWebsiteId($website->getId());
     }
@@ -279,14 +282,14 @@ class Magento_Core_Model_Store_Group extends Magento_Core_Model_Abstract
     /**
      * Retrieve website model
      *
-     * @return Magento_Core_Model_Website|bool
+     * @return \Magento\Core\Model\Website|bool
      */
     public function getWebsite()
     {
         if (is_null($this->getWebsiteId())) {
             return false;
         }
-        return Mage::app()->getWebsite($this->getWebsiteId());
+        return \Mage::app()->getWebsite($this->getWebsiteId());
     }
 
     /**

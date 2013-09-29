@@ -11,7 +11,9 @@
 /**
  * Sales Billing Agreement form block
  */
-class Magento_Sales_Block_Payment_Form_Billing_Agreement extends Magento_Payment_Block_Form
+namespace Magento\Sales\Block\Payment\Form\Billing;
+
+class Agreement extends \Magento\Payment\Block\Form
 {
     /**
      * @var string
@@ -19,20 +21,20 @@ class Magento_Sales_Block_Payment_Form_Billing_Agreement extends Magento_Payment
     protected $_template = 'Magento_Sales::payment/form/billing/agreement.phtml';
 
     /**
-     * @var Magento_Sales_Model_Billing_AgreementFactory
+     * @var \Magento\Sales\Model\Billing\AgreementFactory
      */
     protected $_agreementFactory;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Sales_Model_Billing_AgreementFactory $agreementFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Sales\Model\Billing\AgreementFactory $agreementFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Sales_Model_Billing_AgreementFactory $agreementFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Sales\Model\Billing\AgreementFactory $agreementFactory,
         array $data = array()
     ) {
         $this->_agreementFactory = $agreementFactory;
@@ -44,7 +46,7 @@ class Magento_Sales_Block_Payment_Form_Billing_Agreement extends Magento_Payment
         parent::_construct();
 
         $this->setTransportName(
-            Magento_Sales_Model_Payment_Method_Billing_AgreementAbstract::TRANSPORT_BILLING_AGREEMENT_ID
+            \Magento\Sales\Model\Payment\Method\Billing\AbstractAgreement::TRANSPORT_BILLING_AGREEMENT_ID
         );
     }
 

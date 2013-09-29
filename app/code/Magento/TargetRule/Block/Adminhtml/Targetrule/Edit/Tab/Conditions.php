@@ -15,36 +15,38 @@
  * @category   Magento
  * @package    Magento_TargetRule
  */
-class Magento_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Conditions
-    extends Magento_Backend_Block_Widget_Form_Generic
-    implements Magento_Backend_Block_Widget_Tab_Interface
+namespace Magento\TargetRule\Block\Adminhtml\Targetrule\Edit\Tab;
+
+class Conditions
+    extends \Magento\Backend\Block\Widget\Form\Generic
+    implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
-     * @var Magento_TargetRule_Block_Adminhtml_Rule_Conditions
+     * @var \Magento\TargetRule\Block\Adminhtml\Rule\Conditions
      */
     protected $_conditions;
 
     /**
-     * @var Magento_Backend_Block_Widget_Form_Renderer_Fieldset
+     * @var \Magento\Backend\Block\Widget\Form\Renderer\Fieldset
      */
     protected $_fieldset;
 
     /**
-     * @param Magento_Backend_Block_Widget_Form_Renderer_Fieldset $fieldset
-     * @param Magento_TargetRule_Block_Adminhtml_Rule_Conditions $conditions
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
+     * @param \Magento\Backend\Block\Widget\Form\Renderer\Fieldset $fieldset
+     * @param \Magento\TargetRule\Block\Adminhtml\Rule\Conditions $conditions
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Block_Widget_Form_Renderer_Fieldset $fieldset,
-        Magento_TargetRule_Block_Adminhtml_Rule_Conditions $conditions,
-        Magento_Core_Model_Registry $registry,
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
+        \Magento\Backend\Block\Widget\Form\Renderer\Fieldset $fieldset,
+        \Magento\TargetRule\Block\Adminhtml\Rule\Conditions $conditions,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_conditions = $conditions;
@@ -56,14 +58,14 @@ class Magento_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Conditions
     /**
      * Prepare target rule actions form before rendering HTML
      *
-     * @return Magento_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Conditions
+     * @return \Magento\TargetRule\Block\Adminhtml\Targetrule\Edit\Tab\Conditions
      */
     protected function _prepareForm()
     {
-        /* @var $model Magento_TargetRule_Model_Rule */
+        /* @var $model \Magento\TargetRule\Model\Rule */
         $model  = $this->_coreRegistry->registry('current_target_rule');
 
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('rule_');
 

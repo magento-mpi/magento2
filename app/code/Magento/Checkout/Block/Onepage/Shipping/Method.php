@@ -16,7 +16,9 @@
  * @package    Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Checkout_Block_Onepage_Shipping_Method extends Magento_Checkout_Block_Onepage_Abstract
+namespace Magento\Checkout\Block\Onepage\Shipping;
+
+class Method extends \Magento\Checkout\Block\Onepage\AbstractOnepage
 {
     protected function _construct()
     {

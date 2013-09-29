@@ -8,32 +8,34 @@
  * @license     {license_link}
  */
 
-class Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_History
-    extends Magento_Adminhtml_Block_Widget_Grid
+
+namespace Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tab;
+
+class History extends \Magento\Adminhtml\Block\Widget\Grid
 {
     protected $_collection;
 
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Url $urlModel
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Core\Model\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Url $urlModel,
-        Magento_Core_Model_Registry $coreRegistry,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        \Magento\Core\Model\Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
@@ -50,7 +52,7 @@ class Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_History
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('Magento_GiftCardAccount_Model_History')
+        $collection = \Mage::getModel('Magento\GiftCardAccount\Model\History')
             ->getCollection()
             ->addFieldToFilter(
                 'giftcardaccount_id',
@@ -84,11 +86,11 @@ class Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_History
             'index'     => 'action',
             'sortable'  => false,
             'type'      => 'options',
-            'options'   => Mage::getSingleton('Magento_GiftCardAccount_Model_History')->getActionNamesArray(),
+            'options'   => \Mage::getSingleton('Magento\GiftCardAccount\Model\History')->getActionNamesArray(),
         ));
 
         $giftCardAccount = $this->_coreRegistry->registry('current_giftcardaccount');
-        $currency = Mage::app()->getWebsite($giftCardAccount->getWebsiteId())->getBaseCurrencyCode();
+        $currency = \Mage::app()->getWebsite($giftCardAccount->getWebsiteId())->getBaseCurrencyCode();
         $this->addColumn('balance_delta', array(
             'header'        => __('Balance Change'),
             'width'         => 50,

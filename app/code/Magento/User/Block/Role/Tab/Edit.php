@@ -6,13 +6,15 @@
  * @license     {license_link}
  */
 
+namespace Magento\User\Block\Role\Tab;
+
 /**
  * Rolesedit Tab Display Block
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Magento_User_Block_Role_Tab_Edit extends Magento_Backend_Block_Widget_Form
-    implements Magento_Backend_Block_Widget_Tab_Interface
+class Edit extends \Magento\Backend\Block\Widget\Form
+    implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
 
     protected $_template = 'role/edit.phtml';
@@ -20,49 +22,49 @@ class Magento_User_Block_Role_Tab_Edit extends Magento_Backend_Block_Widget_Form
     /**
      * Root ACL Resource
      *
-     * @var Magento_Core_Model_Acl_RootResource
+     * @var \Magento\Core\Model\Acl\RootResource
      */
     protected $_rootResource;
 
     /**
      * Rules collection factory
      *
-     * @var Magento_User_Model_Resource_Rules_CollectionFactory
+     * @var \Magento\User\Model\Resource\Rules\CollectionFactory
      */
     protected $_rulesCollectionFactory;
 
     /**
      * Acl builder
      *
-     * @var Magento_Acl_Builder
+     * @var \Magento\Acl\Builder
      */
     protected $_aclBuilder;
 
     /**
      * Acl resource provider
      *
-     * @var Magento_Acl_Resource_ProviderInterface
+     * @var \Magento\Acl\Resource\ProviderInterface
      */
     protected $_aclResourceProvider;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Acl_RootResource $rootResource
-     * @param Magento_User_Model_Resource_Rules_CollectionFactory $rulesCollectionFactory
-     * @param Magento_Acl_Builder $aclBuilder
-     * @param Magento_Acl_Resource_ProviderInterface $aclResourceProvider
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Acl\RootResource $rootResource
+     * @param \Magento\User\Model\Resource\Rules\CollectionFactory $rulesCollectionFactory
+     * @param \Magento\Acl\Builder $aclBuilder
+     * @param \Magento\Acl\Resource\ProviderInterface $aclResourceProvider
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Acl_RootResource $rootResource,
-        Magento_User_Model_Resource_Rules_CollectionFactory $rulesCollectionFactory,
-        Magento_Acl_Builder $aclBuilder,
-        Magento_Acl_Resource_ProviderInterface $aclResourceProvider,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Acl\RootResource $rootResource,
+        \Magento\User\Model\Resource\Rules\CollectionFactory $rulesCollectionFactory,
+        \Magento\Acl\Builder $aclBuilder,
+        \Magento\Acl\Resource\ProviderInterface $aclResourceProvider,
         array $data = array()
     ) {
         $this->_aclBuilder = $aclBuilder;

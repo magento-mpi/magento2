@@ -11,21 +11,23 @@
 /**
  * Reminder rules edit form conditions
  */
-class Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Conditions
-    extends Magento_Backend_Block_Widget_Form_Generic
+namespace Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab;
+
+class Conditions
+    extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
      * Prepare conditions form
      *
-     * @return Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Conditions
+     * @return \Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab\Conditions
      */
     protected function _prepareForm()
     {
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
         $model = $this->_coreRegistry->registry('current_reminder_rule');
 
-        $renderer = Mage::getBlockSingleton('Magento_Adminhtml_Block_Widget_Form_Renderer_Fieldset')
+        $renderer = \Mage::getBlockSingleton('Magento\Adminhtml\Block\Widget\Form\Renderer\Fieldset')
             ->setTemplate('promo/fieldset.phtml')
             ->setNewChildUrl($this->getUrl('*/reminder/newConditionHtml/form/rule_conditions_fieldset'));
         $fieldset = $form->addFieldset('rule_conditions_fieldset', array(
@@ -36,7 +38,7 @@ class Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Conditions
         $fieldset->addField('conditions', 'text', array(
             'name' => 'conditions',
             'required' => true,
-        ))->setRule($model)->setRenderer(Mage::getBlockSingleton('Magento_Rule_Block_Conditions'));
+        ))->setRule($model)->setRenderer(\Mage::getBlockSingleton('Magento\Rule\Block\Conditions'));
 
         $form->setValues($model->getData());
         $this->setForm($form);

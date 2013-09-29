@@ -5,13 +5,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Resource_Type_Db_Pdo_Mysql extends Magento_Core_Model_Resource_Type_Db
-    implements Magento_Core_Model_Resource_ConnectionAdapterInterface
+namespace Magento\Core\Model\Resource\Type\Db\Pdo;
+
+class Mysql extends \Magento\Core\Model\Resource\Type\Db
+    implements \Magento\Core\Model\Resource\ConnectionAdapterInterface
 {
     /**
      * Dirs instance
      *
-     * @var Magento_Core_Model_Dir
+     * @var \Magento\Core\Model\Dir
      */
     protected $_dirs;
 
@@ -31,7 +33,7 @@ class Magento_Core_Model_Resource_Type_Db_Pdo_Mysql extends Magento_Core_Model_R
     protected $_isActive;
 
     /**
-     * @param Magento_Core_Model_Dir $dirs
+     * @param \Magento\Core\Model\Dir $dirs
      * @param string $host
      * @param string $username
      * @param string $password
@@ -42,7 +44,7 @@ class Magento_Core_Model_Resource_Type_Db_Pdo_Mysql extends Magento_Core_Model_R
      * @param bool $active
      */
     public function __construct(
-        Magento_Core_Model_Dir $dirs,
+        \Magento\Core\Model\Dir $dirs,
         $host,
         $username,
         $password,
@@ -72,7 +74,7 @@ class Magento_Core_Model_Resource_Type_Db_Pdo_Mysql extends Magento_Core_Model_R
     /**
      * Get connection
      *
-     * @return Magento_DB_Adapter_Interface|null
+     * @return \Magento\DB\Adapter\AdapterInterface|null
      */
     public function getConnection()
     {
@@ -86,7 +88,7 @@ class Magento_Core_Model_Resource_Type_Db_Pdo_Mysql extends Magento_Core_Model_R
         }
 
         $profiler = $connection->getProfiler();
-        if ($profiler instanceof Magento_DB_Profiler) {
+        if ($profiler instanceof \Magento\DB\Profiler) {
             $profiler->setType($this->_type);
             $profiler->setHost($this->_host);
         }
@@ -97,7 +99,7 @@ class Magento_Core_Model_Resource_Type_Db_Pdo_Mysql extends Magento_Core_Model_R
     /**
      * Create and return DB adapter object instance
      *
-     * @return Magento_DB_Adapter_Pdo_Mysql
+     * @return \Magento\DB\Adapter\Pdo\Mysql
      */
     protected function _getDbAdapterInstance()
     {
@@ -113,6 +115,6 @@ class Magento_Core_Model_Resource_Type_Db_Pdo_Mysql extends Magento_Core_Model_R
      */
     protected function _getDbAdapterClassName()
     {
-        return 'Magento_DB_Adapter_Pdo_Mysql';
+        return 'Magento\DB\Adapter\Pdo\Mysql';
     }
 }

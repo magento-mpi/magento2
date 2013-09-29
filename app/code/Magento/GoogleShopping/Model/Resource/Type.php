@@ -15,7 +15,9 @@
  * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GoogleShopping_Model_Resource_Type extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\GoogleShopping\Model\Resource;
+
+class Type extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     protected function _construct()
     {
@@ -25,10 +27,10 @@ class Magento_GoogleShopping_Model_Resource_Type extends Magento_Core_Model_Reso
     /**
      * Return Type ID by Attribute Set Id and target country
      *
-     * @param Magento_GoogleShopping_Model_Type $model
+     * @param \Magento\GoogleShopping\Model\Type $model
      * @param int $attributeSetId Attribute Set
      * @param string $targetCountry Two-letters country ISO code
-     * @return Magento_GoogleShopping_Model_Type
+     * @return \Magento\GoogleShopping\Model\Type
      */
     public function loadByAttributeSetIdAndTargetCountry($model, $attributeSetId, $targetCountry)
     {

@@ -15,7 +15,9 @@
  * @package     Magento_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Connect_Validator
+namespace Magento\Connect;
+
+class Validator
 {
     /**
      * Array of stability variants
@@ -52,7 +54,7 @@ class Magento_Connect_Validator
         $tmp = array_combine(array_values($list),array_keys($list));
 
         if (!isset($tmp[$s1], $tmp[$s2])) {
-            throw new Exception("Invalid stability in compareStabilities argument");
+            throw new \Exception("Invalid stability in compareStabilities argument");
         }
 
         $s1 = $tmp[$s1];
@@ -442,7 +444,7 @@ class Magento_Connect_Validator
      * Validate contents of package
      *
      * @param array $contents
-     * @param Magento_Connect_Config $config
+     * @param \Magento\Connect\Config $config
      * @return bool
      */
     public function validateContents(array $contents, $config)

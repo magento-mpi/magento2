@@ -1,13 +1,15 @@
 <?php
 /**
- * Test for Magento_Webapi_Model_Resource_Acl_Role.
+ * Test for \Magento\Webapi\Model\Resource\Acl\Role.
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Model_Resource_Acl_RoleTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webapi\Model\Resource\Acl;
+
+class RoleTest extends \PHPUnit_Framework_TestCase
 {
     protected function setUp()
     {
@@ -15,7 +17,7 @@ class Magento_Webapi_Model_Resource_Acl_RoleTest extends PHPUnit_Framework_TestC
     }
 
     /**
-     * Test for Magento_Webapi_Model_Resource_Acl_Role::getRolesIds().
+     * Test for \Magento\Webapi\Model\Resource\Acl\Role::getRolesIds().
      *
      * @magentoDataFixture Magento/Webapi/_files/role.php
      * @magentoDataFixture Magento/Webapi/_files/role_with_rule.php
@@ -23,53 +25,53 @@ class Magento_Webapi_Model_Resource_Acl_RoleTest extends PHPUnit_Framework_TestC
     public function testGetRolesIds()
     {
         $expectedRoleNames = array('test_role', 'Test role');
-        /** @var $roleResource Magento_Webapi_Model_Resource_Acl_Role */
-        $roleResource = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Webapi_Model_Resource_Acl_Role');
+        /** @var $roleResource \Magento\Webapi\Model\Resource\Acl\Role */
+        $roleResource = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webapi\Model\Resource\Acl\Role');
         $rolesIds = $roleResource->getRolesIds();
         $this->assertCount(2, $rolesIds);
         foreach ($rolesIds as $roleId) {
-            /** @var $role Magento_Webapi_Model_Acl_Role */
-            $role = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Webapi_Model_Acl_Role')->load($roleId);
+            /** @var $role \Magento\Webapi\Model\Acl\Role */
+            $role = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webapi\Model\Acl\Role')->load($roleId);
             $this->assertNotEmpty($role->getId());
             $this->assertContains($role->getRoleName(), $expectedRoleNames);
         }
     }
 
     /**
-     * Test for Magento_Webapi_Model_Resource_Acl_Role::getRolesList().
+     * Test for \Magento\Webapi\Model\Resource\Acl\Role::getRolesList().
      *
      * @magentoDataFixture Magento/Webapi/_files/role.php
      * @magentoDataFixture Magento/Webapi/_files/role_with_rule.php
      */
     public function testGetRolesList()
     {
-        /** @var $roleResource Magento_Webapi_Model_Resource_Acl_Role */
-        $roleResource = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Webapi_Model_Resource_Acl_Role');
+        /** @var $roleResource \Magento\Webapi\Model\Resource\Acl\Role */
+        $roleResource = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webapi\Model\Resource\Acl\Role');
         $rolesList = $roleResource->getRolesList();
         $this->assertCount(2, $rolesList);
         foreach ($rolesList as $roleId => $roleName) {
-            $role = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Webapi_Model_Acl_Role')->load($roleId);
+            $role = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webapi\Model\Acl\Role')->load($roleId);
             $this->assertEquals($roleId, $role->getId());
             $this->assertEquals($roleName, $role->getRoleName());
         }
     }
 
     /**
-     * Test for Magento_Webapi_Model_Resource_Acl_Role::_initUniqueFields().
+     * Test for \Magento\Webapi\Model\Resource\Acl\Role::_initUniqueFields().
      *
-     * @expectedException Magento_Core_Exception
+     * @expectedException \Magento\Core\Exception
      * @expectedExceptionMessage Role Name already exists.
      * @magentoDataFixture Magento/Webapi/_files/role.php
      */
     public function testInitUniqueFields()
     {
-        /** @var $roleResource Magento_Webapi_Model_Resource_Acl_Role */
-        $roleResource = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Webapi_Model_Resource_Acl_Role');
+        /** @var $roleResource \Magento\Webapi\Model\Resource\Acl\Role */
+        $roleResource = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webapi\Model\Resource\Acl\Role');
         $uniqueFields = $roleResource->getUniqueFields();
         $expectedUnique = array(
             array(
@@ -79,26 +81,26 @@ class Magento_Webapi_Model_Resource_Acl_RoleTest extends PHPUnit_Framework_TestC
         );
         $this->assertEquals($expectedUnique, $uniqueFields);
 
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Webapi_Model_Acl_Role')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webapi\Model\Acl\Role')
             ->setRoleName('test_role')
             ->save();
     }
 
     /**
-     * Test for Magento_Webapi_Model_Resource_Acl_Role::delete().
+     * Test for \Magento\Webapi\Model\Resource\Acl\Role::delete().
      *
      * @magentoDataFixture Magento/Webapi/_files/user_with_role.php
      */
     public function testDeleteRole()
     {
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Webapi_Model_Acl_Role')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webapi\Model\Acl\Role')
             ->load('Test role', 'role_name')
             ->delete();
-        /** @var Magento_Webapi_Model_Acl_User $user */
-        $user = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Webapi_Model_Acl_User')
+        /** @var \Magento\Webapi\Model\Acl\User $user */
+        $user = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webapi\Model\Acl\User')
             ->load('test_username', 'api_key');
         $this->assertNotEmpty($user->getId());
     }

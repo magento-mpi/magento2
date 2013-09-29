@@ -9,7 +9,9 @@
 /**
  * Test positions of the GiftWrapping total collectors as compared to other collectors
  */
-class Magento_GiftWrapping_Model_CollectorPositionsTest extends Magento_Sales_Model_CollectorPositionsTestAbstract
+namespace Magento\GiftWrapping\Model;
+
+class CollectorPositionsTest extends \Magento\Sales\Model\AbstractCollectorPositionsTest
 {
     /**
      * @return array

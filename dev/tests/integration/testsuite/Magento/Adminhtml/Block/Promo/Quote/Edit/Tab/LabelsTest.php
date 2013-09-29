@@ -6,17 +6,19 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\Block\Promo\Quote\Edit\Tab;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_LabelsTest extends PHPUnit_Framework_TestCase
+class LabelsTest extends \PHPUnit_Framework_TestCase
 {
     public function testConstruct()
     {
         $this->assertInstanceOf(
-            'Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Labels',
-            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
-                ->createBlock('Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Labels')
+            'Magento\Adminhtml\Block\Promo\Quote\Edit\Tab\Labels',
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+                ->createBlock('Magento\Adminhtml\Block\Promo\Quote\Edit\Tab\Labels')
         );
     }
 }

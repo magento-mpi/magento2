@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Sales_Order_Create_Coupons extends Magento_Adminhtml_Block_Sales_Order_Create_Abstract
+namespace Magento\Adminhtml\Block\Sales\Order\Create;
+
+class Coupons extends \Magento\Adminhtml\Block\Sales\Order\Create\AbstractCreate
 {
 
     protected function _construct()

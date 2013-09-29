@@ -16,6 +16,8 @@
  * @package     Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Customer_Model_Attribute_Data_Multiline extends Magento_Eav_Model_Attribute_Data_Multiline
+namespace Magento\Customer\Model\Attribute\Data;
+
+class Multiline extends \Magento\Eav\Model\Attribute\Data\Multiline
 {
 }

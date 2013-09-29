@@ -16,8 +16,10 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Catalog_Block_Product_Widget_Link
-    extends Magento_Catalog_Block_Widget_Link
+namespace Magento\Catalog\Block\Product\Widget;
+
+class Link
+    extends \Magento\Catalog\Block\Widget\Link
 {
     /**
      * Initialize entity model
@@ -25,6 +27,6 @@ class Magento_Catalog_Block_Product_Widget_Link
     protected function _construct()
     {
         parent::_construct();
-        $this->_entityResource = Mage::getResourceSingleton('Magento_Catalog_Model_Resource_Product');
+        $this->_entityResource = \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Product');
     }
 }

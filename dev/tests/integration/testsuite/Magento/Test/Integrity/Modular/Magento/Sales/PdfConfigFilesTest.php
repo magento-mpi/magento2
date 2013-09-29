@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Test_Integrity_Modular_Magento_Sales_PdfConfigFilesTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Integrity\Modular\Magento\Sales;
+
+class PdfConfigFilesTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @param string $file
@@ -13,12 +15,12 @@ class Magento_Test_Integrity_Modular_Magento_Sales_PdfConfigFilesTest extends PH
      */
     public function testFileFormat($file)
     {
-        /** @var Magento_Sales_Model_Order_Pdf_Config_SchemaLocator $schemaLocator */
-        $schemaLocator = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Sales_Model_Order_Pdf_Config_SchemaLocator');
+        /** @var \Magento\Sales\Model\Order\Pdf\Config\SchemaLocator $schemaLocator */
+        $schemaLocator = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Sales\Model\Order\Pdf\Config\SchemaLocator');
         $schemaFile = $schemaLocator->getPerFileSchema();
 
-        $dom = new Magento_Config_Dom(file_get_contents($file));
+        $dom = new \Magento\Config\Dom(file_get_contents($file));
         $result = $dom->validate($schemaFile, $errors);
         $this->assertTrue($result, print_r($errors, true));
     }
@@ -28,22 +30,22 @@ class Magento_Test_Integrity_Modular_Magento_Sales_PdfConfigFilesTest extends PH
      */
     public function fileFormatDataProvider()
     {
-        return Magento_TestFramework_Utility_Files::init()->getConfigFiles('pdf.xml');
+        return \Magento\TestFramework\Utility\Files::init()->getConfigFiles('pdf.xml');
     }
 
     public function testMergedFormat()
     {
-        $validationState = $this->getMock('Magento_Config_ValidationStateInterface');
+        $validationState = $this->getMock('Magento\Config\ValidationStateInterface');
         $validationState->expects($this->any())
             ->method('isValidated')
             ->will($this->returnValue(true));
 
-        /** @var Magento_Sales_Model_Order_Pdf_Config_Reader $reader */
-        $reader = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Sales_Model_Order_Pdf_Config_Reader', array('validationState' => $validationState));
+        /** @var \Magento\Sales\Model\Order\Pdf\Config\Reader $reader */
+        $reader = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Sales\Model\Order\Pdf\Config\Reader', array('validationState' => $validationState));
         try {
             $reader->read();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->fail('Merged pdf.xml files do not pass XSD validation: ' . $e->getMessage());
         }
     }

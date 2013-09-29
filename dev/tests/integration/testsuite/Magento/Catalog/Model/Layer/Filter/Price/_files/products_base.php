@@ -15,15 +15,15 @@
 
 $testCases = include(__DIR__ . '/_algorithm_base_data.php');
 
-/** @var $installer Magento_Catalog_Model_Resource_Setup */
-$installer = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Catalog_Model_Resource_Setup', array('resourceName' => 'catalog_setup'));
+/** @var $installer \Magento\Catalog\Model\Resource\Setup */
+$installer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Catalog\Model\Resource\Setup', array('resourceName' => 'catalog_setup'));
 /**
  * After installation system has two categories: root one with ID:1 and Default category with ID:2
  */
-/** @var $category Magento_Catalog_Model_Category */
-$category = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Catalog_Model_Category');
+/** @var $category \Magento\Catalog\Model\Category */
+$category = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Catalog\Model\Category');
 $category->setId(3)
     ->setName('Root Category')
     ->setParentId(2) /**/
@@ -37,8 +37,8 @@ $category->setId(3)
 
 $lastProductId = 0;
 foreach ($testCases as $index => $testCase) {
-    $category = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Catalog_Model_Category');
+    $category = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Catalog\Model\Category');
     $position = $index + 1;
     $categoryId = $index + 4;
     $category->setId($categoryId)
@@ -54,10 +54,10 @@ foreach ($testCases as $index => $testCase) {
         ->save();
 
     foreach ($testCase[0] as $price) {
-        $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Product');
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $productId = $lastProductId + 1;
-        $product->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE)
+        $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE)
             ->setId($productId)
             ->setAttributeSetId($installer->getAttributeSetId('catalog_product', 'Default'))
             ->setStoreId(1)
@@ -67,8 +67,8 @@ foreach ($testCases as $index => $testCase) {
             ->setPrice($price)
             ->setWeight(18)
             ->setCategoryIds(array($categoryId))
-            ->setVisibility(Magento_Catalog_Model_Product_Visibility::VISIBILITY_BOTH)
-            ->setStatus(Magento_Catalog_Model_Product_Status::STATUS_ENABLED)
+            ->setVisibility(\Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH)
+            ->setStatus(\Magento\Catalog\Model\Product\Status::STATUS_ENABLED)
             ->save();
         ++$lastProductId;
     }

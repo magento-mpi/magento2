@@ -6,28 +6,30 @@
  * @license     {license_link}
  */
 
+namespace Magento\Customer\Block\Account;
+
 /**
  * Customer authorization link
  */
-class Magento_Customer_Block_Account_AuthorizationLink extends Magento_Page_Block_Link
+class AuthorizationLink extends \Magento\Page\Block\Link
 {
     /**
      * Customer session
      *
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
 
     /**
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Customer_Model_Session $session
-     * @param Magento_Core_Helper_Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Customer\Model\Session $session
+     * @param \Magento\Core\Helper\Data $coreData
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Block_Template_Context $context,
-        Magento_Customer_Model_Session $session,
-        Magento_Core_Helper_Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Customer\Model\Session $session,
+        \Magento\Core\Helper\Data $coreData,
         array $data = array()
     ) {
         parent::__construct($coreData, $context, $data);
@@ -39,7 +41,7 @@ class Magento_Customer_Block_Account_AuthorizationLink extends Magento_Page_Bloc
      */
     public function getHref()
     {
-        $helper = $this->_helperFactory->get('Magento_Customer_Helper_Data');
+        $helper = $this->_helperFactory->get('Magento\Customer\Helper\Data');
         return $this->_customerSession->isLoggedIn() ? $helper->getLogoutUrl() : $helper->getLoginUrl();
     }
 

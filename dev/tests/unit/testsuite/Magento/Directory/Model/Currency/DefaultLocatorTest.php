@@ -9,35 +9,37 @@
  * @license     {license_link}
  */
 
-class Magento_Directory_Model_Currency_DefaultLocatorTest extends PHPUnit_Framework_TestCase
+namespace Magento\Directory\Model\Currency;
+
+class DefaultLocatorTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Directory_Model_Currency_DefaultLocator
+     * @var \Magento\Directory\Model\Currency\DefaultLocator
      */
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_appMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_requestMock;
 
     protected function setUp()
     {
-        $backendData = $this->getMock('Magento_Backend_Helper_Data', array(), array(), '', false);
-        $this->_requestMock = $this->getMockForAbstractClass('Magento_Core_Controller_Request_Http',
+        $backendData = $this->getMock('Magento\Backend\Helper\Data', array(), array(), '', false);
+        $this->_requestMock = $this->getMockForAbstractClass('Magento\Core\Controller\Request\Http',
             array($backendData), '', false, false, true, array('getParam'));
-        $this->_appMock = $this->getMock('Magento_Core_Model_App', array(), array(), '', false);
-        $this->_model = new Magento_Directory_Model_Currency_DefaultLocator($this->_appMock);
+        $this->_appMock = $this->getMock('Magento\Core\Model\App', array(), array(), '', false);
+        $this->_model = new \Magento\Directory\Model\Currency\DefaultLocator($this->_appMock);
     }
 
     public function testGetDefaultCurrencyReturnDefaultStoreDefaultCurrencyIfNoStoreIsSpecified()
     {
-        $storeMock = $this->getMock('Magento_Core_Model_Store', array(), array(), '', false);
+        $storeMock = $this->getMock('Magento\Core\Model\Store', array(), array(), '', false);
         $storeMock->expects($this->once())->method('getBaseCurrencyCode')->will($this->returnValue('storeCurrency'));
         $this->_appMock->expects($this->once())->method('getStore')->will($this->returnValue($storeMock));
         $this->assertEquals('storeCurrency', $this->_model->getDefaultCurrency($this->_requestMock));
@@ -47,7 +49,7 @@ class Magento_Directory_Model_Currency_DefaultLocatorTest extends PHPUnit_Framew
     {
         $this->_requestMock->expects($this->any())->method('getParam')->with('store')
             ->will($this->returnValue('someStore'));
-        $storeMock = $this->getMock('Magento_Core_Model_Store', array(), array(), '', false);
+        $storeMock = $this->getMock('Magento\Core\Model\Store', array(), array(), '', false);
         $storeMock->expects($this->once())->method('getBaseCurrencyCode')->will($this->returnValue('storeCurrency'));
         $this->_appMock->expects($this->once())->method('getStore')->with('someStore')
             ->will($this->returnValue($storeMock));
@@ -60,7 +62,7 @@ class Magento_Directory_Model_Currency_DefaultLocatorTest extends PHPUnit_Framew
             ->will($this->returnValueMap(
                 array(array('store', null, ''), array('website', null, 'someWebsite')))
             );
-        $websiteMock = $this->getMock('Magento_Core_Model_Website', array(), array(), '', false);
+        $websiteMock = $this->getMock('Magento\Core\Model\Website', array(), array(), '', false);
         $websiteMock->expects($this->once())->method('getBaseCurrencyCode')
             ->will($this->returnValue('websiteCurrency'));
         $this->_appMock->expects($this->once())->method('getWebsite')->with('someWebsite')
@@ -75,11 +77,11 @@ class Magento_Directory_Model_Currency_DefaultLocatorTest extends PHPUnit_Framew
                     array(array('store', null, ''), array('website', null, ''), array('group', null, 'someGroup'))
                 )
             );
-        $websiteMock = $this->getMock('Magento_Core_Model_Website', array(), array(), '', false);
+        $websiteMock = $this->getMock('Magento\Core\Model\Website', array(), array(), '', false);
         $websiteMock->expects($this->once())->method('getBaseCurrencyCode')
             ->will($this->returnValue('websiteCurrency'));
 
-        $groupMock = $this->getMock('Magento_Core_Model_Store_Group', array(), array(), '', false);
+        $groupMock = $this->getMock('Magento\Core\Model\Store\Group', array(), array(), '', false);
         $groupMock->expects($this->once())->method('getWebsite')
             ->will($this->returnValue($websiteMock));
 

@@ -8,10 +8,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_CatalogRule_Model_RuleTest extends PHPUnit_Framework_TestCase
+namespace Magento\CatalogRule\Model;
+
+class RuleTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_CatalogRule_Model_Rule
+     * @var \Magento\CatalogRule\Model\Rule
      */
     protected $_object;
 
@@ -21,7 +23,7 @@ class Magento_CatalogRule_Model_RuleTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $resourceMock = $this->getMock('Magento_CatalogRule_Model_Resource_Rule',
+        $resourceMock = $this->getMock('Magento\CatalogRule\Model\Resource\Rule',
         array('getIdFieldName', 'getRulesFromProduct'), array(), '', false);
         $resourceMock->expects($this->any())
             ->method('getIdFieldName')
@@ -30,18 +32,18 @@ class Magento_CatalogRule_Model_RuleTest extends PHPUnit_Framework_TestCase
             ->method('getRulesFromProduct')
             ->will($this->returnValue($this->_getCatalogRulesFixtures()));
 
-        $this->_object = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_CatalogRule_Model_Rule', array('resource' => $resourceMock));
+        $this->_object = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\CatalogRule\Model\Rule', array('resource' => $resourceMock));
     }
 
     /**
      * @magentoAppIsolation enabled
-     * @covers Magento_CatalogRule_Model_Rule::calcProductPriceRule
+     * @covers \Magento\CatalogRule\Model\Rule::calcProductPriceRule
      */
     public function testCalcProductPriceRule()
     {
-        $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Product');
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $this->assertEquals($this->_object->calcProductPriceRule($product, 100), 45);
         $product->setParentId(true);
         $this->assertEquals($this->_object->calcProductPriceRule($product, 50), 5);

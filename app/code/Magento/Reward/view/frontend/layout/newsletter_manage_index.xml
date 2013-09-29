@@ -9,9 +9,9 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <referenceContainer name="customer.newsletter.form.before">
-        <block class="Magento_Reward_Block_Tooltip" name="reward.tooltip.newsletter" template="tooltip.phtml">
+        <block class="Magento\Reward\Block\Tooltip" name="reward.tooltip.newsletter" template="tooltip.phtml">
             <arguments>
-                <argument name="reward_type" xsi:type="string">Magento_Reward_Model_Action_Newsletter</argument>
+                <argument name="reward_type" xsi:type="string">Magento\Reward\Model\Action\Newsletter</argument>
             </arguments>
             <action method="setWrapperClass">
                 <argument name="class" xsi:type="string">reward-newsletter</argument>

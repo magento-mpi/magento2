@@ -5,8 +5,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Backend_Block_Widget_Grid_Column_Renderer_Radio_Extended
-    extends Magento_Backend_Block_Widget_Grid_Column_Renderer_Radio
+namespace Magento\Backend\Block\Widget\Grid\Column\Renderer\Radio;
+
+class Extended
+    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Radio
 {
     /**
      * Prepare data for renderer

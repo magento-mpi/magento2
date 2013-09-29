@@ -11,7 +11,9 @@
 /**
  * Abstract Validation State Model for Mastercard
  */
-class Magento_Centinel_Model_State_Mastercard extends Magento_Centinel_Model_StateAbstract
+namespace Magento\Centinel\Model\State;
+
+class Mastercard extends \Magento\Centinel\Model\StateAbstract
 {
     /**
      * Analyse lookup`s results. If it has require params for authenticate, return true

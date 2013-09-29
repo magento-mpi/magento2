@@ -9,7 +9,9 @@
 /**
  * Layout file in the file system with context of its identity
  */
-class Magento_Core_Model_Layout_File
+namespace Magento\Core\Model\Layout;
+
+class File
 {
     /**
      * @var string
@@ -22,16 +24,16 @@ class Magento_Core_Model_Layout_File
     private $_module;
 
     /**
-     * @var Magento_Core_Model_ThemeInterface
+     * @var \Magento\Core\Model\ThemeInterface
      */
     private $_theme;
 
     /**
      * @param string $filename
      * @param string $module
-     * @param Magento_Core_Model_ThemeInterface $theme
+     * @param \Magento\Core\Model\ThemeInterface $theme
      */
-    public function __construct($filename, $module, Magento_Core_Model_ThemeInterface $theme = null)
+    public function __construct($filename, $module, \Magento\Core\Model\ThemeInterface $theme = null)
     {
         $this->_filename = $filename;
         $this->_module = $module;
@@ -71,7 +73,7 @@ class Magento_Core_Model_Layout_File
     /**
      * Retrieve instance of a theme a file belongs to
      *
-     * @return Magento_Core_Model_ThemeInterface|null
+     * @return \Magento\Core\Model\ThemeInterface|null
      */
     public function getTheme()
     {

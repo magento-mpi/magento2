@@ -7,24 +7,26 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Controller_Rest_Request_Deserializer_Xml implements
-    Magento_Webapi_Controller_Rest_Request_DeserializerInterface
+namespace Magento\Webapi\Controller\Rest\Request\Deserializer;
+
+class Xml implements
+    \Magento\Webapi\Controller\Rest\Request\DeserializerInterface
 {
-    /** @var Magento_Xml_Parser */
+    /** @var \Magento\Xml\Parser */
     protected $_xmlParser;
 
-    /** @var Magento_Core_Model_App */
+    /** @var \Magento\Core\Model\App */
     protected $_app;
 
     /**
      * Initialize dependencies.
      *
-     * @param Magento_Xml_Parser $xmlParser
-     * @param Magento_Core_Model_App $app
+     * @param \Magento\Xml\Parser $xmlParser
+     * @param \Magento\Core\Model\App $app
      */
     public function __construct(
-        Magento_Xml_Parser $xmlParser,
-        Magento_Core_Model_App $app
+        \Magento\Xml\Parser $xmlParser,
+        \Magento\Core\Model\App $app
     ) {
         $this->_xmlParser = $xmlParser;
         $this->_app = $app;
@@ -44,13 +46,13 @@ class Magento_Webapi_Controller_Rest_Request_Deserializer_Xml implements
      *
      * @param string $xmlRequestBody XML document
      * @return array Data converted from XML document to array. Root node is excluded from response.
-     * @throws InvalidArgumentException In case of invalid argument type.
-     * @throws Magento_Webapi_Exception If decoding error occurs.
+     * @throws \InvalidArgumentException In case of invalid argument type.
+     * @throws \Magento\Webapi\Exception If decoding error occurs.
      */
     public function deserialize($xmlRequestBody)
     {
         if (!is_string($xmlRequestBody)) {
-            throw new InvalidArgumentException(
+            throw new \InvalidArgumentException(
                 sprintf('"%s" data type is invalid. String is expected.', gettype($xmlRequestBody))
             );
         }
@@ -70,7 +72,7 @@ class Magento_Webapi_Controller_Rest_Request_Deserializer_Xml implements
             } else {
                 $exceptionMessage = 'Decoding Error: ' . $this->_errorMessage;
             }
-            throw new Magento_Webapi_Exception($exceptionMessage);
+            throw new \Magento\Webapi\Exception($exceptionMessage);
         }
         $data = $this->_xmlParser->xmlToArray();
         /** Data will always have exactly one element so it is safe to call reset here. */

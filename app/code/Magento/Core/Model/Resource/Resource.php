@@ -16,7 +16,9 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Resource_Resource extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Core\Model\Resource;
+
+class Resource extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Database versions
@@ -49,7 +51,7 @@ class Magento_Core_Model_Resource_Resource extends Magento_Core_Model_Resource_D
      * reissuing new sql just to get 'db' version of module.
      *
      * @param string $needType Can be 'db' or 'data'
-     * @return Magento_Core_Model_Resource_Resource
+     * @return \Magento\Core\Model\Resource\Resource
      */
     protected function _loadVersionData($needType)
     {
@@ -140,7 +142,7 @@ class Magento_Core_Model_Resource_Resource extends Magento_Core_Model_Resource_D
      *
      * @param string $resName
      * @param string $version
-     * @return Magento_Core_Model_Resource_Resource
+     * @return \Magento\Core\Model\Resource\Resource
      */
     public function setDataVersion($resName, $version)
     {

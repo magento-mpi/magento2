@@ -15,12 +15,14 @@
  * @package    Magento_GiftMessage
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GiftMessage_Block_Adminhtml_Sales_Order_Create_Items extends Magento_Adminhtml_Block_Template
+namespace Magento\GiftMessage\Block\Adminhtml\Sales\Order\Create;
+
+class Items extends \Magento\Adminhtml\Block\Template
 {
     /**
      * Get order item
      *
-     * @return Magento_Sales_Model_Quote_Item
+     * @return \Magento\Sales\Model\Quote\Item
      */
     public function getItem()
     {
@@ -38,7 +40,7 @@ class Magento_GiftMessage_Block_Adminhtml_Sales_Order_Create_Items extends Magen
         if (!$item) {
             return false;
         }
-        return $this->helper('Magento_GiftMessage_Helper_Message')->getIsMessagesAvailable(
+        return $this->helper('Magento\GiftMessage\Helper\Message')->getIsMessagesAvailable(
             'item', $item, $item->getStoreId()
         );
     }
@@ -50,7 +52,7 @@ class Magento_GiftMessage_Block_Adminhtml_Sales_Order_Create_Items extends Magen
      */
     public function getFormHtml()
     {
-        return $this->getLayout()->createBlock('Magento_Adminhtml_Block_Sales_Order_Create_Giftmessage_Form')
+        return $this->getLayout()->createBlock('Magento\Adminhtml\Block\Sales\Order\Create\Giftmessage\Form')
             ->setEntity($this->getItem())
             ->setEntityType('item')
             ->toHtml();
@@ -64,7 +66,7 @@ class Magento_GiftMessage_Block_Adminhtml_Sales_Order_Create_Items extends Magen
     public function getMessageText()
     {
         if ($this->getItem()->getGiftMessageId()) {
-            $model = $this->helper('Magento_GiftMessage_Helper_Message')->getGiftMessage($this->getItem()->getGiftMessageId());
+            $model = $this->helper('Magento\GiftMessage\Helper\Message')->getGiftMessage($this->getItem()->getGiftMessageId());
             return $this->escapeHtml($model->getMessage());
         }
         return '';

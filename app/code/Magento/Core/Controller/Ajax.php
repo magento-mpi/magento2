@@ -5,7 +5,9 @@
  * @category    Magento
  * @package     Magento_Core
  */
-class Magento_Core_Controller_Ajax extends Magento_Core_Controller_Front_Action
+namespace Magento\Core\Controller;
+
+class Ajax extends \Magento\Core\Controller\Front\Action
 {
     /**
      * Ajax action for inline translation
@@ -14,8 +16,8 @@ class Magento_Core_Controller_Ajax extends Magento_Core_Controller_Front_Action
     {
         $translationParams = (array)$this->getRequest()->getPost('translate');
         $area = $this->getRequest()->getPost('area');
-        /** @var Magento_Core_Helper_Translate $translationHelper */
-        $translationHelper = $this->_objectManager->get('Magento_Core_Helper_Translate');
+        /** @var \Magento\Core\Helper\Translate $translationHelper */
+        $translationHelper = $this->_objectManager->get('Magento\Core\Helper\Translate');
         $response = $translationHelper->apply($translationParams, $area);
         $this->getResponse()->setBody($response);
         $this->setFlag('', self::FLAG_NO_POST_DISPATCH, true);

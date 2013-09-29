@@ -16,28 +16,30 @@
  * @package     Magento_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Bundle_Model_Product_Attribute_Source_Price_View
-    extends Magento_Eav_Model_Entity_Attribute_Source_Abstract
+namespace Magento\Bundle\Model\Product\Attribute\Source\Price;
+
+class View
+    extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
 {
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
     /**
-     * @var Magento_Eav_Model_Resource_Entity_Attribute_OptionFactory
+     * @var \Magento\Eav\Model\Resource\Entity\Attribute\OptionFactory
      */
     protected $_entityAttribute;
 
     /**
-     * @param Magento_Eav_Model_Resource_Entity_Attribute_OptionFactory $entityAttribute
-     * @param Magento_Core_Helper_Data $coreData
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute\OptionFactory $entityAttribute
+     * @param \Magento\Core\Helper\Data $coreData
      */
     public function __construct(
-        Magento_Eav_Model_Resource_Entity_Attribute_OptionFactory $entityAttribute,
-        Magento_Core_Helper_Data $coreData
+        \Magento\Eav\Model\Resource\Entity\Attribute\OptionFactory $entityAttribute,
+        \Magento\Core\Helper\Data $coreData
     ) {
         $this->_coreData = $coreData;
         $this->_entityAttribute = $entityAttribute;
@@ -100,7 +102,7 @@ class Magento_Bundle_Model_Product_Attribute_Source_Price_View
             $column['type']     = 'int';
             $column['is_null']  = true;
         } else {
-            $column['type']     = Magento_DB_Ddl_Table::TYPE_INTEGER;
+            $column['type']     = \Magento\DB\Ddl\Table::TYPE_INTEGER;
             $column['nullable'] = true;
             $column['comment']  = 'Bundle Price View ' . $attributeCode . ' column';
         }
@@ -112,7 +114,7 @@ class Magento_Bundle_Model_Product_Attribute_Source_Price_View
      * Retrieve Select for update Attribute value in flat table
      *
      * @param   int $store
-     * @return  Magento_DB_Select|null
+     * @return  \Magento\DB\Select|null
      */
     public function getFlatUpdateSelect($store)
     {

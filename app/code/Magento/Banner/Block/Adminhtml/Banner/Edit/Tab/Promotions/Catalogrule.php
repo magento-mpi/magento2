@@ -8,32 +8,34 @@
  * @license     {license_link}
  */
 
-class Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Catalogrule
-  extends Magento_Adminhtml_Block_Widget_Grid
+namespace Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Promotions;
+
+class Catalogrule
+  extends \Magento\Adminhtml\Block\Widget\Grid
 {
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_registry = null;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Url $urlModel
-     * @param Magento_CatalogRule_Model_Resource_Rule_Collection $ruleCollection
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\CatalogRule\Model\Resource\Rule\Collection $ruleCollection
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Url $urlModel,
-        Magento_CatalogRule_Model_Resource_Rule_Collection $ruleCollection,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        \Magento\CatalogRule\Model\Resource\Rule\Collection $ruleCollection,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_registry = $registry;
@@ -63,7 +65,7 @@ class Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Catalogrule
      * Set custom filter for in banner catalog flag
      *
      * @param string $column
-     * @return Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Salesrule
+     * @return \Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Promotions\Salesrule
      */
     protected function _addColumnFilterToCollection($column)
     {
@@ -88,7 +90,7 @@ class Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Catalogrule
     /**
      * Create grid columns
      *
-     * @return Magento_Adminhtml_Block_Widget_Grid
+     * @return \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _prepareColumns()
     {
@@ -177,7 +179,7 @@ class Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Catalogrule
     /**
      * Get current banner model
      *
-     * @return Magento_Banner_Model_Banner
+     * @return \Magento\Banner\Model\Banner
      */
     protected function _getBanner()
     {

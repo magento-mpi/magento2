@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Test_Integrity_Modular_AclConfigFilesTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Integrity\Modular;
+
+class AclConfigFilesTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Configuration acl file list
@@ -27,7 +29,7 @@ class Magento_Test_Integrity_Modular_AclConfigFilesTest extends PHPUnit_Framewor
 
     protected function setUp()
     {
-        $this->_schemeFile = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Dir')
+        $this->_schemeFile = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Dir')
                 ->getDir('lib') . str_replace('/', DIRECTORY_SEPARATOR, '/Magento/Acl/etc/acl.xsd');
     }
 
@@ -38,7 +40,7 @@ class Magento_Test_Integrity_Modular_AclConfigFilesTest extends PHPUnit_Framewor
      */
     public function testAclConfigFile($file)
     {
-        $domConfig = new Magento_Config_Dom(file_get_contents($file));
+        $domConfig = new \Magento\Config\Dom(file_get_contents($file));
         $result = $domConfig->validate($this->_schemeFile, $errors);
         $message = "Invalid XML-file: {$file}\n";
         foreach ($errors as $error) {
@@ -53,7 +55,7 @@ class Magento_Test_Integrity_Modular_AclConfigFilesTest extends PHPUnit_Framewor
     public function aclConfigFileDataProvider()
     {
         $fileList = glob(
-            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Dir')
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Dir')
                 ->getDir('app') . '/*/*/*/etc/adminhtml/acl.xml'
         );
         $dataProviderResult = array();

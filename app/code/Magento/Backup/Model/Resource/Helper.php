@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Backup_Model_Resource_Helper extends Magento_Core_Model_Resource_Helper
+namespace Magento\Backup\Model\Resource;
+
+class Helper extends \Magento\Core\Model\Resource\Helper
 {
     /**
      * Tables foreign key data array
@@ -184,7 +186,7 @@ class Magento_Backup_Model_Resource_Helper extends Magento_Core_Model_Resource_H
             . "/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;\n"
             . "/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;\n"
             . "/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;\n"
-            . "\n-- Dump completed on " . Mage::getSingleton('Magento_Core_Model_Date')->gmtDate() . " GMT";
+            . "\n-- Dump completed on " . \Mage::getSingleton('Magento\Core\Model\Date')->gmtDate() . " GMT";
 
         return $footer;
     }

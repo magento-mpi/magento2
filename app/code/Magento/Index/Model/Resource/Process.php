@@ -16,7 +16,9 @@
  * @package     Magento_Index
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Index_Model_Resource_Process extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Index\Model\Resource;
+
+class Process extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Initialize  table and table pk
@@ -33,7 +35,7 @@ class Magento_Index_Model_Resource_Process extends Magento_Core_Model_Resource_D
      * @param int $processId
      * @param int $eventId
      * @param string $status
-     * @return Magento_Index_Model_Resource_Process
+     * @return \Magento\Index\Model\Resource\Process
      */
     public function updateEventStatus($processId, $eventId, $status)
     {
@@ -49,13 +51,13 @@ class Magento_Index_Model_Resource_Process extends Magento_Core_Model_Resource_D
     /**
      * Register process end
      *
-     * @param Magento_Index_Model_Process $process
-     * @return Magento_Index_Model_Resource_Process
+     * @param \Magento\Index\Model\Process $process
+     * @return \Magento\Index\Model\Resource\Process
      */
-    public function endProcess(Magento_Index_Model_Process $process)
+    public function endProcess(\Magento\Index\Model\Process $process)
     {
         $data = array(
-            'status'    => Magento_Index_Model_Process::STATUS_PENDING,
+            'status'    => \Magento\Index\Model\Process::STATUS_PENDING,
             'ended_at'  => $this->formatDate(time()),
         );
         $this->_updateProcessData($process->getId(), $data);
@@ -65,13 +67,13 @@ class Magento_Index_Model_Resource_Process extends Magento_Core_Model_Resource_D
     /**
      * Register process start
      *
-     * @param Magento_Index_Model_Process $process
-     * @return Magento_Index_Model_Resource_Process
+     * @param \Magento\Index\Model\Process $process
+     * @return \Magento\Index\Model\Resource\Process
      */
-    public function startProcess(Magento_Index_Model_Process $process)
+    public function startProcess(\Magento\Index\Model\Process $process)
     {
         $data = array(
-            'status'        => Magento_Index_Model_Process::STATUS_RUNNING,
+            'status'        => \Magento\Index\Model\Process::STATUS_RUNNING,
             'started_at'    => $this->formatDate(time()),
         );
         $this->_updateProcessData($process->getId(), $data);
@@ -81,13 +83,13 @@ class Magento_Index_Model_Resource_Process extends Magento_Core_Model_Resource_D
     /**
      * Register process fail
      *
-     * @param Magento_Index_Model_Process $process
-     * @return Magento_Index_Model_Resource_Process
+     * @param \Magento\Index\Model\Process $process
+     * @return \Magento\Index\Model\Resource\Process
      */
-    public function failProcess(Magento_Index_Model_Process $process)
+    public function failProcess(\Magento\Index\Model\Process $process)
     {
         $data = array(
-            'status'   => Magento_Index_Model_Process::STATUS_REQUIRE_REINDEX,
+            'status'   => \Magento\Index\Model\Process::STATUS_REQUIRE_REINDEX,
             'ended_at' => $this->formatDate(time()),
         );
         $this->_updateProcessData($process->getId(), $data);
@@ -98,9 +100,9 @@ class Magento_Index_Model_Resource_Process extends Magento_Core_Model_Resource_D
      * Update process status field
      *
      *
-     * @param Magento_Index_Model_Process $process
+     * @param \Magento\Index\Model\Process $process
      * @param string $status
-     * @return Magento_Index_Model_Resource_Process
+     * @return \Magento\Index\Model\Resource\Process
      */
     public function updateStatus($process, $status)
     {
@@ -113,7 +115,7 @@ class Magento_Index_Model_Resource_Process extends Magento_Core_Model_Resource_D
      * Updates process data
      * @param int $processId
      * @param array $data
-     * @return Magento_Index_Model_Resource_Process
+     * @return \Magento\Index\Model\Resource\Process
      */
     protected function _updateProcessData($processId, $data)
     {
@@ -126,10 +128,10 @@ class Magento_Index_Model_Resource_Process extends Magento_Core_Model_Resource_D
     /**
      * Update process start date
      *
-     * @param Magento_Index_Model_Process $process
-     * @return Magento_Index_Model_Resource_Process
+     * @param \Magento\Index\Model\Process $process
+     * @return \Magento\Index\Model\Resource\Process
      */
-    public function updateProcessStartDate(Magento_Index_Model_Process $process)
+    public function updateProcessStartDate(\Magento\Index\Model\Process $process)
     {
         $this->_updateProcessData($process->getId(), array('started_at' => $this->formatDate(time())));
         return $this;
@@ -138,10 +140,10 @@ class Magento_Index_Model_Resource_Process extends Magento_Core_Model_Resource_D
     /**
      * Update process end date
      *
-     * @param Magento_Index_Model_Process $process
-     * @return Magento_Index_Model_Resource_Process
+     * @param \Magento\Index\Model\Process $process
+     * @return \Magento\Index\Model\Resource\Process
      */
-    public function updateProcessEndDate(Magento_Index_Model_Process $process)
+    public function updateProcessEndDate(\Magento\Index\Model\Process $process)
     {
         $this->_updateProcessData($process->getId(), array('ended_at' => $this->formatDate(time())));
         return $this;

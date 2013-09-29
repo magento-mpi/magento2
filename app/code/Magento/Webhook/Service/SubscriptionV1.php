@@ -11,21 +11,23 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Service_SubscriptionV1 implements Magento_Webhook_Service_SubscriptionV1Interface
+namespace Magento\Webhook\Service;
+
+class SubscriptionV1 implements \Magento\Webhook\Service\SubscriptionV1Interface
 {
-    /** @var Magento_Webhook_Model_Subscription_Factory $_subscriptionFactory */
+    /** @var \Magento\Webhook\Model\Subscription\Factory $_subscriptionFactory */
     private $_subscriptionFactory;
 
-    /** @var Magento_Webhook_Model_Resource_Subscription_Collection $_subscriptionSet */
+    /** @var \Magento\Webhook\Model\Resource\Subscription\Collection $_subscriptionSet */
     private $_subscriptionSet;
 
     /**
-     * @param Magento_Webhook_Model_Subscription_Factory $subscriptionFactory
-     * @param Magento_Webhook_Model_Resource_Subscription_Collection $subscriptionSet
+     * @param \Magento\Webhook\Model\Subscription\Factory $subscriptionFactory
+     * @param \Magento\Webhook\Model\Resource\Subscription\Collection $subscriptionSet
      */
     public function __construct(
-        Magento_Webhook_Model_Subscription_Factory $subscriptionFactory,
-        Magento_Webhook_Model_Resource_Subscription_Collection $subscriptionSet
+        \Magento\Webhook\Model\Subscription\Factory $subscriptionFactory,
+        \Magento\Webhook\Model\Resource\Subscription\Collection $subscriptionSet
     ) {
         $this->_subscriptionFactory = $subscriptionFactory;
         $this->_subscriptionSet = $subscriptionSet;
@@ -36,8 +38,8 @@ class Magento_Webhook_Service_SubscriptionV1 implements Magento_Webhook_Service_
      *
      * @param array $subscriptionData
      * @return array Subscription data
-     * @throws Exception|Magento_Core_Exception
-     * @throws Magento_Webhook_Exception
+     * @throws \Exception|\Magento\Core\Exception
+     * @throws \Magento\Webhook\Exception
      */
     public function create(array $subscriptionData)
     {
@@ -49,12 +51,12 @@ class Magento_Webhook_Service_SubscriptionV1 implements Magento_Webhook_Service_
             $subscription->save();
 
             return $subscription->getData();
-        } catch (Magento_Core_Exception $exception) {
+        } catch (\Magento\Core\Exception $exception) {
             // These messages are already translated, we can simply surface them.
             throw $exception;
-        } catch (Exception $exception) {
+        } catch (\Exception $exception) {
             // These messages have no translation, we should not expose our internals but may consider logging them.
-            throw new Magento_Webhook_Exception(
+            throw new \Magento\Webhook\Exception(
                 __('Unexpected error.  Please contact the administrator.')
             );
         }
@@ -64,8 +66,8 @@ class Magento_Webhook_Service_SubscriptionV1 implements Magento_Webhook_Service_
      * Get all Subscriptions associated with a given api user.
      *
      * @param int $apiUserId
-     * @throws Exception|Magento_Core_Exception
-     * @throws Magento_Webhook_Exception
+     * @throws \Exception|\Magento\Core\Exception
+     * @throws \Magento\Webhook\Exception
      * @return array of Subscription data arrays
      */
     public function getAll($apiUserId)
@@ -74,18 +76,18 @@ class Magento_Webhook_Service_SubscriptionV1 implements Magento_Webhook_Service_
             $result = array();
             $subscriptions = $this->_subscriptionSet->getApiUserSubscriptions($apiUserId);
 
-            /** @var Magento_Webhook_Model_Subscription $subscription*/
+            /** @var \Magento\Webhook\Model\Subscription $subscription*/
             foreach ($subscriptions as $subscription) {
                 $result[] = $subscription->getData();
             }
 
             return $result;
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             // These messages are already translated, we can simply surface them.
             throw $e;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // These messages have no translation, we should not expose our internals but may consider logging them.
-            throw new Magento_Webhook_Exception(
+            throw new \Magento\Webhook\Exception(
                 __('Unexpected error.  Please contact the administrator.')
             );
         }
@@ -96,8 +98,8 @@ class Magento_Webhook_Service_SubscriptionV1 implements Magento_Webhook_Service_
      *
      * @param array $subscriptionData
      * @return array Subscription data
-     * @throws Exception|Magento_Core_Exception
-     * @throws Magento_Webhook_Exception
+     * @throws \Exception|\Magento\Core\Exception
+     * @throws \Magento\Webhook\Exception
      */
     public function update(array $subscriptionData)
     {
@@ -110,12 +112,12 @@ class Magento_Webhook_Service_SubscriptionV1 implements Magento_Webhook_Service_
             $subscription->save();
 
             return $subscription->getData();
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             // These messages are already translated, we can simply surface them.
             throw $e;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // These messages have no translation, we should not expose our internals but may consider logging them.
-            throw new Magento_Webhook_Exception(
+            throw new \Magento\Webhook\Exception(
                 __('Unexpected error.  Please contact the administrator.')
             );
         }
@@ -126,20 +128,20 @@ class Magento_Webhook_Service_SubscriptionV1 implements Magento_Webhook_Service_
      *
      * @param int $subscriptionId
      * @return array Subscription data
-     * @throws Exception|Magento_Core_Exception
-     * @throws Magento_Webhook_Exception
+     * @throws \Exception|\Magento\Core\Exception
+     * @throws \Magento\Webhook\Exception
      */
     public function get($subscriptionId)
     {
         try {
             $subscription = $this->_loadSubscriptionById($subscriptionId);
             return $subscription->getData();
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             // These messages are already translated, we can simply surface them.
             throw $e;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // These messages have no translation, we should not expose our internals but may consider logging them.
-            throw new Magento_Webhook_Exception(
+            throw new \Magento\Webhook\Exception(
                 __('Unexpected error.  Please contact the administrator.')
             );
         }
@@ -150,8 +152,8 @@ class Magento_Webhook_Service_SubscriptionV1 implements Magento_Webhook_Service_
      *
      * @param int $subscriptionId
      * @return array Subscription data
-     * @throws Exception|Magento_Core_Exception
-     * @throws Magento_Webhook_Exception
+     * @throws \Exception|\Magento\Core\Exception
+     * @throws \Magento\Webhook\Exception
      */
     public function delete($subscriptionId)
     {
@@ -162,12 +164,12 @@ class Magento_Webhook_Service_SubscriptionV1 implements Magento_Webhook_Service_
             $subscription->delete();
 
             return $subscriptionData;
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             // These messages are already translated, we can simply surface them.
             throw $e;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // These messages have no translation, we should not expose our internals but may consider logging them.
-            throw new Magento_Webhook_Exception(
+            throw new \Magento\Webhook\Exception(
                 __('Unexpected error.  Please contact the administrator.')
             );
         }
@@ -178,8 +180,8 @@ class Magento_Webhook_Service_SubscriptionV1 implements Magento_Webhook_Service_
      *
      * @param int $subscriptionId
      * @return array
-     * @throws Exception|Magento_Core_Exception
-     * @throws Magento_Webhook_Exception
+     * @throws \Exception|\Magento\Core\Exception
+     * @throws \Magento\Webhook\Exception
      */
     public function activate($subscriptionId)
     {
@@ -189,12 +191,12 @@ class Magento_Webhook_Service_SubscriptionV1 implements Magento_Webhook_Service_
             $subscription->activate();
             $subscription->save();
             return $subscription->getData();
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             // These messages are already translated, we can simply surface them.
             throw $e;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // These messages have no translation, we should not expose our internals but may consider logging them.
-            throw new Magento_Webhook_Exception(
+            throw new \Magento\Webhook\Exception(
                 __('Unexpected error.  Please contact the administrator.')
             );
         }
@@ -205,8 +207,8 @@ class Magento_Webhook_Service_SubscriptionV1 implements Magento_Webhook_Service_
      *
      * @param int $subscriptionId
      * @return array
-     * @throws Exception|Magento_Core_Exception
-     * @throws Magento_Webhook_Exception
+     * @throws \Exception|\Magento\Core\Exception
+     * @throws \Magento\Webhook\Exception
      */
     public function deactivate($subscriptionId)
     {
@@ -216,12 +218,12 @@ class Magento_Webhook_Service_SubscriptionV1 implements Magento_Webhook_Service_
             $subscription->deactivate();
             $subscription->save();
             return $subscription->getData();
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             // These messages are already translated, we can simply surface them.
             throw $e;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // These messages have no translation, we should not expose our internals but may consider logging them.
-            throw new Magento_Webhook_Exception(
+            throw new \Magento\Webhook\Exception(
                 __('Unexpected error.  Please contact the administrator.')
             );
         }
@@ -232,8 +234,8 @@ class Magento_Webhook_Service_SubscriptionV1 implements Magento_Webhook_Service_
      *
      * @param int $subscriptionId
      * @return array
-     * @throws Exception|Magento_Core_Exception
-     * @throws Magento_Webhook_Exception
+     * @throws \Exception|\Magento\Core\Exception
+     * @throws \Magento\Webhook\Exception
      */
     public function revoke($subscriptionId)
     {
@@ -243,12 +245,12 @@ class Magento_Webhook_Service_SubscriptionV1 implements Magento_Webhook_Service_
             $subscription->revoke();
             $subscription->save();
             return $subscription->getData();
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             // These messages are already translated, we can simply surface them.
             throw $e;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // These messages have no translation, we should not expose our internals but may consider logging them.
-            throw new Magento_Webhook_Exception(
+            throw new \Magento\Webhook\Exception(
                 __('Unexpected error.  Please contact the administrator.')
             );
         }
@@ -259,13 +261,13 @@ class Magento_Webhook_Service_SubscriptionV1 implements Magento_Webhook_Service_
      *
      * @param int $apiUserId
      * @param int $subscriptionId
-     * @throws Magento_Webhook_Exception
+     * @throws \Magento\Webhook\Exception
      */
     public function validateOwnership($apiUserId, $subscriptionId)
     {
         $subscription = $this->_loadSubscriptionById($subscriptionId);
         if ($subscription->getApiUserId() != $apiUserId) {
-            throw new Magento_Webhook_Exception(
+            throw new \Magento\Webhook\Exception(
                 __("User with id %1 doesn't have permission to modify subscription %2", $apiUserId, $subscriptionId)
             );
         }
@@ -276,15 +278,15 @@ class Magento_Webhook_Service_SubscriptionV1 implements Magento_Webhook_Service_
      *
      * If invalid topics exists, an exception will be thrown.
      *
-     * @param Magento_Webhook_Model_Subscription $subscription
-     * @throws Magento_Webhook_Exception
+     * @param \Magento\Webhook\Model\Subscription $subscription
+     * @throws \Magento\Webhook\Exception
      */
-    private function _validateTopics(Magento_Webhook_Model_Subscription $subscription)
+    private function _validateTopics(\Magento\Webhook\Model\Subscription $subscription)
     {
         $invalidTopics = $subscription->findRestrictedTopics();
         if (!empty($invalidTopics)) {
             $listOfTopics = implode(', ', $invalidTopics);
-            throw new Magento_Webhook_Exception(
+            throw new \Magento\Webhook\Exception(
                 __('The following topics are not authorized: %1', $listOfTopics)
             );
         }
@@ -294,14 +296,14 @@ class Magento_Webhook_Service_SubscriptionV1 implements Magento_Webhook_Service_
      * Load subscription by id.
      *
      * @param int $subscriptionId
-     * @throws Magento_Webhook_Exception
-     * @return Magento_Webhook_Model_Subscription
+     * @throws \Magento\Webhook\Exception
+     * @return \Magento\Webhook\Model\Subscription
      */
     protected function _loadSubscriptionById($subscriptionId)
     {
         $subscription = $this->_subscriptionFactory->create()->load($subscriptionId);
         if (!$subscription->getId()) {
-            throw new Magento_Webhook_Exception(
+            throw new \Magento\Webhook\Exception(
                 __("Subscription with ID '%1' doesn't exist.", $subscriptionId)
             );
         }

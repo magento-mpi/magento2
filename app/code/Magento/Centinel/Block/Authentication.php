@@ -11,12 +11,14 @@
 /**
  * Centinel validation frame
  */
-class Magento_Centinel_Block_Authentication extends Magento_Core_Block_Template
+namespace Magento\Centinel\Block;
+
+class Authentication extends \Magento\Core\Block\Template
 {
     /**
      * Checkout session
      *
-     * @var Magento_Checkout_Model_Session
+     * @var \Magento\Checkout\Model\Session
      */
     protected $_checkoutSession;
 
@@ -36,15 +38,15 @@ class Magento_Centinel_Block_Authentication extends Magento_Core_Block_Template
     protected $_authenticationStartMode = false;
 
     /**
-     * @param Magento_Checkout_Model_Session $checkoutSession
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
+     * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Checkout_Model_Session $checkoutSession,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
+        \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_checkoutSession = $checkoutSession;
@@ -55,7 +57,7 @@ class Magento_Centinel_Block_Authentication extends Magento_Core_Block_Template
      * Add identifier of related block
      *
      * @param string $blockId
-     * @return Magento_Centinel_Block_Authentication
+     * @return \Magento\Centinel\Block\Authentication
      */
     public function addRelatedBlock($blockId)
     {

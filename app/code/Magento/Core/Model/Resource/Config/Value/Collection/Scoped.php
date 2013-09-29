@@ -7,8 +7,9 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Core_Model_Resource_Config_Value_Collection_Scoped
-    extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Core\Model\Resource\Config\Value\Collection;
+
+class Scoped extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Scope to filter by
@@ -25,20 +26,20 @@ class Magento_Core_Model_Resource_Config_Value_Collection_Scoped
     protected $_scopeId;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_EntityFactory $entityFactory
-     * @param Magento_Core_Model_Resource_Config_Data $resource
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Core\Model\Resource\Config\Data $resource
      * @param $scope
      * @param null $scopeId
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Logger $logger,
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_EntityFactory $entityFactory,
-        Magento_Core_Model_Resource_Config_Data $resource,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Core\Model\Resource\Config\Data $resource,
         $scope,
         $scopeId = null
     ) {
@@ -50,7 +51,7 @@ class Magento_Core_Model_Resource_Config_Value_Collection_Scoped
     /**
      * Initialize select
      *
-     * @return $this|Magento_Core_Model_Resource_Db_Collection_Abstract
+     * @return $this|\Magento\Core\Model\Resource\Db\Collection\AbstractCollection
      */
     protected function _initSelect()
     {

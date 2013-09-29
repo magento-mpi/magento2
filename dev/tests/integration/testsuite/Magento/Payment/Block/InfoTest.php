@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Payment_Block_InfoTest extends PHPUnit_Framework_TestCase
+namespace Magento\Payment\Block;
+
+class InfoTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @magentoConfigFixture current_store payment/banktransfer/title Bank Method Title
@@ -17,31 +19,31 @@ class Magento_Payment_Block_InfoTest extends PHPUnit_Framework_TestCase
      */
     public function testGetChildPdfAsArray()
     {
-        /** @var $layout Magento_Core_Model_Layout */
-        $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout');
-        $block = $layout->createBlock('Magento_Payment_Block_Info', 'block');
+        /** @var $layout \Magento\Core\Model\Layout */
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout');
+        $block = $layout->createBlock('Magento\Payment\Block\Info', 'block');
 
         /** @var $paymentInfoBankMagento_Payment_Model_Info  */
-        $paymentInfoBank = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Payment_Model_Info');
-        $paymentInfoBank->setMethodInstance(Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Payment_Model_Method_Banktransfer'));
-        /** @var $childBank Magento_Payment_Block_Info_Instructions */
-        $childBank = $layout->addBlock('Magento_Payment_Block_Info_Instructions', 'child.one', 'block');
+        $paymentInfoBank = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Payment\Model\Info');
+        $paymentInfoBank->setMethodInstance(\Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Payment\Model\Method\Banktransfer'));
+        /** @var $childBank \Magento\Payment\Block\Info\Instructions */
+        $childBank = $layout->addBlock('Magento\Payment\Block\Info\Instructions', 'child.one', 'block');
         $childBank->setInfo($paymentInfoBank)
             ->setArea('adminhtml');
 
         $nonExpectedHtml = 'non-expected html';
-        $childHtml = $layout->addBlock('Magento_Core_Block_Text', 'child.html', 'block');
+        $childHtml = $layout->addBlock('Magento\Core\Block\Text', 'child.html', 'block');
         $childHtml->setText($nonExpectedHtml);
 
-        /** @var $paymentInfoCheckmo Magento_Payment_Model_Info */
-        $paymentInfoCheckmo = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Payment_Model_Info');
-        $paymentInfoCheckmo->setMethodInstance(Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Payment_Model_Method_Checkmo'));
-        /** @var $childCheckmo Magento_Payment_Block_Info_Checkmo */
-        $childCheckmo = $layout->addBlock('Magento_Payment_Block_Info_Checkmo', 'child.just.another', 'block');
+        /** @var $paymentInfoCheckmo \Magento\Payment\Model\Info */
+        $paymentInfoCheckmo = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Payment\Model\Info');
+        $paymentInfoCheckmo->setMethodInstance(\Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Payment\Model\Method\Checkmo'));
+        /** @var $childCheckmo \Magento\Payment\Block\Info\Checkmo */
+        $childCheckmo = $layout->addBlock('Magento\Payment\Block\Info\Checkmo', 'child.just.another', 'block');
         $childCheckmo->setInfo($paymentInfoCheckmo)
             ->setArea('adminhtml');
 

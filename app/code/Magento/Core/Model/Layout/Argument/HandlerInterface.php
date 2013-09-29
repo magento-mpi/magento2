@@ -15,22 +15,24 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-interface Magento_Core_Model_Layout_Argument_HandlerInterface
+namespace Magento\Core\Model\Layout\Argument;
+
+interface HandlerInterface
 {
     /**
      * Parse specified argument node
      *
-     * @param Magento_Core_Model_Layout_Element $argument
+     * @param \Magento\Core\Model\Layout\Element $argument
      * @return array
      */
-    public function parse(Magento_Core_Model_Layout_Element $argument);
+    public function parse(\Magento\Core\Model\Layout\Element $argument);
 
     /**
      * Process argument value
      *
      * @param array $argument
      * @return mixed
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function process(array $argument);
 }

@@ -16,12 +16,14 @@
  * @package     Magento_Sitemap
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sitemap_Model_Resource_Catalog_Category extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Sitemap\Model\Resource\Catalog;
+
+class Category extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Collection Zend Db select
      *
-     * @var Zend_Db_Select
+     * @var \Zend_Db_Select
      */
     protected $_select;
 
@@ -33,24 +35,24 @@ class Magento_Sitemap_Model_Resource_Catalog_Category extends Magento_Core_Model
     protected $_attributesCache    = array();
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Catalog_Model_Resource_Category
+     * @var \Magento\Catalog\Model\Resource\Category
      */
     protected $_categoryResource;
 
     /**
-     * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Catalog_Model_Resource_Category $categoryResource
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Resource\Category $categoryResource
      */
     public function __construct(
-        Magento_Core_Model_Resource $resource,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Catalog_Model_Resource_Category $categoryResource
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\Resource\Category $categoryResource
     ) {
         $this->_storeManager = $storeManager;
         $this->_categoryResource = $categoryResource;
@@ -65,14 +67,14 @@ class Magento_Sitemap_Model_Resource_Catalog_Category extends Magento_Core_Model
     /**
      * Get category collection array
      *
-     * @param null|string|bool|int|Magento_Core_Model_Store $storeId
+     * @param null|string|bool|int|\Magento\Core\Model\Store $storeId
      * @return array
      */
     public function getCollection($storeId)
     {
         $categories = array();
 
-        /* @var $store Magento_Core_Model_Store */
+        /* @var $store \Magento\Core\Model\Store */
         $store = $this->_storeManager->getStore($storeId);
 
         if (!$store) {
@@ -118,11 +120,11 @@ class Magento_Sitemap_Model_Resource_Catalog_Category extends Magento_Core_Model
      * Prepare category
      *
      * @param array $categoryRow
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     protected function _prepareCategory(array $categoryRow)
     {
-        $category = new Magento_Object();
+        $category = new \Magento\Object();
         $category->setId($categoryRow[$this->getIdFieldName()]);
         $categoryUrl = !empty($categoryRow['url']) ? $categoryRow['url'] :
             'catalog/category/view/id/' . $category->getId();
@@ -138,11 +140,11 @@ class Magento_Sitemap_Model_Resource_Catalog_Category extends Magento_Core_Model
      * @param string $attributeCode
      * @param mixed $value
      * @param string $type
-     * @return Zend_Db_Select|bool
+     * @return \Zend_Db_Select|bool
      */
     protected function _addFilter($storeId, $attributeCode, $value, $type = '=')
     {
-        if (!$this->_select instanceof Zend_Db_Select) {
+        if (!$this->_select instanceof \Zend_Db_Select) {
             return false;
         }
 

@@ -15,9 +15,11 @@
  * @category   Magento
  * @package    Magento_Banner
  */
-class Magento_Banner_Block_Widget_Banner
-    extends Magento_Core_Block_Template
-    implements Magento_Widget_Block_Interface
+namespace Magento\Banner\Block\Widget;
+
+class Banner
+    extends \Magento\Core\Block\Template
+    implements \Magento\Widget\Block\BlockInterface
 {
     /**
      * Display mode "fixed" flag
@@ -64,27 +66,27 @@ class Magento_Banner_Block_Widget_Banner
     /**
      * Store Banner resource instance
      *
-     * @var Magento_Banner_Model_Resource_Banner
+     * @var \Magento\Banner\Model\Resource\Banner
      */
     protected $_bannerResource;
 
     /**
-     * @var Magento_Core_Model_Session
+     * @var \Magento\Core\Model\Session
      */
     protected $_coreSession;
 
     /**
-     * @var Magento_Checkout_Model_Session
+     * @var \Magento\Checkout\Model\Session
      */
     protected $_checkoutSession;
 
     /**
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
 
     /**
-     * @var Magento_Cms_Model_Template_FilterProvider
+     * @var \Magento\Cms\Model\Template\FilterProvider
      */
     protected $_filterProvider;
 
@@ -105,25 +107,25 @@ class Magento_Banner_Block_Widget_Banner
     protected $_renderedParams = array();
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Banner_Model_Resource_Banner $resource
-     * @param Magento_Core_Model_Session $coreSession
-     * @param Magento_Checkout_Model_Session $checkoutSession
-     * @param Magento_Customer_Model_Session $customerSession
-     * @param Magento_Cms_Model_Template_FilterProvider $filterProvider
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Banner\Model\Resource\Banner $resource
+     * @param \Magento\Core\Model\Session $coreSession
+     * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Cms\Model\Template\FilterProvider $filterProvider
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Banner_Model_Resource_Banner $resource,
-        Magento_Core_Model_Session $coreSession,
-        Magento_Checkout_Model_Session $checkoutSession,
-        Magento_Customer_Model_Session $customerSession,
-        Magento_Cms_Model_Template_FilterProvider $filterProvider,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Banner\Model\Resource\Banner $resource,
+        \Magento\Core\Model\Session $coreSession,
+        \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Cms\Model\Template\FilterProvider $filterProvider,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         parent::__construct($coreData, $context, $data);
@@ -413,7 +415,7 @@ class Magento_Banner_Block_Widget_Banner
     /**
      * Clears information about rendering process parameters.
      *
-     * @return Magento_Banner_Block_Widget_Banner
+     * @return \Magento\Banner\Block\Widget\Banner
      */
     protected function _clearRenderedParams()
     {
@@ -436,7 +438,7 @@ class Magento_Banner_Block_Widget_Banner
     /**
      * Sets rendered param information
      *
-     * @return Magento_Banner_Block_Widget_Banner
+     * @return \Magento\Banner\Block\Widget\Banner
      */
     protected function _setRenderedParam($key, $value)
     {

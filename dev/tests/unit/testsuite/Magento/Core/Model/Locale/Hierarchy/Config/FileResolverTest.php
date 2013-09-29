@@ -5,26 +5,28 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Locale_Hierarchy_Config_FileResolverTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Locale\Hierarchy\Config;
+
+class FileResolverTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Locale_Hierarchy_Config_FileResolver
+     * @var \Magento\Core\Model\Locale\Hierarchy\Config\FileResolver
      */
     protected $_model;
 
     /**
-     * @var Magento_Core_Model_Dir
+     * @var \Magento\Core\Model\Dir
      */
     protected $_appDirsMock;
 
     protected function setUp()
     {
-        $this->_appDirsMock = $this->getMock('Magento_Core_Model_Dir', array(), array(), '', false);
-        $this->_model = new Magento_Core_Model_Locale_Hierarchy_Config_FileResolver($this->_appDirsMock);
+        $this->_appDirsMock = $this->getMock('Magento\Core\Model\Dir', array(), array(), '', false);
+        $this->_model = new \Magento\Core\Model\Locale\Hierarchy\Config\FileResolver($this->_appDirsMock);
     }
 
     /**
-     * @covers Magento_Core_Model_Locale_Hierarchy_Config_FileResolver::get
+     * @covers \Magento\Core\Model\Locale\Hierarchy\Config\FileResolver::get
      */
     public function testGet()
     {
@@ -32,7 +34,7 @@ class Magento_Core_Model_Locale_Hierarchy_Config_FileResolverTest extends PHPUni
 
         $this->_appDirsMock->expects($this->once())
             ->method('getDir')
-            ->with(Magento_Core_Model_Dir::LOCALE)
+            ->with(\Magento\Core\Model\Dir::LOCALE)
             ->will($this->returnValue($path));
 
         $expectedFilesList = array(

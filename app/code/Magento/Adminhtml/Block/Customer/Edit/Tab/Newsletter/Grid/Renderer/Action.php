@@ -15,30 +15,32 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Customer_Edit_Tab_Newsletter_Grid_Renderer_Action extends Magento_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
+namespace Magento\Adminhtml\Block\Customer\Edit\Tab\Newsletter\Grid\Renderer;
+
+class Action extends \Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Backend_Block_Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Backend\Block\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Block_Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Backend\Block\Context $context,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
         parent::__construct($context, $data);
     }
 
-    public function render(Magento_Object $row)
+    public function render(\Magento\Object $row)
     {
         $actions = array();
 
@@ -66,7 +68,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Newsletter_Grid_Renderer_Action 
     protected function _actionsToHtml(array $actions)
     {
         $html = array();
-        $attributesObject = new Magento_Object();
+        $attributesObject = new \Magento\Object();
         foreach ($actions as $action) {
             $attributesObject->setData($action['@']);
             $html[] = '<a ' . $attributesObject->serialize() . '>' . $action['#'] . '</a>';

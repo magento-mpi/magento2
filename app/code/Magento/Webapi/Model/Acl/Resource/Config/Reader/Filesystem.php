@@ -5,25 +5,27 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Model_Acl_Resource_Config_Reader_Filesystem extends Magento_Config_Reader_Filesystem
+namespace Magento\Webapi\Model\Acl\Resource\Config\Reader;
+
+class Filesystem extends \Magento\Config\Reader\Filesystem
 {
     /**
-     * @param Magento_Config_FileResolverInterface $fileResolver
-     * @param Magento_Config_ConverterInterface $converter
-     * @param Magento_Webapi_Model_Acl_Resource_Config_SchemaLocator $schemaLocator
-     * @param Magento_Config_ValidationStateInterface $validationState
+     * @param \Magento\Config\FileResolverInterface $fileResolver
+     * @param \Magento\Config\ConverterInterface $converter
+     * @param \Magento\Webapi\Model\Acl\Resource\Config\SchemaLocator $schemaLocator
+     * @param \Magento\Config\ValidationStateInterface $validationState
      * @param string $fileName
      * @param array $idAttributes
      * @param string $domDocumentClass
      */
     public function __construct(
-        Magento_Config_FileResolverInterface $fileResolver,
-        Magento_Config_ConverterInterface $converter,
-        Magento_Webapi_Model_Acl_Resource_Config_SchemaLocator $schemaLocator,
-        Magento_Config_ValidationStateInterface $validationState,
+        \Magento\Config\FileResolverInterface $fileResolver,
+        \Magento\Config\ConverterInterface $converter,
+        \Magento\Webapi\Model\Acl\Resource\Config\SchemaLocator $schemaLocator,
+        \Magento\Config\ValidationStateInterface $validationState,
         $fileName = 'acl.xml',
         $idAttributes = array(),
-        $domDocumentClass = 'Magento_Acl_Resource_Config_Dom'
+        $domDocumentClass = 'Magento\Acl\Resource\Config\Dom'
     ) {
         parent::__construct(
             $fileResolver, $converter, $schemaLocator, $validationState, $fileName, $idAttributes, $domDocumentClass,

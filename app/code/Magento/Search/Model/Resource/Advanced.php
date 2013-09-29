@@ -15,7 +15,9 @@
  * @package     Magento_Search
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Search_Model_Resource_Advanced extends Magento_Core_Model_Resource_Abstract
+namespace Magento\Search\Model\Resource;
+
+class Advanced extends \Magento\Core\Model\Resource\AbstractResource
 {
     /**
      * Defines text type fields
@@ -31,26 +33,26 @@ class Magento_Search_Model_Resource_Advanced extends Magento_Core_Model_Resource
     );
 
     /**
-     * @var Magento_Search_Model_Resource_Engine
+     * @var \Magento\Search\Model\Resource\Engine
      */
     protected $_resourceEngine;
 
     /**
      * Locale
      *
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
     /**
      * Construct
      *
-     * @param Magento_Search_Model_Resource_Engine $resourceEngine
-     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param \Magento\Search\Model\Resource\Engine $resourceEngine
+     * @param \Magento\Core\Model\LocaleInterface $locale
      */
     public function __construct(
-        Magento_Search_Model_Resource_Engine $resourceEngine,
-        Magento_Core_Model_LocaleInterface $locale
+        \Magento\Search\Model\Resource\Engine $resourceEngine,
+        \Magento\Core\Model\LocaleInterface $locale
     ) {
         parent::__construct();
         $this->_resourceEngine = $resourceEngine;
@@ -68,8 +70,8 @@ class Magento_Search_Model_Resource_Advanced extends Magento_Core_Model_Resource
     /**
      * Add filter by indexable attribute
      *
-     * @param Magento_Search_Model_Resource_Collection $collection
-     * @param Magento_Catalog_Model_Resource_Eav_Attribute $attribute
+     * @param \Magento\Search\Model\Resource\Collection $collection
+     * @param \Magento\Catalog\Model\Resource\Eav\Attribute $attribute
      * @param string|array $value
      *
      * @return bool
@@ -89,8 +91,8 @@ class Magento_Search_Model_Resource_Advanced extends Magento_Core_Model_Resource
     /**
      * Retrieve filter array
      *
-     * @param Magento_Search_Model_Resource_Collection $collection
-     * @param Magento_Catalog_Model_Resource_Eav_Attribute $attribute
+     * @param \Magento\Search\Model\Resource\Collection $collection
+     * @param \Magento\Catalog\Model\Resource\Eav\Attribute $attribute
      * @param string|array $value
      * @return array
      */
@@ -114,11 +116,11 @@ class Magento_Search_Model_Resource_Advanced extends Magento_Core_Model_Resource
         $field = $this->_resourceEngine->getSearchEngineFieldName($attribute, 'nav');
 
         if ($attribute->getBackendType() == 'datetime') {
-            $format = $this->_locale->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
+            $format = $this->_locale->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
             foreach ($value as &$val) {
                 if (!is_empty_date($val)) {
-                    $date = new Zend_Date($val, $format);
-                    $val = $date->toString(Zend_Date::ISO_8601) . 'Z';
+                    $date = new \Zend_Date($val, $format);
+                    $val = $date->toString(\Zend_Date::ISO_8601) . 'Z';
                 }
             }
             unset($val);
@@ -134,8 +136,8 @@ class Magento_Search_Model_Resource_Advanced extends Magento_Core_Model_Resource
     /**
      * Add filter by attribute rated price
      *
-     * @param Magento_Search_Model_Resource_Collection $collection
-     * @param Magento_Catalog_Model_Resource_Eav_Attribute $attribute
+     * @param \Magento\Search\Model\Resource\Collection $collection
+     * @param \Magento\Catalog\Model\Resource\Eav\Attribute $attribute
      * @param string|array $value
      * @param int $rate
      *
@@ -153,9 +155,9 @@ class Magento_Search_Model_Resource_Advanced extends Magento_Core_Model_Resource
     /**
      * Add not indexable field to search
      *
-     * @param Magento_Catalog_Model_Resource_Eav_Attribute $attribute
+     * @param \Magento\Catalog\Model\Resource\Eav\Attribute $attribute
      * @param string|array $value
-     * @param Magento_Search_Model_Resource_Collection $collection
+     * @param \Magento\Search\Model\Resource\Collection $collection
      *
      * @return bool
      */

@@ -15,7 +15,9 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class Magento_Sales_Model_Config_Ordered extends Magento_Core_Model_Config_Base
+namespace Magento\Sales\Model\Config;
+
+abstract class Ordered extends \Magento\Core\Model\Config\Base
 {
     /**
      * Cache key for collectors
@@ -60,30 +62,30 @@ abstract class Magento_Sales_Model_Config_Ordered extends Magento_Core_Model_Con
     protected $_collectors = array();
 
     /**
-     * @var Magento_Core_Model_Cache_Type_Config
+     * @var \Magento\Core\Model\Cache\Type\Config
      */
     protected $_configCacheType;
 
     /**
-     * @var Magento_Core_Model_Logger
+     * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
 
     /**
-     * @var Magento_Sales_Model_Config
+     * @var \Magento\Sales\Model\Config
      */
     protected $_salesConfig;
 
     /**
-     * @param Magento_Core_Model_Cache_Type_Config $configCacheType
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Sales_Model_Config $salesConfig
-     * @param Magento_Simplexml_Element $sourceData
+     * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Sales\Model\Config $salesConfig
+     * @param \Magento\Simplexml\Element $sourceData
      */
     public function __construct(
-        Magento_Core_Model_Cache_Type_Config $configCacheType,
-        Magento_Core_Model_Logger $logger,
-        Magento_Sales_Model_Config $salesConfig,
+        \Magento\Core\Model\Cache\Type\Config $configCacheType,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Sales\Model\Config $salesConfig,
         $sourceData = null
     ) {
         parent::__construct($sourceData);
@@ -95,7 +97,7 @@ abstract class Magento_Sales_Model_Config_Ordered extends Magento_Core_Model_Con
     /**
      * Initialize total models configuration and objects
      *
-     * @return Magento_Sales_Model_Config_Ordered
+     * @return \Magento\Sales\Model\Config\Ordered
      */
     protected function _initModels()
     {
@@ -124,7 +126,7 @@ abstract class Magento_Sales_Model_Config_Ordered extends Magento_Core_Model_Con
      * Prepare configuration array for total model
      *
      * @param   string $code
-     * @param   Magento_Core_Model_Config_Element $totalConfig
+     * @param   \Magento\Core\Model\Config\Element $totalConfig
      * @return  array
      */
     protected function _prepareConfigArray($code, $totalConfig)
@@ -156,7 +158,7 @@ abstract class Magento_Sales_Model_Config_Ordered extends Magento_Core_Model_Con
      * Initialize collectors array.
      * Collectors array is array of total models ordered based on configuration settings
      *
-     * @return  Magento_Sales_Model_Config_Ordered
+     * @return  \Magento\Sales\Model\Config\Ordered
      */
     protected function _initCollectors()
     {

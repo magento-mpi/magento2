@@ -16,7 +16,9 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_ImportExport_Model_Resource_Helper extends Magento_Core_Model_Resource_Helper
+namespace Magento\ImportExport\Model\Resource;
+
+class Helper extends \Magento\Core\Model\Resource\Helper
 {
     /**
      * Constants to be used for DB
@@ -48,7 +50,7 @@ class Magento_ImportExport_Model_Resource_Helper extends Magento_Core_Model_Reso
         $entityStatus = $adapter->showTableStatus($tableName);
 
         if (empty($entityStatus['Auto_increment'])) {
-            Mage::throwException(__('Cannot get autoincrement value'));
+            \Mage::throwException(__('Cannot get autoincrement value'));
         }
         return $entityStatus['Auto_increment'];
     }

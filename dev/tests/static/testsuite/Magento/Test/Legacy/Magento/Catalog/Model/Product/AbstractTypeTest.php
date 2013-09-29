@@ -15,7 +15,9 @@
  * Abstract class is needed because it is not possible to run both tests of inherited class and its inheritors
  * @see https://github.com/sebastianbergmann/phpunit/issues/385
  */
-abstract class Magento_Test_Legacy_Magento_Catalog_Model_Product_AbstractTypeTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Legacy\Magento\Catalog\Model\Product;
+
+abstract class AbstractTypeTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var array
@@ -29,12 +31,12 @@ abstract class Magento_Test_Legacy_Magento_Catalog_Model_Product_AbstractTypeTes
      */
     public function testProductTypeModelsForObsoleteMethods($method)
     {
-        $root = Magento_TestFramework_Utility_Files::init()->getPathToSource();
+        $root = \Magento\TestFramework\Utility\Files::init()->getPathToSource();
         foreach ($this->_productTypeFiles as $file) {
             $this->assertNotContains(
                 '$this->' . $method . '(',
                 file_get_contents($root . $file),
-                "Method 'Magento_Catalog_Model_Product_Type_Abstract::$method' is obsolete."
+                "Method 'Magento\Catalog\Model\Product\Type\AbstractType::$method' is obsolete."
             );
         }
     }

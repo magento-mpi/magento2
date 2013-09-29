@@ -15,7 +15,9 @@
  * @package     Magento_SalesRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_SalesRule_Helper_Coupon extends Magento_Core_Helper_Abstract
+namespace Magento\SalesRule\Helper;
+
+class Coupon extends \Magento\Core\Helper\AbstractHelper
 {
     /**
      * Constants which defines all possible coupon codes formats
@@ -46,18 +48,18 @@ class Magento_SalesRule_Helper_Coupon extends Magento_Core_Helper_Abstract
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param array $couponParameters
      */
     public function __construct(
-        Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
         array $couponParameters
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;

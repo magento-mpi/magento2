@@ -9,44 +9,46 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Widget_Model_Widget_Config
+namespace Magento\Widget\Model\Widget;
+
+class Config
 {
     /**
-     * @var Magento_Core_Model_View_Url
+     * @var \Magento\Core\Model\View\Url
      */
     protected $_viewUrl;
 
     /**
-     * @var Magento_Widget_Model_Widget
+     * @var \Magento\Widget\Model\Widget
      */
     protected $_widget;
 
     /**
-     * @var Magento_Backend_Model_Url
+     * @var \Magento\Backend\Model\Url
      */
     protected $_backendUrl;
 
     /**
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreHelper;
 
     /**
-     * @var Magento_Widget_Model_WidgetFactory
+     * @var \Magento\Widget\Model\WidgetFactory
      */
     protected $_widgetFactory;
 
     /**
-     * @param Magento_Backend_Model_Url $backendUrl
-     * @param Magento_Core_Helper_Data $coreHelper
-     * @param Magento_Core_Model_View_Url $viewUrl
-     * @param Magento_Widget_Model_WidgetFactory $widgetFactory
+     * @param \Magento\Backend\Model\Url $backendUrl
+     * @param \Magento\Core\Helper\Data $coreHelper
+     * @param \Magento\Core\Model\View\Url $viewUrl
+     * @param \Magento\Widget\Model\WidgetFactory $widgetFactory
      */
     public function __construct(
-        Magento_Backend_Model_Url $backendUrl,
-        Magento_Core_Helper_Data $coreHelper,
-        Magento_Core_Model_View_Url $viewUrl,
-        Magento_Widget_Model_WidgetFactory $widgetFactory
+        \Magento\Backend\Model\Url $backendUrl,
+        \Magento\Core\Helper\Data $coreHelper,
+        \Magento\Core\Model\View\Url $viewUrl,
+        \Magento\Widget\Model\WidgetFactory $widgetFactory
     ) {
         $this->_backendUrl = $backendUrl;
         $this->_coreHelper = $coreHelper;
@@ -57,7 +59,7 @@ class Magento_Widget_Model_Widget_Config
     /**
      * Return config settings for widgets insertion plugin based on editor element config
      *
-     * @param Magento_Object $config
+     * @param \Magento\Object $config
      * @return array
      */
     public function getPluginSettings($config)
@@ -77,7 +79,7 @@ class Magento_Widget_Model_Widget_Config
     /**
      * Return Widgets Insertion Plugin Window URL
      *
-     * @param Magento_Object $config Editor element config
+     * @param \Magento\Object $config Editor element config
      * @return string
      */
     public function getWidgetWindowUrl($config)

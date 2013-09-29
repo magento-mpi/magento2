@@ -15,8 +15,10 @@
  * @package    Magento_Customer
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Customer_Model_Config_Backend_Show_Address
-    extends Magento_Customer_Model_Config_Backend_Show_Customer
+namespace Magento\Customer\Model\Config\Backend\Show;
+
+class Address
+    extends \Magento\Customer\Model\Config\Backend\Show\Customer
 {
     /**
      * Retrieve attribute objects
@@ -26,7 +28,7 @@ class Magento_Customer_Model_Config_Backend_Show_Address
     protected function _getAttributeObjects()
     {
         $result = parent::_getAttributeObjects();
-        $result[] = Mage::getSingleton('Magento_Eav_Model_Config')->getAttribute('customer_address', $this->_getAttributeCode());
+        $result[] = \Mage::getSingleton('Magento\Eav\Model\Config')->getAttribute('customer_address', $this->_getAttributeCode());
         return $result;
     }
 }

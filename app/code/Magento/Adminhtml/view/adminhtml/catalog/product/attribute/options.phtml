@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/** @var $this Magento_Eav_Block_Adminhtml_Attribute_Edit_Options_Options */
+/** @var $this \Magento\Eav\Block\Adminhtml\Attribute\Edit\Options\Options */
 ?>
 <fieldset class="fieldset">
     <legend class="legend"><span><?php echo __('Manage Options (values of your attribute)') ?></span></legend>
@@ -54,7 +54,7 @@
                 <input class="input-radio" type="{{intype}}" name="default[]" value="{{id}}" {{checked}}<?php if ($this->getReadOnly()):?>disabled="disabled"<?php endif;?>/>
             </td>
             <?php foreach ($this->getStores() as $_store): ?>
-            <td class="col-{{id}}"><input name="option[value][{{id}}][<?php echo $_store->getId() ?>]" value="{{store<?php echo $_store->getId() ?>}}" class="input-text<?php if ($_store->getId() == Magento_Core_Model_App::ADMIN_STORE_ID): ?> required-option<?php endif; ?>" type="text" <?php if ($this->getReadOnly() || $this->canManageOptionDefaultOnly()):?> disabled="disabled"<?php endif;?>/></td>
+            <td class="col-{{id}}"><input name="option[value][{{id}}][<?php echo $_store->getId() ?>]" value="{{store<?php echo $_store->getId() ?>}}" class="input-text<?php if ($_store->getId() == \Magento\Core\Model\App::ADMIN_STORE_ID): ?> required-option<?php endif; ?>" type="text" <?php if ($this->getReadOnly() || $this->canManageOptionDefaultOnly()):?> disabled="disabled"<?php endif;?>/></td>
             <?php endforeach; ?>
             <td id="delete_button_container_{{id}}" class="col-delete">
                 <input type="hidden" class="delete-flag" name="option[delete][{{id}}]" value="" />

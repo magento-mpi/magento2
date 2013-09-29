@@ -9,17 +9,19 @@
  * @license     {license_link}
  */
 
-class Magento_Eav_Model_Entity_Attribute_Backend_AbstractTest extends PHPUnit_Framework_TestCase
+namespace Magento\Eav\Model\Entity\Attribute\Backend;
+
+class AbstractTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Eav_Model_Entity_Attribute_Backend_Abstract|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_model;
 
     protected function setUp()
     {
         $this->_model = $this->getMockForAbstractClass(
-            'Magento_Eav_Model_Entity_Attribute_Backend_Abstract',
+            'Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend',
             array(),
             '',
             false
@@ -32,7 +34,7 @@ class Magento_Eav_Model_Entity_Attribute_Backend_AbstractTest extends PHPUnit_Fr
         $attributeId = 42;
 
         $attribute = $this->getMock(
-            'Magento_Eav_Model_Entity_Attribute_Abstract',
+            'Magento\Eav\Model\Entity\Attribute\AbstractAttribute',
             array('getBackendTable', 'isStatic', 'getAttributeId'),
             array(),
             '',
@@ -52,7 +54,7 @@ class Magento_Eav_Model_Entity_Attribute_Backend_AbstractTest extends PHPUnit_Fr
 
         $this->_model->setAttribute($attribute);
 
-        $object = new Magento_Object();
+        $object = new \Magento\Object();
         $this->_model->setValueId($valueId);
 
         $this->assertEquals(

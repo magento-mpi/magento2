@@ -11,15 +11,17 @@
 /**
  * Customer Quote model
  *
- * @method Magento_CustomerCustomAttributes_Model_Resource_Sales_Quote _getResource()
- * @method Magento_CustomerCustomAttributes_Model_Resource_Sales_Quote getResource()
- * @method Magento_CustomerCustomAttributes_Model_Sales_Quote setEntityId(int $value)
+ * @method \Magento\CustomerCustomAttributes\Model\Resource\Sales\Quote _getResource()
+ * @method \Magento\CustomerCustomAttributes\Model\Resource\Sales\Quote getResource()
+ * @method \Magento\CustomerCustomAttributes\Model\Sales\Quote setEntityId(int $value)
  *
  * @category    Magento
  * @package     Magento_CustomerCustomAttributes
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CustomerCustomAttributes_Model_Sales_Quote extends Magento_CustomerCustomAttributes_Model_Sales_Abstract
+namespace Magento\CustomerCustomAttributes\Model\Sales;
+
+class Quote extends \Magento\CustomerCustomAttributes\Model\Sales\AbstractSales
 {
     /**
      * Initialize resource model
@@ -27,6 +29,6 @@ class Magento_CustomerCustomAttributes_Model_Sales_Quote extends Magento_Custome
      */
     protected function _construct()
     {
-        $this->_init('Magento_CustomerCustomAttributes_Model_Resource_Sales_Quote');
+        $this->_init('Magento\CustomerCustomAttributes\Model\Resource\Sales\Quote');
     }
 }

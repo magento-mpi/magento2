@@ -11,36 +11,38 @@
 /**
  * Front end helper block to show giftregistry items
  */
-class Magento_GiftRegistry_Block_Items extends Magento_Checkout_Block_Cart
+namespace Magento\GiftRegistry\Block;
+
+class Items extends \Magento\Checkout\Block\Cart
 {
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * Tax data
      *
-     * @var Magento_Tax_Helper_Data
+     * @var \Magento\Tax\Helper\Data
      */
     protected $_taxData = null;
 
     /**
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Tax_Helper_Data $taxData
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Registry $registry,
-        Magento_Tax_Helper_Data $taxData,
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_taxData = $taxData;
@@ -59,12 +61,12 @@ class Magento_GiftRegistry_Block_Items extends Magento_Checkout_Block_Cart
             if (!$this->getEntity()) {
                 return array();
             }
-            $collection = Mage::getModel('Magento_GiftRegistry_Model_Item')->getCollection()
+            $collection = \Mage::getModel('Magento\GiftRegistry\Model\Item')->getCollection()
                 ->addRegistryFilter($this->getEntity()->getId());
 
             $quoteItemsCollection = array();
-            $quote = Mage::getModel('Magento_Sales_Model_Quote')->setItemCount(true);
-            $emptyQuoteItem = Mage::getModel('Magento_Sales_Model_Quote_Item');
+            $quote = \Mage::getModel('Magento\Sales\Model\Quote')->setItemCount(true);
+            $emptyQuoteItem = \Mage::getModel('Magento\Sales\Model\Quote\Item');
             foreach ($collection as $item) {
                 $product = $item->getProduct();
                 $remainingQty = $item->getQty() - $item->getQtyFulfilled();
@@ -83,11 +85,11 @@ class Magento_GiftRegistry_Block_Items extends Magento_Checkout_Block_Cart
                 if ($this->_catalogData->canApplyMsrp($product)) {
                     $quoteItem->setCanApplyMsrp(true);
                     $product->setRealPriceHtml(
-                        Mage::app()->getStore()->formatPrice(Mage::app()->getStore()->convertPrice(
+                        \Mage::app()->getStore()->formatPrice(\Mage::app()->getStore()->convertPrice(
                             $this->_taxData->getPrice($product, $product->getFinalPrice(), true)
                         ))
                     );
-                    $product->setAddToCartUrl($this->helper('Magento_Checkout_Helper_Cart')->getAddUrl($product));
+                    $product->setAddToCartUrl($this->helper('Magento\Checkout\Helper\Cart')->getAddUrl($product));
                 } else {
                     $quoteItem->setGiftRegistryPrice($product->getFinalPrice());
                     $quoteItem->setCanApplyMsrp(false);
@@ -104,7 +106,7 @@ class Magento_GiftRegistry_Block_Items extends Magento_Checkout_Block_Cart
     /**
      * Return current gift registry entity
      *
-     * @return Magento_GiftRegistry_Model_Resource_Item_Collection
+     * @return \Magento\GiftRegistry\Model\Resource\Item\Collection
      */
     public function getEntity()
     {

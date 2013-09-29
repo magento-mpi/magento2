@@ -9,17 +9,19 @@
  * @license     {license_link}
  */
 
-class Magento_Weee_Model_ObserverTest extends PHPUnit_Framework_TestCase
+namespace Magento\Weee\Model;
+
+class ObserverTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Weee_Model_Observer
+     * @var \Magento\Weee\Model\Observer
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Weee_Model_Observer');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Weee\Model\Observer');
     }
 
     /**
@@ -28,19 +30,19 @@ class Magento_Weee_Model_ObserverTest extends PHPUnit_Framework_TestCase
      */
     public function testUpdateConfigurableProductOptions()
     {
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $objectManager->get('Magento_Core_Model_Registry')->unregister('current_product');
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $objectManager->get('Magento\Core\Model\Registry')->unregister('current_product');
         $eventObserver = $this->_createEventObserverForUpdateConfigurableProductOptions();
         $this->_model->updateConfigurableProductOptions($eventObserver);
         $this->assertEquals(array(), $eventObserver->getEvent()->getResponseObject()->getAdditionalOptions());
 
-        $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Product');
-        $objectManager->get('Magento_Core_Model_Registry')->register('current_product', $product->load(1));
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
+        $objectManager->get('Magento\Core\Model\Registry')->register('current_product', $product->load(1));
 
-        foreach (array(Magento_Weee_Model_Tax::DISPLAY_INCL, Magento_Weee_Model_Tax::DISPLAY_INCL_DESCR) as $mode) {
-            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+        foreach (array(\Magento\Weee\Model\Tax::DISPLAY_INCL, \Magento\Weee\Model\Tax::DISPLAY_INCL_DESCR) as $mode) {
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
                 ->getStore()->setConfig('tax/weee/display', $mode);
             $eventObserver = $this->_createEventObserverForUpdateConfigurableProductOptions();
             $this->_model->updateConfigurableProductOptions($eventObserver);
@@ -51,8 +53,8 @@ class Magento_Weee_Model_ObserverTest extends PHPUnit_Framework_TestCase
         }
 
         foreach (array(
-                Magento_Weee_Model_Tax::DISPLAY_EXCL, Magento_Weee_Model_Tax::DISPLAY_EXCL_DESCR_INCL) as $mode) {
-            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+                \Magento\Weee\Model\Tax::DISPLAY_EXCL, \Magento\Weee\Model\Tax::DISPLAY_EXCL_DESCR_INCL) as $mode) {
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
                 ->getStore()->setConfig('tax/weee/display', $mode);
             $eventObserver = $this->_createEventObserverForUpdateConfigurableProductOptions();
             $this->_model->updateConfigurableProductOptions($eventObserver);
@@ -64,12 +66,12 @@ class Magento_Weee_Model_ObserverTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return Magento_Event_Observer
+     * @return \Magento\Event\Observer
      */
     protected function _createEventObserverForUpdateConfigurableProductOptions()
     {
-        $response = new Magento_Object(array('additional_options' => array()));
-        $event = new Magento_Event(array('response_object' => $response));
-        return new Magento_Event_Observer(array('event' => $event));
+        $response = new \Magento\Object(array('additional_options' => array()));
+        $event = new \Magento\Event(array('response_object' => $response));
+        return new \Magento\Event\Observer(array('event' => $event));
     }
 }

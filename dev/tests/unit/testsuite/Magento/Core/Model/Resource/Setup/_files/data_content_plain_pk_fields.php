@@ -14,8 +14,8 @@ return array(
         array(
             'table',
             'collection',
-            Magento_Core_Model_Resource_Setup_Migration::ENTITY_TYPE_RESOURCE,
-            Magento_Core_Model_Resource_Setup_Migration::FIELD_CONTENT_TYPE_PLAIN,
+            \Magento\Core\Model\Resource\Setup\Migration::ENTITY_TYPE_RESOURCE,
+            \Magento\Core\Model\Resource\Setup\Migration::FIELD_CONTENT_TYPE_PLAIN,
             array('pk_field1', 'pk_field2')
         )
     ),
@@ -27,13 +27,13 @@ return array(
             array(
                 'table' => 'table',
                 'field' => 'collection',
-                'to'    => 'Magento_Customer_Model_Resource_Attribute_Collection',
+                'to'    => 'Magento\Customer\Model\Resource\Attribute\Collection',
                 'from'  => array('`pk_field1` = ?' => 'pk_value1', '`pk_field2` = ?' => 'pk_value2')
             ),
         ),
         'aliases_map' => array(
-            Magento_Core_Model_Resource_Setup_Migration::ENTITY_TYPE_RESOURCE => array(
-                'customer/attribute_collection' => 'Magento_Customer_Model_Resource_Attribute_Collection'
+            \Magento\Core\Model\Resource\Setup\Migration::ENTITY_TYPE_RESOURCE => array(
+                'customer/attribute_collection' => 'Magento\Customer\Model\Resource\Attribute\Collection'
             ),
         )
     ),

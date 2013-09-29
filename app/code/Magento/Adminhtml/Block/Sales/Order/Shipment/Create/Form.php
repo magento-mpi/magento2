@@ -11,12 +11,15 @@
 /**
  * Adminhtml shipment create form
  */
-class Magento_Adminhtml_Block_Sales_Order_Shipment_Create_Form extends Magento_Adminhtml_Block_Sales_Order_Abstract
+
+namespace Magento\Adminhtml\Block\Sales\Order\Shipment\Create;
+
+class Form extends \Magento\Adminhtml\Block\Sales\Order\AbstractOrder
 {
     /**
      * Retrieve invoice order
      *
-     * @return Magento_Sales_Model_Order
+     * @return \Magento\Sales\Model\Order
      */
     public function getOrder()
     {
@@ -26,7 +29,7 @@ class Magento_Adminhtml_Block_Sales_Order_Shipment_Create_Form extends Magento_A
     /**
      * Retrieve source
      *
-     * @return Magento_Sales_Model_Order_Invoice
+     * @return \Magento\Sales\Model\Order\Invoice
      */
     public function getSource()
     {
@@ -36,7 +39,7 @@ class Magento_Adminhtml_Block_Sales_Order_Shipment_Create_Form extends Magento_A
     /**
      * Retrieve shipment model instance
      *
-     * @return Magento_Sales_Model_Order_Shipment
+     * @return \Magento\Sales\Model\Order\Shipment
      */
     public function getShipment()
     {
@@ -45,8 +48,8 @@ class Magento_Adminhtml_Block_Sales_Order_Shipment_Create_Form extends Magento_A
 
     protected function _prepareLayout()
     {
-        $this->addChild('items', 'Magento_Adminhtml_Block_Sales_Order_Shipment_Create_Items');
-        $this->addChild('tracking', 'Magento_Adminhtml_Block_Sales_Order_Shipment_Create_Tracking');
+        $this->addChild('items', 'Magento\Adminhtml\Block\Sales\Order\Shipment\Create\Items');
+        $this->addChild('tracking', 'Magento\Adminhtml\Block\Sales\Order\Shipment\Create\Tracking');
         return parent::_prepareLayout();
     }
 

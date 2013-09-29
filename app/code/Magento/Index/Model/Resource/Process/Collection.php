@@ -16,7 +16,9 @@
  * @package     Magento_Index
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Index_Model_Resource_Process_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Index\Model\Resource\Process;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Initialize resource
@@ -24,20 +26,20 @@ class Magento_Index_Model_Resource_Process_Collection extends Magento_Core_Model
      */
     protected function _construct()
     {
-        $this->_init('Magento_Index_Model_Process', 'Magento_Index_Model_Resource_Process');
+        $this->_init('Magento\Index\Model\Process', 'Magento\Index\Model\Resource\Process');
     }
 
     /**
      * Add count of unprocessed events to process collection
      *
-     * @return Magento_Index_Model_Resource_Process_Collection
+     * @return \Magento\Index\Model\Resource\Process\Collection
      */
     public function addEventsStats()
     {
         $countsSelect = $this->getConnection()
             ->select()
             ->from($this->getTable('index_process_event'), array('process_id', 'events' => 'COUNT(*)'))
-            ->where('status=?', Magento_Index_Model_Process::EVENT_STATUS_NEW)
+            ->where('status=?', \Magento\Index\Model\Process::EVENT_STATUS_NEW)
             ->group('process_id');
         $this->getSelect()
             ->joinLeft(

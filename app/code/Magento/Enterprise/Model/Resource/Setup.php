@@ -9,25 +9,27 @@
 /**
  * Enterprise resource setup
  */
-class Magento_Enterprise_Model_Resource_Setup extends Magento_Core_Model_Resource_Setup
+namespace Magento\Enterprise\Model\Resource;
+
+class Setup extends \Magento\Core\Model\Resource\Setup
 {
     /**
      * Block model factory
      *
-     * @var Magento_Cms_Model_BlockFactory
+     * @var \Magento\Cms\Model\BlockFactory
      */
     protected $_modelBlockFactory;
 
     /**
-     * @param Magento_Core_Model_Resource_Setup_Context $context
-     * @param Magento_Cms_Model_BlockFactory $modelBlockFactory
+     * @param \Magento\Core\Model\Resource\Setup\Context $context
+     * @param \Magento\Cms\Model\BlockFactory $modelBlockFactory
      * @param string $resourceName
      * @param string $moduleName
      * @param string $connectionName
      */
     public function __construct(
-        Magento_Core_Model_Resource_Setup_Context $context,
-        Magento_Cms_Model_BlockFactory $modelBlockFactory,
+        \Magento\Core\Model\Resource\Setup\Context $context,
+        \Magento\Cms\Model\BlockFactory $modelBlockFactory,
         $resourceName,
         $moduleName = 'Magento_Enterprise',
         $connectionName = ''

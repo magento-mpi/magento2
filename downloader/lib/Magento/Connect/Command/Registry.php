@@ -8,8 +8,10 @@
  * @license     {license_link}
  */
 
-final class Magento_Connect_Command_Registry
-extends Magento_Connect_Command
+namespace Magento\Connect\Command;
+
+final class Registry
+extends \Magento\Connect\Command
 {
     const PACKAGE_PEAR_DIR = 'pearlib/php/.registry';
 
@@ -41,7 +43,7 @@ extends Magento_Connect_Command
                 @unlink($cache->getFilename());
             }
             $this->ui()->output(array($command=>array('data'=>$data, 'channel-title'=>"Installed package for channel '%s' :")));
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             if($ftp) {
                 @unlink($cache->getFilename());
             }
@@ -64,7 +66,7 @@ extends Magento_Connect_Command
         try {
             $channel = false;
             if(count($params) < 2) {
-                throw new Exception("Argument count should be = 2");
+                throw new \Exception("Argument count should be = 2");
             }
             $channel = $params[0];
             $package = $params[1];
@@ -97,7 +99,7 @@ extends Magento_Connect_Command
 
             $this->ui()->output(array($command=>array('data'=>$contents, 'title'=>$title)));
 
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             if($ftp) {
                 @unlink($config->getFilename());
                 @unlink($cache->getFilename());
@@ -125,7 +127,7 @@ extends Magento_Connect_Command
         try {
             $channel = false;
             if(count($params) < 2) {
-                throw new Exception("Argument count should be = 2");
+                throw new \Exception("Argument count should be = 2");
             }
             $channel = $params[0];
             $package = $params[1];
@@ -137,21 +139,21 @@ extends Magento_Connect_Command
             }
 
             if(!$cache->isChannel($channel)) {
-                throw new Exception("'{$channel}' is not a valid installed channel name/uri");
+                throw new \Exception("'{$channel}' is not a valid installed channel name/uri");
             }
             $channelUri = $cache->chanUrl($channel);
             $rest = $this->rest();
             $rest->setChannel($channelUri);
             $releases = $rest->getReleases($package);
             if(false === $releases) {
-                throw new Exception("No information found about {$channel}/{$package}");
+                throw new \Exception("No information found about {$channel}/{$package}");
             }
             $data = array($command => array('releases'=>$releases));
             if($ftp) {
                 @unlink($cache->getFilename());
             }
             $this->ui()->output($data);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             if ($ftp && isset($cache)) {
                 @unlink($cache->getFilename());
             }
@@ -185,7 +187,7 @@ extends Magento_Connect_Command
                 $this->doSyncPear($command, $options, $params);
             }
 
-            $packageDir = $config->magento_root . DS . Magento_Connect_Package::PACKAGE_XML_DIR;
+            $packageDir = $config->magento_root . DS . \Magento\Connect\Package::PACKAGE_XML_DIR;
             if (is_dir($packageDir)) {
                 $entries = scandir($packageDir);
                 foreach ((array)$entries as $entry) {
@@ -201,7 +203,7 @@ extends Magento_Connect_Command
                             continue;
                         }
 
-                        $package = new Magento_Connect_Package($data);
+                        $package = new \Magento\Connect\Package($data);
                         $name = $package->getName();
                         $channel = $package->getChannel();
                         $version = $package->getVersion();
@@ -218,7 +220,7 @@ extends Magento_Connect_Command
                     $packager->writeToRemoteCache($cache, $ftpObj);
                 }
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->doError($command, $e->getMessage());
         }
     }
@@ -276,7 +278,7 @@ extends Magento_Connect_Command
                 closedir($dp);
             }
 
-            $package = new Magento_Connect_Package();
+            $package = new \Magento\Connect\Package();
             foreach ($pkglist as $pkg) {
                 $pkgFilename = $pearStorage . DS . $pkg['channel'] . DS . $pkg['file'];
                 if (!file_exists($pkgFilename)) {
@@ -301,14 +303,14 @@ extends Magento_Connect_Command
                         
                         if (is_file($localXml)) {
                             $ftpDir = $ftpObj->getcwd();
-                            $remoteXmlPath = $ftpDir . '/' . Magento_Connect_Package::PACKAGE_XML_DIR;
+                            $remoteXmlPath = $ftpDir . '/' . \Magento\Connect\Package::PACKAGE_XML_DIR;
                             $remoteXml = $package->getReleaseFilename() . '.xml';
                             $ftpObj->mkdirRecursive($remoteXmlPath);
                             $ftpObj->upload($remoteXml, $localXml, 0777, 0666);
                             $ftpObj->chdir($ftpDir);
                         }
                     } else {
-                        $destDir = rtrim($config->magento_root, "\\/") . DS . Magento_Connect_Package::PACKAGE_XML_DIR;
+                        $destDir = rtrim($config->magento_root, "\\/") . DS . \Magento\Connect\Package::PACKAGE_XML_DIR;
                         $destFile = $package->getReleaseFilename() . '.xml';
                         $dest = $destDir . DS . $destFile;
 
@@ -327,7 +329,7 @@ extends Magento_Connect_Command
                 $packager->writeToRemoteCache($cache, $ftpObj);
                 @unlink($config->getFilename());
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->doError($command, $e->getMessage());
         }
         
@@ -337,7 +339,7 @@ extends Magento_Connect_Command
     /**
      * Check is need to sync old pear data
      * 
-     * @param Magento_Connect_Config $config
+     * @param \Magento\Connect\Config $config
      * @return boolean
      */
     protected function _checkPearData($config) {

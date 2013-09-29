@@ -1,32 +1,34 @@
 <?php
 /**
- * Test Magento_Logging_Model_Config
+ * Test \Magento\Logging\Model\Config
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Logging_Model_ConfigTest extends PHPUnit_Framework_TestCase
+namespace Magento\Logging\Model;
+
+class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject|Magento_Logging_Model_Config_Data
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Logging\Model\Config\Data
      */
     protected $_storageMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject|Magento_Logging_Model_Config
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Logging\Model\Config
      */
     protected $_model;
 
     /*
-     * @var PHPUnit_Framework_MockObject_MockObject|Magento_Core_Model_Store
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Model\Store
      */
     protected $_storeMock;
 
     public function setUp()
     {
-        $this->_storageMock = $this->getMockBuilder('Magento_Logging_Model_Config_Data')
+        $this->_storageMock = $this->getMockBuilder('Magento\Logging\Model\Config\Data')
             ->setMethods(array('get'))
             ->disableOriginalConstructor()
             ->getMock();
@@ -50,7 +52,7 @@ class Magento_Logging_Model_ConfigTest extends PHPUnit_Framework_TestCase
                         'log_name' => 'configured_log_group',
                         'action' => 'view',
                         'expected_models' => array(
-                            'Magento_Sales_Model_Quote' => array()
+                            'Magento\Sales\Model\Quote' => array()
                         )
                     )
                 )
@@ -61,12 +63,12 @@ class Magento_Logging_Model_ConfigTest extends PHPUnit_Framework_TestCase
             ->with($this->equalTo('logging'))
             ->will($this->returnValue($loggingConfig));
 
-        $storeManagerMock = $this->getMockBuilder('Magento_Core_Model_StoreManager')
+        $storeManagerMock = $this->getMockBuilder('Magento\Core\Model\StoreManager')
             ->setMethods(array('getStore'))
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_store = $this->getMockBuilder('Magento_Core_Model_StoreManager')
+        $this->_store = $this->getMockBuilder('Magento\Core\Model\StoreManager')
             ->setMethods(array('getConfig'))
             ->disableOriginalConstructor()
             ->getMock();
@@ -76,7 +78,7 @@ class Magento_Logging_Model_ConfigTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->_store));
 
 
-        $this->_model = new Magento_Logging_Model_Config($this->_storageMock, $storeManagerMock);
+        $this->_model = new \Magento\Logging\Model\Config($this->_storageMock, $storeManagerMock);
     }
 
     public function testLabels()
@@ -166,7 +168,7 @@ class Magento_Logging_Model_ConfigTest extends PHPUnit_Framework_TestCase
             'log_name' => 'configured_log_group',
             'action' => 'view',
             'expected_models' => array(
-                'Magento_Sales_Model_Quote' => array()
+                'Magento\Sales\Model\Quote' => array()
             )
         );
         $this->assertEquals($expected, $this->_model->getEventByFullActionName('adminhtml_checkout_index'));

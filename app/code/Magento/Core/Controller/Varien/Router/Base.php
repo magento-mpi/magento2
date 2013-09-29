@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Controller_Varien_Router_Base extends Magento_Core_Controller_Varien_Router_Abstract
+namespace Magento\Core\Controller\Varien\Router;
+
+class Base extends \Magento\Core\Controller\Varien\Router\AbstractRouter
 {
     /**
      * @var array
@@ -53,17 +55,17 @@ class Magento_Core_Controller_Varien_Router_Base extends Magento_Core_Controller
     protected $_baseController;
 
     /**
-     * @var Magento_Core_Model_App
+     * @var \Magento\Core\Model\App
      */
     protected $_app;
 
     /**
-     * @var Magento_Core_Model_Config_Scope
+     * @var \Magento\Core\Model\Config\Scope
      */
     protected $_configScope;
 
     /**
-     * @var Magento_Core_Model_Route_Config
+     * @var \Magento\Core\Model\Route\Config
      */
     protected $_routeConfig;
 
@@ -75,46 +77,47 @@ class Magento_Core_Controller_Varien_Router_Base extends Magento_Core_Controller
     /**
      * Url security information.
      *
-     * @var Magento_Core_Model_Url_SecurityInfoInterface
+     * @var \Magento\Core\Model\Url\SecurityInfoInterface
      */
     protected $_urlSecurityInfo;
 
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
      * Core config
      *
-     * @var Magento_Core_Model_Config
+     * @var \Magento\Core\Model\Config
      */
     protected $_config = null;
 
     /**
-     * @param Magento_Core_Controller_Varien_Action_Factory $controllerFactory
-     * @param Magento_Filesystem $filesystem
-     * @param Magento_Core_Model_App $app
-     * @param Magento_Core_Model_Config_Scope $configScope
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_Route_Config $routeConfig
-     * @param Magento_Core_Model_Url_SecurityInfoInterface $urlSecurityInfo
-     * @param Magento_Core_Model_Config $config
+     * @param \Magento\Core\Controller\Varien\Action\Factory $controllerFactory
+     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\Core\Model\App $app
+     * @param \Magento\Core\Model\Config\Scope $configScope
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\Route\Config $routeConfig
+     * @param \Magento\Core\Model\Url\SecurityInfoInterface $urlSecurityInfo
+     * @param \Magento\Core\Model\Config $config
      * @param $areaCode
      * @param $baseController
      * @param $routerId
+     * @throws \InvalidArgumentException
      */
     public function __construct(
-        Magento_Core_Controller_Varien_Action_Factory $controllerFactory,
-        Magento_Filesystem $filesystem,
-        Magento_Core_Model_App $app,
-        Magento_Core_Model_Config_Scope $configScope,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_Route_Config $routeConfig,
-        Magento_Core_Model_Url_SecurityInfoInterface $urlSecurityInfo,
-        Magento_Core_Model_Config $config,
+        \Magento\Core\Controller\Varien\Action\Factory $controllerFactory,
+        \Magento\Filesystem $filesystem,
+        \Magento\Core\Model\App $app,
+        \Magento\Core\Model\Config\Scope $configScope,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\Route\Config $routeConfig,
+        \Magento\Core\Model\Url\SecurityInfoInterface $urlSecurityInfo,
+        \Magento\Core\Model\Config $config,
         $areaCode,
         $baseController,
         $routerId
@@ -134,7 +137,7 @@ class Magento_Core_Controller_Varien_Router_Base extends Magento_Core_Controller
         $this->_config          = $config;
 
         if (is_null($this->_areaCode) || is_null($this->_baseController)) {
-            throw new InvalidArgumentException("Not enough options to initialize router.");
+            throw new \InvalidArgumentException("Not enough options to initialize router.");
         }
     }
 
@@ -171,7 +174,7 @@ class Magento_Core_Controller_Varien_Router_Base extends Magento_Core_Controller
      */
     protected function _beforeModuleMatch()
     {
-        if (Mage::app()->getStore()->isAdmin()) {
+        if (\Mage::app()->getStore()->isAdmin()) {
             return false;
         }
         return true;
@@ -190,10 +193,10 @@ class Magento_Core_Controller_Varien_Router_Base extends Magento_Core_Controller
     /**
      * Match provided request and if matched - return corresponding controller
      *
-     * @param Magento_Core_Controller_Request_Http $request
-     * @return Magento_Core_Controller_Front_Action|null
+     * @param \Magento\Core\Controller\Request\Http $request
+     * @return \Magento\Core\Controller\Front\Action|null
      */
-    public function match(Magento_Core_Controller_Request_Http $request)
+    public function match(\Magento\Core\Controller\Request\Http $request)
     {
         //checking before even try to find out that current module
         //should use this router
@@ -207,7 +210,7 @@ class Magento_Core_Controller_Varien_Router_Base extends Magento_Core_Controller
             return null;
         }
 
-        $this->_app->loadAreaPart($this->_areaCode, Magento_Core_Model_App_Area::PART_CONFIG);
+        $this->_app->loadAreaPart($this->_areaCode, \Magento\Core\Model\App\Area::PART_CONFIG);
 
         return $this->_matchController($request, $params);
     }
@@ -226,10 +229,10 @@ class Magento_Core_Controller_Varien_Router_Base extends Magento_Core_Controller
     /**
      * Parse request URL params
      *
-     * @param Magento_Core_Controller_Request_Http $request
+     * @param \Magento\Core\Controller\Request\Http $request
      * @return array
      */
-    protected function _parseRequest(Magento_Core_Controller_Request_Http $request)
+    protected function _parseRequest(\Magento\Core\Controller\Request\Http $request)
     {
         $output = array();
 
@@ -249,11 +252,11 @@ class Magento_Core_Controller_Varien_Router_Base extends Magento_Core_Controller
     /**
      * Match module front name
      *
-     * @param Magento_Core_Controller_Request_Http $request
+     * @param \Magento\Core\Controller\Request\Http $request
      * @param string $param
      * @return string|null
      */
-    protected function _matchModuleFrontName(Magento_Core_Controller_Request_Http $request, $param)
+    protected function _matchModuleFrontName(\Magento\Core\Controller\Request\Http $request, $param)
     {
         // get module name
         if ($request->getModuleName()) {
@@ -263,7 +266,7 @@ class Magento_Core_Controller_Varien_Router_Base extends Magento_Core_Controller
                 $moduleFrontName = $param;
             } else {
                 $moduleFrontName = $this->getFront()->getDefault('module');
-                $request->setAlias(Magento_Core_Model_Url_Rewrite::REWRITE_REQUEST_PATH_ALIAS, '');
+                $request->setAlias(\Magento\Core\Model\Url\Rewrite::REWRITE_REQUEST_PATH_ALIAS, '');
             }
         }
         if (!$moduleFrontName) {
@@ -275,11 +278,11 @@ class Magento_Core_Controller_Varien_Router_Base extends Magento_Core_Controller
     /**
      * Match controller name
      *
-     * @param Magento_Core_Controller_Request_Http $request
+     * @param \Magento\Core\Controller\Request\Http $request
      * @param string $param
      * @return string
      */
-    protected function _matchControllerName(Magento_Core_Controller_Request_Http $request,  $param)
+    protected function _matchControllerName(\Magento\Core\Controller\Request\Http $request,  $param)
     {
         if ($request->getControllerName()) {
             $controller = $request->getControllerName();
@@ -289,7 +292,7 @@ class Magento_Core_Controller_Varien_Router_Base extends Magento_Core_Controller
             } else {
                 $controller = $this->getFront()->getDefault('controller');
                 $request->setAlias(
-                    Magento_Core_Model_Url_Rewrite::REWRITE_REQUEST_PATH_ALIAS,
+                    \Magento\Core\Model\Url\Rewrite::REWRITE_REQUEST_PATH_ALIAS,
                     ltrim($request->getOriginalPathInfo(), '/')
                 );
             }
@@ -300,11 +303,11 @@ class Magento_Core_Controller_Varien_Router_Base extends Magento_Core_Controller
     /**
      * Match controller name
      *
-     * @param Magento_Core_Controller_Request_Http $request
+     * @param \Magento\Core\Controller\Request\Http $request
      * @param string $param
      * @return string
      */
-    protected function _matchActionName(Magento_Core_Controller_Request_Http $request, $param)
+    protected function _matchActionName(\Magento\Core\Controller\Request\Http $request, $param)
     {
         if (empty($action)) {
             if ($request->getActionName()) {
@@ -323,10 +326,10 @@ class Magento_Core_Controller_Varien_Router_Base extends Magento_Core_Controller
      * Get not found controller instance
      *
      * @param $currentModuleName
-     * @param Magento_Core_Controller_Request_Http $request
-     * @return Magento_Core_Controller_Varien_Action|null
+     * @param \Magento\Core\Controller\Request\Http $request
+     * @return \Magento\Core\Controller\Varien\Action|null
      */
-    protected function _getNotFoundControllerInstance($currentModuleName, Magento_Core_Controller_Request_Http $request)
+    protected function _getNotFoundControllerInstance($currentModuleName, \Magento\Core\Controller\Request\Http $request)
     {
         $controllerInstance = null;
 
@@ -369,11 +372,11 @@ class Magento_Core_Controller_Varien_Router_Base extends Magento_Core_Controller
     /**
      * Create matched controller instance
      *
-     * @param Magento_Core_Controller_Request_Http $request
+     * @param \Magento\Core\Controller\Request\Http $request
      * @param array $params
-     * @return Magento_Core_Controller_Front_Action|null
+     * @return \Magento\Core\Controller\Front\Action|null
      */
-    protected function _matchController(Magento_Core_Controller_Request_Http $request, array $params)
+    protected function _matchController(\Magento\Core\Controller\Request\Http $request, array $params)
     {
         $this->fetchDefault();
 
@@ -500,7 +503,7 @@ class Magento_Core_Controller_Varien_Router_Base extends Magento_Core_Controller
      * @param $controllerFileName
      * @param $controllerClassName
      * @return bool
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     protected function _includeControllerClass($controllerFileName, $controllerClassName)
     {
@@ -511,7 +514,7 @@ class Magento_Core_Controller_Varien_Router_Base extends Magento_Core_Controller
             include $controllerFileName;
 
             if (!class_exists($controllerClassName, false)) {
-                throw Mage::exception('Magento_Core', __('Controller file was loaded but class does not exist'));
+                throw \Mage::exception('Magento_Core', __('Controller file was loaded but class does not exist'));
             }
         }
         return true;
@@ -572,7 +575,10 @@ class Magento_Core_Controller_Varien_Router_Base extends Magento_Core_Controller
 
     public function getControllerClassName($realModule, $controller)
     {
-        $class = $realModule . '_' . 'Controller'  . '_' . uc_words($controller);
+        $class = str_replace('_', \Magento\Autoload\IncludePath::NS_SEPARATOR, $realModule) .
+            \Magento\Autoload\IncludePath::NS_SEPARATOR . 'Controller' .
+            \Magento\Autoload\IncludePath::NS_SEPARATOR .
+            str_replace('_','\\', uc_words(str_replace('_', ' ', $controller)));
         return $class;
     }
 
@@ -602,23 +608,23 @@ class Magento_Core_Controller_Varien_Router_Base extends Magento_Core_Controller
      * Check that request uses https protocol if it should.
      * Function redirects user to correct URL if needed.
      *
-     * @param Zend_Controller_Request_Http $request
+     * @param \Zend_Controller_Request_Http $request
      * @param string $path
      * @return void
      */
-    protected function _checkShouldBeSecure(Zend_Controller_Request_Http $request, $path = '')
+    protected function _checkShouldBeSecure(\Zend_Controller_Request_Http $request, $path = '')
     {
-        if (!Mage::isInstalled() || $request->getPost()) {
+        if (!\Mage::isInstalled() || $request->getPost()) {
             return;
         }
 
         if ($this->_shouldBeSecure($path) && !$request->isSecure()) {
             $url = $this->_getCurrentSecureUrl($request);
             if ($this->_shouldRedirectToSecure()) {
-                $url = Mage::getSingleton('Magento_Core_Model_Url')->getRedirectUrl($url);
+                $url = \Mage::getSingleton('Magento\Core\Model\Url')->getRedirectUrl($url);
             }
 
-            Mage::app()->getFrontController()->getResponse()
+            \Mage::app()->getFrontController()->getResponse()
                 ->setRedirect($url)
                 ->sendResponse();
             exit;
@@ -632,17 +638,17 @@ class Magento_Core_Controller_Varien_Router_Base extends Magento_Core_Controller
      */
     protected function _shouldRedirectToSecure()
     {
-        return Mage::app()->getUseSessionInUrl();
+        return \Mage::app()->getUseSessionInUrl();
     }
 
     protected function _getCurrentSecureUrl($request)
     {
-        $alias = $request->getAlias(Magento_Core_Model_Url_Rewrite::REWRITE_REQUEST_PATH_ALIAS);
+        $alias = $request->getAlias(\Magento\Core\Model\Url\Rewrite::REWRITE_REQUEST_PATH_ALIAS);
         if ($alias) {
-            return Mage::getBaseUrl('link', true) . ltrim($alias, '/');
+            return \Mage::getBaseUrl('link', true) . ltrim($alias, '/');
         }
 
-        return Mage::getBaseUrl('link', true) . ltrim($request->getPathInfo(), '/');
+        return \Mage::getBaseUrl('link', true) . ltrim($request->getPathInfo(), '/');
     }
 
     /**

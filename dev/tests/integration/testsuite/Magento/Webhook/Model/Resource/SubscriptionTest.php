@@ -1,9 +1,5 @@
 <?php
 /**
- * Magento_Webhook_Model_Resource_Subscription
- *
- * @magentoDbIsolation enabled
- *
  * {license_notice}
  *
  * @category    Magento
@@ -11,15 +7,22 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_Resource_SubscriptionTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webhook\Model\Resource;
+
+/**
+ * \Magento\Webhook\Model\Resource\Subscription
+ *
+ * @magentoDbIsolation enabled
+ */
+class SubscriptionTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var  Magento_Webhook_Model_Resource_Subscription */
+    /** @var  \Magento\Webhook\Model\Resource\Subscription */
     private $_resource;
 
     protected function setUp()
     {
-        $this->_resource = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Webhook_Model_Resource_Subscription');
+        $this->_resource = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webhook\Model\Resource\Subscription');
     }
 
     public function testLoadTopics()
@@ -30,9 +33,9 @@ class Magento_Webhook_Model_Resource_SubscriptionTest extends PHPUnit_Framework_
             'customer/deleted',
         );
 
-        /** @var Magento_Webhook_Model_Subscription $subscription */
-        $subscription = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Webhook_Model_Subscription');
+        /** @var \Magento\Webhook\Model\Subscription $subscription */
+        $subscription = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webhook\Model\Subscription');
         $subscription->setTopics($topics);
         $subscription->save();
 
@@ -51,8 +54,8 @@ class Magento_Webhook_Model_Resource_SubscriptionTest extends PHPUnit_Framework_
             'customer/deleted',
         );
 
-        $subscription = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Webhook_Model_Subscription');
+        $subscription = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webhook\Model\Subscription');
         $subscriptionId = $subscription
             ->setTopics($topics)
             ->setName('subscription to load')
@@ -66,8 +69,8 @@ class Magento_Webhook_Model_Resource_SubscriptionTest extends PHPUnit_Framework_
         $subscription->setTopics($topics)
             ->save();
 
-        $loadedSubscription = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Webhook_Model_Subscription');
+        $loadedSubscription = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webhook\Model\Subscription');
         $loadedSubscription->load($subscriptionId);
 
         $this->assertEquals('subscription to load', $loadedSubscription->getName());

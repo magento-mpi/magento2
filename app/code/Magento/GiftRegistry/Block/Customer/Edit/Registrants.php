@@ -14,7 +14,9 @@
  * @category   Magento
  * @package    Magento_GiftRegistry
  */
-class Magento_GiftRegistry_Block_Customer_Edit_Registrants extends  Magento_GiftRegistry_Block_Customer_Edit_Abstract
+namespace Magento\GiftRegistry\Block\Customer\Edit;
+
+class Registrants extends  \Magento\GiftRegistry\Block\Customer\Edit\AbstractEdit
 {
     /**
      * Scope Selector 'registry/registrant'
@@ -26,30 +28,30 @@ class Magento_GiftRegistry_Block_Customer_Edit_Registrants extends  Magento_Gift
     /**
      * Gift registry data
      *
-     * @var Magento_GiftRegistry_Helper_Data
+     * @var \Magento\GiftRegistry\Helper\Data
      */
     protected $_giftRegistryData = null;
 
     /**
-     * @param Magento_GiftRegistry_Helper_Data $giftRegistryData
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_Core_Model_Cache_Type_Config $configCacheType
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Directory_Model_Resource_Region_CollectionFactory $regionCollFactory
-     * @param Magento_Directory_Model_Resource_Country_CollectionFactory $countryCollFactory
+     * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory
+     * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory
      * @param array $data
      */
     public function __construct(
-        Magento_GiftRegistry_Helper_Data $giftRegistryData,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_Core_Model_Cache_Type_Config $configCacheType,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Directory_Model_Resource_Region_CollectionFactory $regionCollFactory,
-        Magento_Directory_Model_Resource_Country_CollectionFactory $countryCollFactory,
+        \Magento\GiftRegistry\Helper\Data $giftRegistryData,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Core\Model\Cache\Type\Config $configCacheType,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory,
+        \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory,
         array $data = array()
     ) {
         $this->_giftRegistryData = $giftRegistryData;
@@ -88,7 +90,7 @@ class Magento_GiftRegistry_Block_Customer_Edit_Registrants extends  Magento_Gift
     /**
      * Return registrant collection
      *
-     * @return Magento_GiftRegistry_Model_Resource_Person_Collection
+     * @return \Magento\GiftRegistry\Model\Resource\Person\Collection
      */
     public function getRegistrantList() {
         return $this->getEntity->getRegistrantCollection();

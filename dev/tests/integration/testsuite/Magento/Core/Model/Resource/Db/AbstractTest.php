@@ -9,17 +9,19 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Resource_Db_AbstractTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Resource\Db;
+
+class AbstractTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Resource_Db_Abstract
+     * @var \Magento\Core\Model\Resource\Db\AbstractDb
      */
     protected $_model;
 
     protected function setUp()
     {
-        $resource = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Resource');
-        $this->_model = $this->getMockForAbstractClass('Magento_Core_Model_Resource_Db_Abstract',
+        $resource = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Resource');
+        $this->_model = $this->getMockForAbstractClass('Magento\Core\Model\Resource\Db\AbstractDb',
             array('resource' => $resource)
         );
     }
@@ -27,14 +29,14 @@ class Magento_Core_Model_Resource_Db_AbstractTest extends PHPUnit_Framework_Test
 
     public function testConstruct()
     {
-        $resourceProperty = new ReflectionProperty(get_class($this->_model), '_resources');
+        $resourceProperty = new \ReflectionProperty(get_class($this->_model), '_resources');
         $resourceProperty->setAccessible(true);
-        $this->assertInstanceOf('Magento_Core_Model_Resource', $resourceProperty->getValue($this->_model));
+        $this->assertInstanceOf('Magento\Core\Model\Resource', $resourceProperty->getValue($this->_model));
     }
 
     public function testSetMainTable()
     {
-        $setMainTableMethod = new ReflectionMethod($this->_model, '_setMainTable');
+        $setMainTableMethod = new \ReflectionMethod($this->_model, '_setMainTable');
         $setMainTableMethod->setAccessible(true);
 
         $tableName = $this->_model->getTable('core_website');
@@ -53,11 +55,11 @@ class Magento_Core_Model_Resource_Db_AbstractTest extends PHPUnit_Framework_Test
     {
         $tableNameOrig = 'core_website';
         $tableSuffix = 'suffix';
-        $resource = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create(
-            'Magento_Core_Model_Resource', array('tablePrefix' => 'prefix_')
+        $resource = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Core\Model\Resource', array('tablePrefix' => 'prefix_')
         );
 
-        $model = $this->getMockForAbstractClass('Magento_Core_Model_Resource_Db_Abstract',
+        $model = $this->getMockForAbstractClass('Magento\Core\Model\Resource\Db\AbstractDb',
             array('resource' => $resource)
         );
 

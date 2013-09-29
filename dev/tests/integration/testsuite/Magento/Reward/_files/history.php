@@ -10,22 +10,22 @@
  */
 
 include __DIR__ . '/../../../Magento/Customer/_files/customer.php';
-/** @var $reward Magento_Reward_Model_Reward */
-$reward = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Reward_Model_Reward');
+/** @var $reward \Magento\Reward\Model\Reward */
+$reward = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Reward\Model\Reward');
 $reward->setCustomerId(1)
     ->setWebsiteId(
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
             ->getStore()->getWebsiteId()
     );
 $reward->save();
 
-/** @var $history Magento_Reward_Model_Reward_History */
-$history = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Reward_Model_Reward_History');
+/** @var $history \Magento\Reward\Model\Reward\History */
+$history = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Reward\Model\Reward\History');
 $history->setRewardId($reward->getId())
     ->setWebsiteId(
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
             ->getStore()->getWebsiteId()
     )
     ->setAdditionalData(serialize('any non-empty string'));

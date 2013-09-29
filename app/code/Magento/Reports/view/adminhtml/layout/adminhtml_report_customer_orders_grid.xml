@@ -12,7 +12,7 @@
     <referenceBlock name="adminhtml.report.grid">
         <arguments>
             <argument name="id" xsi:type="string">gridOrdersCustomer</argument>
-            <argument name="dataSource" xsi:type="object">Magento_Reports_Model_Resource_Customer_Orders_Collection_Initial</argument>
+            <argument name="dataSource" xsi:type="object">Magento\Reports\Model\Resource\Customer\Orders\Collection\Initial</argument>
         </arguments>
     </referenceBlock>
     <referenceBlock name="adminhtml.report.grid.export">
@@ -31,7 +31,7 @@
         <arguments>
             <argument name="count_totals" xsi:type="string">1</argument>
         </arguments>
-        <block class="Magento_Backend_Block_Widget_Grid_Column" as="name">
+        <block class="Magento\Backend\Block\Widget\Grid\Column" as="name">
             <arguments>
                 <argument name="header" xsi:type="string" translate="true">Customer</argument>
                 <argument name="sortable" xsi:type="string">0</argument>
@@ -42,7 +42,7 @@
                 <argument name="header_css_class" xsi:type="string">col-name</argument>
             </arguments>
         </block>
-        <block class="Magento_Backend_Block_Widget_Grid_Column" as="orders_count">
+        <block class="Magento\Backend\Block\Widget\Grid\Column" as="orders_count">
             <arguments>
                 <argument name="header" xsi:type="string" translate="true">Orders</argument>
                 <argument name="sortable" xsi:type="string">0</argument>
@@ -54,7 +54,7 @@
                 <argument name="header_css_class" xsi:type="string">col-qty</argument>
             </arguments>
         </block>
-        <block class="Magento_Backend_Block_Widget_Grid_Column" as="orders_avg_amount">
+        <block class="Magento\Backend\Block\Widget\Grid\Column" as="orders_avg_amount">
             <arguments>
                 <argument name="header" xsi:type="string" translate="true">Average</argument>
                 <argument name="sortable" xsi:type="string">0</argument>
@@ -66,7 +66,7 @@
                 <argument name="header_css_class" xsi:type="string">col-average</argument>
             </arguments>
         </block>
-        <block class="Magento_Backend_Block_Widget_Grid_Column" as="orders_sum_amount">
+        <block class="Magento\Backend\Block\Widget\Grid\Column" as="orders_sum_amount">
             <arguments>
                 <argument name="header" xsi:type="string" translate="true">Total</argument>
                 <argument name="sortable" xsi:type="string">0</argument>

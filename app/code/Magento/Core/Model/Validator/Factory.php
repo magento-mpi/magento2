@@ -7,15 +7,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Validator_Factory
+namespace Magento\Core\Model\Validator;
+
+class Factory
 {
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @var Magento_Core_Model_Translate
+     * @var \Magento\Core\Model\Translate
      */
     protected $_translator;
 
@@ -29,14 +31,14 @@ class Magento_Core_Model_Validator_Factory
     /**
      * Initialize dependencies
      *
-     * @param Magento_ObjectManager $objectManager
-     * @param Magento_Core_Model_Config_Modules_Reader $moduleReader
-     * @param Magento_Core_Model_Translate $translator
+     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Core\Model\Config\Modules\Reader $moduleReader
+     * @param \Magento\Core\Model\Translate $translator
      */
     public function __construct(
-        Magento_ObjectManager $objectManager,
-        Magento_Core_Model_Config_Modules_Reader $moduleReader,
-        Magento_Core_Model_Translate $translator
+        \Magento\ObjectManager $objectManager,
+        \Magento\Core\Model\Config\Modules\Reader $moduleReader,
+        \Magento\Core\Model\Translate $translator
     ) {
         $this->_objectManager = $objectManager;
         $this->_translator = $translator;
@@ -46,33 +48,33 @@ class Magento_Core_Model_Validator_Factory
     }
 
     /**
-     * Create and set default translator to Magento_Validator_ValidatorAbstract.
+     * Create and set default translator to \Magento\Validator\ValidatorAbstract.
      */
     protected function _initializeDefaultTranslator()
     {
         $translateAdapter = $this->_translator;
         $objectManager = $this->_objectManager;
-        // Pass translations to Magento_Core_Model_Translate from validators
+        // Pass translations to \Magento\Core\Model\Translate from validators
         $translatorCallback = function () use ($translateAdapter, $objectManager) {
-            /** @var Magento_Core_Model_Translate $translateAdapter */
+            /** @var \Magento\Core\Model\Translate $translateAdapter */
             return $translateAdapter->translate(func_get_args());
         };
-        /** @var Magento_Translate_Adapter $translator */
-        $translator = $this->_objectManager->create('Magento_Translate_Adapter');
+        /** @var \Magento\Translate\Adapter $translator */
+        $translator = $this->_objectManager->create('Magento\Translate\Adapter');
         $translator->setOptions(array('translator' => $translatorCallback));
-        Magento_Validator_ValidatorAbstract::setDefaultTranslator($translator);
+        \Magento\Validator\ValidatorAbstract::setDefaultTranslator($translator);
     }
 
     /**
      * Get validator config object.
      *
-     * Will instantiate Magento_Validator_Config
+     * Will instantiate \Magento\Validator\Config
      *
-     * @return Magento_Validator_Config
+     * @return \Magento\Validator\Config
      */
     public function getValidatorConfig()
     {
-        return $this->_objectManager->create('Magento_Validator_Config', array('configFiles' => $this->_configFiles));
+        return $this->_objectManager->create('Magento\Validator\Config', array('configFiles' => $this->_configFiles));
     }
 
     /**
@@ -81,7 +83,7 @@ class Magento_Core_Model_Validator_Factory
      * @param string $entityName
      * @param string $groupName
      * @param array|null $builderConfig
-     * @return Magento_Validator_Builder
+     * @return \Magento\Validator\Builder
      */
     public function createValidatorBuilder($entityName, $groupName, array $builderConfig = null)
     {
@@ -94,7 +96,7 @@ class Magento_Core_Model_Validator_Factory
      * @param string $entityName
      * @param string $groupName
      * @param array|null $builderConfig
-     * @return Magento_Validator
+     * @return \Magento\Validator
      */
     public function createValidator($entityName, $groupName, array $builderConfig = null)
     {

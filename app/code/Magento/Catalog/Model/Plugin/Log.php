@@ -1,23 +1,25 @@
 <?php
 /**
- * Plugin for Magento_Log_Model_Resource_Log model
+ * Plugin for \Magento\Log\Model\Resource\Log model
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Catalog_Model_Plugin_Log
+namespace Magento\Catalog\Model\Plugin;
+
+class Log
 {
     /**
-     * @var Magento_Catalog_Model_Product_Compare_Item
+     * @var \Magento\Catalog\Model\Product\Compare\Item
      */
     protected $_productCompareItem;
 
     /**
-     * @param Magento_Catalog_Model_Product_Compare_Item $productCompareItem
+     * @param \Magento\Catalog\Model\Product\Compare\Item $productCompareItem
      */
-    public function __construct(Magento_Catalog_Model_Product_Compare_Item $productCompareItem)
+    public function __construct(\Magento\Catalog\Model\Product\Compare\Item $productCompareItem)
     {
         $this->_productCompareItem = $productCompareItem;
     }
@@ -26,8 +28,8 @@ class Magento_Catalog_Model_Plugin_Log
      * Catalog Product Compare Items Clean
      * after plugin for clean method
      *
-     * @param Magento_Log_Model_Resource_Log $logResourceModel
-     * @return Magento_Log_Model_Resource_Log
+     * @param \Magento\Log\Model\Resource\Log $logResourceModel
+     * @return \Magento\Log\Model\Resource\Log
      */
     public function afterClean($logResourceModel)
     {

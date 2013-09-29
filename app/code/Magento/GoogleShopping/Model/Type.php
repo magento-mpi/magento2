@@ -15,68 +15,70 @@
  * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GoogleShopping_Model_Type extends Magento_Core_Model_Abstract
+namespace Magento\GoogleShopping\Model;
+
+class Type extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Mapping attributes collection
      *
-     * @var Magento_GoogleShopping_Model_Resource_Attribute_Collection
+     * @var \Magento\GoogleShopping\Model\Resource\Attribute\Collection
      */
     protected $_attributesCollection;
 
     /**
-     * @var Magento_GoogleShopping_Helper_Product
+     * @var \Magento\GoogleShopping\Helper\Product
      */
     protected $_gsProduct;
 
     /**
-     * @var Magento_GoogleShopping_Helper_Data
+     * @var \Magento\GoogleShopping\Helper\Data
      */
     protected $_gsData;
 
     /**
      * Config
      *
-     * @var Magento_GoogleShopping_Model_Config
+     * @var \Magento\GoogleShopping\Model\Config
      */
     protected $_config;
 
     /**
      * Attribute factory
      *
-     * @var Magento_GoogleShopping_Model_AttributeFactory
+     * @var \Magento\GoogleShopping\Model\AttributeFactory
      */
     protected $_attributeFactory;
 
     /**
      * Attribute collection factory
      *
-     * @var Magento_GoogleShopping_Model_Resource_Attribute_CollectionFactory
+     * @var \Magento\GoogleShopping\Model\Resource\Attribute\CollectionFactory
      */
     protected $_collectionFactory;
 
     /**
-     * @param Magento_GoogleShopping_Model_Resource_Attribute_CollectionFactory $collectionFactory
-     * @param Magento_GoogleShopping_Model_AttributeFactory $attributeFactory
-     * @param Magento_GoogleShopping_Model_Config $config
-     * @param Magento_GoogleShopping_Helper_Product $gsProduct
-     * @param Magento_GoogleShopping_Helper_Data $gsData
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_GoogleShopping_Model_Resource_Type $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\GoogleShopping\Model\Resource\Attribute\CollectionFactory $collectionFactory
+     * @param \Magento\GoogleShopping\Model\AttributeFactory $attributeFactory
+     * @param \Magento\GoogleShopping\Model\Config $config
+     * @param \Magento\GoogleShopping\Helper\Product $gsProduct
+     * @param \Magento\GoogleShopping\Helper\Data $gsData
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\GoogleShopping\Model\Resource\Type $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_GoogleShopping_Model_Resource_Attribute_CollectionFactory $collectionFactory,
-        Magento_GoogleShopping_Model_AttributeFactory $attributeFactory,
-        Magento_GoogleShopping_Model_Config $config,
-        Magento_GoogleShopping_Helper_Product $gsProduct,
-        Magento_GoogleShopping_Helper_Data $gsData,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_GoogleShopping_Model_Resource_Type $resource,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\GoogleShopping\Model\Resource\Attribute\CollectionFactory $collectionFactory,
+        \Magento\GoogleShopping\Model\AttributeFactory $attributeFactory,
+        \Magento\GoogleShopping\Model\Config $config,
+        \Magento\GoogleShopping\Helper\Product $gsProduct,
+        \Magento\GoogleShopping\Helper\Data $gsData,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\GoogleShopping\Model\Resource\Type $resource,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_collectionFactory = $collectionFactory;
@@ -89,7 +91,7 @@ class Magento_GoogleShopping_Model_Type extends Magento_Core_Model_Abstract
 
     protected function _construct()
     {
-        $this->_init('Magento_GoogleShopping_Model_Resource_Type');
+        $this->_init('Magento\GoogleShopping\Model\Resource\Type');
     }
 
     /**
@@ -97,7 +99,7 @@ class Magento_GoogleShopping_Model_Type extends Magento_Core_Model_Abstract
      *
      * @param int $attributeSetId Attribute Set
      * @param string $targetCountry Two-letters country ISO code
-     * @return Magento_GoogleShopping_Model_Type
+     * @return \Magento\GoogleShopping\Model\Type
      */
     public function loadByAttributeSetId($attributeSetId, $targetCountry)
     {
@@ -108,8 +110,8 @@ class Magento_GoogleShopping_Model_Type extends Magento_Core_Model_Abstract
     /**
      * Prepare Entry data and attributes before saving in Google Content
      *
-     * @param Magento_Gdata_Gshopping_Entry $entry
-     * @return Magento_Gdata_Gshopping_Entry
+     * @param \Magento\Gdata\Gshopping\Entry $entry
+     * @return \Magento\Gdata\Gshopping\Entry
      */
     public function convertProductToEntry($product, $entry)
     {
@@ -129,10 +131,10 @@ class Magento_GoogleShopping_Model_Type extends Magento_Core_Model_Abstract
     /**
      * Return Product attribute values array
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @return array Product attribute values
      */
-    protected function _getAttributesMapByProduct(Magento_Catalog_Model_Product $product)
+    protected function _getAttributesMapByProduct(\Magento\Catalog\Model\Product $product)
     {
         $result = array();
         $group = $this->_config->getAttributeGroupsFlat();
@@ -214,7 +216,7 @@ class Magento_GoogleShopping_Model_Type extends Magento_Core_Model_Abstract
      * Retrieve type's attributes collection
      * It is protected, because only Type knows about its attributes
      *
-     * @return Magento_GoogleShopping_Model_Resource_Attribute_Collection
+     * @return \Magento\GoogleShopping\Model\Resource\Attribute\Collection
      */
     protected function _getAttributesCollection()
     {
@@ -228,9 +230,9 @@ class Magento_GoogleShopping_Model_Type extends Magento_Core_Model_Abstract
     /**
      * Remove attributes which were removed from mapping.
      *
-     * @param Magento_Gdata_Gshopping_Entry $entry
+     * @param \Magento\Gdata\Gshopping\Entry $entry
      * @param array $existAttributes
-     * @return Magento_Gdata_Gshopping_Entry
+     * @return \Magento\Gdata\Gshopping\Entry
      */
     protected function _removeNonexistentAttributes($entry, $existAttributes)
     {

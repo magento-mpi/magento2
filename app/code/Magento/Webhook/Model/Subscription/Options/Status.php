@@ -9,18 +9,20 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_Subscription_Options_Status implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Webhook\Model\Subscription\Options;
+
+class Status implements \Magento\Core\Model\Option\ArrayInterface
 {
 
     /**
-     * @var Magento_Core_Model_Translate
+     * @var \Magento\Core\Model\Translate
      */
     protected $_translator;
 
     /**
-     * @param Magento_Core_Model_Translate $translator
+     * @param \Magento\Core\Model\Translate $translator
      */
-    public function __construct(Magento_Core_Model_Translate $translator)
+    public function __construct(\Magento\Core\Model\Translate $translator)
     {
         $this->_translator = $translator;
     }
@@ -33,9 +35,9 @@ class Magento_Webhook_Model_Subscription_Options_Status implements Magento_Core_
     public function toOptionArray()
     {
         return array(
-            Magento_Webhook_Model_Subscription::STATUS_ACTIVE => __('Active'),
-            Magento_Webhook_Model_Subscription::STATUS_REVOKED => __('Revoked'),
-            Magento_Webhook_Model_Subscription::STATUS_INACTIVE => __('Inactive'),
+            \Magento\Webhook\Model\Subscription::STATUS_ACTIVE => __('Active'),
+            \Magento\Webhook\Model\Subscription::STATUS_REVOKED => __('Revoked'),
+            \Magento\Webhook\Model\Subscription::STATUS_INACTIVE => __('Inactive'),
         );
     }
 }

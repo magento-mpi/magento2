@@ -5,35 +5,37 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Config_Data_ScopedTest extends PHPUnit_Framework_TestCase
+namespace Magento\Config\Data;
+
+class ScopedTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Config_Data_Scoped
+     * @var \Magento\Config\Data\Scoped
      */
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_readerMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_configScopeMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_cacheMock;
 
     protected function setUp()
     {
-        $this->_readerMock = $this->getMock('Magento_Config_ReaderInterface');
-        $this->_configScopeMock = $this->getMock('Magento_Config_ScopeInterface');
-        $this->_cacheMock = $this->getMock('Magento_Config_CacheInterface');
+        $this->_readerMock = $this->getMock('Magento\Config\ReaderInterface');
+        $this->_configScopeMock = $this->getMock('Magento\Config\ScopeInterface');
+        $this->_cacheMock = $this->getMock('Magento\Config\CacheInterface');
 
-        $this->_model = new Magento_Config_Data_Scoped(
+        $this->_model = new \Magento\Config\Data\Scoped(
             $this->_readerMock,
             $this->_configScopeMock,
             $this->_cacheMock,

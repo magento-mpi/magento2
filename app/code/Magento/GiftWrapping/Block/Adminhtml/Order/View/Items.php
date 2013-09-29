@@ -15,13 +15,15 @@
  * @package     Magento_GiftWrapping
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GiftWrapping_Block_Adminhtml_Order_View_Items
-    extends Magento_GiftWrapping_Block_Adminhtml_Order_View_Abstract
+namespace Magento\GiftWrapping\Block\Adminhtml\Order\View;
+
+class Items
+    extends \Magento\GiftWrapping\Block\Adminhtml\Order\View\AbstractView
 {
     /**
      * Prepare and return order items info
      *
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function getItemsInfo()
     {
@@ -44,7 +46,7 @@ class Magento_GiftWrapping_Block_Adminhtml_Order_View_Items
             $temp['design'] = $item->getGwId();
             $data[$item->getId()] = $temp;
         }
-        return new Magento_Object($data);
+        return new \Magento\Object($data);
     }
 
     /**

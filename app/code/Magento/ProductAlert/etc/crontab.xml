@@ -8,5 +8,5 @@
  */
 -->
 <config>
-    <job name="catalog_product_alert" instance="Magento_ProductAlert_Model_Observer" method="process" />
+    <job name="catalog_product_alert" instance="Magento\ProductAlert\Model\Observer" method="process" />
 </config>

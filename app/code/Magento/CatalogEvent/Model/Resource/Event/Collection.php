@@ -16,7 +16,9 @@
  * @package     Magento_CatalogEvent
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CatalogEvent_Model_Resource_Event_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\CatalogEvent\Model\Resource\Event;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Whether category data was added to collection
@@ -33,25 +35,25 @@ class Magento_CatalogEvent_Model_Resource_Event_Collection extends Magento_Core_
     protected $_skipClosed         = false;
 
     /**
-     * @var Magento_Core_Model_App
+     * @var \Magento\Core\Model\App
      */
     protected $_application;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_EntityFactory $entityFactory
-     * @param Magento_Core_Model_App $application
-     * @param Magento_Core_Model_Resource_Db_Abstract $resource
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Core\Model\App $application
+     * @param \Magento\Core\Model\Resource\Db\Abstract $resource
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Logger $logger,
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_EntityFactory $entityFactory,
-        Magento_Core_Model_App $application,
-        Magento_Core_Model_Resource_Db_Abstract $resource = null
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Core\Model\App $application,
+        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
     ) {
         parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
         $this->_application = $application;
@@ -63,7 +65,7 @@ class Magento_CatalogEvent_Model_Resource_Event_Collection extends Magento_Core_
      */
     protected function _construct()
     {
-        $this->_init('Magento_CatalogEvent_Model_Event', 'Magento_CatalogEvent_Model_Resource_Event');
+        $this->_init('Magento\CatalogEvent\Model\Event', 'Magento\CatalogEvent\Model\Resource\Event');
     }
 
     /**
@@ -72,7 +74,7 @@ class Magento_CatalogEvent_Model_Resource_Event_Collection extends Magento_Core_
      *
      * @param string $field
      * @param null|string|array $condition
-     * @return Magento_CatalogEvent_Model_Resource_Event_Collection
+     * @return \Magento\CatalogEvent\Model\Resource\Event\Collection
      */
     public function addFieldToFilter($field, $condition = null)
     {
@@ -101,13 +103,13 @@ class Magento_CatalogEvent_Model_Resource_Event_Collection extends Magento_Core_
     /**
      * Add filter for visible events on frontend
      *
-     * @return Magento_CatalogEvent_Model_Resource_Event_Collection
+     * @return \Magento\CatalogEvent\Model\Resource\Event\Collection
      */
     public function addVisibilityFilter()
     {
         $this->_skipClosed = true;
         $this->addFieldToFilter('status', array(
-            'nin' => Magento_CatalogEvent_Model_Event::STATUS_CLOSED
+            'nin' => \Magento\CatalogEvent\Model\Event::STATUS_CLOSED
         ));
         return $this;
     }
@@ -118,7 +120,7 @@ class Magento_CatalogEvent_Model_Resource_Event_Collection extends Magento_Core_
      * @param string $field
      * @param string $direction
      * @param boolean $unshift
-     * @return Magento_CatalogEvent_Model_Resource_Event_Collection
+     * @return \Magento\CatalogEvent\Model\Resource\Event\Collection
      */
     protected function _setOrder($field, $direction, $unshift = false)
     {
@@ -131,7 +133,7 @@ class Magento_CatalogEvent_Model_Resource_Event_Collection extends Magento_Core_
     /**
      * Add category data to collection select (name, position)
      *
-     * @return Magento_CatalogEvent_Model_Resource_Event_Collection
+     * @return \Magento\CatalogEvent\Model\Resource\Event\Collection
      */
     public function addCategoryData()
     {
@@ -166,13 +168,13 @@ class Magento_CatalogEvent_Model_Resource_Event_Collection extends Magento_Core_
      * Add sorting by status.
      * first will be open, then upcoming
      *
-     * @return Magento_CatalogEvent_Model_Resource_Event_Collection
+     * @return \Magento\CatalogEvent\Model\Resource\Event\Collection
      */
     public function addSortByStatus()
     {
         $adapter = $this->getConnection();
         $columnExpr = $adapter->quoteInto($this->_getStatusColumnExpr() . ' = ?',
-            Magento_CatalogEvent_Model_Event::STATUS_OPEN);
+            \Magento\CatalogEvent\Model\Event::STATUS_OPEN);
 
         $this->getSelect()
             ->order(array(
@@ -187,7 +189,7 @@ class Magento_CatalogEvent_Model_Resource_Event_Collection extends Magento_Core_
     /**
      * Add image data
      *
-     * @return Magento_CatalogEvent_Model_Resource_Event_Collection
+     * @return \Magento\CatalogEvent\Model\Resource\Event\Collection
      */
     public function addImageData()
     {
@@ -215,7 +217,7 @@ class Magento_CatalogEvent_Model_Resource_Event_Collection extends Magento_Core_
      * Limit collection by specified category paths
      *
      * @param array $allowedPaths
-     * @return Magento_CatalogEvent_Model_Resource_Event_Collection
+     * @return \Magento\CatalogEvent\Model\Resource\Event\Collection
      */
     public function capByCategoryPaths($allowedPaths)
     {
@@ -234,13 +236,13 @@ class Magento_CatalogEvent_Model_Resource_Event_Collection extends Magento_Core_
     /**
      * Override _afterLoad() implementation
      *
-     * @return Magento_CatalogEvent_Model_Resource_Event_Collection
+     * @return \Magento\CatalogEvent\Model\Resource\Event\Collection
      */
     protected function _afterLoad()
     {
         $events = parent::_afterLoad();
         foreach ($events->_items as $event) {
-            if ($this->_skipClosed && $event->getStatus() == Magento_CatalogEvent_Model_Event::STATUS_CLOSED) {
+            if ($this->_skipClosed && $event->getStatus() == \Magento\CatalogEvent\Model\Event::STATUS_CLOSED) {
                 $this->removeItemByKey($event->getId());
             }
         }
@@ -250,7 +252,7 @@ class Magento_CatalogEvent_Model_Resource_Event_Collection extends Magento_Core_
     /**
      * Reset collection
      *
-     * @return Magento_CatalogEvent_Model_Resource_Event_Collection
+     * @return \Magento\CatalogEvent\Model\Resource\Event\Collection
      */
     protected function _reset()
     {
@@ -261,7 +263,7 @@ class Magento_CatalogEvent_Model_Resource_Event_Collection extends Magento_Core_
     /**
      * Retrieve DB Expression for status column
      *
-     * @return Zend_Db_Expr
+     * @return \Zend_Db_Expr
      */
     protected function _getStatusColumnExpr()
     {
@@ -274,18 +276,18 @@ class Magento_CatalogEvent_Model_Resource_Event_Collection extends Magento_Core_
 
         return $adapter->getCaseSql('',
             array(
-                "({$dateStart1} AND {$dateEnd1})" => $adapter->quote(Magento_CatalogEvent_Model_Event::STATUS_OPEN),
+                "({$dateStart1} AND {$dateEnd1})" => $adapter->quote(\Magento\CatalogEvent\Model\Event::STATUS_OPEN),
                 "({$dateStart2} AND {$dateEnd2})" => $adapter
-                    ->quote(Magento_CatalogEvent_Model_Event::STATUS_UPCOMING),
+                    ->quote(\Magento\CatalogEvent\Model\Event::STATUS_UPCOMING),
             ),
-            $adapter->quote(Magento_CatalogEvent_Model_Event::STATUS_CLOSED)
+            $adapter->quote(\Magento\CatalogEvent\Model\Event::STATUS_CLOSED)
         );
     }
 
     /**
      * Add status column based on dates
      *
-     * @return Magento_CatalogEvent_Model_Resource_Event_Collection
+     * @return \Magento\CatalogEvent\Model\Resource\Event\Collection
      */
     protected function _initSelect()
     {

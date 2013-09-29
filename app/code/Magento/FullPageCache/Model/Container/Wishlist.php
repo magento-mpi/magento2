@@ -11,7 +11,9 @@
 /**
  * Wishlist sidebar container
  */
-class Magento_FullPageCache_Model_Container_Wishlist extends Magento_FullPageCache_Model_Container_Abstract
+namespace Magento\FullPageCache\Model\Container;
+
+class Wishlist extends \Magento\FullPageCache\Model\Container\AbstractContainer
 {
     /**
      * Get identifier from cookies
@@ -20,9 +22,9 @@ class Magento_FullPageCache_Model_Container_Wishlist extends Magento_FullPageCac
      */
     protected function _getIdentifier()
     {
-        return $this->_getCookieValue(Magento_FullPageCache_Model_Cookie::COOKIE_WISHLIST_ITEMS, '')
-            . $this->_getCookieValue(Magento_FullPageCache_Model_Cookie::COOKIE_WISHLIST, '')
-            . ($this->_getCookieValue(Magento_FullPageCache_Model_Cookie::COOKIE_CUSTOMER_GROUP, ''));
+        return $this->_getCookieValue(\Magento\FullPageCache\Model\Cookie::COOKIE_WISHLIST_ITEMS, '')
+            . $this->_getCookieValue(\Magento\FullPageCache\Model\Cookie::COOKIE_WISHLIST, '')
+            . ($this->_getCookieValue(\Magento\FullPageCache\Model\Cookie::COOKIE_CUSTOMER_GROUP, ''));
     }
 
     /**
@@ -45,14 +47,14 @@ class Magento_FullPageCache_Model_Container_Wishlist extends Magento_FullPageCac
         $block = $this->_placeholder->getAttribute('block');
         $template = $this->_placeholder->getAttribute('template');
 
-        /** @var $block Magento_Core_Block_Template */
-        $block = Mage::app()->getLayout()->createBlock($block);
+        /** @var $block \Magento\Core\Block\Template */
+        $block = \Mage::app()->getLayout()->createBlock($block);
         $block->setTemplate($template);
 
-        /** @var $blockPrice Magento_Catalog_Block_Product_Price_Template */
-        $blockPrice = Mage::app()->getLayout()
-            ->createBlock('Magento_Catalog_Block_Product_Price_Template', 'catalog_product_price_template');
-        $blockPrice->addPriceBlockType('msrp', 'Magento_Catalog_Block_Product_Price', 'catalog/product/price_msrp.phtml');
+        /** @var $blockPrice \Magento\Catalog\Block\Product\Price\Template */
+        $blockPrice = \Mage::app()->getLayout()
+            ->createBlock('Magento\Catalog\Block\Product\Price\Template', 'catalog_product_price_template');
+        $blockPrice->addPriceBlockType('msrp', 'Magento\Catalog\Block\Product\Price', 'catalog/product/price_msrp.phtml');
 
         $this->_eventManager->dispatch('render_block', array('block' => $block, 'placeholder' => $this->_placeholder));
 

@@ -11,7 +11,9 @@
 /**
  * RMA Item model
  */
-class Magento_Rma_Model_Item extends Magento_Core_Model_Abstract
+namespace Magento\Rma\Model;
+
+class Item extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Entity code.
@@ -22,7 +24,7 @@ class Magento_Rma_Model_Item extends Magento_Core_Model_Abstract
     /**
      * Rma instance
      *
-     * @var Magento_Rma_Model_Rma
+     * @var \Magento\Rma\Model\Rma
      */
     protected $_rma         = null;
 
@@ -53,45 +55,45 @@ class Magento_Rma_Model_Item extends Magento_Core_Model_Abstract
     const ITEM_IMAGE_URL    = 'rma_item';
 
     /**
-     * @var Magento_Rma_Model_RmaFactory
+     * @var \Magento\Rma\Model\RmaFactory
      */
     protected $_rmaFactory;
 
     /**
-     * @var Magento_Rma_Model_Item_Attribute_Source_StatusFactory
+     * @var \Magento\Rma\Model\Item\Attribute\Source\StatusFactory
      */
     protected $_statusFactory;
 
     /**
-     * @var Magento_Sales_Model_Order_ItemFactory
+     * @var \Magento\Sales\Model\Order\ItemFactory
      */
     protected $_itemFactory;
 
     /**
-     * @var Magento_Rma_Model_Item_FormFactory
+     * @var \Magento\Rma\Model\Item\FormFactory
      */
     protected $_formFactory;
 
     /**
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Rma_Model_RmaFactory $rmaFactory
-     * @param Magento_Rma_Model_Item_Attribute_Source_StatusFactory $statusFactory
-     * @param Magento_Sales_Model_Order_ItemFactory $itemFactory
-     * @param Magento_Rma_Model_Item_FormFactory $formFactory
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Rma\Model\RmaFactory $rmaFactory
+     * @param \Magento\Rma\Model\Item\Attribute\Source\StatusFactory $statusFactory
+     * @param \Magento\Sales\Model\Order\ItemFactory $itemFactory
+     * @param \Magento\Rma\Model\Item\FormFactory $formFactory
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Rma_Model_RmaFactory $rmaFactory,
-        Magento_Rma_Model_Item_Attribute_Source_StatusFactory $statusFactory,
-        Magento_Sales_Model_Order_ItemFactory $itemFactory,
-        Magento_Rma_Model_Item_FormFactory $formFactory,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Rma\Model\RmaFactory $rmaFactory,
+        \Magento\Rma\Model\Item\Attribute\Source\StatusFactory $statusFactory,
+        \Magento\Sales\Model\Order\ItemFactory $itemFactory,
+        \Magento\Rma\Model\Item\FormFactory $formFactory,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_rmaFactory = $rmaFactory;
@@ -106,16 +108,16 @@ class Magento_Rma_Model_Item extends Magento_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('Magento_Rma_Model_Resource_Item');
+        $this->_init('Magento\Rma\Model\Resource\Item');
     }
 
     /**
      * Declare rma instance
      *
-     * @param   Magento_Rma_Model_Rma $rma
-     * @return  Magento_Rma_Model_Item
+     * @param   \Magento\Rma\Model\Rma $rma
+     * @return  \Magento\Rma\Model\Item
      */
-    public function setRma(Magento_Rma_Model_Rma $rma)
+    public function setRma(\Magento\Rma\Model\Rma $rma)
     {
         $this->_rma = $rma;
         $this->setRmaEntityId($rma->getId());
@@ -125,13 +127,13 @@ class Magento_Rma_Model_Item extends Magento_Core_Model_Abstract
     /**
      * Retrieve rma instance
      *
-     * @return Magento_Rma_Model_Rma
+     * @return \Magento\Rma\Model\Rma
      */
     public function getRma()
     {
         $rmaId = $this->getRmaEntityId();
         if (is_null($this->_rma) && $rmaId) {
-            /** @var $rma Magento_Rma_Model_Rma */
+            /** @var $rma \Magento\Rma\Model\Rma */
             $rma = $this->_rmaFactory->create();
             $rma->load($rmaId);
             $this->setRma($rma);
@@ -155,7 +157,7 @@ class Magento_Rma_Model_Item extends Magento_Core_Model_Abstract
     /**
      * Prepare data before save
      *
-     * @return Magento_Rma_Model_Item
+     * @return \Magento\Rma\Model\Item
      */
     protected function _beforeSave()
     {
@@ -177,19 +179,19 @@ class Magento_Rma_Model_Item extends Magento_Core_Model_Abstract
     /**
      * Prepare data before save
      *
-     * @return Magento_Rma_Model_Item
+     * @return \Magento\Rma\Model\Item
      */
     protected function _afterSave()
     {
         $qtyReturnedChange = 0;
-        if ($this->getOrigData('status') == Magento_Rma_Model_Rma_Source_Status::STATE_APPROVED) {
-            if ($this->getStatus() == Magento_Rma_Model_Rma_Source_Status::STATE_APPROVED) {
+        if ($this->getOrigData('status') == \Magento\Rma\Model\Rma\Source\Status::STATE_APPROVED) {
+            if ($this->getStatus() == \Magento\Rma\Model\Rma\Source\Status::STATE_APPROVED) {
                 $qtyReturnedChange = $this->getQtyApproved() - $this->getOrigData('qty_approved');
             } else {
                 $qtyReturnedChange = - $this->getOrigData('qty_approved');
             }
         } else {
-            if ($this->getStatus() == Magento_Rma_Model_Rma_Source_Status::STATE_APPROVED) {
+            if ($this->getStatus() == \Magento\Rma\Model\Rma\Source\Status::STATE_APPROVED) {
                 $qtyReturnedChange = $this->getQtyApproved();
             }
         }
@@ -233,7 +235,7 @@ class Magento_Rma_Model_Item extends Magento_Core_Model_Abstract
      * Get rma item attribute model object
      *
      * @param   string $attributeCode
-     * @return  Magento_Rma_Model_Item_Attribute | null
+     * @return  \Magento\Rma\Model\Item\Attribute | null
      */
     public function getAttribute($attributeCode)
     {
@@ -253,10 +255,10 @@ class Magento_Rma_Model_Item extends Magento_Core_Model_Abstract
      */
     public function prepareAttributes($itemPost, $key)
     {
-        $httpRequest = new Zend_Controller_Request_Http();
+        $httpRequest = new \Zend_Controller_Request_Http();
         $httpRequest->setPost($itemPost);
 
-        /** @var $itemForm Magento_Rma_Model_Item_Form */
+        /** @var $itemForm \Magento\Rma\Model\Item\Form */
         $itemForm = $this->_formFactory->create();
         $itemForm->setFormCode('default')->setEntity($this);
         $itemData = $itemForm->extractData($httpRequest);

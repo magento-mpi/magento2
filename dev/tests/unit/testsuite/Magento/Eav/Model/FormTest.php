@@ -10,12 +10,14 @@
  */
 
 /**
- * Test for Magento_Eav_Model_Form
+ * Test for \Magento\Eav\Model\Form
  */
-class Magento_Eav_Model_FormTest extends PHPUnit_Framework_TestCase
+namespace Magento\Eav\Model;
+
+class FormTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Eav_Model_Form
+     * @var \Magento\Eav\Model\Form
      */
     protected $_model = null;
 
@@ -35,7 +37,7 @@ class Magento_Eav_Model_FormTest extends PHPUnit_Framework_TestCase
     protected $_userAttribute = null;
 
     /**
-     * @var Magento_Object
+     * @var \Magento\Object
      */
     protected $_entity = null;
 
@@ -44,17 +46,17 @@ class Magento_Eav_Model_FormTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->_model = $this->getMockBuilder('Magento_Eav_Model_Form')
+        $this->_model = $this->getMockBuilder('Magento\Eav\Model\Form')
             ->setMethods(array('_getFilteredFormAttributeCollection', '_getValidator', 'getEntity'))
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_userAttribute = new Magento_Object(array(
+        $this->_userAttribute = new \Magento\Object(array(
             'is_user_defined' => true,
             'attribute_code' => 'attribute_visible_user',
             'is_visible' => true
         ));
-        $this->_systemAttribute = new Magento_Object(array(
+        $this->_systemAttribute = new \Magento\Object(array(
             'is_user_defined' => false,
             'attribute_code' => 'attribute_invisible_system',
             'is_visible' => false
@@ -64,7 +66,7 @@ class Magento_Eav_Model_FormTest extends PHPUnit_Framework_TestCase
             ->method('_getFilteredFormAttributeCollection')
             ->will($this->returnValue($this->_attributes));
 
-        $this->_entity = new Magento_Object(array('id' => 1, 'attribute_visible_user' => 'abc'));
+        $this->_entity = new \Magento\Object(array('id' => 1, 'attribute_visible_user' => 'abc'));
         $this->_model->expects($this->any())
             ->method('getEntity')
             ->will($this->returnValue($this->_entity));
@@ -134,7 +136,7 @@ class Magento_Eav_Model_FormTest extends PHPUnit_Framework_TestCase
      */
     public function testValidateDataPassed($isValid, $expected, $messages = null)
     {
-        $validator = $this->getMockBuilder('Magento_Eav_Model_Validator_Attribute_Data')
+        $validator = $this->getMockBuilder('Magento\Eav\Model\Validator\Attribute\Data')
             ->disableOriginalConstructor()
             ->setMethods(array('isValid', 'getMessages'))
             ->getMock();

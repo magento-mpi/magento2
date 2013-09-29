@@ -8,38 +8,40 @@
  * @license     {license_link}
  */
 
-class Magento_GiftCard_Model_Source_Open extends Magento_Eav_Model_Entity_Attribute_Source_Abstract
+namespace Magento\GiftCard\Model\Source;
+
+class Open extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
 {
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
     /**
      * Eav entity attribute factory
      *
-     * @var Magento_Eav_Model_Resource_Entity_AttributeFactory
+     * @var \Magento\Eav\Model\Resource\Entity\AttributeFactory
      */
     protected $_eavAttributeFactory;
 
     /**
      * Resource helper
      *
-     * @var Magento_Eav_Model_Resource_Helper
+     * @var \Magento\Eav\Model\Resource\Helper
      */
     protected $_resourceHelper;
 
     /**
-     * @param Magento_Eav_Model_Resource_Entity_AttributeFactory $eavAttributeFactory
-     * @param Magento_Eav_Model_Resource_Helper $resourceHelper
-     * @param Magento_Core_Helper_Data $coreData
+     * @param \Magento\Eav\Model\Resource\Entity\AttributeFactory $eavAttributeFactory
+     * @param \Magento\Eav\Model\Resource\Helper $resourceHelper
+     * @param \Magento\Core\Helper\Data $coreData
      */
     public function __construct(
-        Magento_Eav_Model_Resource_Helper $resourceHelper,
-        Magento_Eav_Model_Resource_Entity_AttributeFactory $eavAttributeFactory,
-        Magento_Core_Helper_Data $coreData
+        \Magento\Eav\Model\Resource\Helper $resourceHelper,
+        \Magento\Eav\Model\Resource\Entity\AttributeFactory $eavAttributeFactory,
+        \Magento\Core\Helper\Data $coreData
     ) {
         $this->_resourceHelper = $resourceHelper;
         $this->_eavAttributeFactory = $eavAttributeFactory;
@@ -87,8 +89,8 @@ class Magento_GiftCard_Model_Source_Open extends Magento_Eav_Model_Entity_Attrib
     protected function _getValues()
     {
         return array(
-            Magento_GiftCard_Model_Giftcard::OPEN_AMOUNT_DISABLED => __('No'),
-            Magento_GiftCard_Model_Giftcard::OPEN_AMOUNT_ENABLED  => __('Yes'),
+            \Magento\GiftCard\Model\Giftcard::OPEN_AMOUNT_DISABLED => __('No'),
+            \Magento\GiftCard\Model\Giftcard::OPEN_AMOUNT_ENABLED  => __('Yes'),
         );
     }
 
@@ -126,7 +128,7 @@ class Magento_GiftCard_Model_Source_Open extends Magento_Eav_Model_Entity_Attrib
      * Retrieve select for flat attribute update
      *
      * @param int $store
-     * @return Magento_DB_Select|null
+     * @return \Magento\DB\Select|null
      */
     public function getFlatUpdateSelect($store)
     {

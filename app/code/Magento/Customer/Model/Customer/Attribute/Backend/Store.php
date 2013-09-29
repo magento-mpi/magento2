@@ -15,13 +15,15 @@
  * @package    Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Customer_Model_Customer_Attribute_Backend_Store extends Magento_Eav_Model_Entity_Attribute_Backend_Abstract
+namespace Magento\Customer\Model\Customer\Attribute\Backend;
+
+class Store extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
 {
     /**
      * Before save
      *
-     * @param Magento_Object $object
-     * @return Magento_Customer_Model_Customer_Attribute_Backend_Store
+     * @param \Magento\Object $object
+     * @return \Magento\Customer\Model\Customer\Attribute\Backend\Store
      */
     public function beforeSave($object)
     {
@@ -30,11 +32,11 @@ class Magento_Customer_Model_Customer_Attribute_Backend_Store extends Magento_Ea
         }
 
         if (!$object->hasStoreId()) {
-            $object->setStoreId(Mage::app()->getStore()->getId());
+            $object->setStoreId(\Mage::app()->getStore()->getId());
         }
 
         if (!$object->hasData('created_in')) {
-            $object->setData('created_in', Mage::app()->getStore($object->getStoreId())->getName());
+            $object->setData('created_in', \Mage::app()->getStore($object->getStoreId())->getName());
         }
 
         return $this;

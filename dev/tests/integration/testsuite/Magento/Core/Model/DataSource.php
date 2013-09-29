@@ -9,10 +9,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\Core\Model;
+
 /**
  * Dummy layout argument data source object
  */
-class Magento_Core_Model_DataSource extends Magento_Data_Collection
+class DataSource extends \Magento\Data\Collection
 {
     /**
      * Property which stores all updater calls
@@ -35,7 +37,7 @@ class Magento_Core_Model_DataSource extends Magento_Data_Collection
      * Set updater calls
      *
      * @param array $calls
-     * @return Magento_Core_Model_DataSource
+     * @return \Magento\Core\Model\DataSource
      */
     public function setUpdaterCall(array $calls)
     {

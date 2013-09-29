@@ -8,8 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Form
-    extends Magento_Backend_Block_Widget_Form_Generic
+namespace Magento\CustomerSegment\Block\Adminhtml\Customersegment\Edit;
+
+class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
 
     /**
@@ -27,11 +28,11 @@ class Magento_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Form
     /**
      * Prepare edit form
      *
-     * @return Magento_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Form
+     * @return \Magento\CustomerSegment\Block\Adminhtml\Customersegment\Edit\Form
      */
     protected function _prepareForm()
     {
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create(array(
             'attributes' => array(
                 'id' => 'edit_form',

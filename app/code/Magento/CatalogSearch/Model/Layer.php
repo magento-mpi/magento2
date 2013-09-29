@@ -8,63 +8,65 @@
  * @license     {license_link}
  */
 
-class Magento_CatalogSearch_Model_Layer extends Magento_Catalog_Model_Layer
+namespace Magento\CatalogSearch\Model;
+
+class Layer extends \Magento\Catalog\Model\Layer
 {
     const XML_PATH_DISPLAY_LAYER_COUNT = 'catalog/search/use_layered_navigation_count';
 
     /**
      * Catalog search data
      *
-     * @var Magento_CatalogSearch_Helper_Data
+     * @var \Magento\CatalogSearch\Helper\Data
      */
     protected $_catalogSearchData = null;
 
     /**
      * Store manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * Catalog config
      *
-     * @var Magento_Catalog_Model_Config
+     * @var \Magento\Catalog\Model\Config
      */
     protected $_catalogConfig;
 
     /**
      * Catalog product visibility
      *
-     * @var Magento_Catalog_Model_Product_Visibility
+     * @var \Magento\Catalog\Model\Product\Visibility
      */
     protected $_catalogProductVisibility;
 
     /**
      * Fulltext collection factory
      *
-     * @var Magento_CatalogSearch_Model_Resource_Fulltext_CollectionFactory
+     * @var \Magento\CatalogSearch\Model\Resource\Fulltext\CollectionFactory
      */
     protected $_fulltextCollectionFactory;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_CatalogSearch_Model_Resource_Fulltext_CollectionFactory $fulltextCollectionFactory
-     * @param Magento_Catalog_Model_Product_Visibility $catalogProductVisibility
-     * @param Magento_Catalog_Model_Config $catalogConfig
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_CatalogSearch_Helper_Data $catalogSearchData
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\CatalogSearch\Model\Resource\Fulltext\CollectionFactory $fulltextCollectionFactory
+     * @param \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility
+     * @param \Magento\Catalog\Model\Config $catalogConfig
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\CatalogSearch\Helper\Data $catalogSearchData
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_CatalogSearch_Model_Resource_Fulltext_CollectionFactory $fulltextCollectionFactory,
-        Magento_Catalog_Model_Product_Visibility $catalogProductVisibility,
-        Magento_Catalog_Model_Config $catalogConfig,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_CatalogSearch_Helper_Data $catalogSearchData,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\CatalogSearch\Model\Resource\Fulltext\CollectionFactory $fulltextCollectionFactory,
+        \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility,
+        \Magento\Catalog\Model\Config $catalogConfig,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\CatalogSearch\Helper\Data $catalogSearchData,
         array $data = array()
     ) {
         $this->_fulltextCollectionFactory = $fulltextCollectionFactory;
@@ -78,7 +80,7 @@ class Magento_CatalogSearch_Model_Layer extends Magento_Catalog_Model_Layer
     /**
      * Get current layer product collection
      *
-     * @return Magento_Catalog_Model_Resource_Eav_Resource_Product_Collection
+     * @return \Magento\Catalog\Model\Resource\Eav\Resource\Product\Collection
      */
     public function getProductCollection()
     {
@@ -95,8 +97,8 @@ class Magento_CatalogSearch_Model_Layer extends Magento_Catalog_Model_Layer
     /**
      * Prepare product collection
      *
-     * @param Magento_Catalog_Model_Resource_Eav_Resource_Product_Collection $collection
-     * @return Magento_Catalog_Model_Layer
+     * @param \Magento\Catalog\Model\Resource\Eav\Resource\Product\Collection $collection
+     * @return \Magento\Catalog\Model\Layer
      */
     public function prepareProductCollection($collection)
     {
@@ -137,15 +139,15 @@ class Magento_CatalogSearch_Model_Layer extends Magento_Catalog_Model_Layer
     public function getStateTags(array $additionalTags = array())
     {
         $additionalTags = parent::getStateTags($additionalTags);
-        $additionalTags[] = Magento_CatalogSearch_Model_Query::CACHE_TAG;
+        $additionalTags[] = \Magento\CatalogSearch\Model\Query::CACHE_TAG;
         return $additionalTags;
     }
 
     /**
      * Add filters to attribute collection
      *
-     * @param   Magento_Catalog_Model_Resource_Eav_Resource_Product_Attribute_Collection $collection
-     * @return  Magento_Catalog_Model_Resource_Eav_Resource_Product_Attribute_Collection
+     * @param   \Magento\Catalog\Model\Resource\Eav\Resource\Product\Attribute\Collection $collection
+     * @return  \Magento\Catalog\Model\Resource\Eav\Resource\Product\Attribute\Collection
      */
     protected function _prepareAttributeCollection($collection)
     {
@@ -157,13 +159,13 @@ class Magento_CatalogSearch_Model_Layer extends Magento_Catalog_Model_Layer
     /**
      * Prepare attribute for use in layered navigation
      *
-     * @param   Magento_Eav_Model_Entity_Attribute $attribute
-     * @return  Magento_Eav_Model_Entity_Attribute
+     * @param   \Magento\Eav\Model\Entity\Attribute $attribute
+     * @return  \Magento\Eav\Model\Entity\Attribute
      */
     protected function _prepareAttribute($attribute)
     {
         $attribute = parent::_prepareAttribute($attribute);
-        $attribute->setIsFilterable(Magento_Catalog_Model_Layer_Filter_Attribute::OPTIONS_ONLY_WITH_RESULTS);
+        $attribute->setIsFilterable(\Magento\Catalog\Model\Layer\Filter\Attribute::OPTIONS_ONLY_WITH_RESULTS);
         return $attribute;
     }
 }

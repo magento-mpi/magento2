@@ -9,38 +9,41 @@
  * @license     {license_link}
  */
 
+
+namespace Magento\Catalog\Model\Product;
+
 /**
- * Class Magento_Catalog_Model_Product_ImageTest
+ * Class \Magento\Catalog\Model\Product\ImageTest
  * @magentoAppArea frontend
  */
-class Magento_Catalog_Model_Product_ImageTest extends PHPUnit_Framework_TestCase
+class ImageTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @return Magento_Catalog_Model_Product_Image
+     * @return \Magento\Catalog\Model\Product\Image
      */
     public function testSetBaseFilePlaceholder()
     {
-        /** @var $model Magento_Catalog_Model_Product_Image */
-        $model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Product_Image');
+        /** @var $model \Magento\Catalog\Model\Product\Image */
+        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product\Image');
         $model->setDestinationSubdir('image')->setBaseFile('');
         $this->assertEmpty($model->getBaseFile());
         return $model;
     }
 
     /**
-     * @param Magento_Catalog_Model_Product_Image $model
+     * @param \Magento\Catalog\Model\Product\Image $model
      * @depends testSetBaseFilePlaceholder
      */
     public function testSaveFilePlaceholder($model)
     {
-        $processor = $this->getMock('Magento_Image', array('save'), array(), '', false);
+        $processor = $this->getMock('Magento\Image', array('save'), array(), '', false);
         $processor->expects($this->exactly(0))->method('save');
         $model->setImageProcessor($processor)->saveFile();
     }
 
     /**
-     * @param Magento_Catalog_Model_Product_Image $model
+     * @param \Magento\Catalog\Model\Product\Image $model
      * @depends testSetBaseFilePlaceholder
      */
     public function testGetUrlPlaceholder($model)

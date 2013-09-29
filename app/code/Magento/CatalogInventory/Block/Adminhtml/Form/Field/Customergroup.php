@@ -10,7 +10,9 @@
 /**
  * HTML select element block with customer groups options
  */
-class Magento_CatalogInventory_Block_Adminhtml_Form_Field_Customergroup extends Magento_Core_Block_Html_Select
+namespace Magento\CatalogInventory\Block\Adminhtml\Form\Field;
+
+class Customergroup extends \Magento\Core\Block\Html\Select
 {
     /**
      * Customer groups cache
@@ -29,20 +31,20 @@ class Magento_CatalogInventory_Block_Adminhtml_Form_Field_Customergroup extends 
     /**
      * Customer group collection factory
      *
-     * @var Magento_Customer_Model_Resource_Group_CollectionFactory
+     * @var \Magento\Customer\Model\Resource\Group\CollectionFactory
      */
     protected $_groupCollectionFactory;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Block_Context $context
-     * @param Magento_Customer_Model_Resource_Group_CollectionFactory $groupCollectionFactory
+     * @param \Magento\Core\Block\Context $context
+     * @param \Magento\Customer\Model\Resource\Group\CollectionFactory $groupCollectionFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Block_Context $context,
-        Magento_Customer_Model_Resource_Group_CollectionFactory $groupCollectionFactory,
+        \Magento\Core\Block\Context $context,
+        \Magento\Customer\Model\Resource\Group\CollectionFactory $groupCollectionFactory,
         array $data = array()
     ) {
         parent::__construct($context, $data);
@@ -61,7 +63,7 @@ class Magento_CatalogInventory_Block_Adminhtml_Form_Field_Customergroup extends 
         if (is_null($this->_customerGroups)) {
             $this->_customerGroups = array();
             foreach ($this->_groupCollectionFactory->create() as $item) {
-                /* @var $item Magento_Customer_Model_Group */
+                /* @var $item \Magento\Customer\Model\Group */
                 $this->_customerGroups[$item->getId()] = $item->getCustomerGroupCode();
             }
         }
@@ -85,7 +87,7 @@ class Magento_CatalogInventory_Block_Adminhtml_Form_Field_Customergroup extends 
     {
         if (!$this->getOptions()) {
             if ($this->_addGroupAllOption) {
-                $this->addOption(Magento_Customer_Model_Group::CUST_GROUP_ALL, __('ALL GROUPS'));
+                $this->addOption(\Magento\Customer\Model\Group::CUST_GROUP_ALL, __('ALL GROUPS'));
             }
             foreach ($this->_getCustomerGroups() as $groupId => $groupLabel) {
                 $this->addOption($groupId, addslashes($groupLabel));

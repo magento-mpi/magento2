@@ -9,31 +9,33 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\Block\System\Account\Edit;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_Block_System_Account_Edit_FormTest extends PHPUnit_Framework_TestCase
+class FormTest extends \PHPUnit_Framework_TestCase
 {
     public function testPrepareForm()
     {
-        $user = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_User_Model_User')->loadByUsername(Magento_TestFramework_Bootstrap::ADMIN_NAME);
+        $user = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\User\Model\User')->loadByUsername(\Magento\TestFramework\Bootstrap::ADMIN_NAME);
 
-        /** @var $session Magento_Backend_Model_Auth_Session */
-        $session = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Backend_Model_Auth_Session');
+        /** @var $session \Magento\Backend\Model\Auth\Session */
+        $session = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Backend\Model\Auth\Session');
         $session->setUser($user);
 
-        /** @var $layout Magento_Core_Model_Layout */
-        $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout');
+        /** @var $layout \Magento\Core\Model\Layout */
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout');
 
-        /** @var Magento_Adminhtml_Block_System_Account_Edit_Form */
-        $block = $layout->createBlock('Magento_Adminhtml_Block_System_Account_Edit_Form');
+        /** @var \Magento\Adminhtml\Block\System\Account\Edit\Form */
+        $block = $layout->createBlock('Magento\Adminhtml\Block\System\Account\Edit\Form');
         $block->toHtml();
 
         $form = $block->getForm();
 
-        $this->assertInstanceOf('Magento_Data_Form', $form);
+        $this->assertInstanceOf('Magento\Data\Form', $form);
         $this->assertEquals('post', $form->getData('method'));
         $this->assertEquals($block->getUrl('*/system_account/save'), $form->getData('action'));
         $this->assertEquals('edit_form', $form->getId());
@@ -83,7 +85,7 @@ class Magento_Adminhtml_Block_System_Account_Edit_FormTest extends PHPUnit_Frame
 
         foreach ($expectedFieldset as $fieldId => $field) {
             $element = $form->getElement($fieldId);
-            $this->assertInstanceOf('Magento_Data_Form_Element_Abstract', $element);
+            $this->assertInstanceOf('Magento\Data\Form\Element\AbstractElement', $element);
             $this->assertEquals($field['name'], $element->getName(), 'Wrong \'' . $fieldId . '\' field name');
             $this->assertEquals($field['type'], $element->getType(), 'Wrong \'' . $fieldId . ' field type');
             $this->assertEquals(

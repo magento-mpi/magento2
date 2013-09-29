@@ -17,7 +17,9 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Log_Model_Resource_Customer extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Log\Model\Resource;
+
+class Customer extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Visitor data table name
@@ -81,8 +83,8 @@ class Magento_Log_Model_Resource_Customer extends Magento_Core_Model_Resource_Db
      * 
      * @param string $field
      * @param mixed $value
-     * @param Magento_Log_Model_Customer $object
-     * @return Magento_DB_Select
+     * @param \Magento\Log\Model\Customer $object
+     * @return \Magento\DB\Select
      */
     protected function _getLoadSelect($field, $value, $object)
     {

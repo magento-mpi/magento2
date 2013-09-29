@@ -9,8 +9,8 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <container name="root" label="Root" output="1">
-        <block class="Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Load" name="connect_extension_load_local_package_grid" template="extension/custom/load.phtml">
-            <block class="Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Grid" name="local_package_grid"/>
+        <block class="Magento\Connect\Block\Adminhtml\Extension\Custom\Edit\Tab\Load" name="connect_extension_load_local_package_grid" template="extension/custom/load.phtml">
+            <block class="Magento\Connect\Block\Adminhtml\Extension\Custom\Edit\Tab\Grid" name="local_package_grid"/>
         </block>
     </container>
 </layout>

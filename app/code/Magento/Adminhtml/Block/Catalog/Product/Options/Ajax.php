@@ -15,39 +15,41 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Options_Ajax extends Magento_Backend_Block_Abstract
+namespace Magento\Adminhtml\Block\Catalog\Product\Options;
+
+class Ajax extends \Magento\Backend\Block\AbstractBlock
 {
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
     
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
     /**
-     * @var Magento_Catalog_Model_ProductFactory
+     * @var \Magento\Catalog\Model\ProductFactory
      */
     protected $_productFactory;
 
     /**
-     * @param Magento_Catalog_Model_ProductFactory $productFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Catalog_Model_ProductFactory $productFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Context $context,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -64,9 +66,9 @@ class Magento_Adminhtml_Block_Catalog_Product_Options_Ajax extends Magento_Backe
     protected function _toHtml()
     {
         $results = array();
-        /** @var $optionsBlock Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Option */
+        /** @var $optionsBlock \Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Options\Option */
         $optionsBlock = $this->getLayout()
-            ->createBlock('Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Option')
+            ->createBlock('Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Options\Option')
             ->setIgnoreCaching(true);
 
         $products = $this->_coreRegistry->registry('import_option_products');

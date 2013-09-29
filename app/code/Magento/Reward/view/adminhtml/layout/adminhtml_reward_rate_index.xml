@@ -11,6 +11,6 @@
     <update handle="formkey"/>
     <update handle="adminhtml_reward_rate_block"/>
     <referenceContainer name="content">
-        <block class="Magento_Reward_Block_Adminhtml_Reward_Rate" name="reward.rate.container"/>
+        <block class="Magento\Reward\Block\Adminhtml\Reward\Rate" name="reward.rate.container"/>
     </referenceContainer>
 </layout>

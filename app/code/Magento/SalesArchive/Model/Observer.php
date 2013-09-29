@@ -12,46 +12,48 @@
  * Order archive observer model
  *
  */
-class Magento_SalesArchive_Model_Observer
+namespace Magento\SalesArchive\Model;
+
+class Observer
 {
     /**
-     * @var Magento_SalesArchive_Model_ArchiveFactory
+     * @var \Magento\SalesArchive\Model\ArchiveFactory
      */
     protected $_archiveFactory;
 
     /**
-     * @var Magento_SalesArchive_Model_ArchivalList
+     * @var \Magento\SalesArchive\Model\ArchivalList
      */
     protected $_archivalList;
 
     /**
-     * @var Magento_SalesArchive_Model_Config
+     * @var \Magento\SalesArchive\Model\Config
      */
     protected $_config;
 
     /**
-     * @var Magento_Backend_Helper_Data
+     * @var \Magento\Backend\Helper\Data
      */
     protected $_backendData;
 
     /**
-     * @var Magento_SalesArchive_Model_Resource_Order_CollectionFactory
+     * @var \Magento\SalesArchive\Model\Resource\Order\CollectionFactory
      */
     protected $_collectionFactory;
 
     /**
-     * @param Magento_SalesArchive_Model_Resource_Order_CollectionFactory $collectionFactory
-     * @param Magento_SalesArchive_Model_ArchiveFactory $archiveFactory
-     * @param Magento_SalesArchive_Model_ArchivalList $archivalList
-     * @param Magento_SalesArchive_Model_Config $config
-     * @param Magento_Backend_Helper_Data $backendData
+     * @param \Magento\SalesArchive\Model\Resource\Order\CollectionFactory $collectionFactory
+     * @param \Magento\SalesArchive\Model\ArchiveFactory $archiveFactory
+     * @param \Magento\SalesArchive\Model\ArchivalList $archivalList
+     * @param \Magento\SalesArchive\Model\Config $config
+     * @param \Magento\Backend\Helper\Data $backendData
      */
     public function __construct(
-        Magento_SalesArchive_Model_Resource_Order_CollectionFactory $collectionFactory,
-        Magento_SalesArchive_Model_ArchiveFactory $archiveFactory,
-        Magento_SalesArchive_Model_ArchivalList $archivalList,
-        Magento_SalesArchive_Model_Config $config,
-        Magento_Backend_Helper_Data $backendData
+        \Magento\SalesArchive\Model\Resource\Order\CollectionFactory $collectionFactory,
+        \Magento\SalesArchive\Model\ArchiveFactory $archiveFactory,
+        \Magento\SalesArchive\Model\ArchivalList $archivalList,
+        \Magento\SalesArchive\Model\Config $config,
+        \Magento\Backend\Helper\Data $backendData
     ) {
         $this->_collectionFactory = $collectionFactory;
         $this->_backendData = $backendData;
@@ -63,7 +65,7 @@ class Magento_SalesArchive_Model_Observer
     /**
      * Get archive instance
      *
-     * @return Magento_SalesArchive_Model_Archive
+     * @return \Magento\SalesArchive\Model\Archive
      */
     protected function _getArchive()
     {
@@ -73,7 +75,7 @@ class Magento_SalesArchive_Model_Observer
     /**
      * Archive order by cron
      *
-     * @return Magento_SalesArchive_Model_Observer
+     * @return \Magento\SalesArchive\Model\Observer
      */
     public function archiveOrdersByCron()
     {
@@ -87,10 +89,10 @@ class Magento_SalesArchive_Model_Observer
     /**
      * Mark sales object as archived and set back urls for them
      *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_SalesArchive_Model_Observer
+     * @param \Magento\Event\Observer $observer
+     * @return \Magento\SalesArchive\Model\Observer
      */
-    public function salesObjectAfterLoad(Magento_Event_Observer $observer)
+    public function salesObjectAfterLoad(\Magento\Event\Observer $observer)
     {
         if (!$this->_config->isArchiveActive()) {
             return $this;
@@ -120,10 +122,10 @@ class Magento_SalesArchive_Model_Observer
     /**
      * Observes grid records update and depends on data updates records in grid too
      *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_SalesArchive_Model_Observer
+     * @param \Magento\Event\Observer $observer
+     * @return \Magento\SalesArchive\Model\Observer
      */
-    public function salesUpdateGridRecords(Magento_Event_Observer $observer)
+    public function salesUpdateGridRecords(\Magento\Event\Observer $observer)
     {
         if (!$this->_config->isArchiveActive()) {
             return $this;
@@ -143,7 +145,7 @@ class Magento_SalesArchive_Model_Observer
         // Exclude archive records from default grid rows update
         $ids = array_diff($ids, $idsInArchive);
         // Check for newly created shipments, creditmemos, invoices
-        if ($archiveEntity != Magento_SalesArchive_Model_ArchivalList::ORDER && !empty($ids)) {
+        if ($archiveEntity != \Magento\SalesArchive\Model\ArchivalList::ORDER && !empty($ids)) {
             $relatedIds = $archive->getRelatedIds($archiveEntity, $ids);
             $ids = array_diff($ids, $relatedIds);
             $idsInArchive = array_merge($idsInArchive, $relatedIds);
@@ -161,13 +163,13 @@ class Magento_SalesArchive_Model_Observer
     /**
      * Add archived orders to order grid collection select
      *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_SalesArchive_Model_Observer
+     * @param \Magento\Event\Observer $observer
+     * @return \Magento\SalesArchive\Model\Observer
      */
-    public function appendGridCollection(Magento_Event_Observer $observer)
+    public function appendGridCollection(\Magento\Event\Observer $observer)
     {
         $collection = $observer->getEvent()->getOrderGridCollection();
-        if ($collection instanceof Magento_SalesArchive_Model_Resource_Order_Collection
+        if ($collection instanceof \Magento\SalesArchive\Model\Resource\Order\Collection
             || !$collection->getIsCustomerMode()) {
             return $this;
         }
@@ -180,7 +182,7 @@ class Magento_SalesArchive_Model_Observer
         $unionParts = array($cloneSelect, $union);
 
         $collectionSelect->reset();
-        $collectionSelect->union($unionParts, Zend_Db_Select::SQL_UNION_ALL);
+        $collectionSelect->union($unionParts, \Zend_Db_Select::SQL_UNION_ALL);
 
         return $this;
     }
@@ -189,21 +191,21 @@ class Magento_SalesArchive_Model_Observer
      * Replaces redirects to orders list page onto archive orders list page redirects when mass action performed from
      * archive orders list page
      *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_SalesArchive_Model_Observer
+     * @param \Magento\Event\Observer $observer
+     * @return \Magento\SalesArchive\Model\Observer
      */
-    public function replaceSalesOrderRedirect(Magento_Event_Observer $observer)
+    public function replaceSalesOrderRedirect(\Magento\Event\Observer $observer)
     {
         /**
-         * @var Magento_Adminhtml_Controller_Action $controller
+         * @var \Magento\Adminhtml\Controller\Action $controller
          */
         $controller = $observer->getControllerAction();
         /**
-         * @var Magento_Core_Controller_Response_Http $response
+         * @var \Magento\Core\Controller\Response\Http $response
          */
         $response = $controller->getResponse();
         /**
-         * @var Magento_Core_Controller_Request_Http $request
+         * @var \Magento\Core\Controller\Request\Http $request
          */
         $request = $controller->getRequest();
 

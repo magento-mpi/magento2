@@ -15,7 +15,9 @@
  * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GoogleShopping_Model_Attribute_Tax extends Magento_GoogleShopping_Model_Attribute_Default
+namespace Magento\GoogleShopping\Model\Attribute;
+
+class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
 {
     /**
      * Maximum number of tax rates per product supported by google shopping api
@@ -23,41 +25,41 @@ class Magento_GoogleShopping_Model_Attribute_Tax extends Magento_GoogleShopping_
     const RATES_MAX = 100;
 
     /**
-     * @var Magento_Tax_Helper_Data|null
+     * @var \Magento\Tax\Helper\Data|null
      */
     protected $_taxData = null;
 
     /**
      * Config
      *
-     * @var Magento_GoogleShopping_Model_Config
+     * @var \Magento\GoogleShopping\Model\Config
      */
     protected $_config;
 
     /**
-     * @param Magento_Catalog_Model_ProductFactory $productFactory
-     * @param Magento_GoogleShopping_Model_Config $config
-     * @param Magento_Tax_Helper_Data $taxData
-     * @param Magento_GoogleShopping_Helper_Data $gsData
-     * @param Magento_GoogleShopping_Helper_Product $gsProduct
-     * @param Magento_GoogleShopping_Helper_Price $gsPrice
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_GoogleShopping_Model_Resource_Attribute $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\GoogleShopping\Model\Config $config
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\GoogleShopping\Helper\Data $gsData
+     * @param \Magento\GoogleShopping\Helper\Product $gsProduct
+     * @param \Magento\GoogleShopping\Helper\Price $gsPrice
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\GoogleShopping\Model\Resource\Attribute $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Catalog_Model_ProductFactory $productFactory,
-        Magento_GoogleShopping_Model_Config $config,
-        Magento_Tax_Helper_Data $taxData,
-        Magento_GoogleShopping_Helper_Data $gsData,
-        Magento_GoogleShopping_Helper_Product $gsProduct,
-        Magento_GoogleShopping_Helper_Price $gsPrice,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_GoogleShopping_Model_Resource_Attribute $resource,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\GoogleShopping\Model\Config $config,
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\GoogleShopping\Helper\Data $gsData,
+        \Magento\GoogleShopping\Helper\Product $gsProduct,
+        \Magento\GoogleShopping\Helper\Price $gsPrice,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\GoogleShopping\Model\Resource\Attribute $resource,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_config = $config;
@@ -69,9 +71,9 @@ class Magento_GoogleShopping_Model_Attribute_Tax extends Magento_GoogleShopping_
     /**
      * Set current attribute to entry (for specified product)
      *
-     * @param Magento_Catalog_Model_Product $product
-     * @param Magento_Gdata_Gshopping_Entry $entry
-     * @return Magento_Gdata_Gshopping_Entry
+     * @param \Magento\Catalog\Model\Product $product
+     * @param \Magento\Gdata\Gshopping\Entry $entry
+     * @return \Magento\Gdata\Gshopping\Entry
      */
     public function convertAttribute($product, $entry)
     {
@@ -90,7 +92,7 @@ class Magento_GoogleShopping_Model_Attribute_Tax extends Magento_GoogleShopping_
                 $regions = $this->_parseRegions($rate['state'], $rate['postcode']);
                 $ratesTotal += count($regions);
                 if ($ratesTotal > self::RATES_MAX) {
-                    throw new Magento_Core_Exception(__("Google shopping only supports %1 tax rates per product", self::RATES_MAX));
+                    throw new \Magento\Core\Exception(__("Google shopping only supports %1 tax rates per product", self::RATES_MAX));
                 }
                 foreach ($regions as $region) {
                     $entry->addTax(array(

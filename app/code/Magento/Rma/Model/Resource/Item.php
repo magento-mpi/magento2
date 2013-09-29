@@ -16,7 +16,9 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Rma_Model_Resource_Item extends Magento_Eav_Model_Entity_Abstract
+namespace Magento\Rma\Model\Resource;
+
+class Item extends \Magento\Eav\Model\Entity\AbstractEntity
 {
     /**
      * Store firstly set attributes to filter selected attributes when used specific store_id
@@ -31,39 +33,39 @@ class Magento_Rma_Model_Resource_Item extends Magento_Eav_Model_Entity_Abstract
      * @var array
      */
     protected $_aviableProductTypes = array(
-        Magento_Catalog_Model_Product_Type::TYPE_SIMPLE,
-        Magento_Catalog_Model_Product_Type::TYPE_CONFIGURABLE,
-        Magento_Catalog_Model_Product_Type::TYPE_GROUPED,
-        Magento_Catalog_Model_Product_Type::TYPE_BUNDLE
+        \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE,
+        \Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE,
+        \Magento\Catalog\Model\Product\Type::TYPE_GROUPED,
+        \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE
     );
 
     /**
-     * @var Magento_Rma_Helper_Data
+     * @var \Magento\Rma\Helper\Data
      */
     protected $_rmaData;
 
     /**
-     * @var Magento_Sales_Model_Resource_Order_Item_CollectionFactory
+     * @var \Magento\Sales\Model\Resource\Order\Item\CollectionFactory
      */
     protected $_ordersFactory;
 
     /**
-     * @var Magento_Catalog_Model_ProductFactory
+     * @var \Magento\Catalog\Model\ProductFactory
      */
     protected $_productFactory;
 
     /**
      * Main constructor
      *
-     * @param Magento_Rma_Helper_Data $rmaData
-     * @param Magento_Sales_Model_Resource_Order_Item_CollectionFactory $ordersFactory
-     * @param Magento_Catalog_Model_ProductFactory $productFactory
+     * @param \Magento\Rma\Helper\Data $rmaData
+     * @param \Magento\Sales\Model\Resource\Order\Item\CollectionFactory $ordersFactory
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Rma_Helper_Data $rmaData,
-        Magento_Sales_Model_Resource_Order_Item_CollectionFactory $ordersFactory,
-        Magento_Catalog_Model_ProductFactory $productFactory,
+        \Magento\Rma\Helper\Data $rmaData,
+        \Magento\Sales\Model\Resource\Order\Item\CollectionFactory $ordersFactory,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
         $data = array()
     ) {
         $this->_rmaData = $rmaData;
@@ -98,14 +100,14 @@ class Magento_Rma_Model_Resource_Item extends Magento_Eav_Model_Entity_Abstract
      */
     public function getDefaultStoreId()
     {
-        return Magento_Catalog_Model_Abstract::DEFAULT_STORE_ID;
+        return \Magento\Catalog\Model\AbstractModel::DEFAULT_STORE_ID;
     }
 
     /**
      * Check whether the attribute is Applicable to the object
      *
-     * @param Magento_Object $object
-     * @param Magento_Catalog_Model_Resource_Eav_Attribute $attribute
+     * @param \Magento\Object $object
+     * @param \Magento\Catalog\Model\Resource\Eav\Attribute $attribute
      * @return boolean
      */
     protected function _isApplicableAttribute($object, $attribute)
@@ -117,18 +119,18 @@ class Magento_Rma_Model_Resource_Item extends Magento_Eav_Model_Entity_Abstract
     /**
      * Check whether attribute instance (attribute, backend, frontend or source) has method and applicable
      *
-     * @param Magento_Eav_Model_Entity_Attribute_Abstract|Magento_Eav_Model_Entity_Attribute_Backend_Abstract|Magento_Eav_Model_Entity_Attribute_Frontend_Abstract|Magento_Eav_Model_Entity_Attribute_Source_Abstract $instance
+     * @param \Magento\Eav\Model\Entity\Attribute\AbstractAttribute|\Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend|\Magento\Eav\Model\Entity\Attribute\Frontend\AbstractFrontend|\Magento\Eav\Model\Entity\Attribute\Source\AbstractSource $instance
      * @param string $method
      * @param array $args array of arguments
      * @return boolean
      */
     protected function _isCallableAttributeInstance($instance, $method, $args)
     {
-        if ($instance instanceof Magento_Eav_Model_Entity_Attribute_Backend_Abstract
+        if ($instance instanceof \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
             && ($method == 'beforeSave' || $method = 'afterSave')
         ) {
             $attributeCode = $instance->getAttribute()->getAttributeCode();
-            if (isset($args[0]) && $args[0] instanceof Magento_Object && $args[0]->getData($attributeCode) === false) {
+            if (isset($args[0]) && $args[0] instanceof \Magento\Object && $args[0]->getData($attributeCode) === false) {
                 return false;
             }
         }
@@ -139,10 +141,10 @@ class Magento_Rma_Model_Resource_Item extends Magento_Eav_Model_Entity_Abstract
     /**
      * Reset firstly loaded attributes
      *
-     * @param Magento_Object $object
+     * @param \Magento\Object $object
      * @param integer $entityId
      * @param array|null $attributes
-     * @return Magento_Catalog_Model_Resource_Abstract
+     * @return \Magento\Catalog\Model\Resource\AbstractResource
      */
     public function load($object, $entityId, $attributes = array())
     {
@@ -163,13 +165,13 @@ class Magento_Rma_Model_Resource_Item extends Magento_Eav_Model_Entity_Abstract
         $select = $adapter->select()
             ->from($this->getTable('magento_rma_item_entity'), array())
             ->where('rma_entity_id = ?', $rmaId)
-            ->where('status = ?', Magento_Rma_Model_Rma_Source_Status::STATE_AUTHORIZED)
+            ->where('status = ?', \Magento\Rma\Model\Rma\Source\Status::STATE_AUTHORIZED)
             ->group(array('order_item_id', 'product_name'))
             ->columns(
                 array(
                     'order_item_id' => 'order_item_id',
-                    'qty'           => new Zend_Db_Expr('SUM(qty_authorized)'),
-                    'product_name'  => new Zend_Db_Expr('MAX(product_name)')
+                    'qty'           => new \Zend_Db_Expr('SUM(qty_authorized)'),
+                    'product_name'  => new \Zend_Db_Expr('MAX(product_name)')
                 )
             )
         ;
@@ -202,8 +204,8 @@ class Magento_Rma_Model_Resource_Item extends Magento_Eav_Model_Entity_Abstract
             ->where('main.order_id = ?', $orderId)
             ->where('main.status NOT IN (?)',
                 array(
-                    Magento_Rma_Model_Rma_Source_Status::STATE_CLOSED,
-                    Magento_Rma_Model_Rma_Source_Status::STATE_PROCESSED_CLOSED
+                    \Magento\Rma\Model\Rma\Source\Status::STATE_CLOSED,
+                    \Magento\Rma\Model\Rma\Source\Status::STATE_PROCESSED_CLOSED
                 )
             );
 
@@ -221,14 +223,14 @@ class Magento_Rma_Model_Resource_Item extends Magento_Eav_Model_Entity_Abstract
      * Gets order items collection
      *
      * @param int $orderId
-     * @return Magento_Sales_Model_Resource_Order_Item_Collection
+     * @return \Magento\Sales\Model\Resource\Order\Item\Collection
      */
     public function getOrderItemsCollection($orderId)
     {
         $adapter = $this->getReadConnection();
-        $expression = new Zend_Db_Expr('(' . $adapter->quoteIdentifier('qty_shipped') . ' - '
+        $expression = new \Zend_Db_Expr('(' . $adapter->quoteIdentifier('qty_shipped') . ' - '
             . $adapter->quoteIdentifier('qty_returned') . ')');
-        /** @var $collection Magento_Sales_Model_Resource_Order_Item_Collection */
+        /** @var $collection \Magento\Sales\Model\Resource\Order\Item\Collection */
         $collection = $this->_ordersFactory->create();
         return $collection->addExpressionFieldToSelect(
                 'available_qty',
@@ -245,13 +247,13 @@ class Magento_Rma_Model_Resource_Item extends Magento_Eav_Model_Entity_Abstract
      *
      * @param  int $orderId
      * @param  int|bool $parentId if need retrieves only bundle and its children
-     * @return Magento_Sales_Model_Resource_Order_Item_Collection
+     * @return \Magento\Sales\Model\Resource\Order\Item\Collection
      */
     public function getOrderItems($orderId, $parentId = false)
     {
         $getItemsIdsByOrder     = $this->getItemsIdsByOrder($orderId);
 
-        /** @var $orderItemsCollection Magento_Sales_Model_Resource_Order_Item_Collection */
+        /** @var $orderItemsCollection \Magento\Sales\Model\Resource\Order\Item\Collection */
         $orderItemsCollection   = $this->getOrderItemsCollection($orderId);
 
 
@@ -266,7 +268,7 @@ class Magento_Rma_Model_Resource_Item extends Magento_Eav_Model_Entity_Abstract
          */
         $parent = array();
 
-        /** @var $product Magento_Catalog_Model_Product */
+        /** @var $product \Magento\Catalog\Model\Product */
         $product = $this->_productFactory->create();
 
         foreach ($orderItemsCollection as $item) {
@@ -328,14 +330,14 @@ class Magento_Rma_Model_Resource_Item extends Magento_Eav_Model_Entity_Abstract
                 }
             }
 
-            if ($item->getProductType() == Magento_Catalog_Model_Product_Type::TYPE_BUNDLE
+            if ($item->getProductType() == \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE
                 && !isset($parent[$item->getId()]['child'])
             ) {
                 $orderItemsCollection->removeItemByKey($item->getId());
                 continue;
             }
 
-            if ($item->getProductType() == Magento_Catalog_Model_Product_Type::TYPE_CONFIGURABLE) {
+            if ($item->getProductType() == \Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE) {
                 $productOptions     = $item->getProductOptions();
                 $product->reset();
                 $product->load($product->getIdBySku($productOptions['simple_sku']));
@@ -354,7 +356,7 @@ class Magento_Rma_Model_Resource_Item extends Magento_Eav_Model_Entity_Abstract
     /**
      * Gets Product Name
      *
-     * @param $item Magento_Sales_Model_Order_Item
+     * @param $item \Magento\Sales\Model\Order\Item
      * @return string
      */
     public function getProductName($item)

@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/** @var $installer Magento_Rma_Model_Resource_Setup */
+/** @var $installer \Magento\Rma\Model\Resource\Setup */
 $installer = $this;
 
 $tableName = $installer->getTable('magento_rma_item_entity');
@@ -18,7 +18,7 @@ $installer->getConnection()
         $tableName,
         'product_admin_name',
         array(
-            'TYPE' => Magento_DB_Ddl_Table::TYPE_TEXT,
+            'TYPE' => \Magento\DB\Ddl\Table::TYPE_TEXT,
             'LENGTH' => 255,
             'COMMENT' => 'Product Name For Backend',
         )
@@ -28,7 +28,7 @@ $installer->getConnection()
         $tableName,
         'product_admin_sku',
         array(
-            'TYPE' => Magento_DB_Ddl_Table::TYPE_TEXT,
+            'TYPE' => \Magento\DB\Ddl\Table::TYPE_TEXT,
             'LENGTH' => 255,
             'COMMENT' => 'Product Sku For Backend',
         )
@@ -38,7 +38,7 @@ $installer->getConnection()
         $tableName,
         'product_options',
         array(
-            'TYPE' => Magento_DB_Ddl_Table::TYPE_TEXT,
+            'TYPE' => \Magento\DB\Ddl\Table::TYPE_TEXT,
             'COMMENT' => 'Product Options',
         )
     );

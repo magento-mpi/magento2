@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_GiftCardAccount_Helper_Data extends Magento_Core_Helper_Abstract
+namespace Magento\GiftCardAccount\Helper;
+
+class Data extends \Magento\Core\Helper\AbstractHelper
 {
     /**
      * Maximal gift card code length according to database table definitions (longer codes are truncated)
@@ -18,10 +20,10 @@ class Magento_GiftCardAccount_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Unserialize and return gift card list from specified object
      *
-     * @param Magento_Object $from
+     * @param \Magento\Object $from
      * @return mixed
      */
-    public function getCards(Magento_Object $from)
+    public function getCards(\Magento\Object $from)
     {
         $value = $from->getGiftCards();
         if (!$value) {
@@ -33,10 +35,10 @@ class Magento_GiftCardAccount_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Serialize and set gift card list to specified object
      *
-     * @param Magento_Object $to
+     * @param \Magento\Object $to
      * @param mixed $value
      */
-    public function setCards(Magento_Object $to, $value)
+    public function setCards(\Magento\Object $to, $value)
     {
         $serializedValue = serialize($value);
         $to->setGiftCards($serializedValue);

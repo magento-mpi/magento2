@@ -15,12 +15,14 @@
  * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reward_Model_Action_InvitationCustomer extends Magento_Reward_Model_Action_Abstract
+namespace Magento\Reward\Model\Action;
+
+class InvitationCustomer extends \Magento\Reward\Model\Action\AbstractAction
 {
     /**
      * Reward data
      *
-     * @var Magento_Reward_Helper_Data
+     * @var \Magento\Reward\Helper\Data
      */
     protected $_rewardData = null;
 
@@ -30,11 +32,11 @@ class Magento_Reward_Model_Action_InvitationCustomer extends Magento_Reward_Mode
      * By default is looking for first argument as array and assigns it as object
      * attributes This behavior may change in child classes
      *
-     * @param Magento_Reward_Helper_Data $rewardData
+     * @param \Magento\Reward\Helper\Data $rewardData
      * @param array $data
      */
     public function __construct(
-        Magento_Reward_Helper_Data $rewardData,
+        \Magento\Reward\Helper\Data $rewardData,
         array $data = array()
     ) {
         $this->_rewardData = $rewardData;
@@ -60,7 +62,7 @@ class Magento_Reward_Model_Action_InvitationCustomer extends Magento_Reward_Mode
     public function canAddRewardPoints()
     {
         $invitation = $this->getEntity();
-        if ($invitation->getData('status') != Magento_Invitation_Model_Invitation::STATUS_ACCEPTED) {
+        if ($invitation->getData('status') != \Magento\Invitation\Model\Invitation::STATUS_ACCEPTED) {
             return false;
         }
         return !($this->isRewardLimitExceeded());
@@ -94,8 +96,8 @@ class Magento_Reward_Model_Action_InvitationCustomer extends Magento_Reward_Mode
     /**
      * Setter for $_entity and add some extra data to history
      *
-     * @param Magento_Object $entity
-     * @return Magento_Reward_Model_Action_Abstract
+     * @param \Magento\Object $entity
+     * @return \Magento\Reward\Model\Action\AbstractAction
      */
     public function setEntity($entity)
     {

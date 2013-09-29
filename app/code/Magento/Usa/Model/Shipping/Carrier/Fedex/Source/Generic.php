@@ -5,10 +5,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Usa_Model_Shipping_Carrier_Fedex_Source_Generic implements Magento_Core_Model_Option_ArrayInterface
+
+namespace Magento\Usa\Model\Shipping\Carrier\Fedex\Source;
+
+class Generic implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
-     * @var Magento_Usa_Model_Shipping_Carrier_Fedex
+     * @var \Magento\Usa\Model\Shipping\Carrier\Fedex
      */
     protected $_shippingFedex;
 
@@ -20,9 +23,9 @@ class Magento_Usa_Model_Shipping_Carrier_Fedex_Source_Generic implements Magento
     protected $_code = '';
 
     /**
-     * @param Magento_Usa_Model_Shipping_Carrier_Fedex $shippingFedex
+     * @param \Magento\Usa\Model\Shipping\Carrier\Fedex $shippingFedex
      */
-    public function __construct(Magento_Usa_Model_Shipping_Carrier_Fedex $shippingFedex)
+    public function __construct(\Magento\Usa\Model\Shipping\Carrier\Fedex $shippingFedex)
     {
         $this->_shippingFedex = $shippingFedex;
     }

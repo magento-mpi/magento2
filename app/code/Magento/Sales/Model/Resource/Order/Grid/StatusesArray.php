@@ -11,17 +11,19 @@
 /**
  * Sales orders statuses option array
  */
-class Magento_Sales_Model_Resource_Order_Grid_StatusesArray implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Sales\Model\Resource\Order\Grid;
+
+class StatusesArray implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
-     * @var Magento_Sales_Model_Resource_Order_Status_CollectionFactory
+     * @var \Magento\Sales\Model\Resource\Order\Status\CollectionFactory
      */
     protected $_statusCollFactory;
 
     /**
-     * @param Magento_Sales_Model_Resource_Order_Status_CollectionFactory $statusCollFactory
+     * @param \Magento\Sales\Model\Resource\Order\Status\CollectionFactory $statusCollFactory
      */
-    public function __construct(Magento_Sales_Model_Resource_Order_Status_CollectionFactory $statusCollFactory)
+    public function __construct(\Magento\Sales\Model\Resource\Order\Status\CollectionFactory $statusCollFactory)
     {
         $this->_statusCollFactory = $statusCollFactory;
     }

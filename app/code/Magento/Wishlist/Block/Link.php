@@ -9,14 +9,16 @@
 /**
  * "My Wish List" link
  */
-class Magento_Wishlist_Block_Link extends Magento_Page_Block_Link
+namespace Magento\Wishlist\Block;
+
+class Link extends \Magento\Page\Block\Link
 {
     /**
      * @return string
      */
     protected function _toHtml()
     {
-        if ($this->helper('Magento_Wishlist_Helper_Data')->isAllow()) {
+        if ($this->helper('Magento\Wishlist\Helper\Data')->isAllow()) {
             return parent::_toHtml();
         }
         return '';
@@ -53,7 +55,7 @@ class Magento_Wishlist_Block_Link extends Magento_Page_Block_Link
      */
     protected function _getItemCount()
     {
-        return $this->helper('Magento_Wishlist_Helper_Data')->getItemCount();
+        return $this->helper('Magento\Wishlist\Helper\Data')->getItemCount();
     }
 
     /**

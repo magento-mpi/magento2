@@ -9,13 +9,15 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\Controller\System;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_Controller_System_VariableTest extends Magento_Backend_Utility_Controller
+class VariableTest extends \Magento\Backend\Utility\Controller
 {
     /**
-     * @covers Magento_Adminhtml_Controller_Action::_addLeft
+     * @covers \Magento\Adminhtml\Controller\Action::_addLeft
      */
     public function testEditAction()
     {

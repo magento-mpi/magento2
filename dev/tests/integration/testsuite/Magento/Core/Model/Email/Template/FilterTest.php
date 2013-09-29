@@ -9,17 +9,19 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Email_Template_FilterTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Email\Template;
+
+class FilterTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Email_Template_Filter
+     * @var \Magento\Core\Model\Email\Template\Filter
      */
     protected $_model = null;
 
     protected function setUp()
     {
-        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_Email_Template_Filter');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Email\Template\Filter');
     }
 
     /**
@@ -90,33 +92,33 @@ class Magento_Core_Model_Email_Template_FilterTest extends PHPUnit_Framework_Tes
      */
     public function testLayoutDirective($area, $directiveParams, $expectedOutput)
     {
-        Magento_TestFramework_Helper_Bootstrap::getInstance()->reinitialize(array(
-            Magento_Core_Model_App::PARAM_APP_DIRS => array(
-                Magento_Core_Model_Dir::THEMES => dirname(__DIR__) . '/_files/design'
+        \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
+            \Magento\Core\Model\App::PARAM_APP_DIRS => array(
+                \Magento\Core\Model\Dir::THEMES => dirname(__DIR__) . '/_files/design'
             )
         ));
 
-        $collection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_Resource_Theme_Collection');
+        $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Resource\Theme\Collection');
         $themeId = $collection->getThemeByFullPath('frontend/test_default')->getId();
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
-            ->getStore()->setConfig(Magento_Core_Model_View_Design::XML_PATH_THEME_ID, $themeId);
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
+            ->getStore()->setConfig(\Magento\Core\Model\View\Design::XML_PATH_THEME_ID, $themeId);
 
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
         $themes = array('frontend' => 'test_default', 'adminhtml' => 'test_default');
-        $design = $objectManager->create('Magento_Core_Model_View_Design', array('themes' => $themes));
-        $objectManager->addSharedInstance($design, 'Magento_Core_Model_View_Design');
+        $design = $objectManager->create('Magento\Core\Model\View\Design', array('themes' => $themes));
+        $objectManager->addSharedInstance($design, 'Magento\Core\Model\View\Design');
 
-        /** @var $layout Magento_Core_Model_Layout */
-        $layout = $objectManager->create('Magento_Core_Model_Layout', array('area' => $area));
-        $objectManager->addSharedInstance($layout, 'Magento_Core_Model_Layout');
+        /** @var $layout \Magento\Core\Model\Layout */
+        $layout = $objectManager->create('Magento\Core\Model\Layout', array('area' => $area));
+        $objectManager->addSharedInstance($layout, 'Magento\Core\Model\Layout');
         $this->assertEquals($area, $layout->getArea());
         $this->assertEquals(
             $area,
-            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')->getArea()
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')->getArea()
         );
-        $objectManager->get('Magento_Core_Model_View_DesignInterface')->setDesignTheme('test_default');
+        $objectManager->get('Magento\Core\Model\View\DesignInterface')->setDesignTheme('test_default');
 
         $actualOutput = $this->_model->layoutDirective(array(
             '{{layout ' . $directiveParams . '}}',

@@ -15,7 +15,9 @@
  * @package    Magento_Core
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Source_Urlrewrite_Types implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Core\Model\Source\Urlrewrite;
+
+class Types implements \Magento\Core\Model\Option\ArrayInterface
 {
     const SYSTEM = 1;
     const CUSTOM = 0;

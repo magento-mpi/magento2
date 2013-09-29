@@ -6,17 +6,19 @@
  * @license     {license_link}
  */
 
-class Magento_Sales_Model_Resource_Report_Bestsellers_CollectionTest extends PHPUnit_Framework_TestCase
+namespace Magento\Sales\Model\Resource\Report\Bestsellers;
+
+class CollectionTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Sales_Model_Resource_Report_Bestsellers_Collection
+     * @var \Magento\Sales\Model\Resource\Report\Bestsellers\Collection
      */
     private $_collection;
 
     protected function setUp()
     {
-        $this->_collection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Sales_Model_Resource_Report_Bestsellers_Collection');
+        $this->_collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Sales\Model\Resource\Report\Bestsellers\Collection');
         $this->_collection
             ->setPeriod('day')
             ->setDateRange(null, null)
@@ -32,7 +34,7 @@ class Magento_Sales_Model_Resource_Report_Bestsellers_CollectionTest extends PHP
     {
         $expectedResult = array(1 => 2);
         $actualResult = array();
-        /** @var Magento_Adminhtml_Model_Report_Item $reportItem */
+        /** @var \Magento\Adminhtml\Model\Report\Item $reportItem */
         foreach ($this->_collection->getItems() as $reportItem) {
             $actualResult[$reportItem->getData('product_id')] = $reportItem->getData('qty_ordered');
         }

@@ -9,22 +9,24 @@
  * @license     {license_link}
  */
 
+namespace Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Tab;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_MainTest extends PHPUnit_Framework_TestCase
+class MainTest extends \PHPUnit_Framework_TestCase
 {
     public function testPackageThemeElement()
     {
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $objectManager->get('Magento_Core_Model_Registry')->register('current_widget_instance', new Magento_Object());
-        $block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
-            ->createBlock('Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main');
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $objectManager->get('Magento\Core\Model\Registry')->register('current_widget_instance', new \Magento\Object());
+        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            ->createBlock('Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Tab\Main');
         $block->setTemplate(null);
         $block->toHtml();
         $element = $block->getForm()->getElement('theme_id');
-        $this->assertInstanceOf('Magento_Data_Form_Element_Select', $element);
+        $this->assertInstanceOf('Magento\Data\Form\Element\Select', $element);
         $this->assertTrue($element->getDisabled());
     }
 }

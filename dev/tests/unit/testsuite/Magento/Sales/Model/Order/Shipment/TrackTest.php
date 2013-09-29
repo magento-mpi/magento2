@@ -9,23 +9,25 @@
  * @license     {license_link}
  */
 
-class Magento_Sales_Model_Order_Shipment_TrackTest extends PHPUnit_Framework_TestCase
+namespace Magento\Sales\Model\Order\Shipment;
+
+class TrackTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Sales_Model_Order_Shipment_Track
+     * @var \Magento\Sales\Model\Order\Shipment\Track
      */
     protected $_model;
 
     protected function setUp()
     {
-        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $arguments = array(
             'shipmentFactory' => $this->getMock(
-                'Magento_Sales_Model_Order_ShipmentFactory', array(), array(), '', false
+                'Magento\Sales\Model\Order\ShipmentFactory', array(), array(), '', false
             )
         );
 
-        $this->_model = $objectManagerHelper->getObject('Magento_Sales_Model_Order_Shipment_Track', $arguments);
+        $this->_model = $objectManagerHelper->getObject('Magento\Sales\Model\Order\Shipment\Track', $arguments);
     }
 
     public function testAddData()
@@ -44,11 +46,11 @@ class Magento_Sales_Model_Order_Shipment_TrackTest extends PHPUnit_Framework_Tes
     public function testGetStoreId()
     {
         $storeId = 10;
-        $storeObject = new Magento_Object(
+        $storeObject = new \Magento\Object(
             array('id' => $storeId)
         );
 
-        $shipmentMock = $this->getMock('Magento_Sales_Model_Order_Shipment', array('getStore'), array(), '', false);
+        $shipmentMock = $this->getMock('Magento\Sales\Model\Order\Shipment', array('getStore'), array(), '', false);
         $shipmentMock->expects($this->once())
             ->method('getStore')
             ->will($this->returnValue($storeObject));
@@ -85,7 +87,7 @@ class Magento_Sales_Model_Order_Shipment_TrackTest extends PHPUnit_Framework_Tes
     public static function isCustomDataProvider()
     {
         return array(
-            array(true, Magento_Sales_Model_Order_Shipment_Track::CUSTOM_CARRIER_CODE),
+            array(true, \Magento\Sales\Model\Order\Shipment\Track::CUSTOM_CARRIER_CODE),
             array(false, 'ups'),
         );
     }

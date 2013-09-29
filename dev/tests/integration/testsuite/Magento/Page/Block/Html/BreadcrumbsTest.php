@@ -9,17 +9,19 @@
  * @license     {license_link}
  */
 
-class Magento_Page_Block_Html_BreadcrumbsTest extends PHPUnit_Framework_TestCase
+namespace Magento\Page\Block\Html;
+
+class BreadcrumbsTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Page_Block_Html_Breadcrumbs
+     * @var \Magento\Page\Block\Html\Breadcrumbs
      */
     protected $_block;
 
     protected function setUp()
     {
-        $this->_block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
-            ->createBlock('Magento_Page_Block_Html_Breadcrumbs');
+        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            ->createBlock('Magento\Page\Block\Html\Breadcrumbs');
     }
 
     public function testAddCrumb()

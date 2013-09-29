@@ -16,7 +16,9 @@
  * @package    Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Page_Block_Template_Links_Block extends Magento_Core_Block_Template
+namespace Magento\Page\Block\Template\Links;
+
+class Block extends \Magento\Core\Block\Template
 {
 
     /**
@@ -114,7 +116,7 @@ class Magento_Page_Block_Template_Links_Block extends Magento_Core_Block_Templat
      * Set first list flag
      *
      * @param bool $value
-     * return Magento_Page_Block_Template_Links_Block
+     * return \Magento\Page\Block\Template\Links\Block
      */
     public function setIsFirst($value)
     {
@@ -136,7 +138,7 @@ class Magento_Page_Block_Template_Links_Block extends Magento_Core_Block_Templat
      * Set last list flag
      *
      * @param bool $value
-     * return Magento_Page_Block_Template_Links_Block
+     * return \Magento\Page\Block\Template\Links\Block
      */
     public function setIsLast($value)
     {

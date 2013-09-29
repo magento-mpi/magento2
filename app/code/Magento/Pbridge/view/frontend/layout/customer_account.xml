@@ -9,7 +9,7 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <referenceBlock name="customer_account_navigation">
-        <block class="Magento_Page_Block_Link_Current" ifconfig="payment/pbridge/profilestatus" name="customer-account-navigation-credit-cards-link">
+        <block class="Magento\Page\Block\Link\Current" ifconfig="payment/pbridge/profilestatus" name="customer-account-navigation-credit-cards-link">
             <arguments>
                 <argument name="path" xsi:type="string">magento_pbridge/payment_profile/</argument>
                 <argument name="label" xsi:type="string">My Credit Cards</argument>

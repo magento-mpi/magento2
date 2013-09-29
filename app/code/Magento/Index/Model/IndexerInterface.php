@@ -8,10 +8,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\Index\Model;
+
 /**
  * Indexer interface
  */
-interface Magento_Index_Model_IndexerInterface
+interface IndexerInterface
 {
     /**
      * Get indexer name
@@ -30,26 +32,26 @@ interface Magento_Index_Model_IndexerInterface
     /**
      * Register data required by process in event object
      *
-     * @param Magento_Index_Model_Event $event
-     * @return Magento_Index_Model_IndexerInterface
+     * @param \Magento\Index\Model\Event $event
+     * @return \Magento\Index\Model\IndexerInterface
      */
-    public function register(Magento_Index_Model_Event $event);
+    public function register(\Magento\Index\Model\Event $event);
 
     /**
      * Process event
      *
-     * @param Magento_Index_Model_Event $event
-     * @return Magento_Index_Model_IndexerInterface
+     * @param \Magento\Index\Model\Event $event
+     * @return \Magento\Index\Model\IndexerInterface
      */
-    public function processEvent(Magento_Index_Model_Event $event);
+    public function processEvent(\Magento\Index\Model\Event $event);
 
     /**
      * Check if event can be matched by process
      *
-     * @param Magento_Index_Model_Event $event
+     * @param \Magento\Index\Model\Event $event
      * @return bool
      */
-    public function matchEvent(Magento_Index_Model_Event $event);
+    public function matchEvent(\Magento\Index\Model\Event $event);
 
     /**
      * Check if indexer matched specific entity and action type
@@ -69,10 +71,10 @@ interface Magento_Index_Model_IndexerInterface
      * Try dynamicly detect and call event hanler from resource model.
      * Handler name will be generated from event entity and type code
      *
-     * @param   Magento_Index_Model_Event $event
-     * @return  Magento_Index_Model_Indexer_Abstract
+     * @param   \Magento\Index\Model\Event $event
+     * @return  \Magento\Index\Model\Indexer_Abstract
      */
-    public function callEventHandler(Magento_Index_Model_Event $event);
+    public function callEventHandler(\Magento\Index\Model\Event $event);
 
     /**
      * Whether the indexer should be displayed on process/list page

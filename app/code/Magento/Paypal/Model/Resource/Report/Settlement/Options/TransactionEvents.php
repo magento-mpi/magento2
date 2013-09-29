@@ -15,18 +15,20 @@
  * @package     Magento_Paypal
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Paypal_Model_Resource_Report_Settlement_Options_TransactionEvents
-    implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Paypal\Model\Resource\Report\Settlement\Options;
+
+class TransactionEvents
+    implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
-     * @var Magento_Paypal_Model_Report_Settlement_Row
+     * @var \Magento\Paypal\Model\Report\Settlement\Row
      */
     protected $_model;
 
     /**
-     * @param Magento_Paypal_Model_Report_Settlement_Row $model
+     * @param \Magento\Paypal\Model\Report\Settlement\Row $model
      */
-    public function __construct(Magento_Paypal_Model_Report_Settlement_Row $model)
+    public function __construct(\Magento\Paypal\Model\Report\Settlement\Row $model)
     {
         $this->_model = $model;
     }

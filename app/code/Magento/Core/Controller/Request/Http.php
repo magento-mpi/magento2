@@ -10,11 +10,13 @@
 
 
 /**
- * Custom Zend_Controller_Request_Http class (formally)
+ * Custom \Zend_Controller_Request_Http class (formally)
  *
  * Allows dispatching before and after events for each controller action
  */
-class Magento_Core_Controller_Request_Http extends Zend_Controller_Request_Http
+namespace Magento\Core\Controller\Request;
+
+class Http extends \Zend_Controller_Request_Http
 {
     const DEFAULT_HTTP_PORT = 80;
     const DEFAULT_HTTPS_PORT = 443;
@@ -56,16 +58,16 @@ class Magento_Core_Controller_Request_Http extends Zend_Controller_Request_Http
     protected $_beforeForwardInfo = array();
 
     /**
-     * @var Magento_Backend_Helper_DataProxy
+     * @var \Magento\Backend\Helper\DataProxy
      */
     protected $_helper;
 
     /**
-     * @param Magento_Backend_Helper_DataProxy $helper
+     * @param \Magento\Backend\Helper\DataProxy $helper
      * @param null $uri
      * @param array $directFrontNames
      */
-    public function __construct(Magento_Backend_Helper_DataProxy $helper, $uri = null, $directFrontNames = array())
+    public function __construct(\Magento\Backend\Helper\DataProxy $helper, $uri = null, $directFrontNames = array())
     {
         $this->_helper = $helper;
         $this->_directFrontNames = $directFrontNames;
@@ -92,7 +94,7 @@ class Magento_Core_Controller_Request_Http extends Zend_Controller_Request_Http
      * Set the ORIGINAL_PATH_INFO string
      *
      * @param string|null $pathInfo
-     * @return Zend_Controller_Request_Http
+     * @return \Zend_Controller_Request_Http
      */
     public function setPathInfo($pathInfo = null)
     {
@@ -120,10 +122,10 @@ class Magento_Core_Controller_Request_Http extends Zend_Controller_Request_Http
             $storeCode = $pathParts[0];
 
             if ($this->_isFrontArea($storeCode)) {
-                $stores = Mage::app()->getStores(true, true);
+                $stores = \Mage::app()->getStores(true, true);
                 if (isset($stores[$storeCode]) && $stores[$storeCode]->isUseStoreInUrl()) {
                     if (!$this->isDirectAccessFrontendName($storeCode)) {
-                        Mage::app()->setCurrentStore($storeCode);
+                        \Mage::app()->setCurrentStore($storeCode);
                         $pathInfo = '/'.(isset($pathParts[1]) ? $pathParts[1] : '');
                     } elseif (!empty($storeCode)) {
                         $this->setActionName('noRoute');
@@ -156,7 +158,7 @@ class Magento_Core_Controller_Request_Http extends Zend_Controller_Request_Http
      * It happen when occur rewrite based on configuration
      *
      * @param   string $pathInfo
-     * @return  Magento_Core_Controller_Request_Http
+     * @return  \Magento\Core\Controller\Request\Http
      */
     public function rewritePathInfo($pathInfo)
     {
@@ -237,7 +239,7 @@ class Magento_Core_Controller_Request_Http extends Zend_Controller_Request_Http
     public function setRouteName($route)
     {
         $this->_route = $route;
-        $router = Mage::app()->getFrontController()->getRouterList()->getRouterByRoute($route);
+        $router = \Mage::app()->getFrontController()->getRouterList()->getRouterByRoute($route);
         if (!$router) {
             return $this;
         }
@@ -277,7 +279,7 @@ class Magento_Core_Controller_Request_Http extends Zend_Controller_Request_Http
      * @param string|array $key
      * @param mixed $value
      *
-     * @return Magento_Core_Controller_Request_Http
+     * @return \Magento\Core\Controller\Request\Http
      */
     public function setPost($key, $value = null)
     {
@@ -293,7 +295,7 @@ class Magento_Core_Controller_Request_Http extends Zend_Controller_Request_Http
      * Specify module name where was found currently used controller
      *
      * @param   string $module
-     * @return  Magento_Core_Controller_Request_Http
+     * @return  \Magento\Core\Controller\Request\Http
      */
     public function setControllerModule($module)
     {
@@ -384,7 +386,7 @@ class Magento_Core_Controller_Request_Http extends Zend_Controller_Request_Http
         if ($this->_requestedRouteName === null) {
             if ($this->_rewritedPathInfo !== null && isset($this->_rewritedPathInfo[0])) {
                 $frontName = $this->_rewritedPathInfo[0];
-                $router = Mage::app()->getFrontController()->getRouterList()->getRouterByFrontName($frontName);
+                $router = \Mage::app()->getFrontController()->getRouterList()->getRouterByFrontName($frontName);
                 $this->_requestedRouteName = $router->getRouteByFrontName($frontName);
             } else {
                 // no rewritten path found, use default route name
@@ -430,7 +432,7 @@ class Magento_Core_Controller_Request_Http extends Zend_Controller_Request_Http
      * Set routing info data
      *
      * @param array $data
-     * @return Magento_Core_Controller_Request_Http
+     * @return \Magento\Core\Controller\Request\Http
      */
     public function setRoutingInfo($data)
     {
@@ -444,7 +446,7 @@ class Magento_Core_Controller_Request_Http extends Zend_Controller_Request_Http
      * Collect properties changed by _forward in protected storage
      * before _forward was called first time.
      *
-     * @return Magento_Core_Controller_Varien_Action
+     * @return \Magento\Core\Controller\Varien\Action
      */
     public function initForward()
     {

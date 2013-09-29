@@ -9,6 +9,6 @@
 -->
 <config>
     <event name="google_checkout_discount_item_price">
-        <observer name="magento_giftcardaccount" instance="Magento_GiftCardAccount_Model_Observer" method="googleCheckoutDiscoutItem" />
+        <observer name="magento_giftcardaccount" instance="Magento\GiftCardAccount\Model\Observer" method="googleCheckoutDiscoutItem" />
     </event>
 </config>

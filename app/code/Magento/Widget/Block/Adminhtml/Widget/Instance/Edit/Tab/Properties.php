@@ -15,9 +15,11 @@
  * @package     Magento_Widget
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Properties
-    extends Magento_Widget_Block_Adminhtml_Widget_Options
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+namespace Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Tab;
+
+class Properties
+    extends \Magento\Widget\Block\Adminhtml\Widget\Options
+    implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
 {
     /**
      * Prepare label for tab
@@ -62,7 +64,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Properties
     /**
      * Getter
      *
-     * @return Magento_Widget_Model_Widget_Instance
+     * @return \Magento\Widget\Model\Widget\Instance
      */
     public function getWidgetInstance()
     {
@@ -73,7 +75,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Properties
      * Prepare block children and data.
      * Set widget type and widget parameters if available
      *
-     * @return Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Properties
+     * @return \Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Tab\Properties
      */
     protected function _preparelayout()
     {
@@ -85,8 +87,8 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Properties
     /**
      * Add field to Options form based on option configuration
      *
-     * @param Magento_Object $parameter
-     * @return Magento_Data_Form_Element_Abstract
+     * @param \Magento\Object $parameter
+     * @return \Magento\Data\Form\Element\AbstractElement
      */
     protected function _addField($parameter)
     {

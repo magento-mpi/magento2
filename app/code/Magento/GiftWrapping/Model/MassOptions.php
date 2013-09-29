@@ -15,7 +15,9 @@
  * @package    Magento_GiftWrapping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GiftWrapping_Model_MassOptions implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\GiftWrapping\Model;
+
+class MassOptions implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
      * Return statuses array

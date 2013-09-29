@@ -8,7 +8,7 @@
  */
 -->
 <config>
-    <type name="eav" translate="label,description" instance="Magento_Eav_Model_Cache_Type">
+    <type name="eav" translate="label,description" instance="Magento\Eav\Model\Cache\Type">
         <label>EAV types and attributes</label>
         <description>Entity types declaration cache.</description>
     </type>

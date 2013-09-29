@@ -11,18 +11,20 @@
 /**
  * Reminder rules edit form general fields
  */
-class Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tab_General
-    extends Magento_Backend_Block_Widget_Form_Generic
+namespace Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab;
+
+class General
+    extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
      * Prepare general properties form
      *
-     * @return Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tab_General
+     * @return \Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab\General
      */
     protected function _prepareForm()
     {
         $isEditable = ($this->getCanEditReminderRule() !== false) ? true : false;
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
         $model = $this->_coreRegistry->registry('current_reminder_rule');
 
@@ -59,16 +61,16 @@ class Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tab_General
         ));
 
         $model->unsSalesruleId();
-        $helperBlock = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Promo_Widget_Chooser');
+        $helperBlock = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Promo\Widget\Chooser');
 
-        if ($helperBlock instanceof Magento_Object) {
+        if ($helperBlock instanceof \Magento\Object) {
             $helperBlock->setConfig($this->getChooserConfig())
                 ->setFieldsetId($fieldset->getId())
                 ->prepareElementHtml($field);
         }
 
-        if (Mage::app()->hasSingleStore()) {
-            $websiteId = Mage::app()->getStore(true)->getWebsiteId();
+        if (\Mage::app()->hasSingleStore()) {
+            $websiteId = \Mage::app()->getStore(true)->getWebsiteId();
             $fieldset->addField('website_ids', 'hidden', array(
                 'name'     => 'website_ids[]',
                 'value'    => $websiteId
@@ -80,7 +82,7 @@ class Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tab_General
                 'label'    => __('Assigned to Website'),
                 'title'    => __('Assigned to Website'),
                 'required' => true,
-                'values'   => Mage::getSingleton('Magento_Core_Model_System_Store')->getWebsiteValuesForForm(),
+                'values'   => \Mage::getSingleton('Magento\Core\Model\System\Store')->getWebsiteValuesForForm(),
                 'value'    => $model->getWebsiteIds()
             ));
         }
@@ -99,14 +101,14 @@ class Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tab_General
             $model->setData('is_active', '1');
         }
 
-        $dateFormat = Mage::app()->getLocale()->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
+        $dateFormat = \Mage::app()->getLocale()->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
 
         $fieldset->addField('from_date', 'date', array(
             'name'   => 'from_date',
             'label'  => __('From Date'),
             'title'  => __('From Date'),
             'image'  => $this->getViewFileUrl('images/grid-cal.gif'),
-            'input_format' => Magento_Date::DATE_INTERNAL_FORMAT,
+            'input_format' => \Magento\Date::DATE_INTERNAL_FORMAT,
             'date_format'  => $dateFormat
         ));
         $fieldset->addField('to_date', 'date', array(
@@ -114,7 +116,7 @@ class Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tab_General
             'label'  => __('To Date'),
             'title'  => __('To Date'),
             'image'  => $this->getViewFileUrl('images/grid-cal.gif'),
-            'input_format' => Magento_Date::DATE_INTERNAL_FORMAT,
+            'input_format' => \Magento\Date::DATE_INTERNAL_FORMAT,
             'date_format' => $dateFormat
         ));
 

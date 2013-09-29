@@ -16,7 +16,9 @@
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backend_Block_System_Config_Form_Field_Image extends Magento_Data_Form_Element_Image
+namespace Magento\Backend\Block\System\Config\Form\Field;
+
+class Image extends \Magento\Data\Form\Element\Image
 {
 
     /**
@@ -33,7 +35,7 @@ class Magento_Backend_Block_System_Config_Form_Field_Image extends Magento_Data_
         if (array_key_exists('base_url', $config)) {
             $element = $config['base_url'];
             $urlType = empty($element['type']) ? 'link' : (string)$element['type'];
-            $url = Mage::getBaseUrl($urlType) . $element['value'] . '/' . $url;
+            $url = \Mage::getBaseUrl($urlType) . $element['value'] . '/' . $url;
         }
 
         return $url;

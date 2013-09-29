@@ -9,18 +9,18 @@
  * @license     {license_link}
  */
 
-/** @var $installer Magento_Catalog_Model_Resource_Setup */
-$installer = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Catalog_Model_Resource_Setup', array('resourceName' => 'catalog_setup'));
+/** @var $installer \Magento\Catalog\Model\Resource\Setup */
+$installer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Catalog\Model\Resource\Setup', array('resourceName' => 'catalog_setup'));
 $attributeSetId = $installer->getAttributeSetId('catalog_product', 'Default');
-$entityModel = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Eav_Model_Entity');
-$entityTypeId = $entityModel->setType(Magento_Catalog_Model_Product::ENTITY)->getTypeId();
+$entityModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Eav\Model\Entity');
+$entityTypeId = $entityModel->setType(\Magento\Catalog\Model\Product::ENTITY)->getTypeId();
 $groupId = $installer->getDefaultAttributeGroupId($entityTypeId, $attributeSetId);
 
-/** @var $attribute Magento_Catalog_Model_Resource_Eav_Attribute */
-$attribute = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Catalog_Model_Resource_Eav_Attribute');
+/** @var $attribute \Magento\Catalog\Model\Resource\Eav\Attribute */
+$attribute = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Catalog\Model\Resource\Eav\Attribute');
 $attribute->setAttributeCode('filterable_attribute_a')
     ->setEntityTypeId($entityTypeId)
     ->setAttributeGroupId($groupId)
@@ -29,8 +29,8 @@ $attribute->setAttributeCode('filterable_attribute_a')
     ->setIsUserDefined(1)
     ->save();
 
-$attribute = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Catalog_Model_Resource_Eav_Attribute');
+$attribute = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Catalog\Model\Resource\Eav\Attribute');
 $attribute->setAttributeCode('filterable_attribute_b')
     ->setEntityTypeId($entityTypeId)
     ->setAttributeGroupId($groupId)

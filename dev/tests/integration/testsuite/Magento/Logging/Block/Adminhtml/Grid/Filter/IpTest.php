@@ -9,21 +9,23 @@
  * @license     {license_link}
  */
 
+namespace Magento\Logging\Block\Adminhtml\Grid\Filter;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Logging_Block_Adminhtml_Grid_Filter_IpTest extends PHPUnit_Framework_TestCase
+class IpTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Logging_Block_Adminhtml_Grid_Filter_Ip
+     * @var \Magento\Logging\Block\Adminhtml\Grid\Filter\Ip
      */
     protected $_block;
 
     protected function setUp()
     {
         parent::setUp();
-        $this->_block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
-            ->createBlock('Magento_Logging_Block_Adminhtml_Grid_Filter_Ip');
+        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            ->createBlock('Magento\Logging\Block\Adminhtml\Grid\Filter\Ip');
     }
 
     public function testGetCondition()

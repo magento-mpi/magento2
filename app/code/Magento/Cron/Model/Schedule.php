@@ -11,28 +11,30 @@
 /**
  * Crontab schedule model
  *
- * @method Magento_Cron_Model_Resource_Schedule _getResource()
- * @method Magento_Cron_Model_Resource_Schedule getResource()
+ * @method \Magento\Cron\Model\Resource\Schedule _getResource()
+ * @method \Magento\Cron\Model\Resource\Schedule getResource()
  * @method string getJobCode()
- * @method Magento_Cron_Model_Schedule setJobCode(string $value)
+ * @method \Magento\Cron\Model\Schedule setJobCode(string $value)
  * @method string getStatus()
- * @method Magento_Cron_Model_Schedule setStatus(string $value)
+ * @method \Magento\Cron\Model\Schedule setStatus(string $value)
  * @method string getMessages()
- * @method Magento_Cron_Model_Schedule setMessages(string $value)
+ * @method \Magento\Cron\Model\Schedule setMessages(string $value)
  * @method string getCreatedAt()
- * @method Magento_Cron_Model_Schedule setCreatedAt(string $value)
+ * @method \Magento\Cron\Model\Schedule setCreatedAt(string $value)
  * @method string getScheduledAt()
- * @method Magento_Cron_Model_Schedule setScheduledAt(string $value)
+ * @method \Magento\Cron\Model\Schedule setScheduledAt(string $value)
  * @method string getExecutedAt()
- * @method Magento_Cron_Model_Schedule setExecutedAt(string $value)
+ * @method \Magento\Cron\Model\Schedule setExecutedAt(string $value)
  * @method string getFinishedAt()
- * @method Magento_Cron_Model_Schedule setFinishedAt(string $value)
+ * @method \Magento\Cron\Model\Schedule setFinishedAt(string $value)
  *
  * @category    Magento
  * @package     Magento_Cron
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Cron_Model_Schedule extends Magento_Core_Model_Abstract
+namespace Magento\Cron\Model;
+
+class Schedule extends \Magento\Core\Model\AbstractModel
 {
     const STATUS_PENDING = 'pending';
     const STATUS_RUNNING = 'running';
@@ -41,24 +43,24 @@ class Magento_Cron_Model_Schedule extends Magento_Core_Model_Abstract
     const STATUS_ERROR = 'error';
 
     /**
-     * @var Magento_Core_Model_Date
+     * @var \Magento\Core\Model\Date
      */
     protected $_date;
 
     /**
-     * @param Magento_Core_Model_Date $date
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Core\Model\Date $date
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Date $date,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Core\Model\Date $date,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_date = $date;
@@ -67,14 +69,14 @@ class Magento_Cron_Model_Schedule extends Magento_Core_Model_Abstract
 
     public function _construct()
     {
-        $this->_init('Magento_Cron_Model_Resource_Schedule');
+        $this->_init('Magento\Cron\Model\Resource\Schedule');
     }
 
     public function setCronExpr($expr)
     {
         $e = preg_split('#\s+#', $expr, null, PREG_SPLIT_NO_EMPTY);
         if (sizeof($e) < 5 || sizeof($e) > 6) {
-            throw new Magento_Cron_Exception('Invalid cron expression: ' . $expr);
+            throw new \Magento\Cron\Exception('Invalid cron expression: ' . $expr);
         }
 
         $this->setCronExprArr($e);
@@ -86,7 +88,7 @@ class Magento_Cron_Model_Schedule extends Magento_Core_Model_Abstract
      *
      * Supports $this->setCronExpr('* 0-5,10-59/5 2-10,15-25 january-june/2 mon-fri')
      *
-     * @param Magento_Event $event
+     * @param \Magento\Event $event
      * @return boolean
      */
     public function trySchedule($time)
@@ -135,12 +137,12 @@ class Magento_Cron_Model_Schedule extends Magento_Core_Model_Abstract
         if (strpos($expr, '/') !== false) {
             $e = explode('/', $expr);
             if (sizeof($e) !== 2) {
-                throw new Magento_Cron_Exception(
+                throw new \Magento\Cron\Exception(
                     "Invalid cron expression, expecting 'match/modulus': " . $expr
                 );
             }
             if (!is_numeric($e[1])) {
-                throw new Magento_Cron_Exception(
+                throw new \Magento\Cron\Exception(
                     "Invalid cron expression, expecting numeric modulus: " . $expr
                 );
             }
@@ -158,7 +160,7 @@ class Magento_Cron_Model_Schedule extends Magento_Core_Model_Abstract
         } elseif (strpos($expr, '-') !== false) {
             $e = explode('-', $expr);
             if (sizeof($e) !== 2) {
-                throw new Magento_Cron_Exception(
+                throw new \Magento\Cron\Exception(
                     "Invalid cron expression, expecting 'from-to' structure: " . $expr
                 );
             }
@@ -172,7 +174,7 @@ class Magento_Cron_Model_Schedule extends Magento_Core_Model_Abstract
         }
 
         if ($from === false || $to === false) {
-            throw new Magento_Cron_Exception("Invalid cron expression: " . $expr);
+            throw new \Magento\Cron\Exception("Invalid cron expression: " . $expr);
         }
 
         return ($num >= $from) && ($num <= $to) && ($num % $mod === 0);

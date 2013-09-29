@@ -6,13 +6,15 @@
  * @license   {license_link}
  */
 
-class Magento_AdminNotification_Model_Resource_System_Message_Collection
-    extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\AdminNotification\Model\Resource\System\Message;
+
+class Collection
+    extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * System message list
      *
-     * @var Magento_AdminNotification_Model_System_MessageList
+     * @var \Magento\AdminNotification\Model\System\MessageList
      */
     protected $_messageList;
 
@@ -24,20 +26,20 @@ class Magento_AdminNotification_Model_Resource_System_Message_Collection
     protected $_countBySeverity = array();
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_EntityFactory $entityFactory
-     * @param Magento_AdminNotification_Model_System_MessageList $messageList
-     * @param Magento_Core_Model_Resource_Db_Abstract $resource
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\AdminNotification\Model\System\MessageList $messageList
+     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Logger $logger,
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_EntityFactory $entityFactory,
-        Magento_AdminNotification_Model_System_MessageList $messageList,
-        Magento_Core_Model_Resource_Db_Abstract $resource = null
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\AdminNotification\Model\System\MessageList $messageList,
+        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
     ) {
         $this->_messageList = $messageList;
         parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
@@ -49,14 +51,14 @@ class Magento_AdminNotification_Model_Resource_System_Message_Collection
     protected function _construct()
     {
         $this->_init(
-            'Magento_AdminNotification_Model_System_Message', 'Magento_AdminNotification_Model_Resource_System_Message'
+            'Magento\AdminNotification\Model\System\Message', 'Magento\AdminNotification\Model\Resource\System\Message'
         );
     }
 
     /**
      * Initialize db query
      *
-     * @return Magento_Core_Model_Resource_Db_Collection_Abstract|void
+     * @return \Magento\Core\Model\Resource\Db\Collection\AbstractCollection|void
      */
     protected function _initSelect()
     {
@@ -68,7 +70,7 @@ class Magento_AdminNotification_Model_Resource_System_Message_Collection
     /**
      * Initialize system messages after load
      *
-     * @return Magento_Core_Model_Resource_Db_Abstract
+     * @return \Magento\Core\Model\Resource\Db\AbstractDb
      */
     protected function _afterLoad()
     {
@@ -91,7 +93,7 @@ class Magento_AdminNotification_Model_Resource_System_Message_Collection
      * Set message severity filter
      *
      * @param int $severity
-     * @return Magento_Core_Model_Resource_Db_Abstract
+     * @return \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function setSeverity($severity)
     {

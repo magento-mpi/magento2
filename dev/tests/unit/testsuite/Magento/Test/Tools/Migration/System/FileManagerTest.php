@@ -8,6 +8,8 @@
  * @license    {license_link}
  */
 
+namespace Magento\Test\Tools\Migration\System;
+
 require_once realpath(__DIR__ . '/../../../../../../../../')
     . '/tools/Magento/Tools/Migration/System/FileManager.php';
 require_once realpath(__DIR__ . '/../../../../../../../../')
@@ -15,29 +17,29 @@ require_once realpath(__DIR__ . '/../../../../../../../../')
 require_once realpath(__DIR__ . '/../../../../../../../../')
     . '/tools/Magento/Tools/Migration/System/Writer/Memory.php';
 
-class Magento_Test_Tools_Migration_System_FileManagerTest extends PHPUnit_Framework_TestCase
+class FileManagerTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Tools_Migration_System_FileManager
+     * @var \Magento\Tools\Migration\System\FileManager
      */
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_readerMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_writerMock;
 
     protected function setUp()
     {
-        $this->_readerMock = $this->getMock('Magento_Tools_Migration_System_FileReader', array(), array(), '', false);
+        $this->_readerMock = $this->getMock('Magento\Tools\Migration\System\FileReader', array(), array(), '', false);
         $this->_writerMock = $this->getMock(
-            'Magento_Tools_Migration_System_Writer_Memory', array(), array(), '', false);
-        $this->_model = new Magento_Tools_Migration_System_FileManager($this->_readerMock, $this->_writerMock);
+            'Magento\Tools\Migration\System\Writer\Memory', array(), array(), '', false);
+        $this->_model = new \Magento\Tools\Migration\System\FileManager($this->_readerMock, $this->_writerMock);
     }
 
     protected function tearDown()

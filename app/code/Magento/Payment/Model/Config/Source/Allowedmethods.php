@@ -6,25 +6,27 @@
  * @license     {license_link}
  */
 
-class Magento_Payment_Model_Config_Source_Allowedmethods
-    extends Magento_Payment_Model_Config_Source_Allmethods
+namespace Magento\Payment\Model\Config\Source;
+
+class Allowedmethods
+    extends \Magento\Payment\Model\Config\Source\Allmethods
 {
     /**
      * Payment config model
      *
-     * @var Magento_Payment_Model_Config
+     * @var \Magento\Payment\Model\Config
      */
     protected $_paymentConfig;
 
     /**
      * Construct
      *
-     * @param Magento_Payment_Helper_Data $paymentData
-     * @param Magento_Payment_Model_Config $paymentConfig
+     * @param \Magento\Payment\Helper\Data $paymentData
+     * @param \Magento\Payment\Model\Config $paymentConfig
      */
     public function __construct(
-        Magento_Payment_Helper_Data $paymentData,
-        Magento_Payment_Model_Config $paymentConfig
+        \Magento\Payment\Helper\Data $paymentData,
+        \Magento\Payment\Model\Config $paymentConfig
     ) {
         parent::__construct($paymentData);
         $this->_paymentConfig = $paymentConfig;

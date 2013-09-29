@@ -11,7 +11,9 @@
 /**
  * RMA Item Form Model
  */
-class Magento_Rma_Model_Item_Form extends Magento_Eav_Model_Form
+namespace Magento\Rma\Model\Item;
+
+class Form extends \Magento\Eav\Model\Form
 {
     /**
      * Current module pathname
@@ -28,14 +30,14 @@ class Magento_Rma_Model_Item_Form extends Magento_Eav_Model_Form
     protected $_entityTypeCode = 'rma_item';
 
     /**
-     * @var Magento_Rma_Model_Resource_Item_Form_Attribute_CollectionFactory
+     * @var \Magento\Rma\Model\Resource\Item\Form\Attribute\CollectionFactory
      */
     protected $_collectionFactory;
 
     /**
-     * @param Magento_Rma_Model_Resource_Item_Form_Attribute_CollectionFactory $collectionFactory
+     * @param \Magento\Rma\Model\Resource\Item\Form\Attribute\CollectionFactory $collectionFactory
      */
-    public function __construct(Magento_Rma_Model_Resource_Item_Form_Attribute_CollectionFactory $collectionFactory)
+    public function __construct(\Magento\Rma\Model\Resource\Item\Form\Attribute\CollectionFactory $collectionFactory)
     {
         $this->_collectionFactory = $collectionFactory;
         parent::__construct();
@@ -44,7 +46,7 @@ class Magento_Rma_Model_Item_Form extends Magento_Eav_Model_Form
     /**
      * Get EAV Entity Form Attribute Collection
      *
-     * @return Magento_Rma_Model_Resource_Item_Form_Attribute_Collection
+     * @return \Magento\Rma\Model\Resource\Item\Form\Attribute\Collection
      */
     protected function _getFormAttributeCollection()
     {

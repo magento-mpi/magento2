@@ -11,7 +11,9 @@
 /**
  * Solr client
  */
-class Magento_Search_Model_Client_Solr extends Apache_Solr_Service
+namespace Magento\Search\Model\Client;
+
+class Solr extends \Apache_Solr_Service
 {
     /**
      * Store user login, that needed in authentication with solr server
@@ -43,7 +45,7 @@ class Magento_Search_Model_Client_Solr extends Apache_Solr_Service
      * Initialize Solr Client
      *
      * @param array $options
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     public function __construct($options = array())
     {
@@ -55,7 +57,7 @@ class Magento_Search_Model_Client_Solr extends Apache_Solr_Service
             'path'
         );
         if (!sizeof(array_intersect($_optionsNames, array_keys($options)))) {
-            throw new Magento_Core_Exception(
+            throw new \Magento\Core\Exception(
                 __('We were unable to perform the search because a search engine misconfiguration.'));
         }
 
@@ -83,7 +85,7 @@ class Magento_Search_Model_Client_Solr extends Apache_Solr_Service
      * @param float|int $timeout Maximum expected duration of the commit operation on the server (otherwise, will throw a communication exception)
      * @return Apache_Solr_Response
      *
-     * @throws Exception If an error occurs during the service call
+     * @throws \Exception If an error occurs during the service call
      */
     public function rollback($timeout = 3600)
     {
@@ -100,7 +102,7 @@ class Magento_Search_Model_Client_Solr extends Apache_Solr_Service
      * @param float|int $timeout Maximum expected duration of the delete operation on the server (otherwise, will throw a communication exception)
      * @return Apache_Solr_Response
      *
-     * @throws Exception If an error occurs during the service call
+     * @throws \Exception If an error occurs during the service call
      */
     public function deleteByQueries($rawQueries, $fromPending = true, $fromCommitted = true, $timeout = 3600)
     {
@@ -123,7 +125,7 @@ class Magento_Search_Model_Client_Solr extends Apache_Solr_Service
     }
 
     /**
-     * Alias to Apache_Solr_Service::deleteByMultipleIds() method
+     * Alias to \Apache_Solr_Service::deleteByMultipleIds() method
      *
      * @param array $ids Expected to be utf-8 encoded strings
      * @param boolean $fromPending
@@ -131,7 +133,7 @@ class Magento_Search_Model_Client_Solr extends Apache_Solr_Service
      * @param float|int $timeout Maximum expected duration of the delete operation on the server (otherwise, will throw a communication exception)
      * @return Apache_Solr_Response
      *
-     * @throws Exception If an error occurs during the service call
+     * @throws \Exception If an error occurs during the service call
      */
     public function deleteByIds($ids, $fromPending = true, $fromCommitted = true, $timeout = 3600)
     {
@@ -148,13 +150,13 @@ class Magento_Search_Model_Client_Solr extends Apache_Solr_Service
     protected function _sendRawGet($url, $timeout = FALSE)
     {
         $this->_setAuthHeader($this->_getContext);
-        Magento_Profiler::start('solr_send_raw_get', array(
+        \Magento\Profiler::start('solr_send_raw_get', array(
             'group' => 'solr',
             'operation' => 'solr:_sendRawGet',
             'host' => $this->getHost()
         ));
         $response = parent::_sendRawGet($url, $timeout);
-        Magento_Profiler::stop('solr_send_raw_get');
+        \Magento\Profiler::stop('solr_send_raw_get');
         return $response;
     }
 
@@ -170,13 +172,13 @@ class Magento_Search_Model_Client_Solr extends Apache_Solr_Service
     protected function _sendRawPost($url, $rawPost, $timeout = FALSE, $contentType = 'text/xml; charset=UTF-8')
     {
         $this->_setAuthHeader($this->_postContext);
-        Magento_Profiler::start('solr_send_raw_post', array(
+        \Magento\Profiler::start('solr_send_raw_post', array(
             'group' => 'solr',
             'operation' => 'solr:_sendRawPost',
             'host' => $this->getHost()
         ));
         $response = parent::_sendRawPost($url, $rawPost, $timeout, $contentType);
-        Magento_Profiler::stop('solr_send_raw_post');
+        \Magento\Profiler::stop('solr_send_raw_post');
         return $response;
     }
 

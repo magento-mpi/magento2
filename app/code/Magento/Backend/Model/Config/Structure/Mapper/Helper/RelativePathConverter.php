@@ -11,7 +11,9 @@
 /**
  * Helper that can convert relative paths from system.xml to absolute
  */
-class Magento_Backend_Model_Config_Structure_Mapper_Helper_RelativePathConverter
+namespace Magento\Backend\Model\Config\Structure\Mapper\Helper;
+
+class RelativePathConverter
 {
     /**
      * Convert relative path from system.xml to absolute
@@ -19,7 +21,7 @@ class Magento_Backend_Model_Config_Structure_Mapper_Helper_RelativePathConverter
      * @param string $nodePath
      * @param string $relativePath
      * @return string
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function convert($nodePath, $relativePath)
     {
@@ -27,7 +29,7 @@ class Magento_Backend_Model_Config_Structure_Mapper_Helper_RelativePathConverter
         $relativePath = trim($relativePath);
 
         if (empty($nodePath) || empty($relativePath)) {
-            throw new InvalidArgumentException('Invalid arguments');
+            throw new \InvalidArgumentException('Invalid arguments');
         }
 
         $relativePathParts = explode('/', $relativePath);
@@ -44,7 +46,7 @@ class Magento_Backend_Model_Config_Structure_Mapper_Helper_RelativePathConverter
         foreach ($relativePathParts as $index => $path) {
             if ($path === '*') {
                 if (false == array_key_exists($index, $pathParts)) {
-                    throw new InvalidArgumentException(
+                    throw new \InvalidArgumentException(
                         sprintf('Invalid relative path %s in %s node', $relativePath, $nodePath));
                 }
                 $path = $pathParts[$index];

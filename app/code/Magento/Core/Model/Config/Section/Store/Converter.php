@@ -7,17 +7,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Config_Section_Store_Converter extends Magento_Core_Model_Config_Section_Converter
+namespace Magento\Core\Model\Config\Section\Store;
+
+class Converter extends \Magento\Core\Model\Config\Section\Converter
 {
     /**
-     * @var Magento_Core_Model_Config_Section_Processor_Placeholder
+     * @var \Magento\Core\Model\Config\Section\Processor\Placeholder
      */
     protected $_processor;
 
     /**
-     * @param Magento_Core_Model_Config_Section_Processor_Placeholder $processor
+     * @param \Magento\Core\Model\Config\Section\Processor\Placeholder $processor
      */
-    public function __construct(Magento_Core_Model_Config_Section_Processor_Placeholder $processor)
+    public function __construct(\Magento\Core\Model\Config\Section\Processor\Placeholder $processor)
     {
         $this->_processor = $processor;
     }

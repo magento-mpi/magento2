@@ -9,33 +9,35 @@
 /**
  * Catalog Event resource setup
  */
-class Magento_CatalogEvent_Model_Resource_Setup extends Magento_Sales_Model_Resource_Setup
+namespace Magento\CatalogEvent\Model\Resource;
+
+class Setup extends \Magento\Sales\Model\Resource\Setup
 {
     /**
      * Block model factory
      *
-     * @var Magento_Cms_Model_BlockFactory
+     * @var \Magento\Cms\Model\BlockFactory
      */
     protected $_blockFactory;
 
     /**
-     * @param Magento_Core_Model_Resource_Setup_Context $context
-     * @param Magento_Core_Model_Config $config
-     * @param Magento_Core_Model_CacheInterface $cache
-     * @param Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Cms_Model_BlockFactory $modelBlockFactory
+     * @param \Magento\Core\Model\Resource\Setup\Context $context
+     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Core\Model\CacheInterface $cache
+     * @param \Magento\Core\Model\Resource\Setup\MigrationFactory $migrationFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Cms\Model\BlockFactory $modelBlockFactory
      * @param string $resourceName
      * @param string $moduleName
      * @param string $connectionName
      */
     public function __construct(
-        Magento_Core_Model_Resource_Setup_Context $context,
-        Magento_Core_Model_Config $config,
-        Magento_Core_Model_CacheInterface $cache,
-        Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Cms_Model_BlockFactory $modelBlockFactory,
+        \Magento\Core\Model\Resource\Setup\Context $context,
+        \Magento\Core\Model\Config $config,
+        \Magento\Core\Model\CacheInterface $cache,
+        \Magento\Core\Model\Resource\Setup\MigrationFactory $migrationFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Cms\Model\BlockFactory $modelBlockFactory,
         $resourceName,
         $moduleName = 'Magento_CatalogEvent',
         $connectionName = ''
@@ -49,7 +51,7 @@ class Magento_CatalogEvent_Model_Resource_Setup extends Magento_Sales_Model_Reso
     /**
      * Get model block factory
      *
-     * @return Magento_Cms_Model_BlockFactory
+     * @return \Magento\Cms\Model\BlockFactory
      */
     public function getBlockFactory()
     {

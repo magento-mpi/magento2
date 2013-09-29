@@ -16,7 +16,9 @@
  * @package     Magento_GiftRegistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GiftRegistry_Model_Resource_Entity_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\GiftRegistry\Model\Resource\Entity;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Collection initialization
@@ -24,14 +26,14 @@ class Magento_GiftRegistry_Model_Resource_Entity_Collection extends Magento_Core
      */
     protected function _construct()
     {
-        $this->_init('Magento_GiftRegistry_Model_Entity', 'Magento_GiftRegistry_Model_Resource_Entity');
+        $this->_init('Magento\GiftRegistry\Model\Entity', 'Magento\GiftRegistry\Model\Resource\Entity');
     }
 
     /**
      * Load collection by customer id
      *
      * @param int $id
-     * @return Magento_GiftRegistry_Model_Resource_Entity_Collection
+     * @return \Magento\GiftRegistry\Model\Resource\Entity\Collection
      */
     public function filterByCustomerId($id)
     {
@@ -42,7 +44,7 @@ class Magento_GiftRegistry_Model_Resource_Entity_Collection extends Magento_Core
     /**
      * Load collection by customer id
      *
-     * @return Magento_GiftRegistry_Model_Resource_Entity_Collection
+     * @return \Magento\GiftRegistry\Model\Resource\Entity\Collection
      */
     public function filterByActive()
     {
@@ -53,7 +55,7 @@ class Magento_GiftRegistry_Model_Resource_Entity_Collection extends Magento_Core
     /**
      * Add registry info
      *
-     * @return Magento_GiftRegistry_Model_Resource_Entity_Collection
+     * @return \Magento\GiftRegistry\Model\Resource\Entity\Collection
      */
     public function addRegistryInfo()
     {
@@ -67,21 +69,21 @@ class Magento_GiftRegistry_Model_Resource_Entity_Collection extends Magento_Core
     /**
      * Add registry quantity info
      *
-     * @return Magento_GiftRegistry_Model_Resource_Entity_Collection
+     * @return \Magento\GiftRegistry\Model\Resource\Entity\Collection
      */
     protected function _addQtyItemsData()
     {
         $select = $this->getConnection()->select()
             ->from(array('item' => $this->getTable('magento_giftregistry_item')), array(
                 'entity_id',
-                'qty'           => new Zend_Db_Expr('SUM(item.qty)'),
-                'qty_fulfilled' => new Zend_Db_Expr('SUM(item.qty_fulfilled)'),
-                'qty_remaining' => new Zend_Db_Expr('SUM(item.qty - item.qty_fulfilled)')
+                'qty'           => new \Zend_Db_Expr('SUM(item.qty)'),
+                'qty_fulfilled' => new \Zend_Db_Expr('SUM(item.qty_fulfilled)'),
+                'qty_remaining' => new \Zend_Db_Expr('SUM(item.qty - item.qty_fulfilled)')
             ))
             ->group('entity_id');
 
         $this->getSelect()->joinLeft(
-            array('items' => new Zend_Db_Expr(sprintf('(%s)', $select))),
+            array('items' => new \Zend_Db_Expr(sprintf('(%s)', $select))),
             'main_table.entity_id = items.entity_id',
             array('qty', 'qty_fulfilled', 'qty_remaining')
         );
@@ -92,7 +94,7 @@ class Magento_GiftRegistry_Model_Resource_Entity_Collection extends Magento_Core
     /**
      * Add event info to collection
      *
-     * @return Magento_GiftRegistry_Model_Resource_Entity_Collection
+     * @return \Magento\GiftRegistry\Model\Resource\Entity\Collection
      */
     protected function _addEventData()
     {
@@ -107,7 +109,7 @@ class Magento_GiftRegistry_Model_Resource_Entity_Collection extends Magento_Core
     /**
      * Add registrant info to collection
      *
-     * @return Magento_GiftRegistry_Model_Resource_Entity_Collection
+     * @return \Magento\GiftRegistry\Model\Resource\Entity\Collection
      */
     protected function _addRegistrantData()
     {
@@ -115,12 +117,12 @@ class Magento_GiftRegistry_Model_Resource_Entity_Collection extends Magento_Core
             ->from($this->getTable('magento_giftregistry_person'), array('entity_id'))
             ->group('entity_id');
 
-        /** @var Magento_Core_Model_Resource_Helper $helper */
-        $helper = Mage::getResourceHelper('Magento_Core');
+        /** @var \Magento\Core\Model\Resource\Helper $helper */
+        $helper = \Mage::getResourceHelper('Magento_Core');
         $helper->addGroupConcatColumn($select, 'registrants', array('firstname', 'lastname'), ', ', ' ');
 
         $this->getSelect()->joinLeft(
-            array('person' => new Zend_Db_Expr(sprintf('(%s)', $select))),
+            array('person' => new \Zend_Db_Expr(sprintf('(%s)', $select))),
             'main_table.entity_id = person.entity_id',
             array('registrants')
         );
@@ -132,7 +134,7 @@ class Magento_GiftRegistry_Model_Resource_Entity_Collection extends Magento_Core
      * Apply search filters
      *
      * @param array $params
-     * @return Magento_GiftRegistry_Model_Resource_Entity_Collection
+     * @return \Magento\GiftRegistry\Model\Resource\Entity\Collection
      */
     public function applySearchFilters($params)
     {
@@ -141,7 +143,7 @@ class Magento_GiftRegistry_Model_Resource_Entity_Collection extends Magento_Core
         $select->from(array('m' => $this->getMainTable()), array('*'))
             ->where('m.is_public = ?', 1)
             ->where('m.is_active = ?', 1)
-            ->where('m.website_id = ?', (int)Mage::app()->getStore()->getWebsiteId());
+            ->where('m.website_id = ?', (int)\Mage::app()->getStore()->getWebsiteId());
 
         /*
          * Join registry type store label
@@ -154,7 +156,7 @@ class Magento_GiftRegistry_Model_Resource_Entity_Collection extends Magento_Core
         $typeExpr = $adapter->getCheckSql('i2.label IS NULL', 'i1.label', 'i2.label');
         $select->joinLeft(
             array('i2' => $this->getTable('magento_giftregistry_type_info')),
-            $adapter->quoteInto('i2.type_id = m.type_id AND i2.store_id = ?', (int)Mage::app()->getStore()->getId()),
+            $adapter->quoteInto('i2.type_id = m.type_id AND i2.store_id = ?', (int)\Mage::app()->getStore()->getId()),
             array('type' => $typeExpr)
         );
 
@@ -199,8 +201,8 @@ class Magento_GiftRegistry_Model_Resource_Entity_Collection extends Magento_Core
         /*
          * Apply search filters by static attributes
          */
-        /** @var $config Magento_GiftRegistry_Model_Attribute_Config */
-        $config = Mage::getSingleton('Magento_GiftRegistry_Model_Attribute_Config');
+        /** @var $config \Magento\GiftRegistry\Model\Attribute\Config */
+        $config = \Mage::getSingleton('Magento\GiftRegistry\Model\Attribute\Config');
         $staticCodes = $config->getStaticTypesCodes();
         foreach ($staticCodes as $code) {
             if (!empty($params[$code])) {
@@ -217,7 +219,7 @@ class Magento_GiftRegistry_Model_Resource_Entity_Collection extends Magento_Core
 
         $select->group('m.entity_id');
         $this->getSelect()->reset()->from(
-            array('main_table' => new Zend_Db_Expr(sprintf('(%s)', $select))), array('*')
+            array('main_table' => new \Zend_Db_Expr(sprintf('(%s)', $select))), array('*')
         );
 
         return $this;
@@ -227,7 +229,7 @@ class Magento_GiftRegistry_Model_Resource_Entity_Collection extends Magento_Core
      * Filter collection by specified websites
      *
      * @param array|int $websiteIds
-     * @return Magento_GiftRegistry_Model_Resource_Entity_Collection
+     * @return \Magento\GiftRegistry\Model\Resource\Entity\Collection
      */
     public function addWebsiteFilter($websiteIds)
     {
@@ -239,7 +241,7 @@ class Magento_GiftRegistry_Model_Resource_Entity_Collection extends Magento_Core
      * Filter collection by specified status
      *
      * @param int $status
-     * @return Magento_GiftRegistry_Model_Resource_Entity_Collection
+     * @return \Magento\GiftRegistry\Model\Resource\Entity\Collection
      */
     public function filterByIsActive($status)
     {

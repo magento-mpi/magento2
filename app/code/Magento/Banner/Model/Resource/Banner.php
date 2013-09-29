@@ -16,7 +16,9 @@
  * @package     Magento_Banner
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Banner_Model_Resource_Banner extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Banner\Model\Resource;
+
+class Banner extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Sales rule table name
@@ -61,24 +63,24 @@ class Magento_Banner_Model_Resource_Banner extends Magento_Core_Model_Resource_D
     protected $_bannerTypesFilter                = array();
 
     /**
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     private $_eventManager;
 
     /**
-     * @var Magento_Banner_Model_Config
+     * @var \Magento\Banner\Model\Config
      */
     private $_bannerConfig;
 
     /**
-     * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Banner_Model_Config $bannerConfig
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Banner\Model\Config $bannerConfig
      */
     public function __construct(
-        Magento_Core_Model_Resource $resource,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Banner_Model_Config $bannerConfig
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Banner\Model\Config $bannerConfig
     ) {
         parent::__construct($resource);
         $this->_eventManager = $eventManager;
@@ -101,7 +103,7 @@ class Magento_Banner_Model_Resource_Banner extends Magento_Core_Model_Resource_D
      * Set filter by specified types
      *
      * @param string|array $types
-     * @return Magento_Banner_Model_Resource_Banner
+     * @return \Magento\Banner\Model\Resource\Banner
      */
     public function filterByTypes($types = array())
     {
@@ -115,7 +117,7 @@ class Magento_Banner_Model_Resource_Banner extends Magento_Core_Model_Resource_D
      * @param int $bannerId
      * @param array $contents
      * @param array $notuse
-     * @return Magento_Banner_Model_Resource_Banner
+     * @return \Magento\Banner\Model\Resource\Banner
      */
     public function saveStoreContents($bannerId, $contents, $notuse = array())
     {
@@ -151,7 +153,7 @@ class Magento_Banner_Model_Resource_Banner extends Magento_Core_Model_Resource_D
      *
      * @param int $bannerId
      * @param array $rules
-     * @return Magento_Banner_Model_Resource_Banner
+     * @return \Magento\Banner\Model\Resource\Banner
      */
     public function saveCatalogRules($bannerId, $rules)
     {
@@ -180,7 +182,7 @@ class Magento_Banner_Model_Resource_Banner extends Magento_Core_Model_Resource_D
      *
      * @param int $bannerId
      * @param array $rules
-     * @return Magento_Banner_Model_Resource_Banner
+     * @return \Magento\Banner\Model\Resource\Banner
      */
     public function saveSalesRules($bannerId, $rules)
     {
@@ -336,7 +338,7 @@ class Magento_Banner_Model_Resource_Banner extends Magento_Core_Model_Resource_D
      *
      * @param int $ruleId
      * @param array $banners
-     * @return Magento_Banner_Model_Resource_Banner
+     * @return \Magento\Banner\Model\Resource\Banner
      */
     public function bindBannersToCatalogRule($ruleId, $banners)
     {
@@ -364,7 +366,7 @@ class Magento_Banner_Model_Resource_Banner extends Magento_Core_Model_Resource_D
      *
      * @param int $ruleId
      * @param array $banners
-     * @return Magento_Banner_Model_Resource_Banner
+     * @return \Magento\Banner\Model\Resource\Banner
      */
     public function bindBannersToSalesRule($ruleId, $banners)
     {
@@ -433,8 +435,8 @@ class Magento_Banner_Model_Resource_Banner extends Magento_Core_Model_Resource_D
      */
     public function getSalesRuleRelatedBannerIds(array $appliedRules)
     {
-        /** @var Magento_Banner_Model_Resource_Salesrule_Collection $collection */
-        $collection = Mage::getResourceModel('Magento_Banner_Model_Resource_Salesrule_Collection');
+        /** @var \Magento\Banner\Model\Resource\Salesrule\Collection $collection */
+        $collection = \Mage::getResourceModel('Magento\Banner\Model\Resource\Salesrule\Collection');
         $collection->addRuleIdsFilter($appliedRules);
         return $collection->getColumnValues('banner_id');
     }
@@ -448,8 +450,8 @@ class Magento_Banner_Model_Resource_Banner extends Magento_Core_Model_Resource_D
      */
     public function getCatalogRuleRelatedBannerIds($websiteId, $customerGroupId)
     {
-        /** @var Magento_Banner_Model_Resource_Catalogrule_Collection $collection */
-        $collection = Mage::getResourceModel('Magento_Banner_Model_Resource_Catalogrule_Collection');
+        /** @var \Magento\Banner\Model\Resource\Catalogrule\Collection $collection */
+        $collection = \Mage::getResourceModel('Magento\Banner\Model\Resource\Catalogrule\Collection');
         $collection->addWebsiteCustomerGroupFilter($websiteId, $customerGroupId);
         return $collection->getColumnValues('banner_id');
     }
@@ -457,10 +459,10 @@ class Magento_Banner_Model_Resource_Banner extends Magento_Core_Model_Resource_D
     /**
      * Prepare banner types for saving
      *
-     * @param Magento_Core_Model_Abstract $object
-     * @return Magento_Banner_Model_Resource_Banner
+     * @param \Magento\Core\Model\AbstractModel $object
+     * @return \Magento\Banner\Model\Resource\Banner
      */
-    protected function _beforeSave(Magento_Core_Model_Abstract $object)
+    protected function _beforeSave(\Magento\Core\Model\AbstractModel $object)
     {
         $types = $object->getTypes();
         if (empty($types)) {

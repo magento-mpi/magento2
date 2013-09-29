@@ -6,7 +6,9 @@
  * @license     {license_link}
  */
 
-class Magento_Test_Integrity_Modular_Magento_Customer_AddressFormatsFilesTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Integrity\Modular\Magento\Customer;
+
+class AddressFormatsFilesTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var string
@@ -15,9 +17,9 @@ class Magento_Test_Integrity_Modular_Magento_Customer_AddressFormatsFilesTest ex
 
     protected function setUp()
     {
-        /** @var Magento_Customer_Model_Address_Config_SchemaLocator $schemaLocator */
-        $schemaLocator = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Customer_Model_Address_Config_SchemaLocator');
+        /** @var \Magento\Customer\Model\Address\Config\SchemaLocator $schemaLocator */
+        $schemaLocator = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Customer\Model\Address\Config\SchemaLocator');
         $this->_schemaFile = $schemaLocator->getSchema();
     }
 
@@ -27,7 +29,7 @@ class Magento_Test_Integrity_Modular_Magento_Customer_AddressFormatsFilesTest ex
      */
     public function testFileFormat($file)
     {
-        $dom = new Magento_Config_Dom(file_get_contents($file));
+        $dom = new \Magento\Config\Dom(file_get_contents($file));
         $result = $dom->validate($this->_schemaFile, $errors);
         $this->assertTrue($result, print_r($errors, true));
     }
@@ -38,6 +40,6 @@ class Magento_Test_Integrity_Modular_Magento_Customer_AddressFormatsFilesTest ex
     public function fileFormatDataProvider()
     {
         return
-            Magento_TestFramework_Utility_Files::init()->getConfigFiles('{*/address_formats.xml,address_formats.xml}');
+            \Magento\TestFramework\Utility\Files::init()->getConfigFiles('{*/address_formats.xml,address_formats.xml}');
     }
 }

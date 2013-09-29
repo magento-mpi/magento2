@@ -11,7 +11,9 @@
 /**
  * Gift Registry helper
  */
-class Magento_GiftRegistry_Helper_Data extends Magento_Core_Helper_Abstract
+namespace Magento\GiftRegistry\Helper;
+
+class Data extends \Magento\Core\Helper\AbstractHelper
 {
     const XML_PATH_ENABLED = 'magento_giftregistry/general/enabled';
     const XML_PATH_SEND_LIMIT = 'magento_giftregistry/sharing_email/send_limit';
@@ -35,17 +37,17 @@ class Magento_GiftRegistry_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      */
     public function __construct(
-        Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\Store\Config $coreStoreConfig
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($context);
@@ -132,18 +134,18 @@ class Magento_GiftRegistry_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Return list of gift registries
      *
-     * @return Magento_GiftRegistry_Model_Resource_GiftRegistry_Collection
+     * @return \Magento\GiftRegistry\Model\Resource\GiftRegistry\Collection
      */
     public function getCurrentCustomerEntityOptions()
     {
         $result = array();
-        $entityCollection = Mage::getModel('Magento_GiftRegistry_Model_Entity')->getCollection()
-            ->filterByCustomerId(Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId())
+        $entityCollection = \Mage::getModel('Magento\GiftRegistry\Model\Entity')->getCollection()
+            ->filterByCustomerId(\Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerId())
             ->filterByIsActive(1);
 
         if (count($entityCollection)) {
             foreach ($entityCollection as $entity) {
-                $result[] = new Magento_Object(array('value' => $entity->getId(),
+                $result[] = new \Magento\Object(array('value' => $entity->getId(),
                         'title' => $this->escapeHtml($entity->getTitle())));
             }
         }
@@ -193,14 +195,14 @@ class Magento_GiftRegistry_Helper_Data extends Magento_Core_Helper_Abstract
         if ($formatIn === false) {
             return $value;
         } else {
-            $formatIn = Mage::app()->getLocale()->getDateFormat($formatIn);
+            $formatIn = \Mage::app()->getLocale()->getDateFormat($formatIn);
         }
-        $filterInput = new Zend_Filter_LocalizedToNormalized(array(
+        $filterInput = new \Zend_Filter_LocalizedToNormalized(array(
             'date_format' => $formatIn,
-            'locale'      => Mage::app()->getLocale()->getLocaleCode()
+            'locale'      => \Mage::app()->getLocale()->getLocaleCode()
         ));
-        $filterInternal = new Zend_Filter_NormalizedToLocalized(array(
-            'date_format' => Magento_Date::DATE_INTERNAL_FORMAT
+        $filterInternal = new \Zend_Filter_NormalizedToLocalized(array(
+            'date_format' => \Magento\Date::DATE_INTERNAL_FORMAT
         ));
 
         $value = $filterInput->filter($value);
@@ -212,12 +214,12 @@ class Magento_GiftRegistry_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Return frontend registry link
      *
-     * @param Magento_GiftRegistry_Model_Entity $entity
+     * @param \Magento\GiftRegistry\Model\Entity $entity
      * @return string
      */
     public function getRegistryLink($entity)
     {
-        return Mage::getModel('Magento_Core_Model_Url')->setStore($entity->getStoreId())
+        return \Mage::getModel('Magento\Core\Model\Url')->setStore($entity->getStoreId())
             ->getUrl('giftregistry/view/index', array('id' => $entity->getUrlKey()));
     }
 
@@ -233,15 +235,15 @@ class Magento_GiftRegistry_Helper_Data extends Magento_Core_Helper_Abstract
             return false;
         }
 
-        if ($item instanceof Magento_Sales_Model_Quote_Item) {
+        if ($item instanceof \Magento\Sales\Model\Quote\Item) {
             $productType = $item->getProductType();
         } else {
             $productType = $item->getTypeId();
         }
 
-        if ($productType == Magento_GiftCard_Model_Catalog_Product_Type_Giftcard::TYPE_GIFTCARD) {
-            if ($item instanceof Magento_Sales_Model_Quote_Item) {
-                $product = Mage::getModel('Magento_Catalog_Model_Product')->load($item->getProductId());
+        if ($productType == \Magento\GiftCard\Model\Catalog\Product\Type\Giftcard::TYPE_GIFTCARD) {
+            if ($item instanceof \Magento\Sales\Model\Quote\Item) {
+                $product = \Mage::getModel('Magento\Catalog\Model\Product')->load($item->getProductId());
             } else {
                 $product = $item;
             }

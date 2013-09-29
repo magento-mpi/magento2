@@ -16,8 +16,10 @@
  * @package     Magento_Pbridge
  * @author      Magento
  */
-class Magento_Pbridge_Block_Adminhtml_Sales_Order_Create_Payone_Gate
-    extends Magento_Pbridge_Block_Adminhtml_Sales_Order_Create_Abstract
+namespace Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\Payone;
+
+class Gate
+    extends \Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\AbstractCreate
 {
     /**
      * Payone payment code

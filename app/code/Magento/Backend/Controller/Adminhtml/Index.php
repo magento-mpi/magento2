@@ -15,7 +15,9 @@
  * @package     Magento_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backend_Controller_Adminhtml_Index extends Magento_Backend_Controller_ActionAbstract
+namespace Magento\Backend\Controller\Adminhtml;
+
+class Index extends \Magento\Backend\Controller\AbstractAction
 {
     /**
      * Admin area entry point
@@ -23,6 +25,6 @@ class Magento_Backend_Controller_Adminhtml_Index extends Magento_Backend_Control
      */
     public function indexAction()
     {
-        $this->_redirect(Mage::getSingleton('Magento_Backend_Model_Url')->getStartupPageUrl());
+        $this->_redirect(\Mage::getSingleton('Magento\Backend\Model\Url')->getStartupPageUrl());
     }
 }

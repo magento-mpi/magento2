@@ -9,35 +9,37 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Outbound_Formatter_FactoryTest extends PHPUnit_Framework_TestCase
+namespace Magento\Outbound\Formatter;
+
+class FactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject Magento_Core_Model_ObjectManager
+     * @var \PHPUnit_Framework_MockObject_MockObject \Magento\Core\Model\ObjectManager
      */
     private $_mockObjectManager;
 
     /**
-     * @var Magento_Outbound_Formatter_Factory
+     * @var \Magento\Outbound\Formatter\Factory
      */
     protected $_formatterFactory;
 
     /**
-     * @var Magento_Outbound_Formatter_Json
+     * @var \Magento\Outbound\Formatter\Json
      */
     protected $_expectedObject;
 
     protected function setUp()
     {
-        $this->_mockObjectManager = $this->getMockBuilder('Magento_ObjectManager')
+        $this->_mockObjectManager = $this->getMockBuilder('Magento\ObjectManager')
             ->setMethods(array('get'))
             ->disableOriginalConstructor()
             ->getMockForAbstractClass();
 
-        $this->_expectedObject = $this->getMockBuilder('Magento_Outbound_Formatter_Json')
+        $this->_expectedObject = $this->getMockBuilder('Magento\Outbound\Formatter\Json')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_formatterFactory = new Magento_Outbound_Formatter_Factory(
+        $this->_formatterFactory = new \Magento\Outbound\Formatter\Factory(
             array('json' => 'Test_Formatter_Json'),
             $this->_mockObjectManager
         );
@@ -50,13 +52,13 @@ class Magento_Outbound_Formatter_FactoryTest extends PHPUnit_Framework_TestCase
             ->with('Test_Formatter_Json')
             ->will($this->returnValue($this->_expectedObject));
 
-        $formatter = $this->_formatterFactory->getFormatter(Magento_Outbound_EndpointInterface::FORMAT_JSON);
-        $this->assertInstanceOf('Magento_Outbound_Formatter_Json', $formatter);
+        $formatter = $this->_formatterFactory->getFormatter(\Magento\Outbound\EndpointInterface::FORMAT_JSON);
+        $this->assertInstanceOf('Magento\Outbound\Formatter\Json', $formatter);
         $this->assertEquals($this->_expectedObject, $formatter);
     }
 
     /**
-     * @expectedException LogicException
+     * @expectedException \LogicException
      * @expectedExceptionMessage WrongFormatName
      */
     public function testGetFormatterWrongFormatName()
@@ -65,7 +67,7 @@ class Magento_Outbound_Formatter_FactoryTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException LogicException
+     * @expectedException \LogicException
      * @expectedExceptionMessage Formatter class for json does not implement FormatterInterface.
      */
     public function testGetFormatterWrongFormatterClass()
@@ -73,8 +75,8 @@ class Magento_Outbound_Formatter_FactoryTest extends PHPUnit_Framework_TestCase
         $this->_mockObjectManager->expects($this->once())
             ->method('get')
             ->with('Test_Formatter_Json')
-            ->will($this->returnValue($this->getMock('Magento_Object')));
+            ->will($this->returnValue($this->getMock('Magento\Object')));
 
-        $this->_formatterFactory->getFormatter(Magento_Outbound_EndpointInterface::FORMAT_JSON);
+        $this->_formatterFactory->getFormatter(\Magento\Outbound\EndpointInterface::FORMAT_JSON);
     }
 }

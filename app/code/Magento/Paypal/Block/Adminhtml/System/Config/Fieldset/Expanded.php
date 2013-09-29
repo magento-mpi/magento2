@@ -11,18 +11,20 @@
 /**
  * Fielset renderer which expanded by default
  */
-class Magento_Paypal_Block_Adminhtml_System_Config_Fieldset_Expanded
-    extends Magento_Backend_Block_System_Config_Form_Fieldset
+namespace Magento\Paypal\Block\Adminhtml\System\Config\Fieldset;
+
+class Expanded
+    extends \Magento\Backend\Block\System\Config\Form\Fieldset
 {
     /**
      * Return collapse state
      *
-     * @param Magento_Data_Form_Element_Abstract $element
+     * @param \Magento\Data\Form\Element\AbstractElement $element
      * @return bool
      */
     protected function _isCollapseState($element)
     {
-        $extra = Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getUser()->getExtra();
+        $extra = \Mage::getSingleton('Magento\Backend\Model\Auth\Session')->getUser()->getExtra();
         if (isset($extra['configState'][$element->getId()])) {
             return $extra['configState'][$element->getId()];
         }

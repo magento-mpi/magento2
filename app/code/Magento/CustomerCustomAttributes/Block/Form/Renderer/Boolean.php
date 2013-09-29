@@ -16,6 +16,8 @@
  * @package     Magento_CustomerCustomAttributes
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CustomerCustomAttributes_Block_Form_Renderer_Boolean extends Magento_CustomAttribute_Block_Form_Renderer_Boolean
+namespace Magento\CustomerCustomAttributes\Block\Form\Renderer;
+
+class Boolean extends \Magento\CustomAttribute\Block\Form\Renderer\Boolean
 {
 }

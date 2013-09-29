@@ -16,27 +16,29 @@
  * @package     Magento_CustomerSegment
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CustomerSegment_Model_Resource_Segment extends Magento_Rule_Model_Resource_Abstract
+namespace Magento\CustomerSegment\Model\Resource;
+
+class Segment extends \Magento\Rule\Model\Resource\AbstractResource
 {
     /**
-     * @var Magento_Customer_Model_Config_Share
+     * @var \Magento\Customer\Model\Config\Share
      */
     protected $_configShare;
 
     /**
-     * @var Magento_Core_Model_Resource_HelperPool
+     * @var \Magento\Core\Model\Resource\HelperPool
      */
     protected $_resourceHelperPool;
 
     /**
-     * @param Magento_Core_Model_Resource_HelperPool $resourceHelperPool
-     * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Customer_Model_Config_Share $configShare
+     * @param \Magento\Core\Model\Resource\HelperPool $resourceHelperPool
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Customer\Model\Config\Share $configShare
      */
     public function __construct(
-        Magento_Core_Model_Resource_HelperPool $resourceHelperPool,
-        Magento_Core_Model_Resource $resource,
-        Magento_Customer_Model_Config_Share $configShare
+        \Magento\Core\Model\Resource\HelperPool $resourceHelperPool,
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Customer\Model\Config\Share $configShare
     ) {
         parent::__construct($resource);
         $this->_resourceHelperPool = $resourceHelperPool;
@@ -83,11 +85,11 @@ class Magento_CustomerSegment_Model_Resource_Segment extends Magento_Rule_Model_
     /**
      * Add website ids to rule data after load
      *
-     * @param Magento_Core_Model_Abstract $object
+     * @param \Magento\Core\Model\AbstractModel $object
      *
-     * @return Magento_CustomerSegment_Model_Resource_Segment
+     * @return \Magento\CustomerSegment\Model\Resource\Segment
      */
-    protected function _afterLoad(Magento_Core_Model_Abstract $object)
+    protected function _afterLoad(\Magento\Core\Model\AbstractModel $object)
     {
         $object->setData('website_ids', (array)$this->getWebsiteIds($object->getId()));
 
@@ -99,11 +101,11 @@ class Magento_CustomerSegment_Model_Resource_Segment extends Magento_Rule_Model_
      * Match and save events.
      * Save websites associations.
      *
-     * @param Magento_Core_Model_Abstract $object
+     * @param \Magento\Core\Model\AbstractModel $object
      *
-     * @return Magento_CustomerSegment_Model_Resource_Segment
+     * @return \Magento\CustomerSegment\Model\Resource\Segment
      */
-    protected function _afterSave(Magento_Core_Model_Abstract $object)
+    protected function _afterSave(\Magento\Core\Model\AbstractModel $object)
     {
         $segmentId = $object->getId();
 
@@ -130,9 +132,9 @@ class Magento_CustomerSegment_Model_Resource_Segment extends Magento_Rule_Model_
     /**
      * Delete association between customer and segment for specific segment
      *
-     * @param   Magento_CustomerSegment_Model_Segment $segment
+     * @param   \Magento\CustomerSegment\Model\Segment $segment
      *
-     * @return  Magento_CustomerSegment_Model_Resource_Segment
+     * @return  \Magento\CustomerSegment\Model\Resource\Segment
      */
     public function deleteSegmentCustomers($segment)
     {
@@ -146,10 +148,10 @@ class Magento_CustomerSegment_Model_Resource_Segment extends Magento_Rule_Model_
     /**
      * Save customer Ids matched by segment SQL select on specific website
      *
-     * @param Magento_CustomerSegment_Model_Segment $segment
+     * @param \Magento\CustomerSegment\Model\Segment $segment
      * @param string $select
-     * @return Magento_CustomerSegment_Model_Resource_Segment
-     * @throws Exception
+     * @return \Magento\CustomerSegment\Model\Resource\Segment
+     * @throws \Exception
      */
     public function saveCustomersFromSelect($segment, $select)
     {
@@ -180,7 +182,7 @@ class Magento_CustomerSegment_Model_Resource_Segment extends Magento_Rule_Model_
             if (!empty($data)) {
                 $adapter->insertMultiple($customerTable, $data);
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $adapter->rollBack();
             throw $e;
         }
@@ -210,9 +212,9 @@ class Magento_CustomerSegment_Model_Resource_Segment extends Magento_Rule_Model_
     /**
      * Aggregate customer/segments relations by matched segment conditions
      *
-     * @param Magento_CustomerSegment_Model_Segment $segment
-     * @return Magento_CustomerSegment_Model_Resource_Segment
-     * @throws Exception
+     * @param \Magento\CustomerSegment\Model\Segment $segment
+     * @return \Magento\CustomerSegment\Model\Resource\Segment
+     * @throws \Exception
      */
     public function aggregateMatchedCustomers($segment)
     {
@@ -233,7 +235,7 @@ class Magento_CustomerSegment_Model_Resource_Segment extends Magento_Rule_Model_
                     }
                 }
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $adapter->rollback();
             throw $e;
         }
@@ -246,7 +248,7 @@ class Magento_CustomerSegment_Model_Resource_Segment extends Magento_Rule_Model_
     /**
      * Get select query result
      *
-     * @param Magento_DB_Select|string $sql
+     * @param \Magento\DB\Select|string $sql
      * @param array $bindParams array of bind variables
      *
      * @return int
@@ -259,7 +261,7 @@ class Magento_CustomerSegment_Model_Resource_Segment extends Magento_Rule_Model_
     /**
      * Get empty select object
      *
-     * @return Magento_DB_Select
+     * @return \Magento\DB\Select
      */
     public function createSelect()
     {
@@ -389,9 +391,9 @@ class Magento_CustomerSegment_Model_Resource_Segment extends Magento_Rule_Model_
      *
      * @deprecated after 1.11.2.0 use $this->bindRuleToEntity() instead
      *
-     * @param Magento_Core_Model_Abstract|Magento_CustomerSegment_Model_Segment $segment
+     * @param \Magento\Core\Model\AbstractModel|\Magento\CustomerSegment\Model\Segment $segment
      *
-     * @return Magento_CustomerSegment_Model_Resource_Segment
+     * @return \Magento\CustomerSegment\Model\Resource\Segment
      */
     protected function _saveWebsiteIds($segment)
     {

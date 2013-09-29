@@ -11,12 +11,14 @@
 /**
  * Magento application for performance tests
  */
-class Magento_TestFramework_Application
+namespace Magento\TestFramework;
+
+class Application
 {
     /**
      * Configuration object
      *
-     * @param Magento_Config
+     * @param \Magento\Config
      */
     protected $_config;
 
@@ -28,12 +30,12 @@ class Magento_TestFramework_Application
     protected $_installerScript;
 
     /**
-     * @var Magento_Shell
+     * @var \Magento\Shell
      */
     protected $_shell;
 
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
@@ -54,15 +56,15 @@ class Magento_TestFramework_Application
     /**
      * Constructor
      *
-     * @param Magento_TestFramework_Performance_Config $config
-     * @param Magento_Shell $shell
-     * @throws Magento_Exception
+     * @param \Magento\TestFramework\Performance\Config $config
+     * @param \Magento\Shell $shell
+     * @throws \Magento\Exception
      */
-    public function __construct(Magento_TestFramework_Performance_Config $config, Magento_Shell $shell)
+    public function __construct(\Magento\TestFramework\Performance\Config $config, \Magento\Shell $shell)
     {
         $installerScript = $config->getApplicationBaseDir() . '/dev/shell/install.php';
         if (!is_file($installerScript)) {
-            throw new Magento_Exception("File '$installerScript' is not found.");
+            throw new \Magento\Exception("File '$installerScript' is not found.");
         }
         $this->_installerScript = realpath($installerScript);
         $this->_config = $config;
@@ -72,7 +74,7 @@ class Magento_TestFramework_Application
     /**
      * Reset application - i.e. cleanup already installed app, or install it otherwise
      *
-     * @return Magento_TestFramework_Application
+     * @return \Magento\TestFramework\Application
      */
     protected function _reset()
     {
@@ -90,7 +92,7 @@ class Magento_TestFramework_Application
     /**
      * Uninstall application
      *
-     * @return Magento_TestFramework_Application
+     * @return \Magento\TestFramework\Application
      */
     protected function _uninstall()
     {
@@ -105,14 +107,14 @@ class Magento_TestFramework_Application
     /**
      * Install application according to installation options
      *
-     * @return Magento_TestFramework_Application
-     * @throws Magento_Exception
+     * @return \Magento\TestFramework\Application
+     * @throws \Magento\Exception
      */
     protected function _install()
     {
         $installOptions = $this->_config->getInstallOptions();
         if (!$installOptions) {
-            throw new Magento_Exception('Trying to install Magento, but installation options are not set');
+            throw new \Magento\Exception('Trying to install Magento, but installation options are not set');
         }
 
         // Populate install options with global options
@@ -139,15 +141,15 @@ class Magento_TestFramework_Application
     /**
      * Run all indexer processes
      *
-     * @return Magento_TestFramework_Application
+     * @return \Magento\TestFramework\Application
      */
     protected function _reindex()
     {
         $this->_bootstrap();
 
-        /** @var $indexer Magento_Index_Model_Indexer */
-        $indexer = Mage::getModel('Magento_Index_Model_Indexer');
-        /** @var $process Magento_Index_Model_Process */
+        /** @var $indexer \Magento\Index\Model\Indexer */
+        $indexer = \Mage::getModel('Magento\Index\Model\Indexer');
+        /** @var $process \Magento\Index\Model\Process */
         foreach ($indexer->getProcessesCollection() as $process) {
             if ($process->getIndexer()->isVisible()) {
                 $process->reindexEverything();
@@ -162,23 +164,23 @@ class Magento_TestFramework_Application
      */
     protected function _updateFilesystemPermissions()
     {
-        Magento_Io_File::chmodRecursive(Mage::getBaseDir('var'), 0777);
+        \Magento\Io\File::chmodRecursive(\Mage::getBaseDir('var'), 0777);
     }
 
     /**
      * Bootstrap application, so it is possible to use its resources
      *
-     * @return Magento_TestFramework_Application
+     * @return \Magento\TestFramework\Application
      */
     protected function _bootstrap()
     {
         if (!$this->_objectManager) {
-            $this->_objectManager = new Magento_Core_Model_ObjectManager(
-                new Magento_Core_Model_Config_Primary(BP, $_SERVER)
+            $this->_objectManager = new \Magento\Core\Model\ObjectManager(
+                new \Magento\Core\Model\Config\Primary(BP, $_SERVER)
             );
         }
-        /** @var $app Magento_Core_Model_App */
-        $this->_objectManager->get('Magento_Core_Model_App');
+        /** @var $app \Magento\Core\Model\App */
+        $this->_objectManager->get('Magento\Core\Model\App');
         return $this;
     }
 

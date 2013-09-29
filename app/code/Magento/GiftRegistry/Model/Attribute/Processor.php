@@ -11,7 +11,9 @@
 /**
  * Gift registry custom attribute processor model
  */
-class Magento_GiftRegistry_Model_Attribute_Processor extends Magento_Core_Model_Abstract
+namespace Magento\GiftRegistry\Model\Attribute;
+
+class Processor extends \Magento\Core\Model\AbstractModel
 {
     const XML_PROTOTYPE_NODE  = 'prototype';
     const XML_REGISTRY_NODE   = 'registry';
@@ -20,14 +22,14 @@ class Magento_GiftRegistry_Model_Attribute_Processor extends Magento_Core_Model_
     /**
      * Convert attributes data to xml
      *
-     * @param Magento_GiftRegistry_Model_Type $type
+     * @param \Magento\GiftRegistry\Model\Type $type
      * @return string
      */
     public function processData($type)
     {
         $data = $type->getAttributes();
         if ($data) {
-            $xmlObj = new Magento_Simplexml_Element('<config></config>');
+            $xmlObj = new \Magento\Simplexml\Element('<config></config>');
             $typeXml = $xmlObj->addChild(self::XML_PROTOTYPE_NODE);
             if (is_array($data)) {
                 $groups = array();
@@ -52,7 +54,7 @@ class Magento_GiftRegistry_Model_Attribute_Processor extends Magento_Core_Model_
     /**
      * Process attribute types as xml
      *
-     * @param Magento_Simplexml_Element $typeXml
+     * @param \Magento\Simplexml\Element $typeXml
      * @param string $group
      * @return array $attributes
      */
@@ -95,7 +97,7 @@ class Magento_GiftRegistry_Model_Attribute_Processor extends Magento_Core_Model_
      * Add select type options to attribute node
      *
      * @param array $attribute
-     * @param Magento_Simplexml_Element $itemXml
+     * @param \Magento\Simplexml\Element $itemXml
      */
     public function addSelectOptions($attribute, $itemXml)
     {
@@ -117,7 +119,7 @@ class Magento_GiftRegistry_Model_Attribute_Processor extends Magento_Core_Model_
      * Add date type options to attribute node
      *
      * @param array $attribute
-     * @param Magento_Simplexml_Element $itemXml
+     * @param \Magento\Simplexml\Element $itemXml
      */
     public function addDateOptions($attribute, $itemXml)
     {
@@ -129,7 +131,7 @@ class Magento_GiftRegistry_Model_Attribute_Processor extends Magento_Core_Model_
      * Add region type options to attribute node
      *
      * @param array $attribute
-     * @param Magento_Simplexml_Element $itemXml
+     * @param \Magento\Simplexml\Element $itemXml
      */
     public function addCountryOptions($attribute, $itemXml)
     {
@@ -141,7 +143,7 @@ class Magento_GiftRegistry_Model_Attribute_Processor extends Magento_Core_Model_
      * Add frontend params to attribute node
      *
      * @param array $attribute
-     * @param Magento_Simplexml_Element $itemXml
+     * @param \Magento\Simplexml\Element $itemXml
      */
     public function addFrontendParams($attribute, $itemXml)
     {
@@ -162,7 +164,7 @@ class Magento_GiftRegistry_Model_Attribute_Processor extends Magento_Core_Model_
     public function processXml($xmlString = '')
     {
         if ($xmlString) {
-            $xmlObj = new Magento_Simplexml_Element($xmlString);
+            $xmlObj = new \Magento\Simplexml\Element($xmlString);
             $attributes = $xmlObj->asArray();
             if (isset($attributes[self::XML_PROTOTYPE_NODE])) {
                 return $attributes[self::XML_PROTOTYPE_NODE];

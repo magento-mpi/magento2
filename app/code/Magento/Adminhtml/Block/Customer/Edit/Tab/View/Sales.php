@@ -15,13 +15,15 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Sales extends Magento_Backend_Block_Template
+namespace Magento\Adminhtml\Block\Customer\Edit\Tab\View;
+
+class Sales extends \Magento\Backend\Block\Template
 {
 
     /**
      * Sales entity collection
      *
-     * @var Magento_Sales_Model_Resource_Sale_Collection
+     * @var \Magento\Sales\Model\Resource\Sale\Collection
      */
     protected $_collection;
 
@@ -31,49 +33,49 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Sales extends Magento_Backe
     /**
      * Currency model
      *
-     * @var Magento_Directory_Model_Currency
+     * @var \Magento\Directory\Model\Currency
      */
     protected $_currency;
 
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
+     * @param \Magento\Core\Helper\Data $coreData
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @var Magento_Directory_Model_CurrencyFactory
+     * @var \Magento\Directory\Model\CurrencyFactory
      */
     protected $_currencyFactory;
 
     /**
-     * @var Magento_Sales_Model_Resource_Sale_CollectionFactory
+     * @var \Magento\Sales\Model\Resource\Sale\CollectionFactory
      */
     protected $_collectionFactory;
 
     /**
-     * @param Magento_Directory_Model_CurrencyFactory $currencyFactory
-     * @param Magento_Sales_Model_Resource_Sale_CollectionFactory $collectionFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
+     * @param \Magento\Sales\Model\Resource\Sale\CollectionFactory $collectionFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
-        Magento_Directory_Model_CurrencyFactory $currencyFactory,
-        Magento_Sales_Model_Resource_Sale_CollectionFactory $collectionFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManager $storeManager,
-        Magento_Core_Model_Registry $coreRegistry,
+        \Magento\Directory\Model\CurrencyFactory $currencyFactory,
+        \Magento\Sales\Model\Resource\Sale\CollectionFactory $collectionFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
@@ -92,11 +94,11 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Sales extends Magento_Backe
     public function _beforeToHtml()
     {
         $this->_currency = $this->_currencyFactory->create()
-            ->load($this->_storeConfig->getConfig(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE));
+            ->load($this->_storeConfig->getConfig(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE));
 
         $this->_collection = $this->_collectionFactory->create()
             ->setCustomerFilter($this->_coreRegistry->registry('current_customer'))
-            ->setOrderStateFilter(Magento_Sales_Model_Order::STATE_CANCELED, true)
+            ->setOrderStateFilter(\Magento\Sales\Model\Order::STATE_CANCELED, true)
             ->load();
 
         $this->_groupedCollection = array();

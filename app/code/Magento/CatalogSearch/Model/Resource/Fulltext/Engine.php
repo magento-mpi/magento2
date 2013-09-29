@@ -16,75 +16,77 @@
  * @package     Magento_CatalogSearch
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CatalogSearch_Model_Resource_Fulltext_Engine extends Magento_Core_Model_Resource_Db_Abstract
-    implements Magento_CatalogSearch_Model_Resource_EngineInterface
+namespace Magento\CatalogSearch\Model\Resource\Fulltext;
+
+class Engine extends \Magento\Core\Model\Resource\Db\AbstractDb
+    implements \Magento\CatalogSearch\Model\Resource\EngineInterface
 {
     /**
      * Catalog product visibility
      *
-     * @var Magento_Catalog_Model_Product_Visibility
+     * @var \Magento\Catalog\Model\Product\Visibility
      */
     protected $_catalogProductVisibility;
 
     /**
      * Catalog search fulltext coll factory
      *
-     * @var Magento_CatalogSearch_Model_Resource_Fulltext_CollectionFactory
+     * @var \Magento\CatalogSearch\Model\Resource\Fulltext\CollectionFactory
      */
     protected $_catalogSearchFulltextCollFactory;
 
     /**
      * Catalog search advanced coll factory
      *
-     * @var Magento_CatalogSearch_Model_Resource_Advanced_CollectionFactory
+     * @var \Magento\CatalogSearch\Model\Resource\Advanced\CollectionFactory
      */
     protected $_catalogSearchAdvancedCollFactory;
 
     /**
-     * @var Magento_CatalogSearch_Model_Resource_Advanced
+     * @var \Magento\CatalogSearch\Model\Resource\Advanced
      */
     protected $_searchResource;
 
     /**
-     * @var Magento_CatalogSearch_Model_Resource_Advanced
+     * @var \Magento\CatalogSearch\Model\Resource\Advanced
      */
     protected $_searchResourceCollection;
 
     /**
      * Catalog search data
      *
-     * @var Magento_CatalogSearch_Helper_Data
+     * @var \Magento\CatalogSearch\Helper\Data
      */
     protected $_catalogSearchData = null;
 
     /**
      * Catalog search data
      *
-     * @var Magento_CatalogSearch_Model_Resource_Helper
+     * @var \Magento\CatalogSearch\Model\Resource\Helper
      */
     protected $_resourceHelper;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Model_Resource $resource
-     * @param Magento_CatalogSearch_Model_Resource_Advanced_CollectionFactory $catalogSearchAdvancedCollFactory
-     * @param Magento_CatalogSearch_Model_Resource_Fulltext_CollectionFactory $catalogSearchFulltextCollFactory
-     * @param Magento_Catalog_Model_Product_Visibility $catalogProductVisibility
-     * @param Magento_CatalogSearch_Model_Resource_Advanced $searchResource
-     * @param Magento_CatalogSearch_Model_Resource_Advanced_Collection $searchResourceCollection
-     * @param Magento_CatalogSearch_Helper_Data $catalogSearchData
-     * @param Magento_CatalogSearch_Model_Resource_Helper $resourceHelper
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\CatalogSearch\Model\Resource\Advanced\CollectionFactory $catalogSearchAdvancedCollFactory
+     * @param \Magento\CatalogSearch\Model\Resource\Fulltext\CollectionFactory $catalogSearchFulltextCollFactory
+     * @param \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility
+     * @param \Magento\CatalogSearch\Model\Resource\Advanced $searchResource
+     * @param \Magento\CatalogSearch\Model\Resource\Advanced\Collection $searchResourceCollection
+     * @param \Magento\CatalogSearch\Helper\Data $catalogSearchData
+     * @param \Magento\CatalogSearch\Model\Resource\Helper $resourceHelper
      */
     public function __construct(
-        Magento_Core_Model_Resource $resource,    
-        Magento_CatalogSearch_Model_Resource_Advanced_CollectionFactory $catalogSearchAdvancedCollFactory,
-        Magento_CatalogSearch_Model_Resource_Fulltext_CollectionFactory $catalogSearchFulltextCollFactory,
-        Magento_Catalog_Model_Product_Visibility $catalogProductVisibility,
-        Magento_CatalogSearch_Model_Resource_Advanced $searchResource,
-        Magento_CatalogSearch_Model_Resource_Advanced_Collection $searchResourceCollection,
-        Magento_CatalogSearch_Helper_Data $catalogSearchData,
-        Magento_CatalogSearch_Model_Resource_Helper $resourceHelper
+        \Magento\Core\Model\Resource $resource,    
+        \Magento\CatalogSearch\Model\Resource\Advanced\CollectionFactory $catalogSearchAdvancedCollFactory,
+        \Magento\CatalogSearch\Model\Resource\Fulltext\CollectionFactory $catalogSearchFulltextCollFactory,
+        \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility,
+        \Magento\CatalogSearch\Model\Resource\Advanced $searchResource,
+        \Magento\CatalogSearch\Model\Resource\Advanced\Collection $searchResourceCollection,
+        \Magento\CatalogSearch\Helper\Data $catalogSearchData,
+        \Magento\CatalogSearch\Model\Resource\Helper $resourceHelper
     ) {
         $this->_catalogSearchAdvancedCollFactory = $catalogSearchAdvancedCollFactory;
         $this->_catalogSearchFulltextCollFactory = $catalogSearchFulltextCollFactory;
@@ -112,7 +114,7 @@ class Magento_CatalogSearch_Model_Resource_Fulltext_Engine extends Magento_Core_
      * @param int $storeId
      * @param array $index
      * @param string $entity 'product'|'cms'
-     * @return Magento_CatalogSearch_Model_Resource_Fulltext_Engine
+     * @return \Magento\CatalogSearch\Model\Resource\Fulltext\Engine
      */
     public function saveEntityIndex($entityId, $storeId, $index, $entity = 'product')
     {
@@ -130,7 +132,7 @@ class Magento_CatalogSearch_Model_Resource_Fulltext_Engine extends Magento_Core_
      * @param int $storeId
      * @param array $entityIndexes
      * @param string $entity 'product'|'cms'
-     * @return Magento_CatalogSearch_Model_Resource_Fulltext_Engine
+     * @return \Magento\CatalogSearch\Model\Resource\Fulltext\Engine
      */
     public function saveEntityIndexes($storeId, $entityIndexes, $entity = 'product')
     {
@@ -177,7 +179,7 @@ class Magento_CatalogSearch_Model_Resource_Fulltext_Engine extends Magento_Core_
      * @param int $storeId
      * @param int $entityId
      * @param string $entity 'product'|'cms'
-     * @return Magento_CatalogSearch_Model_Resource_Fulltext_Engine
+     * @return \Magento\CatalogSearch\Model\Resource\Fulltext\Engine
      */
     public function cleanIndex($storeId = null, $entityId = null, $entity = 'product')
     {
@@ -213,7 +215,7 @@ class Magento_CatalogSearch_Model_Resource_Fulltext_Engine extends Magento_Core_
     /**
      * Return resource model for the full text search
      *
-     * @return Magento_CatalogSearch_Model_Resource_Advanced
+     * @return \Magento\CatalogSearch\Model\Resource\Advanced
      */
     public function getResource()
     {
@@ -223,7 +225,7 @@ class Magento_CatalogSearch_Model_Resource_Fulltext_Engine extends Magento_Core_
     /**
      * Return resource collection model for the full text search
      *
-     * @return Magento_CatalogSearch_Model_Resource_Advanced_Collection
+     * @return \Magento\CatalogSearch\Model\Resource\Advanced\Collection
      */
     public function getResourceCollection()
     {
@@ -233,7 +235,7 @@ class Magento_CatalogSearch_Model_Resource_Fulltext_Engine extends Magento_Core_
     /**
      * Retrieve fulltext search result data collection
      *
-     * @return Magento_CatalogSearch_Model_Resource_Fulltext_Collection
+     * @return \Magento\CatalogSearch\Model\Resource\Fulltext\Collection
      */
     public function getResultCollection()
     {
@@ -243,7 +245,7 @@ class Magento_CatalogSearch_Model_Resource_Fulltext_Engine extends Magento_Core_
     /**
      * Retrieve advanced search result data collection
      *
-     * @return Magento_CatalogSearch_Model_Resource_Advanced_Collection
+     * @return \Magento\CatalogSearch\Model\Resource\Advanced\Collection
      */
     public function getAdvancedResultCollection()
     {

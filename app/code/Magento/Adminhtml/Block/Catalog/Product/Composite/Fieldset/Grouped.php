@@ -11,37 +11,39 @@
 /**
  * Adminhtml block for fieldset of grouped product
  */
-class Magento_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Grouped
-    extends Magento_Catalog_Block_Product_View_Type_Grouped
+namespace Magento\Adminhtml\Block\Catalog\Product\Composite\Fieldset;
+
+class Grouped
+    extends \Magento\Catalog\Block\Product\View\Type\Grouped
 {
     /**
-     * @var Magento_Tax_Model_Calculation
+     * @var \Magento\Tax\Model\Calculation
      */
     protected $_taxCalculation;
 
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManger;
 
     /**
-     * @param Magento_Tax_Model_Calculation $taxCalculation
-     * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_Tax_Helper_Data $taxData
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
+     * @param \Magento\Tax\Model\Calculation $taxCalculation
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Tax_Model_Calculation $taxCalculation,
-        Magento_Core_Model_StoreManager $storeManager,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_Tax_Helper_Data $taxData,
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
+        \Magento\Tax\Model\Calculation $taxCalculation,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_taxCalculation = $taxCalculation;
@@ -57,7 +59,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Grouped
     {
         parent::_construct();
 
-        $this->_block = 'Magento_Adminhtml_Block_Catalog_Product_Price';
+        $this->_block = 'Magento\Adminhtml\Block\Catalog\Product\Price';
         $this->_useLinkForAsLowAs = false;
 
         if (!$this->_taxCalculation->getCustomer() && $this->_coreRegistry->registry('current_customer')) {
@@ -68,7 +70,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Grouped
     /**
      * Retrieve product
      *
-     * @return Magento_Catalog_Model_Product
+     * @return \Magento\Catalog\Model\Product
      */
     public function getProduct()
     {
@@ -109,7 +111,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Grouped
     /**
      * Set preconfigured values to grouped associated products
      *
-     * @return Magento_Catalog_Block_Product_View_Type_Grouped
+     * @return \Magento\Catalog\Block\Product\View\Type\Grouped
      */
     public function setPreconfiguredValue() {
         $configValues = $this->getProduct()->getPreconfiguredValues()->getSuperGroup();
@@ -127,7 +129,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Grouped
     /**
      * Check whether the price can be shown for the specified product
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @return bool
      */
     public function getCanShowProductPrice($product)
@@ -159,6 +161,6 @@ class Magento_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Grouped
     public function getCurrencyPrice($price)
     {
         $store = $this->getProduct()->getStore();
-        return $this->helper('Magento_Core_Helper_Data')->currencyByStore($price, $store, false);
+        return $this->helper('Magento\Core\Helper\Data')->currencyByStore($price, $store, false);
     }
 }

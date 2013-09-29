@@ -6,26 +6,28 @@
  * @license     {license_link}
  */
 
+namespace Magento\Reward\Block\Customer;
+
 /**
  * "Reward Points" link
  */
-class Magento_Reward_Block_Customer_AccountLink extends Magento_Page_Block_Link_Current
+class AccountLink extends \Magento\Page\Block\Link\Current
 {
-    /** @var Magento_Reward_Helper_Data */
+    /** @var \Magento\Reward\Helper\Data */
     protected $_rewardHelper;
 
     /**
      * Constructor
      *
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Reward_Helper_Data $rewardHelper
-     * @param Magento_Core_Helper_Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Reward\Helper\Data $rewardHelper
+     * @param \Magento\Core\Helper\Data $coreData
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Block_Template_Context $context,
-        Magento_Reward_Helper_Data $rewardHelper,
-        Magento_Core_Helper_Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Reward\Helper\Data $rewardHelper,
+        \Magento\Core\Helper\Data $coreData,
         array $data = array()
     ) {
         parent::__construct($coreData, $context, $data);

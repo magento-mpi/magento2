@@ -6,23 +6,25 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Resource_Setup_Generic extends Magento_Core_Model_Resource_Setup
+namespace Magento\Core\Model\Resource\Setup;
+
+class Generic extends \Magento\Core\Model\Resource\Setup
 {
     /**
-     * @var Magento_Core_Model_Resource_Setup_MigrationFactory
+     * @var \Magento\Core\Model\Resource\Setup\MigrationFactory
      */
     protected $_migrationFactory;
 
     /**
-     * @param Magento_Core_Model_Resource_Setup_Context $context
-     * @param Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory
+     * @param \Magento\Core\Model\Resource\Setup\Context $context
+     * @param \Magento\Core\Model\Resource\Setup\MigrationFactory $migrationFactory
      * @param string $resourceName
      * @param string $moduleName
      * @param string $connectionName
      */
     public function __construct(
-        Magento_Core_Model_Resource_Setup_Context $context,
-        Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory,
+        \Magento\Core\Model\Resource\Setup\Context $context,
+        \Magento\Core\Model\Resource\Setup\MigrationFactory $migrationFactory,
         $resourceName,
         $moduleName,
         $connectionName = ''
@@ -36,7 +38,7 @@ class Magento_Core_Model_Resource_Setup_Generic extends Magento_Core_Model_Resou
      * Get migration instance
      *
      * @param array $data
-     * @return Magento_Core_Model_Resource_Setup_Migration
+     * @return \Magento\Core\Model\Resource\Setup\Migration
      */
     public function createMigrationSetup(array $data = array())
     {

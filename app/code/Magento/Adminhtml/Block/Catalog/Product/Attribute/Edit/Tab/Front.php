@@ -16,28 +16,30 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Front
-    extends Magento_Backend_Block_Widget_Form_Generic
+namespace Magento\Adminhtml\Block\Catalog\Product\Attribute\Edit\Tab;
+
+class Front
+    extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
-     * @var Magento_Backend_Model_Config_Source_Yesno
+     * @var \Magento\Backend\Model\Config\Source\Yesno
      */
     protected $_yesNo;
 
     /**
-     * @param Magento_Backend_Model_Config_Source_Yesno $yesNo
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
+     * @param \Magento\Backend\Model\Config\Source\Yesno $yesNo
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Model_Config_Source_Yesno $yesNo,
-        Magento_Core_Model_Registry $registry,
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
+        \Magento\Backend\Model\Config\Source\Yesno $yesNo,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_yesNo = $yesNo;
@@ -52,7 +54,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Front
     {
         $attributeObject = $this->_coreRegistry->registry('entity_attribute');
 
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create(array(
             'attributes' => array(
                 'id' => 'edit_form',
@@ -170,7 +172,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Front
         // define field dependencies
         $this->setChild(
             'form_after',
-            $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Form_Element_Dependence')
+            $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Form\Element\Dependence')
                 ->addFieldMap("is_wysiwyg_enabled", 'wysiwyg_enabled')
                 ->addFieldMap("is_html_allowed_on_front", 'html_allowed_on_front')
                 ->addFieldMap("frontend_input", 'frontend_input_type')

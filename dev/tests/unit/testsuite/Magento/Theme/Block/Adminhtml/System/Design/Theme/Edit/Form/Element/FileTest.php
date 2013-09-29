@@ -9,15 +9,17 @@
  * @license     {license_link}
  */
 
-class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Form_Element_FileTest extends PHPUnit_Framework_TestCase
+namespace Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Form\Element;
+
+class FileTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetHtmlAttributes()
     {
-        /** @var $fileBlock Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Form_Element_File */
-        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $collectionFactory = $this->getMock('Magento_Data_Form_Element_CollectionFactory', array(), array(), '', false);
+        /** @var $fileBlock \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Form\Element\File */
+        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $collectionFactory = $this->getMock('Magento\Data\Form\Element\CollectionFactory', array(), array(), '', false);
 
-        $fileBlock = $helper->getObject('Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Form_Element_File',
+        $fileBlock = $helper->getObject('Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Form\Element\File',
             array('factoryCollection' => $collectionFactory)
         );
 

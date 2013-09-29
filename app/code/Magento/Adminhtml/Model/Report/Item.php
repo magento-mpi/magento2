@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Adminhtml_Model_Report_Item extends Magento_Object
+namespace Magento\Adminhtml\Model\Report;
+
+class Item extends \Magento\Object
 {
     protected $_isEmpty  = false;
     protected $_children = array();

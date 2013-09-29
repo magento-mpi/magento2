@@ -12,30 +12,32 @@
 /**
  * Catalog Product Flat Indexer Model
  *
- * @method Magento_Catalog_Model_Resource_Product_Flat_Indexer _getResource()
- * @method Magento_Catalog_Model_Resource_Product_Flat_Indexer getResource()
+ * @method \Magento\Catalog\Model\Resource\Product\Flat\Indexer _getResource()
+ * @method \Magento\Catalog\Model\Resource\Product\Flat\Indexer getResource()
  * @method int getEntityTypeId()
- * @method Magento_Catalog_Model_Product_Flat_Indexer setEntityTypeId(int $value)
+ * @method \Magento\Catalog\Model\Product\Flat\Indexer setEntityTypeId(int $value)
  * @method int getAttributeSetId()
- * @method Magento_Catalog_Model_Product_Flat_Indexer setAttributeSetId(int $value)
+ * @method \Magento\Catalog\Model\Product\Flat\Indexer setAttributeSetId(int $value)
  * @method string getTypeId()
- * @method Magento_Catalog_Model_Product_Flat_Indexer setTypeId(string $value)
+ * @method \Magento\Catalog\Model\Product\Flat\Indexer setTypeId(string $value)
  * @method string getSku()
- * @method Magento_Catalog_Model_Product_Flat_Indexer setSku(string $value)
+ * @method \Magento\Catalog\Model\Product\Flat\Indexer setSku(string $value)
  * @method int getHasOptions()
- * @method Magento_Catalog_Model_Product_Flat_Indexer setHasOptions(int $value)
+ * @method \Magento\Catalog\Model\Product\Flat\Indexer setHasOptions(int $value)
  * @method int getRequiredOptions()
- * @method Magento_Catalog_Model_Product_Flat_Indexer setRequiredOptions(int $value)
+ * @method \Magento\Catalog\Model\Product\Flat\Indexer setRequiredOptions(int $value)
  * @method string getCreatedAt()
- * @method Magento_Catalog_Model_Product_Flat_Indexer setCreatedAt(string $value)
+ * @method \Magento\Catalog\Model\Product\Flat\Indexer setCreatedAt(string $value)
  * @method string getUpdatedAt()
- * @method Magento_Catalog_Model_Product_Flat_Indexer setUpdatedAt(string $value)
+ * @method \Magento\Catalog\Model\Product\Flat\Indexer setUpdatedAt(string $value)
  *
  * @category    Magento
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Product_Flat_Indexer extends Magento_Core_Model_Abstract
+namespace Magento\Catalog\Model\Product\Flat;
+
+class Indexer extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Catalog product flat entity for indexers
@@ -53,14 +55,14 @@ class Magento_Catalog_Model_Product_Flat_Indexer extends Magento_Core_Model_Abst
      */
     protected function _construct()
     {
-        $this->_init('Magento_Catalog_Model_Resource_Product_Flat_Indexer');
+        $this->_init('Magento\Catalog\Model\Resource\Product\Flat\Indexer');
     }
 
     /**
      * Rebuild Catalog Product Flat Data
      *
      * @param mixed $store
-     * @return Magento_Catalog_Model_Product_Flat_Indexer
+     * @return \Magento\Catalog\Model\Product\Flat\Indexer
      */
     public function rebuild($store = null)
     {
@@ -69,8 +71,8 @@ class Magento_Catalog_Model_Product_Flat_Indexer extends Magento_Core_Model_Abst
         } else {
             $this->_getResource()->prepareFlatTable($store);
         }
-        Mage::getSingleton('Magento_Index_Model_Indexer')->processEntityAction(
-            new Magento_Object(array('id' => $store)),
+        \Mage::getSingleton('Magento\Index\Model\Indexer')->processEntityAction(
+            new \Magento\Object(array('id' => $store)),
             self::ENTITY,
             self::EVENT_TYPE_REBUILD
         );
@@ -83,12 +85,12 @@ class Magento_Catalog_Model_Product_Flat_Indexer extends Magento_Core_Model_Abst
      * @param string $attributeCode
      * @param int $store
      * @param int|array $productIds
-     * @return Magento_Catalog_Model_Product_Flat_Indexer
+     * @return \Magento\Catalog\Model\Product\Flat\Indexer
      */
     public function updateAttribute($attributeCode, $store = null, $productIds = null)
     {
         if (is_null($store)) {
-            foreach (Mage::app()->getStores() as $store) {
+            foreach (\Mage::app()->getStores() as $store) {
                 $this->updateAttribute($attributeCode, $store->getId(), $productIds);
             }
 
@@ -107,12 +109,12 @@ class Magento_Catalog_Model_Product_Flat_Indexer extends Magento_Core_Model_Abst
      * Prepare datastorage for catalog product flat
      *
      * @param int $store
-     * @return Magento_Catalog_Model_Product_Flat_Indexer
+     * @return \Magento\Catalog\Model\Product\Flat\Indexer
      */
     public function prepareDataStorage($store = null)
     {
         if (is_null($store)) {
-            foreach (Mage::app()->getStores() as $store) {
+            foreach (\Mage::app()->getStores() as $store) {
                 $this->prepareDataStorage($store->getId());
             }
 
@@ -128,12 +130,12 @@ class Magento_Catalog_Model_Product_Flat_Indexer extends Magento_Core_Model_Abst
      * Update events observer attributes
      *
      * @param int $store
-     * @return Magento_Catalog_Model_Product_Flat_Indexer
+     * @return \Magento\Catalog\Model\Product\Flat\Indexer
      */
     public function updateEventAttributes($store = null)
     {
         if (is_null($store)) {
-            foreach (Mage::app()->getStores() as $store) {
+            foreach (\Mage::app()->getStores() as $store) {
                 $this->updateEventAttributes($store->getId());
             }
 
@@ -153,18 +155,18 @@ class Magento_Catalog_Model_Product_Flat_Indexer extends Magento_Core_Model_Abst
      * @param int $productId
      * @param int $status
      * @param int $store
-     * @return Magento_Catalog_Model_Product_Flat_Indexer
+     * @return \Magento\Catalog\Model\Product\Flat\Indexer
      */
     public function updateProductStatus($productId, $status, $store = null)
     {
         if (is_null($store)) {
-            foreach (Mage::app()->getStores() as $store) {
+            foreach (\Mage::app()->getStores() as $store) {
                 $this->updateProductStatus($productId, $status, $store->getId());
             }
             return $this;
         }
 
-        if ($status == Magento_Catalog_Model_Product_Status::STATUS_ENABLED) {
+        if ($status == \Magento\Catalog\Model\Product\Status::STATUS_ENABLED) {
             $this->_getResource()->updateProduct($productId, $store);
             $this->_getResource()->updateChildrenDataFromParent($store, $productId);
         } else {
@@ -179,12 +181,12 @@ class Magento_Catalog_Model_Product_Flat_Indexer extends Magento_Core_Model_Abst
      *
      * @param int|array $productIds
      * @param int $store
-     * @return Magento_Catalog_Model_Product_Flat_Indexer
+     * @return \Magento\Catalog\Model\Product\Flat\Indexer
      */
     public function updateProduct($productIds, $store = null)
     {
         if (is_null($store)) {
-            foreach (Mage::app()->getStores() as $store) {
+            foreach (\Mage::app()->getStores() as $store) {
                 $this->updateProduct($productIds, $store->getId());
             }
             return $this;
@@ -197,7 +199,7 @@ class Magento_Catalog_Model_Product_Flat_Indexer extends Magento_Core_Model_Abst
             $resource->updateProduct($productIds, $store);
             $resource->updateRelationProducts($store, $productIds);
             $resource->commit();
-        } catch (Exception $e){
+        } catch (\Exception $e){
             $resource->rollBack();
             throw $e;
         }
@@ -210,12 +212,12 @@ class Magento_Catalog_Model_Product_Flat_Indexer extends Magento_Core_Model_Abst
      *
      * @param int|array $productIds
      * @param int $store
-     * @return Magento_Catalog_Model_Product_Flat_Indexer
+     * @return \Magento\Catalog\Model\Product\Flat\Indexer
      */
     public function saveProduct($productIds, $store = null)
     {
         if (is_null($store)) {
-            foreach (Mage::app()->getStores() as $store) {
+            foreach (\Mage::app()->getStores() as $store) {
                 $this->saveProduct($productIds, $store->getId());
             }
             return $this;
@@ -228,7 +230,7 @@ class Magento_Catalog_Model_Product_Flat_Indexer extends Magento_Core_Model_Abst
             $resource->saveProduct($productIds, $store);
             $resource->updateRelationProducts($store, $productIds);
             $resource->commit();
-        } catch (Exception $e){
+        } catch (\Exception $e){
             $resource->rollBack();
             throw $e;
         }
@@ -241,12 +243,12 @@ class Magento_Catalog_Model_Product_Flat_Indexer extends Magento_Core_Model_Abst
      *
      * @param int|array $productIds
      * @param int $store
-     * @return Magento_Catalog_Model_Product_Flat_Indexer
+     * @return \Magento\Catalog\Model\Product\Flat\Indexer
      */
     public function removeProduct($productIds, $store = null)
     {
         if (is_null($store)) {
-            foreach (Mage::app()->getStores() as $store) {
+            foreach (\Mage::app()->getStores() as $store) {
                 $this->removeProduct($productIds, $store->getId());
             }
             return $this;
@@ -261,7 +263,7 @@ class Magento_Catalog_Model_Product_Flat_Indexer extends Magento_Core_Model_Abst
      * Delete store process
      *
      * @param int $store
-     * @return Magento_Catalog_Model_Product_Flat_Indexer
+     * @return \Magento\Catalog\Model\Product\Flat\Indexer
      */
     public function deleteStore($store)
     {
@@ -272,7 +274,7 @@ class Magento_Catalog_Model_Product_Flat_Indexer extends Magento_Core_Model_Abst
     /**
      * Rebuild Catalog Product Flat Data for all stores
      *
-     * @return Magento_Catalog_Model_Product_Flat_Indexer
+     * @return \Magento\Catalog\Model\Product\Flat\Indexer
      */
     public function reindexAll()
     {

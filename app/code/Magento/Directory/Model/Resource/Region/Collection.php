@@ -11,7 +11,9 @@
 /**
  * Country collection
  */
-class Magento_Directory_Model_Resource_Region_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Directory\Model\Resource\Region;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Locale region name table name
@@ -28,25 +30,25 @@ class Magento_Directory_Model_Resource_Region_Collection extends Magento_Core_Mo
     protected $_countryTable;
 
     /**
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_EntityFactory $entityFactory
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Core_Model_Resource_Db_Abstract $resource
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Logger $logger,
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_EntityFactory $entityFactory,
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Core_Model_Resource_Db_Abstract $resource = null
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
     ) {
         $this->_locale = $locale;
         parent::__construct(
@@ -59,19 +61,19 @@ class Magento_Directory_Model_Resource_Region_Collection extends Magento_Core_Mo
      */
     protected function _construct()
     {
-        $this->_init('Magento_Directory_Model_Region', 'Magento_Directory_Model_Resource_Region');
+        $this->_init('Magento\Directory\Model\Region', 'Magento\Directory\Model\Resource\Region');
 
         $this->_countryTable    = $this->getTable('directory_country');
         $this->_regionNameTable = $this->getTable('directory_country_region_name');
 
-        $this->addOrder('name', Magento_Data_Collection::SORT_ORDER_ASC);
-        $this->addOrder('default_name', Magento_Data_Collection::SORT_ORDER_ASC);
+        $this->addOrder('name', \Magento\Data\Collection::SORT_ORDER_ASC);
+        $this->addOrder('default_name', \Magento\Data\Collection::SORT_ORDER_ASC);
     }
 
     /**
      * Initialize select object
      *
-     * @return Magento_Directory_Model_Resource_Region_Collection
+     * @return \Magento\Directory\Model\Resource\Region\Collection
      */
     protected function _initSelect()
     {
@@ -91,7 +93,7 @@ class Magento_Directory_Model_Resource_Region_Collection extends Magento_Core_Mo
      * Filter by country_id
      *
      * @param string|array $countryId
-     * @return Magento_Directory_Model_Resource_Region_Collection
+     * @return \Magento\Directory\Model\Resource\Region\Collection
      */
     public function addCountryFilter($countryId)
     {
@@ -109,7 +111,7 @@ class Magento_Directory_Model_Resource_Region_Collection extends Magento_Core_Mo
      * Filter by country code (ISO 3)
      *
      * @param string $countryCode
-     * @return Magento_Directory_Model_Resource_Region_Collection
+     * @return \Magento\Directory\Model\Resource\Region\Collection
      */
     public function addCountryCodeFilter($countryCode)
     {
@@ -127,7 +129,7 @@ class Magento_Directory_Model_Resource_Region_Collection extends Magento_Core_Mo
      * Filter by Region code
      *
      * @param string|array $regionCode
-     * @return Magento_Directory_Model_Resource_Region_Collection
+     * @return \Magento\Directory\Model\Resource\Region\Collection
      */
     public function addRegionCodeFilter($regionCode)
     {
@@ -145,7 +147,7 @@ class Magento_Directory_Model_Resource_Region_Collection extends Magento_Core_Mo
      * Filter by region name
      *
      * @param string|array $regionName
-     * @return Magento_Directory_Model_Resource_Region_Collection
+     * @return \Magento\Directory\Model\Resource\Region\Collection
      */
     public function addRegionNameFilter($regionName)
     {
@@ -163,7 +165,7 @@ class Magento_Directory_Model_Resource_Region_Collection extends Magento_Core_Mo
      * Filter region by its code or name
      *
      * @param string|array $region
-     * @return Magento_Directory_Model_Resource_Region_Collection
+     * @return \Magento\Directory\Model\Resource\Region\Collection
      */
     public function addRegionCodeOrNameFilter($region)
     {

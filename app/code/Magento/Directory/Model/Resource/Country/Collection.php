@@ -11,55 +11,57 @@
 /**
  * Directory Country Resource Collection
  */
-class Magento_Directory_Model_Resource_Country_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Directory\Model\Resource\Country;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * String helper
      *
-     * @var Magento_Core_Helper_String
+     * @var \Magento\Core\Helper\String
      */
     protected $_stringHelper;
 
     /**
      * Locale model
      *
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
-     * @var Magento_Directory_Model_Resource_CountryFactory
+     * @var \Magento\Directory\Model\Resource\CountryFactory
      */
     protected $_countryFactory;
 
     /**
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Helper_String $stringHelper
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_EntityFactory $entityFactory
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Directory_Model_Resource_CountryFactory $countryFactory
-     * @param Magento_Core_Model_Resource_Db_Abstract $resource
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Helper\String $stringHelper
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Directory\Model\Resource\CountryFactory $countryFactory
+     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
-        Magento_Core_Model_Logger $logger,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Helper_String $stringHelper,
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_EntityFactory $entityFactory,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Directory_Model_Resource_CountryFactory $countryFactory,
-        Magento_Core_Model_Resource_Db_Abstract $resource = null
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Helper\String $stringHelper,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Directory\Model\Resource\CountryFactory $countryFactory,
+        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
     ) {
         parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
         $this->_coreStoreConfig = $coreStoreConfig;
@@ -80,14 +82,14 @@ class Magento_Directory_Model_Resource_Country_Collection extends Magento_Core_M
      */
     protected function _construct()
     {
-        $this->_init('Magento_Directory_Model_Country', 'Magento_Directory_Model_Resource_Country');
+        $this->_init('Magento\Directory\Model\Country', 'Magento\Directory\Model\Resource\Country');
     }
 
     /**
      * Load allowed countries for current store
      *
      * @param mixed $store
-     * @return Magento_Directory_Model_Resource_Country_Collection
+     * @return \Magento\Directory\Model\Resource\Country\Collection
      */
     public function loadByStore($store = null)
     {
@@ -102,7 +104,7 @@ class Magento_Directory_Model_Resource_Country_Collection extends Magento_Core_M
      * Loads Item By Id
      *
      * @param string $countryId
-     * @return Magento_Directory_Model_Resource_Country
+     * @return \Magento\Directory\Model\Resource\Country
      */
     public function getItemById($countryId)
     {
@@ -122,7 +124,7 @@ class Magento_Directory_Model_Resource_Country_Collection extends Magento_Core_M
      *
      * @param string|array $countryCode
      * @param string|array $iso
-     * @return Magento_Directory_Model_Resource_Country_Collection
+     * @return \Magento\Directory\Model\Resource\Country\Collection
      */
     public function addCountryCodeFilter($countryCode, $iso = array('iso3', 'iso2'))
     {
@@ -156,7 +158,7 @@ class Magento_Directory_Model_Resource_Country_Collection extends Magento_Core_M
      * Add filter by country code(s) to collection
      *
      * @param string|array $countryId
-     * @return Magento_Directory_Model_Resource_Country_Collection
+     * @return \Magento\Directory\Model\Resource\Country\Collection
      */
     public function addCountryIdFilter($countryId)
     {
@@ -212,7 +214,7 @@ class Magento_Directory_Model_Resource_Country_Collection extends Magento_Core_M
      * Set foreground countries array
      *
      * @param string|array $foregroundCountries
-     * @return Magento_Directory_Model_Resource_Country_Collection
+     * @return \Magento\Directory\Model\Resource\Country\Collection
      */
     public function setForegroundCountries($foregroundCountries)
     {

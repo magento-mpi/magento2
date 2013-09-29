@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Magento_Core_Model_ModuleListInterface
+namespace Magento\Core\Model;
+
+interface ModuleListInterface
 {
     /**
      * Get configuration of all declared active modules

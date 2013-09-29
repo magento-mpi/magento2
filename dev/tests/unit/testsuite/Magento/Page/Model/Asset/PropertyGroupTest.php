@@ -9,16 +9,18 @@
  * @license     {license_link}
  */
 
-class Magento_Page_Model_Asset_PropertyGroupTest extends PHPUnit_Framework_TestCase
+namespace Magento\Page\Model\Asset;
+
+class PropertyGroupTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Page_Model_Asset_PropertyGroup
+     * @var \Magento\Page\Model\Asset\PropertyGroup
      */
     protected $_object;
 
     protected function setUp()
     {
-        $this->_object = new Magento_Page_Model_Asset_PropertyGroup(array('test_property' => 'test_value'));
+        $this->_object = new \Magento\Page\Model\Asset\PropertyGroup(array('test_property' => 'test_value'));
     }
 
     public function testGetProperties()

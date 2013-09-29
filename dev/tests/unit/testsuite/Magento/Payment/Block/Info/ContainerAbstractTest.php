@@ -10,19 +10,21 @@
  */
 
 /**
- * Test class for Magento_Payment_Block_Info_ContainerAbstract
+ * Test class for \Magento\Payment\Block\Info\ContainerAbstract
  */
-class Magento_Payment_Block_Info_ContainerAbstractTest extends PHPUnit_Framework_TestCase
+namespace Magento\Payment\Block\Info;
+
+class ContainerAbstractTest extends \PHPUnit_Framework_TestCase
 {
     public function testSetInfoTemplate()
     {
-        $block = $this->getMock('Magento_Payment_Block_Info_ContainerAbstract',
+        $block = $this->getMock('Magento\Payment\Block\Info\ContainerAbstract',
             array('getChildBlock', 'getPaymentInfo'), array(), '', false);
-        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $paymentInfo = $objectManagerHelper->getObject('Magento_Payment_Model_Info');
-        $adapterFactoryMock = $this->getMock('Magento_Core_Model_Log_AdapterFactory', array('create'),
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $paymentInfo = $objectManagerHelper->getObject('Magento\Payment\Model\Info');
+        $adapterFactoryMock = $this->getMock('Magento\Core\Model\Log\AdapterFactory', array('create'),
             array(), '', false);
-        $methodInstance = $objectManagerHelper->getObject('Magento_Payment_Model_Method_Checkmo', array(
+        $methodInstance = $objectManagerHelper->getObject('Magento\Payment\Model\Method\Checkmo', array(
             'logAdapterFactory' => $adapterFactoryMock,
         ));
         $paymentInfo->setMethodInstance($methodInstance);
@@ -30,7 +32,7 @@ class Magento_Payment_Block_Info_ContainerAbstractTest extends PHPUnit_Framework
             ->method('getPaymentInfo')
             ->will($this->returnValue($paymentInfo));
 
-        $childBlock = $objectManagerHelper->getObject('Magento_Core_Block_Template');
+        $childBlock = $objectManagerHelper->getObject('Magento\Core\Block\Template');
         $block->expects($this->atLeastOnce())
             ->method('getChildBlock')
             ->with('payment.info.checkmo')

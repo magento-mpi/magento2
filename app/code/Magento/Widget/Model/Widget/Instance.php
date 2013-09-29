@@ -11,22 +11,24 @@
 /**
  * Widget Instance Model
  *
- * @method Magento_Widget_Model_Resource_Widget_Instance _getResource()
- * @method Magento_Widget_Model_Resource_Widget_Instance getResource()
+ * @method \Magento\Widget\Model\Resource\Widget\Instance _getResource()
+ * @method \Magento\Widget\Model\Resource\Widget\Instance getResource()
  * @method string getTitle()
- * @method Magento_Widget_Model_Widget_Instance setTitle(string $value)
- * @method Magento_Widget_Model_Widget_Instance setStoreIds(string $value)
- * @method Magento_Widget_Model_Widget_Instance setWidgetParameters(string $value)
+ * @method \Magento\Widget\Model\Widget\Instance setTitle(string $value)
+ * @method \Magento\Widget\Model\Widget\Instance setStoreIds(string $value)
+ * @method \Magento\Widget\Model\Widget\Instance setWidgetParameters(string $value)
  * @method int getSortOrder()
- * @method Magento_Widget_Model_Widget_Instance setSortOrder(int $value)
- * @method Magento_Widget_Model_Widget_Instance setThemeId(int $value)
+ * @method \Magento\Widget\Model\Widget\Instance setSortOrder(int $value)
+ * @method \Magento\Widget\Model\Widget\Instance setThemeId(int $value)
  * @method int getThemeId()
  *
  * @category    Magento
  * @package     Magento_Widget
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
+namespace Magento\Widget\Model\Widget;
+
+class Instance extends \Magento\Core\Model\AbstractModel
 {
     const SPECIFIC_ENTITIES = 'specific';
     const ALL_ENTITIES      = 'all';
@@ -45,7 +47,7 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
     protected $_specificEntitiesLayoutHandles = array();
 
     /**
-     * @var Magento_Simplexml_Element
+     * @var \Magento\Simplexml\Element
      */
     protected $_widgetConfigXml = null;
 
@@ -57,18 +59,18 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
     protected $_eventPrefix = 'widget_widget_instance';
 
     /**
-     * @var Magento_Core_Model_View_FileSystem
+     * @var \Magento\Core\Model\View\FileSystem
      */
     protected $_viewFileSystem;
 
-    /** @var  Magento_Widget_Model_Widget */
+    /** @var  \Magento\Widget\Model\Widget */
     protected $_widgetModel;
 
-    /** @var  Magento_Core_Model_Config */
+    /** @var  \Magento\Core\Model\Config */
     protected $_coreConfig;
 
     /**
-     * @var Magento_Core_Model_Cache_TypeListInterface
+     * @var \Magento\Core\Model\Cache\TypeListInterface
      */
     protected $_cacheTypeList;
 
@@ -78,34 +80,34 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
     protected $_relatedCacheTypes;
 
     /**
-     * @param Magento_Widget_Helper_Data $widgetData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_View_FileSystem $viewFileSystem
-     * @param Magento_Core_Model_Cache_TypeListInterface $cacheTypeList
-     * @param Magento_Catalog_Model_Product_Type $productType
-     * @param Magento_Widget_Model_Config_Reader $reader
-     * @param Magento_Widget_Model_Widget $widgetModel
-     * @param Magento_Core_Model_Config $coreConfig
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Widget\Helper\Data $widgetData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\View\FileSystem $viewFileSystem
+     * @param \Magento\Core\Model\Cache\TypeListInterface $cacheTypeList
+     * @param \Magento\Catalog\Model\Product\Type $productType
+     * @param \Magento\Widget\Model\Config\Reader $reader
+     * @param \Magento\Widget\Model\Widget $widgetModel
+     * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $relatedCacheTypes
      * @param array $data
      */
     public function __construct(
-        Magento_Widget_Helper_Data $widgetData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_View_FileSystem $viewFileSystem,
-        Magento_Core_Model_Cache_TypeListInterface $cacheTypeList,
-        Magento_Catalog_Model_Product_Type $productType,
-        Magento_Widget_Model_Config_Reader $reader,
-        Magento_Widget_Model_Widget $widgetModel,
-        Magento_Core_Model_Config $coreConfig,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Widget\Helper\Data $widgetData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\View\FileSystem $viewFileSystem,
+        \Magento\Core\Model\Cache\TypeListInterface $cacheTypeList,
+        \Magento\Catalog\Model\Product\Type $productType,
+        \Magento\Widget\Model\Config\Reader $reader,
+        \Magento\Widget\Model\Widget $widgetModel,
+        \Magento\Core\Model\Config $coreConfig,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $relatedCacheTypes = array(),
         array $data = array()
     ) {
@@ -127,7 +129,7 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
     protected function _construct()
     {
         parent::_construct();
-        $this->_init('Magento_Widget_Model_Resource_Widget_Instance');
+        $this->_init('Magento\Widget\Model\Resource\Widget\Instance');
         $this->_layoutHandles = array(
             'anchor_categories' => self::ANCHOR_CATEGORY_LAYOUT_HANDLE,
             'notanchor_categories' => self::NOTANCHOR_CATEGORY_LAYOUT_HANDLE,
@@ -149,7 +151,7 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
     /**
      * Processing object before save data
      *
-     * @return Magento_Widget_Model_Widget_Instance
+     * @return \Magento\Widget\Model\Widget\Instance
      */
     protected function _beforeSave()
     {
@@ -234,7 +236,7 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
      * Prepare widget type
      *
      * @param string $type
-     * @return Magento_Widget_Model_Widget_Instance
+     * @return \Magento\Widget\Model\Widget\Instance
      */
     public function setType($type)
     {
@@ -263,7 +265,7 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
     {
         //TODO Shouldn't we get "area" from theme model which we can load using "theme_id"?
         if (!$this->_getData('area')) {
-            return Magento_Core_Model_View_DesignInterface::DEFAULT_AREA;
+            return \Magento\Core\Model\View\DesignInterface::DEFAULT_AREA;
         }
         return $this->_getData('area');
     }
@@ -445,7 +447,7 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
         $templateFilename = $this->_viewFileSystem->getFilename($templatePath, array(
             'area'    => $this->getArea(),
             'themeId' => $this->getThemeId(),
-            'module'  => Magento_Core_Block_Abstract::extractModuleName($this->getType()),
+            'module'  => \Magento\Core\Block\AbstractBlock::extractModuleName($this->getType()),
         ));
         if (!$this->getId() && !$this->isCompleteToCreate() || ($templatePath && !is_readable($templateFilename))) {
             return '';
@@ -482,7 +484,7 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
     /**
      * Invalidate related cache types
      *
-     * @return Magento_Widget_Model_Widget_Instance
+     * @return \Magento\Widget\Model\Widget\Instance
      */
     protected function _invalidateCache()
     {

@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Customer_Model_Resource_Customer_CustomersTypeOptions implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Customer\Model\Resource\Customer;
+
+class CustomersTypeOptions implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
      * Return statuses option array
@@ -17,8 +19,8 @@ class Magento_Customer_Model_Resource_Customer_CustomersTypeOptions implements M
     public function toOptionArray()
     {
         return array(
-            Magento_Log_Model_Visitor::VISITOR_TYPE_CUSTOMER  => __('Customer'),
-            Magento_Log_Model_Visitor::VISITOR_TYPE_VISITOR => __('Visitor'),
+            \Magento\Log\Model\Visitor::VISITOR_TYPE_CUSTOMER  => __('Customer'),
+            \Magento\Log\Model\Visitor::VISITOR_TYPE_VISITOR => __('Visitor'),
         );
     }
 }

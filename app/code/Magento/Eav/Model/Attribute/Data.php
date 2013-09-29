@@ -16,7 +16,9 @@
  * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Eav_Model_Attribute_Data
+namespace Magento\Eav\Model\Attribute;
+
+class Data
 {
     const OUTPUT_FORMAT_JSON    = 'json';
     const OUTPUT_FORMAT_TEXT    = 'text';
@@ -36,25 +38,25 @@ class Magento_Eav_Model_Attribute_Data
      * Return attribute data model by attribute
      * Set entity to data model (need for work)
      *
-     * @param Magento_Eav_Model_Attribute $attribute
-     * @param Magento_Core_Model_Abstract $entity
-     * @return Magento_Eav_Model_Attribute_Data_Abstract
+     * @param \Magento\Eav\Model\Attribute $attribute
+     * @param \Magento\Core\Model\AbstractModel $entity
+     * @return \Magento\Eav\Model\Attribute\Data\AbstractData
      */
-    public static function factory(Magento_Eav_Model_Attribute $attribute, Magento_Core_Model_Abstract $entity)
+    public static function factory(\Magento\Eav\Model\Attribute $attribute, \Magento\Core\Model\AbstractModel $entity)
     {
-        /* @var $dataModel Magento_Eav_Model_Attribute_Data_Abstract */
+        /* @var $dataModel \Magento\Eav\Model\Attribute\Data\AbstractData */
         $dataModelClass = $attribute->getDataModel();
         if (!empty($dataModelClass)) {
             if (empty(self::$_dataModels[$dataModelClass])) {
-                $dataModel = Mage::getModel($dataModelClass);
+                $dataModel = \Mage::getModel($dataModelClass);
                 self::$_dataModels[$dataModelClass] = $dataModel;
             } else {
                 $dataModel = self::$_dataModels[$dataModelClass];
             }
         } else {
             if (empty(self::$_dataModels[$attribute->getFrontendInput()])) {
-                $dataModelClass = sprintf('Magento_Eav_Model_Attribute_Data_%s', uc_words($attribute->getFrontendInput()));
-                $dataModel      = Mage::getModel($dataModelClass);
+                $dataModelClass = sprintf('Magento\Eav\Model\Attribute\Data\\%s', uc_words($attribute->getFrontendInput()));
+                $dataModel      = \Mage::getModel($dataModelClass);
                 self::$_dataModels[$attribute->getFrontendInput()] = $dataModel;
             } else {
                 $dataModel = self::$_dataModels[$attribute->getFrontendInput()];

@@ -11,42 +11,44 @@
 /**
  * RMA Item Attributes Edit Form
  */
-class Magento_Rma_Block_Adminhtml_Rma_Item_Attribute_Edit_Tab_Main
-    extends Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract
-    implements Magento_Backend_Block_Widget_Tab_Interface
+namespace Magento\Rma\Block\Adminhtml\Rma\Item\Attribute\Edit\Tab;
+
+class Main
+    extends \Magento\Eav\Block\Adminhtml\Attribute\Edit\Main\AbstractMain
+    implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * Rma eav
      *
-     * @var Magento_Rma_Helper_Eav
+     * @var \Magento\Rma\Helper\Eav
      */
     protected $_rmaEav = null;
 
     /**
-     * @var Magento_Backend_Model_Config_Source_YesnoFactory
+     * @var \Magento\Backend\Model\Config\Source\YesnoFactory
      */
     protected $_configFactory;
 
     /**
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Rma_Helper_Eav $rmaEav
-     * @param Magento_Eav_Helper_Data $eavData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Backend_Model_Config_Source_YesnoFactory configFctory
-     * @param Magento_Eav_Model_Entity_Attribute_Config $attributeConfig
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Rma\Helper\Eav $rmaEav
+     * @param \Magento\Eav\Helper\Data $eavData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Backend\Model\Config\Source\YesnoFactory configFctory
+     * @param \Magento\Eav\Model\Entity\Attribute\Config $attributeConfig
      * @param array $data
      */
     public function __construct(
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Rma_Helper_Eav $rmaEav,
-        Magento_Eav_Helper_Data $eavData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Backend_Model_Config_Source_YesnoFactory $configFactory,
-        Magento_Eav_Model_Entity_Attribute_Config $attributeConfig,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Rma\Helper\Eav $rmaEav,
+        \Magento\Eav\Helper\Data $eavData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Backend\Model\Config\Source\YesnoFactory $configFactory,
+        \Magento\Eav\Model\Entity\Attribute\Config $attributeConfig,
         array $data = array()
     ) {
         $this->_rmaEav = $rmaEav;
@@ -57,14 +59,14 @@ class Magento_Rma_Block_Adminhtml_Rma_Item_Attribute_Edit_Tab_Main
     /**
      * Preparing global layout
      *
-     * @return Magento_Core_Block_Abstract
+     * @return \Magento\Core\Block\AbstractBlock
      */
     protected function _prepareLayout()
     {
         $result = parent::_prepareLayout();
         $renderer = $this->getLayout()->getBlock('fieldset_element_renderer');
-        if ($renderer instanceof Magento_Data_Form_Element_Renderer_Interface) {
-            Magento_Data_Form::setFieldsetElementRenderer($renderer);
+        if ($renderer instanceof \Magento\Data\Form\Element\Renderer\RendererInterface) {
+            \Magento\Data\Form::setFieldsetElementRenderer($renderer);
         }
         return $result;
     }
@@ -72,7 +74,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Item_Attribute_Edit_Tab_Main
     /**
      * Adding customer form elements for edit form
      *
-     * @return Magento_Rma_Block_Adminhtml_Rma_Item_Attribute_Edit_Tab_Main
+     * @return \Magento\Rma\Block\Adminhtml\Rma\Item\Attribute\Edit\Tab_Main
      */
     protected function _prepareForm()
     {
@@ -81,7 +83,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Item_Attribute_Edit_Tab_Main
         $attribute  = $this->getAttributeObject();
         $form       = $this->getForm();
         $fieldset   = $form->getElement('base_fieldset');
-        /* @var $helper Magento_Rma_Helper_Eav */
+        /* @var $helper \Magento\Rma\Helper\Eav */
         $helper     = $this->_rmaEav;
 
         $fieldset->removeField('frontend_class');
@@ -97,7 +99,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Item_Attribute_Edit_Tab_Main
         // customer attribute code can have prefix "rma_item_" and its length must be max length minus prefix length
         $element      = $form->getElement('attribute_code');
         $element->setNote(
-            __('For internal use. Must be unique with no spaces. Maximum length of attribute code must be less than %1 symbols', Magento_Eav_Model_Entity_Attribute::ATTRIBUTE_CODE_MAX_LENGTH)
+            __('For internal use. Must be unique with no spaces. Maximum length of attribute code must be less than %1 symbols', \Magento\Eav\Model\Entity\Attribute::ATTRIBUTE_CODE_MAX_LENGTH)
         );
 
         $fieldset->addField('multiline_count', 'text', array(
@@ -165,7 +167,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Item_Attribute_Edit_Tab_Main
             'values'    => array('' => __('None')),
         ));
 
-        /** @var $config Magento_Backend_Model_Config_Source_Yesno */
+        /** @var $config \Magento\Backend\Model\Config\Source\Yesno */
         $config = $this->_configFactory->create();
         $yesnoSource = $config->toOptionArray();
 
@@ -251,7 +253,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Item_Attribute_Edit_Tab_Main
     /**
      * Initialize form fileds values
      *
-     * @return Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract
+     * @return \Magento\Eav\Block\Adminhtml\Attribute\Edit\Main\AbstractMain
      */
     protected function _initFormValues()
     {

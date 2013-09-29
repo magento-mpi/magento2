@@ -11,7 +11,9 @@
 /**
  * In-memory readonly pool of cache front-end instances, specified in the configuration
  */
-class Magento_Core_Model_Cache_Frontend_Pool implements Iterator
+namespace Magento\Core\Model\Cache\Frontend;
+
+class Pool implements \Iterator
 {
     /**
      * Frontend identifier associated with the default settings
@@ -19,12 +21,12 @@ class Magento_Core_Model_Cache_Frontend_Pool implements Iterator
     const DEFAULT_FRONTEND_ID = 'generic';
 
     /**
-     * @var Magento_Core_Model_Cache_Frontend_Factory
+     * @var \Magento\Core\Model\Cache\Frontend\Factory
      */
     private $_factory;
 
     /**
-     * @var Magento_Cache_FrontendInterface[]
+     * @var \Magento\Cache\FrontendInterface[]
      */
     private $_instances;
 
@@ -43,12 +45,12 @@ class Magento_Core_Model_Cache_Frontend_Pool implements Iterator
     private $_defaultSettings;
 
     /**
-     * @param Magento_Core_Model_Cache_Frontend_Factory $frontendFactory
+     * @param \Magento\Core\Model\Cache\Frontend\Factory $frontendFactory
      * @param array $defaultSettings
      * @param array $advancedSettings
      */
     public function __construct(
-        Magento_Core_Model_Cache_Frontend_Factory $frontendFactory,
+        \Magento\Core\Model\Cache\Frontend\Factory $frontendFactory,
         array $defaultSettings = array(),
         array $advancedSettings = array()
     ) {
@@ -69,7 +71,7 @@ class Magento_Core_Model_Cache_Frontend_Pool implements Iterator
             // additional front-ends
 
             if ($this->_advancedSettings) {
-                /** @var $frontendNode Magento_Simplexml_Element */
+                /** @var $frontendNode \Magento\Simplexml\Element */
                 foreach ($this->_advancedSettings as  $frontendId => $frontendOptions) {
                     $this->_instances[$frontendId] = $this->_factory->create($frontendOptions);
                 }
@@ -80,7 +82,7 @@ class Magento_Core_Model_Cache_Frontend_Pool implements Iterator
     /**
      * {@inheritdoc}
      *
-     * @return Magento_Cache_FrontendInterface
+     * @return \Magento\Cache\FrontendInterface
      */
     public function current()
     {
@@ -128,7 +130,7 @@ class Magento_Core_Model_Cache_Frontend_Pool implements Iterator
      * Retrieve frontend instance by its unique identifier, or return NULL, if identifier is not recognized
      *
      * @param string $identifier Cache frontend identifier
-     * @return Magento_Cache_FrontendInterface Cache frontend instance
+     * @return \Magento\Cache\FrontendInterface Cache frontend instance
      */
     public function get($identifier)
     {

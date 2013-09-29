@@ -13,8 +13,10 @@
  *
  * @author Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Block_Adminhtml_Billing_Agreement_View_Tab_Orders extends Magento_Core_Block_Text_List
-    implements Magento_Backend_Block_Widget_Tab_Interface
+namespace Magento\Sales\Block\Adminhtml\Billing\Agreement\View\Tab;
+
+class Orders extends \Magento\Core\Block\Text\ListText
+    implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
 
     /**

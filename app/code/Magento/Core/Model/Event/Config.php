@@ -7,19 +7,21 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Event_Config implements Magento_Core_Model_Event_ConfigInterface
+namespace Magento\Core\Model\Event;
+
+class Config implements \Magento\Core\Model\Event\ConfigInterface
 {
     /**
      * Modules configuration model
      *
-     * @var Magento_Core_Model_Event_Config_Data
+     * @var \Magento\Core\Model\Event\Config\Data
      */
     protected $_dataContainer;
 
     /**
-     * @param Magento_Core_Model_Event_Config_Data $dataContainer
+     * @param \Magento\Core\Model\Event\Config\Data $dataContainer
      */
-    public function __construct(Magento_Core_Model_Event_Config_Data $dataContainer)
+    public function __construct(\Magento\Core\Model\Event\Config\Data $dataContainer)
     {
         $this->_dataContainer = $dataContainer;
     }

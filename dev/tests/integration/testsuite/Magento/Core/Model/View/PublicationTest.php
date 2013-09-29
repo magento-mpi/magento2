@@ -9,43 +9,45 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_View_PublicationTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\View;
+
+class PublicationTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_View_DesignInterface
+     * @var \Magento\Core\Model\View\DesignInterface
      */
     protected $_model;
 
     /**
-     * @var Magento_Core_Model_View_Service
+     * @var \Magento\Core\Model\View\Service
      */
     protected $_viewService;
 
     /**
-     * @var Magento_Core_Model_View_FileSystem
+     * @var \Magento\Core\Model\View\FileSystem
      */
     protected $_fileSystem;
 
     /**
-     * @var Magento_Core_Model_View_Url
+     * @var \Magento\Core\Model\View\Url
      */
     protected $_viewUrl;
 
     protected function setUp()
     {
-        $this->_viewService = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_View_Service');
-        $this->_fileSystem = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_View_FileSystem');
-        $this->_viewUrl = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_View_Url');
-        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Core_Model_View_DesignInterface');
+        $this->_viewService = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\View\Service');
+        $this->_fileSystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\View\FileSystem');
+        $this->_viewUrl = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\View\Url');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Core\Model\View\DesignInterface');
     }
 
     protected function tearDown()
     {
-        $filesystem = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_Filesystem');
+        $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Filesystem');
         $publicDir = $this->_viewService->getPublicDir();
         $filesystem->delete($publicDir . '/adminhtml');
         $filesystem->delete($publicDir . '/frontend');
@@ -57,9 +59,9 @@ class Magento_Core_Model_View_PublicationTest extends PHPUnit_Framework_TestCase
      */
     public function testGetPublicDir()
     {
-        /** @var $dirs Magento_Core_Model_Dir */
-        $dirs = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Dir');
-        $expectedPublicDir = $dirs->getDir(Magento_Core_Model_Dir::STATIC_VIEW);
+        /** @var $dirs \Magento\Core\Model\Dir */
+        $dirs = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Dir');
+        $expectedPublicDir = $dirs->getDir(\Magento\Core\Model\Dir::STATIC_VIEW);
         $this->assertEquals($expectedPublicDir, $this->_viewService->getPublicDir());
     }
 
@@ -75,7 +77,7 @@ class Magento_Core_Model_View_PublicationTest extends PHPUnit_Framework_TestCase
     {
         $this->_initTestTheme($allowDuplication);
 
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_LocaleInterface')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\LocaleInterface')
             ->setLocale($locale);
         $url = $this->_viewUrl->getViewFileUrl($file);
         $this->assertStringEndsWith($expectedUrl, $url);
@@ -152,7 +154,7 @@ class Magento_Core_Model_View_PublicationTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Magento_Exception
+     * @expectedException \Magento\Exception
      * @dataProvider getViewUrlExceptionDataProvider
      */
     public function testGetViewUrlException($file)
@@ -174,7 +176,7 @@ class Magento_Core_Model_View_PublicationTest extends PHPUnit_Framework_TestCase
     /**
      * Test on vulnerability for protected files
      *
-     * @expectedException Magento_Exception
+     * @expectedException \Magento\Exception
      * @expectedExceptionMessage because it does not reside in a public directory
      * @magentoDataFixture Magento/Core/Model/_files/design/themes.php
      * @magentoAppIsolation enabled
@@ -313,8 +315,8 @@ class Magento_Core_Model_View_PublicationTest extends PHPUnit_Framework_TestCase
     public function testPublishCssFileFromModule(
         $cssViewFile, $designParams, $expectedCssFile, $expectedCssContent, $expectedRelatedFiles
     ) {
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App')
-            ->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
+            ->getArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)->load();
         $this->_viewUrl->getViewFileUrl($cssViewFile, $designParams);
 
         $expectedCssFile = $this->_viewService->getPublicDir() . '/' . $expectedCssFile;
@@ -322,7 +324,7 @@ class Magento_Core_Model_View_PublicationTest extends PHPUnit_Framework_TestCase
         $actualCssContent = file_get_contents($expectedCssFile);
 
         $this->assertNotRegExp(
-            '/url\(.*?' . Magento_Core_Model_View_Service::SCOPE_SEPARATOR . '.*?\)/',
+            '/url\(.*?' . \Magento\Core\Model\View\Service::SCOPE_SEPARATOR . '.*?\)/',
             $actualCssContent,
             'Published CSS file must not contain scope separators in URLs.'
         );
@@ -388,9 +390,9 @@ class Magento_Core_Model_View_PublicationTest extends PHPUnit_Framework_TestCase
      */
     public function testPublishResourcesAndCssWhenChangedCssDevMode()
     {
-        $mode = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App_State')
+        $mode = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App\State')
             ->getMode();
-        if ($mode != Magento_Core_Model_App_State::MODE_DEVELOPER) {
+        if ($mode != \Magento\Core\Model\App\State::MODE_DEVELOPER) {
             $this->markTestSkipped('Valid in developer mode only');
         }
         $this->_testPublishResourcesAndCssWhenChangedCss(true);
@@ -404,9 +406,9 @@ class Magento_Core_Model_View_PublicationTest extends PHPUnit_Framework_TestCase
      */
     public function testNotPublishResourcesAndCssWhenChangedCssUsualMode()
     {
-        $mode = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App_State')
+        $mode = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App\State')
             ->getMode();
-        if ($mode == Magento_Core_Model_App_State::MODE_DEVELOPER) {
+        if ($mode == \Magento\Core\Model\App\State::MODE_DEVELOPER) {
             $this->markTestSkipped('Valid in non-developer mode only');
         }
         $this->_testPublishResourcesAndCssWhenChangedCss(false);
@@ -419,23 +421,23 @@ class Magento_Core_Model_View_PublicationTest extends PHPUnit_Framework_TestCase
      */
     protected function _testPublishResourcesAndCssWhenChangedCss($expectedPublished)
     {
-        $appInstallDir = Magento_TestFramework_Helper_Bootstrap::getInstance()->getAppInstallDir();
-        Magento_TestFramework_Helper_Bootstrap::getInstance()->reinitialize(array(
-            Magento_Core_Model_App::PARAM_APP_DIRS => array(
-                Magento_Core_Model_Dir::THEMES => "$appInstallDir/media_for_change",
+        $appInstallDir = \Magento\TestFramework\Helper\Bootstrap::getInstance()->getAppInstallDir();
+        \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
+            \Magento\Core\Model\App::PARAM_APP_DIRS => array(
+                \Magento\Core\Model\Dir::THEMES => "$appInstallDir/media_for_change",
             )
         ));
 
-        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Core_Model_View_DesignInterface');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Core\Model\View\DesignInterface');
         $this->_model->setDesignTheme('test_default');
 
-        $this->_viewService = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_View_Service');
-        $this->_fileSystem = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_View_FileSystem');
-        $this->_viewUrl = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_View_Url');
+        $this->_viewService = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\View\Service');
+        $this->_fileSystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\View\FileSystem');
+        $this->_viewUrl = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\View\Url');
 
         $themePath = $this->_model->getDesignTheme()->getFullPath();
         $fixtureViewPath = "$appInstallDir/media_for_change/$themePath/";
@@ -476,9 +478,9 @@ class Magento_Core_Model_View_PublicationTest extends PHPUnit_Framework_TestCase
      */
     public function testPublishChangedResourcesWhenUnchangedCssDevMode()
     {
-        $mode = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App_State')
+        $mode = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App\State')
             ->getMode();
-        if ($mode != Magento_Core_Model_App_State::MODE_DEVELOPER) {
+        if ($mode != \Magento\Core\Model\App\State::MODE_DEVELOPER) {
             $this->markTestSkipped('Valid in developer mode only');
         }
 
@@ -493,9 +495,9 @@ class Magento_Core_Model_View_PublicationTest extends PHPUnit_Framework_TestCase
      */
     public function testNotPublishChangedResourcesWhenUnchangedCssUsualMode()
     {
-        $mode = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App_State')
+        $mode = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App\State')
             ->getMode();
-        if ($mode == Magento_Core_Model_App_State::MODE_DEVELOPER) {
+        if ($mode == \Magento\Core\Model\App\State::MODE_DEVELOPER) {
             $this->markTestSkipped('Valid in non-developer mode only');
         }
 
@@ -509,23 +511,23 @@ class Magento_Core_Model_View_PublicationTest extends PHPUnit_Framework_TestCase
      */
     protected function _testPublishChangedResourcesWhenUnchangedCss($expectedPublished)
     {
-        $appInstallDir = Magento_TestFramework_Helper_Bootstrap::getInstance()->getAppInstallDir();
-        Magento_TestFramework_Helper_Bootstrap::getInstance()->reinitialize(array(
-            Magento_Core_Model_App::PARAM_APP_DIRS => array(
-                Magento_Core_Model_Dir::THEMES => "$appInstallDir/media_for_change",
+        $appInstallDir = \Magento\TestFramework\Helper\Bootstrap::getInstance()->getAppInstallDir();
+        \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
+            \Magento\Core\Model\App::PARAM_APP_DIRS => array(
+                \Magento\Core\Model\Dir::THEMES => "$appInstallDir/media_for_change",
             )
         ));
 
-        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Core_Model_View_DesignInterface');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Core\Model\View\DesignInterface');
         $this->_model->setDesignTheme('test_default');
 
-        $this->_viewService = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_View_Service');
-        $this->_fileSystem = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_View_FileSystem');
-        $this->_viewUrl = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_View_Url');
+        $this->_viewService = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\View\Service');
+        $this->_fileSystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\View\FileSystem');
+        $this->_viewUrl = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\View\Url');
 
         $themePath = $this->_model->getDesignTheme()->getFullPath();
         $fixtureViewPath = "$appInstallDir/media_for_change/$themePath/";
@@ -557,32 +559,32 @@ class Magento_Core_Model_View_PublicationTest extends PHPUnit_Framework_TestCase
      */
     protected function _initTestTheme($allowDuplication = null)
     {
-        Magento_TestFramework_Helper_Bootstrap::getInstance()->reinitialize(array(
-            Magento_Core_Model_App::PARAM_APP_DIRS => array(
-                Magento_Core_Model_Dir::THEMES => dirname(__DIR__) . '/_files/design/'
+        \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
+            \Magento\Core\Model\App::PARAM_APP_DIRS => array(
+                \Magento\Core\Model\Dir::THEMES => dirname(__DIR__) . '/_files/design/'
             )
         ));
 
         if ($allowDuplication !== null) {
-            $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+            $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
             $publisher = $objectManager->create(
-                'Magento_Core_Model_View_Publisher',
+                'Magento\Core\Model\View\Publisher',
                 array('allowFilesDuplication' => $allowDuplication)
             );
-            $objectManager->addSharedInstance($publisher, 'Magento_Core_Model_View_Publisher');
+            $objectManager->addSharedInstance($publisher, 'Magento\Core\Model\View\Publisher');
         }
 
         // Reinit model with new directories
-        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Core_Model_View_DesignInterface');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Core\Model\View\DesignInterface');
         $this->_model->setDesignTheme('test_default');
 
-        $this->_viewService = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_View_Service');
-        $this->_fileSystem = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_View_FileSystem');
-        $this->_viewUrl = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_View_Url');
+        $this->_viewService = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\View\Service');
+        $this->_fileSystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\View\FileSystem');
+        $this->_viewUrl = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\View\Url');
     }
 
     /**
@@ -593,19 +595,19 @@ class Magento_Core_Model_View_PublicationTest extends PHPUnit_Framework_TestCase
      */
     public function testCssWithBase64Data()
     {
-        Magento_TestFramework_Helper_Bootstrap::getInstance()->reinitialize(array(
-            Magento_Core_Model_App::PARAM_APP_DIRS => array(
-                Magento_Core_Model_Dir::THEMES => dirname(__DIR__) . '/_files/design/'
+        \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
+            \Magento\Core\Model\App::PARAM_APP_DIRS => array(
+                \Magento\Core\Model\Dir::THEMES => dirname(__DIR__) . '/_files/design/'
             )
         ));
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App')->loadAreaPart(
-            Magento_Core_Model_App_Area::AREA_ADMINHTML,
-            Magento_Core_Model_App_Area::PART_CONFIG
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')->loadAreaPart(
+            \Magento\Core\Model\App\Area::AREA_ADMINHTML,
+            \Magento\Core\Model\App\Area::PART_CONFIG
         );
 
-        /** @var $themeCollection Magento_Core_Model_Theme_Collection */
-        $themeCollection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_Theme_Collection');
+        /** @var $themeCollection \Magento\Core\Model\Theme\Collection */
+        $themeCollection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Theme\Collection');
         $theme = $themeCollection->setBaseDir(dirname(__DIR__) . '/_files/design/')
             ->addTargetPattern(implode(DIRECTORY_SEPARATOR, array('frontend', 'vendor_default', 'theme.xml')))
             ->getFirstItem()
@@ -624,8 +626,8 @@ class Magento_Core_Model_View_PublicationTest extends PHPUnit_Framework_TestCase
         $this->_viewUrl->getViewFileUrl('css/base64.css', $params);
         $this->assertFileEquals($filePath, str_replace('/', DIRECTORY_SEPARATOR, "{$publishedPath}/css/base64.css"));
 
-        $this->_model->setDesignTheme(Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_Theme'));
+        $this->_model->setDesignTheme(\Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Theme'));
     }
 
     /**
@@ -652,8 +654,8 @@ class Magento_Core_Model_View_PublicationTest extends PHPUnit_Framework_TestCase
     public function testGetViewFilePublicPathExistingFile()
     {
         $filePath = 'mage/mage.js';
-        $expectedFile = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Dir')
-                ->getDir(Magento_Core_Model_Dir::PUB_LIB) . '/' . $filePath;
+        $expectedFile = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Dir')
+                ->getDir(\Magento\Core\Model\Dir::PUB_LIB) . '/' . $filePath;
         $this->assertFileExists($expectedFile, 'Please verify existence of public library file');
 
         $actualFile = $this->_viewUrl->getViewFilePublicPath($filePath);

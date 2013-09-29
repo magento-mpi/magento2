@@ -16,17 +16,19 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Product_Attribute_Backend_Tierprice
-    extends Magento_Catalog_Model_Product_Attribute_Backend_Groupprice_Abstract
+namespace Magento\Catalog\Model\Product\Attribute\Backend;
+
+class Tierprice
+    extends \Magento\Catalog\Model\Product\Attribute\Backend\Groupprice\AbstractGroupprice
 {
     /**
      * Retrieve resource instance
      *
-     * @return Magento_Catalog_Model_Resource_Product_Attribute_Backend_Tierprice
+     * @return \Magento\Catalog\Model\Resource\Product\Attribute\Backend\Tierprice
      */
     protected function _getResource()
     {
-        return Mage::getResourceSingleton('Magento_Catalog_Model_Resource_Product_Attribute_Backend_Tierprice');
+        return \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Product\Attribute\Backend\Tierprice');
     }
 
     /**
@@ -66,7 +68,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Tierprice
     /**
      * Whether tier price value fixed or percent of original price
      *
-     * @param Magento_Catalog_Model_Product_Type_Price $priceObject
+     * @param \Magento\Catalog\Model\Product\Type\Price $priceObject
      * @return bool
      */
     protected function _isPriceFixed($priceObject)

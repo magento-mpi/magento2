@@ -9,6 +9,6 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <referenceBlock name="paypal.express.review.details">
-        <block class="Magento_Bundle_Block_Checkout_Cart_Item_Renderer" as="bundle" template="Magento_Checkout::onepage/review/item.phtml"/>
+        <block class="Magento\Bundle\Block\Checkout\Cart\Item\Renderer" as="bundle" template="Magento_Checkout::onepage/review/item.phtml"/>
     </referenceBlock>
 </layout>

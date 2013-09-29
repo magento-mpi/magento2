@@ -5,7 +5,9 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-interface Magento_ObjectManager_Relations
+namespace Magento\ObjectManager;
+
+interface Relations
 {
     /**
      * Check whether requested type is available for read

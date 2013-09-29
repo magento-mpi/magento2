@@ -9,24 +9,26 @@
  * @license     {license_link}
  */
 
-class Magento_SalesArchive_Model_ArchivalListTest extends PHPUnit_Framework_TestCase
+namespace Magento\SalesArchive\Model;
+
+class ArchivalListTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var $_model Magento_SalesArchive_Model_ArchivalList
+     * @var $_model \Magento\SalesArchive\Model\ArchivalList
      */
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_objectManagerMock;
 
     protected function setUp()
     {
-        $this->_objectManagerMock = $this->getMock('Magento_ObjectManager_ObjectManager',
+        $this->_objectManagerMock = $this->getMock('Magento\ObjectManager\ObjectManager',
             array('get', 'create'), array(), '', false);
 
-        $this->_model = new Magento_SalesArchive_Model_ArchivalList($this->_objectManagerMock);
+        $this->_model = new \Magento\SalesArchive\Model\ArchivalList($this->_objectManagerMock);
     }
 
     /**
@@ -45,10 +47,10 @@ class Magento_SalesArchive_Model_ArchivalListTest extends PHPUnit_Framework_Test
     public function dataProviderGetResourcePositive()
     {
         return array(
-            array('order', 'Magento_Sales_Model_Resource_Order'),
-            array('invoice', 'Magento_Sales_Model_Resource_Order_Invoice'),
-            array('shipment', 'Magento_Sales_Model_Resource_Order_Shipment'),
-            array('creditmemo', 'Magento_Sales_Model_Resource_Order_Creditmemo'),
+            array('order', 'Magento\Sales\Model\Resource\Order'),
+            array('invoice', 'Magento\Sales\Model\Resource\Order\Invoice'),
+            array('shipment', 'Magento\Sales\Model\Resource\Order\Shipment'),
+            array('creditmemo', 'Magento\Sales\Model\Resource\Order\Creditmemo'),
         );
     }
 
@@ -72,11 +74,11 @@ class Magento_SalesArchive_Model_ArchivalListTest extends PHPUnit_Framework_Test
     public function dataGetEntityByObject()
     {
         return array(
-            array('order', 'Magento_Sales_Model_Resource_Order'),
-            array('invoice', 'Magento_Sales_Model_Resource_Order_Invoice'),
-            array('shipment', 'Magento_Sales_Model_Resource_Order_Shipment'),
-            array('creditmemo', 'Magento_Sales_Model_Resource_Order_Creditmemo'),
-            array(false, 'Magento_Object'),
+            array('order', 'Magento\Sales\Model\Resource\Order'),
+            array('invoice', 'Magento\Sales\Model\Resource\Order\Invoice'),
+            array('shipment', 'Magento\Sales\Model\Resource\Order\Shipment'),
+            array('creditmemo', 'Magento\Sales\Model\Resource\Order\Creditmemo'),
+            array(false, 'Magento\Object'),
         );
     }
 }

@@ -8,26 +8,29 @@
  * @license    {license_link}
  */
 
-class Magento_Tools_Migration_System_Configuration_Logger_Factory
+namespace Magento\Tools\Migration\System\Configuration\Logger;
+
+class Factory
 {
     /**
      * Get logger instance
      *
      * @param string $loggerType
      * @param string $filePath
-     * @param Magento_Tools_Migration_System_FileManager $fileManager
-     * @return Magento_Tools_Migration_System_Configuration_LoggerAbstract
+     * @param \Magento\Tools\Migration\System\FileManager $fileManager
+     * @return \Magento\Tools\Migration\System\Configuration\LoggerAbstract
      */
-    public function getLogger($loggerType, $filePath, Magento_Tools_Migration_System_FileManager $fileManager)
+    public function getLogger($loggerType, $filePath, \Magento\Tools\Migration\System\FileManager $fileManager)
     {
-        /** @var Magento_Tools_Migration_System_Configuration_LoggerAbstract $loggerInstance  */
+        /** @var \Magento\Tools\Migration\System\Configuration\LoggerAbstract $loggerInstance  */
         $loggerInstance = null;
         switch ($loggerType) {
             case 'file':
-                $loggerInstance = new Magento_Tools_Migration_System_Configuration_Logger_File($filePath, $fileManager);
+                $loggerInstance =
+                    new \Magento\Tools\Migration\System\Configuration\Logger\File($filePath, $fileManager);
                 break;
             default:
-                $loggerInstance = new Magento_Tools_Migration_System_Configuration_Logger_Console();
+                $loggerInstance = new \Magento\Tools\Migration\System\Configuration\Logger\Console();
                 break;
         }
 

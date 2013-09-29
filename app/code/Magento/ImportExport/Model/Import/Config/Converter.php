@@ -5,14 +5,16 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_ImportExport_Model_Import_Config_Converter implements Magento_Config_ConverterInterface
+namespace Magento\ImportExport\Model\Import\Config;
+
+class Converter implements \Magento\Config\ConverterInterface
 {
     /**
      * Convert dom node tree to array
      *
-     * @param DOMDocument $source
+     * @param \DOMDocument $source
      * @return array
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function convert($source)
     {
@@ -20,7 +22,7 @@ class Magento_ImportExport_Model_Import_Config_Converter implements Magento_Conf
             'entities' => array(),
             'productTypes' => array(),
         );
-        /** @var DOMNodeList $events */
+        /** @var \DOMNodeList $events */
         $entities = $source->getElementsByTagName('entity');
         /** @var DOMNode $entityConfig */
         foreach ($entities as $entityConfig) {
@@ -38,7 +40,7 @@ class Magento_ImportExport_Model_Import_Config_Converter implements Magento_Conf
             );
         }
 
-        /** @var DOMNodeList $events */
+        /** @var \DOMNodeList $events */
         $productTypes = $source->getElementsByTagName('productType');
         /** @var DOMNode $productTypeConfig */
         foreach ($productTypes as $productTypeConfig) {

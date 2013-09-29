@@ -15,27 +15,29 @@
  * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Eav_Model_Attribute_Data_File extends Magento_Eav_Model_Attribute_Data_Abstract
+namespace Magento\Eav\Model\Attribute\Data;
+
+class File extends \Magento\Eav\Model\Attribute\Data\AbstractData
 {
     /**
      * Validator for check not protected extensions
      *
-     * @var Magento_Core_Model_File_Validator_NotProtectedExtension
+     * @var \Magento\Core\Model\File\Validator\NotProtectedExtension
      */
     protected $_validatorNotProtectedExtensions;
 
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
+     * @param \Magento\Core\Helper\Data $coreData
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData
+        \Magento\Core\Helper\Data $coreData
     ) {
         $this->_coreData = $coreData;
     }
@@ -43,10 +45,10 @@ class Magento_Eav_Model_Attribute_Data_File extends Magento_Eav_Model_Attribute_
     /**
      * Extract data from request and return value
      *
-     * @param Zend_Controller_Request_Http $request
+     * @param \Zend_Controller_Request_Http $request
      * @return array|string
      */
-    public function extractValue(Zend_Controller_Request_Http $request)
+    public function extractValue(\Zend_Controller_Request_Http $request)
     {
         if ($this->getIsAjaxRequest()) {
             return false;
@@ -123,8 +125,8 @@ class Magento_Eav_Model_Attribute_Data_File extends Magento_Eav_Model_Attribute_
         /**
          * Check protected file extension
          */
-        /** @var $validator Magento_Core_Model_File_Validator_NotProtectedExtension */
-        $validator = Mage::getSingleton('Magento_Core_Model_File_Validator_NotProtectedExtension');
+        /** @var $validator \Magento\Core\Model\File\Validator\NotProtectedExtension */
+        $validator = \Mage::getSingleton('Magento\Core\Model\File\Validator\NotProtectedExtension');
         if (!$validator->isValid($extension)) {
             return $validator->getMessages();
         }
@@ -151,7 +153,7 @@ class Magento_Eav_Model_Attribute_Data_File extends Magento_Eav_Model_Attribute_
      * Validate data
      *
      * @param array|string $value
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      * @return boolean
      */
     public function validateValue($value)
@@ -193,9 +195,9 @@ class Magento_Eav_Model_Attribute_Data_File extends Magento_Eav_Model_Attribute_
     /**
      * Export attribute value to entity model
      *
-     * @param Magento_Core_Model_Abstract $entity
+     * @param \Magento\Core\Model\AbstractModel $entity
      * @param array|string $value
-     * @return Magento_Eav_Model_Attribute_Data_File
+     * @return \Magento\Eav\Model\Attribute\Data\File
      */
     public function compactValue($value)
     {
@@ -215,13 +217,13 @@ class Magento_Eav_Model_Attribute_Data_File extends Magento_Eav_Model_Attribute_
             }
         }
 
-        $path   = Mage::getBaseDir('media') . DS . $attribute->getEntity()->getEntityTypeCode();
+        $path   = \Mage::getBaseDir('media') . DS . $attribute->getEntity()->getEntityTypeCode();
 
         // unlink entity file
         if ($toDelete) {
             $this->getEntity()->setData($attribute->getAttributeCode(), '');
             $file = $path . $original;
-            $ioFile = new Magento_Io_File();
+            $ioFile = new \Magento\Io\File();
             if ($ioFile->fileExists($file)) {
                 $ioFile->rm($file);
             }
@@ -229,14 +231,14 @@ class Magento_Eav_Model_Attribute_Data_File extends Magento_Eav_Model_Attribute_
 
         if (!empty($value['tmp_name'])) {
             try {
-                $uploader = new Magento_File_Uploader($value);
+                $uploader = new \Magento\File\Uploader($value);
                 $uploader->setFilesDispersion(true);
                 $uploader->setFilenamesCaseSensitivity(false);
                 $uploader->setAllowRenameFiles(true);
                 $uploader->save($path, $value['name']);
                 $fileName = $uploader->getUploadedFileName();
                 $this->getEntity()->setData($attribute->getAttributeCode(), $fileName);
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->_logger->logException($e);
             }
         }
@@ -248,7 +250,7 @@ class Magento_Eav_Model_Attribute_Data_File extends Magento_Eav_Model_Attribute_
      * Restore attribute value from SESSION to entity model
      *
      * @param array|string $value
-     * @return Magento_Eav_Model_Attribute_Data_File
+     * @return \Magento\Eav\Model\Attribute\Data\File
      */
     public function restoreValue($value)
     {
@@ -260,13 +262,13 @@ class Magento_Eav_Model_Attribute_Data_File extends Magento_Eav_Model_Attribute_
      *
      * @return string|array
      */
-    public function outputValue($format = Magento_Eav_Model_Attribute_Data::OUTPUT_FORMAT_TEXT)
+    public function outputValue($format = \Magento\Eav\Model\Attribute\Data::OUTPUT_FORMAT_TEXT)
     {
         $output = '';
         $value  = $this->getEntity()->getData($this->getAttribute()->getAttributeCode());
         if ($value) {
             switch ($format) {
-                case Magento_Eav_Model_Attribute_Data::OUTPUT_FORMAT_JSON:
+                case \Magento\Eav\Model\Attribute\Data::OUTPUT_FORMAT_JSON:
                     $output = array(
                         'value'     => $value,
                         'url_key'   => $this->_coreData->urlEncode($value)

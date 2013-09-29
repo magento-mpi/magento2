@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category   Magento
- * @package    Magento_Pear
+ * @package    \Magento\Pear
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -12,11 +12,13 @@
  * Pear Registry
  *
  * @category   Magento
- * @package    Magento_Pear
+ * @package    \Magento\Pear
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Pear_Registry //extends PEAR_Registry
+namespace Magento\Pear;
+
+class Registry //extends PEAR_Registry
 {
 /*    function _initializeDepDB()
     {

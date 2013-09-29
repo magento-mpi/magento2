@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Backend_Model_Config_Structure_Element_Dependency_MapperTest extends PHPUnit_Framework_TestCase
+namespace Magento\Backend\Model\Config\Structure\Element\Dependency;
+
+class MapperTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Field prefix
@@ -34,17 +36,17 @@ class Magento_Backend_Model_Config_Structure_Element_Dependency_MapperTest exten
     const STORE_CODE = 'some store code';
 
     /**
-     * @var Magento_Backend_Model_Config_Structure_Element_Dependency_Mapper
+     * @var \Magento\Backend\Model\Config\Structure\Element\Dependency\Mapper
      */
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_applicationMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_configStructureMock;
 
@@ -58,7 +60,7 @@ class Magento_Backend_Model_Config_Structure_Element_Dependency_MapperTest exten
     /**
      * Mock of dependency field factory
      *
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_fieldFactoryMock;
 
@@ -73,20 +75,20 @@ class Magento_Backend_Model_Config_Structure_Element_Dependency_MapperTest exten
             ),
         );
 
-        $this->_applicationMock = $this->getMockBuilder('Magento_Core_Model_App')
+        $this->_applicationMock = $this->getMockBuilder('Magento\Core\Model\App')
             ->setMethods(array('getStore'))
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_configStructureMock = $this->getMockBuilder('Magento_Backend_Model_Config_Structure')
+        $this->_configStructureMock = $this->getMockBuilder('Magento\Backend\Model\Config\Structure')
             ->setMethods(array('getElement'))
             ->disableOriginalConstructor()
             ->getMock();
         $this->_fieldFactoryMock = $this
-            ->getMockBuilder('Magento_Backend_Model_Config_Structure_Element_Dependency_FieldFactory')
+            ->getMockBuilder('Magento\Backend\Model\Config\Structure\Element\Dependency\FieldFactory')
             ->setMethods(array('create'))
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_model = new Magento_Backend_Model_Config_Structure_Element_Dependency_Mapper(
+        $this->_model = new \Magento\Backend\Model\Config\Structure\Element\Dependency\Mapper(
             $this->_applicationMock, $this->_configStructureMock, $this->_fieldFactoryMock);
     }
 
@@ -105,7 +107,7 @@ class Magento_Backend_Model_Config_Structure_Element_Dependency_MapperTest exten
      */
     public function testGetDependenciesWhenDependentIsInvisible($isValueSatisfy)
     {
-        $storeMock = $this->getMockBuilder('Magento_Core_Model_Store')
+        $storeMock = $this->getMockBuilder('Magento\Core\Model\Store')
             ->disableOriginalConstructor()
             ->getMock();
         $this->_applicationMock->expects($this->exactly(count($this->_testData)))
@@ -184,11 +186,11 @@ class Magento_Backend_Model_Config_Structure_Element_Dependency_MapperTest exten
      * @param bool $isFieldVisible
      * @param string $fieldId
      * @param string $mockClassName
-     * @return PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getDependencyField($isValueSatisfy, $isFieldVisible, $fieldId, $mockClassName)
     {
-        $field = $this->getMockBuilder('Magento_Backend_Model_Config_Structure_Element_Dependency_Field')
+        $field = $this->getMockBuilder('Magento\Backend\Model\Config\Structure\Element\Dependency\Field')
             ->setMethods(array('isValueSatisfy', 'getId'))
             ->setMockClassName($mockClassName)
             ->disableOriginalConstructor()
@@ -214,11 +216,11 @@ class Magento_Backend_Model_Config_Structure_Element_Dependency_MapperTest exten
      * @param bool $isVisible
      * @param string $path
      * @param string $mockClassName
-     * @return PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getField($isVisible, $path, $mockClassName)
     {
-        $field = $this->getMockBuilder('Magento_Backend_Model_Config_Structure_Element_Field')
+        $field = $this->getMockBuilder('Magento\Backend\Model\Config\Structure\Element\Field')
             ->setMethods(array('isVisible', 'getPath'))
             ->setMockClassName($mockClassName)
             ->disableOriginalConstructor()

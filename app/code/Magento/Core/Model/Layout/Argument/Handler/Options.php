@@ -15,17 +15,19 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Layout_Argument_Handler_Options extends Magento_Core_Model_Layout_Argument_HandlerAbstract
+namespace Magento\Core\Model\Layout\Argument\Handler;
+
+class Options extends \Magento\Core\Model\Layout\Argument\AbstractHandler
 {
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
@@ -35,7 +37,7 @@ class Magento_Core_Model_Layout_Argument_Handler_Options extends Magento_Core_Mo
      *
      * @param array $argument
      * @return string
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function process(array $argument)
     {
@@ -58,17 +60,17 @@ class Magento_Core_Model_Layout_Argument_Handler_Options extends Magento_Core_Mo
     }
 
     /**
-     * @param Magento_Core_Model_Layout_Element $argument
+     * @param \Magento\Core\Model\Layout\Element $argument
      * @return array
      */
-    protected function _getArgumentValue(Magento_Core_Model_Layout_Element $argument)
+    protected function _getArgumentValue(\Magento\Core\Model\Layout\Element $argument)
     {
         return array('model' => (string)$argument['model']);
     }
 
     /**
      * @param array $argument
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     protected function _validate(array $argument)
     {
@@ -76,13 +78,13 @@ class Magento_Core_Model_Layout_Argument_Handler_Options extends Magento_Core_Mo
         $value = $argument['value'];
 
         if (!isset($value['model'])) {
-            throw new InvalidArgumentException(
+            throw new \InvalidArgumentException(
                 'Passed value has incorrect format. ' . $this->_getArgumentInfo($argument)
             );
         }
 
-        if (!is_subclass_of($value['model'], 'Magento_Core_Model_Option_ArrayInterface')) {
-            throw new InvalidArgumentException(
+        if (!is_subclass_of($value['model'], 'Magento\Core\Model\Option\ArrayInterface')) {
+            throw new \InvalidArgumentException(
                 'Incorrect options model. ' . $this->_getArgumentInfo($argument)
             );
         }

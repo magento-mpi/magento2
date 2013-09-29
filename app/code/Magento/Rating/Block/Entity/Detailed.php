@@ -15,7 +15,9 @@
  * @package    Magento_Rating
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rating_Block_Entity_Detailed extends Magento_Core_Block_Template
+namespace Magento\Rating\Block\Entity;
+
+class Detailed extends \Magento\Core\Block\Template
 {
     /**
      * @var string
@@ -25,27 +27,27 @@ class Magento_Rating_Block_Entity_Detailed extends Magento_Core_Block_Template
     /**
      * Store list manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Rating_Model_RatingFactory
+     * @var \Magento\Rating\Model\RatingFactory
      */
     protected $_ratingFactory;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Rating_Model_RatingFactory $ratingFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Rating\Model\RatingFactory $ratingFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Rating_Model_RatingFactory $ratingFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Rating\Model\RatingFactory $ratingFactory,
         array $data = array()
     ){
         $this->_storeManager = $storeManager;

@@ -16,7 +16,9 @@
  * @package    Magento_Core
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_File_Uploader extends Magento_File_Uploader
+namespace Magento\Core\Model\File;
+
+class Uploader extends \Magento\File\Uploader
 {
     /**
      * Flag, that defines should DB processing be skipped
@@ -28,27 +30,27 @@ class Magento_Core_Model_File_Uploader extends Magento_File_Uploader
     /**
      * Core file storage
      *
-     * @var Magento_Core_Helper_File_Storage
+     * @var \Magento\Core\Helper\File\Storage
      */
     protected $_coreFileStorage = null;
 
     /**
      * Core file storage database
      *
-     * @var Magento_Core_Helper_File_Storage_Database
+     * @var \Magento\Core\Helper\File\Storage\Database
      */
     protected $_coreFileStorageDb = null;
 
     /**
      * Init upload
      *
-     * @param Magento_Core_Helper_File_Storage_Database $coreFileStorageDb
-     * @param Magento_Core_Helper_File_Storage $coreFileStorage
+     * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb
+     * @param \Magento\Core\Helper\File\Storage $coreFileStorage
      * @param $fileId
      */
     public function __construct(
-        Magento_Core_Helper_File_Storage_Database $coreFileStorageDb,
-        Magento_Core_Helper_File_Storage $coreFileStorage,
+        \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb,
+        \Magento\Core\Helper\File\Storage $coreFileStorage,
         $fileId
     ) {
         $this->_coreFileStorageDb = $coreFileStorageDb;
@@ -60,7 +62,7 @@ class Magento_Core_Model_File_Uploader extends Magento_File_Uploader
      * Save file to storage
      *
      * @param  array $result
-     * @return Magento_Core_Model_File_Uploader
+     * @return \Magento\Core\Model\File\Uploader
      */
     protected function _afterSave($result)
     {
@@ -81,7 +83,7 @@ class Magento_Core_Model_File_Uploader extends Magento_File_Uploader
      * Getter/Setter for _skipDbProcessing flag
      *
      * @param null|bool $flag
-     * @return bool|Magento_Core_Model_File_Uploader
+     * @return bool|\Magento\Core\Model\File\Uploader
      */
     public function skipDbProcessing($flag = null)
     {
@@ -101,8 +103,8 @@ class Magento_Core_Model_File_Uploader extends Magento_File_Uploader
     public function checkAllowedExtension($extension)
     {
         //validate with protected file types
-        /** @var $validator Magento_Core_Model_File_Validator_NotProtectedExtension */
-        $validator = Mage::getSingleton('Magento_Core_Model_File_Validator_NotProtectedExtension');
+        /** @var $validator \Magento\Core\Model\File\Validator\NotProtectedExtension */
+        $validator = \Mage::getSingleton('Magento\Core\Model\File\Validator\NotProtectedExtension');
         if (!$validator->isValid($extension)) {
             return false;
         }

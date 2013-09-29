@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Model_Soap_Fault extends RuntimeException
+namespace Magento\Webapi\Model\Soap;
+
+class Fault extends \RuntimeException
 {
     const FAULT_REASON_INTERNAL = 'Internal Error.';
 
@@ -46,18 +48,18 @@ class Magento_Webapi_Model_Soap_Fault extends RuntimeException
      */
     protected $_details = array();
 
-    /** @var Magento_Core_Model_App */
+    /** @var \Magento\Core\Model\App */
     protected $_application;
 
     /**
      * Construct exception.
      *
-     * @param Magento_Core_Model_App $application
-     * @param Magento_Webapi_Exception $previousException
+     * @param \Magento\Core\Model\App $application
+     * @param \Magento\Webapi\Exception $previousException
      */
     public function __construct(
-        Magento_Core_Model_App $application,
-        Magento_Webapi_Exception $previousException
+        \Magento\Core\Model\App $application,
+        \Magento\Webapi\Exception $previousException
     ) {
         parent::__construct($previousException->getMessage(), $previousException->getCode(), $previousException);
         $this->_soapCode = $previousException->getOriginator();
@@ -110,7 +112,7 @@ class Magento_Webapi_Model_Soap_Fault extends RuntimeException
      * Add details about current fault.
      *
      * @param array $details Associative array containing details about current fault
-     * @return Magento_Webapi_Model_Soap_Fault
+     * @return \Magento\Webapi\Model\Soap\Fault
      */
     public function addDetails($details)
     {

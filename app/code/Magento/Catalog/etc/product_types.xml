@@ -8,22 +8,22 @@
  */
 -->
 <config>
-    <type name="simple" label="Simple Product" modelInstance="Magento_Catalog_Model_Product_Type_Simple" indexPriority="10" />
-    <type name="grouped" label="Grouped Product" modelInstance="Magento_Catalog_Model_Product_Type_Grouped" composite='true' indexPriority="50">
-        <priceModel instance="Magento_Catalog_Model_Product_Type_Grouped_Price" />
-        <indexerModel instance="Magento_Catalog_Model_Resource_Product_Indexer_Price_Grouped" />
+    <type name="simple" label="Simple Product" modelInstance="Magento\Catalog\Model\Product\Type\Simple" indexPriority="10" />
+    <type name="grouped" label="Grouped Product" modelInstance="Magento\Catalog\Model\Product\Type\Grouped" composite='true' indexPriority="50">
+        <priceModel instance="Magento\Catalog\Model\Product\Type\Grouped\Price" />
+        <indexerModel instance="Magento\Catalog\Model\Resource\Product\Indexer\Price\Grouped" />
         <allowProductTypes>
             <type name="simple" />
             <type name="virtual" />
         </allowProductTypes>
     </type>
-    <type name="configurable" label="Configurable Product" modelInstance="Magento_Catalog_Model_Product_Type_Configurable" composite='true' indexPriority="30">
-        <priceModel instance="Magento_Catalog_Model_Product_Type_Configurable_Price" />
-        <indexerModel instance="Magento_Catalog_Model_Resource_Product_Indexer_Price_Configurable" />
+    <type name="configurable" label="Configurable Product" modelInstance="Magento\Catalog\Model\Product\Type\Configurable" composite='true' indexPriority="30">
+        <priceModel instance="Magento\Catalog\Model\Product\Type\Configurable\Price" />
+        <indexerModel instance="Magento\Catalog\Model\Resource\Product\Indexer\Price\Configurable" />
         <allowProductTypes>
             <type name="simple" />
             <type name="virtual" />
         </allowProductTypes>
     </type>
-    <type name="virtual" label="Virtual Product" modelInstance="Magento_Catalog_Model_Product_Type_Virtual" indexPriority="20" />
+    <type name="virtual" label="Virtual Product" modelInstance="Magento\Catalog\Model\Product\Type\Virtual" indexPriority="20" />
 </config>

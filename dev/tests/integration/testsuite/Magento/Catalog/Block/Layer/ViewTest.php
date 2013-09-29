@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Catalog_Block_Layer_ViewTest extends PHPUnit_Framework_TestCase
+namespace Magento\Catalog\Block\Layer;
+
+class ViewTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @magentoAppIsolation enabled
@@ -18,18 +20,18 @@ class Magento_Catalog_Block_Layer_ViewTest extends PHPUnit_Framework_TestCase
      */
     public function testGetFilters()
     {
-        $currentCategory = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Category');
+        $currentCategory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Category');
         $currentCategory->load(3);
 
-        /** @var $layer Magento_Catalog_Model_Layer */
-        $layer = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Catalog_Model_Layer');
+        /** @var $layer \Magento\Catalog\Model\Layer */
+        $layer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Catalog\Model\Layer');
         $layer->setCurrentCategory($currentCategory);
 
-        /** @var $layout Magento_Core_Model_Layout */
-        $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout');
-        /** @var $block Magento_Catalog_Block_Layer_View */
-        $block = $layout->createBlock('Magento_Catalog_Block_Layer_View', 'block');
+        /** @var $layout \Magento\Core\Model\Layout */
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout');
+        /** @var $block \Magento\Catalog\Block\Layer\View */
+        $block = $layout->createBlock('Magento\Catalog\Block\Layer\View', 'block');
 
         $filters = $block->getFilters();
 
@@ -38,7 +40,7 @@ class Magento_Catalog_Block_Layer_ViewTest extends PHPUnit_Framework_TestCase
 
         $found = false;
         foreach ($filters as $filter) {
-            if ($filter instanceof Magento_Catalog_Block_Layer_Filter_Category) {
+            if ($filter instanceof \Magento\Catalog\Block\Layer\Filter\Category) {
                 $found = true;
                 break;
             }
@@ -49,7 +51,7 @@ class Magento_Catalog_Block_Layer_ViewTest extends PHPUnit_Framework_TestCase
         foreach ($attributeCodes as $attributeCode) {
             $found = false;
             foreach ($filters as $filter) {
-                if (!($filter instanceof Magento_Catalog_Block_Layer_Filter_Attribute)) {
+                if (!($filter instanceof \Magento\Catalog\Block\Layer\Filter\Attribute)) {
                     continue;
                 }
                 if ($attributeCode == $filter->getAttributeModel()->getAttributeCode()) {

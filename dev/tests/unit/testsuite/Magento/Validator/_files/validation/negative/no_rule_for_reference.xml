@@ -4,7 +4,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Validator
+ * @package     \Magento\Validator
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -16,7 +16,7 @@
             <rule name="test_rule_sku_and_name">
                 <property_constraints>
                     <property name="sku">
-                        <constraint class="Magento_Validator_Test_NotEmpty"/>
+                        <constraint class="Magento\Validator\Test\NotEmpty"/>
                     </property>
                 </property_constraints>
             </rule>

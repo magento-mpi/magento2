@@ -5,20 +5,22 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Config_Initial_ReaderTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Config\Initial;
+
+class ReaderTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Config_Initial_Reader
+     * @var \Magento\Core\Model\Config\Initial\Reader
      */
     protected $_model;
 
     /**
-     * @var Magento_Config_FileResolverInterface
+     * @var \Magento\Config\FileResolverInterface
      */
     protected $_fileResolverMock;
 
     /**
-     * @var Magento_Core_Model_Config_Initial_Converter
+     * @var \Magento\Core\Model\Config\Initial\Converter
      */
     protected $_converterMock;
 
@@ -30,17 +32,17 @@ class Magento_Core_Model_Config_Initial_ReaderTest extends PHPUnit_Framework_Tes
     protected function setUp()
     {
         $this->_filePath = __DIR__ . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR;
-        $this->_fileResolverMock = $this->getMock('Magento_Config_FileResolverInterface');
-        $this->_converterMock = $this->getMock('Magento_Core_Model_Config_Initial_Converter');
+        $this->_fileResolverMock = $this->getMock('Magento\Config\FileResolverInterface');
+        $this->_converterMock = $this->getMock('Magento\Core\Model\Config\Initial\Converter');
 
-        $this->_model = new Magento_Core_Model_Config_Initial_Reader(
+        $this->_model = new \Magento\Core\Model\Config\Initial\Reader(
             $this->_fileResolverMock,
             $this->_converterMock
         );
     }
 
     /**
-     * @covers Magento_Core_Model_Config_Initial_Reader::read
+     * @covers \Magento\Core\Model\Config\Initial\Reader::read
      */
     public function testReadNoFiles()
     {
@@ -58,7 +60,7 @@ class Magento_Core_Model_Config_Initial_ReaderTest extends PHPUnit_Framework_Tes
     }
 
     /**
-     * @covers Magento_Core_Model_Config_Initial_Reader::read
+     * @covers \Magento\Core\Model\Config\Initial\Reader::read
      */
     public function testReadValidConfig()
     {

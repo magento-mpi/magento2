@@ -9,14 +9,14 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <referenceContainer name="content">
-        <block class="Magento_Adminhtml_Block_Urlrewrite" name="adminhtml.block.urlrewrite.grid.container">
-            <block class="Magento_Backend_Block_Widget_Grid" name="adminhtml.block.urlrewrite.grid" as="grid">
+        <block class="Magento\Adminhtml\Block\Urlrewrite" name="adminhtml.block.urlrewrite.grid.container">
+            <block class="Magento\Backend\Block\Widget\Grid" name="adminhtml.block.urlrewrite.grid" as="grid">
                 <arguments>
                     <argument name="id" xsi:type="string">urlrewriteGrid</argument>
-                    <argument name="dataSource" xsi:type="object">Magento_Core_Model_Resource_Url_Rewrite_Collection</argument>
+                    <argument name="dataSource" xsi:type="object">Magento\Core\Model\Resource\Url\Rewrite\Collection</argument>
                     <argument name="default_sort" xsi:type="string">url_rewrite_id</argument>
                 </arguments>
-                <block class="Magento_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet" name="adminhtml.urlrewrite.grid.columnSet">
+                <block class="Magento\Backend\Block\Widget\Grid\ColumnSet" as="grid.columnSet" name="adminhtml.urlrewrite.grid.columnSet">
                     <arguments>
                         <argument name="rowUrl" xsi:type="array">
                             <item name="path" xsi:type="string">*/*/edit</item>
@@ -25,7 +25,7 @@
                             </item>
                         </argument>
                     </arguments>
-                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="url_rewrite_id">
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="url_rewrite_id">
                         <arguments>
                             <argument name="header" xsi:type="string" translate="true">ID</argument>
                             <argument name="width" xsi:type="string">50px</argument>
@@ -34,7 +34,7 @@
                             <argument name="index" xsi:type="string">url_rewrite_id</argument>
                         </arguments>
                     </block>
-                    <block class="Magento_Backend_Block_Widget_Grid_Column_Multistore" as="store_id">
+                    <block class="Magento\Backend\Block\Widget\Grid\Column\Multistore" as="store_id">
                         <arguments>
                             <argument name="header" xsi:type="string" translate="true">Store View</argument>
                             <argument name="width" xsi:type="string">200px</argument>
@@ -44,7 +44,7 @@
                             <argument name="store_view" xsi:type="string">true</argument>
                         </arguments>
                     </block>
-                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="is_system">
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="is_system">
                         <arguments>
                             <argument name="header" xsi:type="string" translate="true">Type</argument>
                             <argument name="width" xsi:type="string">50px</argument>
@@ -63,7 +63,7 @@
                             </argument>
                         </arguments>
                     </block>
-                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="id_path">
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="id_path">
                         <arguments>
                             <argument name="header" xsi:type="string" translate="true">ID Path</argument>
                             <argument name="width" xsi:type="string">50px</argument>
@@ -72,7 +72,7 @@
                             <argument name="index" xsi:type="string">id_path</argument>
                         </arguments>
                     </block>
-                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="request_path">
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="request_path">
                         <arguments>
                             <argument name="header" xsi:type="string" translate="true">Request Path</argument>
                             <argument name="width" xsi:type="string">50px</argument>
@@ -81,7 +81,7 @@
                             <argument name="index" xsi:type="string">request_path</argument>
                         </arguments>
                     </block>
-                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="target_path">
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="target_path">
                         <arguments>
                             <argument name="header" xsi:type="string" translate="true">Target Path</argument>
                             <argument name="width" xsi:type="string">50px</argument>
@@ -90,7 +90,7 @@
                             <argument name="index" xsi:type="string">target_path</argument>
                         </arguments>
                     </block>
-                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="options">
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="options">
                         <arguments>
                             <argument name="header" xsi:type="string" translate="true">Options</argument>
                             <argument name="width" xsi:type="string">50px</argument>
@@ -99,7 +99,7 @@
                             <argument name="index" xsi:type="string">options</argument>
                         </arguments>
                     </block>
-                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="actions">
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="actions">
                         <arguments>
                             <argument name="header" xsi:type="string" translate="true">Action</argument>
                             <argument name="sortable" xsi:type="string">0</argument>

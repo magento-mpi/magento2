@@ -15,13 +15,15 @@
  * Used to transmit specific information about parameter value binding to be bound the right
  * way to the query.
  * Most used properties and methods are defined in interface. Specific things for concrete DB adapter can be
- * transmitted using 'addtional' property (Magento_Object) as a container.
+ * transmitted using 'addtional' property (\Magento\Object) as a container.
  *
  * @category    Magento
  * @package     Magento_DB
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_DB_Statement_Parameter
+namespace Magento\DB\Statement;
+
+class Parameter
 {
     /**
      * Actual parameter value
@@ -61,12 +63,12 @@ class Magento_DB_Statement_Parameter
      * Inits instance
      *
      * @param mixed $value
-     * @return Magento_DB_Statement_Parameter
+     * @return \Magento\DB\Statement\Parameter
      */
     public function __construct($value)
     {
         $this->_value = $value;
-        $this->_additional = new Magento_Object();
+        $this->_additional = new \Magento\Object();
         return $this;
     }
 
@@ -74,7 +76,7 @@ class Magento_DB_Statement_Parameter
      * Sets parameter value.
      *
      * @param mixed $value
-     * @return Magento_DB_Statement_Parameter
+     * @return \Magento\DB\Statement\Parameter
      */
     public function setValue($value)
     {
@@ -100,7 +102,7 @@ class Magento_DB_Statement_Parameter
      * as a BLOB value.
      *
      * @param bool $isBlob
-     * @return Magento_DB_Statement_Parameter
+     * @return \Magento\DB\Statement\Parameter
      */
     public function setIsBlob($isBlob)
     {
@@ -125,7 +127,7 @@ class Magento_DB_Statement_Parameter
      * Sets data type option to be used during binding parameter value.
      *
      * @param mixed $dataType
-     * @return Magento_DB_Statement_Parameter
+     * @return \Magento\DB\Statement\Parameter
      */
     public function setDataType($dataType)
     {
@@ -147,7 +149,7 @@ class Magento_DB_Statement_Parameter
      * Sets length option to be used during binding parameter value.
      *
      * @param mixed $length
-     * @return Magento_DB_Statement_Parameter
+     * @return \Magento\DB\Statement\Parameter
      */
     public function setLength($length)
     {
@@ -169,7 +171,7 @@ class Magento_DB_Statement_Parameter
      * Sets specific driver options to be used during binding parameter value.
      *
      * @param mixed $driverOptions
-     * @return Magento_DB_Statement_Parameter
+     * @return \Magento\DB\Statement\Parameter
      */
     public function setDriverOptions($driverOptions)
     {
@@ -191,8 +193,8 @@ class Magento_DB_Statement_Parameter
      * Sets additional information for concrete DB adapter.
      * Set there any data you want to pass along with query parameter.
      *
-     * @param Magento_Object $additional
-     * @return Magento_DB_Statement_Parameter
+     * @param \Magento\Object $additional
+     * @return \Magento\DB\Statement\Parameter
      */
     public function setAdditional($additional)
     {
@@ -203,7 +205,7 @@ class Magento_DB_Statement_Parameter
     /**
      * Gets additional information for concrete DB adapter.
      *
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function getAdditional()
     {

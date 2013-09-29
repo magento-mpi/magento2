@@ -16,36 +16,38 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Pviewed extends Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Abstract
+namespace Magento\Adminhtml\Block\Sales\Order\Create\Sidebar;
+
+class Pviewed extends \Magento\Adminhtml\Block\Sales\Order\Create\Sidebar\AbstractSidebar
 {
     /**
-     * @var Magento_Catalog_Model_ProductFactory
+     * @var \Magento\Catalog\Model\ProductFactory
      */
     protected $_productFactory;
 
     /**
-     * @var Magento_Reports_Model_EventFactory
+     * @var \Magento\Reports\Model\EventFactory
      */
     protected $_eventFactory;
 
     /**
-     * @param Magento_Reports_Model_EventFactory $eventFactory
-     * @param Magento_Catalog_Model_ProductFactory $productFactory
-     * @param Magento_Adminhtml_Model_Session_Quote $sessionQuote
-     * @param Magento_Adminhtml_Model_Sales_Order_Create $orderCreate
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Sales_Model_Config $salesConfig
+     * @param \Magento\Reports\Model\EventFactory $eventFactory
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Adminhtml\Model\Session\Quote $sessionQuote
+     * @param \Magento\Adminhtml\Model\Sales\Order\Create $orderCreate
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Sales\Model\Config $salesConfig
      * @param array $data
      */
     public function __construct(
-        Magento_Reports_Model_EventFactory $eventFactory,
-        Magento_Catalog_Model_ProductFactory $productFactory,
-        Magento_Adminhtml_Model_Session_Quote $sessionQuote,
-        Magento_Adminhtml_Model_Sales_Order_Create $orderCreate,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Sales_Model_Config $salesConfig,
+        \Magento\Reports\Model\EventFactory $eventFactory,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Adminhtml\Model\Session\Quote $sessionQuote,
+        \Magento\Adminhtml\Model\Sales\Order\Create $orderCreate,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Sales\Model\Config $salesConfig,
         array $data = array()
     ) {
         $this->_eventFactory = $eventFactory;
@@ -83,7 +85,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Pviewed extends Magento
             $collection = $this->_eventFactory->create()
                 ->getCollection()
                 ->addStoreFilter($stores)
-                ->addRecentlyFiler(Magento_Reports_Model_Event::EVENT_PRODUCT_VIEW, $this->getCustomerId(), 0);
+                ->addRecentlyFiler(\Magento\Reports\Model\Event::EVENT_PRODUCT_VIEW, $this->getCustomerId(), 0);
             $productIds = array();
             foreach ($collection as $event) {
                 $productIds[] = $event->getObjectId();
@@ -119,7 +121,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Pviewed extends Magento
     /**
      * Retrieve identifier of block item
      *
-     * @param Magento_Object $item
+     * @param \Magento\Object $item
      * @return int
      */
     public function getIdentifierId($item)

@@ -15,26 +15,28 @@
  * @package    Magento_Checkout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Checkout_Block_Multishipping_Billing_Items extends Magento_Sales_Block_Items_Abstract
+namespace Magento\Checkout\Block\Multishipping\Billing;
+
+class Items extends \Magento\Sales\Block\Items\AbstractItems
 {
     /**
      * Get multishipping checkout model
      *
-     * @return Magento_Checkout_Model_Type_Multishipping
+     * @return \Magento\Checkout\Model\Type\Multishipping
      */
     public function getCheckout()
     {
-        return Mage::getSingleton('Magento_Checkout_Model_Type_Multishipping');
+        return \Mage::getSingleton('Magento\Checkout\Model\Type\Multishipping');
     }
 
     /**
      * Retrieve quote model object
      *
-     * @return Magento_Sales_Model_Quote
+     * @return \Magento\Sales\Model\Quote
      */
     public function getQuote()
     {
-        return Mage::getSingleton('Magento_Checkout_Model_Session')->getQuote();
+        return \Mage::getSingleton('Magento\Checkout\Model\Session')->getQuote();
     }
 
     /**

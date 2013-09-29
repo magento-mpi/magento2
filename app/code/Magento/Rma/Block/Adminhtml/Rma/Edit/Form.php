@@ -8,16 +8,18 @@
  * @license     {license_link}
  */
 
-class Magento_Rma_Block_Adminhtml_Rma_Edit_Form extends Magento_Backend_Block_Widget_Form_Generic
+namespace Magento\Rma\Block\Adminhtml\Rma\Edit;
+
+class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
      * Prepare form before rendering HTML
      *
-     * @return Magento_Adminhtml_Block_Widget_Form
+     * @return \Magento\Adminhtml\Block\Widget\Form
      */
     protected function _prepareForm()
     {
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create(array(
             'attributes' => array(
                 'id' => 'edit_form',

@@ -9,12 +9,12 @@
 -->
 <widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="../../../Magento/Widget/etc/widget.xsd">
-    <widget id="order_by_sku" class="Magento_AdvancedCheckout_Block_Widget_Sku" is_email_compatible="true">
+    <widget id="order_by_sku" class="Magento\AdvancedCheckout\Block\Widget\Sku" is_email_compatible="true">
         <label translate="true">Order by SKU</label>
         <description translate="true">Order by SKU Description</description>
         <parameters>
             <parameter name="link_display" xsi:type="select" visible="true" sort_order="10"
-                       source_model="Magento_Backend_Model_Config_Source_Yesno">
+                       source_model="Magento\Backend\Model\Config\Source\Yesno">
                 <label translate="true">Display a Link to Loading a Spreadsheet</label>
                 <description translate="true">Defines whether a link to My Account &amp;gt; Order by SKU page will be displayed on the widget</description>
             </parameter>

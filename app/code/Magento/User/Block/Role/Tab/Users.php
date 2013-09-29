@@ -6,32 +6,34 @@
  * @license     {license_link}
  */
 
+namespace Magento\User\Block\Role\Tab;
+
 /**
- * Class Magento_User_Block_Role_Tab_Users
+ * Class \Magento\User\Block\Role\Tab\Users
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Magento_User_Block_Role_Tab_Users extends Magento_Backend_Block_Widget_Tabs
+class Users extends \Magento\Backend\Block\Widget\Tabs
 {
     /**
      * User model factory
      *
-     * @var Magento_User_Model_Resource_User_CollectionFactory
+     * @var \Magento\User\Model\Resource\User\CollectionFactory
      */
     protected $_userCollectionFactory;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_User_Model_Resource_User_CollectionFactory $userCollectionFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\User\Model\Resource\User\CollectionFactory $userCollectionFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_User_Model_Resource_User_CollectionFactory $userCollectionFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\User\Model\Resource\User\CollectionFactory $userCollectionFactory,
         array $data = array()
     ) {
         // _userCollectionFactory is used in parent::__construct
@@ -44,7 +46,7 @@ class Magento_User_Block_Role_Tab_Users extends Magento_Backend_Block_Widget_Tab
         parent::_construct();
 
         $roleId = $this->getRequest()->getParam('rid', false);
-        /** @var Magento_User_Model_Resource_User_Collection $users */
+        /** @var \Magento\User\Model\Resource\User\Collection $users */
         $users = $this->_userCollectionFactory->create()->load();
         $this->setTemplate('role/users.phtml')
             ->assign('users', $users->getItems())
@@ -55,7 +57,7 @@ class Magento_User_Block_Role_Tab_Users extends Magento_Backend_Block_Widget_Tab
     {
         $this->setChild(
             'userGrid',
-            $this->getLayout()->createBlock('Magento_User_Block_Role_Grid_User', 'roleUsersGrid')
+            $this->getLayout()->createBlock('Magento\User\Block\Role\Grid\User', 'roleUsersGrid')
         );
         return parent::_prepareLayout();
     }

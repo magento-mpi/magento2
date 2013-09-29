@@ -9,23 +9,25 @@
  */
 
 /**
- * Factory class for Magento_Sales_Model_Order_Total_Abstract
+ * Factory class for \Magento\Sales\Model\Order\Total\AbstractTotal
  */
-class Magento_Sales_Model_Order_TotalFactory
+namespace Magento\Sales\Model\Order;
+
+class TotalFactory
 {
     /**
      * Object Manager instance
      *
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager = null;
 
     /**
      * Factory constructor
      *
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
@@ -35,7 +37,7 @@ class Magento_Sales_Model_Order_TotalFactory
      *
      * @param string $instanceName
      * @param array $data
-     * @return Magento_Sales_Model_Order_Total_Abstract
+     * @return \Magento\Sales\Model\Order\Total\AbstractTotal
      */
     public function create($instanceName, array $data = array())
     {

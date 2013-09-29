@@ -15,42 +15,44 @@
  * @package     Magento_ScheduledImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit
-    extends Magento_Backend_Block_Widget_Form_Container
+namespace Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Operation;
+
+class Edit
+    extends \Magento\Backend\Block\Widget\Form\Container
 {
     /**
      * Import export data
      *
-     * @var Magento_ScheduledImportExport_Helper_Data
+     * @var \Magento\ScheduledImportExport\Helper\Data
      */
     protected $_importExportData = null;
 
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @var Magento_ScheduledImportExport_Model_Scheduled_OperationFactory
+     * @var \Magento\ScheduledImportExport\Model\Scheduled\OperationFactory
      */
     protected $_operationFactory;
 
     /**
-     * @param Magento_ScheduledImportExport_Model_Scheduled_OperationFactory $operationFactory
-     * @param Magento_ScheduledImportExport_Helper_Data $importExportData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\ScheduledImportExport\Model\Scheduled\OperationFactory $operationFactory
+     * @param \Magento\ScheduledImportExport\Helper\Data $importExportData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_ScheduledImportExport_Model_Scheduled_OperationFactory $operationFactory,
-        Magento_ScheduledImportExport_Helper_Data $importExportData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\ScheduledImportExport\Model\Scheduled\OperationFactory $operationFactory,
+        \Magento\ScheduledImportExport\Helper\Data $importExportData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_operationFactory = $operationFactory;
@@ -72,7 +74,7 @@ class Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit
         $this->_controller = 'adminhtml_scheduled_operation';
 
         $operationId = (int)$this->getRequest()->getParam($this->_objectId);
-        /** @var Magento_ScheduledImportExport_Model_Scheduled_Operation $operation */
+        /** @var \Magento\ScheduledImportExport\Model\Scheduled\Operation $operation */
         $operation = $this->_operationFactory->create();
         if ($operationId) {
             $operation->load($operationId);
@@ -89,20 +91,20 @@ class Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit
      * Prepare page layout.
      * Set form object to container.
      *
-     * @throws Magento_Core_Exception
-     * @return Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit
+     * @throws \Magento\Core\Exception
+     * @return \Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Operation\Edit
      */
     protected function _prepareLayout()
     {
         $operation = $this->_coreRegistry->registry('current_operation');
-        $blockName = 'Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form_'
+        $blockName = 'Magento\\ScheduledImportExport\\Block\\Adminhtml\\Scheduled\\Operation\\Edit\\Form\\'
             . ucfirst($operation->getOperationType());
         $formBlock = $this->getLayout()
             ->createBlock($blockName);
         if ($formBlock) {
             $this->setChild('form', $formBlock);
         } else {
-            throw new Magento_Core_Exception(__('Please correct the scheduled operation type.'));
+            throw new \Magento\Core\Exception(__('Please correct the scheduled operation type.'));
         }
 
         $this->_updateButton('delete', 'onclick', 'deleteConfirm(\''

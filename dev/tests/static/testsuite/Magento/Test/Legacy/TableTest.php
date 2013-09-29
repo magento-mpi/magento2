@@ -12,7 +12,9 @@
 /**
  * Coverage of obsolete table names usage
  */
-class Magento_Test_Legacy_TableTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Legacy;
+
+class TableTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider tableNameDataProvider
@@ -217,6 +219,6 @@ class Magento_Test_Legacy_TableTest extends PHPUnit_Framework_TestCase
      */
     public function tableNameDataProvider()
     {
-        return Magento_TestFramework_Utility_Files::init()->getPhpFiles();
+        return \Magento\TestFramework\Utility\Files::init()->getPhpFiles();
     }
 }

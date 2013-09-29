@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Resource_Config_XsdTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Resource\Config;
+
+class XsdTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Path to xsd schema file
@@ -14,14 +16,14 @@ class Magento_Core_Model_Resource_Config_XsdTest extends PHPUnit_Framework_TestC
     protected $_xsdSchema;
 
     /**
-     * @var Magento_TestFramework_Utility_XsdValidator
+     * @var \Magento\TestFramework\Utility\XsdValidator
      */
     protected $_xsdValidator;
 
     protected function setUp()
     {
         $this->_xsdSchema = BP . '/app/code/Magento/Core/etc/resources.xsd';
-        $this->_xsdValidator = new Magento_TestFramework_Utility_XsdValidator();
+        $this->_xsdValidator = new \Magento\TestFramework\Utility\XsdValidator();
     }
 
     /**

@@ -9,7 +9,7 @@
  */
 
 $installer = $this;
-/** @var $installer Magento_Core_Model_Resource_Setup */
+/** @var $installer \Magento\Core\Model\Resource\Setup */
 
 $installer->startSetup();
 
@@ -18,45 +18,45 @@ $installer->startSetup();
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('shipping_tablerate'))
-    ->addColumn('pk', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('pk', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
         'nullable'  => false,
         'primary'   => true,
         ), 'Primary key')
-    ->addColumn('website_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('website_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'nullable'  => false,
         'default'   => '0',
         ), 'Website Id')
-    ->addColumn('dest_country_id', Magento_DB_Ddl_Table::TYPE_TEXT, 4, array(
+    ->addColumn('dest_country_id', \Magento\DB\Ddl\Table::TYPE_TEXT, 4, array(
         'nullable'  => false,
         'default'   => '0',
         ), 'Destination coutry ISO/2 or ISO/3 code')
-    ->addColumn('dest_region_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('dest_region_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'nullable'  => false,
         'default'   => '0',
         ), 'Destination Region Id')
-    ->addColumn('dest_zip', Magento_DB_Ddl_Table::TYPE_TEXT, 10, array(
+    ->addColumn('dest_zip', \Magento\DB\Ddl\Table::TYPE_TEXT, 10, array(
         'nullable'  => false,
         'default'   => '*',
         ), 'Destination Post Code (Zip)')
-    ->addColumn('condition_name', Magento_DB_Ddl_Table::TYPE_TEXT, 20, array(
+    ->addColumn('condition_name', \Magento\DB\Ddl\Table::TYPE_TEXT, 20, array(
         'nullable'  => false,
         ), 'Rate Condition name')
-    ->addColumn('condition_value', Magento_DB_Ddl_Table::TYPE_DECIMAL, '12,4', array(
+    ->addColumn('condition_value', \Magento\DB\Ddl\Table::TYPE_DECIMAL, '12,4', array(
         'nullable'  => false,
         'default'   => '0.0000',
         ), 'Rate condition value')
-    ->addColumn('price', Magento_DB_Ddl_Table::TYPE_DECIMAL, '12,4', array(
+    ->addColumn('price', \Magento\DB\Ddl\Table::TYPE_DECIMAL, '12,4', array(
         'nullable'  => false,
         'default'   => '0.0000',
         ), 'Price')
-    ->addColumn('cost', Magento_DB_Ddl_Table::TYPE_DECIMAL, '12,4', array(
+    ->addColumn('cost', \Magento\DB\Ddl\Table::TYPE_DECIMAL, '12,4', array(
         'nullable'  => false,
         'default'   => '0.0000',
         ), 'Cost')
-    ->addIndex($installer->getIdxName('shipping_tablerate', array('website_id', 'dest_country_id', 'dest_region_id', 'dest_zip', 'condition_name', 'condition_value'), Magento_DB_Adapter_Interface::INDEX_TYPE_UNIQUE),
-        array('website_id', 'dest_country_id', 'dest_region_id', 'dest_zip', 'condition_name', 'condition_value'), array('type' => Magento_DB_Adapter_Interface::INDEX_TYPE_UNIQUE))
+    ->addIndex($installer->getIdxName('shipping_tablerate', array('website_id', 'dest_country_id', 'dest_region_id', 'dest_zip', 'condition_name', 'condition_value'), \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE),
+        array('website_id', 'dest_country_id', 'dest_region_id', 'dest_zip', 'condition_name', 'condition_value'), array('type' => \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE))
     ->setComment('Shipping Tablerate');
 $installer->getConnection()->createTable($table);
 

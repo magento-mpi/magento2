@@ -11,9 +11,9 @@
     <type name="simple" isQty="true" />
     <type name="virtual" isQty="true" />
     <type name="configurable" isQty="true">
-        <stockIndexerModel instance="Magento_CatalogInventory_Model_Resource_Indexer_Stock_Configurable" />
+        <stockIndexerModel instance="Magento\CatalogInventory\Model\Resource\Indexer\Stock\Configurable" />
     </type>
     <type name="grouped" isQty="true">
-        <stockIndexerModel instance="Magento_CatalogInventory_Model_Resource_Indexer_Stock_Grouped" />
+        <stockIndexerModel instance="Magento\CatalogInventory\Model\Resource\Indexer\Stock\Grouped" />
     </type>
 </config>

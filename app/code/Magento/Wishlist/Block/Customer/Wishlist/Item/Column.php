@@ -15,7 +15,9 @@
  * @package     Magento_Wishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Wishlist_Block_Customer_Wishlist_Item_Column extends Magento_Wishlist_Block_Abstract
+namespace Magento\Wishlist\Block\Customer\Wishlist\Item;
+
+class Column extends \Magento\Wishlist\Block\AbstractBlock
 {
     /**
      * Checks whether column should be shown in table

@@ -8,7 +8,9 @@
  * @license    {license_link}
  */
 
-class Magento_Tools_Migration_Acl_Menu_Generator
+namespace Magento\Tools\Migration\Acl\Menu;
+
+class Generator
 {
     /**
      * @var array
@@ -63,7 +65,7 @@ class Magento_Tools_Migration_Acl_Menu_Generator
     protected $_isPreviewMode;
 
     /**
-     * @var Magento_Tools_Migration_Acl_FileManager
+     * @var \Magento\Tools\Migration\Acl\FileManager
      */
     protected $_fileManager;
 
@@ -72,14 +74,14 @@ class Magento_Tools_Migration_Acl_Menu_Generator
      * @param $basePath
      * @param $validNodeTypes
      * @param $aclXPathToId
-     * @param Magento_Tools_Migration_Acl_FileManager $fileManager
+     * @param \Magento\Tools\Migration\Acl\FileManager $fileManager
      * @param bool $preview
      */
     public function __construct(
         $basePath,
         $validNodeTypes,
         $aclXPathToId,
-        Magento_Tools_Migration_Acl_FileManager $fileManager,
+        \Magento\Tools\Migration\Acl\FileManager $fileManager,
         $preview = true
     ) {
         $this->_fileManager = $fileManager;
@@ -131,11 +133,11 @@ class Magento_Tools_Migration_Acl_Menu_Generator
     /**
      * Parse menu item node
      *
-     * @param DOMNode $node
+     * @param \DOMNode $node
      */
-    public function parseMenuNode(DOMNode $node)
+    public function parseMenuNode(\DOMNode $node)
     {
-        /** @var $childNode DOMNode **/
+        /** @var $childNode \DOMNode **/
         foreach ($node->childNodes as $childNode) {
             if (false == in_array($childNode->nodeType, $this->_validNodeTypes) || 'add' != $childNode->nodeName) {
                 continue;
@@ -159,12 +161,12 @@ class Magento_Tools_Migration_Acl_Menu_Generator
     public function parseMenuFiles()
     {
         foreach ($this->getMenuFiles() as $file) {
-            $dom = new DOMDocument();
+            $dom = new \DOMDocument();
             $dom->load($file);
             $this->_menuDomList[$file] = $dom;
             $menus = $dom->getElementsByTagName('menu');
 
-            /** @var $menuNode DOMNode **/
+            /** @var $menuNode \DOMNode **/
             foreach ($menus as $menuNode) {
                 $this->parseMenuNode($menuNode);
             }
@@ -295,10 +297,10 @@ class Magento_Tools_Migration_Acl_Menu_Generator
     {
         $errors = array();
         $aclPrefix = 'config/acl/resources/admin/';
-        /** @var $dom DOMDocument **/
+        /** @var $dom \DOMDocument **/
         foreach ($this->_menuDomList as $file => $dom) {
             $menu = $dom->getElementsByTagName('menu')->item(0);
-            /** @var $childNode DOMNode **/
+            /** @var $childNode \DOMNode **/
             foreach ($menu->childNodes as $childNode) {
 
                 if (!$this->_isNodeValidToUpdate($childNode)) {
@@ -337,10 +339,10 @@ class Magento_Tools_Migration_Acl_Menu_Generator
     /**
      * Check if node has to be updated
      *
-     * @param DOMNode $node
+     * @param \DOMNode $node
      * @return bool
      */
-    protected function _isNodeValidToUpdate(DOMNode $node)
+    protected function _isNodeValidToUpdate(\DOMNode $node)
     {
         if (false == in_array($node->nodeType, $this->_validNodeTypes) ||
             false == array_key_exists($node->nodeName, $this->_updateNodes)
@@ -383,7 +385,7 @@ class Magento_Tools_Migration_Acl_Menu_Generator
         if (true == $this->_isPreviewMode) {
             return;
         }
-        /** @var $dom DOMDocument **/
+        /** @var $dom \DOMDocument **/
         foreach ($this->_menuDomList as $file => $dom) {
             $dom->formatOutput = true;
             $this->_fileManager->write($file, $dom->saveXML());

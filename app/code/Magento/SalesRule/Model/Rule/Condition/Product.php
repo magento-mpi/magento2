@@ -16,31 +16,33 @@
  * @package Magento_SalesRule
  * @author Magento Core Team <core@magentocommerce.com>
  */
-class Magento_SalesRule_Model_Rule_Condition_Product extends Magento_Rule_Model_Condition_Product_Abstract
+namespace Magento\SalesRule\Model\Rule\Condition;
+
+class Product extends \Magento\Rule\Model\Condition\Product\AbstractProduct
 {
     /**
-     * @var Magento_Catalog_Model_ProductFactory
+     * @var \Magento\Catalog\Model\ProductFactory
      */
     protected $_productFactory;
 
     /**
-     * @param Magento_Backend_Helper_Data $backendData
-     * @param Magento_Rule_Model_Condition_Context $context
-     * @param Magento_Eav_Model_Config $config
-     * @param Magento_Catalog_Model_Product $product
-     * @param Magento_Catalog_Model_Resource_Product $productResource
-     * @param Magento_Eav_Model_Resource_Entity_Attribute_Set_Collection $attrSetCollection
-     * @param Magento_Catalog_Model_ProductFactory $productFactory
+     * @param \Magento\Backend\Helper\Data $backendData
+     * @param \Magento\Rule\Model\Condition\Context $context
+     * @param \Magento\Eav\Model\Config $config
+     * @param \Magento\Catalog\Model\Product $product
+     * @param \Magento\Catalog\Model\Resource\Product $productResource
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection $attrSetCollection
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Helper_Data $backendData,
-        Magento_Rule_Model_Condition_Context $context,
-        Magento_Eav_Model_Config $config,
-        Magento_Catalog_Model_Product $product,
-        Magento_Catalog_Model_Resource_Product $productResource,
-        Magento_Eav_Model_Resource_Entity_Attribute_Set_Collection $attrSetCollection,
-        Magento_Catalog_Model_ProductFactory $productFactory,
+        \Magento\Backend\Helper\Data $backendData,
+        \Magento\Rule\Model\Condition\Context $context,
+        \Magento\Eav\Model\Config $config,
+        \Magento\Catalog\Model\Product $product,
+        \Magento\Catalog\Model\Resource\Product $productResource,
+        \Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection $attrSetCollection,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
         array $data = array()
     ) {
         parent::__construct($backendData, $context, $config, $product, $productResource, $attrSetCollection, $data);
@@ -63,15 +65,15 @@ class Magento_SalesRule_Model_Rule_Condition_Product extends Magento_Rule_Model_
     /**
      * Validate Product Rule Condition
      *
-     * @param Magento_Object $object
+     * @param \Magento\Object $object
      *
      * @return bool
      */
-    public function validate(Magento_Object $object)
+    public function validate(\Magento\Object $object)
     {
-        /** @var Magento_Catalog_Model_Product $product */
+        /** @var \Magento\Catalog\Model\Product $product */
         $product = $object->getProduct();
-        if (!($product instanceof Magento_Catalog_Model_Product)) {
+        if (!($product instanceof \Magento\Catalog\Model\Product)) {
             $product = $this->_productFactory->create()->load($object->getProductId());
         }
 
@@ -80,7 +82,7 @@ class Magento_SalesRule_Model_Rule_Condition_Product extends Magento_Rule_Model_
             ->setQuoteItemRowTotal($object->getBaseRowTotal());
 
         $valid = parent::validate($product);
-        if (!$valid && $product->getTypeId() == Magento_Catalog_Model_Product_Type_Configurable::TYPE_CODE) {
+        if (!$valid && $product->getTypeId() == \Magento\Catalog\Model\Product\Type\Configurable::TYPE_CODE) {
             $children = $object->getChildren();
             $valid = $children && $this->validate($children[0]);
         }

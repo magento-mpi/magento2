@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Banner_Block_Adminhtml_Banner_Edit_Tabs extends Magento_Adminhtml_Block_Widget_Tabs
+namespace Magento\Banner\Block\Adminhtml\Banner\Edit;
+
+class Tabs extends \Magento\Adminhtml\Block\Widget\Tabs
 {
     /**
      * Initialize banner edit page tabs

@@ -12,12 +12,14 @@
  * Permissions checker
  *
  */
-class Magento_AdminGws_Model_Role extends Magento_Object
+namespace Magento\AdminGws\Model;
+
+class Role extends \Magento\Object
 {
     /**
      * Store ACL role model instance
      *
-     * @var Magento_User_Model_Role
+     * @var \Magento\User\Model\Role
      */
     protected $_adminRole;
 
@@ -53,23 +55,23 @@ class Magento_AdminGws_Model_Role extends Magento_Object
     protected $_exclusiveAccessToCategory = array();
 
     /**
-     * @var Magento_Catalog_Model_Resource_Category_CollectionFactory
+     * @var \Magento\Catalog\Model\Resource\Category\CollectionFactory
      */
     protected $_categoryCollFactory;
 
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Catalog_Model_Resource_Category_CollectionFactory $categoryCollFactory
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryCollFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_StoreManager $storeManager,
-        Magento_Catalog_Model_Resource_Category_CollectionFactory $categoryCollFactory,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryCollFactory,
         array $data = array()
     ) {
         $this->_categoryCollFactory = $categoryCollFactory;
@@ -80,7 +82,7 @@ class Magento_AdminGws_Model_Role extends Magento_Object
     /**
      * Set ACL role and determine its limitations
      *
-     * @param Magento_User_Model_Role $role
+     * @param \Magento\User\Model\Role $role
      */
     public function setAdminRole($role)
     {
@@ -433,7 +435,7 @@ class Magento_AdminGws_Model_Role extends Magento_Object
      * store group in case store group is not preloaded
      *
      * @param int|string $findGroupId
-     * @return Magento_Core_Model_Store_Group|null
+     * @return \Magento\Core\Model\Store\Group|null
      */
     public function getGroup($findGroupId)
     {

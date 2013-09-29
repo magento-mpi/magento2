@@ -9,37 +9,39 @@
  * @license     {license_link}
  */
 
+namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Attribute\Edit\Tab;
+
 /**
- * Test class for Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Attribute_Edit_Tab_Main
+ * Test class for \Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Attribute\Edit\Tab\Main
  *
  * @magentoAppArea adminhtml
  */
-class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Attribute_Edit_Tab_MainTest
-    extends PHPUnit_Framework_TestCase
+class MainTest
+    extends \PHPUnit_Framework_TestCase
 {
     /**
      * @magentoAppIsolation enabled
      */
     public function testPrepareForm()
     {
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
-            ->setArea(Magento_Core_Model_App_Area::AREA_ADMINHTML)
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\View\DesignInterface')
+            ->setArea(\Magento\Core\Model\App\Area::AREA_ADMINHTML)
             ->setDefaultDesignTheme();
-        $entityType = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Eav_Model_Config')
+        $entityType = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Eav\Model\Config')
             ->getEntityType('customer');
-        $model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Customer_Model_Attribute');
+        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Customer\Model\Attribute');
         $model->setEntityTypeId($entityType->getId());
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $objectManager->get('Magento_Core_Model_Registry')->register('entity_attribute', $model);
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $objectManager->get('Magento\Core\Model\Registry')->register('entity_attribute', $model);
 
-        $block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
+        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
             ->createBlock(
-                'Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Attribute_Edit_Tab_Main'
+                'Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Attribute\Edit\Tab\Main'
             );
-        $prepareFormMethod = new ReflectionMethod(
-            'Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Attribute_Edit_Tab_Main', '_prepareForm');
+        $prepareFormMethod = new \ReflectionMethod(
+            'Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Attribute\Edit\Tab\Main', '_prepareForm');
         $prepareFormMethod->setAccessible(true);
         $prepareFormMethod->invoke($block);
 

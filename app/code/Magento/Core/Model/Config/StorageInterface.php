@@ -7,12 +7,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Magento_Core_Model_Config_StorageInterface
+namespace Magento\Core\Model\Config;
+
+interface StorageInterface
 {
     /**
      * Get loaded configuration
      *
-     * @return Magento_Core_Model_ConfigInterface
+     * @return \Magento\Core\Model\ConfigInterface
      */
     public function getConfiguration();
 

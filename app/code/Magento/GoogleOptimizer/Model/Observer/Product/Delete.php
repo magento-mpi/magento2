@@ -7,17 +7,19 @@
  * @copyright {copyright}
  * @license {license_link}
  */
-class Magento_GoogleOptimizer_Model_Observer_Product_Delete
+namespace Magento\GoogleOptimizer\Model\Observer\Product;
+
+class Delete
 {
     /**
-     * @var Magento_GoogleOptimizer_Model_Code
+     * @var \Magento\GoogleOptimizer\Model\Code
      */
     protected $_modelCode;
 
     /**
-     * @param Magento_GoogleOptimizer_Model_Code $modelCode
+     * @param \Magento\GoogleOptimizer\Model\Code $modelCode
      */
-    public function __construct(Magento_GoogleOptimizer_Model_Code $modelCode)
+    public function __construct(\Magento\GoogleOptimizer\Model\Code $modelCode)
     {
         $this->_modelCode = $modelCode;
     }
@@ -25,16 +27,16 @@ class Magento_GoogleOptimizer_Model_Observer_Product_Delete
     /**
      * Delete Product scripts after deleting product
      *
-     * @param Magento_Object $observer
-     * @return Magento_GoogleOptimizer_Model_Observer_Product_Delete
+     * @param \Magento\Object $observer
+     * @return \Magento\GoogleOptimizer\Model\Observer\Product\Delete
      */
     public function deleteProductGoogleExperimentScript($observer)
     {
-        /** @var $product Magento_Catalog_Model_Product */
+        /** @var $product \Magento\Catalog\Model\Product */
         $product = $observer->getEvent()->getProduct();
         $this->_modelCode->loadByEntityIdAndType(
             $product->getId(),
-            Magento_GoogleOptimizer_Model_Code::ENTITY_TYPE_PRODUCT,
+            \Magento\GoogleOptimizer\Model\Code::ENTITY_TYPE_PRODUCT,
             $product->getStoreId()
         );
 

@@ -8,13 +8,15 @@
  * @license     {license_link}
  */
 
-interface Magento_Core_Model_ConfigInterface
+namespace Magento\Core\Model;
+
+interface ConfigInterface
 {
     /**
      * Get configuration node
      *
      * @param string $path
-     * @return Magento_Simplexml_Element
+     * @return \Magento\Simplexml\Element
      */
     public function getNode($path = null);
 

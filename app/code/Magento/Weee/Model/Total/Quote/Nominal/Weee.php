@@ -11,7 +11,9 @@
 /**
  * Nominal fixed product tax total
  */
-class Magento_Weee_Model_Total_Quote_Nominal_Weee extends Magento_Weee_Model_Total_Quote_Weee
+namespace Magento\Weee\Model\Total\Quote\Nominal;
+
+class Weee extends \Magento\Weee\Model\Total\Quote\Weee
 {
     /**
      * Don't add amounts to address
@@ -30,10 +32,10 @@ class Magento_Weee_Model_Total_Quote_Nominal_Weee extends Magento_Weee_Model_Tot
     /**
      * Get nominal items only
      *
-     * @param Magento_Sales_Model_Quote_Address $address
+     * @param \Magento\Sales\Model\Quote\Address $address
      * @return array
      */
-    protected function _getAddressItems(Magento_Sales_Model_Quote_Address $address)
+    protected function _getAddressItems(\Magento\Sales\Model\Quote\Address $address)
     {
         return $address->getAllNominalItems();
     }

@@ -15,23 +15,25 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Sales_Order_Create_Billing_Method_Form extends Magento_Payment_Block_Form_Container
+namespace Magento\Adminhtml\Block\Sales\Order\Create\Billing\Method;
+
+class Form extends \Magento\Payment\Block\Form\Container
 {
     /**
-     * @var Magento_Adminhtml_Model_Session_Quote
+     * @var \Magento\Adminhtml\Model\Session\Quote
      */
     protected $_sessionQuote;
 
     /**
-     * @param Magento_Adminhtml_Model_Session_Quote $sessionQuote
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
+     * @param \Magento\Adminhtml\Model\Session\Quote $sessionQuote
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Adminhtml_Model_Session_Quote $sessionQuote,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
+        \Magento\Adminhtml\Model\Session\Quote $sessionQuote,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_sessionQuote = $sessionQuote;
@@ -41,7 +43,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Billing_Method_Form extends Mag
     /**
      * Check payment method model
      *
-     * @param Magento_Payment_Model_Method_Abstract|null $method
+     * @param \Magento\Payment\Model\Method\AbstractMethod|null $method
      * @return bool
      */
     protected function _canUseMethod($method)
@@ -91,7 +93,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Billing_Method_Form extends Mag
     /**
      * Enter description here...
      *
-     * @return Magento_Sales_Model_Quote
+     * @return \Magento\Sales\Model\Quote
      */
     public function getQuote()
     {

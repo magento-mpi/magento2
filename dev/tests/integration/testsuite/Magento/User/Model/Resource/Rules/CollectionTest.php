@@ -9,31 +9,33 @@
  * @license     {license_link}
  */
 
+namespace Magento\User\Model\Resource\Rules;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_User_Model_Resource_Rules_CollectionTest extends PHPUnit_Framework_TestCase
+class CollectionTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_User_Model_Resource_Rules_Collection
+     * @var \Magento\User\Model\Resource\Rules\Collection
      */
     protected $_collection;
 
     protected function setUp()
     {
-        $this->_collection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_User_Model_Resource_Rules_Collection');
+        $this->_collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\User\Model\Resource\Rules\Collection');
     }
 
     public function testGetByRoles()
     {
-        $user = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_User_Model_User');
-        $user->loadByUsername(Magento_TestFramework_Bootstrap::ADMIN_NAME);
+        $user = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\User\Model\User');
+        $user->loadByUsername(\Magento\TestFramework\Bootstrap::ADMIN_NAME);
         $this->_collection->getByRoles($user->getRole()->getId());
 
-        $where = $this->_collection->getSelect()->getPart(Zend_Db_Select::WHERE);
-        /** @var Zend_Db_Adapter_Abstract $adapter */
+        $where = $this->_collection->getSelect()->getPart(\Zend_Db_Select::WHERE);
+        /** @var \Zend_Db_Adapter_Abstract $adapter */
         $adapter = $this->_collection->getConnection();
         $quote = $adapter->getQuoteIdentifierSymbol();
         $this->assertContains("({$quote}role_id{$quote} = '" . $user->getRole()->getId()."')", $where);
@@ -43,7 +45,7 @@ class Magento_User_Model_Resource_Rules_CollectionTest extends PHPUnit_Framework
     {
         $this->_collection->addSortByLength();
 
-        $order = $this->_collection->getSelect()->getPart(Zend_Db_Select::ORDER);
+        $order = $this->_collection->getSelect()->getPart(\Zend_Db_Select::ORDER);
         $this->assertContains(array('length', 'DESC'), $order);
     }
 }

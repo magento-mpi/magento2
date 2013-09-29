@@ -14,7 +14,9 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Block_Text extends Magento_Core_Block_Abstract
+namespace Magento\Core\Block;
+
+class Text extends \Magento\Core\Block\AbstractBlock
 {
 
     public function setText($text)

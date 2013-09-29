@@ -9,17 +9,19 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_VariableTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model;
+
+class VariableTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Variable
+     * @var \Magento\Core\Model\Variable
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_Variable');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Variable');
     }
 
     public function testGetSetStoreId()
@@ -36,8 +38,8 @@ class Magento_Core_Model_VariableTest extends PHPUnit_Framework_TestCase
         ));
         $this->_model->save();
 
-        $variable = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_Variable');
+        $variable = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Variable');
         $variable->loadByCode('test_code');
         $this->assertEquals($this->_model->getName(), $variable->getName());
         $this->_model->delete();
@@ -53,8 +55,8 @@ class Magento_Core_Model_VariableTest extends PHPUnit_Framework_TestCase
             'plain_value'   => $text
         ));
         $this->assertEquals($html, $this->_model->getValue());
-        $this->assertEquals($html, $this->_model->getValue(Magento_Core_Model_Variable::TYPE_HTML));
-        $this->assertEquals($text, $this->_model->getValue(Magento_Core_Model_Variable::TYPE_TEXT));
+        $this->assertEquals($html, $this->_model->getValue(\Magento\Core\Model\Variable::TYPE_HTML));
+        $this->assertEquals($text, $this->_model->getValue(\Magento\Core\Model\Variable::TYPE_TEXT));
     }
 
     public function testValidate()
@@ -67,7 +69,7 @@ class Magento_Core_Model_VariableTest extends PHPUnit_Framework_TestCase
         try {
             $this->assertTrue($this->_model->validate());
             $this->_model->delete();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_model->delete();
             throw $e;
         }

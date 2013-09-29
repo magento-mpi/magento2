@@ -8,8 +8,10 @@
  * @license     {license_link}
  */
 
-class Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Type_Select
-    extends Magento_Adminhtml_Block_Widget_Form
+namespace Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit\Attribute\Type;
+
+class Select
+    extends \Magento\Adminhtml\Block\Widget\Form
 {
 
     protected $_template = 'edit/type/select.phtml';
@@ -19,13 +21,13 @@ class Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Type_Sele
      */
     protected function _prepareLayout()
     {
-        $this->addChild('add_select_row_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('add_select_row_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label' => __('Add New Option'),
             'class' => 'add add-select-row',
             'id'    => '{{prefix}}_add_select_row_button_{{id}}'
         ));
 
-        $this->addChild('delete_select_row_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('delete_select_row_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label' => __('Delete Option'),
             'class' => 'delete delete-select-row icon-btn'
         ));

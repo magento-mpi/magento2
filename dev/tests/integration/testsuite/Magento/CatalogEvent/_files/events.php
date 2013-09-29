@@ -9,14 +9,14 @@
  * @license     {license_link}
  */
 
-/** @var $eventClosed Magento_CatalogEvent_Model_Event */
-$eventClosed = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_CatalogEvent_Model_Event');
+/** @var $eventClosed \Magento\CatalogEvent\Model\Event */
+$eventClosed = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\CatalogEvent\Model\Event');
 $eventClosed
     ->setCategoryId(null)
     ->setDateStart(date('Y-m-d H:i:s', strtotime('-1 year')))
     ->setDateEnd(date('Y-m-d H:i:s', strtotime('-1 month')))
-    ->setDisplayState(Magento_CatalogEvent_Model_Event::DISPLAY_CATEGORY_PAGE)
+    ->setDisplayState(\Magento\CatalogEvent\Model\Event::DISPLAY_CATEGORY_PAGE)
     ->setSortOrder(30)
     ->setImage('default_website.jpg')
     ->save()
@@ -27,29 +27,29 @@ $eventClosed
     ->save()
 ;
 
-/** @var $eventOpen Magento_CatalogEvent_Model_Event */
-$eventOpen = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_CatalogEvent_Model_Event');
+/** @var $eventOpen \Magento\CatalogEvent\Model\Event */
+$eventOpen = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\CatalogEvent\Model\Event');
 $eventOpen
     ->setCategoryId(1)
     ->setDateStart(date('Y-m-d H:i:s', strtotime('-1 month')))
     ->setDateEnd(date('Y-m-d H:i:s', strtotime('+1 month')))
-    ->setDisplayState(Magento_CatalogEvent_Model_Event::DISPLAY_PRODUCT_PAGE)
+    ->setDisplayState(\Magento\CatalogEvent\Model\Event::DISPLAY_PRODUCT_PAGE)
     ->setSortOrder(20)
     ->setImage('default_website.jpg')
     ->save()
 ;
 
-/** @var $eventUpcoming Magento_CatalogEvent_Model_Event */
-$eventUpcoming = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_CatalogEvent_Model_Event');
+/** @var $eventUpcoming \Magento\CatalogEvent\Model\Event */
+$eventUpcoming = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\CatalogEvent\Model\Event');
 $eventUpcoming
     ->setCategoryId(2)
     ->setDateStart(date('Y-m-d H:i:s', strtotime('+1 month')))
     ->setDateEnd(date('Y-m-d H:i:s', strtotime('+1 year')))
     ->setDisplayState(
-        Magento_CatalogEvent_Model_Event::DISPLAY_CATEGORY_PAGE
-        | Magento_CatalogEvent_Model_Event::DISPLAY_PRODUCT_PAGE
+        \Magento\CatalogEvent\Model\Event::DISPLAY_CATEGORY_PAGE
+        | \Magento\CatalogEvent\Model\Event::DISPLAY_PRODUCT_PAGE
     )
     ->setSortOrder(10)
     ->setStoreId(1)

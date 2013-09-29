@@ -7,16 +7,18 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Checkout_Block_Agreements extends Magento_Core_Block_Template
+namespace Magento\Checkout\Block;
+
+class Agreements extends \Magento\Core\Block\Template
 {
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
         array $data = array()
     ) {
         parent::__construct($coreData, $context, $data);
@@ -28,8 +30,8 @@ class Magento_Checkout_Block_Agreements extends Magento_Core_Block_Template
             if (!$this->_storeConfig->getConfigFlag('checkout/options/enable_agreements')) {
                 $agreements = array();
             } else {
-                $agreements = Mage::getModel('Magento_Checkout_Model_Agreement')->getCollection()
-                    ->addStoreFilter(Mage::app()->getStore()->getId())
+                $agreements = \Mage::getModel('Magento\Checkout\Model\Agreement')->getCollection()
+                    ->addStoreFilter(\Mage::app()->getStore()->getId())
                     ->addFieldToFilter('is_active', 1);
             }
             $this->setAgreements($agreements);

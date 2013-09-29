@@ -11,38 +11,40 @@
 /**
  * Order Creditmemo Downloadable Pdf Items renderer
  */
-class Magento_Downloadable_Model_Sales_Order_Pdf_Items_Creditmemo
-    extends Magento_Downloadable_Model_Sales_Order_Pdf_Items_Abstract
+namespace Magento\Downloadable\Model\Sales\Order\Pdf\Items;
+
+class Creditmemo
+    extends \Magento\Downloadable\Model\Sales\Order\Pdf\Items\AbstractItems
 {
     /**
-     * @var Magento_Core_Helper_String
+     * @var \Magento\Core\Helper\String
      */
     protected $_stringHelper;
 
     /**
-     * @param Magento_Core_Helper_String $helper
-     * @param Magento_Tax_Helper_Data $taxData
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Dir $coreDir
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Downloadable_Model_Link_PurchasedFactory $purchasedFactory
-     * @param Magento_Downloadable_Model_Resource_Link_Purchased_Item_CollectionFactory $itemsFactory
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Core\Helper\String $helper
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Dir $coreDir
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Downloadable\Model\Link\PurchasedFactory $purchasedFactory
+     * @param \Magento\Downloadable\Model\Resource\Link\Purchased\Item\CollectionFactory $itemsFactory
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_String $helper,
-        Magento_Tax_Helper_Data $taxData,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_Dir $coreDir,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Downloadable_Model_Link_PurchasedFactory $purchasedFactory,
-        Magento_Downloadable_Model_Resource_Link_Purchased_Item_CollectionFactory $itemsFactory,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Core\Helper\String $helper,
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Dir $coreDir,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Downloadable\Model\Link\PurchasedFactory $purchasedFactory,
+        \Magento\Downloadable\Model\Resource\Link\Purchased\Item\CollectionFactory $itemsFactory,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_stringHelper = $helper;
@@ -74,13 +76,13 @@ class Magento_Downloadable_Model_Sales_Order_Pdf_Items_Creditmemo
 
         // draw Product name
         $lines[0] = array(array(
-            'text' => $this->_stringHelper->str_split($item->getName(), 35, true, true),
+            'text' => $this->_stringHelper->strSplit($item->getName(), 35, true, true),
             'feed' => 35,
         ));
 
         // draw SKU
         $lines[0][] = array(
-            'text'  => $this->_stringHelper->str_split($this->getSku($item), 17),
+            'text'  => $this->_stringHelper->strSplit($this->getSku($item), 17),
             'feed'  => 255,
             'align' => 'right'
         );
@@ -133,7 +135,7 @@ class Magento_Downloadable_Model_Sales_Order_Pdf_Items_Creditmemo
             foreach ($options as $option) {
                 // draw options label
                 $lines[][] = array(
-                    'text' => $this->_stringHelper->str_split(strip_tags($option['label']), 40, true, true),
+                    'text' => $this->_stringHelper->strSplit(strip_tags($option['label']), 40, true, true),
                     'font' => 'italic',
                     'feed' => 35
                 );
@@ -141,7 +143,7 @@ class Magento_Downloadable_Model_Sales_Order_Pdf_Items_Creditmemo
                 // draw options value
                 $_printValue = isset($option['print_value']) ? $option['print_value'] : strip_tags($option['value']);
                 $lines[][] = array(
-                    'text' => $this->_stringHelper->str_split($_printValue, 30, true, true),
+                    'text' => $this->_stringHelper->strSplit($_printValue, 30, true, true),
                     'feed' => 40
                 );
             }
@@ -152,7 +154,7 @@ class Magento_Downloadable_Model_Sales_Order_Pdf_Items_Creditmemo
 
         // draw Links title
         $lines[][] = array(
-            'text' => $this->_stringHelper->str_split($this->getLinksTitle(), 70, true, true),
+            'text' => $this->_stringHelper->strSplit($this->getLinksTitle(), 70, true, true),
             'font' => 'italic',
             'feed' => 35
         );
@@ -160,7 +162,7 @@ class Magento_Downloadable_Model_Sales_Order_Pdf_Items_Creditmemo
         // draw Links
         foreach ($_purchasedItems as $_link) {
             $lines[][] = array(
-                'text' => $this->_stringHelper->str_split($_link->getLinkTitle(), 50, true, true),
+                'text' => $this->_stringHelper->strSplit($_link->getLinkTitle(), 50, true, true),
                 'feed' => 40
             );
         }

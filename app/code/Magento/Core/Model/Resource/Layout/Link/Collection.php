@@ -11,7 +11,9 @@
 /**
  * Layout update collection model
  */
-class Magento_Core_Model_Resource_Layout_Link_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Core\Model\Resource\Layout\Link;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Define resource model
@@ -19,7 +21,7 @@ class Magento_Core_Model_Resource_Layout_Link_Collection extends Magento_Core_Mo
     protected function _construct()
     {
         parent::_construct();
-        $this->_init('Magento_Core_Model_Layout_Link', 'Magento_Core_Model_Resource_Layout_Link');
+        $this->_init('Magento\Core\Model\Layout\Link', 'Magento\Core\Model\Resource\Layout\Link');
     }
 
     /**
@@ -38,7 +40,7 @@ class Magento_Core_Model_Resource_Layout_Link_Collection extends Magento_Core_Mo
      * Join with layout update table
      *
      * @param array $fields
-     * @return Magento_Core_Model_Resource_Layout_Link_Collection
+     * @return \Magento\Core\Model\Resource\Layout\Link\Collection
      */
     protected function _joinWithUpdate($fields = array())
     {
@@ -60,7 +62,7 @@ class Magento_Core_Model_Resource_Layout_Link_Collection extends Magento_Core_Mo
      * Filter by temporary flag
      *
      * @param bool $isTemporary
-     * @return Magento_Core_Model_Resource_Layout_Link_Collection
+     * @return \Magento\Core\Model\Resource\Layout\Link\Collection
      */
     public function addTemporaryFilter($isTemporary)
     {
@@ -72,12 +74,12 @@ class Magento_Core_Model_Resource_Layout_Link_Collection extends Magento_Core_Mo
      * Get links for layouts that are older then specified number of days
      *
      * @param $days
-     * @return Magento_Core_Model_Resource_Layout_Link_Collection
+     * @return \Magento\Core\Model\Resource\Layout\Link\Collection
      */
     public function addUpdatedDaysBeforeFilter($days)
     {
-        $datetime = new DateTime();
-        $storeInterval = new DateInterval('P' . $days . 'D');
+        $datetime = new \DateTime();
+        $storeInterval = new \DateInterval('P' . $days . 'D');
         $datetime->sub($storeInterval);
         $formattedDate = $this->formatDate($datetime->getTimestamp());
 

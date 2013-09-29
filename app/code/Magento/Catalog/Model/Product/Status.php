@@ -12,19 +12,21 @@
 /**
  * Product status functionality model
  *
- * @method Magento_Catalog_Model_Resource_Product_Status getResource()
+ * @method \Magento\Catalog\Model\Resource\Product\Status getResource()
  * @method int getProductId()
- * @method Magento_Catalog_Model_Product_Status setProductId(int $value)
+ * @method \Magento\Catalog\Model\Product\Status setProductId(int $value)
  * @method int getStoreId()
- * @method Magento_Catalog_Model_Product_Status setStoreId(int $value)
+ * @method \Magento\Catalog\Model\Product\Status setStoreId(int $value)
  * @method int getVisibility()
- * @method Magento_Catalog_Model_Product_Status setVisibility(int $value)
+ * @method \Magento\Catalog\Model\Product\Status setVisibility(int $value)
  *
  * @category    Magento
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Product_Status extends Magento_Core_Model_Abstract
+namespace Magento\Catalog\Model\Product;
+
+class Status extends \Magento\Core\Model\AbstractModel
 {
     const STATUS_ENABLED    = 1;
     const STATUS_DISABLED   = 2;
@@ -32,31 +34,31 @@ class Magento_Catalog_Model_Product_Status extends Magento_Core_Model_Abstract
     /**
      * Reference to the attribute instance
      *
-     * @var Magento_Catalog_Model_Resource_Eav_Attribute
+     * @var \Magento\Catalog\Model\Resource\Eav\Attribute
      */
     protected $_attribute;
 
     /**
      * Core event manager proxy
      *
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventManager = null;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
@@ -69,13 +71,13 @@ class Magento_Catalog_Model_Product_Status extends Magento_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('Magento_Catalog_Model_Resource_Product_Status');
+        $this->_init('Magento\Catalog\Model\Resource\Product\Status');
     }
 
     /**
      * Retrieve resource model wrapper
      *
-     * @return Magento_Catalog_Model_Resource_Product_Status
+     * @return \Magento\Catalog\Model\Resource\Product\Status
      */
     protected function _getResource()
     {
@@ -86,7 +88,7 @@ class Magento_Catalog_Model_Product_Status extends Magento_Core_Model_Abstract
      * Retrieve Product Attribute by code
      *
      * @param string $attributeCode
-     * @return Magento_Eav_Model_Entity_Attribute_Abstract
+     * @return \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
      */
     public function getProductAttribute($attributeCode)
     {
@@ -174,22 +176,22 @@ class Magento_Catalog_Model_Product_Status extends Magento_Core_Model_Abstract
      * @param   int $productId
      * @param   int $storeId
      * @param   int $value
-     * @return  Magento_Catalog_Model_Product_Status
+     * @return  \Magento\Catalog\Model\Product\Status
      */
     public function updateProductStatus($productId, $storeId, $value)
     {
-        Mage::getSingleton('Magento_Catalog_Model_Product_Action')
+        \Mage::getSingleton('Magento\Catalog\Model\Product\Action')
             ->updateAttributes(array($productId), array('status' => $value), $storeId);
 
         // add back compatibility event
         $status = $this->_getResource()->getProductAttribute('status');
         if ($status->isScopeWebsite()) {
-            $website = Mage::app()->getStore($storeId)->getWebsite();
+            $website = \Mage::app()->getStore($storeId)->getWebsite();
             $stores  = $website->getStoreIds();
         } else if ($status->isScopeStore()) {
             $stores = array($storeId);
         } else {
-            $stores = array_keys(Mage::app()->getStores());
+            $stores = array_keys(\Mage::app()->getStores());
         }
 
         foreach ($stores as $storeId) {
@@ -243,9 +245,9 @@ class Magento_Catalog_Model_Product_Status extends Magento_Core_Model_Abstract
     /**
      * Retrieve Select For Flat Attribute update
      *
-     * @param Magento_Eav_Model_Entity_Attribute_Abstract $attribute
+     * @param \Magento\Eav\Model\Entity\Attribute\AbstractAttribute $attribute
      * @param int $store
-     * @return Magento_DB_Select|null
+     * @return \Magento\DB\Select|null
      */
     public function getFlatUpdateSelect($store)
     {
@@ -255,8 +257,8 @@ class Magento_Catalog_Model_Product_Status extends Magento_Core_Model_Abstract
     /**
      * Set attribute instance
      *
-     * @param Magento_Catalog_Model_Resource_Eav_Attribute $attribute
-     * @return Magento_Eav_Model_Entity_Attribute_Frontend_Abstract
+     * @param \Magento\Catalog\Model\Resource\Eav\Attribute $attribute
+     * @return \Magento\Eav\Model\Entity\Attribute\Frontend\AbstractFrontend
      */
     public function setAttribute($attribute)
     {
@@ -267,7 +269,7 @@ class Magento_Catalog_Model_Product_Status extends Magento_Core_Model_Abstract
     /**
      * Get attribute instance
      *
-     * @return Magento_Catalog_Model_Resource_Eav_Attribute
+     * @return \Magento\Catalog\Model\Resource\Eav\Attribute
      */
     public function getAttribute()
     {
@@ -277,9 +279,9 @@ class Magento_Catalog_Model_Product_Status extends Magento_Core_Model_Abstract
     /**
      * Add Value Sort To Collection Select
      *
-     * @param Magento_Eav_Model_Entity_Collection_Abstract $collection
+     * @param \Magento\Eav\Model\Entity\Collection\AbstractCollection $collection
      * @param string $dir direction
-     * @return Magento_Eav_Model_Entity_Attribute_Source_Abstract
+     * @return \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
      */
     public function addValueSortToCollection($collection, $dir = 'asc')
     {

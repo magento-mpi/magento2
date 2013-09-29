@@ -16,36 +16,38 @@
  * @package     Magento_CatalogSearch
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CatalogSearch_Model_Resource_Advanced_Collection extends Magento_Catalog_Model_Resource_Product_Collection
+namespace Magento\CatalogSearch\Model\Resource\Advanced;
+
+class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
 {
     /**
      * Date
      *
-     * @var Magento_Core_Model_Date
+     * @var \Magento\Core\Model\Date
      */
     protected $_date;
 
     /**
      * Construct
      *
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Catalog_Helper_Product_Flat $catalogProductFlat
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_EntityFactory $entityFactory
-     * @param Magento_Core_Model_Date $date
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Catalog\Helper\Product\Flat $catalogProductFlat
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Core\Model\Date $date
      */
     public function __construct(
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Catalog_Helper_Product_Flat $catalogProductFlat,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Logger $logger,
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_EntityFactory $entityFactory,
-        Magento_Core_Model_Date $date
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Catalog\Helper\Product\Flat $catalogProductFlat,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Core\Model\Date $date
     ) {
         $this->_date = $date;
         parent::__construct($catalogData, $catalogProductFlat, $eventManager, $logger, $fetchStrategy, $coreStoreConfig,
@@ -56,8 +58,8 @@ class Magento_CatalogSearch_Model_Resource_Advanced_Collection extends Magento_C
      * Add not indexable fields to search
      *
      * @param array $fields
-     * @return Magento_CatalogSearch_Model_Resource_Advanced_Collection
-     * @throws Magento_Core_Exception
+     * @return \Magento\CatalogSearch\Model\Resource\Advanced\Collection
+     * @throws \Magento\Core\Exception
      */
     public function addFieldsToFilter($fields)
     {
@@ -87,7 +89,7 @@ class Magento_CatalogSearch_Model_Resource_Advanced_Collection extends Magento_C
                         $select->where('t1.store_id = ?', 0);
                         $select->where('t1.attribute_id = ?', $attributeId);
 
-                        if (array_key_exists('price_index', $this->getSelect()->getPart(Magento_DB_Select::FROM))) {
+                        if (array_key_exists('price_index', $this->getSelect()->getPart(\Magento\DB\Select::FROM))) {
                             $select->where('t1.entity_id = price_index.entity_id');
                         }
 
@@ -112,8 +114,8 @@ class Magento_CatalogSearch_Model_Resource_Advanced_Collection extends Magento_C
                         elseif (isset($conditionValue['from']) && isset($conditionValue['to'])) {
                             $invalidDateMessage = __('Please specify correct data.');
                             if ($conditionValue['from']) {
-                                if (!Zend_Date::isDate($conditionValue['from'])) {
-                                    throw new Magento_Core_Exception($invalidDateMessage);
+                                if (!\Zend_Date::isDate($conditionValue['from'])) {
+                                    throw new \Magento\Core\Exception($invalidDateMessage);
                                 }
                                 if (!is_numeric($conditionValue['from'])){
                                     $conditionValue['from'] = $this->_date->gmtDate(null, $conditionValue['from']);
@@ -124,8 +126,8 @@ class Magento_CatalogSearch_Model_Resource_Advanced_Collection extends Magento_C
                                 $conditionData[] = array('gteq' => $conditionValue['from']);
                             }
                             if ($conditionValue['to']) {
-                                if (!Zend_Date::isDate($conditionValue['to'])) {
-                                    throw new Magento_Core_Exception($invalidDateMessage);
+                                if (!\Zend_Date::isDate($conditionValue['to'])) {
+                                    throw new \Magento\Core\Exception($invalidDateMessage);
                                 }
                                 if (!is_numeric($conditionValue['to'])){
                                     $conditionValue['to'] = $this->_date->gmtDate(null, $conditionValue['to']);
@@ -146,12 +148,12 @@ class Magento_CatalogSearch_Model_Resource_Advanced_Collection extends Magento_C
                     }
 
                     if (!is_null($previousSelect)) {
-                        $select->where('t1.entity_id IN (?)', new Zend_Db_Expr($previousSelect));
+                        $select->where('t1.entity_id IN (?)', new \Zend_Db_Expr($previousSelect));
                     }
                     $previousSelect = $select;
                 }
             }
-            $this->addFieldToFilter('entity_id', array('in' => new Zend_Db_Expr($select)));
+            $this->addFieldToFilter('entity_id', array('in' => new \Zend_Db_Expr($select)));
         }
 
         return $this;

@@ -8,13 +8,15 @@
  * @license     {license_link}
  */
 
-class Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Tab_General
-    extends Magento_Backend_Block_Widget_Form_Generic
+namespace Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit\Tab;
+
+class General
+    extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
      * Return current gift registry type instance
      *
-     * @return Magento_GiftRegistry_Model_Type
+     * @return \Magento\GiftRegistry\Model\Type
      */
     public function getType()
     {
@@ -33,9 +35,9 @@ class Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Tab_General
         if ($this->getLayout()->hasElement($this->getNameInLayout() . '_element')) {
             $this->getLayout()->unsetElement($this->getNameInLayout() . '_element');
         }
-        Magento_Data_Form::setFieldsetElementRenderer(
+        \Magento\Data\Form::setFieldsetElementRenderer(
             $this->getLayout()->createBlock(
-                'Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Form_Renderer_Element',
+                'Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Form\Renderer\Element',
                 $this->getNameInLayout() . '_element'
             )
         );
@@ -44,11 +46,11 @@ class Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Tab_General
     /**
      * Prepare general properties form
      *
-     * @return Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Tab_General
+     * @return \Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit\Tab\General
      */
     protected function _prepareForm()
     {
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
         $form->setFieldNameSuffix('type');
 
@@ -85,7 +87,7 @@ class Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Tab_General
         $fieldset->addField('is_listed', 'select', array(
             'label'    => __('Is Listed'),
             'name'     => 'is_listed',
-            'values'   => Mage::getSingleton('Magento_Backend_Model_Config_Source_Yesno')->toOptionArray(),
+            'values'   => \Mage::getSingleton('Magento\Backend\Model\Config\Source\Yesno')->toOptionArray(),
             'scope'    => 'store'
         ));
 

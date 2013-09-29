@@ -11,11 +11,11 @@
     <referenceBlock name="checkout.cart.crosssell">
         <action method="addPriceBlockType">
             <argument name="type" xsi:type="string">giftcard</argument>
-            <argument name="block" xsi:type="string">Magento_GiftCard_Block_Catalog_Product_Price</argument>
+            <argument name="block" xsi:type="string">Magento\GiftCard\Block\Catalog\Product\Price</argument>
             <argument name="template" xsi:type="string">catalog/product/price.phtml</argument>
         </action>
     </referenceBlock>
     <referenceBlock name="checkout.cart">
-        <block class="Magento_GiftCard_Block_Checkout_Cart_Item_Renderer" as="giftcard" template="Magento_Checkout::cart/item/default.phtml"/>
+        <block class="Magento\GiftCard\Block\Checkout\Cart\Item\Renderer" as="giftcard" template="Magento_Checkout::cart/item/default.phtml"/>
     </referenceBlock>
 </layout>

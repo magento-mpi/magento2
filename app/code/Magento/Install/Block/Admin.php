@@ -11,7 +11,9 @@
 /**
  * Administrator account install block
  */
-class Magento_Install_Block_Admin extends Magento_Install_Block_Abstract
+namespace Magento\Install\Block;
+
+class Admin extends \Magento\Install\Block\AbstractBlock
 {
     /**
      * @var string
@@ -27,15 +29,15 @@ class Magento_Install_Block_Admin extends Magento_Install_Block_Abstract
     }
 
     /**
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function getFormData()
     {
         $data = $this->getData('form_data');
         if (null === $data) {
-            $data = Mage::getSingleton('Magento_Install_Model_Session')->getAdminData(true);
+            $data = \Mage::getSingleton('Magento\Install\Model\Session')->getAdminData(true);
             $data = is_array($data) ? $data : array();
-            $data = new Magento_Object($data);
+            $data = new \Magento\Object($data);
             $this->setData('form_data', $data);
         }
         return $data;

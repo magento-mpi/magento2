@@ -5,10 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_WebsiteRestriction_Model_Config_ConverterTest extends PHPUnit_Framework_TestCase
+namespace Magento\WebsiteRestriction\Model\Config;
+
+class ConverterTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_WebsiteRestriction_Model_Config_Converter
+     * @var \Magento\WebsiteRestriction\Model\Config\Converter
      */
     protected $_model;
 
@@ -19,14 +21,14 @@ class Magento_WebsiteRestriction_Model_Config_ConverterTest extends PHPUnit_Fram
 
     protected function setUp()
     {
-        $this->_model = new Magento_WebsiteRestriction_Model_Config_Converter();
+        $this->_model = new \Magento\WebsiteRestriction\Model\Config\Converter();
         $this->_filePath = realpath(__DIR__)
             . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR;
     }
 
     public function testConvert()
     {
-        $dom = new DOMDocument();
+        $dom = new \DOMDocument();
         $dom->load($this->_filePath . 'webrestrictions.xml');
         $actual = $this->_model->convert($dom);
         $expected = require($this->_filePath . 'webrestrictions.php');

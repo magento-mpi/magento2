@@ -9,7 +9,9 @@
 /**
  * Logging event model
  */
-class Magento_Logging_Model_Event extends Magento_Core_Model_Abstract
+namespace Magento\Logging\Model;
+
+class Event extends \Magento\Core\Model\AbstractModel
 {
     const RESULT_SUCCESS = 'success';
     const RESULT_FAILURE = 'failure';
@@ -17,26 +19,26 @@ class Magento_Logging_Model_Event extends Magento_Core_Model_Abstract
     /**
      * User model factory
      *
-     * @var Magento_User_Model_UserFactory
+     * @var \Magento\User\Model\UserFactory
      */
     protected $_userFactory;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_User_Model_UserFactory $userFactory
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\User\Model\UserFactory $userFactory
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_User_Model_UserFactory $userFactory,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\User\Model\UserFactory $userFactory,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
@@ -49,13 +51,13 @@ class Magento_Logging_Model_Event extends Magento_Core_Model_Abstract
      */
     public function _construct()
     {
-        $this->_init('Magento_Logging_Model_Resource_Event');
+        $this->_init('Magento\Logging\Model\Resource\Event');
     }
 
     /**
      * Set some data automatically before saving model
      *
-     * @return Magento_Logging_Model_Event
+     * @return \Magento\Logging\Model\Event
      */
     protected function _beforeSave()
     {

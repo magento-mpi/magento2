@@ -15,73 +15,75 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Grid extends Magento_Backend_Block_Widget_Grid_Extended
+namespace Magento\Adminhtml\Block\Catalog\Product;
+
+class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
      * Catalog data
      *
-     * @var Magento_Catalog_Helper_Data
+     * @var \Magento\Catalog\Helper\Data
      */
     protected $_catalogData = null;
 
     /**
-     * @var Magento_Eav_Model_Resource_Entity_Attribute_Set_CollectionFactory]
+     * @var \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory]
      */
     protected $_setsFactory;
 
     /**
-     * @var Magento_Catalog_Model_ProductFactory
+     * @var \Magento\Catalog\Model\ProductFactory
      */
     protected $_productFactory;
 
     /**
-     * @var Magento_Catalog_Model_Product_Type
+     * @var \Magento\Catalog\Model\Product\Type
      */
     protected $_type;
 
     /**
-     * @var Magento_Catalog_Model_Product_Status
+     * @var \Magento\Catalog\Model\Product\Status
      */
     protected $_status;
 
     /**
-     * @var Magento_Catalog_Model_Product_Visibility
+     * @var \Magento\Catalog\Model\Product\Visibility
      */
     protected $_visibility;
 
     /**
-     * @var Magento_Core_Model_WebsiteFactory
+     * @var \Magento\Core\Model\WebsiteFactory
      */
     protected $_websiteFactory;
 
     /**
-     * @param Magento_Core_Model_WebsiteFactory $websiteFactory
-     * @param Magento_Eav_Model_Resource_Entity_Attribute_Set_CollectionFactory $setsFactory
-     * @param Magento_Catalog_Model_ProductFactory $productFactory
-     * @param Magento_Catalog_Model_Product_Type $type
-     * @param Magento_Catalog_Model_Product_Status $status
-     * @param Magento_Catalog_Model_Product_Visibility $visibility
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Url $urlModel
+     * @param \Magento\Core\Model\WebsiteFactory $websiteFactory
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory $setsFactory
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Catalog\Model\Product\Type $type
+     * @param \Magento\Catalog\Model\Product\Status $status
+     * @param \Magento\Catalog\Model\Product\Visibility $visibility
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Magento_Core_Model_WebsiteFactory $websiteFactory,
-        Magento_Eav_Model_Resource_Entity_Attribute_Set_CollectionFactory $setsFactory,
-        Magento_Catalog_Model_ProductFactory $productFactory,
-        Magento_Catalog_Model_Product_Type $type,
-        Magento_Catalog_Model_Product_Status $status,
-        Magento_Catalog_Model_Product_Visibility $visibility,
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Url $urlModel,
+        \Magento\Core\Model\WebsiteFactory $websiteFactory,
+        \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory $setsFactory,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Catalog\Model\Product\Type $type,
+        \Magento\Catalog\Model\Product\Status $status,
+        \Magento\Catalog\Model\Product\Visibility $visibility,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
         array $data = array()
     ) {
         $this->_websiteFactory = $websiteFactory;
@@ -131,7 +133,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Grid extends Magento_Backend_Block
         }
         if ($store->getId()) {
             //$collection->setStoreId($store->getId());
-            $adminStore = Magento_Core_Model_AppInterface::ADMIN_STORE_ID;
+            $adminStore = \Magento\Core\Model\AppInterface::ADMIN_STORE_ID;
             $collection->addStoreFilter($store);
             $collection->joinAttribute(
                 'name',

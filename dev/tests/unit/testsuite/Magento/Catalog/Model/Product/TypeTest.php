@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Catalog_Model_Product_TypeTest extends PHPUnit_Framework_TestCase
+namespace Magento\Catalog\Model\Product;
+
+class TypeTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Product types config values
@@ -24,24 +26,24 @@ class Magento_Catalog_Model_Product_TypeTest extends PHPUnit_Framework_TestCase
     );
 
     /**
-     * @var Magento_Catalog_Model_Product_Type
+     * @var \Magento\Catalog\Model\Product\Type
      */
     protected $_model;
 
     protected function setUp()
     {
-        $config = $this->getMock('Magento_Catalog_Model_ProductTypes_ConfigInterface');
+        $config = $this->getMock('Magento\Catalog\Model\ProductTypes\ConfigInterface');
 
         $config->expects($this->any())
             ->method('getAll')
             ->will($this->returnValue($this->_productTypes));
 
-        $this->_model = new Magento_Catalog_Model_Product_Type($config);
+        $this->_model = new \Magento\Catalog\Model\Product\Type($config);
     }
 
     public function testGetTypes()
     {
-        $property = new ReflectionProperty($this->_model, '_types');
+        $property = new \ReflectionProperty($this->_model, '_types');
         $property->setAccessible(true);
         $this->assertNull($property->getValue($this->_model));
         $this->assertEquals($this->_productTypes, $this->_model->getTypes());
@@ -88,7 +90,7 @@ class Magento_Catalog_Model_Product_TypeTest extends PHPUnit_Framework_TestCase
 
     public function testGetCompositeTypes()
     {
-        $property = new ReflectionProperty($this->_model, '_compositeTypes');
+        $property = new \ReflectionProperty($this->_model, '_compositeTypes');
         $property->setAccessible(true);
         $this->assertNull($property->getValue($this->_model));
 

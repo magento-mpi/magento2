@@ -9,7 +9,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_AdminNotification_Block_Window extends Magento_Backend_Block_Template
+namespace Magento\AdminNotification\Block;
+
+class Window extends \Magento\Backend\Block\Template
 {
     /**
      * XML path of Severity icons url
@@ -26,14 +28,14 @@ class Magento_AdminNotification_Block_Window extends Magento_Backend_Block_Templ
     /**
      * Authentication
      *
-     * @var Magento_Backend_Model_Auth_Session
+     * @var \Magento\Backend\Model\Auth\Session
      */
     protected $_authSession;
 
     /**
      * Critical messages collection
      *
-     * @var Magento_AdminNotification_Model_Resource_Inbox_Collection
+     * @var \Magento\AdminNotification\Model\Resource\Inbox\Collection
      */
     protected $_criticalCollection;
 
@@ -43,17 +45,17 @@ class Magento_AdminNotification_Block_Window extends Magento_Backend_Block_Templ
     protected $_latestItem;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Backend_Model_Auth_Session $authSession
-     * @param Magento_AdminNotification_Model_Resource_Inbox_Collection_Critical $criticalCollection
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Backend\Model\Auth\Session $authSession
+     * @param \Magento\AdminNotification\Model\Resource\Inbox\Collection\Critical $criticalCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Backend_Model_Auth_Session $authSession,
-        Magento_AdminNotification_Model_Resource_Inbox_Collection_Critical $criticalCollection,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Backend\Model\Auth\Session $authSession,
+        \Magento\AdminNotification\Model\Resource\Inbox\Collection\Critical $criticalCollection,
         array $data = array()
     ) {
         parent::__construct($coreData, $context, $data);

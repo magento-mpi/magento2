@@ -15,25 +15,27 @@
  * @package    Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Block_Category_View extends Magento_Core_Block_Template
+namespace Magento\Catalog\Block\Category;
+
+class View extends \Magento\Core\Block\Template
 {
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -44,7 +46,7 @@ class Magento_Catalog_Block_Category_View extends Magento_Core_Block_Template
     {
         parent::_prepareLayout();
 
-        $this->getLayout()->createBlock('Magento_Catalog_Block_Breadcrumbs');
+        $this->getLayout()->createBlock('Magento\Catalog\Block\Breadcrumbs');
 
         $headBlock = $this->getLayout()->getBlock('head');
         if ($headBlock) {
@@ -62,12 +64,12 @@ class Magento_Catalog_Block_Category_View extends Magento_Core_Block_Template
                 $headBlock->setKeywords($keywords);
             }
             //@todo: move canonical link to separate block
-            if ($this->helper('Magento_Catalog_Helper_Category')->canUseCanonicalTag()
+            if ($this->helper('Magento\Catalog\Helper\Category')->canUseCanonicalTag()
                 && !$headBlock->getChildBlock('magento-page-head-category-canonical-link')
             ) {
                 $headBlock->addChild(
                     'magento-page-head-category-canonical-link',
-                    'Magento_Page_Block_Html_Head_Link',
+                    'Magento\Page\Block\Html\Head\Link',
                     array(
                         'url' => $category->getUrl(),
                         'properties' => array('attributes' => array('rel' => 'canonical'))
@@ -77,7 +79,7 @@ class Magento_Catalog_Block_Category_View extends Magento_Core_Block_Template
             /**
              * want to show rss feed in the url
              */
-            if ($this->IsRssCatalogEnable() && $this->IsTopCategory()) {
+            if ($this->isRssCatalogEnable() && $this->isTopCategory()) {
                 $title = __('%1 RSS Feed',$this->getCurrentCategory()->getName());
                 $headBlock->addRss($title, $this->getRssLink());
             }
@@ -90,19 +92,19 @@ class Magento_Catalog_Block_Category_View extends Magento_Core_Block_Template
         return $this;
     }
 
-    public function IsRssCatalogEnable()
+    public function isRssCatalogEnable()
     {
         return $this->_storeConfig->getConfig('rss/catalog/category');
     }
 
-    public function IsTopCategory()
+    public function isTopCategory()
     {
         return $this->getCurrentCategory()->getLevel()==2;
     }
 
     public function getRssLink()
     {
-        return Mage::getUrl('rss/catalog/category',array('cid' => $this->getCurrentCategory()->getId(), 'store_id' => Mage::app()->getStore()->getId()));
+        return \Mage::getUrl('rss/catalog/category',array('cid' => $this->getCurrentCategory()->getId(), 'store_id' => \Mage::app()->getStore()->getId()));
     }
 
     public function getProductListHtml()
@@ -113,7 +115,7 @@ class Magento_Catalog_Block_Category_View extends Magento_Core_Block_Template
     /**
      * Retrieve current category model object
      *
-     * @return Magento_Catalog_Model_Category
+     * @return \Magento\Catalog\Model\Category
      */
     public function getCurrentCategory()
     {
@@ -126,7 +128,7 @@ class Magento_Catalog_Block_Category_View extends Magento_Core_Block_Template
     public function getCmsBlockHtml()
     {
         if (!$this->getData('cms_block_html')) {
-            $html = $this->getLayout()->createBlock('Magento_Cms_Block_Block')
+            $html = $this->getLayout()->createBlock('Magento\Cms\Block\Block')
                 ->setBlockId($this->getCurrentCategory()->getLandingPage())
                 ->toHtml();
             $this->setData('cms_block_html', $html);
@@ -140,7 +142,7 @@ class Magento_Catalog_Block_Category_View extends Magento_Core_Block_Template
      */
     public function isProductMode()
     {
-        return $this->getCurrentCategory()->getDisplayMode() == Magento_Catalog_Model_Category::DM_PRODUCT;
+        return $this->getCurrentCategory()->getDisplayMode() == \Magento\Catalog\Model\Category::DM_PRODUCT;
     }
 
     /**
@@ -149,7 +151,7 @@ class Magento_Catalog_Block_Category_View extends Magento_Core_Block_Template
      */
     public function isMixedMode()
     {
-        return $this->getCurrentCategory()->getDisplayMode() == Magento_Catalog_Model_Category::DM_MIXED;
+        return $this->getCurrentCategory()->getDisplayMode() == \Magento\Catalog\Model\Category::DM_MIXED;
     }
 
     /**
@@ -162,10 +164,10 @@ class Magento_Catalog_Block_Category_View extends Magento_Core_Block_Template
     {
         $category = $this->getCurrentCategory();
         $res = false;
-        if ($category->getDisplayMode()==Magento_Catalog_Model_Category::DM_PAGE) {
+        if ($category->getDisplayMode()==\Magento\Catalog\Model\Category::DM_PAGE) {
             $res = true;
             if ($category->getIsAnchor()) {
-                $state = Mage::getSingleton('Magento_Catalog_Model_Layer')->getState();
+                $state = \Mage::getSingleton('Magento\Catalog\Model\Layer')->getState();
                 if ($state && $state->getFilters()) {
                     $res = false;
                 }

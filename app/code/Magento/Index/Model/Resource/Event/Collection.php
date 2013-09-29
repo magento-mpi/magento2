@@ -16,7 +16,9 @@
  * @package     Magento_Index
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Index_Model_Resource_Event_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Index\Model\Resource\Event;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Initialize resource
@@ -24,14 +26,14 @@ class Magento_Index_Model_Resource_Event_Collection extends Magento_Core_Model_R
      */
     protected function _construct()
     {
-        $this->_init('Magento_Index_Model_Event', 'Magento_Index_Model_Resource_Event');
+        $this->_init('Magento\Index\Model\Event', 'Magento\Index\Model\Resource\Event');
     }
 
     /**
      * Add filter by entity
      *
      * @param string | array $entity
-     * @return Magento_Index_Model_Resource_Event_Collection
+     * @return \Magento\Index\Model\Resource\Event\Collection
      */
     public function addEntityFilter($entity)
     {
@@ -47,7 +49,7 @@ class Magento_Index_Model_Resource_Event_Collection extends Magento_Core_Model_R
      * Add filter by type
      *
      * @param string | array $type
-     * @return Magento_Index_Model_Resource_Event_Collection
+     * @return \Magento\Index\Model\Resource\Event\Collection
      */
     public function addTypeFilter($type)
     {
@@ -62,14 +64,14 @@ class Magento_Index_Model_Resource_Event_Collection extends Magento_Core_Model_R
     /**
      * Add filter by process and status to events collection
      *
-     * @param int|array|Magento_Index_Model_Process $process
+     * @param int|array|\Magento\Index\Model\Process $process
      * @param string $status
-     * @return Magento_Index_Model_Resource_Event_Collection
+     * @return \Magento\Index\Model\Resource\Event\Collection
      */
     public function addProcessFilter($process, $status = null)
     {
         $this->_joinProcessEventTable();
-        if ($process instanceof Magento_Index_Model_Process) {
+        if ($process instanceof \Magento\Index\Model\Process) {
             $this->addFieldToFilter('process_event.process_id', $process->getId());
         } elseif (is_array($process) && !empty($process)) {
             $this->addFieldToFilter('process_event.process_id', array('in' => $process));
@@ -90,7 +92,7 @@ class Magento_Index_Model_Resource_Event_Collection extends Magento_Core_Model_R
     /**
      * Join index_process_event table to event table
      *
-     * @return Magento_Index_Model_Resource_Event_Collection
+     * @return \Magento\Index\Model\Resource\Event\Collection
      */
     protected function _joinProcessEventTable()
     {
@@ -107,7 +109,7 @@ class Magento_Index_Model_Resource_Event_Collection extends Magento_Core_Model_R
     /**
      * Reset collection state
      *
-     * @return Magento_Index_Model_Resource_Event_Collection
+     * @return \Magento\Index\Model\Resource\Event\Collection
      */
     public function reset()
     {

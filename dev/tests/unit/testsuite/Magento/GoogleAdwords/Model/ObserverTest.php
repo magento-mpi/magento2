@@ -5,49 +5,51 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_GoogleAdwords_Model_ObserverTest extends PHPUnit_Framework_TestCase
+namespace Magento\GoogleAdwords\Model;
+
+class ObserverTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_helperMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_collectionMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_registryMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_eventObserverMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_eventMock;
 
     /**
-     * @var Magento_GoogleAdwords_Model_Observer
+     * @var \Magento\GoogleAdwords\Model\Observer
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_helperMock = $this->getMock('Magento_GoogleAdwords_Helper_Data', array(), array(), '', false);
-        $this->_registryMock = $this->getMock('Magento_Core_Model_Registry', array(), array(), '', true);
-        $this->_collectionMock = $this->getMock('Magento_Sales_Model_Resource_Order_Collection', array(), array(), '',
+        $this->_helperMock = $this->getMock('Magento\GoogleAdwords\Helper\Data', array(), array(), '', false);
+        $this->_registryMock = $this->getMock('Magento\Core\Model\Registry', array(), array(), '', true);
+        $this->_collectionMock = $this->getMock('Magento\Sales\Model\Resource\Order\Collection', array(), array(), '',
             false);
-        $this->_eventObserverMock = $this->getMock('Magento_Event_Observer', array(), array(), '', false);
-        $this->_eventMock = $this->getMock('Magento_Event', array('getOrderIds'), array(), '', false);
+        $this->_eventObserverMock = $this->getMock('Magento\Event\Observer', array(), array(), '', false);
+        $this->_eventMock = $this->getMock('Magento\Event', array('getOrderIds'), array(), '', false);
 
-        $objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_model = $objectManager->getObject('Magento_GoogleAdwords_Model_Observer', array(
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $this->_model = $objectManager->getObject('Magento\GoogleAdwords\Model\Observer', array(
             'helper' => $this->_helperMock,
             'collection' => $this->_collectionMock,
             'registry' => $this->_registryMock
@@ -127,7 +129,7 @@ class Magento_GoogleAdwords_Model_ObserverTest extends PHPUnit_Framework_TestCas
         $this->_collectionMock->expects($this->once())->method('addFieldToFilter')
             ->with('entity_id', array('in' => $ordersIds));
         $this->_registryMock->expects($this->once())->method('register')
-            ->with(Magento_GoogleAdwords_Helper_Data::CONVERSION_VALUE_REGISTRY_NAME, $conversionValue);
+            ->with(\Magento\GoogleAdwords\Helper\Data::CONVERSION_VALUE_REGISTRY_NAME, $conversionValue);
 
         $this->assertSame($this->_model, $this->_model->setConversionValue($this->_eventObserverMock));
     }

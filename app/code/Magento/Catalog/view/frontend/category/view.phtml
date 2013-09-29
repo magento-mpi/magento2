@@ -12,11 +12,11 @@
 /**
  * Category view template
  *
- * @see Magento_Catalog_Block_Category_View
+ * @see \Magento\Catalog\Block\Category\View
  */
 ?>
 <?php
-    $_helper    = $this->helper('Magento_Catalog_Helper_Output');
+    $_helper    = $this->helper('Magento\Catalog\Helper\Output');
     $_category  = $this->getCurrentCategory();
     $_imgHtml   = '';
     if ($_imgUrl = $_category->getImageUrl()) {
@@ -25,7 +25,7 @@
     }
 ?>
 <div class="page-title category-title">
-    <?php if($this->IsRssCatalogEnable() && $this->IsTopCategory()): ?>
+    <?php if($this->isRssCatalogEnable() && $this->isTopCategory()): ?>
         <a href="<?php echo $this->getRssLink() ?>" class="link-rss"><?php echo __('Subscribe to RSS Feed') ?></a>
     <?php endif; ?>
     <h1><?php echo $_helper->categoryAttribute($_category, $_category->getName(), 'name') ?></h1>

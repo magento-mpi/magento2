@@ -16,20 +16,22 @@
  * @package     Magento_Weee
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Weee_Model_Resource_Attribute_Backend_Weee_Tax extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Weee\Model\Resource\Attribute\Backend\Weee;
+
+class Tax extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Resource $resource
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Resource $resource
      */
     public function __construct(
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Resource $resource
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Resource $resource
     ) {
         $this->_storeManager = $storeManager;
         parent::__construct($resource);
@@ -47,8 +49,8 @@ class Magento_Weee_Model_Resource_Attribute_Backend_Weee_Tax extends Magento_Cor
     /**
      * Load product data
      *
-     * @param Magento_Catalog_Model_Product $product
-     * @param Magento_Eav_Model_Entity_Attribute_Abstract $attribute
+     * @param \Magento\Catalog\Model\Product $product
+     * @param \Magento\Eav\Model\Entity\Attribute\AbstractAttribute $attribute
      * @return array
      */
     public function loadProductData($product, $attribute)
@@ -76,9 +78,9 @@ class Magento_Weee_Model_Resource_Attribute_Backend_Weee_Tax extends Magento_Cor
     /**
      * Delete product data
      *
-     * @param Magento_Catalog_Model_Product $product
-     * @param Magento_Eav_Model_Entity_Attribute_Abstract $attribute
-     * @return Magento_Weee_Model_Resource_Attribute_Backend_Weee_Tax
+     * @param \Magento\Catalog\Model\Product $product
+     * @param \Magento\Eav\Model\Entity\Attribute\AbstractAttribute $attribute
+     * @return \Magento\Weee\Model\Resource\Attribute\Backend\Weee\Tax
      */
     public function deleteProductData($product, $attribute)
     {
@@ -101,9 +103,9 @@ class Magento_Weee_Model_Resource_Attribute_Backend_Weee_Tax extends Magento_Cor
     /**
      * Insert product data
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @param array $data
-     * @return Magento_Weee_Model_Resource_Attribute_Backend_Weee_Tax
+     * @return \Magento\Weee\Model\Resource\Attribute\Backend\Weee\Tax
      */
     public function insertProductData($product, $data)
     {

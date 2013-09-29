@@ -15,7 +15,9 @@
  * @package     Magento_Captcha
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Captcha_Model_Resource_Log extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Captcha\Model\Resource;
+
+class Log extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Type Remote Address
@@ -30,26 +32,26 @@ class Magento_Captcha_Model_Resource_Log extends Magento_Core_Model_Resource_Db_
     /**
      * Core Date
      *
-     * @var Magento_Core_Model_Date
+     * @var \Magento\Core\Model\Date
      */
     protected $_coreDate;
 
     /**
      * Core http
      *
-     * @var Magento_Core_Helper_Http
+     * @var \Magento\Core\Helper\Http
      */
     protected $_coreHttp = null;
 
     /**
-     * @param Magento_Core_Model_Date $coreDate
-     * @param Magento_Core_Helper_Http $coreHttp
-     * @param Magento_Core_Model_Resource $resource
+     * @param \Magento\Core\Model\Date $coreDate
+     * @param \Magento\Core\Helper\Http $coreHttp
+     * @param \Magento\Core\Model\Resource $resource
      */
     public function __construct(
-        Magento_Core_Model_Date $coreDate,
-        Magento_Core_Helper_Http $coreHttp,
-        Magento_Core_Model_Resource $resource
+        \Magento\Core\Model\Date $coreDate,
+        \Magento\Core\Helper\Http $coreHttp,
+        \Magento\Core\Model\Resource $resource
     ) {
         $this->_coreDate = $coreDate;
         $this->_coreHttp = $coreHttp;
@@ -69,7 +71,7 @@ class Magento_Captcha_Model_Resource_Log extends Magento_Core_Model_Resource_Db_
      * Save or Update count Attempts
      *
      * @param string|null $login
-     * @return Magento_Captcha_Model_Resource_Log
+     * @return \Magento\Captcha\Model\Resource\Log
      */
     public function logAttempt($login)
     {
@@ -80,7 +82,7 @@ class Magento_Captcha_Model_Resource_Log extends Magento_Core_Model_Resource_Db_
                      'type' => self::TYPE_LOGIN, 'value' => $login, 'count' => 1,
                      'updated_at' => $this->_coreDate->gmtDate()
                 ),
-                array('count' => new Zend_Db_Expr('count+1'), 'updated_at')
+                array('count' => new \Zend_Db_Expr('count+1'), 'updated_at')
             );
         }
         $ip = $this->_coreHttp->getRemoteAddr();
@@ -91,7 +93,7 @@ class Magento_Captcha_Model_Resource_Log extends Magento_Core_Model_Resource_Db_
                      'type' => self::TYPE_REMOTE_ADDRESS, 'value' => $ip, 'count' => 1,
                      'updated_at' => $this->_coreDate->gmtDate()
                 ),
-                array('count' => new Zend_Db_Expr('count+1'), 'updated_at')
+                array('count' => new \Zend_Db_Expr('count+1'), 'updated_at')
             );
         }
         return $this;
@@ -101,7 +103,7 @@ class Magento_Captcha_Model_Resource_Log extends Magento_Core_Model_Resource_Db_
      * Delete User attempts by login
      *
      * @param string $login
-     * @return Magento_Captcha_Model_Resource_Log
+     * @return \Magento\Captcha\Model\Resource\Log
      */
     public function deleteUserAttempts($login)
     {

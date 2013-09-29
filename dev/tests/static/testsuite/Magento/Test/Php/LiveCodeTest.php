@@ -11,7 +11,9 @@
 /**
  * Set of tests for static code analysis, e.g. code style, code complexity, copy paste detecting, etc.
  */
-class Magento_Test_Php_LiveCodeTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Php;
+
+class LiveCodeTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var string
@@ -30,7 +32,8 @@ class Magento_Test_Php_LiveCodeTest extends PHPUnit_Framework_TestCase
 
     public static function setUpBeforeClass()
     {
-        self::$_reportDir = Magento_TestFramework_Utility_Files::init()->getPathToSource() . '/dev/tests/static/report';
+        self::$_reportDir = \Magento\TestFramework\Utility\Files::init()->getPathToSource()
+            . '/dev/tests/static/report';
         if (!is_dir(self::$_reportDir)) {
             mkdir(self::$_reportDir, 0777);
         }
@@ -41,8 +44,8 @@ class Magento_Test_Php_LiveCodeTest extends PHPUnit_Framework_TestCase
     public function testCodeStyle()
     {
         $reportFile = self::$_reportDir . '/phpcs_report.xml';
-        $wrapper = new Magento_TestFramework_CodingStandard_Tool_CodeSniffer_Wrapper();
-        $codeSniffer = new Magento_TestFramework_CodingStandard_Tool_CodeSniffer(realpath(__DIR__ . '/_files/phpcs'),
+        $wrapper = new \Magento\TestFramework\CodingStandard\Tool\CodeSniffer\Wrapper();
+        $codeSniffer = new \Magento\TestFramework\CodingStandard\Tool\CodeSniffer(realpath(__DIR__ . '/_files/phpcs'),
             $reportFile, $wrapper);
         if (!$codeSniffer->canRun()) {
             $this->markTestSkipped('PHP Code Sniffer is not installed.');
@@ -56,7 +59,7 @@ class Magento_Test_Php_LiveCodeTest extends PHPUnit_Framework_TestCase
     public function testCodeMess()
     {
         $reportFile = self::$_reportDir . '/phpmd_report.xml';
-        $codeMessDetector = new Magento_TestFramework_CodingStandard_Tool_CodeMessDetector(
+        $codeMessDetector = new \Magento\TestFramework\CodingStandard\Tool\CodeMessDetector(
             realpath(__DIR__ . '/_files/phpmd/ruleset.xml'), $reportFile
         );
 
@@ -65,7 +68,7 @@ class Magento_Test_Php_LiveCodeTest extends PHPUnit_Framework_TestCase
         }
 
         $this->assertEquals(
-            PHP_PMD_TextUI_Command::EXIT_SUCCESS, $codeMessDetector->run(self::$_whiteList, self::$_blackList),
+            \PHP_PMD_TextUI_Command::EXIT_SUCCESS, $codeMessDetector->run(self::$_whiteList, self::$_blackList),
             "PHP Code Mess has found error(s): See detailed report in $reportFile"
         );
     }
@@ -73,7 +76,7 @@ class Magento_Test_Php_LiveCodeTest extends PHPUnit_Framework_TestCase
     public function testCopyPaste()
     {
         $reportFile = self::$_reportDir . '/phpcpd_report.xml';
-        $copyPasteDetector = new Magento_TestFramework_CodingStandard_Tool_CopyPasteDetector($reportFile);
+        $copyPasteDetector = new \Magento\TestFramework\CodingStandard\Tool\CopyPasteDetector($reportFile);
 
         if (!$copyPasteDetector->canRun()) {
             $this->markTestSkipped('PHP Copy/Paste Detector is not available.');
@@ -96,7 +99,7 @@ class Magento_Test_Php_LiveCodeTest extends PHPUnit_Framework_TestCase
      *
      * @param string $globPattern
      * @return array
-     * @throws Exception if any of the patterns don't return any result
+     * @throws \Exception if any of the patterns don't return any result
      */
     protected static function _readLists($globPattern)
     {
@@ -115,9 +118,9 @@ class Magento_Test_Php_LiveCodeTest extends PHPUnit_Framework_TestCase
              * Note that glob() for directories will be returned as is,
              * but passing directory is supported by the tools (phpcpd, phpmd, phpcs)
              */
-            $files = glob(Magento_TestFramework_Utility_Files::init()->getPathToSource() . '/' . $pattern, GLOB_BRACE);
+            $files = glob(\Magento\TestFramework\Utility\Files::init()->getPathToSource() . '/' . $pattern, GLOB_BRACE);
             if (empty($files)) {
-                throw new Exception("The glob() pattern '{$pattern}' didn't return any result.");
+                throw new \Exception("The glob() pattern '{$pattern}' didn't return any result.");
             }
             $result = array_merge($result, $files);
         }

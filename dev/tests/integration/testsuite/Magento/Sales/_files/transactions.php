@@ -9,12 +9,12 @@
  * @license     {license_link}
  */
 
-$payment = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Sales_Model_Order_Payment');
+$payment = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Sales\Model\Order\Payment');
 $payment->setMethod('checkmo');
 
-$order = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Sales_Model_Order');
+$order = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Sales\Model\Order');
 $order->setIncrementId('100000001')
     ->setSubtotal(100)
     ->setBaseSubtotal(100)
@@ -22,6 +22,6 @@ $order->setIncrementId('100000001')
     ->setPayment($payment);
 
 $payment->setTransactionId('trx1');
-$payment->addTransaction(Magento_Sales_Model_Order_Payment_Transaction::TYPE_AUTH);
+$payment->addTransaction(\Magento\Sales\Model\Order\Payment\Transaction::TYPE_AUTH);
 
 $order->save();

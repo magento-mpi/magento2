@@ -16,7 +16,9 @@
  * @package     Magento_Widget
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Widget_Model_Resource_Widget extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Widget\Model\Resource;
+
+class Widget extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
 
     /**

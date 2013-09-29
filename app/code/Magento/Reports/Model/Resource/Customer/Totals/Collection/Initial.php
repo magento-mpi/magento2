@@ -16,12 +16,14 @@
  * @package     Magento_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reports_Model_Resource_Customer_Totals_Collection_Initial
-    extends Magento_Reports_Model_Resource_Report_Collection
+namespace Magento\Reports\Model\Resource\Customer\Totals\Collection;
+
+class Initial
+    extends \Magento\Reports\Model\Resource\Report\Collection
 {
     /*
      * Report sub-collection class name
      * @var string
      */
-    protected $_reportCollection = 'Magento_Reports_Model_Resource_Customer_Totals_Collection';
+    protected $_reportCollection = 'Magento\Reports\Model\Resource\Customer\Totals\Collection';
 }

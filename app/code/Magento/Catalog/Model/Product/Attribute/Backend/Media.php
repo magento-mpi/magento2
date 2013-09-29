@@ -15,24 +15,26 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Product_Attribute_Backend_Media extends Magento_Eav_Model_Entity_Attribute_Backend_Abstract
+namespace Magento\Catalog\Model\Product\Attribute\Backend;
+
+class Media extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
 {
     protected $_renamedImages = array();
 
     /**
      * Resource model
      *
-     * @var Magento_Catalog_Model_Resource_Product_Attribute_Backend_Media
+     * @var \Magento\Catalog\Model\Resource\Product\Attribute\Backend\Media
      */
     protected $_resourceModel;
 
     /**
-     * @var Magento_Catalog_Model_Product_Media_Config
+     * @var \Magento\Catalog\Model\Product\Media\Config
      */
     protected $_mediaConfig;
 
     /**
-     * @var Magento_Filesystem $filesystem
+     * @var \Magento\Filesystem $filesystem
      */
     protected $_filesystem;
 
@@ -49,42 +51,42 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Media extends Magento_Eav_
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
     /**
      * Core file storage database
      *
-     * @var Magento_Core_Helper_File_Storage_Database
+     * @var \Magento\Core\Helper\File\Storage\Database
      */
     protected $_fileStorageDb = null;
 
     /**
      * Core event manager proxy
      *
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventManager = null;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Helper_File_Storage_Database $fileStorageDb
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Catalog_Model_Product_Media_Config $mediaConfig
-     * @param Magento_Core_Model_Dir $dirs
-     * @param Magento_Filesystem $filesystem
-     * @param Magento_Core_Model_Logger $logger
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Helper\File\Storage\Database $fileStorageDb
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Catalog\Model\Product\Media\Config $mediaConfig
+     * @param \Magento\Core\Model\Dir $dirs
+     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\Core\Model\Logger $logger
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Helper_File_Storage_Database $fileStorageDb,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Catalog_Model_Product_Media_Config $mediaConfig,
-        Magento_Core_Model_Dir $dirs,
-        Magento_Filesystem $filesystem,
-        Magento_Core_Model_Logger $logger,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Helper\File\Storage\Database $fileStorageDb,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Catalog\Model\Product\Media\Config $mediaConfig,
+        \Magento\Core\Model\Dir $dirs,
+        \Magento\Filesystem $filesystem,
+        \Magento\Core\Model\Logger $logger,
         $data = array()
     ) {
         $this->_eventManager = $eventManager;
@@ -97,7 +99,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Media extends Magento_Eav_
         $this->_filesystem = $filesystem;
         parent::__construct($logger);
         $this->_filesystem->setIsAllowCreateDirectories(true);
-        $this->_filesystem->setWorkingDirectory($dirs->getDir(Magento_Core_Model_Dir::MEDIA));
+        $this->_filesystem->setWorkingDirectory($dirs->getDir(\Magento\Core\Model\Dir::MEDIA));
         $this->_baseMediaPath = $this->_mediaConfig->getBaseMediaPath();
         $this->_baseTmpMediaPath = $this->_mediaConfig->getBaseTmpMediaPath();
         $this->_filesystem->ensureDirectoryExists($this->_baseMediaPath);
@@ -107,8 +109,8 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Media extends Magento_Eav_
     /**
      * Load attribute data after product loaded
      *
-     * @param Magento_Catalog_Model_Product $object
-     * @return Magento_Eav_Model_Entity_Attribute_Backend_Abstract
+     * @param \Magento\Catalog\Model\Product $object
+     * @return \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
      */
     public function afterLoad($object)
     {
@@ -143,8 +145,8 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Media extends Magento_Eav_
     /**
      * Validate media_gallery attribute data
      *
-     * @param Magento_Catalog_Model_Product $object
-     * @throws Magento_Core_Exception
+     * @param \Magento\Catalog\Model\Product $object
+     * @throws \Magento\Core\Exception
      * @return bool
      */
     public function validate($object)
@@ -160,7 +162,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Media extends Magento_Eav_
         if ($this->getAttribute()->getIsUnique()) {
             if (!$this->getAttribute()->getEntity()->checkAttributeUniqueValue($this->getAttribute(), $object)) {
                 $label = $this->getAttribute()->getFrontend()->getLabel();
-                Mage::throwException(
+                \Mage::throwException(
                     __('The value of attribute "%1" must be unique.', $label)
                 );
             }
@@ -272,14 +274,14 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Media extends Magento_Eav_
         $storeId = $object->getStoreId();
 
         $storeIds = $object->getStoreIds();
-        $storeIds[] = Magento_Core_Model_AppInterface::ADMIN_STORE_ID;
+        $storeIds[] = \Magento\Core\Model\AppInterface::ADMIN_STORE_ID;
 
         // remove current storeId
         $storeIds = array_flip($storeIds);
         unset($storeIds[$storeId]);
         $storeIds = array_keys($storeIds);
 
-        $images = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product')
+        $images = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product')
             ->getAssignedImages($object, $storeIds);
 
         $picturesInOtherStores = array();
@@ -325,7 +327,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Media extends Magento_Eav_
     /**
      * Add image to media gallery and return new filename
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @param string                     $file              file path of image in file system
      * @param string|array               $mediaAttribute    code of attribute with type 'media_image',
      *                                                      leave blank if image should be only in gallery
@@ -333,21 +335,21 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Media extends Magento_Eav_
      * @param boolean                    $exclude           mark image as disabled in product page view
      * @return string
      */
-    public function addImage(Magento_Catalog_Model_Product $product, $file,
+    public function addImage(\Magento\Catalog\Model\Product $product, $file,
         $mediaAttribute = null, $move = false, $exclude = true
     ) {
         if (!$this->_filesystem->isFile($file, $this->_baseTmpMediaPath)) {
-            Mage::throwException(__('The image does not exist.'));
+            \Mage::throwException(__('The image does not exist.'));
         }
 
         $pathinfo = pathinfo($file);
         $imgExtensions = array('jpg','jpeg','gif','png');
         if (!isset($pathinfo['extension']) || !in_array(strtolower($pathinfo['extension']), $imgExtensions)) {
-            Mage::throwException(__('Please correct the image file type.'));
+            \Mage::throwException(__('Please correct the image file type.'));
         }
 
-        $fileName       = Magento_Core_Model_File_Uploader::getCorrectFileName($pathinfo['basename']);
-        $dispretionPath = Magento_Core_Model_File_Uploader::getDispretionPath($fileName);
+        $fileName       = \Magento\Core\Model\File\Uploader::getCorrectFileName($pathinfo['basename']);
+        $dispretionPath = \Magento\Core\Model\File\Uploader::getDispretionPath($fileName);
         $fileName       = $dispretionPath . DS . $fileName;
 
         $fileName = $this->_getNotDuplicatedFilename($fileName, $dispretionPath);
@@ -355,7 +357,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Media extends Magento_Eav_
         $destinationFile = $this->_mediaConfig->getTmpMediaPath($fileName);
 
         try {
-            /** @var $storageHelper Magento_Core_Helper_File_Storage_Database */
+            /** @var $storageHelper \Magento\Core\Helper\File\Storage\Database */
             $storageHelper = $this->_fileStorageDb;
             if ($move) {
                 $this->_filesystem->rename($file, $destinationFile, $this->_baseTmpMediaPath);
@@ -368,8 +370,8 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Media extends Magento_Eav_
                 $storageHelper->saveFile($this->_mediaConfig->getTmpMediaShortUrl($fileName));
                 $this->_filesystem->changePermissions($destinationFile, 0777, false, $this->_baseTmpMediaPath);
             }
-        } catch (Exception $e) {
-            Mage::throwException(
+        } catch (\Exception $e) {
+            \Mage::throwException(
                 __('We couldn\'t move this file: %1.', $e->getMessage())
             );
         }
@@ -412,14 +414,14 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Media extends Magento_Eav_
      * Add images with different media attributes.
      * Image will be added only once if the same image is used with different media attributes
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @param array $fileAndAttributesArray array of arrays of filename and corresponding media attribute
      * @param string $filePath path, where image cand be found
      * @param boolean $move if true, it will move source file
      * @param boolean $exclude mark image as disabled in product page view
      * @return array array of parallel arrays with original and renamed files
      */
-    public function addImagesWithDifferentMediaAttributes(Magento_Catalog_Model_Product $product,
+    public function addImagesWithDifferentMediaAttributes(\Magento\Catalog\Model\Product $product,
         $fileAndAttributesArray, $filePath = '', $move = false, $exclude = true
     ) {
         $alreadyAddedFiles = array();
@@ -447,12 +449,12 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Media extends Magento_Eav_
     /**
      * Update image in gallery
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @param string $file
      * @param array $data
-     * @return Magento_Catalog_Model_Product_Attribute_Backend_Media
+     * @return \Magento\Catalog\Model\Product\Attribute\Backend\Media
      */
-    public function updateImage(Magento_Catalog_Model_Product $product, $file, $data)
+    public function updateImage(\Magento\Catalog\Model\Product $product, $file, $data)
     {
         $fieldsMap = array(
             'label'    => 'label',
@@ -486,11 +488,11 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Media extends Magento_Eav_
     /**
      * Remove image from gallery
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @param string $file
-     * @return Magento_Catalog_Model_Product_Attribute_Backend_Media
+     * @return \Magento\Catalog\Model\Product\Attribute\Backend\Media
      */
-    public function removeImage(Magento_Catalog_Model_Product $product, $file)
+    public function removeImage(\Magento\Catalog\Model\Product $product, $file)
     {
         $attrCode = $this->getAttribute()->getAttributeCode();
 
@@ -514,11 +516,11 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Media extends Magento_Eav_
     /**
      * Retrive image from gallery
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @param string $file
      * @return array|boolean
      */
-    public function getImage(Magento_Catalog_Model_Product $product, $file)
+    public function getImage(\Magento\Catalog\Model\Product $product, $file)
     {
         $attrCode = $this->getAttribute()->getAttributeCode();
         $mediaGalleryData = $product->getData($attrCode);
@@ -538,11 +540,11 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Media extends Magento_Eav_
     /**
      * Clear media attribute value
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @param string|array $mediaAttribute
-     * @return Magento_Catalog_Model_Product_Attribute_Backend_Media
+     * @return \Magento\Catalog\Model\Product\Attribute\Backend\Media
      */
-    public function clearMediaAttribute(Magento_Catalog_Model_Product $product, $mediaAttribute)
+    public function clearMediaAttribute(\Magento\Catalog\Model\Product $product, $mediaAttribute)
     {
         $mediaAttributeCodes = array_keys($product->getMediaAttributes());
 
@@ -562,12 +564,12 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Media extends Magento_Eav_
     /**
      * Set media attribute value
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @param string|array $mediaAttribute
      * @param string $value
-     * @return Magento_Catalog_Model_Product_Attribute_Backend_Media
+     * @return \Magento\Catalog\Model\Product\Attribute\Backend\Media
      */
-    public function setMediaAttribute(Magento_Catalog_Model_Product $product, $mediaAttribute, $value)
+    public function setMediaAttribute(\Magento\Catalog\Model\Product $product, $mediaAttribute, $value)
     {
         $mediaAttributeCodes = array_keys($product->getMediaAttributes());
 
@@ -587,13 +589,13 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Media extends Magento_Eav_
     /**
      * Retrieve resource model
      *
-     * @return Magento_Catalog_Model_Resource_Product_Attribute_Backend_Media
+     * @return \Magento\Catalog\Model\Resource\Product\Attribute\Backend\Media
      */
     protected function _getResource()
     {
         if (empty($this->_resourceModel)) {
-            $this->_resourceModel = Mage::getResourceSingleton(
-                'Magento_Catalog_Model_Resource_Product_Attribute_Backend_Media'
+            $this->_resourceModel = \Mage::getResourceSingleton(
+                'Magento\Catalog\Model\Resource\Product\Attribute\Backend\Media'
             );
         }
         return $this->_resourceModel;
@@ -612,7 +614,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Media extends Magento_Eav_
         }
         $destinationFile = $this->_getUniqueFileName($file);
 
-        /** @var $storageHelper Magento_Core_Helper_File_Storage_Database */
+        /** @var $storageHelper \Magento\Core\Helper\File\Storage\Database */
         $storageHelper = $this->_fileStorageDb;
 
         if ($storageHelper->checkDbUsage()) {
@@ -646,12 +648,12 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Media extends Magento_Eav_
         if ($this->_fileStorageDb->checkDbUsage()) {
             $destFile = $this->_fileStorageDb
                 ->getUniqueFilename(
-                    Mage::getSingleton('Magento_Catalog_Model_Product_Media_Config')->getBaseMediaUrlAddition(),
+                    \Mage::getSingleton('Magento\Catalog\Model\Product\Media\Config')->getBaseMediaUrlAddition(),
                     $file
                 );
         } else {
             $destFile = dirname($file) . DS
-                . Magento_Core_Model_File_Uploader::getNewFileName($this->_mediaConfig->getMediaPath($file));
+                . \Magento\Core\Model\File\Uploader::getNewFileName($this->_mediaConfig->getMediaPath($file));
         }
 
         return $destFile;
@@ -669,7 +671,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Media extends Magento_Eav_
             $destinationFile = $this->_getUniqueFileName($file);
 
             if (!$this->_filesystem->isFile($this->_mediaConfig->getMediaPath($file), $this->_baseMediaPath)) {
-                throw new Exception();
+                throw new \Exception();
             }
 
             if ($this->_fileStorageDb->checkDbUsage()) {
@@ -687,9 +689,9 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Media extends Magento_Eav_
             }
 
             return str_replace(DS, '/', $destinationFile);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $file = $this->_mediaConfig->getMediaPath($file);
-            Mage::throwException(
+            \Mage::throwException(
                 __('We couldn\'t copy file %1. Please delete media with non-existing images and try again.', $file)
             );
         }
@@ -724,9 +726,9 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Media extends Magento_Eav_
     protected function _getNotDuplicatedFilename($fileName, $dispretionPath)
     {
         $fileMediaName = $dispretionPath . DS
-                  . Magento_Core_Model_File_Uploader::getNewFileName($this->_mediaConfig->getMediaPath($fileName));
+                  . \Magento\Core\Model\File\Uploader::getNewFileName($this->_mediaConfig->getMediaPath($fileName));
         $fileTmpMediaName = $dispretionPath . DS
-                  . Magento_Core_Model_File_Uploader::getNewFileName($this->_mediaConfig->getTmpMediaPath($fileName));
+                  . \Magento\Core\Model\File\Uploader::getNewFileName($this->_mediaConfig->getTmpMediaPath($fileName));
 
         if ($fileMediaName != $fileTmpMediaName) {
             if ($fileMediaName != $fileName) {
@@ -742,7 +744,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Media extends Magento_Eav_
     /**
      * Retrieve data for update attribute
      *
-     * @param  Magento_Catalog_Model_Product $object
+     * @param  \Magento\Catalog\Model\Product $object
      * @return array
      */
     public function getAffectedFields($object)

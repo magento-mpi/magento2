@@ -8,5 +8,5 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <block class="Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Alerts_Price" name="admin.product.edit.tab.alerts.price" output="1"/>
+    <block class="Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Alerts\Price" name="admin.product.edit.tab.alerts.price" output="1"/>
 </layout>

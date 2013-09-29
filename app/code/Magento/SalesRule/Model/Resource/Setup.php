@@ -11,10 +11,12 @@
 /**
  * Resource setup model
  */
-class Magento_SalesRule_Model_Resource_Setup extends Magento_Sales_Model_Resource_Setup
+namespace Magento\SalesRule\Model\Resource;
+
+class Setup extends \Magento\Sales\Model\Resource\Setup
 {
     /**
-     * @return Magento_Core_Model_Resource_Setup_Migration
+     * @return \Magento\Core\Model\Resource\Setup\Migration
      */
     public function getMigrationModel()
     {

@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Filesystem_Stream_Mode_Zlib extends Magento_Filesystem_Stream_Mode
+namespace Magento\Filesystem\Stream\Mode;
+
+class Zlib extends \Magento\Filesystem\Stream\Mode
 {
     /**
      * Compression ratio

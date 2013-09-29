@@ -15,36 +15,38 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Customer_Edit_Tab_Newsletter_Grid extends Magento_Adminhtml_Block_Widget_Grid
+namespace Magento\Adminhtml\Block\Customer\Edit\Tab\Newsletter;
+
+class Grid extends \Magento\Adminhtml\Block\Widget\Grid
 {
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @var Magento_Newsletter_Model_Resource_Queue_CollectionFactory
+     * @var \Magento\Newsletter\Model\Resource\Queue\CollectionFactory
      */
     protected $_collectionFactory;
 
     /**
-     * @param Magento_Newsletter_Model_Resource_Queue_CollectionFactory $collectionFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Url $urlModel
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\Newsletter\Model\Resource\Queue\CollectionFactory $collectionFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Core\Model\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
-        Magento_Newsletter_Model_Resource_Queue_CollectionFactory $collectionFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Url $urlModel,
-        Magento_Core_Model_Registry $coreRegistry,
+        \Magento\Newsletter\Model\Resource\Queue\CollectionFactory $collectionFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        \Magento\Core\Model\Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
@@ -72,7 +74,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Newsletter_Grid extends Magento_
 
     protected function _prepareCollection()
     {
-        /** @var $collection Magento_Newsletter_Model_Resource_Queue_Collection */
+        /** @var $collection \Magento\Newsletter\Model\Resource\Queue\Collection */
         $collection = $this->_collectionFactory->create()
             ->addTemplateInfo()
             ->addSubscriberFilter($this->_coreRegistry->registry('subscriber')->getId());
@@ -126,9 +128,9 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Newsletter_Grid extends Magento_
          $this->addColumn('status', array(
             'header'    =>  __('Status'),
             'align'     =>  'center',
-            'filter'    =>  'Magento_Adminhtml_Block_Customer_Edit_Tab_Newsletter_Grid_Filter_Status',
+            'filter'    =>  'Magento\Adminhtml\Block\Customer\Edit\Tab\Newsletter\Grid\Filter\Status',
             'index'     => 'queue_status',
-            'renderer'  =>  'Magento_Adminhtml_Block_Customer_Edit_Tab_Newsletter_Grid_Renderer_Status'
+            'renderer'  =>  'Magento\Adminhtml\Block\Customer\Edit\Tab\Newsletter\Grid\Renderer\Status'
         ));
 
         $this->addColumn('action', array(
@@ -136,7 +138,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Newsletter_Grid extends Magento_
             'align'     =>  'center',
             'filter'    =>  false,
             'sortable'  =>  false,
-            'renderer'  =>  'Magento_Adminhtml_Block_Customer_Edit_Tab_Newsletter_Grid_Renderer_Action'
+            'renderer'  =>  'Magento\Adminhtml\Block\Customer\Edit\Tab\Newsletter\Grid\Renderer\Action'
         ));
 
         return parent::_prepareColumns();

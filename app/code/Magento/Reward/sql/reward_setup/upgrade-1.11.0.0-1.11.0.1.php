@@ -8,7 +8,7 @@
  * @license    {license_link}
  */
 
-/** @var $installer Magento_Reward_Model_Resource_Setup */
+/** @var $installer \Magento\Reward\Model\Resource\Setup */
 $installer = $this;
 $installer->startSetup();
 $installer->getConnection()->changeColumn(
@@ -16,9 +16,9 @@ $installer->getConnection()->changeColumn(
     'created_at',
     'created_at',
     array(
-        'type'     => Magento_DB_Ddl_Table::TYPE_TIMESTAMP,
+        'type'     => \Magento\DB\Ddl\Table::TYPE_TIMESTAMP,
         'nullable' => false,
-        'default'  => Magento_DB_Ddl_Table::TIMESTAMP_INIT,
+        'default'  => \Magento\DB\Ddl\Table::TIMESTAMP_INIT,
     )
 );
 $installer->endSetup();

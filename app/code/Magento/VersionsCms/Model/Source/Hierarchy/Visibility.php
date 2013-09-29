@@ -8,14 +8,9 @@
  * @license     {license_link}
  */
 
+namespace Magento\VersionsCms\Model\Source\Hierarchy;
 
-/**
- * Visibility option source model for Hierarchy metadata
- *
- * @category   Magento
- * @package    Magento_VersionsCms
- */
-class Magento_VersionsCms_Model_Source_Hierarchy_Visibility implements Magento_Core_Model_Option_ArrayInterface
+class Visibility implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
      * Retrieve options array
@@ -25,9 +20,9 @@ class Magento_VersionsCms_Model_Source_Hierarchy_Visibility implements Magento_C
     public function toOptionArray()
     {
         return array(
-            Magento_VersionsCms_Helper_Hierarchy::METADATA_VISIBILITY_PARENT => __('Use Parent'),
-            Magento_VersionsCms_Helper_Hierarchy::METADATA_VISIBILITY_YES => __('Yes'),
-            Magento_VersionsCms_Helper_Hierarchy::METADATA_VISIBILITY_NO => __('No'),
+            \Magento\VersionsCms\Helper\Hierarchy::METADATA_VISIBILITY_PARENT => __('Use Parent'),
+            \Magento\VersionsCms\Helper\Hierarchy::METADATA_VISIBILITY_YES => __('Yes'),
+            \Magento\VersionsCms\Helper\Hierarchy::METADATA_VISIBILITY_NO => __('No'),
         );
     }
 }

@@ -11,35 +11,37 @@
 /**
  * Theme file interface
  */
-interface Magento_Core_Model_Theme_FileInterface
+namespace Magento\Core\Model\Theme;
+
+interface FileInterface
 {
     /**
      * Set customization service model
      *
-     * @param Magento_Core_Model_Theme_Customization_FileInterface $service
+     * @param \Magento\Core\Model\Theme\Customization\FileInterface $service
      * @return $this
      */
-    public function setCustomizationService(Magento_Core_Model_Theme_Customization_FileInterface $service);
+    public function setCustomizationService(\Magento\Core\Model\Theme\Customization\FileInterface $service);
 
     /**
      * Get customization service model
      *
-     * @return Magento_Core_Model_Theme_Customization_FileInterface
+     * @return \Magento\Core\Model\Theme\Customization\FileInterface
      */
     public function getCustomizationService();
 
     /**
      * Attaches selected theme to current file
      *
-     * @param Magento_Core_Model_Theme $theme
+     * @param \Magento\Core\Model\Theme $theme
      * @return $this
      */
-    public function setTheme(Magento_Core_Model_Theme $theme);
+    public function setTheme(\Magento\Core\Model\Theme $theme);
 
     /**
      * Get theme model
      *
-     * @return Magento_Core_Model_Theme
+     * @return \Magento\Core\Model\Theme
      */
     public function getTheme();
 

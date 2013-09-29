@@ -16,16 +16,18 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_VersionsCms_Block_Adminhtml_Cms_Page extends Magento_Adminhtml_Block_Template
+namespace Magento\VersionsCms\Block\Adminhtml\Cms;
+
+class Page extends \Magento\Adminhtml\Block\Template
 {
     /**
      * Add  column Versioned to cms page grid
      *
-     * @return Magento_VersionsCms_Block_Adminhtml_Cms_Page
+     * @return \Magento\VersionsCms\Block\Adminhtml\Cms\Page
      */
     protected function _prepareLayout()
     {
-        /* @var $pageGrid Magento_Adminhtml_Block_Cms_Page_Grid */
+        /* @var $pageGrid \Magento\Adminhtml\Block\Cms\Page\Grid */
         $page = $this->getLayout()->getBlock('cms_page');
         if ($page) {
             $pageGrid = $page->getChildBlock('grid');

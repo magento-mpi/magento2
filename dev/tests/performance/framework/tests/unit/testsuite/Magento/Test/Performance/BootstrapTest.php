@@ -9,14 +9,16 @@
  * @license     {license_link}
  */
 
-class Magento_Test_Performance_BootstrapTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Performance;
+
+class BootstrapTest extends \PHPUnit_Framework_TestCase
 {
 
     protected function tearDown()
     {
         // Delete a directory, where tests do some temporary work
         $tmpDir = $this->_getBaseFixtureDir() . '/config_dist/tmp';
-        Magento_Io_File::rmdirRecursive($tmpDir);
+        \Magento\Io\File::rmdirRecursive($tmpDir);
     }
 
     /**
@@ -27,9 +29,10 @@ class Magento_Test_Performance_BootstrapTest extends PHPUnit_Framework_TestCase
     public function testConfigLoad($fixtureDir, $expectedUrl)
     {
         $bootstrap =
-            new Magento_TestFramework_Performance_Bootstrap($fixtureDir, $this->_getBaseFixtureDir() . '/app_base_dir');
+            new \Magento\TestFramework\Performance\Bootstrap($fixtureDir,
+                $this->_getBaseFixtureDir() . '/app_base_dir');
         $config = $bootstrap->getConfig();
-        $this->assertInstanceOf('Magento_TestFramework_Performance_Config', $config);
+        $this->assertInstanceOf('Magento\TestFramework\Performance\Config', $config);
         $this->assertEquals($expectedUrl, $config->getApplicationUrlHost());
     }
 
@@ -64,7 +67,7 @@ class Magento_Test_Performance_BootstrapTest extends PHPUnit_Framework_TestCase
     public function testCleanupReportsCreatesDirectory()
     {
         $fixtureDir = $this->_getBaseFixtureDir() . '/config_dist';
-        $bootstrap = new Magento_TestFramework_Performance_Bootstrap($fixtureDir, $fixtureDir);
+        $bootstrap = new \Magento\TestFramework\Performance\Bootstrap($fixtureDir, $fixtureDir);
 
         $reportDir = $fixtureDir . '/tmp/subdirectory/report';
 
@@ -76,7 +79,7 @@ class Magento_Test_Performance_BootstrapTest extends PHPUnit_Framework_TestCase
     public function testCleanupReportsRemovesFiles()
     {
         $fixtureDir = $this->_getBaseFixtureDir() . '/config_dist';
-        $bootstrap = new Magento_TestFramework_Performance_Bootstrap($fixtureDir, $fixtureDir);
+        $bootstrap = new \Magento\TestFramework\Performance\Bootstrap($fixtureDir, $fixtureDir);
 
         $reportDir = $fixtureDir . '/tmp/subdirectory/report';
         mkdir($reportDir, 0777, true);

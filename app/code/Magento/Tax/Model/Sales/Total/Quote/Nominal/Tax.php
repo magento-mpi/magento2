@@ -11,7 +11,9 @@
 /**
  * Nominal tax total
  */
-class Magento_Tax_Model_Sales_Total_Quote_Nominal_Tax extends Magento_Tax_Model_Sales_Total_Quote_Tax
+namespace Magento\Tax\Model\Sales\Total\Quote\Nominal;
+
+class Tax extends \Magento\Tax\Model\Sales\Total\Quote\Tax
 {
     /**
      * Don't add amounts to address
@@ -30,21 +32,21 @@ class Magento_Tax_Model_Sales_Total_Quote_Nominal_Tax extends Magento_Tax_Model_
     /**
      * Don't fetch anything
      *
-     * @param Magento_Sales_Model_Quote_Address $address
+     * @param \Magento\Sales\Model\Quote\Address $address
      * @return array
      */
-    public function fetch(Magento_Sales_Model_Quote_Address $address)
+    public function fetch(\Magento\Sales\Model\Quote\Address $address)
     {
-        return Magento_Sales_Model_Quote_Address_Total_Abstract::fetch($address);
+        return \Magento\Sales\Model\Quote\Address\Total\AbstractTotal::fetch($address);
     }
 
     /**
      * Get nominal items only
      *
-     * @param Magento_Sales_Model_Quote_Address $address
+     * @param \Magento\Sales\Model\Quote\Address $address
      * @return array
      */
-    protected function _getAddressItems(Magento_Sales_Model_Quote_Address $address)
+    protected function _getAddressItems(\Magento\Sales\Model\Quote\Address $address)
     {
         return $address->getAllNominalItems();
     }
@@ -55,7 +57,7 @@ class Magento_Tax_Model_Sales_Total_Quote_Nominal_Tax extends Magento_Tax_Model_
      * This method can be used for changing totals collect sort order
      *
      * @param array $config
-     * @param int|string|Magento_Core_Model_Store $store
+     * @param int|string|\Magento\Core\Model\Store $store
      * @return array
      */
     public function processConfigArray($config, $store)

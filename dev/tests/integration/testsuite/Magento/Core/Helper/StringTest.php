@@ -9,22 +9,24 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Helper_StringTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Helper;
+
+class StringTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Helper_String
+     * @var \Magento\Core\Helper\String
      */
     protected $_helper;
 
     protected function setUp()
     {
-        $this->_helper = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Helper_String');
+        $this->_helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Helper\String');
     }
 
     /**
-     * @covers Magento_Core_Helper_String::truncate
-     * @covers Magento_Core_Helper_String::strlen
-     * @covers Magento_Core_Helper_String::substr
+     * @covers \Magento\Core\Helper\String::truncate
+     * @covers \Magento\Core\Helper\String::strlen
+     * @covers \Magento\Core\Helper\String::substr
      */
     public function testTruncate()
     {
@@ -37,8 +39,8 @@ class Magento_Core_Helper_StringTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Magento_Core_Helper_String::splitInjection
-     * @covers Magento_Core_Helper_String::strrev
+     * @covers \Magento\Core\Helper\String::splitInjection
+     * @covers \Magento\Core\Helper\String::strrev
      */
     public function testSplitInjection()
     {
@@ -48,12 +50,12 @@ class Magento_Core_Helper_StringTest extends PHPUnit_Framework_TestCase
 
     public function testStrSplit()
     {
-        $this->assertEquals(array(), $this->_helper->str_split(''));
-        $this->assertEquals(array('1', '2', '3', '4'), $this->_helper->str_split('1234', 1));
-        $this->assertEquals(array('1', '2', ' ', '3', '4'), $this->_helper->str_split('12 34', 1, false, true));
+        $this->assertEquals(array(), $this->_helper->strSplit(''));
+        $this->assertEquals(array('1', '2', '3', '4'), $this->_helper->strSplit('1234', 1));
+        $this->assertEquals(array('1', '2', ' ', '3', '4'), $this->_helper->strSplit('12 34', 1, false, true));
         $this->assertEquals(array(
             '12345', '123', '12345', '6789'
-        ), $this->_helper->str_split('12345  123    123456789', 5, true, true));
+        ), $this->_helper->strSplit('12345  123    123456789', 5, true, true));
     }
 
     /**

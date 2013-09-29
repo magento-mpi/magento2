@@ -14,7 +14,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Sales_Order_Create_Store_Select extends Magento_Backend_Block_Store_Switcher
+namespace Magento\Adminhtml\Block\Sales\Order\Create\Store;
+
+class Select extends \Magento\Backend\Block\Store\Switcher
 {
     protected function _construct()
     {

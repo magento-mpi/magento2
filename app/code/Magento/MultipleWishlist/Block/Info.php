@@ -11,44 +11,46 @@
 /**
  * Wishlist view block
  */
-class Magento_MultipleWishlist_Block_Info extends Magento_Wishlist_Block_Abstract
+namespace Magento\MultipleWishlist\Block;
+
+class Info extends \Magento\Wishlist\Block\AbstractBlock
 {
     /**
      * Customer session
      *
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
 
     /**
      * Customer model factory
      *
-     * @var Magento_Customer_Model_CustomerFactory
+     * @var \Magento\Customer\Model\CustomerFactory
      */
     protected $_customerFactory;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_Wishlist_Helper_Data $wishlistData
-     * @param Magento_Tax_Helper_Data $taxData
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Customer_Model_Session $customerSession
-     * @param Magento_Customer_Model_CustomerFactory $customerFactory
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Wishlist\Helper\Data $wishlistData
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_Wishlist_Helper_Data $wishlistData,
-        Magento_Tax_Helper_Data $taxData,
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Customer_Model_Session $customerSession,
-        Magento_Customer_Model_CustomerFactory $customerFactory,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Wishlist\Helper\Data $wishlistData,
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Customer\Model\CustomerFactory $customerFactory,
         array $data = array()
     ) {
         $this->_customerSession = $customerSession;
@@ -59,7 +61,7 @@ class Magento_MultipleWishlist_Block_Info extends Magento_Wishlist_Block_Abstrac
     /**
      * Create message block
      *
-     * @return Magento_Core_Block_Abstract
+     * @return \Magento\Core\Block\AbstractBlock
      */
     public function getMessagesBlock()
     {
@@ -79,11 +81,11 @@ class Magento_MultipleWishlist_Block_Info extends Magento_Wishlist_Block_Abstrac
     /**
      * Retrieve wishlist owner instance
      *
-     * @return Magento_Customer_Model_Customer|null
+     * @return \Magento\Customer\Model\Customer|null
      */
     public function getWishlistOwner()
     {
-        /** @var Magento_Customer_Model_Customer $owner */
+        /** @var \Magento\Customer\Model\Customer $owner */
         $owner = $this->_customerFactory->create();
         $owner->load($this->_getWishlist()->getCustomerId());
         return $owner;

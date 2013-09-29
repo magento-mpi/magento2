@@ -9,30 +9,32 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\Block\Promo\Catalog\Edit\Tab;
+
 /**
- * Test class for Magento_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main
+ * Test class for \Magento\Adminhtml\Block\Promo\Catalog\Edit\Tab\Main
  *
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_Block_Promo_Catalog_Edit_Tab_MainTest extends PHPUnit_Framework_TestCase
+class MainTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @magentoAppIsolation enabled
      */
     public function testPrepareForm()
     {
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $objectManager->get('Magento_Core_Model_View_DesignInterface')
-            ->setArea(Magento_Core_Model_App_Area::AREA_ADMINHTML)
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $objectManager->get('Magento\Core\Model\View\DesignInterface')
+            ->setArea(\Magento\Core\Model\App\Area::AREA_ADMINHTML)
             ->setDefaultDesignTheme();
-        $rule = $objectManager->create('Magento_CatalogRule_Model_Rule');
-        $objectManager->get('Magento_Core_Model_Registry')->register('current_promo_catalog_rule', $rule);
+        $rule = $objectManager->create('Magento\CatalogRule\Model\Rule');
+        $objectManager->get('Magento\Core\Model\Registry')->register('current_promo_catalog_rule', $rule);
 
-        $block = $objectManager->create('Magento_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main');
-        $block->setLayout($objectManager->create('Magento_Core_Model_Layout'));
-        $prepareFormMethod = new ReflectionMethod(
-            'Magento_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main', '_prepareForm'
+        $block = $objectManager->create('Magento\Adminhtml\Block\Promo\Catalog\Edit\Tab\Main');
+        $block->setLayout($objectManager->create('Magento\Core\Model\Layout'));
+        $prepareFormMethod = new \ReflectionMethod(
+            'Magento\Adminhtml\Block\Promo\Catalog\Edit\Tab\Main', '_prepareForm'
         );
         $prepareFormMethod->setAccessible(true);
         $prepareFormMethod->invoke($block);

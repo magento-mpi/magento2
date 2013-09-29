@@ -16,8 +16,10 @@
  * @package     Magento_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reports_Model_Resource_Helper extends Magento_Core_Model_Resource_Helper
-    implements Magento_Reports_Model_Resource_HelperInterface
+namespace Magento\Reports\Model\Resource;
+
+class Helper extends \Magento\Core\Model\Resource\Helper
+    implements \Magento\Reports\Model\Resource\HelperInterface
 {
     /**
      * @param string $modulePrefix
@@ -48,7 +50,7 @@ class Magento_Reports_Model_Resource_Helper extends Magento_Core_Model_Resource_
      * @param string $column
      * @param string $mainTable
      * @param string $aggregationTable
-     * @return Magento_Core_Model_Resource_Helper
+     * @return \Magento\Core\Model\Resource\Helper
      */
     public function updateReportRatingPos($type, $column, $mainTable, $aggregationTable)
     {
@@ -82,17 +84,17 @@ class Magento_Reports_Model_Resource_Helper extends Magento_Core_Model_Resource_
         }
 
         $cols = array_keys($columns);
-        $cols['total_qty'] = new Zend_Db_Expr('SUM(t.' . $column . ')');
+        $cols['total_qty'] = new \Zend_Db_Expr('SUM(t.' . $column . ')');
         $periodSubSelect->from(array('t' => $mainTable), $cols)
             ->group(array('t.store_id', $periodCol, 't.product_id'))
             ->order(array('t.store_id', $periodCol, 'total_qty DESC'));
 
         $cols = $columns;
         $cols[$column] = 't.total_qty';
-        $cols['rating_pos']  = new Zend_Db_Expr(
+        $cols['rating_pos']  = new \Zend_Db_Expr(
             "(@pos := IF(t.`store_id` <> @prevStoreId OR {$periodCol} <> @prevPeriod, 1, @pos+1))");
-        $cols['prevStoreId'] = new Zend_Db_Expr('(@prevStoreId := t.`store_id`)');
-        $cols['prevPeriod']  = new Zend_Db_Expr("(@prevPeriod := {$periodCol})");
+        $cols['prevStoreId'] = new \Zend_Db_Expr('(@prevStoreId := t.`store_id`)');
+        $cols['prevPeriod']  = new \Zend_Db_Expr("(@prevPeriod := {$periodCol})");
         $ratingSubSelect->from($periodSubSelect, $cols);
 
         $cols               = $columns;

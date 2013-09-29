@@ -10,7 +10,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_TestFramework_Dependency_LayoutRule implements Magento_TestFramework_Dependency_RuleInterface
+namespace Magento\TestFramework\Dependency;
+
+class LayoutRule implements \Magento\TestFramework\Dependency\RuleInterface
 {
     /**
      * Cases to search dependencies
@@ -33,9 +35,9 @@ class Magento_TestFramework_Dependency_LayoutRule implements Magento_TestFramewo
      * @var array
      */
     protected $_defaultModules = array(
-        'default'   => 'Magento_Install',
-        'frontend'  => 'Magento_Page',
-        'adminhtml' => 'Magento_Adminhtml',
+        'default'   => 'Magento\Install',
+        'frontend'  => 'Magento\Page',
+        'adminhtml' => 'Magento\Adminhtml',
     );
 
     /**
@@ -131,7 +133,7 @@ class Magento_TestFramework_Dependency_LayoutRule implements Magento_TestFramewo
             }
         }
 
-        $this->_namespaces = implode('|', Magento_TestFramework_Utility_Files::init()->getNamespaces());
+        $this->_namespaces = implode('|', \Magento\TestFramework\Utility\Files::init()->getNamespaces());
     }
 
     /**
@@ -204,8 +206,8 @@ class Magento_TestFramework_Dependency_LayoutRule implements Magento_TestFramewo
     protected function _caseAttributeModule($currentModule, $fileType, $file, &$contents)
     {
         $patterns = array(
-            Magento_Test_Integrity_DependencyTest::TYPE_SOFT =>
-            '/(?<source><.+module\s*=\s*[\'"](?<namespace>' . $this->_namespaces . ')_'
+            \Magento\Test\Integrity\DependencyTest::TYPE_SOFT =>
+            '/(?<source><.+module\s*=\s*[\'"](?<namespace>' . $this->_namespaces . ')[_\\\\]'
                 . '(?<module>[A-Z][a-zA-Z]+)[\'"].*>)/',
         );
         return $this->_checkDependenciesByRegexp($currentModule, $contents, $patterns);
@@ -228,11 +230,11 @@ class Magento_TestFramework_Dependency_LayoutRule implements Magento_TestFramewo
     protected function _caseElementBlock($currentModule, $fileType, $file, &$contents)
     {
         $patterns = array(
-            Magento_Test_Integrity_DependencyTest::TYPE_HARD =>
-            '/(?<source><block.*type\s*=\s*[\'"](?<namespace>' . $this->_namespaces . ')_'
-                . '(?<module>[A-Z][a-zA-Z]+)_(?:[A-Z][a-zA-Z]+_?){1,}[\'"].*>)/',
-            Magento_Test_Integrity_DependencyTest::TYPE_SOFT =>
-            '/(?<source><block.*template\s*=\s*[\'"](?<namespace>' . $this->_namespaces . ')_'
+            \Magento\Test\Integrity\DependencyTest::TYPE_HARD =>
+            '/(?<source><block.*type\s*=\s*[\'"](?<namespace>' . $this->_namespaces . ')[_\\\\]'
+                . '(?<module>[A-Z][a-zA-Z]+)[_\\\\](?:[A-Z][a-zA-Z]+[_\\\\]?){1,}[\'"].*>)/',
+            \Magento\Test\Integrity\DependencyTest::TYPE_SOFT =>
+            '/(?<source><block.*template\s*=\s*[\'"](?<namespace>' . $this->_namespaces . ')[_\\\\]'
                 . '(?<module>[A-Z][a-zA-Z]+)::[\w\/\.]+[\'"].*>)/',
         );
         return $this->_checkDependenciesByRegexp($currentModule, $contents, $patterns);
@@ -257,18 +259,18 @@ class Magento_TestFramework_Dependency_LayoutRule implements Magento_TestFramewo
     protected function _caseElementAction($currentModule, $fileType, $file, &$contents)
     {
         $patterns = array(
-            Magento_Test_Integrity_DependencyTest::TYPE_SOFT =>
-            '/(?<source><block\s*>(?<namespace>' . $this->_namespaces . ')_'
-                . '(?<module>[A-Z][a-zA-Z]+)_(?:[A-Z][a-zA-Z]+_?){1,}<\/block\s*>)/',
-            Magento_Test_Integrity_DependencyTest::TYPE_SOFT =>
-            '/(?<source><template\s*>(?<namespace>' . $this->_namespaces . ')_'
+            \Magento\Test\Integrity\DependencyTest::TYPE_SOFT =>
+            '/(?<source><block\s*>(?<namespace>' . $this->_namespaces . ')[_\\\\]'
+                . '(?<module>[A-Z][a-zA-Z]+)[_\\\\](?:[A-Z][a-zA-Z]+[_\\\\]?){1,}<\/block\s*>)/',
+            \Magento\Test\Integrity\DependencyTest::TYPE_SOFT =>
+            '/(?<source><template\s*>(?<namespace>' . $this->_namespaces . ')[_\\\\]'
                 . '(?<module>[A-Z][a-zA-Z]+)::[\w\/\.]+<\/template\s*>)/',
-            Magento_Test_Integrity_DependencyTest::TYPE_SOFT =>
-            '/(?<source><file\s*>(?<namespace>' . $this->_namespaces . ')_'
+            \Magento\Test\Integrity\DependencyTest::TYPE_SOFT =>
+            '/(?<source><file\s*>(?<namespace>' . $this->_namespaces . ')[_\\\\]'
                 . '(?<module>[A-Z][a-zA-Z]+)::[\w\/\.-]+<\/file\s*>)/',
-            Magento_Test_Integrity_DependencyTest::TYPE_SOFT =>
-            '/(?<source><.*helper\s*=\s*[\'"](?<namespace>' . $this->_namespaces . ')_'
-                . '(?<module>[A-Z][a-zA-Z]+)_(?:[A-Z][a-z]+_?){1,}::[\w]+[\'"].*>)/',
+            \Magento\Test\Integrity\DependencyTest::TYPE_SOFT =>
+            '/(?<source><.*helper\s*=\s*[\'"](?<namespace>' . $this->_namespaces . ')[_\\\\]'
+                . '(?<module>[A-Z][a-zA-Z]+)[_\\\\](?:[A-Z][a-z]+[_\\\\]?){1,}::[\w]+[\'"].*>)/',
         );
         return $this->_checkDependenciesByRegexp($currentModule, $contents, $patterns);
     }
@@ -298,7 +300,7 @@ class Magento_TestFramework_Dependency_LayoutRule implements Magento_TestFramewo
             $module = isset($check['module']) ? $check['module'] : null;
             if ($module) {
                 $result[$module] = array(
-                    'type' => Magento_Test_Integrity_DependencyTest::TYPE_SOFT,
+                    'type' => \Magento\Test\Integrity\DependencyTest::TYPE_SOFT,
                     'source' => $element->getName(),
                 );
             }
@@ -331,7 +333,7 @@ class Magento_TestFramework_Dependency_LayoutRule implements Magento_TestFramewo
             $module = isset($check['module']) ? $check['module'] : null;
             if ($module) {
                 $result[$module] = array(
-                    'type' => Magento_Test_Integrity_DependencyTest::TYPE_HARD,
+                    'type' => \Magento\Test\Integrity\DependencyTest::TYPE_HARD,
                     'source' => (string)$element,
                 );
             }
@@ -364,7 +366,7 @@ class Magento_TestFramework_Dependency_LayoutRule implements Magento_TestFramewo
             $module = isset($check['module']) ? $check['module'] : null;
             if ($module) {
                 $result[$module] = array(
-                    'type' => Magento_Test_Integrity_DependencyTest::TYPE_SOFT,
+                    'type' => \Magento\Test\Integrity\DependencyTest::TYPE_SOFT,
                     'source' => (string)$element,
                 );
             }
@@ -397,7 +399,7 @@ class Magento_TestFramework_Dependency_LayoutRule implements Magento_TestFramewo
             $module = isset($check['module']) ? $check['module'] : null;
             if ($module) {
                 $result[$module] = array(
-                    'type' => Magento_TestFramework_Dependency_RuleInterface::TYPE_SOFT,
+                    'type' => \Magento\TestFramework\Dependency\RuleInterface::TYPE_SOFT,
                     'source' => (string)$element,
                 );
             }
@@ -419,7 +421,7 @@ class Magento_TestFramework_Dependency_LayoutRule implements Magento_TestFramewo
         foreach ($patterns as $type => $pattern) {
             if (preg_match_all($pattern, $contents, $matches, PREG_SET_ORDER)) {
                 foreach ($matches as $match) {
-                    $module = $match['namespace'] . '_' . $match['module'];
+                    $module = $match['namespace'] . '\\' . $match['module'];
                     if ($currentModule != $module) {
                         $result[$module] = array(
                             'type' => $type,
@@ -478,12 +480,12 @@ class Magento_TestFramework_Dependency_LayoutRule implements Magento_TestFramewo
                 return array('module' => $defaultModule);
             }
 
-            // CASE 5: Exception - Undefined dependency
+            // CASE 5: \Exception - Undefined dependency
             $undefinedDependency = implode(', ', $modules);
             $this->_exceptions[self::EXCEPTION_TYPE_UNDEFINED_DEPENDENCY][$undefinedDependency] = $undefinedDependency;
         }
 
-        // CASE 6: Exception - Undefined handle
+        // CASE 6: \Exception - Undefined handle
         $this->_exceptions[self::EXCEPTION_TYPE_UNKNOWN_HANDLE][$handle] = $handle;
         return array();
     }
@@ -521,12 +523,12 @@ class Magento_TestFramework_Dependency_LayoutRule implements Magento_TestFramewo
                 return array('module' => $defaultModule);
             }
 
-            // CASE 4: Exception - Undefined dependency
+            // CASE 4: \Exception - Undefined dependency
             $undefinedDependency = implode(', ', $modules);
             $this->_exceptions[self::EXCEPTION_TYPE_UNDEFINED_DEPENDENCY][$undefinedDependency] = $undefinedDependency;
         }
 
-        // CASE 5: Exception - Undefined block
+        // CASE 5: \Exception - Undefined block
         $this->_exceptions[self::EXCEPTION_TYPE_UNKNOWN_BLOCK][$block] = $block;
         return array();
     }

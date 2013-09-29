@@ -16,7 +16,9 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Resource_Product_Indexer_Eav extends Magento_Catalog_Model_Resource_Product_Indexer_Abstract
+namespace Magento\Catalog\Model\Resource\Product\Indexer;
+
+class Eav extends \Magento\Catalog\Model\Resource\Product\Indexer\AbstractIndexer
 {
     /**
      * EAV Indexers by type
@@ -43,8 +45,8 @@ class Magento_Catalog_Model_Resource_Product_Indexer_Eav extends Magento_Catalog
     {
         if (is_null($this->_types)) {
             $this->_types   = array(
-                'source'    => Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Indexer_Eav_Source'),
-                'decimal'   => Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Indexer_Eav_Decimal'),
+                'source'    => \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Indexer\Eav\Source'),
+                'decimal'   => \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Indexer\Eav\Decimal'),
             );
         }
 
@@ -55,13 +57,13 @@ class Magento_Catalog_Model_Resource_Product_Indexer_Eav extends Magento_Catalog
      * Retrieve indexer instance by type
      *
      * @param string $type
-     * @return Magento_Catalog_Model_Resource_Product_Indexer_Eav_Abstract
+     * @return \Magento\Catalog\Model\Resource\Product\Indexer\Eav\AbstractEav
      */
     public function getIndexer($type)
     {
         $indexers = $this->getIndexers();
         if (!isset($indexers[$type])) {
-            Mage::throwException(__('We found an unknown EAV indexer type "%1".', $type));
+            \Mage::throwException(__('We found an unknown EAV indexer type "%1".', $type));
         }
         return $indexers[$type];
     }
@@ -71,10 +73,10 @@ class Magento_Catalog_Model_Resource_Product_Indexer_Eav extends Magento_Catalog
      * Method is responsible for index support
      * when product was saved and assigned categories was changed.
      *
-     * @param Magento_Index_Model_Event $event
-     * @return Magento_Catalog_Model_Resource_Product_Indexer_Eav
+     * @param \Magento\Index\Model\Event $event
+     * @return \Magento\Catalog\Model\Resource\Product\Indexer\Eav
      */
-    public function catalogProductSave(Magento_Index_Model_Event $event)
+    public function catalogProductSave(\Magento\Index\Model\Event $event)
     {
         $productId = $event->getEntityPk();
         $data = $event->getNewData();
@@ -87,7 +89,7 @@ class Magento_Catalog_Model_Resource_Product_Indexer_Eav extends Magento_Catalog
         }
 
         foreach ($this->getIndexers() as $indexer) {
-            /** @var $indexer Magento_Catalog_Model_Resource_Product_Indexer_Eav_Abstract */
+            /** @var $indexer \Magento\Catalog\Model\Resource\Product\Indexer\Eav\AbstractEav */
             $indexer->reindexEntities($productId);
         }
 
@@ -97,10 +99,10 @@ class Magento_Catalog_Model_Resource_Product_Indexer_Eav extends Magento_Catalog
     /**
      * Process Product Delete
      *
-     * @param Magento_Index_Model_Event $event
-     * @return Magento_Catalog_Model_Resource_Product_Indexer_Eav
+     * @param \Magento\Index\Model\Event $event
+     * @return \Magento\Catalog\Model\Resource\Product\Indexer\Eav
      */
-    public function catalogProductDelete(Magento_Index_Model_Event $event)
+    public function catalogProductDelete(\Magento\Index\Model\Event $event)
     {
         $data = $event->getNewData();
         if (empty($data['reindex_eav_parent_ids'])) {
@@ -108,7 +110,7 @@ class Magento_Catalog_Model_Resource_Product_Indexer_Eav extends Magento_Catalog
         }
 
         foreach ($this->getIndexers() as $indexer) {
-            /** @var $indexer Magento_Catalog_Model_Resource_Product_Indexer_Eav_Abstract */
+            /** @var $indexer \Magento\Catalog\Model\Resource\Product\Indexer\Eav\AbstractEav */
             $indexer->reindexEntities($data['reindex_eav_parent_ids']);
         }
 
@@ -118,10 +120,10 @@ class Magento_Catalog_Model_Resource_Product_Indexer_Eav extends Magento_Catalog
     /**
      * Process Product Mass Update
      *
-     * @param Magento_Index_Model_Event $event
-     * @return Magento_Catalog_Model_Resource_Product_Indexer_Eav
+     * @param \Magento\Index\Model\Event $event
+     * @return \Magento\Catalog\Model\Resource\Product\Indexer\Eav
      */
-    public function catalogProductMassAction(Magento_Index_Model_Event $event)
+    public function catalogProductMassAction(\Magento\Index\Model\Event $event)
     {
         $data = $event->getNewData();
         if (empty($data['reindex_eav_product_ids'])) {
@@ -129,7 +131,7 @@ class Magento_Catalog_Model_Resource_Product_Indexer_Eav extends Magento_Catalog
         }
 
         foreach ($this->getIndexers() as $indexer) {
-            /** @var $indexer Magento_Catalog_Model_Resource_Product_Indexer_Eav_Abstract */
+            /** @var $indexer \Magento\Catalog\Model\Resource\Product\Indexer\Eav\AbstractEav */
             $indexer->reindexEntities($data['reindex_eav_product_ids']);
         }
 
@@ -139,10 +141,10 @@ class Magento_Catalog_Model_Resource_Product_Indexer_Eav extends Magento_Catalog
     /**
      * Process Catalog Eav Attribute Save
      *
-     * @param Magento_Index_Model_Event $event
-     * @return Magento_Catalog_Model_Resource_Product_Indexer_Eav
+     * @param \Magento\Index\Model\Event $event
+     * @return \Magento\Catalog\Model\Resource\Product\Indexer\Eav
      */
-    public function catalogEavAttributeSave(Magento_Index_Model_Event $event)
+    public function catalogEavAttributeSave(\Magento\Index\Model\Event $event)
     {
         $data = $event->getNewData();
         if (empty($data['reindex_attribute'])) {
@@ -159,13 +161,13 @@ class Magento_Catalog_Model_Resource_Product_Indexer_Eav extends Magento_Catalog
     /**
      * Rebuild all index data
      *
-     * @return Magento_Catalog_Model_Resource_Product_Indexer_Eav
+     * @return \Magento\Catalog\Model\Resource\Product\Indexer\Eav
      */
     public function reindexAll()
     {
         $this->useIdxTable(true);
         foreach ($this->getIndexers() as $indexer) {
-            /** @var $indexer Magento_Catalog_Model_Resource_Product_Indexer_Eav_Abstract */
+            /** @var $indexer \Magento\Catalog\Model\Resource\Product\Indexer\Eav\AbstractEav */
             $indexer->reindexAll();
         }
 

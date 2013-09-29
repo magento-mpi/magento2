@@ -11,7 +11,9 @@
 /**
  * Layout Link resource model
  */
-class Magento_Core_Model_Resource_Layout_Link extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Core\Model\Resource\Layout;
+
+class Link extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Define main table

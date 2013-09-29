@@ -9,35 +9,37 @@
  * @license     {license_link}
  */
 
+namespace Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tab;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_SendTest extends PHPUnit_Framework_TestCase
+class SendTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Send */
+    /** @var \Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tab\Send */
     protected $_block;
 
     protected function setUp()
     {
         parent::setUp();
 
-        $model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_GiftCardAccount_Model_Giftcardaccount');
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $objectManager->get('Magento_Core_Model_Registry')->register('current_giftcardaccount', $model);
+        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\GiftCardAccount\Model\Giftcardaccount');
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $objectManager->get('Magento\Core\Model\Registry')->register('current_giftcardaccount', $model);
 
-        $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout');
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout');
 
         $this->_block = $layout
-            ->createBlock('Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Send');
+            ->createBlock('Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tab\Send');
     }
 
     protected function tearDown()
     {
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $objectManager->get('Magento_Core_Model_Registry')->unregister('current_giftcardaccount');
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $objectManager->get('Magento\Core\Model\Registry')->unregister('current_giftcardaccount');
         parent::tearDown();
     }
 
@@ -67,7 +69,7 @@ class Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_SendTest 
 
         $element = $form->getElement('store_id');
         $this->assertNotNull($element);
-        $this->assertInstanceOf('Magento_Data_Form_Element_Select', $element);
+        $this->assertInstanceOf('Magento\Data\Form\Element\Select', $element);
         $this->assertEquals('store_id', $element->getId());
     }
 }

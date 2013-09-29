@@ -8,5 +8,5 @@
  * @license     {license_link}
  */
 
-/* @var $installer Magento_SalesArchive_Model_Resource_Setup */
+/* @var $installer \Magento\SalesArchive\Model\Resource\Setup */
 $installer = $this;

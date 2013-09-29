@@ -5,33 +5,35 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_AdminNotification_Model_System_Message_CacheOutdated
-    implements Magento_AdminNotification_Model_System_MessageInterface
+namespace Magento\AdminNotification\Model\System\Message;
+
+class CacheOutdated
+    implements \Magento\AdminNotification\Model\System\MessageInterface
 {
     /**
-     * @var Magento_Core_Model_UrlInterface
+     * @var \Magento\Core\Model\UrlInterface
      */
     protected $_urlBuilder;
 
     /**
-     * @var Magento_AuthorizationInterface
+     * @var \Magento\AuthorizationInterface
      */
     protected $_authorization;
 
     /**
-     * @var Magento_Core_Model_Cache_TypeListInterface
+     * @var \Magento\Core\Model\Cache\TypeListInterface
      */
     protected $_cacheTypeList;
 
     /**
-     * @param Magento_AuthorizationInterface $authorization
-     * @param Magento_Core_Model_UrlInterface $urlBuilder
-     * @param Magento_Core_Model_Cache_TypeListInterface $cacheTypeList
+     * @param \Magento\AuthorizationInterface $authorization
+     * @param \Magento\Core\Model\UrlInterface $urlBuilder
+     * @param \Magento\Core\Model\Cache\TypeListInterface $cacheTypeList
      */
     public function __construct(
-        Magento_AuthorizationInterface $authorization,
-        Magento_Core_Model_UrlInterface $urlBuilder,
-        Magento_Core_Model_Cache_TypeListInterface $cacheTypeList
+        \Magento\AuthorizationInterface $authorization,
+        \Magento\Core\Model\UrlInterface $urlBuilder,
+        \Magento\Core\Model\Cache\TypeListInterface $cacheTypeList
     ) {
         $this->_authorization = $authorization;
         $this->_urlBuilder = $urlBuilder;
@@ -104,6 +106,6 @@ class Magento_AdminNotification_Model_System_Message_CacheOutdated
      */
     public function getSeverity()
     {
-        return Magento_AdminNotification_Model_System_MessageInterface::SEVERITY_CRITICAL;
+        return \Magento\AdminNotification\Model\System\MessageInterface::SEVERITY_CRITICAL;
     }
 }

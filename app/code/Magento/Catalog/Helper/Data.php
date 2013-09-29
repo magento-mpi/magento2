@@ -16,7 +16,9 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Helper_Data extends Magento_Core_Helper_Abstract
+namespace Magento\Catalog\Helper;
+
+class Data extends \Magento\Core\Helper\AbstractHelper
 {
     const PRICE_SCOPE_GLOBAL               = 0;
     const PRICE_SCOPE_WEBSITE              = 1;
@@ -59,28 +61,28 @@ class Magento_Catalog_Helper_Data extends Magento_Core_Helper_Abstract
 
     /** Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
     
     /**
      * Catalog product
      *
-     * @var Magento_Catalog_Helper_Product
+     * @var \Magento\Catalog\Helper\Product
      */
     protected $_catalogProduct = null;
 
     /**
      * Catalog category
      *
-     * @var Magento_Catalog_Helper_Category
+     * @var \Magento\Catalog\Helper\Category
      */
     protected $_catalogCategory = null;
 
     /**
      * Core string
      *
-     * @var Magento_Core_Helper_String
+     * @var \Magento\Core\Helper\String
      */
     protected $_coreString = null;
 
@@ -90,21 +92,21 @@ class Magento_Catalog_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_templateFilterModel;
 
     /**
-     * @param Magento_Core_Helper_String $coreString
-     * @param Magento_Catalog_Helper_Category $catalogCategory
-     * @param Magento_Catalog_Helper_Product $catalogProduct
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param \Magento\Core\Helper\String $coreString
+     * @param \Magento\Catalog\Helper\Category $catalogCategory
+     * @param \Magento\Catalog\Helper\Product $catalogProduct
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param $templateFilterModel
      */
     public function __construct(
-        Magento_Core_Helper_String $coreString,
-        Magento_Catalog_Helper_Category $catalogCategory,
-        Magento_Catalog_Helper_Product $catalogProduct,
-        Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
+        \Magento\Core\Helper\String $coreString,
+        \Magento\Catalog\Helper\Category $catalogCategory,
+        \Magento\Catalog\Helper\Product $catalogProduct,
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
         $templateFilterModel
     ) {
         $this->_coreString = $coreString;
@@ -120,7 +122,7 @@ class Magento_Catalog_Helper_Data extends Magento_Core_Helper_Abstract
      * Set a specified store ID value
      *
      * @param int $store
-     * @return Magento_Catalog_Helper_Data
+     * @return \Magento\Catalog\Helper\Data
      */
     public function setStoreId($store)
     {
@@ -186,7 +188,7 @@ class Magento_Catalog_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Return current category object
      *
-     * @return Magento_Catalog_Model_Category|null
+     * @return \Magento\Catalog\Model\Category|null
      */
     public function getCategory()
     {
@@ -196,7 +198,7 @@ class Magento_Catalog_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Retrieve current Product object
      *
-     * @return Magento_Catalog_Model_Product|null
+     * @return \Magento\Catalog\Model\Product|null
      */
     public function getProduct()
     {
@@ -210,18 +212,18 @@ class Magento_Catalog_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getLastViewedUrl()
     {
-        $productId = Mage::getSingleton('Magento_Catalog_Model_Session')->getLastViewedProductId();
+        $productId = \Mage::getSingleton('Magento\Catalog\Model\Session')->getLastViewedProductId();
         if ($productId) {
-            $product = Mage::getModel('Magento_Catalog_Model_Product')->load($productId);
-            /* @var $product Magento_Catalog_Model_Product */
+            $product = \Mage::getModel('Magento\Catalog\Model\Product')->load($productId);
+            /* @var $product \Magento\Catalog\Model\Product */
             if ($this->_catalogProduct->canShow($product, 'catalog')) {
                 return $product->getProductUrl();
             }
         }
-        $categoryId = Mage::getSingleton('Magento_Catalog_Model_Session')->getLastViewedCategoryId();
+        $categoryId = \Mage::getSingleton('Magento\Catalog\Model\Session')->getLastViewedCategoryId();
         if ($categoryId) {
-            $category = Mage::getModel('Magento_Catalog_Model_Category')->load($categoryId);
-            /* @var $category Magento_Catalog_Model_Category */
+            $category = \Mage::getModel('Magento\Catalog\Model\Category')->load($categoryId);
+            /* @var $category \Magento\Catalog\Model\Category */
             if (!$this->_catalogCategory->canShow($category)) {
                 return '';
             }
@@ -240,7 +242,7 @@ class Magento_Catalog_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function splitSku($sku, $length = 30)
     {
-        return $this->_coreString->str_split($sku, $length, true, false, '[\-\s]');
+        return $this->_coreString->strSplit($sku, $length, true, false, '[\-\s]');
     }
 
     /**
@@ -325,11 +327,11 @@ class Magento_Catalog_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Retrieve template processor for catalog content
      *
-     * @return Magento_Filter_Template
+     * @return \Magento\Filter\Template
      */
     public function getPageTemplateProcessor()
     {
-        return Mage::getModel($this->_templateFilterModel);
+        return \Mage::getModel($this->_templateFilterModel);
     }
 
     /**
@@ -392,7 +394,7 @@ class Magento_Catalog_Helper_Data extends Magento_Core_Helper_Abstract
      * Check if can apply Minimum Advertise price to product
      * in specific visibility
      *
-     * @param int|Magento_Catalog_Model_Product $product
+     * @param int|\Magento\Catalog\Model\Product $product
      * @param int $visibility Check displaying price in concrete place (by default generally)
      * @param bool $checkAssociatedItems
      * @return bool
@@ -404,8 +406,8 @@ class Magento_Catalog_Helper_Data extends Magento_Core_Helper_Abstract
         }
 
         if (is_numeric($product)) {
-            $product = Mage::getModel('Magento_Catalog_Model_Product')
-                ->setStoreId(Mage::app()->getStore()->getId())
+            $product = \Mage::getModel('Magento\Catalog\Model\Product')
+                ->setStoreId(\Mage::app()->getStore()->getId())
                 ->load($product);
         }
 
@@ -414,7 +416,7 @@ class Magento_Catalog_Helper_Data extends Magento_Core_Helper_Abstract
         }
 
         $result = $product->getMsrpEnabled();
-        if ($result == Magento_Catalog_Model_Product_Attribute_Source_Msrp_Type_Enabled::MSRP_ENABLE_USE_CONFIG) {
+        if ($result == \Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type\Enabled::MSRP_ENABLE_USE_CONFIG) {
             $result = $this->isMsrpApplyToAll();
         }
 
@@ -424,7 +426,7 @@ class Magento_Catalog_Helper_Data extends Magento_Core_Helper_Abstract
 
         if ($result && $visibility !== null) {
             $productVisibility = $product->getMsrpDisplayActualPriceType();
-            if ($productVisibility == Magento_Catalog_Model_Product_Attribute_Source_Msrp_Type_Price::TYPE_USE_CONFIG) {
+            if ($productVisibility == \Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type\Price::TYPE_USE_CONFIG) {
                 $productVisibility = $this->getMsrpDisplayActualPriceType();
             }
             $result = ($productVisibility == $visibility);
@@ -446,15 +448,15 @@ class Magento_Catalog_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Check whether MAP applied to product Product Type
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @return bool
      */
     public function canApplyMsrpToProductType($product)
     {
         if($this->_mapApplyToProductType === null) {
-            /** @var $attribute Magento_Catalog_Model_Resource_Eav_Attribute */
-            $attribute = Mage::getModel('Magento_Catalog_Model_Resource_Eav_Attribute')
-                ->loadByCode(Magento_Catalog_Model_Product::ENTITY, 'msrp_enabled');
+            /** @var $attribute \Magento\Catalog\Model\Resource\Eav\Attribute */
+            $attribute = \Mage::getModel('Magento\Catalog\Model\Resource\Eav\Attribute')
+                ->loadByCode(\Magento\Catalog\Model\Product::ENTITY, 'msrp_enabled');
             $this->_mapApplyToProductType = $attribute->getApplyTo();
         }
         return empty($this->_mapApplyToProductType) || in_array($product->getTypeId(), $this->_mapApplyToProductType);
@@ -463,7 +465,7 @@ class Magento_Catalog_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Get MAP message for price
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @return string
      */
     public function getMsrpPriceMessage($product)
@@ -471,12 +473,12 @@ class Magento_Catalog_Helper_Data extends Magento_Core_Helper_Abstract
         $message = "";
         if ($this->canApplyMsrp(
             $product,
-            Magento_Catalog_Model_Product_Attribute_Source_Msrp_Type::TYPE_IN_CART
+            \Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type::TYPE_IN_CART
         )) {
             $message = __('To see product price, add this item to your cart. You can always remove it later.');
         } elseif ($this->canApplyMsrp(
             $product,
-            Magento_Catalog_Model_Product_Attribute_Source_Msrp_Type::TYPE_BEFORE_ORDER_CONFIRM
+            \Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type::TYPE_BEFORE_ORDER_CONFIRM
         )) {
             $message = __('See price before order confirmation.');
         }
@@ -486,14 +488,14 @@ class Magento_Catalog_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Check is product need gesture to show price
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @return bool
      */
     public function isShowPriceOnGesture($product)
     {
         return $this->canApplyMsrp(
             $product,
-            Magento_Catalog_Model_Product_Attribute_Source_Msrp_Type::TYPE_ON_GESTURE
+            \Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type::TYPE_ON_GESTURE
         );
     }
 

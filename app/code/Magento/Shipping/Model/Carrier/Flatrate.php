@@ -16,9 +16,11 @@
  * @package    Magento_Shipping
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Shipping_Model_Carrier_Flatrate
-    extends Magento_Shipping_Model_Carrier_Abstract
-    implements Magento_Shipping_Model_Carrier_Interface
+namespace Magento\Shipping\Model\Carrier;
+
+class Flatrate
+    extends \Magento\Shipping\Model\Carrier\AbstractCarrier
+    implements \Magento\Shipping\Model\Carrier\CarrierInterface
 {
 
     protected $_code = 'flatrate';
@@ -27,10 +29,10 @@ class Magento_Shipping_Model_Carrier_Flatrate
     /**
      * Enter description here...
      *
-     * @param Magento_Shipping_Model_Rate_Request $data
-     * @return Magento_Shipping_Model_Rate_Result
+     * @param \Magento\Shipping\Model\Rate\Request $data
+     * @return \Magento\Shipping\Model\Rate\Result
      */
-    public function collectRates(Magento_Shipping_Model_Rate_Request $request)
+    public function collectRates(\Magento\Shipping\Model\Rate\Request $request)
     {
         if (!$this->getConfigFlag('active')) {
             return false;
@@ -57,7 +59,7 @@ class Magento_Shipping_Model_Carrier_Flatrate
         }
         $this->setFreeBoxes($freeBoxes);
 
-        $result = Mage::getModel('Magento_Shipping_Model_Rate_Result');
+        $result = \Mage::getModel('Magento\Shipping\Model\Rate\Result');
         if ($this->getConfigData('type') == 'O') { // per order
             $shippingPrice = $this->getConfigData('price');
         } elseif ($this->getConfigData('type') == 'I') { // per item
@@ -69,7 +71,7 @@ class Magento_Shipping_Model_Carrier_Flatrate
         $shippingPrice = $this->getFinalPriceWithHandlingFee($shippingPrice);
 
         if ($shippingPrice !== false) {
-            $method = Mage::getModel('Magento_Shipping_Model_Rate_Result_Method');
+            $method = \Mage::getModel('Magento\Shipping\Model\Rate\Result\Method');
 
             $method->setCarrier('flatrate');
             $method->setCarrierTitle($this->getConfigData('title'));

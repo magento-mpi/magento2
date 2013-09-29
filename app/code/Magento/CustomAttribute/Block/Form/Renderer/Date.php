@@ -16,7 +16,9 @@
  * @package     Magento_CustomAttribute
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CustomAttribute_Block_Form_Renderer_Date extends Magento_CustomAttribute_Block_Form_Renderer_Abstract
+namespace Magento\CustomAttribute\Block\Form\Renderer;
+
+class Date extends \Magento\CustomAttribute\Block\Form\Renderer\AbstractRenderer
 {
     /**
      * Constants for borders of date-type customer attributes
@@ -45,7 +47,7 @@ class Magento_CustomAttribute_Block_Form_Renderer_Date extends Magento_CustomAtt
      */
     public function getDateFormat()
     {
-        return $this->_locale->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
+        return $this->_locale->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
     }
 
     /**

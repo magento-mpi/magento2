@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Catalog_Model_Resource_Product_Collection_AssociatedProductUpdaterTest extends PHPUnit_Framework_TestCase
+namespace Magento\Catalog\Model\Resource\Product\Collection;
+
+class AssociatedProductUpdaterTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Test adding filtration by qty and stock availability to collection
@@ -20,10 +22,10 @@ class Magento_Catalog_Model_Resource_Product_Collection_AssociatedProductUpdater
             'qty' => 'qty',
             'inventory_in_stock' => 'is_in_stock'
         );
-        $collection = $this->getMockBuilder('Magento_Data_Collection_Db')
+        $collection = $this->getMockBuilder('Magento\Data\Collection\Db')
             ->disableOriginalConstructor()
             ->getMock();
-        $stockItem = $this->getMockBuilder('Magento_CatalogInventory_Model_Resource_Stock_Item')
+        $stockItem = $this->getMockBuilder('Magento\CatalogInventory\Model\Resource\Stock\Item')
             ->disableOriginalConstructor()
             ->setMethods(array('addCatalogInventoryToProductCollection'))
             ->getMock();
@@ -31,7 +33,7 @@ class Magento_Catalog_Model_Resource_Product_Collection_AssociatedProductUpdater
             ->method('addCatalogInventoryToProductCollection')
             ->with($collection, $inventory);
 
-        $model = new Magento_Catalog_Model_Resource_Product_Collection_AssociatedProductUpdater($stockItem);
+        $model = new \Magento\Catalog\Model\Resource\Product\Collection\AssociatedProductUpdater($stockItem);
         $model->update($collection);
     }
 }

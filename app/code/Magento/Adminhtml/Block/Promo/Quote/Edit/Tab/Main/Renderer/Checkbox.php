@@ -15,23 +15,25 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Main_Renderer_Checkbox
-    extends Magento_Backend_Block_Abstract
-    implements Magento_Data_Form_Element_Renderer_Interface
+namespace Magento\Adminhtml\Block\Promo\Quote\Edit\Tab\Main\Renderer;
+
+class Checkbox
+    extends \Magento\Backend\Block\AbstractBlock
+    implements \Magento\Data\Form\Element\Renderer\RendererInterface
 {
     /**
-     * @var Magento_Data_Form_Element_Factory
+     * @var \Magento\Data\Form\Element\Factory
      */
     protected $_elementFactory;
 
     /**
-     * @param Magento_Data_Form_Element_Factory $elementFactory
-     * @param Magento_Backend_Block_Context $context
+     * @param \Magento\Data\Form\Element\Factory $elementFactory
+     * @param \Magento\Backend\Block\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Data_Form_Element_Factory $elementFactory,
-        Magento_Backend_Block_Context $context,
+        \Magento\Data\Form\Element\Factory $elementFactory,
+        \Magento\Backend\Block\Context $context,
         array $data = array()
     ) {
         $this->_elementFactory = $elementFactory;
@@ -41,12 +43,12 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Main_Renderer_Checkbox
     /**
      * Checkbox render function
      *
-     * @param Magento_Data_Form_Element_Abstract $element
+     * @param \Magento\Data\Form\Element\AbstractElement $element
      * @return string
      */
-    public function render(Magento_Data_Form_Element_Abstract $element)
+    public function render(\Magento\Data\Form\Element\AbstractElement $element)
     {
-        /** @var Magento_Data_Form_Element_Checkbox $checkbox */
+        /** @var \Magento\Data\Form\Element\Checkbox $checkbox */
         $checkbox = $this->_elementFactory->create('checkbox', array('attributes' => $element->getData()));
         $checkbox->setForm($element->getForm());
 

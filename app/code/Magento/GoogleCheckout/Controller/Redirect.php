@@ -13,26 +13,28 @@
  * @package     Magento_GoogleCheckout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GoogleCheckout_Controller_Redirect extends Magento_Core_Controller_Front_Action
+namespace Magento\GoogleCheckout\Controller;
+
+class Redirect extends \Magento\Core\Controller\Front\Action
 {
     /**
      *  Send request to Google Checkout and return Response Api
      *
-     *  @return Magento_GoogleCheckout_Model_Api_Xml_Checkout
+     *  @return \Magento\GoogleCheckout\Model\Api\Xml\Checkout
      */
     protected function _getApi ()
     {
-        $session = Mage::getSingleton('Magento_Checkout_Model_Session');
-        $api = Mage::getModel('Magento_GoogleCheckout_Model_Api');
-        /* @var $quote Magento_Sales_Model_Quote */
+        $session = \Mage::getSingleton('Magento\Checkout\Model\Session');
+        $api = \Mage::getModel('Magento\GoogleCheckout\Model\Api');
+        /* @var $quote \Magento\Sales\Model\Quote */
         $quote = $session->getQuote();
 
         if (!$quote->hasItems()) {
-            $this->getResponse()->setRedirect(Mage::getUrl('checkout/cart'));
+            $this->getResponse()->setRedirect(\Mage::getUrl('checkout/cart'));
             $api->setError(true);
         }
 
-        $storeQuote = Mage::getModel('Magento_Sales_Model_Quote')->setStoreId(Mage::app()->getStore()->getId());
+        $storeQuote = \Mage::getModel('Magento\Sales\Model\Quote')->setStoreId(\Mage::app()->getStore()->getId());
         $storeQuote->merge($quote);
         $storeQuote
             ->setItemsCount($quote->getItemsCount())
@@ -41,7 +43,7 @@ class Magento_GoogleCheckout_Controller_Redirect extends Magento_Core_Controller
         $storeQuote->save();
 
         $baseCurrency = $quote->getBaseCurrencyCode();
-        $currency = Mage::app()->getStore($quote->getStoreId())->getBaseCurrency();
+        $currency = \Mage::app()->getStore($quote->getStoreId())->getBaseCurrency();
 
 
         /*
@@ -62,12 +64,12 @@ class Magento_GoogleCheckout_Controller_Redirect extends Magento_Core_Controller
 
             $response = $api->getResponse();
             if ($api->getError()) {
-                Mage::getSingleton('Magento_Checkout_Model_Session')->addError($api->getError());
+                \Mage::getSingleton('Magento\Checkout\Model\Session')->addError($api->getError());
             } else {
                 $quote->setIsActive(false)->save();
                 $session->replaceQuote($storeQuote);
-                Mage::getModel('Magento_Checkout_Model_Cart')->init()->save();
-                if ($this->_objectManager->get('Magento_Core_Model_Store_Config')
+                \Mage::getModel('Magento\Checkout\Model\Cart')->init()->save();
+                if ($this->_objectManager->get('Magento\Core\Model\Store\Config')
                     ->getConfigFlag('google/checkout/hide_cart_contents')
                 ) {
                     $session->setGoogleCheckoutQuoteId($session->getQuoteId());
@@ -80,12 +82,12 @@ class Magento_GoogleCheckout_Controller_Redirect extends Magento_Core_Controller
 
     public function checkoutAction()
     {
-        $session = Mage::getSingleton('Magento_Checkout_Model_Session');
+        $session = \Mage::getSingleton('Magento\Checkout\Model\Session');
         $this->_eventManager->dispatch('googlecheckout_checkout_before', array('quote' => $session->getQuote()));
         $api = $this->_getApi();
 
         if ($api->getError()) {
-            $url = Mage::getUrl('checkout/cart');
+            $url = \Mage::getUrl('checkout/cart');
         } else {
             $url = $api->getRedirectUrl();
         }
@@ -101,7 +103,7 @@ class Magento_GoogleCheckout_Controller_Redirect extends Magento_Core_Controller
         $api = $this->_getApi();
 
         if ($api->getError()) {
-            $this->getResponse()->setRedirect(Mage::getUrl('checkout/cart'));
+            $this->getResponse()->setRedirect(\Mage::getUrl('checkout/cart'));
             return;
         } else {
             $url = $api->getRedirectUrl();
@@ -113,10 +115,10 @@ class Magento_GoogleCheckout_Controller_Redirect extends Magento_Core_Controller
 
     public function cartAction()
     {
-        $hideCartContents = $this->_objectManager->get('Magento_Core_Model_Store_Config')
+        $hideCartContents = $this->_objectManager->get('Magento\Core\Model\Store\Config')
             ->getConfigFlag('google/checkout/hide_cart_contents');
         if ($hideCartContents) {
-            $session = Mage::getSingleton('Magento_Checkout_Model_Session');
+            $session = \Mage::getSingleton('Magento\Checkout\Model\Session');
             if ($session->getQuoteId()) {
                 $session->getQuote()->delete();
             }
@@ -129,21 +131,21 @@ class Magento_GoogleCheckout_Controller_Redirect extends Magento_Core_Controller
 
     public function continueAction()
     {
-        $session = Mage::getSingleton('Magento_Checkout_Model_Session');
+        $session = \Mage::getSingleton('Magento\Checkout\Model\Session');
 
         if ($quoteId = $session->getGoogleCheckoutQuoteId()) {
-            $quote = Mage::getModel('Magento_Sales_Model_Quote')->load($quoteId)
+            $quote = \Mage::getModel('Magento\Sales\Model\Quote')->load($quoteId)
                 ->setIsActive(false)->save();
         }
         $session->clear();
 
-        $hideCartContents = $this->_objectManager->get('Magento_Core_Model_Store_Config')
+        $hideCartContents = $this->_objectManager->get('Magento\Core\Model\Store\Config')
             ->getConfigFlag('google/checkout/hide_cart_contents');
         if ($hideCartContents) {
             $session->setGoogleCheckoutQuoteId(null);
         }
 
-        $url = $this->_objectManager->get('Magento_Core_Model_Store_Config')
+        $url = $this->_objectManager->get('Magento\Core\Model\Store\Config')
             ->getConfig('google/checkout/continue_shopping_url');
         if (empty($url)) {
             $this->_redirect('');
@@ -161,8 +163,8 @@ class Magento_GoogleCheckout_Controller_Redirect extends Magento_Core_Controller
     {
         $this->setFlag('', 'no-dispatch', true);
         $this->getResponse()->setRedirect(
-            $this->_objectManager->get('Magento_Core_Helper_Url')->addRequestParam(
-                $this->_objectManager->get('Magento_Customer_Helper_Data')->getLoginUrl(),
+            $this->_objectManager->get('Magento\Core\Helper\Url')->addRequestParam(
+                $this->_objectManager->get('Magento\Customer\Helper\Data')->getLoginUrl(),
                 array('context' => 'checkout')
             )
         );

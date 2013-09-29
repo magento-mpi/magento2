@@ -11,7 +11,9 @@
 /**
  * Front end helper block to show GiftRegistry mark
  */
-class Magento_GiftRegistry_Block_Product_View extends Magento_Catalog_Block_Product_View
+namespace Magento\GiftRegistry\Block\Product;
+
+class View extends \Magento\Catalog\Block\Product\View
 {
     /**
      * GiftRegistry param flag value in url option params
@@ -24,13 +26,13 @@ class Magento_GiftRegistry_Block_Product_View extends Magento_Catalog_Block_Prod
      *
      * @param string $blockName
      * @param string $template
-     * @throws LogicException
+     * @throws \LogicException
      */
     public function setGiftRegistryTemplate($blockName, $template)
     {
         $block = $this->getLayout()->getBlock($blockName);
         if (!$block) {
-            throw new LogicException("Could not find block '$blockName'");
+            throw new \LogicException("Could not find block '$blockName'");
         }
         if ($this->_isGiftRegistryRedirect()) {
             $block->setTemplate($template);
@@ -41,13 +43,13 @@ class Magento_GiftRegistry_Block_Product_View extends Magento_Catalog_Block_Prod
      * Set GiftRegistry URL for the template
      *
      * @param string $blockName
-     * @throws LogicException
+     * @throws \LogicException
      */
     public function setGiftRegistryUrl($blockName)
     {
         $block = $this->getLayout()->getBlock($blockName);
         if (!$block) {
-            throw new LogicException("Could not find block '$blockName'");
+            throw new \LogicException("Could not find block '$blockName'");
         }
         if ($this->_isGiftRegistryRedirect()) {
             $block->setAddToGiftregistryUrl($this->getAddToGiftregistryUrl());

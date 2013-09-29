@@ -12,7 +12,9 @@
  * Customerbalance controller for My Account
  *
  */
-class Magento_CustomerBalance_Controller_Info extends Magento_Core_Controller_Front_Action
+namespace Magento\CustomerBalance\Controller;
+
+class Info extends \Magento\Core\Controller\Front\Action
 {
     /**
      * Only logged in users can use this functionality,
@@ -23,7 +25,7 @@ class Magento_CustomerBalance_Controller_Info extends Magento_Core_Controller_Fr
     {
         parent::preDispatch();
 
-        if (!$this->_objectManager->get('Magento_Customer_Model_Session')->authenticate($this)) {
+        if (!$this->_objectManager->get('Magento\Customer\Model\Session')->authenticate($this)) {
             $this->setFlag('', 'no-dispatch', true);
         }
     }
@@ -34,12 +36,12 @@ class Magento_CustomerBalance_Controller_Info extends Magento_Core_Controller_Fr
      */
     public function indexAction()
     {
-        if (!$this->_objectManager->get('Magento_CustomerBalance_Helper_Data')->isEnabled()) {
+        if (!$this->_objectManager->get('Magento\CustomerBalance\Helper\Data')->isEnabled()) {
             $this->_redirect('customer/account/');
             return;
         }
         $this->loadLayout();
-        $this->_initLayoutMessages('Magento_Customer_Model_Session');
+        $this->_initLayoutMessages('Magento\Customer\Model\Session');
         $this->loadLayoutUpdates();
         $headBlock = $this->getLayout()->getBlock('head');
         if ($headBlock) {

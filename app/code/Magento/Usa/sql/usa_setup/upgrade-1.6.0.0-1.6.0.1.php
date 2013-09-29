@@ -49,7 +49,7 @@ $codes = array(
     ),
 );
 
-/* @var $installer Magento_Core_Model_Resource_Setup */
+/* @var $installer \Magento\Core\Model\Resource\Setup */
 $installer = $this;
 $configDataTable = $installer->getTable('core_config_data');
 $conn = $installer->getConnection();

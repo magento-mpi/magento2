@@ -8,14 +8,14 @@
  * @license     {license_link}
  */
 
-/** @var $this Magento_Core_Model_Resource_Setup_Generic */
-/** @var $installer Magento_Core_Model_Resource_Setup_Migration */
+/** @var $this \Magento\Core\Model\Resource\Setup\Generic */
+/** @var $installer \Magento\Core\Model\Resource\Setup\Migration */
 $installer = $this->createMigrationSetup(array('resourceName' => 'core_setup'));
 $installer->startSetup();
 
 $installer->appendClassAliasReplace('widget_instance', 'instance_type',
-    Magento_Core_Model_Resource_Setup_Migration::ENTITY_TYPE_BLOCK,
-    Magento_Core_Model_Resource_Setup_Migration::FIELD_CONTENT_TYPE_PLAIN,
+    \Magento\Core\Model\Resource\Setup\Migration::ENTITY_TYPE_BLOCK,
+    \Magento\Core\Model\Resource\Setup\Migration::FIELD_CONTENT_TYPE_PLAIN,
     array('instance_id')
 );
 $installer->doUpdateClassAliases();

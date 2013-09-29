@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Bundle_Model_Source_Option_Type implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Bundle\Model\Source\Option;
+
+class Type implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
      * @var array

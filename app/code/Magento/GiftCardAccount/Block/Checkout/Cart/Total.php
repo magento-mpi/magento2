@@ -9,29 +9,31 @@
  */
 
 
-class Magento_GiftCardAccount_Block_Checkout_Cart_Total extends Magento_Checkout_Block_Total_Default
+namespace Magento\GiftCardAccount\Block\Checkout\Cart;
+
+class Total extends \Magento\Checkout\Block\Total\DefaultTotal
 {
     protected $_template = 'Magento_GiftCardAccount::cart/total.phtml';
 
     /**
-     * @var Magento_GiftCardAccount_Helper_Data|null
+     * @var \Magento\GiftCardAccount\Helper\Data|null
      */
     protected $_giftCardAccountData = null;
 
     /**
-     * @param Magento_GiftCardAccount_Helper_Data $giftCardAccountData
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Sales_Model_Config $salesConfig
+     * @param \Magento\GiftCardAccount\Helper\Data $giftCardAccountData
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Sales\Model\Config $salesConfig
      * @param array $data
      */
     public function __construct(
-        Magento_GiftCardAccount_Helper_Data $giftCardAccountData,
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Sales_Model_Config $salesConfig,
+        \Magento\GiftCardAccount\Helper\Data $giftCardAccountData,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Sales\Model\Config $salesConfig,
         array $data = array()
     ) {
         $this->_giftCardAccountData = $giftCardAccountData;
@@ -40,7 +42,7 @@ class Magento_GiftCardAccount_Block_Checkout_Cart_Total extends Magento_Checkout
 
     public function getQuote()
     {
-        return Mage::getSingleton('Magento_Checkout_Model_Session')->getQuote();
+        return \Mage::getSingleton('Magento\Checkout\Model\Session')->getQuote();
     }
 
     public function getQuoteGiftCards()

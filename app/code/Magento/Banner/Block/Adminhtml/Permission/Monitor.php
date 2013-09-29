@@ -17,29 +17,31 @@
  * @package     Magento_Banner
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Banner_Block_Adminhtml_Permission_Monitor extends Magento_Adminhtml_Block_Template
+namespace Magento\Banner\Block\Adminhtml\Permission;
+
+class Monitor extends \Magento\Adminhtml\Block\Template
 {
     /**
      * Preparing layout
      *
-     * @return Magento_Banner_Block_Adminhtml_Permission_Monitor
+     * @return \Magento\Banner\Block\Adminhtml\Permission\Monitor
      */
     protected function _prepareLayout()
     {
         parent::_prepareLayout();
 
         if (!$this->_authorization->isAllowed('Magento_Banner::magento_banner')) {
-            /** @var $layout Magento_Core_Model_Layout */
+            /** @var $layout \Magento\Core\Model\Layout */
             $layout = $this->getLayout();
             if ($layout->getBlock('salesrule.related.banners') !== false) {
-                /** @var $promoQuoteBlock Magento_Adminhtml_Block_Widget_Tabs */
+                /** @var $promoQuoteBlock \Magento\Adminhtml\Block\Widget\Tabs */
                 $promoQuoteBlock = $layout->getBlock('promo_quote_edit_tabs');
                 if ($promoQuoteBlock !== false) {
                     $promoQuoteBlock->removeTab('banners_section');
                     $layout->unsetElement('salesrule.related.banners');
                 }
             } elseif ($layout->getBlock('catalogrule.related.banners') !== false) {
-                /** @var $promoCatalogBlock Magento_Adminhtml_Block_Widget_Tabs */
+                /** @var $promoCatalogBlock \Magento\Adminhtml\Block\Widget\Tabs */
                 $promoCatalogBlock = $layout->getBlock('promo_catalog_edit_tabs');
                 if ($promoCatalogBlock !== false) {
                     $promoCatalogBlock->removeTab('banners_section');

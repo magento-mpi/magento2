@@ -13,46 +13,48 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backend_Model_Locale extends Magento_Core_Model_Locale
+namespace Magento\Backend\Model;
+
+class Locale extends \Magento\Core\Model\Locale
 {
     /**
-     * @var Magento_Backend_Model_Session
+     * @var \Magento\Backend\Model\Session
      */
     protected $_session;
 
     /**
-     * @var Magento_Backend_Model_Locale_Manager
+     * @var \Magento\Backend\Model\Locale\Manager
      */
     protected $_localeManager;
 
     /**
-     * @var Magento_Core_Controller_Request_Http
+     * @var \Magento\Core\Controller\Request\Http
      */
     protected $_request;
 
     /**
-     * @var Magento_Core_Model_Locale_Validator
+     * @var \Magento\Core\Model\Locale\Validator
      */
     protected $_localeValidator;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Backend_Model_Session $session
-     * @param Magento_Backend_Model_Locale_Manager $localeManager
-     * @param Magento_Core_Controller_Request_Http $request
-     * @param Magento_Core_Model_Locale_Validator $localeValidator
-     * @param Magento_Core_Helper_Translate $translate
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Backend\Model\Session $session
+     * @param \Magento\Backend\Model\Locale\Manager $localeManager
+     * @param \Magento\Core\Controller\Request\Http $request
+     * @param \Magento\Core\Model\Locale\Validator $localeValidator
+     * @param \Magento\Core\Helper\Translate $translate
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param string|null $locale
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Backend_Model_Session $session,
-        Magento_Backend_Model_Locale_Manager $localeManager,
-        Magento_Core_Controller_Request_Http $request,
-        Magento_Core_Model_Locale_Validator $localeValidator,
-        Magento_Core_Helper_Translate $translate,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Backend\Model\Session $session,
+        \Magento\Backend\Model\Locale\Manager $localeManager,
+        \Magento\Core\Controller\Request\Http $request,
+        \Magento\Core\Model\Locale\Validator $localeValidator,
+        \Magento\Core\Helper\Translate $translate,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
         $locale = null
     ) {
         $this->_session = $session;
@@ -66,7 +68,7 @@ class Magento_Backend_Model_Locale extends Magento_Core_Model_Locale
      * Set locale
      *
      * @param   string $locale
-     * @return  Magento_Core_Model_LocaleInterface
+     * @return  \Magento\Core\Model\LocaleInterface
      */
     public function setLocale($locale = null)
     {

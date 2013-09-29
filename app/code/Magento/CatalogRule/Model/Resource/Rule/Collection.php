@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_CatalogRule_Model_Resource_Rule_Collection extends Magento_Rule_Model_Resource_Rule_Collection_Abstract
+namespace Magento\CatalogRule\Model\Resource\Rule;
+
+class Collection extends \Magento\Rule\Model\Resource\Rule\Collection\AbstractCollection
 {
     /**
      * Store associated with rule entities information map
@@ -28,14 +30,14 @@ class Magento_CatalogRule_Model_Resource_Rule_Collection extends Magento_Rule_Mo
      */
     protected function _construct()
     {
-        $this->_init('Magento_CatalogRule_Model_Rule', 'Magento_CatalogRule_Model_Resource_Rule');
+        $this->_init('Magento\CatalogRule\Model\Rule', 'Magento\CatalogRule\Model\Resource\Rule');
     }
 
     /**
      * Find product attribute in conditions or actions
      *
      * @param string $attributeCode
-     * @return Magento_CatalogRule_Model_Resource_Rule_Collection
+     * @return \Magento\CatalogRule\Model\Resource\Rule\Collection
      */
     public function addAttributeInConditionFilter($attributeCode)
     {

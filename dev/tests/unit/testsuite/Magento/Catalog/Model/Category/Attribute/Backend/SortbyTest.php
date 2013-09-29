@@ -6,21 +6,23 @@
  * @license     {license_link}
  */
 
-class Magento_Catalog_Model_Category_Attribute_Backend_SortbyTest extends PHPUnit_Framework_TestCase
+namespace Magento\Catalog\Model\Category\Attribute\Backend;
+
+class SortbyTest extends \PHPUnit_Framework_TestCase
 {
     const DEFAULT_ATTRIBUTE_CODE = 'attribute_name';
 
     /**
-     * @var Magento_Catalog_Model_Category_Attribute_Backend_Sortby
+     * @var \Magento\Catalog\Model\Category\Attribute\Backend\Sortby
      */
     protected $_model;
 
     protected function setUp()
     {
-        $logger = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
-        $coreStoreConfig = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false);
-        $this->_model = new Magento_Catalog_Model_Category_Attribute_Backend_Sortby($logger, $coreStoreConfig);
-        $attribute = $this->getMockForAbstractClass('Magento_Eav_Model_Entity_Attribute_Abstract',
+        $logger = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false);
+        $coreStoreConfig = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false);
+        $this->_model = new \Magento\Catalog\Model\Category\Attribute\Backend\Sortby($logger, $coreStoreConfig);
+        $attribute = $this->getMockForAbstractClass('Magento\Eav\Model\Entity\Attribute\AbstractAttribute',
             array(), '', false, true, true, array('getName')
         );
         $attribute->expects($this->any())
@@ -41,7 +43,7 @@ class Magento_Catalog_Model_Category_Attribute_Backend_SortbyTest extends PHPUni
      */
     public function testBeforeSave($data, $expected)
     {
-        $object = new Magento_Object($data);
+        $object = new \Magento\Object($data);
         $this->_model->beforeSave($object);
         $this->assertTrue($object->hasData(self::DEFAULT_ATTRIBUTE_CODE));
         $this->assertSame($expected, $object->getData(self::DEFAULT_ATTRIBUTE_CODE));

@@ -16,43 +16,45 @@
  * @package     Magento_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Downloadable_Model_Resource_Link extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Downloadable\Model\Resource;
+
+class Link extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Catalog data
      *
-     * @var Magento_Catalog_Helper_Data
+     * @var \Magento\Catalog\Helper\Data
      */
     protected $_catalogData;
 
     /**
-     * @var Magento_Core_Model_App
+     * @var \Magento\Core\Model\App
      */
     protected $_app;
 
     /**
-     * @var Magento_Directory_Model_CurrencyFactory
+     * @var \Magento\Directory\Model\CurrencyFactory
      */
     protected $_currencyFactory;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Core_Model_App $app
-     * @param Magento_Directory_Model_CurrencyFactory $currencyFactory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Core\Model\App $app
+     * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Core_Model_Resource $resource,
-        Magento_Core_Model_App $app,
-        Magento_Directory_Model_CurrencyFactory $currencyFactory,
-        Magento_Core_Model_StoreManagerInterface $storeManager
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Core\Model\App $app,
+        \Magento\Directory\Model\CurrencyFactory $currencyFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
         $this->_catalogData = $catalogData;
         $this->_app = $app;
@@ -73,8 +75,8 @@ class Magento_Downloadable_Model_Resource_Link extends Magento_Core_Model_Resour
     /**
      * Save title and price of link item
      *
-     * @param Magento_Downloadable_Model_Link $linkObject
-     * @return Magento_Downloadable_Model_Resource_Link
+     * @param \Magento\Downloadable\Model\Link $linkObject
+     * @return \Magento\Downloadable\Model\Resource\Link
      */
     public function saveItemTitleAndPrice($linkObject)
     {
@@ -180,14 +182,14 @@ class Magento_Downloadable_Model_Resource_Link extends Magento_Core_Model_Resour
     /**
      * Delete data by item(s)
      *
-     * @param Magento_Downloadable_Model_Link|array|int $items
-     * @return Magento_Downloadable_Model_Resource_Link
+     * @param \Magento\Downloadable\Model\Link|array|int $items
+     * @return \Magento\Downloadable\Model\Resource\Link
      */
     public function deleteItems($items)
     {
         $writeAdapter   = $this->_getWriteAdapter();
         $where = array();
-        if ($items instanceof Magento_Downloadable_Model_Link) {
+        if ($items instanceof \Magento\Downloadable\Model\Link) {
             $where = array('link_id = ?'    => $items->getId());
         } elseif (is_array($items)) {
             $where = array('link_id in (?)' => $items);
@@ -236,7 +238,7 @@ class Magento_Downloadable_Model_Resource_Link extends Magento_Core_Model_Resour
     }
 
     /**
-     * @return Magento_Directory_Model_Currency
+     * @return \Magento\Directory\Model\Currency
      */
     protected function _createCurrency()
     {

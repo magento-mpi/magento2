@@ -13,7 +13,9 @@
  *
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Cms_Model_Resource_Page_Service extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Cms\Model\Resource\Page;
+
+class Service extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Init cms page service model
@@ -36,7 +38,7 @@ class Magento_Cms_Model_Resource_Page_Service extends Magento_Core_Model_Resourc
      * @param int $byStoreId
      * @param string $byLinkTable
      *
-     * @return Magento_Cms_Model_Resource_Page_Service
+     * @return \Magento\Cms\Model\Resource\Page\Service
      */
     public function unlinkConflicts($fromStoreId, $byStoreId, $byLinkTable = null)
     {

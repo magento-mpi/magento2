@@ -9,10 +9,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\TestFramework\Annotation;
+
 /**
  * Implementation of the @magentoDbIsolation DocBlock annotation
  */
-class Magento_TestFramework_Annotation_DbIsolation
+class DbIsolation
 {
     /**
      * @var bool
@@ -22,11 +24,11 @@ class Magento_TestFramework_Annotation_DbIsolation
     /**
      * Handler for 'startTestTransactionRequest' event
      *
-     * @param PHPUnit_Framework_TestCase $test
-     * @param Magento_TestFramework_Event_Param_Transaction $param
+     * @param \PHPUnit_Framework_TestCase $test
+     * @param \Magento\TestFramework\Event\Param\Transaction $param
      */
     public function startTestTransactionRequest(
-        PHPUnit_Framework_TestCase $test, Magento_TestFramework_Event_Param_Transaction $param
+        \PHPUnit_Framework_TestCase $test, \Magento\TestFramework\Event\Param\Transaction $param
     ) {
         $methodIsolation = $this->_getIsolation('method', $test);
         if ($this->_isIsolationActive) {
@@ -41,11 +43,11 @@ class Magento_TestFramework_Annotation_DbIsolation
     /**
      * Handler for 'endTestTransactionRequest' event
      *
-     * @param PHPUnit_Framework_TestCase $test
-     * @param Magento_TestFramework_Event_Param_Transaction $param
+     * @param \PHPUnit_Framework_TestCase $test
+     * @param \Magento\TestFramework\Event\Param\Transaction $param
      */
     public function endTestTransactionRequest(
-        PHPUnit_Framework_TestCase $test, Magento_TestFramework_Event_Param_Transaction $param
+        \PHPUnit_Framework_TestCase $test, \Magento\TestFramework\Event\Param\Transaction $param
     ) {
         if ($this->_isIsolationActive && $this->_getIsolation('method', $test)) {
             $param->requestTransactionRollback();
@@ -55,11 +57,11 @@ class Magento_TestFramework_Annotation_DbIsolation
     /**
      * Handler for 'startTransaction' event
      *
-     * @param PHPUnit_Framework_TestCase $test
+     * @param \PHPUnit_Framework_TestCase $test
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function startTransaction(PHPUnit_Framework_TestCase $test)
+    public function startTransaction(\PHPUnit_Framework_TestCase $test)
     {
         $this->_isIsolationActive = true;
     }
@@ -80,17 +82,17 @@ class Magento_TestFramework_Annotation_DbIsolation
      *   FALSE - annotation is defined as 'disabled'
      *
      * @param string $scope 'class' or 'method'
-     * @param PHPUnit_Framework_TestCase $test
+     * @param \PHPUnit_Framework_TestCase $test
      * @return bool|null Returns NULL, if isolation is not defined for the current scope
-     * @throws Magento_Exception
+     * @throws \Magento\Exception
      */
-    protected function _getIsolation($scope, PHPUnit_Framework_TestCase $test)
+    protected function _getIsolation($scope, \PHPUnit_Framework_TestCase $test)
     {
         $annotations = $test->getAnnotations();
         if (isset($annotations[$scope]['magentoDbIsolation'])) {
             $isolation = $annotations[$scope]['magentoDbIsolation'];
             if ($isolation !== array('enabled') && $isolation !== array('disabled')) {
-                throw new Magento_Exception(
+                throw new \Magento\Exception(
                     'Invalid "@magentoDbIsolation" annotation, can be "enabled" or "disabled" only.'
                 );
             }

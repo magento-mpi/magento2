@@ -15,20 +15,22 @@
  * @package     Magento_GiftRegistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GiftRegistry_Model_Item_Option extends Magento_Core_Model_Abstract
-    implements Magento_Catalog_Model_Product_Configuration_Item_Option_Interface
+namespace Magento\GiftRegistry\Model\Item;
+
+class Option extends \Magento\Core\Model\AbstractModel
+    implements \Magento\Catalog\Model\Product\Configuration\Item\Option\OptionInterface
 {
     /**
      * Related gift registry item
      *
-     * @var Magento_GiftRegistry_Model_Item
+     * @var \Magento\GiftRegistry\Model\Item
      */
     protected $_item;
 
     /**
      * Product related to option
      *
-     * @var Magento_Catalog_Model_Product $product
+     * @var \Magento\Catalog\Model\Product $product
      */
     protected $_product;
 
@@ -38,7 +40,7 @@ class Magento_GiftRegistry_Model_Item_Option extends Magento_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('Magento_GiftRegistry_Model_Resource_Item_Option');
+        $this->_init('Magento\GiftRegistry\Model\Resource\Item\Option');
     }
 
     /**
@@ -58,8 +60,8 @@ class Magento_GiftRegistry_Model_Item_Option extends Magento_Core_Model_Abstract
     /**
      * Set related gift registry item
      *
-     * @param   Magento_GiftRegistry_Model_Item $item
-     * @return  Magento_GiftRegistry_Model_Item_Option
+     * @param   \Magento\GiftRegistry\Model\Item $item
+     * @return  \Magento\GiftRegistry\Model\Item\Option
      */
     public function setItem($item)
     {
@@ -71,7 +73,7 @@ class Magento_GiftRegistry_Model_Item_Option extends Magento_Core_Model_Abstract
     /**
      * Retrieve related gift registry item
      *
-     * @return Magento_GiftRegistry_Model_Item
+     * @return \Magento\GiftRegistry\Model\Item
      */
     public function getItem()
     {
@@ -81,8 +83,8 @@ class Magento_GiftRegistry_Model_Item_Option extends Magento_Core_Model_Abstract
     /**
      * Set product related to option
      *
-     * @param   Magento_Catalog_Model_Product $product
-     * @return  Magento_GiftRegistry_Model_Item_Option
+     * @param   \Magento\Catalog\Model\Product $product
+     * @return  \Magento\GiftRegistry\Model\Item\Option
      */
     public function setProduct($product)
     {
@@ -96,7 +98,7 @@ class Magento_GiftRegistry_Model_Item_Option extends Magento_Core_Model_Abstract
     /**
      * Retrieve product related to option
      *
-     * @return Magento_Catalog_Model_Product
+     * @return \Magento\Catalog\Model\Product
      */
     public function getProduct()
     {
@@ -116,7 +118,7 @@ class Magento_GiftRegistry_Model_Item_Option extends Magento_Core_Model_Abstract
     /**
      * Initialize item identifier before data save
      *
-     * @return Magento_GiftRegistry_Model_Item_Option
+     * @return \Magento\GiftRegistry\Model\Item\Option
      */
     protected function _beforeSave()
     {
@@ -129,7 +131,7 @@ class Magento_GiftRegistry_Model_Item_Option extends Magento_Core_Model_Abstract
     /**
      * Clone option object
      *
-     * @return Magento_GiftRegistry_Model_Item_Option
+     * @return \Magento\GiftRegistry\Model\Item\Option
      */
     public function __clone()
     {

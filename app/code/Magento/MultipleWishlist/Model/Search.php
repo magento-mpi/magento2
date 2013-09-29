@@ -8,27 +8,29 @@
  * @license     {license_link}
  */
 
+namespace Magento\MultipleWishlist\Model;
+
 /**
  * Wishlist search module
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Magento_MultipleWishlist_Model_Search
+class Search
 {
     /**
      * Wishlist collection factory
      *
-     * @var Magento_Wishlist_Model_Resource_Wishlist_CollectionFactory
+     * @var \Magento\Wishlist\Model\Resource\Wishlist\CollectionFactory
      */
     protected $_wishlistCollectionFactory;
 
     /**
      * Construct
      *
-     * @param Magento_Wishlist_Model_Resource_Wishlist_CollectionFactory $wishlistCollectionFactory
+     * @param \Magento\Wishlist\Model\Resource\Wishlist\CollectionFactory $wishlistCollectionFactory
      */
     public function __construct(
-        Magento_Wishlist_Model_Resource_Wishlist_CollectionFactory $wishlistCollectionFactory
+        \Magento\Wishlist\Model\Resource\Wishlist\CollectionFactory $wishlistCollectionFactory
     ) {
         $this->_wishlistCollectionFactory = $wishlistCollectionFactory;
     }
@@ -36,12 +38,12 @@ class Magento_MultipleWishlist_Model_Search
     /**
      * Retrieve wishlist search results by search strategy
      *
-     * @param Magento_MultipleWishlist_Model_Search_Strategy_Interface $strategy
-     * @return Magento_Wishlist_Model_Resource_Wishlist_Collection
+     * @param \Magento\MultipleWishlist\Model\Search\Strategy\StrategyInterface $strategy
+     * @return \Magento\Wishlist\Model\Resource\Wishlist\Collection
      */
-    public function getResults(Magento_MultipleWishlist_Model_Search_Strategy_Interface $strategy)
+    public function getResults(\Magento\MultipleWishlist\Model\Search\Strategy\StrategyInterface $strategy)
     {
-        /* @var Magento_Wishlist_Model_Resource_Wishlist_Collection $collection */
+        /* @var \Magento\Wishlist\Model\Resource\Wishlist\Collection $collection */
         $collection = $this->_wishlistCollectionFactory->create();
         $collection->addFieldToFilter('visibility', array('eq' => 1));
         $strategy->filterCollection($collection);

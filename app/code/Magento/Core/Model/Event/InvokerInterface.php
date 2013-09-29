@@ -7,13 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Magento_Core_Model_Event_InvokerInterface
+namespace Magento\Core\Model\Event;
+
+interface InvokerInterface
 {
     /**
      * Dispatch event
      *
      * @param array $configuration
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
-    public function dispatch(array $configuration, Magento_Event_Observer $observer);
+    public function dispatch(array $configuration, \Magento\Event\Observer $observer);
 }

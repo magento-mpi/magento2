@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Config_ValidationState implements Magento_Config_ValidationStateInterface
+namespace Magento\Core\Model\Config;
+
+class ValidationState implements \Magento\Config\ValidationStateInterface
 {
     /**
      * @var string
@@ -29,6 +31,6 @@ class Magento_Core_Model_Config_ValidationState implements Magento_Config_Valida
      */
     public function isValidated()
     {
-        return $this->_appMode == Magento_Core_Model_App_State::MODE_DEVELOPER;
+        return $this->_appMode == \Magento\Core\Model\App\State::MODE_DEVELOPER;
     }
 }

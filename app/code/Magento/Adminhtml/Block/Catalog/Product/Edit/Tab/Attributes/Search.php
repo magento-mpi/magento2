@@ -15,39 +15,41 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes_Search extends Magento_Backend_Block_Widget
+namespace Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Attributes;
+
+class Search extends \Magento\Backend\Block\Widget
 {
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @var Magento_Catalog_Model_Resource_Product_Attribute_CollectionFactory
+     * @var \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory
      */
     protected $_collectionFactory;
 
     /**
-     * @var Magento_Core_Model_Resource_HelperPool
+     * @var \Magento\Core\Model\Resource\HelperPool
      */
     protected $_helperPool;
 
     /**
-     * @param Magento_Core_Model_Resource_HelperPool $helperPool
-     * @param Magento_Catalog_Model_Resource_Product_Attribute_CollectionFactory $collectionFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Core\Model\Resource\HelperPool $helperPool
+     * @param \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $collectionFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Resource_HelperPool $helperPool,
-        Magento_Catalog_Model_Resource_Product_Attribute_CollectionFactory $collectionFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Core\Model\Resource\HelperPool $helperPool,
+        \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $collectionFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_helperPool = $helperPool;
@@ -85,13 +87,13 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes_Search extends
      *
      * @param string $labelPart
      * @param int $templateId
-     * @return Magento_Catalog_Model_Resource_Product_Attribute_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Attribute\Collection
      */
     public function getSuggestedAttributes($labelPart, $templateId = null)
     {
         $escapedLabelPart = $this->_helperPool->get('Magento_Core')
             ->addLikeEscape($labelPart, array('position' => 'any'));
-        /** @var $collection Magento_Catalog_Model_Resource_Product_Attribute_Collection */
+        /** @var $collection \Magento\Catalog\Model\Resource\Product\Attribute\Collection */
         $collection = $this->_collectionFactory->create()
             ->addFieldToFilter('frontend_label', array('like' => $escapedLabelPart));
 
@@ -99,7 +101,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes_Search extends
 
         $result = array();
         foreach ($collection->getItems() as $attribute) {
-            /** @var $attribute Magento_Catalog_Model_Resource_Eav_Attribute */
+            /** @var $attribute \Magento\Catalog\Model\Resource\Eav\Attribute */
             $result[] = array(
                 'id'      => $attribute->getId(),
                 'label'   => $attribute->getFrontendLabel(),

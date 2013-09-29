@@ -15,21 +15,23 @@
  * @package    Magento_Search
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Search_Model_Catalog_Layer_Filter_Attribute extends Magento_Catalog_Model_Layer_Filter_Attribute
+namespace Magento\Search\Model\Catalog\Layer\Filter;
+
+class Attribute extends \Magento\Catalog\Model\Layer\Filter\Attribute
 {
     /**
-     * @var Magento_Search_Model_Resource_Engine
+     * @var \Magento\Search\Model\Resource\Engine
      */
     protected $_resourceEngine;
 
     /**
-     * @param Magento_Search_Model_Resource_Engine $resourceEngine
-     * @param Magento_Core_Helper_String $coreString
+     * @param \Magento\Search\Model\Resource\Engine $resourceEngine
+     * @param \Magento\Core\Helper\String $coreString
      * @param array $data
      */
     public function __construct(
-        Magento_Search_Model_Resource_Engine $resourceEngine,
-        Magento_Core_Helper_String $coreString,
+        \Magento\Search\Model\Resource\Engine $resourceEngine,
+        \Magento\Core\Helper\String $coreString,
         array $data = array()
     ) {
         $this->_resourceEngine = $resourceEngine;
@@ -73,11 +75,11 @@ class Magento_Search_Model_Catalog_Layer_Filter_Attribute extends Magento_Catalo
     /**
      * Apply attribute filter to layer
      *
-     * @param Zend_Controller_Request_Abstract $request
+     * @param \Zend_Controller_Request_Abstract $request
      * @param object $filterBlock
-     * @return Magento_Search_Model_Catalog_Layer_Filter_Attribute
+     * @return \Magento\Search\Model\Catalog\Layer\Filter\Attribute
      */
-    public function apply(Zend_Controller_Request_Abstract $request, $filterBlock)
+    public function apply(\Zend_Controller_Request_Abstract $request, $filterBlock)
     {
         $filter = $request->getParam($this->_requestVar);
         if (is_array($filter)) {
@@ -96,7 +98,7 @@ class Magento_Search_Model_Catalog_Layer_Filter_Attribute extends Magento_Catalo
     /**
      * Add params to faceted search
      *
-     * @return Magento_Search_Model_Catalog_Layer_Filter_Attribute
+     * @return \Magento\Search\Model\Catalog\Layer\Filter\Attribute
      */
     public function addFacetCondition()
     {
@@ -109,10 +111,10 @@ class Magento_Search_Model_Catalog_Layer_Filter_Attribute extends Magento_Catalo
     /**
      * Apply attribute filter to solr query
      *
-     * @param   Magento_Catalog_Model_Layer_Filter_Attribute $filter
+     * @param   \Magento\Catalog\Model\Layer\Filter\Attribute $filter
      * @param   mixed $value
      *
-     * @return  Magento_Search_Model_Catalog_Layer_Filter_Attribute
+     * @return  \Magento\Search\Model\Catalog\Layer\Filter\Attribute
      */
     public function applyFilterToCollection($filter, $value)
     {

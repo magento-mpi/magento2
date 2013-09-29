@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Tax_Rate_Form extends Magento_Backend_Block_Widget_Form_Generic
+namespace Magento\Adminhtml\Block\Tax\Rate;
+
+class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     const FORM_ELEMENT_ID = 'rate-form';
 
@@ -27,59 +29,59 @@ class Magento_Adminhtml_Block_Tax_Rate_Form extends Magento_Backend_Block_Widget
     /**
      * Tax data
      *
-     * @var Magento_Tax_Helper_Data
+     * @var \Magento\Tax\Helper\Data
      */
     protected $_taxData = null;
 
     /**
-     * @var Magento_Adminhtml_Block_Tax_Rate_Title_Fieldset
+     * @var \Magento\Adminhtml\Block\Tax\Rate\Title\Fieldset
      */
     protected $_fieldset;
 
     /**
-     * @var Magento_Tax_Model_Calculation_RateFactory
+     * @var \Magento\Tax\Model\Calculation\RateFactory
      */
     protected $_rateFactory;
 
     /**
-     * @var Magento_Tax_Model_Calculation_Rate
+     * @var \Magento\Tax\Model\Calculation\Rate
      */
     protected $_rate;
 
     /**
-     * @var Magento_Directory_Model_Config_Source_Country
+     * @var \Magento\Directory\Model\Config\Source\Country
      */
     protected $_country;
 
     /**
-     * @var Magento_Directory_Model_RegionFactory
+     * @var \Magento\Directory\Model\RegionFactory
      */
     protected $_regionFactory;
 
     /**
-     * @param Magento_Directory_Model_RegionFactory $regionFactory
-     * @param Magento_Directory_Model_Config_Source_Country $country
-     * @param Magento_Adminhtml_Block_Tax_Rate_Title_Fieldset $fieldset
-     * @param Magento_Tax_Model_Calculation_RateFactory $rateFactory
-     * @param Magento_Tax_Model_Calculation_Rate $rate
-     * @param Magento_Tax_Helper_Data $taxData
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
+     * @param \Magento\Directory\Model\RegionFactory $regionFactory
+     * @param \Magento\Directory\Model\Config\Source\Country $country
+     * @param \Magento\Adminhtml\Block\Tax\Rate\Title\Fieldset $fieldset
+     * @param \Magento\Tax\Model\Calculation\RateFactory $rateFactory
+     * @param \Magento\Tax\Model\Calculation\Rate $rate
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Directory_Model_RegionFactory $regionFactory,
-        Magento_Directory_Model_Config_Source_Country $country,
-        Magento_Adminhtml_Block_Tax_Rate_Title_Fieldset $fieldset,
-        Magento_Tax_Model_Calculation_RateFactory $rateFactory,
-        Magento_Tax_Model_Calculation_Rate $rate,
-        Magento_Tax_Helper_Data $taxData,
-        Magento_Core_Model_Registry $registry,
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
+        \Magento\Directory\Model\RegionFactory $regionFactory,
+        \Magento\Directory\Model\Config\Source\Country $country,
+        \Magento\Adminhtml\Block\Tax\Rate\Title\Fieldset $fieldset,
+        \Magento\Tax\Model\Calculation\RateFactory $rateFactory,
+        \Magento\Tax\Model\Calculation\Rate $rate,
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_regionFactory = $regionFactory;
@@ -100,8 +102,8 @@ class Magento_Adminhtml_Block_Tax_Rate_Form extends Magento_Backend_Block_Widget
 
     protected function _prepareForm()
     {
-        $rateObject = new Magento_Object($this->_rate->getData());
-        /** @var Magento_Data_Form $form */
+        $rateObject = new \Magento\Object($this->_rate->getData());
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
 
         $countries = $this->_country->toOptionArray(false, 'US');
@@ -109,13 +111,13 @@ class Magento_Adminhtml_Block_Tax_Rate_Form extends Magento_Backend_Block_Widget
 
         if (!$rateObject->hasTaxCountryId()) {
             $rateObject->setTaxCountryId($this->_storeConfig->getConfig(
-                Magento_Tax_Model_Config::CONFIG_XML_PATH_DEFAULT_COUNTRY
+                \Magento\Tax\Model\Config::CONFIG_XML_PATH_DEFAULT_COUNTRY
             ));
         }
 
         if (!$rateObject->hasTaxRegionId()) {
             $rateObject->setTaxRegionId($this->_storeConfig->getConfig(
-                Magento_Tax_Model_Config::CONFIG_XML_PATH_DEFAULT_REGION
+                \Magento\Tax\Model\Config::CONFIG_XML_PATH_DEFAULT_REGION
             ));
         }
 
@@ -155,7 +157,7 @@ class Magento_Adminhtml_Block_Tax_Rate_Form extends Magento_Backend_Block_Widget
 
         if (!$rateObject->hasTaxPostcode()) {
             $rateObject->setTaxPostcode($this->_storeConfig->getConfig(
-                Magento_Tax_Model_Config::CONFIG_XML_PATH_DEFAULT_POSTCODE
+                \Magento\Tax\Model\Config::CONFIG_XML_PATH_DEFAULT_POSTCODE
             ));
         }
 
@@ -225,7 +227,7 @@ class Magento_Adminhtml_Block_Tax_Rate_Form extends Magento_Backend_Block_Widget
 
         $this->setChild(
             'form_after',
-            $this->getLayout()->createBlock('Magento_Core_Block_Template')
+            $this->getLayout()->createBlock('Magento\Core\Block\Template')
                 ->setTemplate('Magento_Adminhtml::tax/rate/js.phtml')
         );
 

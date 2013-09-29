@@ -9,14 +9,16 @@
  * @license     {license_link}
  */
 
-class Magento_Test_Integrity_ConfigTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Integrity;
+
+class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     protected $_possibleLocales = array('de_DE', 'en_AU', 'en_GB', 'en_US', 'es_ES', 'es_XC', 'fr_FR', 'fr_XC',
         'it_IT', 'ja_JP', 'nl_NL', 'pl_PL', 'zh_CN', 'zh_XC', 'pt_BR');
 
     public function testExistingFilesDeclared()
     {
-        $root = Magento_TestFramework_Utility_Files::init()->getPathToSource();
+        $root = \Magento\TestFramework\Utility\Files::init()->getPathToSource();
         $failures = array();
         foreach (glob("{$root}/app/code/*/*", GLOB_ONLYDIR) as $modulePath) {
             $localeFiles = glob("{$modulePath}/i18n/*.csv");
@@ -41,8 +43,9 @@ class Magento_Test_Integrity_ConfigTest extends PHPUnit_Framework_TestCase
     {
         $config = simplexml_load_file($configFile);
         $nodes = $config->xpath('/config/default/payment/*/model') ?: array();
+        $formalModuleName = str_replace('_', '\\', $moduleName);
         foreach ($nodes as $node) {
-            $this->assertStringStartsWith($moduleName . '_Model_', (string)$node,
+            $this->assertStringStartsWith($formalModuleName . '\Model\\', (string)$node,
                 "'$node' payment method is declared in '$configFile' module, but doesn't belong to '$moduleName' module"
             );
         }
@@ -64,7 +67,7 @@ class Magento_Test_Integrity_ConfigTest extends PHPUnit_Framework_TestCase
      */
     protected function _getConfigFilesPerModule()
     {
-        $configFiles = Magento_TestFramework_Utility_Files::init()->getConfigFiles('config.xml', array(), false);
+        $configFiles = \Magento\TestFramework\Utility\Files::init()->getConfigFiles('config.xml', array(), false);
         $data = array();
         foreach ($configFiles as $configFile) {
             preg_match('#/([^/]+?/[^/]+?)/etc/config\.xml$#', $configFile, $moduleName);

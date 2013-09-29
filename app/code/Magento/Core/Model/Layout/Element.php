@@ -9,25 +9,27 @@
  */
 
 
-class Magento_Core_Model_Layout_Element extends Magento_Simplexml_Element
+namespace Magento\Core\Model\Layout;
+
+class Element extends \Magento\Simplexml\Element
 {
     public function prepare($args)
     {
         switch ($this->getName()) {
-            case Magento_Core_Model_Layout::TYPE_BLOCK:
+            case \Magento\Core\Model\Layout::TYPE_BLOCK:
                 $this->prepareBlock($args);
                 break;
 
-            case Magento_Core_Model_Layout::TYPE_REFERENCE_BLOCK:
-            case Magento_Core_Model_Layout::TYPE_REFERENCE_CONTAINER:
+            case \Magento\Core\Model\Layout::TYPE_REFERENCE_BLOCK:
+            case \Magento\Core\Model\Layout::TYPE_REFERENCE_CONTAINER:
                 $this->prepareReference($args);
                 break;
 
-            case Magento_Core_Model_Layout::TYPE_ACTION:
+            case \Magento\Core\Model\Layout::TYPE_ACTION:
                 $this->prepareAction($args);
                 break;
 
-            case Magento_Core_Model_Layout::TYPE_ARGUMENT:
+            case \Magento\Core\Model\Layout::TYPE_ARGUMENT:
                 $this->prepareActionArgument($args);
                 break;
 
@@ -44,8 +46,8 @@ class Magento_Core_Model_Layout_Element extends Magento_Simplexml_Element
     {
         $tagName = (string)$this->getName();
         if (empty($this['name']) || !in_array($tagName, array(
-                Magento_Core_Model_Layout::TYPE_BLOCK,
-                Magento_Core_Model_Layout::TYPE_REFERENCE_BLOCK,
+                \Magento\Core\Model\Layout::TYPE_BLOCK,
+                \Magento\Core\Model\Layout::TYPE_REFERENCE_BLOCK,
         ))) {
             return false;
         }
@@ -63,10 +65,10 @@ class Magento_Core_Model_Layout_Element extends Magento_Simplexml_Element
     {
         $tagName = $this->getName();
         if (!in_array($tagName, array(
-            Magento_Core_Model_Layout::TYPE_BLOCK,
-            Magento_Core_Model_Layout::TYPE_REFERENCE_BLOCK,
-            Magento_Core_Model_Layout::TYPE_CONTAINER,
-            Magento_Core_Model_Layout::TYPE_REFERENCE_CONTAINER
+            \Magento\Core\Model\Layout::TYPE_BLOCK,
+            \Magento\Core\Model\Layout::TYPE_REFERENCE_BLOCK,
+            \Magento\Core\Model\Layout::TYPE_CONTAINER,
+            \Magento\Core\Model\Layout::TYPE_REFERENCE_CONTAINER
         ))) {
             return false;
         }

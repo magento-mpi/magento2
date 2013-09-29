@@ -16,19 +16,21 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Index
+namespace Magento\Catalog\Model;
+
+class Index
 {
     /**
      * Rebuild indexes
      *
-     * @return Magento_Catalog_Model_Index
+     * @return \Magento\Catalog\Model\Index
      */
     public function rebuild()
     {
-        Mage::getResourceSingleton('Magento_Catalog_Model_Resource_Category')
+        \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Category')
             ->refreshProductIndex();
-        foreach (Mage::app()->getStores() as $store) {
-            Mage::getResourceSingleton('Magento_Catalog_Model_Resource_Product')
+        foreach (\Mage::app()->getStores() as $store) {
+            \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Product')
                 ->refreshEnabledIndex($store);
         }
         return $this;

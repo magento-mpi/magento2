@@ -9,27 +9,29 @@
  * @license     {license_link}
  */
 
-class Magento_Sales_Model_Order_CreditmemoTest extends PHPUnit_Framework_TestCase
+namespace Magento\Sales\Model\Order;
+
+class CreditmemoTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @magentoDataFixture Magento/Sales/_files/order.php
      */
     public function testSendEmail()
     {
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App')
-            ->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
-        $order = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Sales_Model_Order');
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
+            ->getArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)->load();
+        $order = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Sales\Model\Order');
         $order->loadByIncrementId('100000001');
         $order->setCustomerEmail('customer@example.com');
 
-        $creditmemo = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Sales_Model_Order_Creditmemo');
+        $creditmemo = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Sales\Model\Order\Creditmemo');
         $creditmemo->setOrder($order);
 
         $payment = $order->getPayment();
-        $paymentInfoBlock = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Payment_Helper_Data')
+        $paymentInfoBlock = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Payment\Helper\Data')
             ->getInfoBlock($payment);
         $paymentInfoBlock->setArea('invalid-area');
         $payment->setBlockMock($paymentInfoBlock);

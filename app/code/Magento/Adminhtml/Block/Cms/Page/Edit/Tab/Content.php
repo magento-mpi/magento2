@@ -11,31 +11,33 @@
 /**
  * Cms page edit form main tab
  */
-class Magento_Adminhtml_Block_Cms_Page_Edit_Tab_Content
-    extends Magento_Backend_Block_Widget_Form_Generic
-    implements Magento_Backend_Block_Widget_Tab_Interface
+namespace Magento\Adminhtml\Block\Cms\Page\Edit\Tab;
+
+class Content
+    extends \Magento\Backend\Block\Widget\Form\Generic
+    implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
-     * @var Magento_Cms_Model_Wysiwyg_Config
+     * @var \Magento\Cms\Model\Wysiwyg\Config
      */
     protected $_wysiwygConfig;
 
     /**
-     * @param Magento_Cms_Model_Wysiwyg_Config $wysiwygConfig
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
-        Magento_Cms_Model_Wysiwyg_Config $wysiwygConfig,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Registry $coreRegistry,
+        \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_wysiwygConfig = $wysiwygConfig;
@@ -55,7 +57,7 @@ class Magento_Adminhtml_Block_Cms_Page_Edit_Tab_Content
 
     protected function _prepareForm()
     {
-        /** @var $model Magento_Cms_Model_Page */
+        /** @var $model \Magento\Cms\Model\Page */
         $model = $this->_coreRegistry->registry('cms_page');
 
         /*
@@ -68,7 +70,7 @@ class Magento_Adminhtml_Block_Cms_Page_Edit_Tab_Content
         }
 
 
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form   = $this->_formFactory->create();
 
         $form->setHtmlIdPrefix('page_');
@@ -95,7 +97,7 @@ class Magento_Adminhtml_Block_Cms_Page_Edit_Tab_Content
         ));
 
         // Setting custom renderer for content field to remove label column
-        $renderer = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Form_Renderer_Fieldset_Element')
+        $renderer = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Form\Renderer\Fieldset\Element')
                     ->setTemplate('cms/page/edit/form/renderer/content.phtml');
         $contentField->setRenderer($renderer);
 

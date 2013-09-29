@@ -16,27 +16,29 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Category_Tab_Attributes extends Magento_Backend_Block_Widget_Form_Generic
+namespace Magento\Adminhtml\Block\Catalog\Category\Tab;
+
+class Attributes extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
-     * @var Magento_Cms_Model_Wysiwyg_Config
+     * @var \Magento\Cms\Model\Wysiwyg\Config
      */
     protected $_wysiwygConfig;
 
     /**
-     * @param Magento_Cms_Model_Wysiwyg_Config $wysiwygConfig
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
+     * @param \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Cms_Model_Wysiwyg_Config $wysiwygConfig,
-        Magento_Core_Model_Registry $registry,
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
+        \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_wysiwygConfig = $wysiwygConfig;
@@ -46,7 +48,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tab_Attributes extends Magento_Ba
     /**
      * Retrieve Category object
      *
-     * @return Magento_Catalog_Model_Category
+     * @return \Magento\Catalog\Model\Category
      */
     public function getCategory()
     {
@@ -77,14 +79,14 @@ class Magento_Adminhtml_Block_Catalog_Category_Tab_Attributes extends Magento_Ba
     /**
      * Prepare form before rendering HTML
      *
-     * @return Magento_Adminhtml_Block_Catalog_Category_Tab_Attributes
+     * @return \Magento\Adminhtml\Block\Catalog\Category\Tab\Attributes
      */
     protected function _prepareForm()
     {
         $group      = $this->getGroup();
         $attributes = $this->getAttributes();
 
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('group_' . $group->getId());
         $form->setDataObject($this->getCategory());
@@ -123,7 +125,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tab_Attributes extends Magento_Ba
         $this->_setFieldset($attributes, $fieldset);
 
         foreach ($attributes as $attribute) {
-            /* @var $attribute Magento_Eav_Model_Entity_Attribute */
+            /* @var $attribute \Magento\Eav\Model\Entity\Attribute */
             if ($attribute->getAttributeCode() == 'url_key') {
                 if ($this->getCategory()->getLevel() == 1) {
                     $fieldset->removeField('url_key');
@@ -134,7 +136,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tab_Attributes extends Magento_Ba
                 } else {
                     $form->getElement('url_key')->setRenderer(
                         $this->getLayout()
-                            ->createBlock('Magento_Adminhtml_Block_Catalog_Form_Renderer_Attribute_Urlkey')
+                            ->createBlock('Magento\Adminhtml\Block\Catalog\Form\Renderer\Attribute\Urlkey')
                     );
                 }
             }
@@ -185,8 +187,8 @@ class Magento_Adminhtml_Block_Catalog_Category_Tab_Attributes extends Magento_Ba
     protected function _getAdditionalElementTypes()
     {
         return array(
-            'image' => 'Magento_Adminhtml_Block_Catalog_Category_Helper_Image',
-            'textarea' => 'Magento_Adminhtml_Block_Catalog_Helper_Form_Wysiwyg'
+            'image' => 'Magento\Adminhtml\Block\Catalog\Category\Helper\Image',
+            'textarea' => 'Magento\Adminhtml\Block\Catalog\Helper\Form\Wysiwyg'
         );
     }
 }

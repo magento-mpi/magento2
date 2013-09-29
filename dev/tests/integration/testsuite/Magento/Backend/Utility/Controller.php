@@ -9,20 +9,22 @@
  * @license     {license_link}
  */
 
+namespace Magento\Backend\Utility;
+
 /**
  * A parent class for backend controllers - contains directives for admin user creation and authentication
  * @SuppressWarnings(PHPMD.NumberOfChildren)
  * @SuppressWarnings(PHPMD.numberOfChildren)
  */
-class Magento_Backend_Utility_Controller extends Magento_TestFramework_TestCase_ControllerAbstract
+class Controller extends \Magento\TestFramework\TestCase\ControllerAbstract
 {
     /**
-     * @var Magento_Backend_Model_Auth_Session
+     * @var \Magento\Backend\Model\Auth\Session
      */
     protected $_session;
 
     /**
-     * @var Magento_Backend_Model_Auth
+     * @var \Magento\Backend\Model\Auth
      */
     protected $_auth;
 
@@ -30,13 +32,13 @@ class Magento_Backend_Utility_Controller extends Magento_TestFramework_TestCase_
     {
         parent::setUp();
 
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Backend_Model_Url')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Backend\Model\Url')
             ->turnOffSecretKey();
 
-        $this->_auth = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Backend_Model_Auth');
+        $this->_auth = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Backend\Model\Auth');
         $this->_session = $this->_auth->getAuthStorage();
         $this->_auth->login(
-            Magento_TestFramework_Bootstrap::ADMIN_NAME, Magento_TestFramework_Bootstrap::ADMIN_PASSWORD);
+            \Magento\TestFramework\Bootstrap::ADMIN_NAME, \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD);
     }
 
     protected function tearDown()
@@ -44,19 +46,20 @@ class Magento_Backend_Utility_Controller extends Magento_TestFramework_TestCase_
         $this->_auth->logout();
         $this->_auth = null;
         $this->_session = null;
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Backend_Model_Url')->turnOnSecretKey();
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Backend\Model\Url')->turnOnSecretKey();
         parent::tearDown();
     }
 
     /**
      * Utilize backend session model by default
      *
-     * @param PHPUnit_Framework_Constraint $constraint
+     * @param \PHPUnit_Framework_Constraint $constraint
      * @param string|null $messageType
      * @param string $sessionModel
      */
     public function assertSessionMessages(
-        PHPUnit_Framework_Constraint $constraint, $messageType = null, $sessionModel = 'Magento_Backend_Model_Session'
+        \PHPUnit_Framework_Constraint $constraint, $messageType = null, $sessionModel = 'Magento\Backend\Model\Session'
     ) {
         parent::assertSessionMessages($constraint, $messageType, $sessionModel);
     }

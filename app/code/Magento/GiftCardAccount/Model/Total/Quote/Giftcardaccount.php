@@ -8,12 +8,14 @@
  * @license     {license_link}
  */
 
-class Magento_GiftCardAccount_Model_Total_Quote_Giftcardaccount extends Magento_Sales_Model_Quote_Address_Total_Abstract
+namespace Magento\GiftCardAccount\Model\Total\Quote;
+
+class Giftcardaccount extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
 {
     /**
      * Gift card account data
      *
-     * @var Magento_GiftCardAccount_Helper_Data
+     * @var \Magento\GiftCardAccount\Helper\Data
      */
     protected $_giftCardAccountData = null;
 
@@ -22,10 +24,10 @@ class Magento_GiftCardAccount_Model_Total_Quote_Giftcardaccount extends Magento_
      *
      *
      *
-     * @param Magento_GiftCardAccount_Helper_Data $giftCardAccountData
+     * @param \Magento\GiftCardAccount\Helper\Data $giftCardAccountData
      */
     public function __construct(
-        Magento_GiftCardAccount_Helper_Data $giftCardAccountData
+        \Magento\GiftCardAccount\Helper\Data $giftCardAccountData
     ) {
         $this->_giftCardAccountData = $giftCardAccountData;
         $this->setCode('giftcardaccount');
@@ -34,9 +36,9 @@ class Magento_GiftCardAccount_Model_Total_Quote_Giftcardaccount extends Magento_
     /**
      * Collect giftcertificate totals for specified address
      *
-     * @param Magento_Sales_Model_Quote_Address $address
+     * @param \Magento\Sales\Model\Quote\Address $address
      */
-    public function collect(Magento_Sales_Model_Quote_Address $address)
+    public function collect(\Magento\Sales\Model\Quote\Address $address)
     {
         $this->_collectQuoteGiftCards($address->getQuote());
         $baseAmountLeft = $address->getQuote()->getBaseGiftCardsAmount()
@@ -122,7 +124,7 @@ class Magento_GiftCardAccount_Model_Total_Quote_Giftcardaccount extends Magento_
             $amount = 0;
             $cards = $this->_giftCardAccountData->getCards($quote);
             foreach ($cards as $k=>&$card) {
-                $model = Mage::getModel('Magento_GiftCardAccount_Model_Giftcardaccount')->load($card['i']);
+                $model = \Mage::getModel('Magento\GiftCardAccount\Model\Giftcardaccount')->load($card['i']);
                 if ($model->isExpired() || $model->getBalance() == 0) {
                     unset($cards[$k]);
                 } else if ($model->getBalance() != $card['ba']) {
@@ -145,10 +147,10 @@ class Magento_GiftCardAccount_Model_Total_Quote_Giftcardaccount extends Magento_
     /**
      * Return shopping cart total row items
      *
-     * @param Magento_Sales_Model_Quote_Address $address
-     * @return Magento_GiftCardAccount_Model_Total_Quote_Giftcardaccount
+     * @param \Magento\Sales\Model\Quote\Address $address
+     * @return \Magento\GiftCardAccount\Model\Total\Quote\Giftcardaccount
      */
-    public function fetch(Magento_Sales_Model_Quote_Address $address)
+    public function fetch(\Magento\Sales\Model\Quote\Address $address)
     {
         if ($address->getQuote()->isVirtual()) {
             $giftCards = $this->_giftCardAccountData->getCards($address->getQuote()->getBillingAddress());

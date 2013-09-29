@@ -9,8 +9,9 @@
  */
 
 
-class Magento_Usa_Model_Shipping_Carrier_Dhl_Source_Shipmenttype
-    extends Magento_Usa_Model_Shipping_Carrier_Dhl_Source_Generic
+namespace Magento\Usa\Model\Shipping\Carrier\Dhl\Source;
+
+class Shipmenttype extends \Magento\Usa\Model\Shipping\Carrier\Dhl\Source\Generic
 {
     /**
      * Carrier code

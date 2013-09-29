@@ -15,20 +15,22 @@
  * @package     Magento_Paypal
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Paypal_Block_Adminhtml_Settlement_Details_Form extends Magento_Backend_Block_Widget_Form_Generic
+namespace Magento\Paypal\Block\Adminhtml\Settlement\Details;
+
+class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
      * Prepare read-only data and group it by fieldsets
-     * @return Magento_Paypal_Block_Adminhtml_Settlement_Details_Form
+     * @return \Magento\Paypal\Block\Adminhtml\Settlement\Details\Form
      */
     protected function _prepareForm()
     {
         $model = $this->_coreRegistry->registry('current_transaction');
-        /* @var $model Magento_Paypal_Model_Report_Settlement_Row */
-        $settlement = Mage::getSingleton('Magento_Paypal_Model_Report_Settlement');
-        /* @var $settlement Magento_Paypal_Model_Report_Settlement */
+        /* @var $model \Magento\Paypal\Model\Report\Settlement\Row */
+        $settlement = \Mage::getSingleton('Magento\Paypal\Model\Report\Settlement');
+        /* @var $settlement \Magento\Paypal\Model\Report\Settlement */
 
-        $coreHelper = $this->helper('Magento_Core_Helper_Data');
+        $coreHelper = $this->helper('Magento\Core\Helper\Data');
         $fieldsets = array(
             'reference_fieldset' => array(
                 'fields' => array(
@@ -57,7 +59,7 @@ class Magento_Paypal_Block_Adminhtml_Settlement_Details_Form extends Magento_Bac
                         'label' => $settlement->getFieldLabel('transaction_initiation_date'),
                         'value' => $coreHelper->formatDate(
                             $model->getData('transaction_initiation_date'),
-                            Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM,
+                            \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM,
                             true
                         )
                     ),
@@ -65,7 +67,7 @@ class Magento_Paypal_Block_Adminhtml_Settlement_Details_Form extends Magento_Bac
                         'label' => $settlement->getFieldLabel('transaction_completion_date'),
                         'value' => $coreHelper->formatDate(
                             $model->getData('transaction_completion_date'),
-                            Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM,
+                            \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM,
                             true
                         )
                     ),
@@ -75,7 +77,7 @@ class Magento_Paypal_Block_Adminhtml_Settlement_Details_Form extends Magento_Bac
                     ),
                     'gross_transaction_amount' => array(
                         'label' => $settlement->getFieldLabel('gross_transaction_amount'),
-                        'value' => Mage::app()->getLocale()
+                        'value' => \Mage::app()->getLocale()
                                        ->currency($model->getData('gross_transaction_currency'))
                                        ->toCurrency($model->getData('gross_transaction_amount'))
                     ),
@@ -91,7 +93,7 @@ class Magento_Paypal_Block_Adminhtml_Settlement_Details_Form extends Magento_Bac
                     ),
                     'fee_amount' => array(
                         'label' => $settlement->getFieldLabel('fee_amount'),
-                        'value' => Mage::app()->getLocale()
+                        'value' => \Mage::app()->getLocale()
                                        ->currency($model->getData('fee_currency'))
                                        ->toCurrency($model->getData('fee_amount'))
                     ),
@@ -100,7 +102,7 @@ class Magento_Paypal_Block_Adminhtml_Settlement_Details_Form extends Magento_Bac
             ),
         );
 
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
         foreach ($fieldsets as $key => $data) {
             $fieldset = $form->addFieldset($key, array('legend' => $data['legend']));

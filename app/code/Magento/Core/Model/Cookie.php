@@ -16,7 +16,9 @@
  * @package    Magento_Core
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Cookie
+namespace Magento\Core\Model;
+
+class Cookie
 {
     const XML_PATH_COOKIE_DOMAIN    = 'web/cookie/cookie_domain';
     const XML_PATH_COOKIE_PATH      = 'web/cookie/cookie_path';
@@ -28,36 +30,36 @@ class Magento_Core_Model_Cookie
     /**
      * Store object
      *
-     * @var Magento_Core_Model_Store
+     * @var \Magento\Core\Model\Store
      */
     protected $_store;
 
     /**
-     * @var Magento_Core_Controller_Request_Http
+     * @var \Magento\Core\Controller\Request\Http
      */
     protected $_httpRequest;
 
     /**
-     * @var Magento_Core_Controller_Response_Http
+     * @var \Magento\Core\Controller\Response\Http
      */
     protected $_httpResponse;
 
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
-     * @param Magento_Core_Controller_Request_Http $httpRequest
-     * @param Magento_Core_Controller_Response_Http $httpResponse
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param \Magento\Core\Controller\Request\Http $httpRequest
+     * @param \Magento\Core\Controller\Response\Http $httpResponse
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      */
     public function __construct(
-        Magento_Core_Controller_Request_Http $httpRequest,
-        Magento_Core_Controller_Response_Http $httpResponse,
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        \Magento\Core\Controller\Request\Http $httpRequest,
+        \Magento\Core\Controller\Response\Http $httpResponse,
+        \Magento\Core\Model\Store\Config $coreStoreConfig
     ) {
         $this->_httpRequest = $httpRequest;
         $this->_httpResponse = $httpResponse;
@@ -68,23 +70,23 @@ class Magento_Core_Model_Cookie
      * Set Store object
      *
      * @param mixed $store
-     * @return Magento_Core_Model_Cookie
+     * @return \Magento\Core\Model\Cookie
      */
     public function setStore($store)
     {
-        $this->_store = Mage::app()->getStore($store);
+        $this->_store = \Mage::app()->getStore($store);
         return $this;
     }
 
     /**
      * Retrieve Store object
      *
-     * @return Magento_Core_Model_Store
+     * @return \Magento\Core\Model\Store
      */
     public function getStore()
     {
         if (is_null($this->_store)) {
-            $this->_store = Mage::app()->getStore();
+            $this->_store = \Mage::app()->getStore();
         }
         return $this->_store;
     }
@@ -92,7 +94,7 @@ class Magento_Core_Model_Cookie
     /**
      * Retrieve Request object
      *
-     * @return Magento_Core_Controller_Request_Http
+     * @return \Magento\Core\Controller\Request\Http
      */
     protected function _getRequest()
     {
@@ -102,7 +104,7 @@ class Magento_Core_Model_Cookie
     /**
      * Retrieve Response object
      *
-     * @return Magento_Core_Controller_Response_Http
+     * @return \Magento\Core\Controller\Response\Http
      */
     protected function _getResponse()
     {
@@ -169,7 +171,7 @@ class Magento_Core_Model_Cookie
      * Set cookie lifetime
      *
      * @param int $lifetime
-     * @return Magento_Core_Model_Cookie
+     * @return \Magento\Core\Model\Cookie
      */
     public function setLifetime($lifetime)
     {
@@ -215,7 +217,7 @@ class Magento_Core_Model_Cookie
      * @param string $domain
      * @param int|bool $secure
      * @param bool $httponly
-     * @return Magento_Core_Model_Cookie
+     * @return \Magento\Core\Model\Cookie
      */
     public function set($name, $value, $period = null, $path = null, $domain = null, $secure = null, $httponly = null)
     {
@@ -264,7 +266,7 @@ class Magento_Core_Model_Cookie
      * @param string $path
      * @param string $domain
      * @param int|bool $secure
-     * @return Magento_Core_Model_Cookie
+     * @return \Magento\Core\Model\Cookie
      */
     public function renew($name, $period = null, $path = null, $domain = null, $secure = null, $httponly = null)
     {
@@ -297,7 +299,7 @@ class Magento_Core_Model_Cookie
      * @param string $domain
      * @param int|bool $secure
      * @param int|bool $httponly
-     * @return Magento_Core_Model_Cookie
+     * @return \Magento\Core\Model\Cookie
      */
     public function delete($name, $path = null, $domain = null, $secure = null, $httponly = null)
     {

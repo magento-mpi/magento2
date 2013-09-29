@@ -14,7 +14,9 @@
  * @category   Magento
  * @package    Magento_Invitation
  */
-class Magento_Invitation_Model_Source_Invitation_WebsiteId implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Invitation\Model\Source\Invitation;
+
+class WebsiteId implements \Magento\Core\Model\Option\ArrayInterface
 
 {
     /**
@@ -24,6 +26,6 @@ class Magento_Invitation_Model_Source_Invitation_WebsiteId implements Magento_Co
      */
     public function toOptionArray()
     {
-        return  Mage::getSingleton('Magento_Core_Model_System_Store')->getWebsiteOptionHash();
+        return  \Mage::getSingleton('Magento\Core\Model\System\Store')->getWebsiteOptionHash();
     }
 }

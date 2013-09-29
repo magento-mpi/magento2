@@ -5,20 +5,22 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_GiftCard_Model_Plugin_QuoteItem
+namespace Magento\GiftCard\Model\Plugin;
+
+class QuoteItem
 {
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      */
     public function __construct(
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        \Magento\Core\Model\Store\Config $coreStoreConfig
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
     }
@@ -27,14 +29,14 @@ class Magento_GiftCard_Model_Plugin_QuoteItem
      * Append gift card additional data to order item options
      *
      * @param array $arguments
-     * @param Magento_Code_Plugin_InvocationChain $invocationChain
-     * @return Magento_Sales_Model_Order_Item
+     * @param \Magento\Code\Plugin\InvocationChain $invocationChain
+     * @return \Magento\Sales\Model\Order\Item
      */
-    public function aroundItemToOrderItem(array $arguments, Magento_Code_Plugin_InvocationChain $invocationChain)
+    public function aroundItemToOrderItem(array $arguments, \Magento\Code\Plugin\InvocationChain $invocationChain)
     {
-        /** @var $orderItem Magento_Sales_Model_Order_Item */
+        /** @var $orderItem \Magento\Sales\Model\Order\Item */
         $orderItem = $invocationChain->proceed($arguments);
-        /** @var $quoteItem Magento_Sales_Model_Quote_Item */
+        /** @var $quoteItem \Magento\Sales\Model\Quote\Item */
         $quoteItem = reset($arguments);
 
         $keys = array(
@@ -56,7 +58,7 @@ class Magento_GiftCard_Model_Plugin_QuoteItem
         // set lifetime
         if ($product->getUseConfigLifetime()) {
             $lifetime = $this->_coreStoreConfig->getConfig(
-                Magento_GiftCard_Model_Giftcard::XML_PATH_LIFETIME,
+                \Magento\GiftCard\Model\Giftcard::XML_PATH_LIFETIME,
                 $orderItem->getStore()
             );
         } else {
@@ -67,7 +69,7 @@ class Magento_GiftCard_Model_Plugin_QuoteItem
         // set is_redeemable
         if ($product->getUseConfigIsRedeemable()) {
             $isRedeemable = $this->_coreStoreConfig->getConfigFlag(
-                Magento_GiftCard_Model_Giftcard::XML_PATH_IS_REDEEMABLE,
+                \Magento\GiftCard\Model\Giftcard::XML_PATH_IS_REDEEMABLE,
                 $orderItem->getStore()
             );
         } else {
@@ -78,7 +80,7 @@ class Magento_GiftCard_Model_Plugin_QuoteItem
         // set email_template
         if ($product->getUseConfigEmailTemplate()) {
             $emailTemplate = $this->_coreStoreConfig->getConfig(
-                Magento_GiftCard_Model_Giftcard::XML_PATH_EMAIL_TEMPLATE,
+                \Magento\GiftCard\Model\Giftcard::XML_PATH_EMAIL_TEMPLATE,
                 $orderItem->getStore()
             );
         } else {

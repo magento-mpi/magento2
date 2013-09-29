@@ -5,10 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_ObjectManager_Config_Reader_DomTest extends PHPUnit_Framework_TestCase
+namespace Magento\ObjectManager\Config\Reader;
+
+class DomTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_ObjectManager_Config_Reader_Dom
+     * @var \Magento\ObjectManager\Config\Reader\Dom
      */
     protected $_model;
 
@@ -18,27 +20,27 @@ class Magento_ObjectManager_Config_Reader_DomTest extends PHPUnit_Framework_Test
     protected $_fileList;
 
     /**
-     * @var Magento_Core_Model_Config_FileResolver_Primary
+     * @var \Magento\Core\Model\Config\FileResolver\Primary
      */
     protected $_fileResolverMock;
 
     /**
-     * @var DOMDocument
+     * @var \DOMDocument
      */
     protected $_mergedConfig;
 
     /**
-     * @var Magento_Core_Model_Config_ValidationState
+     * @var \Magento\Core\Model\Config\ValidationState
      */
     protected $_validationState;
 
     /**
-     * @var Magento_ObjectManager_Config_SchemaLocator
+     * @var \Magento\ObjectManager\Config\SchemaLocator
      */
     protected $_schemaLocator;
 
     /**
-     * @var Magento_ObjectManager_Config_Mapper_Dom
+     * @var \Magento\ObjectManager\Config\Mapper\Dom
      */
     protected $_mapper;
 
@@ -51,21 +53,21 @@ class Magento_ObjectManager_Config_Reader_DomTest extends PHPUnit_Framework_Test
         );
 
         $this->_fileResolverMock = $this->getMock(
-            'Magento_Core_Model_Config_FileResolver_Primary', array(), array(), '', false
+            'Magento\Core\Model\Config\FileResolver\Primary', array(), array(), '', false
         );
         $this->_fileResolverMock->expects($this->once())->method('get')->will($this->returnValue($this->_fileList));
-        $this->_mapper = new Magento_ObjectManager_Config_Mapper_Dom();
+        $this->_mapper = new \Magento\ObjectManager\Config\Mapper\Dom();
         $this->_validationState =
-            new Magento_Core_Model_Config_ValidationState(Magento_Core_Model_App_State::MODE_DEFAULT);
-        $this->_schemaLocator = new Magento_ObjectManager_Config_SchemaLocator();
+            new \Magento\Core\Model\Config\ValidationState(\Magento\Core\Model\App\State::MODE_DEFAULT);
+        $this->_schemaLocator = new \Magento\ObjectManager\Config\SchemaLocator();
 
-        $this->_mergedConfig = new DOMDocument();
+        $this->_mergedConfig = new \DOMDocument();
         $this->_mergedConfig->load($fixturePath . 'config_merged.xml');
     }
 
     public function testRead()
     {
-        $model = new Magento_ObjectManager_Config_Reader_Dom(
+        $model = new \Magento\ObjectManager\Config\Reader\Dom(
             $this->_fileResolverMock,
             $this->_mapper,
             $this->_schemaLocator,

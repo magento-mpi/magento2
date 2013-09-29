@@ -10,18 +10,20 @@
 
 
 /**
- * Magento Core Exception
+ * Magento Core \Exception
  *
  * This class will be extended by other modules
  *
  * @category   Magento
  * @package    Magento_Core
  */
-class Magento_Core_Exception extends Exception
+namespace Magento\Core;
+
+class Exception extends \Exception
 {
     protected $_messages = array();
 
-    public function addMessage(Magento_Core_Model_Message_Abstract $message)
+    public function addMessage(\Magento\Core\Model\Message\AbstractMessage $message)
     {
         if (!isset($this->_messages[$message->getType()])) {
             $this->_messages[$message->getType()] = array();
@@ -47,7 +49,7 @@ class Magento_Core_Exception extends Exception
      *
      * @param string $message
      * @param bool $append
-     * @return Magento_Core_Exception
+     * @return \Magento\Core\Exception
      */
     public function setMessage($message, $append = false)
     {

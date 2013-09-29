@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Install_Model_InstallerTest extends PHPUnit_Framework_TestCase
+namespace Magento\Install\Model;
+
+class InstallerTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var string
@@ -22,27 +24,27 @@ class Magento_Install_Model_InstallerTest extends PHPUnit_Framework_TestCase
     protected static $_tmpConfigFile = '';
 
     /**
-     * @var Magento_Install_Model_Installer
+     * @var \Magento\Install\Model\Installer
      */
     protected $_model;
 
     public static function setUpBeforeClass()
     {
-        self::$_tmpDir = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Dir')
-            ->getDir(Magento_Core_Model_Dir::VAR_DIR) . DIRECTORY_SEPARATOR . __CLASS__;
+        self::$_tmpDir = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Dir')
+            ->getDir(\Magento\Core\Model\Dir::VAR_DIR) . DIRECTORY_SEPARATOR . 'InstallerTest';
         self::$_tmpConfigFile = self::$_tmpDir . DIRECTORY_SEPARATOR . 'local.xml';
         mkdir(self::$_tmpDir);
     }
 
     public static function tearDownAfterClass()
     {
-        Magento_Io_File::rmdirRecursive(self::$_tmpDir);
+        \Magento\Io\File::rmdirRecursive(self::$_tmpDir);
     }
 
     protected function setUp()
     {
-        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Install_Model_Installer');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Install\Model\Installer');
     }
 
     /**
@@ -53,13 +55,13 @@ class Magento_Install_Model_InstallerTest extends PHPUnit_Framework_TestCase
      */
     protected function _emulateInstallerConfigDir($dir)
     {
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $installerConfig = new Magento_Install_Model_Installer_Config(
-            $objectManager->get('Magento_Core_Controller_Request_Http'),
-            new Magento_Core_Model_Dir(__DIR__, array(), array(Magento_Core_Model_Dir::CONFIG => $dir)),
-            new Magento_Filesystem(new Magento_Filesystem_Adapter_Local())
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $installerConfig = new \Magento\Install\Model\Installer\Config(
+            $objectManager->get('Magento\Core\Controller\Request\Http'),
+            new \Magento\Core\Model\Dir(__DIR__, array(), array(\Magento\Core\Model\Dir::CONFIG => $dir)),
+            new \Magento\Filesystem(new \Magento\Filesystem\Adapter\Local())
         );
-        $objectManager->addSharedInstance($installerConfig, 'Magento_Install_Model_Installer_Config');
+        $objectManager->addSharedInstance($installerConfig, 'Magento\Install\Model\Installer\Config');
     }
 
     /**
@@ -77,9 +79,9 @@ class Magento_Install_Model_InstallerTest extends PHPUnit_Framework_TestCase
             'email'     => 'installer_test@example.com',
         );
 
-        /** @var $user Magento_User_Model_User */
-        $user = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_User_Model_User');
+        /** @var $user \Magento\User\Model\User */
+        $user = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\User\Model\User');
         $user->loadByUsername($userName);
         $this->assertEmpty($user->getId());
 
@@ -93,7 +95,7 @@ class Magento_Install_Model_InstallerTest extends PHPUnit_Framework_TestCase
             $userPassword, $user->getPassword(),
             'Original password should not be stored/loaded as is for security reasons.'
         );
-        $this->assertInstanceOf('Magento_User_Model_Role', $user->getRole());
+        $this->assertInstanceOf('Magento\User\Model\Role', $user->getRole());
         $this->assertEquals(1, $user->getRole()->getId(), 'User has to have admin privileges.');
     }
 
@@ -104,7 +106,7 @@ class Magento_Install_Model_InstallerTest extends PHPUnit_Framework_TestCase
     {
         $this->_emulateInstallerConfigDir(self::$_tmpDir);
 
-        $keyPlaceholder = Magento_Install_Model_Installer_Config::TMP_ENCRYPT_KEY_VALUE;
+        $keyPlaceholder = \Magento\Install\Model\Installer\Config::TMP_ENCRYPT_KEY_VALUE;
         $fixtureConfigData = "<key>$keyPlaceholder</key>";
         $expectedConfigData = '<key>d41d8cd98f00b204e9800998ecf8427e</key>';
 
@@ -117,7 +119,7 @@ class Magento_Install_Model_InstallerTest extends PHPUnit_Framework_TestCase
 
     /**
      * @magentoAppIsolation enabled
-     * @expectedException Magento_Exception
+     * @expectedException \Magento\Exception
      * @expectedExceptionMessage Key must not exceed
      */
     public function testInstallEncryptionKeySizeViolation()
@@ -139,7 +141,7 @@ class Magento_Install_Model_InstallerTest extends PHPUnit_Framework_TestCase
 
     /**
      * @magentoAppIsolation enabled
-     * @expectedException Magento_Exception
+     * @expectedException \Magento\Exception
      * @expectedExceptionMessage Key must not exceed
      */
     public function testGetValidEncryptionKeySizeViolation()
@@ -164,18 +166,18 @@ class Magento_Install_Model_InstallerTest extends PHPUnit_Framework_TestCase
     public function testFinish()
     {
         $this->_emulateInstallerConfigDir(self::$_tmpDir);
-        $configFile = Magento_TestFramework_Helper_Bootstrap::getInstance()->getAppInstallDir() . '/etc/local.xml';
+        $configFile = \Magento\TestFramework\Helper\Bootstrap::getInstance()->getAppInstallDir() . '/etc/local.xml';
         copy($configFile, self::$_tmpConfigFile);
 
         $this->_model->finish();
 
-        /** @var $cacheState Magento_Core_Model_Cache_StateInterface */
-        $cacheState = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_Cache_StateInterface');
+        /** @var $cacheState \Magento\Core\Model\Cache\StateInterface */
+        $cacheState = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Cache\StateInterface');
 
-        /** @var Magento_Core_Model_Cache_TypeListInterface $cacheTypeList */
-        $cacheTypeList = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_Cache_TypeListInterface');
+        /** @var \Magento\Core\Model\Cache\TypeListInterface $cacheTypeList */
+        $cacheTypeList = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Cache\TypeListInterface');
         $types = array_keys($cacheTypeList->getTypes());
         foreach ($types as $type) {
             $this->assertTrue(

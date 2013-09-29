@@ -9,26 +9,28 @@
  * @license     {license_link}
  */
 
-class Magento_Catalog_Helper_CategoryTest extends PHPUnit_Framework_TestCase
+namespace Magento\Catalog\Helper;
+
+class CategoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Catalog_Helper_Category
+     * @var \Magento\Catalog\Helper\Category
      */
     protected $_helper;
 
     protected function setUp()
     {
-        $this->_helper = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Catalog_Helper_Category');
+        $this->_helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Catalog\Helper\Category');
     }
 
     protected function tearDown()
     {
         if ($this->_helper) {
             $helperClass = get_class($this->_helper);
-            /** @var $objectManager Magento_TestFramework_ObjectManager */
-            $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-            $objectManager->get('Magento_Core_Model_Registry')->unregister('_helper/' . $helperClass);
+            /** @var $objectManager \Magento\TestFramework\ObjectManager */
+            $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+            $objectManager->get('Magento\Core\Model\Registry')->unregister('_helper/' . $helperClass);
         }
         $this->_helper = null;
     }
@@ -39,11 +41,11 @@ class Magento_Catalog_Helper_CategoryTest extends PHPUnit_Framework_TestCase
     public function testGetStoreCategories()
     {
         $categories = $this->_helper->getStoreCategories();
-        $this->assertInstanceOf('Magento_Data_Tree_Node_Collection', $categories);
+        $this->assertInstanceOf('Magento\Data\Tree\Node\Collection', $categories);
         $index = 0;
         $expectedPaths = array(array(3, '1/2/3'), array(6, '1/2/6'), array(7, '1/2/7'));
         foreach ($categories as $category) {
-            $this->assertInstanceOf('Magento_Data_Tree_Node', $category);
+            $this->assertInstanceOf('Magento\Data\Tree\Node', $category);
             $this->assertEquals($expectedPaths[$index][0], $category->getId());
             $this->assertEquals($expectedPaths[$index][1], $category->getData('path'));
             $index++;
@@ -53,11 +55,11 @@ class Magento_Catalog_Helper_CategoryTest extends PHPUnit_Framework_TestCase
     public function testGetCategoryUrl()
     {
          $url = 'http://example.com/';
-        $category = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Category', array('data' => array('url' => $url)));
+        $category = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Category', array('data' => array('url' => $url)));
         $this->assertEquals($url, $this->_helper->getCategoryUrl($category));
 
-        $category = new Magento_Object(array('url' => $url));
+        $category = new \Magento\Object(array('url' => $url));
         $this->assertEquals($url, $this->_helper->getCategoryUrl($category));
     }
 
@@ -72,9 +74,9 @@ class Magento_Catalog_Helper_CategoryTest extends PHPUnit_Framework_TestCase
 
     public function testCanShowFalse()
     {
-        /** @var $category Magento_Catalog_Model_Category */
-        $category = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Category');
+        /** @var $category \Magento\Catalog\Model\Category */
+        $category = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Category');
         $this->assertFalse($this->_helper->canShow($category));
         $category->setId(1);
         $this->assertFalse($this->_helper->canShow($category));

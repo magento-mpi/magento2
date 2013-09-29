@@ -11,12 +11,15 @@
 /**
  * Adminhtml creditmemo create form
  */
-class Magento_Adminhtml_Block_Sales_Order_Creditmemo_Create_Form extends Magento_Adminhtml_Block_Sales_Order_Abstract
+
+namespace Magento\Adminhtml\Block\Sales\Order\Creditmemo\Create;
+
+class Form extends \Magento\Adminhtml\Block\Sales\Order\AbstractOrder
 {
     /**
      * Retrieve invoice order
      *
-     * @return Magento_Sales_Model_Order
+     * @return \Magento\Sales\Model\Order
      */
     public function getOrder()
     {
@@ -26,7 +29,7 @@ class Magento_Adminhtml_Block_Sales_Order_Creditmemo_Create_Form extends Magento
     /**
      * Retrieve source
      *
-     * @return Magento_Sales_Model_Order_Invoice
+     * @return \Magento\Sales\Model\Order\Invoice
      */
     public function getSource()
     {

@@ -11,17 +11,19 @@
 /**
  * Catalogsearch engine factory
  */
-class Magento_CatalogSearch_Model_Resource_EngineFactory
+namespace Magento\CatalogSearch\Model\Resource;
+
+class EngineFactory
 {
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
@@ -31,16 +33,16 @@ class Magento_CatalogSearch_Model_Resource_EngineFactory
      *
      * @param string $className
      * @param array $arguments
-     * @return Magento_CatalogSearch_Model_Resource_EngineInterface
-     * @throws LogicException
+     * @return \Magento\CatalogSearch\Model\Resource\EngineInterface
+     * @throws \LogicException
      */
     public function create($className, array $arguments = array())
     {
         $engine = $this->_objectManager->create($className, $arguments);
 
-        if (false === ($engine instanceof Magento_CatalogSearch_Model_Resource_EngineInterface)) {
-            throw new LogicException(
-                $className . ' doesn\'t implement Magento_CatalogSearch_Model_Resource_EngineInterface'
+        if (false === ($engine instanceof \Magento\CatalogSearch\Model\Resource\EngineInterface)) {
+            throw new \LogicException(
+                $className . ' doesn\'t implement \Magento\CatalogSearch\Model\Resource\EngineInterface'
             );
         }
 

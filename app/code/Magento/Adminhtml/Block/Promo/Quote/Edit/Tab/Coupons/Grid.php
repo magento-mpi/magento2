@@ -16,36 +16,38 @@
  * @package     Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons_Grid extends Magento_Adminhtml_Block_Widget_Grid
+namespace Magento\Adminhtml\Block\Promo\Quote\Edit\Tab\Coupons;
+
+class Grid extends \Magento\Adminhtml\Block\Widget\Grid
 {
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @var Magento_SalesRule_Model_Resource_Coupon_CollectionFactory
+     * @var \Magento\SalesRule\Model\Resource\Coupon\CollectionFactory
      */
     protected $_salesRuleCoupon;
 
     /**
-     * @param Magento_SalesRule_Model_Resource_Coupon_CollectionFactory $salesRuleCoupon
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Url $urlModel
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\SalesRule\Model\Resource\Coupon\CollectionFactory $salesRuleCoupon
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Core\Model\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
-        Magento_SalesRule_Model_Resource_Coupon_CollectionFactory $salesRuleCoupon,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Url $urlModel,
-        Magento_Core_Model_Registry $coreRegistry,
+        \Magento\SalesRule\Model\Resource\Coupon\CollectionFactory $salesRuleCoupon,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        \Magento\Core\Model\Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
@@ -66,14 +68,14 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons_Grid extends Magento_
     /**
      * Prepare collection for grid
      *
-     * @return Magento_Adminhtml_Block_Widget_Grid
+     * @return \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _prepareCollection()
     {
         $priceRule = $this->_coreRegistry->registry('current_promo_quote_rule');
 
         /**
-         * @var Magento_SalesRule_Model_Resource_Coupon_Collection $collection
+         * @var \Magento\SalesRule\Model\Resource\Coupon\Collection $collection
          */
         $collection = $this->_salesRuleCoupon->create()
             ->addRuleToFilter($priceRule)
@@ -87,7 +89,7 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons_Grid extends Magento_
     /**
      * Define grid columns
      *
-     * @return Magento_Adminhtml_Block_Widget_Grid
+     * @return \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _prepareColumns()
     {
@@ -113,7 +115,7 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons_Grid extends Magento_
                 __('No'),
                 __('Yes')
             ),
-            'renderer' => 'Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons_Grid_Column_Renderer_Used',
+            'renderer' => 'Magento\Adminhtml\Block\Promo\Quote\Edit\Tab\Coupons\Grid\Column\Renderer\Used',
             'filter_condition_callback' => array(
                 $this->_salesRuleCoupon->create(), 'addIsUsedFilterCallback'
             )
@@ -134,7 +136,7 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons_Grid extends Magento_
     /**
      * Configure grid mass actions
      *
-     * @return Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons_Grid
+     * @return \Magento\Adminhtml\Block\Promo\Quote\Edit\Tab\Coupons\Grid
      */
     protected function _prepareMassaction()
     {

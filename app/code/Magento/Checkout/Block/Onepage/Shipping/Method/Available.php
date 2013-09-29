@@ -16,7 +16,9 @@
  * @package    Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Checkout_Block_Onepage_Shipping_Method_Available extends Magento_Checkout_Block_Onepage_Abstract
+namespace Magento\Checkout\Block\Onepage\Shipping\Method;
+
+class Available extends \Magento\Checkout\Block\Onepage\AbstractOnepage
 {
     protected $_rates;
     protected $_address;
@@ -24,22 +26,22 @@ class Magento_Checkout_Block_Onepage_Shipping_Method_Available extends Magento_C
     /**
      * Tax data
      *
-     * @var Magento_Tax_Helper_Data
+     * @var \Magento\Tax\Helper\Data
      */
     protected $_taxData = null;
 
     /**
-     * @param Magento_Tax_Helper_Data $taxData
-     * @param Magento_Core_Model_Cache_Type_Config $configCacheType
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Tax_Helper_Data $taxData,
-        Magento_Core_Model_Cache_Type_Config $configCacheType,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Core\Model\Cache\Type\Config $configCacheType,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_taxData = $taxData;

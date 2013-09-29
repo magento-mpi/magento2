@@ -8,9 +8,9 @@
  */
 -->
 <config>
-    <type name="Magento_Paygate_Model_Authorizenet">
+    <type name="Magento\Paygate\Model\Authorizenet">
         <param name="session">
-            <instance type="Magento_Adminhtml_Model_Session_Quote" />
+            <instance type="Magento\Adminhtml\Model\Session\Quote" />
         </param>
     </type>
 </config>

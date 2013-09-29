@@ -9,7 +9,9 @@
  */
 
 
-class Magento_Backend_Model_Config_Source_Image_Adapter implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Backend\Model\Config\Source\Image;
+
+class Adapter implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
      * Return hash of image adapter codes and labels
@@ -19,9 +21,9 @@ class Magento_Backend_Model_Config_Source_Image_Adapter implements Magento_Core_
     public function toOptionArray()
     {
         return array(
-            Magento_Core_Model_Image_AdapterFactory::ADAPTER_IM  =>
+            \Magento\Core\Model\Image\AdapterFactory::ADAPTER_IM  =>
                 __('ImageMagick'),
-            Magento_Core_Model_Image_AdapterFactory::ADAPTER_GD2 =>
+            \Magento\Core\Model\Image\AdapterFactory::ADAPTER_GD2 =>
                 __('PHP GD2'),
         );
     }

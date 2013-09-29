@@ -16,8 +16,10 @@
  * @package     Magento_Paypal
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Paypal_Model_Resource_Report_Settlement_Row_Collection
-    extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Paypal\Model\Resource\Report\Settlement\Row;
+
+class Collection
+    extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Resource initializing
@@ -25,13 +27,13 @@ class Magento_Paypal_Model_Resource_Report_Settlement_Row_Collection
      */
     protected function _construct()
     {
-        $this->_init('Magento_Paypal_Model_Report_Settlement_Row', 'Magento_Paypal_Model_Resource_Report_Settlement_Row');
+        $this->_init('Magento\Paypal\Model\Report\Settlement\Row', 'Magento\Paypal\Model\Resource\Report\Settlement\Row');
     }
 
     /**
      * Join reports info table
      *
-     * @return Magento_Paypal_Model_Resource_Report_Settlement_Row_Collection
+     * @return \Magento\Paypal\Model\Resource\Report\Settlement\Row\Collection
      */
     protected function _initSelect()
     {
@@ -49,7 +51,7 @@ class Magento_Paypal_Model_Resource_Report_Settlement_Row_Collection
      * Filter items collection by account ID
      *
      * @param string $accountId
-     * @return Magento_Paypal_Model_Resource_Report_Settlement_Row_Collection
+     * @return \Magento\Paypal\Model\Resource\Report\Settlement\Row\Collection
      */
     public function addAccountFilter($accountId)
     {

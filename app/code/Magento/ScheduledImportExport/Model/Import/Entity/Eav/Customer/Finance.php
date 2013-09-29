@@ -16,13 +16,15 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  * @method      array getData() getData()
  */
-class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance
-    extends Magento_ImportExport_Model_Import_Entity_Eav_CustomerAbstract
+namespace Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer;
+
+class Finance
+    extends \Magento\ImportExport\Model\Import\Entity\Eav\CustomerAbstract
 {
     /**
      * Attribute collection name
      */
-    const ATTRIBUTE_COLLECTION_NAME = 'Magento_ScheduledImportExport_Model_Resource_Customer_Attribute_Finance_Collection';
+    const ATTRIBUTE_COLLECTION_NAME = 'Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection';
 
     /**#@+
      * Permanent column names
@@ -72,21 +74,21 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance
     /**
      * Address attributes collection
      *
-     * @var Magento_ScheduledImportExport_Model_Resource_Customer_Attribute_Finance_Collection
+     * @var \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection
      */
     protected $_attributeCollection;
 
     /**
      * Helper to check whether modules are enabled/disabled
      *
-     * @var Magento_ScheduledImportExport_Helper_Data
+     * @var \Magento\ScheduledImportExport\Helper\Data
      */
     protected $_importExportData;
 
     /**
      * Admin user object
      *
-     * @var Magento_User_Model_User
+     * @var \Magento\User\Model\User
      */
     protected $_adminUser;
 
@@ -98,40 +100,40 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance
     protected $_importedRowPks = array();
 
     /**
-     * @var Magento_Customer_Model_CustomerFactory
+     * @var \Magento\Customer\Model\CustomerFactory
      */
     protected $_customerFactory;
 
     /**
-     * @var Magento_CustomerBalance_Model_BalanceFactory
+     * @var \Magento\CustomerBalance\Model\BalanceFactory
      */
     protected $_balanceFactory;
 
     /**
-     * @var Magento_Reward_Model_RewardFactory
+     * @var \Magento\Reward\Model\RewardFactory
      */
     protected $_rewardFactory;
 
     /**
-     * @param Magento_Backend_Model_Auth_Session $authSession
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Helper_String $coreString
-     * @param Magento_ScheduledImportExport_Helper_Data $importExportData
-     * @param Magento_Customer_Model_CustomerFactory $customerFactory
-     * @param Magento_CustomerBalance_Model_BalanceFactory $balanceFactory
-     * @param Magento_Reward_Model_RewardFactory $rewardFactory
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param \Magento\Backend\Model\Auth\Session $authSession
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Helper\String $coreString
+     * @param \Magento\ScheduledImportExport\Helper\Data $importExportData
+     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
+     * @param \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory
+     * @param \Magento\Reward\Model\RewardFactory $rewardFactory
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Model_Auth_Session $authSession,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Helper_String $coreString,
-        Magento_ScheduledImportExport_Helper_Data $importExportData,
-        Magento_Customer_Model_CustomerFactory $customerFactory,
-        Magento_CustomerBalance_Model_BalanceFactory $balanceFactory,
-        Magento_Reward_Model_RewardFactory $rewardFactory,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
+        \Magento\Backend\Model\Auth\Session $authSession,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Helper\String $coreString,
+        \Magento\ScheduledImportExport\Helper\Data $importExportData,
+        \Magento\Customer\Model\CustomerFactory $customerFactory,
+        \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory,
+        \Magento\Reward\Model\RewardFactory $rewardFactory,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
         array $data = array()
     ) {
         // entity type id has no meaning for finance import
@@ -162,11 +164,11 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance
     /**
      * Initialize entity attributes
      *
-     * @return Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance
+     * @return \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance
      */
     protected function _initAttributes()
     {
-        /** @var $attribute Magento_Eav_Model_Attribute */
+        /** @var $attribute \Magento\Eav\Model\Attribute */
         foreach ($this->_attributeCollection as $attribute) {
             $this->_attributes[$attribute->getAttributeCode()] = array(
                 'id'          => $attribute->getId(),
@@ -190,12 +192,12 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance
             return false;
         }
 
-        /** @var $customer Magento_Customer_Model_Customer */
+        /** @var $customer \Magento\Customer\Model\Customer */
         $customer = $this->_customerFactory->create();
         $rewardPointsKey =
-            Magento_ScheduledImportExport_Model_Resource_Customer_Attribute_Finance_Collection::COLUMN_REWARD_POINTS;
+            \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection::COLUMN_REWARD_POINTS;
         $customerBalanceKey =
-            Magento_ScheduledImportExport_Model_Resource_Customer_Attribute_Finance_Collection::COLUMN_CUSTOMER_BALANCE;
+            \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection::COLUMN_CUSTOMER_BALANCE;
 
         while ($bunch = $this->_dataSourceModel->getNextBunch()) {
             foreach ($bunch as $rowNumber => $rowData) {
@@ -216,13 +218,13 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance
                 $websiteId = $this->_websiteCodeToId[$rowData[self::COLUMN_FINANCE_WEBSITE]];
                 // save finance data for customer
                 foreach ($this->_attributes as $attributeCode => $attributeParams) {
-                    if ($this->getBehavior($rowData) == Magento_ImportExport_Model_Import::BEHAVIOR_DELETE) {
+                    if ($this->getBehavior($rowData) == \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE) {
                         if ($attributeCode == $rewardPointsKey) {
                             $this->_deleteRewardPoints($customer, $websiteId);
                         } elseif ($attributeCode == $customerBalanceKey) {
                             $this->_deleteCustomerBalance($customer, $websiteId);
                         }
-                    } elseif ($this->getBehavior($rowData) == Magento_ImportExport_Model_Import::BEHAVIOR_ADD_UPDATE) {
+                    } elseif ($this->getBehavior($rowData) == \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE) {
                         if (isset($rowData[$attributeCode]) && strlen($rowData[$attributeCode])) {
                             if ($attributeCode == $rewardPointsKey) {
                                 $this->_updateRewardPointsForCustomer(
@@ -245,14 +247,14 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance
     /**
      * Update reward points value for customerEtn
      *
-     * @param Magento_Customer_Model_Customer $customer
+     * @param \Magento\Customer\Model\Customer $customer
      * @param int $websiteId
      * @param int $value reward points value
-     * @return Magento_Reward_Model_Reward
+     * @return \Magento\Reward\Model\Reward
      */
-    protected function _updateRewardPointsForCustomer(Magento_Customer_Model_Customer $customer, $websiteId, $value)
+    protected function _updateRewardPointsForCustomer(\Magento\Customer\Model\Customer $customer, $websiteId, $value)
     {
-        /** @var $rewardModel Magento_Reward_Model_Reward */
+        /** @var $rewardModel \Magento\Reward\Model\Reward */
         $rewardModel = $this->_rewardFactory->create();
         $rewardModel->setCustomer($customer)
             ->setWebsiteId($websiteId)
@@ -264,16 +266,16 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance
     /**
      * Update reward points value for reward model
      *
-     * @param Magento_Reward_Model_Reward $rewardModel
+     * @param \Magento\Reward\Model\Reward $rewardModel
      * @param int $value reward points value
-     * @return Magento_Reward_Model_Reward
+     * @return \Magento\Reward\Model\Reward
      */
-    protected function _updateRewardValue(Magento_Reward_Model_Reward $rewardModel, $value)
+    protected function _updateRewardValue(\Magento\Reward\Model\Reward $rewardModel, $value)
     {
         $pointsDelta = $value - $rewardModel->getPointsBalance();
         if ($pointsDelta != 0) {
             $rewardModel->setPointsDelta($pointsDelta)
-                ->setAction(Magento_Reward_Model_Reward::REWARD_ACTION_ADMIN)
+                ->setAction(\Magento\Reward\Model\Reward::REWARD_ACTION_ADMIN)
                 ->setComment($this->_getComment())
                 ->updateRewardPoints();
         }
@@ -284,14 +286,14 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance
     /**
      * Update store credit balance for customer
      *
-     * @param Magento_Customer_Model_Customer $customer
+     * @param \Magento\Customer\Model\Customer $customer
      * @param int $websiteId
      * @param float $value store credit balance
-     * @return Magento_CustomerBalance_Model_Balance
+     * @return \Magento\CustomerBalance\Model\Balance
      */
-    protected function _updateCustomerBalanceForCustomer(Magento_Customer_Model_Customer $customer, $websiteId, $value)
+    protected function _updateCustomerBalanceForCustomer(\Magento\Customer\Model\Customer $customer, $websiteId, $value)
     {
-        /** @var $balanceModel Magento_CustomerBalance_Model_Balance */
+        /** @var $balanceModel \Magento\CustomerBalance\Model\Balance */
         $balanceModel = $this->_balanceFactory->create();
         $balanceModel->setCustomer($customer)
             ->setWebsiteId($websiteId)
@@ -303,11 +305,11 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance
     /**
      * Update balance for customer balance model
      *
-     * @param Magento_CustomerBalance_Model_Balance $balanceModel
+     * @param \Magento\CustomerBalance\Model\Balance $balanceModel
      * @param float $value store credit balance
-     * @return Magento_CustomerBalance_Model_Balance
+     * @return \Magento\CustomerBalance\Model\Balance
      */
-    protected function _updateCustomerBalanceValue(Magento_CustomerBalance_Model_Balance $balanceModel, $value)
+    protected function _updateCustomerBalanceValue(\Magento\CustomerBalance\Model\Balance $balanceModel, $value)
     {
         $amountDelta = $value - $balanceModel->getAmount();
         if ($amountDelta != 0) {
@@ -322,10 +324,10 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance
     /**
      * Delete reward points value for customer (just set it to 0)
      *
-     * @param Magento_Customer_Model_Customer $customer
+     * @param \Magento\Customer\Model\Customer $customer
      * @param int $websiteId
      */
-    protected function _deleteRewardPoints(Magento_Customer_Model_Customer $customer, $websiteId)
+    protected function _deleteRewardPoints(\Magento\Customer\Model\Customer $customer, $websiteId)
     {
         $this->_updateRewardPointsForCustomer($customer, $websiteId, 0);
     }
@@ -333,10 +335,10 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance
     /**
      * Delete store credit balance for customer (just set it to 0)
      *
-     * @param Magento_Customer_Model_Customer $customer
+     * @param \Magento\Customer\Model\Customer $customer
      * @param int $websiteId
      */
-    protected function _deleteCustomerBalance(Magento_Customer_Model_Customer $customer, $websiteId)
+    protected function _deleteCustomerBalance(\Magento\Customer\Model\Customer $customer, $websiteId)
     {
         $this->_updateCustomerBalanceForCustomer($customer, $websiteId, 0);
     }
@@ -386,7 +388,7 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance
                 $customerId     = $this->_getCustomerId($email, $website);
 
                 if (!isset($this->_websiteCodeToId[$financeWebsite])
-                    || $this->_websiteCodeToId[$financeWebsite] == Magento_Core_Model_AppInterface::ADMIN_STORE_ID
+                    || $this->_websiteCodeToId[$financeWebsite] == \Magento\Core\Model\AppInterface::ADMIN_STORE_ID
                 ) {
                     $this->addRowError(self::ERROR_INVALID_FINANCE_WEBSITE, $rowNumber, self::COLUMN_FINANCE_WEBSITE);
                 } elseif ($customerId === false) {
@@ -428,7 +430,7 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance
                 $financeWebsite = $rowData[self::COLUMN_FINANCE_WEBSITE];
 
                 if (!isset($this->_websiteCodeToId[$financeWebsite])
-                    || $this->_websiteCodeToId[$financeWebsite] == Magento_Core_Model_AppInterface::ADMIN_STORE_ID
+                    || $this->_websiteCodeToId[$financeWebsite] == \Magento\Core\Model\AppInterface::ADMIN_STORE_ID
                 ) {
                     $this->addRowError(self::ERROR_INVALID_FINANCE_WEBSITE, $rowNumber, self::COLUMN_FINANCE_WEBSITE);
                 } elseif (!$this->_getCustomerId($email, $website)) {

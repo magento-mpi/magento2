@@ -9,16 +9,18 @@
 /**
  * Minified page asset
  */
-class Magento_Core_Model_Page_Asset_Minified implements Magento_Core_Model_Page_Asset_MergeableInterface
+namespace Magento\Core\Model\Page\Asset;
+
+class Minified implements \Magento\Core\Model\Page\Asset\MergeableInterface
 {
 
     /**
-     * @var Magento_Core_Model_Page_Asset_LocalInterface
+     * @var \Magento\Core\Model\Page\Asset\LocalInterface
      */
     protected $_originalAsset;
 
     /**
-     * @var Magento_Code_Minifier
+     * @var \Magento\Code\Minifier
      */
     protected $_minifier;
 
@@ -33,26 +35,26 @@ class Magento_Core_Model_Page_Asset_Minified implements Magento_Core_Model_Page_
     protected $_url;
 
     /**
-     * @var Magento_Core_Model_View_Url
+     * @var \Magento\Core\Model\View\Url
      */
     protected $_viewUrl;
 
     /**
-     * @var Magento_Core_Model_Logger
+     * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
 
     /**
-     * @param Magento_Core_Model_Page_Asset_LocalInterface $asset
-     * @param Magento_Code_Minifier $minifier
-     * @param Magento_Core_Model_View_Url $viewUrl
-     * @param Magento_Core_Model_Logger $logger
+     * @param \Magento\Core\Model\Page\Asset\LocalInterface $asset
+     * @param \Magento\Code\Minifier $minifier
+     * @param \Magento\Core\Model\View\Url $viewUrl
+     * @param \Magento\Core\Model\Logger $logger
      */
     public function __construct(
-        Magento_Core_Model_Page_Asset_LocalInterface $asset,
-        Magento_Code_Minifier $minifier,
-        Magento_Core_Model_View_Url $viewUrl,
-        Magento_Core_Model_Logger $logger
+        \Magento\Core\Model\Page\Asset\LocalInterface $asset,
+        \Magento\Code\Minifier $minifier,
+        \Magento\Core\Model\View\Url $viewUrl,
+        \Magento\Core\Model\Logger $logger
     ) {
         $this->_originalAsset = $asset;
         $this->_minifier = $minifier;
@@ -99,8 +101,8 @@ class Magento_Core_Model_Page_Asset_Minified implements Magento_Core_Model_Page_
 
         try {
             $this->_file = $this->_minifier->getMinifiedFile($originalFile);
-        } catch (Exception $e) {
-            $this->_logger->logException(new Magento_Exception('Could not minify file: ' . $originalFile, 0, $e));
+        } catch (\Exception $e) {
+            $this->_logger->logException(new \Magento\Exception('Could not minify file: ' . $originalFile, 0, $e));
             $this->_file = $originalFile;
         }
         if ($this->_file == $originalFile) {

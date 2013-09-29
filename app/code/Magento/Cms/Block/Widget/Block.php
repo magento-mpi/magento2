@@ -16,10 +16,12 @@
  * @package    Magento_Cms
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Cms_Block_Widget_Block extends Magento_Core_Block_Template implements Magento_Widget_Block_Interface
+namespace Magento\Cms\Block\Widget;
+
+class Block extends \Magento\Core\Block\Template implements \Magento\Widget\Block\BlockInterface
 {
     /**
-     * @var Magento_Cms_Model_Template_FilterProvider
+     * @var \Magento\Cms\Model\Template\FilterProvider
      */
     protected $_filterProvider;
 
@@ -33,33 +35,33 @@ class Magento_Cms_Block_Widget_Block extends Magento_Core_Block_Template impleme
     /**
      * Store manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * Block factory
      *
-     * @var Magento_Cms_Model_BlockFactory
+     * @var \Magento\Cms\Model\BlockFactory
      */
     protected $_blockFactory;
 
     /**
      * Construct
      * 
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Cms_Model_Template_FilterProvider $filterProvider
-     * @param Magento_Cms_Model_BlockFactory $blockFactory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Cms\Model\Template\FilterProvider $filterProvider
+     * @param \Magento\Cms\Model\BlockFactory $blockFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Cms_Model_Template_FilterProvider $filterProvider,
-        Magento_Cms_Model_BlockFactory $blockFactory,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Cms\Model\Template\FilterProvider $filterProvider,
+        \Magento\Cms\Model\BlockFactory $blockFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         parent::__construct($coreData, $context, $data);
@@ -72,7 +74,7 @@ class Magento_Cms_Block_Widget_Block extends Magento_Core_Block_Template impleme
      * Prepare block text and determine whether block output enabled or not
      * Prevent blocks recursion if needed
      *
-     * @return Magento_Cms_Block_Widget_Block
+     * @return \Magento\Cms\Block\Widget\Block
      */
     protected function _beforeToHtml()
     {
@@ -87,7 +89,7 @@ class Magento_Cms_Block_Widget_Block extends Magento_Core_Block_Template impleme
 
         if ($blockId) {
             $storeId = $this->_storeManager->getStore()->getId();
-            /** @var Magento_Cms_Model_Block $block */
+            /** @var \Magento\Cms\Model\Block $block */
             $block = $this->_blockFactory->create();
             $block->setStoreId($storeId)
                 ->load($blockId);

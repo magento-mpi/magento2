@@ -11,34 +11,36 @@
 /**
  * Adminhtml newsletter queue edit block
  */
-class Magento_Adminhtml_Block_Newsletter_Queue_Edit extends Magento_Adminhtml_Block_Template
+namespace Magento\Adminhtml\Block\Newsletter\Queue;
+
+class Edit extends \Magento\Adminhtml\Block\Template
 {
     protected $_template = 'newsletter/queue/edit.phtml';
 
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @var Magento_Cms_Model_Wysiwyg_Config
+     * @var \Magento\Cms\Model\Wysiwyg\Config
      */
     protected $_wysiwygConfig;
 
     /**
-     * @param Magento_Cms_Model_Wysiwyg_Config $wysiwygConfig
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Cms_Model_Wysiwyg_Config $wysiwygConfig,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -58,7 +60,7 @@ class Magento_Adminhtml_Block_Newsletter_Queue_Edit extends Magento_Adminhtml_Bl
     /**
      * Retrieve current Newsletter Queue Object
      *
-     * @return Magento_Newsletter_Model_Queue
+     * @return \Magento\Newsletter\Model\Queue
      */
     public function getQueue()
     {
@@ -68,7 +70,7 @@ class Magento_Adminhtml_Block_Newsletter_Queue_Edit extends Magento_Adminhtml_Bl
     protected  function _beforeToHtml()
     {
         $this->setChild('form',
-            $this->getLayout()->createBlock('Magento_Adminhtml_Block_Newsletter_Queue_Edit_Form','form')
+            $this->getLayout()->createBlock('Magento\Adminhtml\Block\Newsletter\Queue\Edit\Form','form')
         );
         return parent::_beforeToHtml();
     }
@@ -90,13 +92,13 @@ class Magento_Adminhtml_Block_Newsletter_Queue_Edit extends Magento_Adminhtml_Bl
             $this->getLayout()->getBlock('head')->setCanLoadTinyMce(true);
         }
 
-        $this->addChild('preview_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('preview_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('Preview Template'),
             'onclick'   => 'queueControl.preview();',
             'class'     => 'preview'
         ));
 
-        $this->addChild('save_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('save_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('Save Newsletter'),
             'class'     => 'save primary',
             'data_attribute'  => array(
@@ -106,7 +108,7 @@ class Magento_Adminhtml_Block_Newsletter_Queue_Edit extends Magento_Adminhtml_Bl
             ),
         ));
 
-        $this->addChild('save_and_resume', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('save_and_resume', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('Save and Resume'),
             'class'     => 'save',
             'data_attribute' => array(
@@ -124,12 +126,12 @@ class Magento_Adminhtml_Block_Newsletter_Queue_Edit extends Magento_Adminhtml_Bl
             ),
         ));
 
-        $this->addChild('reset_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('reset_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('Reset'),
             'onclick'   => 'window.location = window.location'
         ));
 
-        $this->addChild('back_button','Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('back_button','Magento\Adminhtml\Block\Widget\Button', array(
             'label'   => __('Back'),
             'onclick' => "window.location.href = '" . $this->getUrl((
                 $this->getTemplateId() ? '*/newsletter_template/' : '*/*')) . "'",
@@ -207,8 +209,8 @@ class Magento_Adminhtml_Block_Newsletter_Queue_Edit extends Magento_Adminhtml_Bl
     public function getIsPreview()
     {
         return !in_array($this->getQueue()->getQueueStatus(), array(
-            Magento_Newsletter_Model_Queue::STATUS_NEVER,
-            Magento_Newsletter_Model_Queue::STATUS_PAUSE
+            \Magento\Newsletter\Model\Queue::STATUS_NEVER,
+            \Magento\Newsletter\Model\Queue::STATUS_PAUSE
         ));
     }
 
@@ -250,7 +252,7 @@ class Magento_Adminhtml_Block_Newsletter_Queue_Edit extends Magento_Adminhtml_Bl
     public function getCanResume()
     {
         return in_array($this->getQueue()->getQueueStatus(), array(
-            Magento_Newsletter_Model_Queue::STATUS_PAUSE
+            \Magento\Newsletter\Model\Queue::STATUS_PAUSE
         ));
     }
 

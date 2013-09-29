@@ -16,27 +16,29 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Sales_Order_Create_Form extends Magento_Adminhtml_Block_Sales_Order_Create_Abstract
+namespace Magento\Adminhtml\Block\Sales\Order\Create;
+
+class Form extends \Magento\Adminhtml\Block\Sales\Order\Create\AbstractCreate
 {
     /**
-     * @var Magento_Customer_Model_FormFactory
+     * @var \Magento\Customer\Model\FormFactory
      */
     protected $_customerFormFactory;
 
     /**
-     * @param Magento_Customer_Model_FormFactory $customerFormFactory
-     * @param Magento_Adminhtml_Model_Session_Quote $sessionQuote
-     * @param Magento_Adminhtml_Model_Sales_Order_Create $orderCreate
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
+     * @param \Magento\Customer\Model\FormFactory $customerFormFactory
+     * @param \Magento\Adminhtml\Model\Session\Quote $sessionQuote
+     * @param \Magento\Adminhtml\Model\Sales\Order\Create $orderCreate
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Customer_Model_FormFactory $customerFormFactory,
-        Magento_Adminhtml_Model_Session_Quote $sessionQuote,
-        Magento_Adminhtml_Model_Sales_Order_Create $orderCreate,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
+        \Magento\Customer\Model\FormFactory $customerFormFactory,
+        \Magento\Adminhtml\Model\Session\Quote $sessionQuote,
+        \Magento\Adminhtml\Model\Sales\Order\Create $orderCreate,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_customerFormFactory = $customerFormFactory;
@@ -103,13 +105,13 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Form extends Magento_Adminhtml_
             $data['customer_id'] = $this->getCustomerId();
             $data['addresses'] = array();
 
-            /* @var $addressForm Magento_Customer_Model_Form */
+            /* @var $addressForm \Magento\Customer\Model\Form */
             $addressForm = $this->_customerFormFactory->create()
                 ->setFormCode('adminhtml_customer_address')
                 ->setStore($this->getStore());
             foreach ($this->getCustomer()->getAddresses() as $address) {
                 $data['addresses'][$address->getId()] = $addressForm->setEntity($address)
-                    ->outputData(Magento_Customer_Model_Attribute_Data::OUTPUT_FORMAT_JSON);
+                    ->outputData(\Magento\Customer\Model\Attribute\Data::OUTPUT_FORMAT_JSON);
             }
         }
         if (!is_null($this->getStoreId())) {

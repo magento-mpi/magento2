@@ -15,42 +15,44 @@
  * @package     Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Sales_Order_Address_Form
-    extends Magento_Adminhtml_Block_Sales_Order_Create_Form_Address
+namespace Magento\Adminhtml\Block\Sales\Order\Address;
+
+class Form
+    extends \Magento\Adminhtml\Block\Sales\Order\Create\Form\Address
 {
     protected $_template = 'sales/order/address/form.phtml';
 
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Customer_Model_AddressFactory $addressFactory
-     * @param Magento_Customer_Model_FormFactory $customerFormFactory
-     * @param Magento_Adminhtml_Helper_Addresses $adminhtmlAddresses
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Adminhtml_Model_Session_Quote $sessionQuote
-     * @param Magento_Adminhtml_Model_Sales_Order_Create $orderCreate
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Customer\Model\AddressFactory $addressFactory
+     * @param \Magento\Customer\Model\FormFactory $customerFormFactory
+     * @param \Magento\Adminhtml\Helper\Addresses $adminhtmlAddresses
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Adminhtml\Model\Session\Quote $sessionQuote
+     * @param \Magento\Adminhtml\Model\Sales\Order\Create $orderCreate
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Magento_Customer_Model_AddressFactory $addressFactory,
-        Magento_Customer_Model_FormFactory $customerFormFactory,
-        Magento_Adminhtml_Helper_Addresses $adminhtmlAddresses,
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Adminhtml_Model_Session_Quote $sessionQuote,
-        Magento_Adminhtml_Model_Sales_Order_Create $orderCreate,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Customer\Model\AddressFactory $addressFactory,
+        \Magento\Customer\Model\FormFactory $customerFormFactory,
+        \Magento\Adminhtml\Helper\Addresses $adminhtmlAddresses,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Adminhtml\Model\Session\Quote $sessionQuote,
+        \Magento\Adminhtml\Model\Sales\Order\Create $orderCreate,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -63,7 +65,7 @@ class Magento_Adminhtml_Block_Sales_Order_Address_Form
     /**
      * Order address getter
      *
-     * @return Magento_Sales_Model_Order_Address
+     * @return \Magento\Sales\Model\Order\Address
      */
     protected function _getAddress()
     {
@@ -73,7 +75,7 @@ class Magento_Adminhtml_Block_Sales_Order_Address_Form
     /**
      * Define form attributes (id, method, action)
      *
-     * @return Magento_Adminhtml_Block_Sales_Order_Create_Billing_Address
+     * @return \Magento\Adminhtml\Block\Sales\Order\Create\Billing\Address
      */
     protected function _prepareForm()
     {

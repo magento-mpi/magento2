@@ -15,18 +15,20 @@
  * @package     Magento_Rma
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Action
-    extends Magento_Adminhtml_Block_Widget_Grid_Column_Renderer_Action
+namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer;
+
+class Action
+    extends \Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\Action
 {
     /**
      * Renders column
      *
      * Shows link in one row instead of select element in parent class
      *
-     * @param Magento_Object $row
+     * @param \Magento\Object $row
      * @return string
      */
-    public function render(Magento_Object $row)
+    public function render(\Magento\Object $row)
     {
         $actions = $this->getColumn()->getActions();
         if ( empty($actions) || !is_array($actions) ) {
@@ -40,9 +42,9 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Action
         $separator = '';
         foreach ($actions as $action) {
             if (!(isset($action['status_depended'])
-                && (($row->getStatus() === Magento_Rma_Model_Rma_Source_Status::STATE_APPROVED)
-                    ||($row->getStatus() === Magento_Rma_Model_Rma_Source_Status::STATE_DENIED)
-                    ||($row->getStatus() === Magento_Rma_Model_Rma_Source_Status::STATE_REJECTED)))) {
+                && (($row->getStatus() === \Magento\Rma\Model\Rma\Source\Status::STATE_APPROVED)
+                    ||($row->getStatus() === \Magento\Rma\Model\Rma\Source\Status::STATE_DENIED)
+                    ||($row->getStatus() === \Magento\Rma\Model\Rma\Source\Status::STATE_REJECTED)))) {
                 $out .= $separator . $this->_toLinkHtml($action, $row);
                 $separator = '<span class="separator">|</span>';
             }

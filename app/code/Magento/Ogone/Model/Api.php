@@ -11,7 +11,9 @@
 /**
  * Ogone payment method model
  */
-class Magento_Ogone_Model_Api extends Magento_Payment_Model_Method_Abstract
+namespace Magento\Ogone\Model;
+
+class Api extends \Magento\Payment\Model\Method\AbstractMethod
 {
     /**
      * Ogone payment method code
@@ -21,8 +23,8 @@ class Magento_Ogone_Model_Api extends Magento_Payment_Model_Method_Abstract
     const PAYMENT_CODE = 'ogone';
 
     protected $_code  = self::PAYMENT_CODE;
-    protected $_formBlockType = 'Magento_Ogone_Block_Form';
-    protected $_infoBlockType = 'Magento_Ogone_Block_Info';
+    protected $_formBlockType = 'Magento\Ogone\Block\Form';
+    protected $_infoBlockType = 'Magento\Ogone\Block\Info';
     protected $_config = null;
 
     /**
@@ -166,49 +168,49 @@ class Magento_Ogone_Model_Api extends Magento_Payment_Model_Method_Abstract
     /**
      * Core string
      *
-     * @var Magento_Core_Helper_String
+     * @var \Magento\Core\Helper\String
      */
     protected $_coreString = null;
 
     /**
-     * @var Magento_Core_Model_UrlInterface
+     * @var \Magento\Core\Model\UrlInterface
      */
     protected $_urlBuilder;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
     /**
      * Construct
      * 
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Payment_Helper_Data $paymentData
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Core_Model_UrlInterface $urlBuilder
-     * @param Magento_Core_Helper_String $coreString
-     * @param Magento_Ogone_Model_Config $config
-     * @param Magento_Core_Model_Log_AdapterFactory $logAdapterFactory
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Payment\Helper\Data $paymentData
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Core\Model\UrlInterface $urlBuilder
+     * @param \Magento\Core\Helper\String $coreString
+     * @param \Magento\Ogone\Model\Config $config
+     * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Payment_Helper_Data $paymentData,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Core_Model_UrlInterface $urlBuilder,
-        Magento_Core_Helper_String $coreString,
-        Magento_Ogone_Model_Config $config,
-        Magento_Core_Model_Log_AdapterFactory $logAdapterFactory,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Payment\Helper\Data $paymentData,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Core\Model\UrlInterface $urlBuilder,
+        \Magento\Core\Helper\String $coreString,
+        \Magento\Ogone\Model\Config $config,
+        \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;
@@ -222,7 +224,7 @@ class Magento_Ogone_Model_Api extends Magento_Payment_Model_Method_Abstract
     /**
      * Return ogone config instance
      *
-     * @return Magento_Ogone_Model_Config
+     * @return \Magento\Ogone\Model\Config
      */
     public function getConfig()
     {
@@ -262,7 +264,7 @@ class Magento_Ogone_Model_Api extends Magento_Payment_Model_Method_Abstract
     /**
      * Rrepare params array to send it to gateway page via POST
      *
-     * @param Magento_Sales_Model_Order
+     * @param \Magento\Sales\Model\Order
      * @return array
      */
     public function getFormFields($order)
@@ -272,7 +274,7 @@ class Magento_Ogone_Model_Api extends Magento_Payment_Model_Method_Abstract
                 return array();
             }
         }
-        /** @var Magento_Sales_Model_Quote_Address $billingAddress */
+        /** @var \Magento\Sales\Model\Quote\Address $billingAddress */
         $billingAddress = $order->getBillingAddress();
         $formFields = array();
         $formFields['PSPID']    = $this->getConfig()->getPSPID();
@@ -328,9 +330,9 @@ class Magento_Ogone_Model_Api extends Magento_Payment_Model_Method_Abstract
     /**
      * Debug specified order fields if needed
      *
-     * @param Magento_Sales_Model_Order $order
+     * @param \Magento\Sales\Model\Order $order
      */
-    public function debugOrder(Magento_Sales_Model_Order $order)
+    public function debugOrder(\Magento\Sales\Model\Order $order)
     {
         if ($this->getDebugFlag()) {
             $this->debugData(array('request' => $this->getFormFields($order)));
@@ -346,7 +348,7 @@ class Magento_Ogone_Model_Api extends Magento_Payment_Model_Method_Abstract
      * @param bool|int $mapAllParams
      * @param string $algorithm
      * @return string
-     * @throws Exception
+     * @throws \Exception
      */
     public function getHash($data, $passPhrase, $direction, $mapAllParams = false, $algorithm = null)
     {
@@ -356,7 +358,7 @@ class Magento_Ogone_Model_Api extends Magento_Payment_Model_Method_Abstract
         } elseif (self::HASH_DIR_IN === $direction) {
             $hashMap = $mapAllParams ? '_inAllMap' : '_inShortMap';
         } else {
-            throw new Exception(sprintf('Unknown hashing context "%s".', $direction));
+            throw new \Exception(sprintf('Unknown hashing context "%s".', $direction));
         }
 
         // collect non-empty data that maps and sort it alphabetically by key (uppercase)
@@ -415,10 +417,10 @@ class Magento_Ogone_Model_Api extends Magento_Payment_Model_Method_Abstract
     protected function _getOgonePaymentOperation()
     {
         $value = $this->getPaymentAction();
-        if ($value==Magento_Payment_Model_Method_Abstract::ACTION_AUTHORIZE) {
-            $value = Magento_Ogone_Model_Api::OGONE_AUTHORIZE_ACTION;
-        } elseif ($value==Magento_Payment_Model_Method_Abstract::ACTION_AUTHORIZE_CAPTURE) {
-            $value = Magento_Ogone_Model_Api::OGONE_AUTHORIZE_CAPTURE_ACTION;
+        if ($value==Magento_Payment_Model_Method_AbstractMethod::ACTION_AUTHORIZE) {
+            $value = \Magento\Ogone\Model\Api::OGONE_AUTHORIZE_ACTION;
+        } elseif ($value==Magento_Payment_Model_Method_AbstractMethod::ACTION_AUTHORIZE_CAPTURE) {
+            $value = \Magento\Ogone\Model\Api::OGONE_AUTHORIZE_CAPTURE_ACTION;
         }
         return $value;
     }
@@ -426,7 +428,7 @@ class Magento_Ogone_Model_Api extends Magento_Payment_Model_Method_Abstract
     /**
      * get formated order description
      *
-     * @param Magento_Sales_Model_Order
+     * @param \Magento\Sales\Model\Order
      * @return string
      */
     protected function _getOrderDescription($order)

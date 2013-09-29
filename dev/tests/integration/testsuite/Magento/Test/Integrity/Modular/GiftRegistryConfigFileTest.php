@@ -11,9 +11,11 @@
 /**
  * Test for validation check of the giftregistry.xml and xsd for this file
  *
- * Class Magento_Test_Integrity_Modular_GiftRegistryConfigFileTest
+ * Class \Magento\Test\Integrity\Modular\GiftRegistryConfigFileTest
  */
-class Magento_Test_Integrity_Modular_GiftRegistryConfigFileTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Integrity\Modular;
+
+class GiftRegistryConfigFileTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Schema for gift registry
@@ -27,8 +29,8 @@ class Magento_Test_Integrity_Modular_GiftRegistryConfigFileTest extends PHPUnit_
      */
     protected function setUp()
     {
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $this->_schemaFile = $objectManager->get('Magento_GiftRegistry_Model_Config_SchemaLocator')->getSchema();
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $this->_schemaFile = $objectManager->get('Magento\GiftRegistry\Model\Config\SchemaLocator')->getSchema();
     }
 
     /**
@@ -41,7 +43,7 @@ class Magento_Test_Integrity_Modular_GiftRegistryConfigFileTest extends PHPUnit_
     public function testGiftRegistryConfigValidation($file)
     {
         $errors = array();
-        $dom = new Magento_Config_Dom(file_get_contents($file)) ;
+        $dom = new \Magento\Config\Dom(file_get_contents($file)) ;
         $result = $dom->validate($this->_schemaFile, $errors);
         $message = "Invalid XML-file: {$file}\n";
         foreach ($errors as $error) {
@@ -57,6 +59,6 @@ class Magento_Test_Integrity_Modular_GiftRegistryConfigFileTest extends PHPUnit_
      */
     public function giftRegistryConfigFilesDataProvider()
     {
-        return Magento_TestFramework_Utility_Files::init()->getConfigFiles('giftregistry.xml');
+        return \Magento\TestFramework\Utility\Files::init()->getConfigFiles('giftregistry.xml');
     }
 }

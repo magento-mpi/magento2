@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Rma_Controller_GuestTest extends Magento_TestFramework_TestCase_ControllerAbstract
+namespace Magento\Rma\Controller;
+
+class GuestTest extends \Magento\TestFramework\TestCase\ControllerAbstract
 {
     /**
      * @param string $uri
@@ -20,9 +22,9 @@ class Magento_Rma_Controller_GuestTest extends Magento_TestFramework_TestCase_Co
      */
     public function testIsResponseContain($uri, $content)
     {
-        /** @var $rma Magento_Rma_Model_Rma */
-        $rma = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Rma_Model_Rma');
+        /** @var $rma \Magento\Rma\Model\Rma */
+        $rma = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Rma\Model\Rma');
         $rma->load(1, 'increment_id');
 
         $this->getRequest()->setParam('entity_id', $rma->getEntityId());

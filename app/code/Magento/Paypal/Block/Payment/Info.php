@@ -12,7 +12,9 @@
  * PayPal common payment info block
  * Uses default templates
  */
-class Magento_Paypal_Block_Payment_Info extends Magento_Payment_Block_Info_Cc
+namespace Magento\Paypal\Block\Payment;
+
+class Info extends \Magento\Payment\Block\Info\Cc
 {
     /**
      * Don't show CC type for non-CC methods
@@ -21,7 +23,7 @@ class Magento_Paypal_Block_Payment_Info extends Magento_Payment_Block_Info_Cc
      */
     public function getCcTypeName()
     {
-        if (Magento_Paypal_Model_Config::getIsCreditCardMethod($this->getInfo()->getMethod())) {
+        if (\Magento\Paypal\Model\Config::getIsCreditCardMethod($this->getInfo()->getMethod())) {
             return parent::getCcTypeName();
         }
     }
@@ -29,14 +31,14 @@ class Magento_Paypal_Block_Payment_Info extends Magento_Payment_Block_Info_Cc
     /**
      * Prepare PayPal-specific payment information
      *
-     * @param Magento_Object|array $transport
-     * return Magento_Object
+     * @param \Magento\Object|array $transport
+     * return \Magento\Object
      */
     protected function _prepareSpecificInformation($transport = null)
     {
         $transport = parent::_prepareSpecificInformation($transport);
         $payment = $this->getInfo();
-        $paypalInfo = Mage::getModel('Magento_Paypal_Model_Info');
+        $paypalInfo = \Mage::getModel('Magento\Paypal\Model\Info');
         if (!$this->getIsSecureMode()) {
             $info = $paypalInfo->getPaymentInfo($payment, true);
         } else {

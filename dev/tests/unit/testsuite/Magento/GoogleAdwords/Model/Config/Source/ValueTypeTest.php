@@ -5,28 +5,30 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_GoogleAdwords_Model_Config_Source_ValueTypeTest extends PHPUnit_Framework_TestCase
+namespace Magento\GoogleAdwords\Model\Config\Source;
+
+class ValueTypeTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_GoogleAdwords_Model_Config_Source_ValueType
+     * @var \Magento\GoogleAdwords\Model\Config\Source\ValueType
      */
     protected $_model;
 
     protected function setUp()
     {
-        $objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_model = $objectManager->getObject('Magento_GoogleAdwords_Model_Config_Source_ValueType', array());
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $this->_model = $objectManager->getObject('Magento\GoogleAdwords\Model\Config\Source\ValueType', array());
     }
 
     public function testToOptionArray()
     {
         $this->assertEquals(array(
             array(
-                'value' => Magento_GoogleAdwords_Helper_Data::CONVERSION_VALUE_TYPE_DYNAMIC,
+                'value' => \Magento\GoogleAdwords\Helper\Data::CONVERSION_VALUE_TYPE_DYNAMIC,
                 'label' => 'Dynamic',
             ),
             array(
-                'value' => Magento_GoogleAdwords_Helper_Data::CONVERSION_VALUE_TYPE_CONSTANT,
+                'value' => \Magento\GoogleAdwords\Helper\Data::CONVERSION_VALUE_TYPE_CONSTANT,
                 'label' => 'Constant',
             ),
         ), $this->_model->toOptionArray());

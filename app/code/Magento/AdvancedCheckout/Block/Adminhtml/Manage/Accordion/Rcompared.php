@@ -15,8 +15,10 @@
  * @package    Magento_AdvancedCheckout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Rcompared
-    extends Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Abstract
+namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion;
+
+class Rcompared
+    extends \Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion\AbstractAccordion
 {
     /**
      * Javascript list type name for this grid
@@ -24,56 +26,56 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Rcompared
     protected $_listType = 'rcompared';
 
     /**
-     * @var Magento_Adminhtml_Helper_Sales
+     * @var \Magento\Adminhtml\Helper\Sales
      */
     protected $_adminhtmlSales;
 
     /**
-     * @var Magento_Catalog_Model_Product_Compare_ListFactory
+     * @var \Magento\Catalog\Model\Product\Compare\ListCompareFactory
      */
     protected $_compareListFactory;
 
     /**
-     * @var Magento_Catalog_Model_ProductFactory
+     * @var \Magento\Catalog\Model\ProductFactory
      */
     protected $_productFactory;
 
     /**
-     * @var Magento_Catalog_Model_Config
+     * @var \Magento\Catalog\Model\Config
      */
     protected $_catalogConfig;
 
     /**
-     * @var Magento_Reports_Model_Resource_Event
+     * @var \Magento\Reports\Model\Resource\Event
      */
     protected $_reportsEventResource;
 
     /**
-     * @param Magento_Catalog_Model_Config $catalogConfig
-     * @param Magento_Reports_Model_Resource_Event $reportsEventResource
-     * @param Magento_Adminhtml_Helper_Sales $adminhtmlSales
-     * @param Magento_Data_CollectionFactory $collectionFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Url $urlModel
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_Catalog_Model_ProductFactory $productFactory
-     * @param Magento_Catalog_Model_Product_Compare_ListFactory $compareListFactory
+     * @param \Magento\Catalog\Model\Config $catalogConfig
+     * @param \Magento\Reports\Model\Resource\Event $reportsEventResource
+     * @param \Magento\Adminhtml\Helper\Sales $adminhtmlSales
+     * @param \Magento\Data\CollectionFactory $collectionFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Catalog\Model\Product\Compare\ListCompareFactory $compareListFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Catalog_Model_Config $catalogConfig,
-        Magento_Reports_Model_Resource_Event $reportsEventResource,
-        Magento_Adminhtml_Helper_Sales $adminhtmlSales,
-        Magento_Data_CollectionFactory $collectionFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Url $urlModel,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_Catalog_Model_ProductFactory $productFactory,
-        Magento_Catalog_Model_Product_Compare_ListFactory $compareListFactory,
+        \Magento\Catalog\Model\Config $catalogConfig,
+        \Magento\Reports\Model\Resource\Event $reportsEventResource,
+        \Magento\Adminhtml\Helper\Sales $adminhtmlSales,
+        \Magento\Data\CollectionFactory $collectionFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Catalog\Model\Product\Compare\ListCompareFactory $compareListFactory,
         array $data = array()
     ) {
         $this->_catalogConfig = $catalogConfig;
@@ -102,7 +104,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Rcompared
     /**
      * Return items collection
      *
-     * @return Magento_Core_Model_Resource_Db_Collection_Abstract
+     * @return \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
      */
     public function getItemsCollection()
     {
@@ -130,7 +132,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Rcompared
                 ->addAttributeToSelect($attributes);
             $this->_reportsEventResource->applyLogToCollection(
                 $productCollection,
-                Magento_Reports_Model_Event::EVENT_PRODUCT_COMPARE,
+                \Magento\Reports\Model\Event::EVENT_PRODUCT_COMPARE,
                 $this->_getCustomer()->getId(),
                 0,
                 $skipProducts

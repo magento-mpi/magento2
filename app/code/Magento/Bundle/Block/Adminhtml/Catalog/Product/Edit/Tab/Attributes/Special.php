@@ -15,7 +15,9 @@
  * @package     Magento_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Attributes_Special extends Magento_Adminhtml_Block_Catalog_Form_Renderer_Fieldset_Element
+namespace Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Attributes;
+
+class Special extends \Magento\Adminhtml\Block\Catalog\Form\Renderer\Fieldset\Element
 {
     public function getElementHtml()
     {

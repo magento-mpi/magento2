@@ -9,10 +9,12 @@
  * @license     {license_link}
  */
 
-class Magento_Sales_Model_Config_ReaderTest extends PHPUnit_Framework_TestCase
+namespace Magento\Sales\Model\Config;
+
+class ReaderTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Sales_Model_Config_Reader
+     * @var \Magento\Sales\Model\Config\Reader
      */
     protected $_reader;
 
@@ -21,19 +23,19 @@ class Magento_Sales_Model_Config_ReaderTest extends PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $fileResolver = $this->getMockBuilder('Magento_Core_Model_Config_FileResolver')
+        $fileResolver = $this->getMockBuilder('Magento\Core\Model\Config\FileResolver')
             ->disableOriginalConstructor()
             ->getMock();
-        $converter = $this->getMockBuilder('Magento_Sales_Model_Config_Converter')
+        $converter = $this->getMockBuilder('Magento\Sales\Model\Config\Converter')
             ->disableOriginalConstructor()
             ->getMock();
-        $schema = $this->getMockBuilder('Magento_Sales_Model_Config_SchemaLocator')
+        $schema = $this->getMockBuilder('Magento\Sales\Model\Config\SchemaLocator')
             ->disableOriginalConstructor()
             ->getMock();
-        $validator = $this->getMockBuilder('Magento_Core_Model_Config_ValidationState')
+        $validator = $this->getMockBuilder('Magento\Core\Model\Config\ValidationState')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_reader = new Magento_Sales_Model_Config_Reader($fileResolver, $converter, $schema, $validator);
+        $this->_reader = new \Magento\Sales\Model\Config\Reader($fileResolver, $converter, $schema, $validator);
     }
 
     /**
@@ -41,6 +43,6 @@ class Magento_Sales_Model_Config_ReaderTest extends PHPUnit_Framework_TestCase
      */
     public function testInstanceof()
     {
-        $this->assertInstanceOf('Magento_Sales_Model_Config_Reader', $this->_reader);
+        $this->assertInstanceOf('Magento\Sales\Model\Config\Reader', $this->_reader);
     }
 }

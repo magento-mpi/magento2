@@ -11,7 +11,9 @@
 /**
  * Recurring profiles grid
  */
-class Magento_Sales_Block_Adminhtml_Recurring_Profile_Grid extends Magento_Backend_Block_Widget_Grid
+namespace Magento\Sales\Block\Adminhtml\Recurring\Profile;
+
+class Grid extends \Magento\Backend\Block\Widget\Grid
 {
     /**
      * Set ajax/session parameters
@@ -19,38 +21,38 @@ class Magento_Sales_Block_Adminhtml_Recurring_Profile_Grid extends Magento_Backe
     /**
      * Payment data
      *
-     * @var Magento_Payment_Helper_Data
+     * @var \Magento\Payment\Helper\Data
      */
     protected $_paymentData = null;
 
     /**
-     * @var Magento_Sales_Model_Resource_Recurring_Profile_CollectionFactory
+     * @var \Magento\Sales\Model\Resource\Recurring\Profile\CollectionFactory
      */
     protected $_profileCollection;
 
     /**
-     * @var Magento_Sales_Model_Recurring_ProfileFactory
+     * @var \Magento\Sales\Model\Recurring\ProfileFactory
      */
     protected $_recurringProfile;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Payment_Helper_Data $paymentData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Url $urlModel
-     * @param Magento_Sales_Model_Resource_Recurring_Profile_CollectionFactory $profileCollection
-     * @param Magento_Sales_Model_Recurring_ProfileFactory $recurringProfile
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Payment\Helper\Data $paymentData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Sales\Model\Resource\Recurring\Profile\CollectionFactory $profileCollection
+     * @param \Magento\Sales\Model\Recurring\ProfileFactory $recurringProfile
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Payment_Helper_Data $paymentData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Url $urlModel,
-        Magento_Sales_Model_Resource_Recurring_Profile_CollectionFactory $profileCollection,
-        Magento_Sales_Model_Recurring_ProfileFactory $recurringProfile,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Payment\Helper\Data $paymentData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        \Magento\Sales\Model\Resource\Recurring\Profile\CollectionFactory $profileCollection,
+        \Magento\Sales\Model\Recurring\ProfileFactory $recurringProfile,
         array $data = array()
     ) {
         $this->_paymentData = $paymentData;
@@ -70,7 +72,7 @@ class Magento_Sales_Block_Adminhtml_Recurring_Profile_Grid extends Magento_Backe
     /**
      * Prepare grid collection object
      *
-     * @return Magento_Sales_Block_Adminhtml_Recurring_Profile_Grid
+     * @return \Magento\Sales\Block\Adminhtml\Recurring\Profile\Grid
      */
     protected function _prepareCollection()
     {
@@ -85,7 +87,7 @@ class Magento_Sales_Block_Adminhtml_Recurring_Profile_Grid extends Magento_Backe
     /**
      * Prepare grid columns
      *
-     * @return Magento_Sales_Block_Adminhtml_Recurring_Profile_Grid
+     * @return \Magento\Sales\Block\Adminhtml\Recurring\Profile\Grid
      */
     protected function _prepareColumns()
     {
@@ -155,7 +157,7 @@ class Magento_Sales_Block_Adminhtml_Recurring_Profile_Grid extends Magento_Backe
     /**
      * Return row url for js event handlers
      *
-     * @param Magento_Object
+     * @param \Magento\Object
      * @return string
      */
     public function getRowUrl($row)

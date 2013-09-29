@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Grid extends Magento_Adminhtml_Block_Cms_Page_Grid
+namespace Magento\Adminhtml\Block\Urlrewrite\Cms\Page;
+
+class Grid extends \Magento\Adminhtml\Block\Cms\Page\Grid
 {
     /**
      * Constructor
@@ -29,7 +31,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Grid extends Magento_Adminhtml
     /**
      * Disable massaction
      *
-     * @return Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Grid
+     * @return \Magento\Adminhtml\Block\Urlrewrite\Cms\Page\Grid
      */
     protected function _prepareMassaction()
     {
@@ -39,7 +41,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Grid extends Magento_Adminhtml
     /**
      * Prepare columns layout
      *
-     * @return Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Grid
+     * @return \Magento\Adminhtml\Block\Urlrewrite\Cms\Page\Grid
      */
     protected function _prepareColumns()
     {
@@ -90,7 +92,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Grid extends Magento_Adminhtml
     /**
      * Return row url for js event handlers
      *
-     * @param Magento_Cms_Model_Page|Magento_Object $row
+     * @param \Magento\Cms\Model\Page|\Magento\Object $row
      * @return string
      */
     public function getRowUrl($row)

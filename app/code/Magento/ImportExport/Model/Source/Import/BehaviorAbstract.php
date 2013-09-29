@@ -15,8 +15,9 @@
  * @package     Magento_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class Magento_ImportExport_Model_Source_Import_BehaviorAbstract
-    implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\ImportExport\Model\Source\Import;
+
+abstract class BehaviorAbstract implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
      * Get array of possible values

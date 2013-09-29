@@ -11,29 +11,31 @@
 /**
  * Catalog advanced search model
  *
- * @method Magento_CatalogSearch_Model_Resource_Advanced getResource()
+ * @method \Magento\CatalogSearch\Model\Resource\Advanced getResource()
  * @method int getEntityTypeId()
- * @method Magento_CatalogSearch_Model_Advanced setEntityTypeId(int $value)
+ * @method \Magento\CatalogSearch\Model\Advanced setEntityTypeId(int $value)
  * @method int getAttributeSetId()
- * @method Magento_CatalogSearch_Model_Advanced setAttributeSetId(int $value)
+ * @method \Magento\CatalogSearch\Model\Advanced setAttributeSetId(int $value)
  * @method string getTypeId()
- * @method Magento_CatalogSearch_Model_Advanced setTypeId(string $value)
+ * @method \Magento\CatalogSearch\Model\Advanced setTypeId(string $value)
  * @method string getSku()
- * @method Magento_CatalogSearch_Model_Advanced setSku(string $value)
+ * @method \Magento\CatalogSearch\Model\Advanced setSku(string $value)
  * @method int getHasOptions()
- * @method Magento_CatalogSearch_Model_Advanced setHasOptions(int $value)
+ * @method \Magento\CatalogSearch\Model\Advanced setHasOptions(int $value)
  * @method int getRequiredOptions()
- * @method Magento_CatalogSearch_Model_Advanced setRequiredOptions(int $value)
+ * @method \Magento\CatalogSearch\Model\Advanced setRequiredOptions(int $value)
  * @method string getCreatedAt()
- * @method Magento_CatalogSearch_Model_Advanced setCreatedAt(string $value)
+ * @method \Magento\CatalogSearch\Model\Advanced setCreatedAt(string $value)
  * @method string getUpdatedAt()
- * @method Magento_CatalogSearch_Model_Advanced setUpdatedAt(string $value)
+ * @method \Magento\CatalogSearch\Model\Advanced setUpdatedAt(string $value)
  *
  * @category    Magento
  * @package     Magento_CatalogSearch
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CatalogSearch_Model_Advanced extends Magento_Core_Model_Abstract
+namespace Magento\CatalogSearch\Model;
+
+class Advanced extends \Magento\Core\Model\AbstractModel
 {
     /**
      * User friendly search criteria list
@@ -45,85 +47,85 @@ class Magento_CatalogSearch_Model_Advanced extends Magento_Core_Model_Abstract
     /**
      * Current search engine
      *
-     * @var Magento_CatalogSearch_Model_Resource_EngineInterface
+     * @var \Magento\CatalogSearch\Model\Resource\EngineInterface
      */
     protected $_engine;
 
     /**
      * Found products collection
      *
-     * @var Magento_CatalogSearch_Model_Resource_Advanced_Collection
+     * @var \Magento\CatalogSearch\Model\Resource\Advanced\Collection
      */
     protected $_productCollection;
 
     /**
      * Initialize dependencies
      *
-     * @var Magento_Catalog_Model_Config
+     * @var \Magento\Catalog\Model\Config
      */
     protected $_catalogConfig;
 
     /**
      * Catalog product visibility
      *
-     * @var Magento_Catalog_Model_Product_Visibility
+     * @var \Magento\Catalog\Model\Product\Visibility
      */
     protected $_catalogProductVisibility;
 
     /**
      * Attribute collection factory
      *
-     * @var Magento_Catalog_Model_Resource_Product_Attribute_CollectionFactory
+     * @var \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory
      */
     protected $_attributeCollectionFactory;
 
     /**
      * Store manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * Product factory
      *
-     * @var Magento_Catalog_Model_ProductFactory
+     * @var \Magento\Catalog\Model\ProductFactory
      */
     protected $_productFactory;
 
     /**
      * Currency factory
      *
-     * @var Magento_Directory_Model_CurrencyFactory
+     * @var \Magento\Directory\Model\CurrencyFactory
      */
     protected $_currencyFactory;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Catalog_Model_Resource_Product_Attribute_CollectionFactory $attributeCollectionFactory
-     * @param Magento_Catalog_Model_Product_Visibility $catalogProductVisibility
-     * @param Magento_Catalog_Model_Config $catalogConfig
-     * @param Magento_CatalogSearch_Model_Resource_EngineProvider $engineProvider
-     * @param Magento_CatalogSearch_Helper_Data $helper
-     * @param Magento_Directory_Model_CurrencyFactory $currencyFactory
-     * @param Magento_Catalog_Model_ProductFactory $productFactory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $attributeCollectionFactory
+     * @param \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility
+     * @param \Magento\Catalog\Model\Config $catalogConfig
+     * @param \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider
+     * @param \Magento\CatalogSearch\Helper\Data $helper
+     * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Catalog_Model_Resource_Product_Attribute_CollectionFactory $attributeCollectionFactory,
-        Magento_Catalog_Model_Product_Visibility $catalogProductVisibility,
-        Magento_Catalog_Model_Config $catalogConfig,
-        Magento_CatalogSearch_Model_Resource_EngineProvider $engineProvider,
-        Magento_CatalogSearch_Helper_Data $helper,
-        Magento_Directory_Model_CurrencyFactory $currencyFactory,
-        Magento_Catalog_Model_ProductFactory $productFactory,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $attributeCollectionFactory,
+        \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility,
+        \Magento\Catalog\Model\Config $catalogConfig,
+        \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider,
+        \Magento\CatalogSearch\Helper\Data $helper,
+        \Magento\Directory\Model\CurrencyFactory $currencyFactory,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         $this->_attributeCollectionFactory = $attributeCollectionFactory;
@@ -145,7 +147,7 @@ class Magento_CatalogSearch_Model_Advanced extends Magento_Core_Model_Abstract
      */
     public function getAttributes()
     {
-        /* @var $attributes Magento_Catalog_Model_Resource_Eav_Resource_Product_Attribute_Collection */
+        /* @var $attributes \Magento\Catalog\Model\Resource\Eav\Resource\Product\Attribute\Collection */
         $attributes = $this->getData('attributes');
         if (is_null($attributes)) {
             $product = $this->_productFactory->create();
@@ -167,8 +169,8 @@ class Magento_CatalogSearch_Model_Advanced extends Magento_Core_Model_Abstract
      * Add advanced search filters to product collection
      *
      * @param   array $values
-     * @return  Magento_CatalogSearch_Model_Advanced
-     * @throws Magento_Core_Exception
+     * @return  \Magento\CatalogSearch\Model\Advanced
+     * @throws \Magento\Core\Exception
      */
     public function addFilters($values)
     {
@@ -177,7 +179,7 @@ class Magento_CatalogSearch_Model_Advanced extends Magento_Core_Model_Abstract
         $allConditions  = array();
 
         foreach ($attributes as $attribute) {
-            /* @var $attribute Magento_Catalog_Model_Resource_Eav_Attribute */
+            /* @var $attribute \Magento\Catalog\Model\Resource\Eav\Attribute */
             if (!isset($values[$attribute->getAttributeCode()])) {
                 continue;
             }
@@ -227,7 +229,7 @@ class Magento_CatalogSearch_Model_Advanced extends Magento_Core_Model_Abstract
         if ($allConditions) {
             $this->getProductCollection()->addFieldsToFilter($allConditions);
         } else if (!$hasConditions) {
-            throw new Magento_Core_Exception(__('Please specify at least one search term.'));
+            throw new \Magento\Core\Exception(__('Please specify at least one search term.'));
         }
 
         return $this;
@@ -236,9 +238,9 @@ class Magento_CatalogSearch_Model_Advanced extends Magento_Core_Model_Abstract
     /**
      * Add data about search criteria to object state
      *
-     * @param   Magento_Eav_Model_Entity_Attribute $attribute
+     * @param   \Magento\Eav\Model\Entity\Attribute $attribute
      * @param   mixed $value
-     * @return  Magento_CatalogSearch_Model_Advanced
+     * @return  \Magento\CatalogSearch\Model\Advanced
      */
     protected function _addSearchCriteria($attribute, $value)
     {
@@ -248,7 +250,7 @@ class Magento_CatalogSearch_Model_Advanced extends Magento_Core_Model_Abstract
             if (isset($value['from']) && isset($value['to'])) {
                 if (!empty($value['from']) || !empty($value['to'])) {
                     if (isset($value['currency'])) {
-                        /** @var $currencyModel Magento_Directory_Model_Currency */
+                        /** @var $currencyModel \Magento\Directory\Model\Currency */
                         $currencyModel = $this->_currencyFactory->create()->load($value['currency']);
                         $from = $currencyModel->format($value['from'], array(), false);
                         $to = $currencyModel->format($value['to'], array(), false);
@@ -311,7 +313,7 @@ class Magento_CatalogSearch_Model_Advanced extends Magento_Core_Model_Abstract
     /**
      * Retrieve advanced search product collection
      *
-     * @return Magento_CatalogSearch_Model_Resource_Advanced_Collection
+     * @return \Magento\CatalogSearch\Model\Resource\Advanced\Collection
      */
     public function getProductCollection()
     {
@@ -330,8 +332,8 @@ class Magento_CatalogSearch_Model_Advanced extends Magento_Core_Model_Abstract
     /**
      * Prepare product collection
      *
-     * @param Magento_CatalogSearch_Model_Resource_Advanced_Collection $collection
-     * @return Magento_Catalog_Model_Layer
+     * @param \Magento\CatalogSearch\Model\Resource\Advanced\Collection $collection
+     * @return \Magento\Catalog\Model\Layer
      */
     public function prepareProductCollection($collection)
     {

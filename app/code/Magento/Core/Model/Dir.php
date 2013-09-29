@@ -10,7 +10,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Dir
+namespace Magento\Core\Model;
+
+class Dir
 {
     /**
      * Code base root
@@ -48,7 +50,7 @@ class Magento_Core_Model_Dir
     const LOCALE = 'i18n';
 
     /**
-     * Directory within document root of a web-server to access static view files publicly
+     * \Directory within document root of a web-server to access static view files publicly
      */
     const PUB = 'pub';
 
@@ -219,12 +221,12 @@ class Magento_Core_Model_Dir
      *
      * @param $code
      * @param $uri
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     private function _setUri($code, $uri)
     {
         if (!preg_match('/^([a-z0-9_]+[a-z0-9\._]*(\/[a-z0-9_]+[a-z0-9\._]*)*)?$/', $uri)) {
-            throw new InvalidArgumentException(
+            throw new \InvalidArgumentException(
                 "Must be relative directory path in lowercase with '/' directory separator: '{$uri}'"
             );
         }
@@ -232,7 +234,7 @@ class Magento_Core_Model_Dir
     }
 
     /**
-     * Directory path getter
+     * \Directory path getter
      *
      * @param string $code One of self const
      * @return string|bool

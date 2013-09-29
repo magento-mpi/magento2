@@ -8,29 +8,31 @@
  * @license     {license_link}
  */
 
-class Magento_GiftCard_Block_Catalog_Product_Price extends Magento_Catalog_Block_Product_Price
+namespace Magento\GiftCard\Block\Catalog\Product;
+
+class Price extends \Magento\Catalog\Block\Product\Price
 {
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Tax_Helper_Data $taxData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\StoreManager $storeManager
      * @param array $data
      */
     public function __construct(
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Tax_Helper_Data $taxData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_StoreManager $storeManager,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\StoreManager $storeManager,
         array $data = array()
     ) {
         parent::__construct($catalogData, $taxData, $coreData, $context, $registry, $data);
@@ -40,7 +42,7 @@ class Magento_GiftCard_Block_Catalog_Product_Price extends Magento_Catalog_Block
     /**
      * Return minimal amount for Giftcard product using price model
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @return float
      */
     public function getMinAmount($product = null)
@@ -54,7 +56,7 @@ class Magento_GiftCard_Block_Catalog_Product_Price extends Magento_Catalog_Block
     /**
      * Return maximal amount for Giftcard product using price model
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @return float
      */
     public function getMaxAmount($product = null)
@@ -66,8 +68,8 @@ class Magento_GiftCard_Block_Catalog_Product_Price extends Magento_Catalog_Block
     }
 
     /**
-     * @param null|string|bool|int|Magento_Core_Model_Store $storeId
-     * @return bool|Magento_Core_Model_Website
+     * @param null|string|bool|int|\Magento\Core\Model\Store $storeId
+     * @return bool|\Magento\Core\Model\Website
      */
     public function getWebsite($storeId)
     {

@@ -5,26 +5,28 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Backend_Model_Config_Backend_EncryptedTest extends PHPUnit_Framework_TestCase
+namespace Magento\Backend\Model\Config\Backend;
+
+class EncryptedTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_helperMock;
 
-    /** @var Magento_Backend_Model_Config_Backend_Encrypted */
+    /** @var \Magento\Backend\Model\Config\Backend\Encrypted */
     protected $_model;
 
     protected function setUp()
     {
-        $contextMock = $this->getMock('Magento_Core_Model_Context', array(), array(), '', false);
-        $this->_helperMock = $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false);
-        $resourceMock = $this->getMock('Magento_Core_Model_Resource_Abstract',
+        $contextMock = $this->getMock('Magento\Core\Model\Context', array(), array(), '', false);
+        $this->_helperMock = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
+        $resourceMock = $this->getMock('Magento\Core\Model\Resource\AbstractResource',
             array('_construct', '_getReadAdapter', '_getWriteAdapter', 'getIdFieldName'),
             array(), '', false);
-        $collectionMock = $this->getMock('Magento_Data_Collection_Db', array(), array(), '', false);
-        $registry = $this->getMock('Magento_Core_Model_Registry');
-        $storeManager = $this->getMock('Magento_Core_Model_StoreManager', array(), array(), '', false);
-        $coreConfig = $this->getMock('Magento_Core_Model_Config', array(), array(), '', false);
-        $this->_model = new Magento_Backend_Model_Config_Backend_Encrypted(
+        $collectionMock = $this->getMock('Magento\Data\Collection\Db', array(), array(), '', false);
+        $registry = $this->getMock('Magento\Core\Model\Registry');
+        $storeManager = $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false);
+        $coreConfig = $this->getMock('Magento\Core\Model\Config', array(), array(), '', false);
+        $this->_model = new \Magento\Backend\Model\Config\Backend\Encrypted(
             $this->_helperMock, $contextMock, $registry, $storeManager, $coreConfig, $resourceMock, $collectionMock
         );
 

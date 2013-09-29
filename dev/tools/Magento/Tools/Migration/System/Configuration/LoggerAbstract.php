@@ -11,7 +11,9 @@
 /**
  * System configuration migration logger
  */
-abstract class Magento_Tools_Migration_System_Configuration_LoggerAbstract
+namespace Magento\Tools\Migration\System\Configuration;
+
+abstract class LoggerAbstract
 {
     CONST FILE_KEY_VALID = 'valid';
     CONST FILE_KEY_INVALID = 'invalid';
@@ -31,7 +33,7 @@ abstract class Magento_Tools_Migration_System_Configuration_LoggerAbstract
      *
      * @param string $fileName
      * @param string $type
-     * @return Magento_Tools_Migration_System_Configuration_LoggerAbstract
+     * @return \Magento\Tools\Migration\System\Configuration\LoggerAbstract
      */
     public function add($fileName, $type)
     {

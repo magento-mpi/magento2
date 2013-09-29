@@ -11,7 +11,9 @@
 /**
  * Persistent front controller
  */
-class Magento_Persistent_Controller_Index extends Magento_Core_Controller_Front_Action
+namespace Magento\Persistent\Controller;
+
+class Index extends \Magento\Core\Controller\Front\Action
 {
     /**
      * Whether clear checkout session when logout
@@ -23,46 +25,46 @@ class Magento_Persistent_Controller_Index extends Magento_Core_Controller_Front_
     /**
      * Customer session
      *
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
 
     /**
      * Checkout session
      *
-     * @var Magento_Checkout_Model_Session
+     * @var \Magento\Checkout\Model\Session
      */
     protected $_checkoutSession;
 
     /**
      * Persistent observer
      *
-     * @var Magento_Persistent_Model_Observer
+     * @var \Magento\Persistent\Model\Observer
      */
     protected $_persistentObserver;
 
     /**
      * Core session model
      *
-     * @var Magento_Core_Model_Session
+     * @var \Magento\Core\Model\Session
      */
     protected $_session;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Controller_Varien_Action_Context $context
-     * @param Magento_Core_Model_Session $session
-     * @param Magento_Persistent_Model_Observer $persistentObserver
-     * @param Magento_Checkout_Model_Session $checkoutSession
-     * @param Magento_Customer_Model_Session $customerSession
+     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\Core\Model\Session $session
+     * @param \Magento\Persistent\Model\Observer $persistentObserver
+     * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \Magento\Customer\Model\Session $customerSession
      */
     public function __construct(
-        Magento_Core_Controller_Varien_Action_Context $context,
-        Magento_Core_Model_Session $session,
-        Magento_Persistent_Model_Observer $persistentObserver,
-        Magento_Checkout_Model_Session $checkoutSession,
-        Magento_Customer_Model_Session $customerSession
+        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\Core\Model\Session $session,
+        \Magento\Persistent\Model\Observer $persistentObserver,
+        \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Customer\Model\Session $customerSession
     ) {
         $this->_session = $session;
         $this->_persistentObserver = $persistentObserver;
@@ -75,7 +77,7 @@ class Magento_Persistent_Controller_Index extends Magento_Core_Controller_Front_
      * Set whether clear checkout session when logout
      *
      * @param bool $clear
-     * @return Magento_Persistent_Controller_Index
+     * @return \Magento\Persistent\Controller\Index
      */
     public function setClearCheckoutSession($clear = true)
     {
@@ -86,11 +88,11 @@ class Magento_Persistent_Controller_Index extends Magento_Core_Controller_Front_
     /**
      * Retrieve 'persistent session' helper instance
      *
-     * @return Magento_Persistent_Helper_Session
+     * @return \Magento\Persistent\Helper\Session
      */
     protected function _getHelper()
     {
-        return $this->_objectManager->get('Magento_Persistent_Helper_Session');
+        return $this->_objectManager->get('Magento\Persistent\Helper\Session');
     }
 
     /**
@@ -108,7 +110,7 @@ class Magento_Persistent_Controller_Index extends Magento_Core_Controller_Front_
     /**
      * Revert all persistent data
      *
-     * @return Magento_Persistent_Controller_Index
+     * @return \Magento\Persistent\Controller\Index
      */
     protected function _cleanup()
     {

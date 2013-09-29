@@ -9,11 +9,13 @@
  */
 
 
-class Magento_Checkout_Block_Onepage_Failure extends Magento_Core_Block_Template
+namespace Magento\Checkout\Block\Onepage;
+
+class Failure extends \Magento\Core\Block\Template
 {
     public function getRealOrderId()
     {
-        return Mage::getSingleton('Magento_Checkout_Model_Session')->getLastRealOrderId();
+        return \Mage::getSingleton('Magento\Checkout\Model\Session')->getLastRealOrderId();
     }
 
     /**
@@ -23,8 +25,8 @@ class Magento_Checkout_Block_Onepage_Failure extends Magento_Core_Block_Template
      */
     public function getErrorMessage ()
     {
-        $error = Mage::getSingleton('Magento_Checkout_Model_Session')->getErrorMessage();
-        // Mage::getSingleton('Magento_Checkout_Model_Session')->unsErrorMessage();
+        $error = \Mage::getSingleton('Magento\Checkout\Model\Session')->getErrorMessage();
+        // \Mage::getSingleton('Magento\Checkout\Model\Session')->unsErrorMessage();
         return $error;
     }
 
@@ -35,6 +37,6 @@ class Magento_Checkout_Block_Onepage_Failure extends Magento_Core_Block_Template
      */
     public function getContinueShoppingUrl()
     {
-        return Mage::getUrl('checkout/cart');
+        return \Mage::getUrl('checkout/cart');
     }
 }

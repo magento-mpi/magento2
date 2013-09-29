@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/* @var $this Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Tier */
+/* @var $this \Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Price\Tier */
 $element = $this->getElement();
 ?>
 <?php $_htmlId      = $this->getElement()->getHtmlId() ?>
@@ -23,7 +23,7 @@ $element = $this->getElement();
 <?php $_showWebsite= $this->isMultiWebsites(); ?>
 <div class="field" id="attribute-<?php echo $_htmlId?>-container" data-element-id="<?php echo $_htmlId?>"
      data-apply-to="<?php echo $this->escapeHtml(
-         $this->helper('Magento_Core_Helper_Data')->jsonEncode(
+         $this->helper('Magento\Core\Helper\Data')->jsonEncode(
              $element->hasEntityAttribute() ? $element->getEntityAttribute()->getApplyTo() : array()
          )
      )?>">

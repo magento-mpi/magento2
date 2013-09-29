@@ -9,29 +9,31 @@
  * @license     {license_link}
  */
 
+namespace Magento\Payment\Model;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Payment_Model_ObserverTest extends PHPUnit_Framework_TestCase
+class ObserverTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Event_Observer
+     * @var \Magento\Event\Observer
      */
     protected $_eventObserver;
 
     /**
-     * @var Magento_TestFramework_ObjectManager
+     * @var \Magento\TestFramework\ObjectManager
      */
     protected $_objectManager;
 
     protected function setUp()
     {
-        $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->_eventObserver = $this->_createEventObserver();
     }
 
     /**
-     * Check that Magento_Payment_Model_Observer::updateOrderStatusForPaymentMethods()
+     * Check that \Magento\Payment\Model\Observer::updateOrderStatusForPaymentMethods()
      * is called as event and it can change status
      *
      * @magentoDbIsolation enabled
@@ -55,28 +57,28 @@ class Magento_Payment_Model_ObserverTest extends PHPUnit_Framework_TestCase
                 )
             )
         );
-        $this->_objectManager->create('Magento_Backend_Model_Config')
+        $this->_objectManager->create('Magento\Backend\Model\Config')
             ->setSection('payment')
             ->setWebsite('base')
             ->setGroups(array('groups' => $data['groups']))
             ->save();
 
-        /** @var Magento_Sales_Model_Order_Status $status */
-        $status = $this->_objectManager->get('Magento_Sales_Model_Order_Status')->load($statusCode);
+        /** @var \Magento\Sales\Model\Order\Status $status */
+        $status = $this->_objectManager->get('Magento\Sales\Model\Order\Status')->load($statusCode);
 
-        /** @var $storeConfig Magento_Core_Model_Store_Config */
-        $storeConfig = $this->_objectManager->get('Magento_Core_Model_Store_Config');
+        /** @var $storeConfig \Magento\Core\Model\Store\Config */
+        $storeConfig = $this->_objectManager->get('Magento\Core\Model\Store\Config');
         $defaultStatus = (string)$storeConfig->getConfig('payment/checkmo/order_status');
 
-        /** @var Magento_Core_Model_Resource_Config $config */
-        $config = $this->_objectManager->get('Magento_Core_Model_Resource_Config');
+        /** @var \Magento\Core\Model\Resource\Config $config */
+        $config = $this->_objectManager->get('Magento\Core\Model\Resource\Config');
         $config->saveConfig('payment/checkmo/order_status', $statusCode, 'default', 0);
 
         $this->_resetConfig();
 
         $newStatus = $storeConfig->getConfig('payment/checkmo/order_status');
 
-        $status->unassignState(Magento_Sales_Model_Order::STATE_NEW);
+        $status->unassignState(\Magento\Sales\Model\Order::STATE_NEW);
 
         $this->_resetConfig();
 
@@ -95,19 +97,19 @@ class Magento_Payment_Model_ObserverTest extends PHPUnit_Framework_TestCase
     {
         $statusCode = 'custom_new_status';
 
-        /** @var Magento_Core_Model_Resource_Config $config */
-        $config = $this->_objectManager->get('Magento_Core_Model_Resource_Config');
+        /** @var \Magento\Core\Model\Resource\Config $config */
+        $config = $this->_objectManager->get('Magento\Core\Model\Resource\Config');
         $config->saveConfig('payment/checkmo/order_status', $statusCode, 'default', 0);
 
         $this->_resetConfig();
 
-        $observer = $this->_objectManager->create('Magento_Payment_Model_Observer');
+        $observer = $this->_objectManager->create('Magento\Payment\Model\Observer');
         $observer->updateOrderStatusForPaymentMethods($this->_eventObserver);
 
         $this->_resetConfig();
 
-        /** @var Magento_Core_Model_Store_Config $storeConfig */
-        $storeConfig = $this->_objectManager->get('Magento_Core_Model_Store_Config');
+        /** @var \Magento\Core\Model\Store\Config $storeConfig */
+        $storeConfig = $this->_objectManager->get('Magento\Core\Model\Store\Config');
         $unassignedStatus = $storeConfig->getConfig('payment/checkmo/order_status');
         $this->assertEquals('pending', $unassignedStatus);
     }
@@ -115,13 +117,13 @@ class Magento_Payment_Model_ObserverTest extends PHPUnit_Framework_TestCase
     /**
      * Create event observer
      *
-     * @return Magento_Event_Observer
+     * @return \Magento\Event\Observer
      */
     protected function _createEventObserver()
     {
-        $data = array('status' => 'custom_new_status', 'state' => Magento_Sales_Model_Order::STATE_NEW);
-        $event = $this->_objectManager->create('Magento_Event', array('data' => $data));
-        return $this->_objectManager->create('Magento_Event_Observer', array('data' => array('event' => $event)));
+        $data = array('status' => 'custom_new_status', 'state' => \Magento\Sales\Model\Order::STATE_NEW);
+        $event = $this->_objectManager->create('Magento\Event', array('data' => $data));
+        return $this->_objectManager->create('Magento\Event\Observer', array('data' => array('event' => $event)));
     }
 
     /**
@@ -129,7 +131,7 @@ class Magento_Payment_Model_ObserverTest extends PHPUnit_Framework_TestCase
      */
     protected function _resetConfig()
     {
-        $this->_objectManager->get('Magento_Core_Model_Config')->reinit();
-        $this->_objectManager->create('Magento_Core_Model_StoreManagerInterface')->reinitStores();
+        $this->_objectManager->get('Magento\Core\Model\Config')->reinit();
+        $this->_objectManager->create('Magento\Core\Model\StoreManagerInterface')->reinitStores();
     }
 }

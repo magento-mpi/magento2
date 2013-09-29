@@ -10,24 +10,26 @@
  */
 
 /**
- * Test class for entity source model Magento_ImportExport_Model_Source_Import_Entity
+ * Test class for entity source model \Magento\ImportExport\Model\Source\Import\Entity
  */
-class Magento_ImportExport_Model_Source_Import_EntityTest extends PHPUnit_Framework_TestCase
+namespace Magento\ImportExport\Model\Source\Import;
+
+class EntityTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_ImportExport_Model_Source_Import_Entity
+     * @var \Magento\ImportExport\Model\Source\Import\Entity
      */
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_importConfigMock;
 
     protected function setUp()
     {
-        $this->_importConfigMock = $this->getMock('Magento_ImportExport_Model_Import_ConfigInterface');
-        $this->_model = new Magento_ImportExport_Model_Source_Import_Entity(
+        $this->_importConfigMock = $this->getMock('Magento\ImportExport\Model\Import\ConfigInterface');
+        $this->_model = new \Magento\ImportExport\Model\Source\Import\Entity(
             $this->_importConfigMock
         );
     }

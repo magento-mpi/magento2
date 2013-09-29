@@ -16,8 +16,10 @@
  * @package     Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Customer_Model_Resource_Address_Attribute_Collection
-    extends Magento_Customer_Model_Resource_Attribute_Collection
+namespace Magento\Customer\Model\Resource\Address\Attribute;
+
+class Collection
+    extends \Magento\Customer\Model\Resource\Attribute\Collection
 {
     /**
      * Default attribute entity type code

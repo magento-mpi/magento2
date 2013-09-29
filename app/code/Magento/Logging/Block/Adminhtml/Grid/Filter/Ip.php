@@ -9,25 +9,27 @@
 /**
  * Ip-address grid filter
  */
-class Magento_Logging_Block_Adminhtml_Grid_Filter_Ip extends Magento_Backend_Block_Widget_Grid_Column_Filter_Text
+namespace Magento\Logging\Block\Adminhtml\Grid\Filter;
+
+class Ip extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Text
 {
     /**
      * Core resource helper
      *
-     * @var Magento_Core_Model_Resource_Helper
+     * @var \Magento\Core\Model\Resource\Helper
      */
     protected $_resourceHelper;
 
     /**
      * Construct
      *
-     * @param Magento_Backend_Block_Context $context
-     * @param Magento_Logging_Model_Resource_Helper $resourceHelper
+     * @param \Magento\Backend\Block\Context $context
+     * @param \Magento\Logging\Model\Resource\Helper $resourceHelper
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Block_Context $context,
-        Magento_Logging_Model_Resource_Helper $resourceHelper,
+        \Magento\Backend\Block\Context $context,
+        \Magento\Logging\Model\Resource\Helper $resourceHelper,
         array $data = array()
     ) {
         parent::__construct($context, $data);
@@ -47,7 +49,7 @@ class Magento_Logging_Block_Adminhtml_Grid_Filter_Ip extends Magento_Backend_Blo
             return ip2long($value);
         }
 
-        $fieldExpression = new Zend_Db_Expr('INET_NTOA(#?)');
+        $fieldExpression = new \Zend_Db_Expr('INET_NTOA(#?)');
         $likeExpression = $this->_resourceHelper->addLikeEscape($value, array('position' => 'any'));
         return array('field_expr' => $fieldExpression, 'like' => $likeExpression);
     }

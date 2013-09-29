@@ -6,10 +6,12 @@
  * @license   {license_link}
  */
 
-class Magento_Core_Model_ObjectManager_ConfigCache implements Magento_ObjectManager_ConfigCache
+namespace Magento\Core\Model\ObjectManager;
+
+class ConfigCache implements \Magento\ObjectManager\ConfigCache
 {
     /**
-     * @var Magento_Cache_FrontendInterface
+     * @var \Magento\Cache\FrontendInterface
      */
     protected $_cacheFrontend;
 
@@ -21,9 +23,9 @@ class Magento_Core_Model_ObjectManager_ConfigCache implements Magento_ObjectMana
     protected $_prefix = 'diConfig';
 
     /**
-     * @param Magento_Cache_FrontendInterface $cacheFrontend
+     * @param \Magento\Cache\FrontendInterface $cacheFrontend
      */
-    public function __construct(Magento_Cache_FrontendInterface $cacheFrontend)
+    public function __construct(\Magento\Cache\FrontendInterface $cacheFrontend)
     {
         $this->_cacheFrontend = $cacheFrontend;
     }

@@ -9,12 +9,14 @@
  * @license     {license_link}
  */
 
-class Magento_Test_ResponseTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test;
+
+class ResponseTest extends \PHPUnit_Framework_TestCase
 {
     public function testCanSendHeaders()
     {
-        $response = new Magento_TestFramework_Response(
-            $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false)
+        $response = new \Magento\TestFramework\Response(
+            $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false)
         );
         $this->assertTrue($response->canSendHeaders());
         $this->assertTrue($response->canSendHeaders(false));

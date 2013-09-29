@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Backup
+ * @package     \Magento\Backup
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,19 +12,21 @@
  * Backup grid item renderer
  *
  * @category   Magento
- * @package    Magento_Backup
+ * @package    \Magento\Backup
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backup_Block_Adminhtml_Grid_Column_Renderer_Download
-    extends Magento_Backend_Block_Widget_Grid_Column_Renderer_Text
+namespace Magento\Backup\Block\Adminhtml\Grid\Column\Renderer;
+
+class Download
+    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Text
 {
     /**
      * Renders grid column
      *
-     * @param Magento_Object $row
+     * @param \Magento\Object $row
      * @return mixed
      */
-    public function _getValue(Magento_Object $row)
+    public function _getValue(\Magento\Object $row)
     {
         $url7zip = __('The archive can be uncompressed with <a href="%1">%2</a> on Windows systems.', 'http://www.7-zip.org/',
             '7-Zip');

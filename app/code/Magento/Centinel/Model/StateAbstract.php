@@ -11,20 +11,22 @@
 /**
  * Abstract Validation State Model
  */
-abstract class Magento_Centinel_Model_StateAbstract extends Magento_Object
+namespace Magento\Centinel\Model;
+
+abstract class StateAbstract extends \Magento\Object
 {
     /**
      * Storage data model
      *
-     * @var Magento_Object
+     * @var \Magento\Object
      */
     private $_dataStorage = false;
 
     /**
      * Setter for storage data model
      *
-     * @param Magento_Object $dataStorageModel
-     * @return Magento_Centinel_Model_StateAbstract
+     * @param \Magento\Object $dataStorageModel
+     * @return \Magento\Centinel\Model\StateAbstract
      */
     public function setDataStorage($dataStorageModel)
     {
@@ -35,7 +37,7 @@ abstract class Magento_Centinel_Model_StateAbstract extends Magento_Object
     /**
      * Getter for storage data model
      *
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function getDataStorage()
     {
@@ -49,7 +51,7 @@ abstract class Magento_Centinel_Model_StateAbstract extends Magento_Object
      * Otherwise it will return value of the attribute specified by $key
      *
      * $index parameter is ignored
-     * @see Magento_Core_Model_Session_Abstract::getData()
+     * @see \Magento\Core\Model\Session\AbstractSession::getData()
      *
      * @param string $key
      * @param string|int $index
@@ -70,7 +72,7 @@ abstract class Magento_Centinel_Model_StateAbstract extends Magento_Object
      *
      * @param string|array $key
      * @param mixed $value
-     * @return Magento_Centinel_Model_StateAbstract
+     * @return \Magento\Centinel\Model\StateAbstract
      */
     public function setData($key, $value=null)
     {
@@ -81,8 +83,8 @@ abstract class Magento_Centinel_Model_StateAbstract extends Magento_Object
     /**
      * Save lookup result in state model
      *
-     * @param Magento_Object $result
-     * @return Magento_Centinel_Model_StateAbstract
+     * @param \Magento\Object $result
+     * @return \Magento\Centinel\Model\StateAbstract
      */
     public function setLookupResult($result)
     {
@@ -95,8 +97,8 @@ abstract class Magento_Centinel_Model_StateAbstract extends Magento_Object
     /**
      * Save authenticate result in state model
      *
-     * @param Magento_Object $result
-     * @return Magento_Centinel_Model_StateAbstract
+     * @param \Magento\Object $result
+     * @return \Magento\Centinel\Model\StateAbstract
      */
     public function setAuthenticateResult($result)
     {

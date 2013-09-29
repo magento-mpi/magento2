@@ -1,73 +1,75 @@
 <?php
 /**
- * Magento_Widget_Model_Widget_Instance
+ * \Magento\Widget\Model\Widget\Instance
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Widget_Model_Widget_InstanceTest extends PHPUnit_Framework_TestCase
+namespace Magento\Widget\Model\Widget;
+
+class InstanceTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Widget_Model_Config_Data|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Widget\Model\Config\Data|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_widgetModelMock;
 
     /**
-     * @var Magento_Core_Model_View_FileSystem|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Model\View\FileSystem|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_viewFileSystemMock;
 
-    /** @var  Magento_Core_Model_Config|PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \Magento\Core\Model\Config|PHPUnit_Framework_MockObject_MockObject */
     protected $_coreConfigMock;
 
     /**
-     * @var Magento_Widget_Model_Widget_Instance
+     * @var \Magento\Widget\Model\Widget\Instance
      */
     protected $_model;
 
-    /** @var  Magento_Widget_Model_Config_Reader */
+    /** @var  \Magento\Widget\Model\Config\Reader */
     protected $_readerMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_cacheTypesListMock;
 
     public function setUp()
     {
-        $this->_widgetModelMock = $this->getMockBuilder('Magento_Widget_Model_Widget')
+        $this->_widgetModelMock = $this->getMockBuilder('Magento\Widget\Model\Widget')
             ->disableOriginalConstructor()
             ->getMock();
-        $contextMock = $this->getMockBuilder('Magento_Core_Model_Context')
+        $contextMock = $this->getMockBuilder('Magento\Core\Model\Context')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_viewFileSystemMock = $this->getMockBuilder('Magento_Core_Model_View_FileSystem')
+        $this->_viewFileSystemMock = $this->getMockBuilder('Magento\Core\Model\View\FileSystem')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_coreConfigMock = $this->getMockBuilder('Magento_Core_Model_Config')
+        $this->_coreConfigMock = $this->getMockBuilder('Magento\Core\Model\Config')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_cacheTypesListMock = $this->getMock('Magento_Core_Model_Cache_TypeListInterface');
-        $this->_readerMock = $this->getMockBuilder('Magento_Widget_Model_Config_Reader')
+        $this->_cacheTypesListMock = $this->getMock('Magento\Core\Model\Cache\TypeListInterface');
+        $this->_readerMock = $this->getMockBuilder('Magento\Widget\Model\Config\Reader')
             ->disableOriginalConstructor()
             ->getMock();
-        $registryMock = $this->getMockBuilder('Magento_Core_Model_Registry')
+        $registryMock = $this->getMockBuilder('Magento\Core\Model\Registry')
             ->disableOriginalConstructor()
             ->getMock();
-        $coreData = $this->getMockBuilder('Magento_Core_Helper_Data')
+        $coreData = $this->getMockBuilder('Magento\Core\Helper\Data')
             ->disableOriginalConstructor()
             ->getMock();
-        $widgetData = $this->getMockBuilder('Magento_Widget_Helper_Data')
+        $widgetData = $this->getMockBuilder('Magento\Widget\Helper\Data')
             ->disableOriginalConstructor()
             ->getMock();
-        $productType = $this->getMockBuilder('Magento_Catalog_Model_Product_Type')
+        $productType = $this->getMockBuilder('Magento\Catalog\Model\Product\Type')
             ->disableOriginalConstructor()
             ->getMock();
-        /** @var Magento_Widget_Model_Widget_Instance _model */
+        /** @var \Magento\Widget\Model\Widget\Instance _model */
         $this->_model = $this->getMock(
-            'Magento_Widget_Model_Widget_Instance',
+            'Magento\Widget\Model\Widget\Instance',
             array('_construct'),
             array(
                 $widgetData, $coreData, $contextMock, $registryMock, $this->_viewFileSystemMock,
@@ -83,7 +85,7 @@ class Magento_Widget_Model_Widget_InstanceTest extends PHPUnit_Framework_TestCas
     {
         $widget = array(
             '@' => array(
-                'type' => 'Magento_Cms_Block_Widget_Page_Link',
+                'type' => 'Magento\Cms\Block\Widget\Page\Link',
                 'module' => 'Magento_Cms',
             ),
             'name' => 'CMS Page Link',
@@ -97,7 +99,7 @@ class Magento_Widget_Model_Widget_InstanceTest extends PHPUnit_Framework_TestCas
                     ),
                     'type' => 'label',
                     'helper_block' => array(
-                        'type' => 'Magento_Adminhtml_Block_Cms_Page_Widget_Chooser',
+                        'type' => 'Magento\Adminhtml\Block\Cms\Page\Widget\Chooser',
                         'data' => array(
                             'button' => array(
                                 'open' => 'Select Page...',
@@ -153,7 +155,7 @@ class Magento_Widget_Model_Widget_InstanceTest extends PHPUnit_Framework_TestCas
     {
         $widget = array(
             '@' => array(
-                'type' => 'Magento_Cms_Block_Widget_Page_Link',
+                'type' => 'Magento\Cms\Block\Widget\Page\Link',
                 'module' => 'Magento_Cms',
             ),
             'name' => 'CMS Page Link',
@@ -192,7 +194,7 @@ class Magento_Widget_Model_Widget_InstanceTest extends PHPUnit_Framework_TestCas
     {
         $widget = array(
             '@' => array(
-                'type' => 'Magento_Cms_Block_Widget_Page_Link',
+                'type' => 'Magento\Cms\Block\Widget\Page\Link',
                 'module' => 'Magento_Cms',
             ),
             'name' => 'CMS Page Link',
@@ -226,7 +228,7 @@ class Magento_Widget_Model_Widget_InstanceTest extends PHPUnit_Framework_TestCas
     {
         $widget = array(
             '@' => array(
-                'type' => 'Magento_Cms_Block_Widget_Page_Link',
+                'type' => 'Magento\Cms\Block\Widget\Page\Link',
                 'module' => 'Magento_Cms',
             ),
             'name' => 'CMS Page Link',
@@ -284,7 +286,7 @@ class Magento_Widget_Model_Widget_InstanceTest extends PHPUnit_Framework_TestCas
     {
         $widget = array(
             '@' => array(
-                'type' => 'Magento_Cms_Block_Widget_Page_Link',
+                'type' => 'Magento\Cms\Block\Widget\Page\Link',
                 'module' => 'Magento_Cms',
             ),
             'name' => 'CMS Page Link',

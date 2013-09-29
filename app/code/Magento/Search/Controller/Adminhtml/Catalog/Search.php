@@ -15,33 +15,35 @@
  * @package    Magento_Search
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Search_Controller_Adminhtml_Catalog_Search extends Magento_Adminhtml_Controller_Action
+namespace Magento\Search\Controller\Adminhtml\Catalog;
+
+class Search extends \Magento\Adminhtml\Controller\Action
 {
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry;
 
     /**
      * Query factory
      *
-     * @var Magento_CatalogSearch_Model_QueryFactory
+     * @var \Magento\CatalogSearch\Model\QueryFactory
      */
     protected $_queryFactory;
 
     /**
      * Construct
      *
-     * @param Magento_Backend_Controller_Context $context
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_CatalogSearch_Model_QueryFactory $queryFactory
+     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\CatalogSearch\Model\QueryFactory $queryFactory
      */
     public function __construct(
-        Magento_Backend_Controller_Context $context,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_CatalogSearch_Model_QueryFactory $queryFactory
+        \Magento\Backend\Controller\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\CatalogSearch\Model\QueryFactory $queryFactory
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_queryFactory = $queryFactory;
@@ -54,9 +56,9 @@ class Magento_Search_Controller_Adminhtml_Catalog_Search extends Magento_Adminht
     public function relatedGridAction()
     {
         $id = $this->getRequest()->getParam('id');
-        /** @var Magento_CatalogSearch_Model_Query $model */
+        /** @var \Magento\CatalogSearch\Model\Query $model */
         $model = $this->_queryFactory->create();
-        $backendSession = $this->_objectManager->get('Magento_Adminhtml_Model_Session');
+        $backendSession = $this->_objectManager->get('Magento\Adminhtml\Model\Session');
 
         if ($id) {
             $model->load($id);

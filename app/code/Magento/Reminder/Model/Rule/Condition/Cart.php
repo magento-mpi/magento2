@@ -11,27 +11,29 @@
 /**
  * Customer cart conditions combine
  */
-class Magento_Reminder_Model_Rule_Condition_Cart
-    extends Magento_Reminder_Model_Condition_Combine_Abstract
+namespace Magento\Reminder\Model\Rule\Condition;
+
+class Cart
+    extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
 {
     /**
-     * @var Magento_Core_Model_Date
+     * @var \Magento\Core\Model\Date
      */
     protected $_dateModel;
 
     /**
-     * @param Magento_Rule_Model_Condition_Context $context
-     * @param Magento_Core_Model_Date $dateModel
+     * @param \Magento\Rule\Model\Condition\Context $context
+     * @param \Magento\Core\Model\Date $dateModel
      * @param array $data
      */
     public function __construct(
-        Magento_Rule_Model_Condition_Context $context,
-        Magento_Core_Model_Date $dateModel,
+        \Magento\Rule\Model\Condition\Context $context,
+        \Magento\Core\Model\Date $dateModel,
         array $data = array()
     ) {
         parent::__construct($context, $data);
         $this->_dateModel = $dateModel;
-        $this->setType('Magento_Reminder_Model_Rule_Condition_Cart');
+        $this->setType('Magento\Reminder\Model\Rule\Condition\Cart');
         $this->setValue(null);
     }
 
@@ -42,7 +44,7 @@ class Magento_Reminder_Model_Rule_Condition_Cart
      */
     public function getNewChildSelectOptions()
     {
-        return Mage::getModel('Magento_Reminder_Model_Rule_Condition_Cart_Combine')->getNewChildSelectOptions();
+        return \Mage::getModel('Magento\Reminder\Model\Rule\Condition\Cart\Combine')->getNewChildSelectOptions();
     }
 
     /**
@@ -58,7 +60,7 @@ class Magento_Reminder_Model_Rule_Condition_Cart
     /**
      * Override parent method
      *
-     * @return Magento_Reminder_Model_Rule_Condition_Cart
+     * @return \Magento\Reminder\Model\Rule\Condition\Cart
      */
     public function loadValueOptions()
     {
@@ -69,7 +71,7 @@ class Magento_Reminder_Model_Rule_Condition_Cart
     /**
      * Prepare operator select options
      *
-     * @return Magento_Reminder_Model_Rule_Condition_Cart
+     * @return \Magento\Reminder\Model\Rule\Condition\Cart
      */
     public function loadOperatorOptions()
     {
@@ -108,26 +110,26 @@ class Magento_Reminder_Model_Rule_Condition_Cart
      *
      * @param   int|Zend_Db_Expr $customer
      * @param   int|Zend_Db_Expr $website
-     * @return  Magento_DB_Select
+     * @return  \Magento\DB\Select
      */
     protected function _prepareConditionsSql($customer, $website)
     {
         $conditionValue = (int)$this->getValue();
         if ($conditionValue < 0) {
-            Mage::throwException(__('The root shopping cart condition should have a days value of 0 or greater.'));
+            \Mage::throwException(__('The root shopping cart condition should have a days value of 0 or greater.'));
         }
 
         $table = $this->getResource()->getTable('sales_flat_quote');
         $operator = $this->getResource()->getSqlOperator($this->getOperator());
 
         $select = $this->getResource()->createSelect();
-        $select->from(array('quote' => $table), array(new Zend_Db_Expr(1)));
+        $select->from(array('quote' => $table), array(new \Zend_Db_Expr(1)));
 
         $this->_limitByStoreWebsite($select, $website, 'quote.store_id');
 
         $currentTime = $this->_dateModel->gmtDate('Y-m-d');
-        /** @var Magento_Core_Model_Resource_Helper $resourceHelper */
-        $resourceHelper = Mage::getResourceHelper('Magento_Core');
+        /** @var \Magento\Core\Model\Resource\Helper $resourceHelper */
+        $resourceHelper = \Mage::getResourceHelper('Magento_Core');
         $daysDiffSql = $resourceHelper->getDateDiff(
             'quote.updated_at', $select->getAdapter()->formatDate($currentTime)
         );
@@ -156,7 +158,7 @@ class Magento_Reminder_Model_Rule_Condition_Cart
      *
      * @param   int|Zend_Db_Expr $customer
      * @param   int|Zend_Db_Expr $website
-     * @return  Magento_DB_Select
+     * @return  \Magento\DB\Select
      */
     public function getConditionsSql($customer, $website)
     {

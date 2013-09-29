@@ -11,7 +11,9 @@
 /**
  * RMA Shipping Info Model
  */
-class Magento_Rma_Model_Shipping_Info extends Magento_Object
+namespace Magento\Rma\Model\Shipping;
+
+class Info extends \Magento\Object
 {
     /**
      * Tracking info
@@ -23,17 +25,17 @@ class Magento_Rma_Model_Shipping_Info extends Magento_Object
     /**
      * Rma data
      *
-     * @var Magento_Rma_Helper_Data
+     * @var \Magento\Rma\Helper\Data
      */
     protected $_rmaData;
 
     /**
-     * @var Magento_Rma_Model_RmaFactory
+     * @var \Magento\Rma\Model\RmaFactory
      */
     protected $_rmaFactory;
 
     /**
-     * @var Magento_Rma_Model_ShippingFactory
+     * @var \Magento\Rma\Model\ShippingFactory
      */
     protected $_shippingFactory;
 
@@ -43,15 +45,15 @@ class Magento_Rma_Model_Shipping_Info extends Magento_Object
      * By default is looking for first argument as array and assigns it as object
      * attributes This behavior may change in child classes
      *
-     * @param Magento_Rma_Helper_Data $rmaData
-     * @param Magento_Rma_Model_RmaFactory $rmaFactory
-     * @param Magento_Rma_Model_ShippingFactory $shippingFactory
+     * @param \Magento\Rma\Helper\Data $rmaData
+     * @param \Magento\Rma\Model\RmaFactory $rmaFactory
+     * @param \Magento\Rma\Model\ShippingFactory $shippingFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Rma_Helper_Data $rmaData,
-        Magento_Rma_Model_RmaFactory $rmaFactory,
-        Magento_Rma_Model_ShippingFactory $shippingFactory,
+        \Magento\Rma\Helper\Data $rmaData,
+        \Magento\Rma\Model\RmaFactory $rmaFactory,
+        \Magento\Rma\Model\ShippingFactory $shippingFactory,
         array $data = array()
     ) {
         $this->_rmaData = $rmaData;
@@ -64,7 +66,7 @@ class Magento_Rma_Model_Shipping_Info extends Magento_Object
      * Generating tracking info
      *
      * @param string $hash
-     * @return Magento_Shipping_Model_Info
+     * @return \Magento\Shipping\Model\Info
      */
     public function loadByHash($hash)
     {
@@ -87,7 +89,7 @@ class Magento_Rma_Model_Shipping_Info extends Magento_Object
      * Generating tracking info
      *
      * @param string $hash
-     * @return Magento_Shipping_Model_Info
+     * @return \Magento\Shipping\Model\Info
      */
     public function loadPackage($hash)
     {
@@ -116,11 +118,11 @@ class Magento_Rma_Model_Shipping_Info extends Magento_Object
     /**
      * Instantiate RMA model
      *
-     * @return Magento_Rma_Model_Rma || false
+     * @return \Magento\Rma\Model\Rma || false
      */
     protected function _initRma()
     {
-        /* @var $model Magento_Rma_Model_Rma */
+        /* @var $model \Magento\Rma\Model\Rma */
         $model = $this->_rmaFactory->create();
         $rma = $model->load($this->getRmaId());
         if (!$rma->getEntityId() || $this->getProtectCode() != $rma->getProtectCode()) {
@@ -160,7 +162,7 @@ class Magento_Rma_Model_Shipping_Info extends Magento_Object
      */
     public function getTrackingInfoByTrackId()
     {
-        /** @var $track Magento_Rma_Model_Shipping */
+        /** @var $track \Magento\Rma\Model\Shipping */
         $track = $this->_shippingFactory->create()->load($this->getTrackId());
         if ($track->getId() && $this->getProtectCode() == $track->getProtectCode()) {
             $this->_trackingInfo = array(array($track->getNumberDetail()));

@@ -11,40 +11,42 @@
 /**
  * RMA create model
  */
-class Magento_Rma_Model_Rma_Create extends Magento_Object
+namespace Magento\Rma\Model\Rma;
+
+class Create extends \Magento\Object
 {
     /**
      * Customer object, RMA's order attached to
      *
-     * @var Magento_Customer_Model_Customer
+     * @var \Magento\Customer\Model\Customer
      */
     protected $_customer = null;
 
     /**
      * Order object, RMA attached to
      *
-     * @var Magento_Sales_Model_Order
+     * @var \Magento\Sales\Model\Order
      */
     protected $_order = null;
 
     /**
-     * @var Magento_Customer_Model_CustomerFactory
+     * @var \Magento\Customer\Model\CustomerFactory
      */
     protected $_customerFactory;
 
     /**
-     * @var Magento_Sales_Model_OrderFactory
+     * @var \Magento\Sales\Model\OrderFactory
      */
     protected $_orderFactory;
 
     /**
-     * @param Magento_Customer_Model_CustomerFactory $customerFactory
-     * @param Magento_Sales_Model_OrderFactory $orderFactory
+     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
+     * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Customer_Model_CustomerFactory $customerFactory,
-        Magento_Sales_Model_OrderFactory $orderFactory,
+        \Magento\Customer\Model\CustomerFactory $customerFactory,
+        \Magento\Sales\Model\OrderFactory $orderFactory,
         array $data = array()
     ) {
         $this->_customerFactory = $customerFactory;
@@ -56,7 +58,7 @@ class Magento_Rma_Model_Rma_Create extends Magento_Object
      * Get Customer object
      *
      * @param null|int $customerId
-     * @return Magento_Customer_Model_Customer|null
+     * @return \Magento\Customer\Model\Customer|null
      */
     public function getCustomer($customerId = null)
     {
@@ -67,7 +69,7 @@ class Magento_Rma_Model_Rma_Create extends Magento_Object
             $customerId = intval($customerId);
 
             if ($customerId) {
-                /** @var $customer Magento_Customer_Model_Customer */
+                /** @var $customer \Magento\Customer\Model\Customer */
                 $customer = $this->_customerFactory->create();
                 $customer->load($customerId);
                 $this->_customer = $customer;
@@ -82,7 +84,7 @@ class Magento_Rma_Model_Rma_Create extends Magento_Object
      * Get Order object
      *
      * @param null|int $orderId
-     * @return Magento_Sales_Model_Order|null
+     * @return \Magento\Sales\Model\Order|null
      */
     public function getOrder($orderId = null)
     {
@@ -92,7 +94,7 @@ class Magento_Rma_Model_Rma_Create extends Magento_Object
             }
             $orderId = intval($orderId);
             if ($orderId) {
-                /** @var $order Magento_Sales_Model_Order */
+                /** @var $order \Magento\Sales\Model\Order */
                 $order = $this->_orderFactory->create();
                 $order->load($orderId);
                 $this->_order = $order;

@@ -16,7 +16,9 @@
  * @package     Magento_Reminder
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reminder_Model_Resource_Customer_Collection extends Magento_Customer_Model_Resource_Customer_Collection
+namespace Magento\Reminder\Model\Resource\Customer;
+
+class Collection extends \Magento\Customer\Model\Resource\Customer\Collection
 {
     /**
      * Core registry
@@ -24,20 +26,20 @@ class Magento_Reminder_Model_Resource_Customer_Collection extends Magento_Custom
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_EntityFactory $entityFactory
-     * @param Magento_Core_Model_Fieldset_Config $fieldsetConfig
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Core\Model\Fieldset\Config $fieldsetConfig
+     * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Logger $logger,
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_EntityFactory $entityFactory,
-        Magento_Core_Model_Fieldset_Config $fieldsetConfig,
-        Magento_Core_Model_Registry $coreRegistry
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Core\Model\Fieldset\Config $fieldsetConfig,
+        \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $fieldsetConfig);
@@ -46,7 +48,7 @@ class Magento_Reminder_Model_Resource_Customer_Collection extends Magento_Custom
     /**
      * Instantiate select to get matched customers
      *
-     * @return Magento_Reminder_Model_Resource_Customer_Collection
+     * @return \Magento\Reminder\Model\Resource\Customer\Collection
      */
     protected function _initSelect()
     {
@@ -71,8 +73,8 @@ class Magento_Reminder_Model_Resource_Customer_Collection extends Magento_Custom
         $subSelect->from(array('g' => $logTable), array(
             'customer_id',
             'rule_id',
-            'emails_sent' => new Zend_Db_Expr('COUNT(log_id)'),
-            'last_sent' => new Zend_Db_Expr('MAX(sent_at)')
+            'emails_sent' => new \Zend_Db_Expr('COUNT(log_id)'),
+            'last_sent' => new \Zend_Db_Expr('MAX(sent_at)')
         ));
 
         $subSelect->where('rule_id = ?', $rule->getId());

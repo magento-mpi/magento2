@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Paypal_Model_Hostedpro extends Magento_Paypal_Model_Direct
+namespace Magento\Paypal\Model;
+
+class Hostedpro extends \Magento\Paypal\Model\Direct
 {
     /**
      * Button code
@@ -42,10 +44,10 @@ class Magento_Paypal_Model_Hostedpro extends Magento_Paypal_Model_Direct
     /**
      * Payment method code
      */
-    protected $_code = Magento_Paypal_Model_Config::METHOD_HOSTEDPRO;
+    protected $_code = \Magento\Paypal\Model\Config::METHOD_HOSTEDPRO;
 
-    protected $_formBlockType = 'Magento_Paypal_Block_Hosted_Pro_Form';
-    protected $_infoBlockType = 'Magento_Paypal_Block_Hosted_Pro_Info';
+    protected $_formBlockType = 'Magento\Paypal\Block\Hosted\Pro\Form';
+    protected $_infoBlockType = 'Magento\Paypal\Block\Hosted\Pro\Info';
 
     /**
      * Availability options
@@ -91,13 +93,13 @@ class Magento_Paypal_Model_Hostedpro extends Magento_Paypal_Model_Direct
      * Instantiate state and set it to state object
      *
      * @param string $paymentAction
-     * @param Magento_Object $stateObject
+     * @param \Magento\Object $stateObject
      */
     public function initialize($paymentAction, $stateObject)
     {
         switch ($paymentAction) {
-            case Magento_Paypal_Model_Config::PAYMENT_ACTION_AUTH:
-            case Magento_Paypal_Model_Config::PAYMENT_ACTION_SALE:
+            case \Magento\Paypal\Model\Config::PAYMENT_ACTION_AUTH:
+            case \Magento\Paypal\Model\Config::PAYMENT_ACTION_SALE:
                 $payment = $this->getInfoInstance();
                 $order = $payment->getOrder();
                 $order->setCanSendNewEmailFlag(false);
@@ -106,7 +108,7 @@ class Magento_Paypal_Model_Hostedpro extends Magento_Paypal_Model_Direct
 
                 $this->_setPaymentFormUrl($payment);
 
-                $stateObject->setState(Magento_Sales_Model_Order::STATE_PENDING_PAYMENT);
+                $stateObject->setState(\Magento\Sales\Model\Order::STATE_PENDING_PAYMENT);
                 $stateObject->setStatus('pending_payment');
                 $stateObject->setIsNotified(false);
                 break;
@@ -118,26 +120,26 @@ class Magento_Paypal_Model_Hostedpro extends Magento_Paypal_Model_Direct
     /**
      * Sends API request to PayPal to get form URL, then sets this URL to $payment object.
      *
-     * @param Magento_Payment_Model_Info $payment
+     * @param \Magento\Payment\Model\Info $payment
      */
-    protected function _setPaymentFormUrl(Magento_Payment_Model_Info $payment)
+    protected function _setPaymentFormUrl(\Magento\Payment\Model\Info $payment)
     {
         $request = $this->_buildFormUrlRequest($payment);
         $response = $this->_sendFormUrlRequest($request);
         if ($response) {
             $payment->setAdditionalInformation('secure_form_url', $response);
         } else {
-            Mage::throwException('Cannot get secure form URL from PayPal');
+            \Mage::throwException('Cannot get secure form URL from PayPal');
         }
     }
 
     /**
      * Returns request object with needed data for API request to PayPal to get form URL.
      *
-     * @param Magento_Payment_Model_Info $payment
-     * @return Magento_Paypal_Model_Hostedpro_Request
+     * @param \Magento\Payment\Model\Info $payment
+     * @return \Magento\Paypal\Model\Hostedpro\Request
      */
-    protected function _buildFormUrlRequest(Magento_Payment_Model_Info $payment)
+    protected function _buildFormUrlRequest(\Magento\Payment\Model\Info $payment)
     {
         $request = $this->_buildBasicRequest()
             ->setOrder($payment->getOrder())
@@ -149,10 +151,10 @@ class Magento_Paypal_Model_Hostedpro extends Magento_Paypal_Model_Direct
     /**
      * Returns form URL from request to PayPal.
      *
-     * @param Magento_Paypal_Model_Hostedpro_Request $request
+     * @param \Magento\Paypal\Model\Hostedpro\Request $request
      * @return string | false
      */
-    protected function _sendFormUrlRequest(Magento_Paypal_Model_Hostedpro_Request $request)
+    protected function _sendFormUrlRequest(\Magento\Paypal\Model\Hostedpro\Request $request)
     {
         $api = $this->_pro->getApi();
         $response = $api->call(self::BM_BUTTON_METHOD, $request->getRequestData());
@@ -166,11 +168,11 @@ class Magento_Paypal_Model_Hostedpro extends Magento_Paypal_Model_Direct
     /**
      * Return request object with basic information
      *
-     * @return Magento_Paypal_Model_Hostedpro_Request
+     * @return \Magento\Paypal\Model\Hostedpro\Request
      */
     protected function _buildBasicRequest()
     {
-        $request = Mage::getModel('Magento_Paypal_Model_Hostedpro_Request');
+        $request = \Mage::getModel('Magento\Paypal\Model\Hostedpro\Request');
         $request->setData(array(
             'METHOD'     => self::BM_BUTTON_METHOD,
             'BUTTONCODE' => self::BM_BUTTON_CODE,
@@ -222,8 +224,8 @@ class Magento_Paypal_Model_Hostedpro extends Magento_Paypal_Model_Direct
      */
     protected function _getUrl($path, $storeId, $secure = null)
     {
-        $store = Mage::app()->getStore($storeId);
-        return Mage::getUrl($path, array(
+        $store = \Mage::app()->getStore($storeId);
+        return \Mage::getUrl($path, array(
             "_store"   => $store,
             "_secure"  => is_null($secure) ? $store->isCurrentlySecure() : $secure
         ));

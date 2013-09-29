@@ -11,32 +11,34 @@
 /**
  * Rma Item Form Renderer Block for select
  */
-class Magento_Rma_Block_Form_Renderer_Select extends Magento_CustomAttribute_Block_Form_Renderer_Select
+namespace Magento\Rma\Block\Form\Renderer;
+
+class Select extends \Magento\CustomAttribute\Block\Form\Renderer\Select
 {
     /**
-     * @var Magento_Rma_Model_ItemFactory
+     * @var \Magento\Rma\Model\ItemFactory
      */
     protected $_itemFactory;
 
     /**
-     * @var Magento_Rma_Model_Item_Form
+     * @var \Magento\Rma\Model\Item\Form
      */
     protected $_itemFormFactory;
 
     /**
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Rma_Model_ItemFactory $itemFactory
-     * @param Magento_Rma_Model_Item_FormFactory $itemFormFactory
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Rma\Model\ItemFactory $itemFactory
+     * @param \Magento\Rma\Model\Item\FormFactory $itemFormFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Rma_Model_ItemFactory $itemFactory,
-        Magento_Rma_Model_Item_FormFactory $itemFormFactory,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Rma\Model\ItemFactory $itemFactory,
+        \Magento\Rma\Model\Item\FormFactory $itemFormFactory,
         array $data = array()
     ) {
         $this->_itemFactory = $itemFactory;
@@ -48,13 +50,13 @@ class Magento_Rma_Block_Form_Renderer_Select extends Magento_CustomAttribute_Blo
      * Prepare rma item attribute
      *
      * @param string $code
-     * @return bool|Magento_Rma_Model_Item_Attribute
+     * @return bool|\Magento\Rma\Model\Item\Attribute
      */
     public function getAttribute($code)
     {
         /* @var $itemModel  */
         $itemModel = $this->_itemFactory->create();
-        /* @var $itemForm Magento_Rma_Model_Item_Form */
+        /* @var $itemForm \Magento\Rma\Model\Item\Form */
         $itemForm = $this->_itemFormFactory->create();
         $itemForm->setFormCode('default')
             ->setStore($this->getStore())

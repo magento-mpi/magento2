@@ -15,19 +15,21 @@
  * @package     Magento_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Release
-    extends Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Abstract
+namespace Magento\Connect\Block\Adminhtml\Extension\Custom\Edit\Tab;
+
+class Release
+    extends \Magento\Connect\Block\Adminhtml\Extension\Custom\Edit\Tab\AbstractTab
 {
     /**
      * Prepare Release Info Form before rendering HTML
      *
-     * @return Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Release
+     * @return \Magento\Connect\Block\Adminhtml\Extension\Custom\Edit\Tab\Release
      */
     protected function _prepareForm()
     {
         parent::_prepareForm();
 
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('_release');
 

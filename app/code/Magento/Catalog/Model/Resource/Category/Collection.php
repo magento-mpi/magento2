@@ -16,7 +16,9 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Resource_Category_Collection extends Magento_Catalog_Model_Resource_Collection_Abstract
+namespace Magento\Catalog\Model\Resource\Category;
+
+class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractCollection
 {
     /**
      * Event prefix
@@ -66,7 +68,7 @@ class Magento_Catalog_Model_Resource_Category_Collection extends Magento_Catalog
      */
     protected function _construct()
     {
-        $this->_init('Magento_Catalog_Model_Category', 'Magento_Catalog_Model_Resource_Category');
+        $this->_init('Magento\Catalog\Model\Category', 'Magento\Catalog\Model\Resource\Category');
 
         $this->_productWebsiteTable = $this->getTable('catalog_product_website');
         $this->_productTable        = $this->getTable('catalog_category_product');
@@ -76,7 +78,7 @@ class Magento_Catalog_Model_Resource_Category_Collection extends Magento_Catalog
      * Add Id filter
      *
      * @param array $categoryIds
-     * @return Magento_Catalog_Model_Resource_Category_Collection
+     * @return \Magento\Catalog\Model\Resource\Category\Collection
      */
     public function addIdFilter($categoryIds)
     {
@@ -104,7 +106,7 @@ class Magento_Catalog_Model_Resource_Category_Collection extends Magento_Catalog
      * Set flag for loading product count
      *
      * @param boolean $flag
-     * @return Magento_Catalog_Model_Resource_Category_Collection
+     * @return \Magento\Catalog\Model\Resource\Category\Collection
      */
     public function setLoadProductCount($flag)
     {
@@ -115,7 +117,7 @@ class Magento_Catalog_Model_Resource_Category_Collection extends Magento_Catalog
     /**
      * Before collection load
      *
-     * @return Magento_Catalog_Model_Resource_Category_Collection
+     * @return \Magento\Catalog\Model\Resource\Category\Collection
      */
     protected function _beforeLoad()
     {
@@ -127,7 +129,7 @@ class Magento_Catalog_Model_Resource_Category_Collection extends Magento_Catalog
     /**
      * After collection load
      *
-     * @return Magento_Catalog_Model_Resource_Category_Collection
+     * @return \Magento\Catalog\Model\Resource\Category\Collection
      */
     protected function _afterLoad()
     {
@@ -141,7 +143,7 @@ class Magento_Catalog_Model_Resource_Category_Collection extends Magento_Catalog
      * Set id of the store that we should count products on
      *
      * @param int $storeId
-     * @return Magento_Catalog_Model_Resource_Category_Collection
+     * @return \Magento\Catalog\Model\Resource\Category\Collection
      */
     public function setProductStoreId($storeId)
     {
@@ -157,7 +159,7 @@ class Magento_Catalog_Model_Resource_Category_Collection extends Magento_Catalog
     public function getProductStoreId()
     {
         if (is_null($this->_productStoreId)) {
-            $this->_productStoreId = Magento_Catalog_Model_Abstract::DEFAULT_STORE_ID;
+            $this->_productStoreId = \Magento\Catalog\Model\AbstractModel::DEFAULT_STORE_ID;
         }
         return $this->_productStoreId;
     }
@@ -167,7 +169,7 @@ class Magento_Catalog_Model_Resource_Category_Collection extends Magento_Catalog
      *
      * @param bool $printQuery
      * @param bool $logQuery
-     * @return Magento_Catalog_Model_Resource_Category_Collection
+     * @return \Magento\Catalog\Model\Resource\Category\Collection
      */
     public function load($printQuery = false, $logQuery = false)
     {
@@ -204,13 +206,13 @@ class Magento_Catalog_Model_Resource_Category_Collection extends Magento_Catalog
      * @param array $items
      * @param boolean $countRegular get product count for regular (non-anchor) categories
      * @param boolean $countAnchor get product count for anchor categories
-     * @return Magento_Catalog_Model_Resource_Category_Collection
+     * @return \Magento\Catalog\Model\Resource\Category\Collection
      */
     public function loadProductCount($items, $countRegular = true, $countAnchor = true)
     {
         $anchor     = array();
         $regular    = array();
-        $websiteId  = Mage::app()->getStore($this->getProductStoreId())->getWebsiteId();
+        $websiteId  = \Mage::app()->getStore($this->getProductStoreId())->getWebsiteId();
 
         foreach ($items as $item) {
             if ($item->getIsAnchor()) {
@@ -227,7 +229,7 @@ class Magento_Catalog_Model_Resource_Category_Collection extends Magento_Catalog
                 $select = $this->_conn->select();
                 $select->from(
                         array('main_table' => $this->_productTable),
-                        array('category_id', new Zend_Db_Expr('COUNT(main_table.product_id)'))
+                        array('category_id', new \Zend_Db_Expr('COUNT(main_table.product_id)'))
                     )
                     ->where($this->_conn->quoteInto('main_table.category_id IN(?)', $regularIds))
                     ->group('main_table.category_id');
@@ -260,7 +262,7 @@ class Magento_Catalog_Model_Resource_Category_Collection extends Magento_Catalog
                     $select = $this->_conn->select();
                     $select->from(
                             array('main_table' => $this->_productTable),
-                            new Zend_Db_Expr('COUNT(DISTINCT main_table.product_id)')
+                            new \Zend_Db_Expr('COUNT(DISTINCT main_table.product_id)')
                         )
                         ->joinInner(
                             array('e' => $this->getTable('catalog_category_entity')),
@@ -289,7 +291,7 @@ class Magento_Catalog_Model_Resource_Category_Collection extends Magento_Catalog
      * Add category path filter
      *
      * @param string $regexp
-     * @return Magento_Catalog_Model_Resource_Category_Collection
+     * @return \Magento\Catalog\Model\Resource\Category\Collection
      */
     public function addPathFilter($regexp)
     {
@@ -300,11 +302,11 @@ class Magento_Catalog_Model_Resource_Category_Collection extends Magento_Catalog
     /**
      * Joins url rewrite rules to collection
      *
-     * @return Magento_Catalog_Model_Resource_Category_Collection
+     * @return \Magento\Catalog\Model\Resource\Category\Collection
      */
     public function joinUrlRewrite()
     {
-        $storeId = Mage::app()->getStore()->getId();
+        $storeId = \Mage::app()->getStore()->getId();
         $this->joinTable(
             'core_url_rewrite',
             'category_id=entity_id',
@@ -321,7 +323,7 @@ class Magento_Catalog_Model_Resource_Category_Collection extends Magento_Catalog
     /**
      * Add active category filter
      *
-     * @return Magento_Catalog_Model_Resource_Category_Collection
+     * @return \Magento\Catalog\Model\Resource\Category\Collection
      */
     public function addIsActiveFilter()
     {
@@ -334,7 +336,7 @@ class Magento_Catalog_Model_Resource_Category_Collection extends Magento_Catalog
     /**
      * Add name attribute to result
      *
-     * @return Magento_Catalog_Model_Resource_Category_Collection
+     * @return \Magento\Catalog\Model\Resource\Category\Collection
      */
     public function addNameToResult()
     {
@@ -345,7 +347,7 @@ class Magento_Catalog_Model_Resource_Category_Collection extends Magento_Catalog
     /**
      * Add url rewrite rules to collection
      *
-     * @return Magento_Catalog_Model_Resource_Category_Collection
+     * @return \Magento\Catalog\Model\Resource\Category\Collection
      */
     public function addUrlRewriteToResult()
     {
@@ -357,7 +359,7 @@ class Magento_Catalog_Model_Resource_Category_Collection extends Magento_Catalog
      * Add category path filter
      *
      * @param array|string $paths
-     * @return Magento_Catalog_Model_Resource_Category_Collection
+     * @return \Magento\Catalog\Model\Resource\Category\Collection
      */
     public function addPathsFilter($paths)
     {
@@ -379,7 +381,7 @@ class Magento_Catalog_Model_Resource_Category_Collection extends Magento_Catalog
      * Add category level filter
      *
      * @param int|string $level
-     * @return Magento_Catalog_Model_Resource_Category_Collection
+     * @return \Magento\Catalog\Model\Resource\Category\Collection
      */
     public function addLevelFilter($level)
     {
@@ -390,7 +392,7 @@ class Magento_Catalog_Model_Resource_Category_Collection extends Magento_Catalog
     /**
      * Add root category filter
      *
-     * @return Magento_Catalog_Model_Resource_Category_Collection
+     * @return \Magento\Catalog\Model\Resource\Category\Collection
      */
     public function addRootLevelFilter()
     {
@@ -403,7 +405,7 @@ class Magento_Catalog_Model_Resource_Category_Collection extends Magento_Catalog
      * Add order field
      *
      * @param string $field
-     * @return Magento_Catalog_Model_Resource_Category_Collection
+     * @return \Magento\Catalog\Model\Resource\Category\Collection
      */
     public function addOrderField($field)
     {

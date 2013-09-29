@@ -15,12 +15,14 @@
  * @package     Magento_Search
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Search_Model_Resource_Engine implements Magento_CatalogSearch_Model_Resource_EngineInterface
+namespace Magento\Search\Model\Resource;
+
+class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
 {
     /**
      * Store search engine adapter model instance
      *
-     * @var Magento_Search_Model_Adapter_Abstract
+     * @var \Magento\Search\Model\Adapter\AbstractAdapter
      */
     protected $_adapter = null;
 
@@ -57,60 +59,60 @@ class Magento_Search_Model_Resource_Engine implements Magento_CatalogSearch_Mode
     /**
      * Catalog product visibility
      *
-     * @var Magento_Catalog_Model_Product_Visibility
+     * @var \Magento\Catalog\Model\Product\Visibility
      */
     protected $_catalogProductVisibility;
 
     /**
      * Search resource index
      *
-     * @var Magento_Search_Model_Resource_Index
+     * @var \Magento\Search\Model\Resource\Index
      */
     protected $_searchResourceIndex;
 
     /**
      * Catalog search resource fulltext
      *
-     * @var Magento_CatalogSearch_Model_Resource_Fulltext
+     * @var \Magento\CatalogSearch\Model\Resource\Fulltext
      */
     protected $_catalogSearchResourceFulltext;
 
     /**
      * Search coll factory
      *
-     * @var Magento_Search_Model_Resource_CollectionFactory
+     * @var \Magento\Search\Model\Resource\CollectionFactory
      */
     protected $_searchCollFactory;
 
     /**
-     * @var Magento_Search_Model_Resource_Advanced
+     * @var \Magento\Search\Model\Resource\Advanced
      */
     protected $_searchResource;
 
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_ConfigInterface
+     * @var \Magento\Core\Model\Store\ConfigInterface
      */
     protected $_coreStoreConfig;
 
     /**
      * Store manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
 
     public function __construct(
-        Magento_Search_Model_Resource_CollectionFactory $searchCollFactory,
-        Magento_CatalogSearch_Model_Resource_Fulltext $catalogSearchResourceFulltext,
-        Magento_Search_Model_Resource_Index $searchResourceIndex,
-        Magento_Catalog_Model_Product_Visibility $catalogProductVisibility,
-        Magento_Search_Model_Resource_Advanced $searchResource,
-        Magento_Core_Model_Store_ConfigInterface $coreStoreConfig,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Search_Model_Factory_Factory $searchFactory
+        \Magento\Search\Model\Resource\CollectionFactory $searchCollFactory,
+        \Magento\CatalogSearch\Model\Resource\Fulltext $catalogSearchResourceFulltext,
+        \Magento\Search\Model\Resource\Index $searchResourceIndex,
+        \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility,
+        \Magento\Search\Model\Resource\Advanced $searchResource,
+        \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Search\Model\Factory\Factory $searchFactory
     ) {
         $this->_searchCollFactory = $searchCollFactory;
         $this->_catalogSearchResourceFulltext = $catalogSearchResourceFulltext;
@@ -131,11 +133,11 @@ class Magento_Search_Model_Resource_Engine implements Magento_CatalogSearch_Mode
     protected function _canHoldCommit()
     {
         $commitMode = $this->_coreStoreConfig->getConfig(
-            Magento_Search_Model_Indexer_Indexer::SEARCH_ENGINE_INDEXATION_COMMIT_MODE_XML_PATH
+            \Magento\Search\Model\Indexer\Indexer::SEARCH_ENGINE_INDEXATION_COMMIT_MODE_XML_PATH
         );
 
-        return $commitMode == Magento_Search_Model_Indexer_Indexer::SEARCH_ENGINE_INDEXATION_COMMIT_MODE_FINAL
-            || $commitMode == Magento_Search_Model_Indexer_Indexer::SEARCH_ENGINE_INDEXATION_COMMIT_MODE_ENGINE;
+        return $commitMode == \Magento\Search\Model\Indexer\Indexer::SEARCH_ENGINE_INDEXATION_COMMIT_MODE_FINAL
+            || $commitMode == \Magento\Search\Model\Indexer\Indexer::SEARCH_ENGINE_INDEXATION_COMMIT_MODE_ENGINE;
     }
 
     /**
@@ -146,17 +148,17 @@ class Magento_Search_Model_Resource_Engine implements Magento_CatalogSearch_Mode
     protected function _canAllowCommit()
     {
         $commitMode = $this->_coreStoreConfig->getConfig(
-            Magento_Search_Model_Indexer_Indexer::SEARCH_ENGINE_INDEXATION_COMMIT_MODE_XML_PATH
+            \Magento\Search\Model\Indexer\Indexer::SEARCH_ENGINE_INDEXATION_COMMIT_MODE_XML_PATH
         );
 
-        return $commitMode == Magento_Search_Model_Indexer_Indexer::SEARCH_ENGINE_INDEXATION_COMMIT_MODE_FINAL
-            || $commitMode == Magento_Search_Model_Indexer_Indexer::SEARCH_ENGINE_INDEXATION_COMMIT_MODE_PARTIAL;
+        return $commitMode == \Magento\Search\Model\Indexer\Indexer::SEARCH_ENGINE_INDEXATION_COMMIT_MODE_FINAL
+            || $commitMode == \Magento\Search\Model\Indexer\Indexer::SEARCH_ENGINE_INDEXATION_COMMIT_MODE_PARTIAL;
     }
 
     /**
      * Initialize search engine adapter
      *
-     * @return Magento_Search_Model_Resource_Engine
+     * @return \Magento\Search\Model\Resource\Engine
      */
     protected function _initAdapter()
     {
@@ -171,7 +173,7 @@ class Magento_Search_Model_Resource_Engine implements Magento_CatalogSearch_Mode
     /**
      * Retrieve search resource model
      *
-     * @return Magento_Search_Model_Resource_Advanced
+     * @return \Magento\Search\Model\Resource\Advanced
      */
     public function getResource()
     {
@@ -235,7 +237,7 @@ class Magento_Search_Model_Resource_Engine implements Magento_CatalogSearch_Mode
      * @param array $index
      * @param string $entityType 'product'|'cms'
      *
-     * @return Magento_Search_Model_Resource_Engine
+     * @return \Magento\Search\Model\Resource\Engine
      */
     public function saveEntityIndex($entityId, $storeId, $index, $entityType = 'product')
     {
@@ -249,7 +251,7 @@ class Magento_Search_Model_Resource_Engine implements Magento_CatalogSearch_Mode
      * @param array $entityIndexes
      * @param string $entityType 'product'|'cms'
      *
-     * @return Magento_Search_Model_Resource_Engine
+     * @return \Magento\Search\Model\Resource\Engine
      */
     public function saveEntityIndexes($storeId, $entityIndexes, $entityType = 'product')
     {
@@ -267,7 +269,7 @@ class Magento_Search_Model_Resource_Engine implements Magento_CatalogSearch_Mode
      * @param  int|array|null $storeIds
      * @param  int|array|null $entityIds
      * @param  string $entityType 'product'|'cms'
-     * @return Magento_Search_Model_Resource_Engine
+     * @return \Magento\Search\Model\Resource\Engine
      */
     public function cleanIndex($storeIds = null, $entityIds = null, $entityType = 'product')
     {
@@ -275,7 +277,7 @@ class Magento_Search_Model_Resource_Engine implements Magento_CatalogSearch_Mode
             return $this;
         }
 
-        if (is_null($storeIds) || $storeIds == Magento_Core_Model_AppInterface::ADMIN_STORE_ID) {
+        if (is_null($storeIds) || $storeIds == \Magento\Core\Model\AppInterface::ADMIN_STORE_ID) {
             $storeIds = array_keys($this->_storeManager->getStores());
         } else {
             $storeIds = (array) $storeIds;
@@ -314,7 +316,7 @@ class Magento_Search_Model_Resource_Engine implements Magento_CatalogSearch_Mode
     /**
      * Retrieve search result data collection
      *
-     * @return Magento_Search_Model_Resource_Collection
+     * @return \Magento\Search\Model\Resource\Collection
      */
     public function getResultCollection()
     {
@@ -324,7 +326,7 @@ class Magento_Search_Model_Resource_Engine implements Magento_CatalogSearch_Mode
     /**
      * Retrieve advanced search result data collection
      *
-     * @return Magento_Search_Model_Resource_Collection
+     * @return \Magento\Search\Model\Resource\Collection
      */
     public function getAdvancedResultCollection()
     {
@@ -388,7 +390,7 @@ class Magento_Search_Model_Resource_Engine implements Magento_CatalogSearch_Mode
     /**
      * Optimize search engine index
      *
-     * @return Magento_Search_Model_Resource_Engine
+     * @return \Magento\Search\Model\Resource\Engine
      */
     public function optimizeIndex()
     {
@@ -399,7 +401,7 @@ class Magento_Search_Model_Resource_Engine implements Magento_CatalogSearch_Mode
     /**
      * Commit search engine index changes
      *
-     * @return Magento_Search_Model_Resource_Engine
+     * @return \Magento\Search\Model\Resource\Engine
      */
     public function commitChanges()
     {
@@ -442,7 +444,7 @@ class Magento_Search_Model_Resource_Engine implements Magento_CatalogSearch_Mode
      * Define if third party search engine index needs optimization
      *
      * @param  bool $state
-     * @return Magento_Search_Model_Resource_Engine
+     * @return \Magento\Search\Model\Resource\Engine
      */
     public function setIndexNeedsOptimization($state = true)
     {
@@ -466,7 +468,7 @@ class Magento_Search_Model_Resource_Engine implements Magento_CatalogSearch_Mode
      * Store searchable attributes
      *
      * @param array $attributes
-     * @return Magento_Search_Model_Resource_Engine
+     * @return \Magento\Search\Model\Resource\Engine
      */
     public function storeSearchableAttributes(array $attributes)
     {
@@ -492,7 +494,7 @@ class Magento_Search_Model_Resource_Engine implements Magento_CatalogSearch_Mode
      *
      * @param  array $productIds
      * @param  array $categoryIds
-     * @return Magento_Search_Model_Resource_Engine
+     * @return \Magento\Search\Model\Resource\Engine
      */
     public function updateCategoryIndex($productIds, $categoryIds)
     {
@@ -524,7 +526,7 @@ class Magento_Search_Model_Resource_Engine implements Magento_CatalogSearch_Mode
      *
      * @deprecated after 1.11.2.0
      *
-     * @see Magento_CatalogSearch_Model_Resource_Fulltext->_getSearchableProducts()
+     * @see \Magento\CatalogSearch\Model\Resource\Fulltext->_getSearchableProducts()
      *
      * @param array $index
      * @param int $storeId

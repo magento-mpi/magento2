@@ -7,17 +7,19 @@
  * @copyright {copyright}
  * @license {license_link}
  */
-class Magento_GoogleOptimizer_Helper_Form extends Magento_Core_Helper_Abstract
+namespace Magento\GoogleOptimizer\Helper;
+
+class Form extends \Magento\Core\Helper\AbstractHelper
 {
     /**
      * Prepare form
      *
-     * @param Magento_Data_Form $form
-     * @param Magento_GoogleOptimizer_Model_Code|null $experimentCodeModel
+     * @param \Magento\Data\Form $form
+     * @param \Magento\GoogleOptimizer\Model\Code|null $experimentCodeModel
      */
     public function addGoogleoptimizerFields(
-        Magento_Data_Form $form,
-        Magento_GoogleOptimizer_Model_Code $experimentCodeModel = null
+        \Magento\Data\Form $form,
+        \Magento\GoogleOptimizer\Model\Code $experimentCodeModel = null
     ) {
         $fieldset = $form->addFieldset('googleoptimizer_fields', array(
             'legend' => __('Google Analytics Content Experiments Code'),

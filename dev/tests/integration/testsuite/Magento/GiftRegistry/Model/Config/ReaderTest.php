@@ -8,42 +8,44 @@
  * @license     {license_link}
  */
 
-class Magento_GiftRegistry_Model_Config_ReaderTest extends PHPUnit_Framework_TestCase
+namespace Magento\GiftRegistry\Model\Config;
+
+class ReaderTest extends \PHPUnit_Framework_TestCase
 {
     public function testRead()
     {
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        /** @var Magento_Core_Model_Dir $dirs */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        /** @var \Magento\Core\Model\Dir $dirs */
         $dirs = $objectManager->create(
-            'Magento_Core_Model_Dir', array(
+            'Magento\Core\Model\Dir', array(
                 'baseDir' => BP,
                 'dirs' => array(
-                    Magento_Core_Model_Dir::MODULES => __DIR__ . '/_files',
-                    Magento_Core_Model_Dir::CONFIG => __DIR__ . '/_files'
+                    \Magento\Core\Model\Dir::MODULES => __DIR__ . '/_files',
+                    \Magento\Core\Model\Dir::CONFIG => __DIR__ . '/_files'
                 )
             )
         );
 
-        $moduleDirs = $objectManager->create('Magento_Core_Model_Module_Dir',
+        $moduleDirs = $objectManager->create('Magento\Core\Model\Module\Dir',
             array('applicationDirs' => $dirs));
 
-        /** @var Magento_Core_Model_Config_Modules_Reader $moduleReader */
+        /** @var \Magento\Core\Model\Config\Modules\Reader $moduleReader */
         $moduleReader = $objectManager->create(
-            'Magento_Core_Model_Config_Modules_Reader', array(
+            'Magento\Core\Model\Config\Modules\Reader', array(
                 'moduleDirs' => $moduleDirs,
             )
         );
 
-        /** @var Magento_Core_Model_Config_FileResolver $fileResolver */
+        /** @var \Magento\Core\Model\Config\FileResolver $fileResolver */
         $fileResolver = $objectManager->create(
-            'Magento_Core_Model_Config_FileResolver', array(
+            'Magento\Core\Model\Config\FileResolver', array(
                 'moduleReader' => $moduleReader,
             )
         );
 
-        /** @var Magento_Logging_Model_Config_Reader $model */
+        /** @var \Magento\Logging\Model\Config\Reader $model */
         $model = $objectManager->create(
-            'Magento_GiftRegistry_Model_Config_Reader', array(
+            'Magento\GiftRegistry\Model\Config\Reader', array(
                 'fileResolver' => $fileResolver,
             )
         );

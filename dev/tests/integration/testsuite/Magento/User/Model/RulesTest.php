@@ -9,20 +9,22 @@
  * @license     {license_link}
  */
 
+namespace Magento\User\Model;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_User_Model_RulesTest extends PHPUnit_Framework_TestCase
+class RulesTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_User_Model_Rules
+     * @var \Magento\User\Model\Rules
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_User_Model_Rules');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\User\Model\Rules');
     }
 
     /**
@@ -37,7 +39,7 @@ class Magento_User_Model_RulesTest extends PHPUnit_Framework_TestCase
             ->setRoleId(1)
             ->setPermission('allow');
 
-        $crud = new Magento_TestFramework_Entity($this->_model, array('permission' => 'deny'));
+        $crud = new \Magento\TestFramework\Entity($this->_model, array('permission' => 'deny'));
         $crud->testCrud();
     }
 
@@ -58,7 +60,7 @@ class Magento_User_Model_RulesTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Magento_User_Model_Rules::saveRel
+     * @covers \Magento\User\Model\Rules::saveRel
      * @magentoDbIsolation enabled
      */
     public function testSetAllowForAllResources()

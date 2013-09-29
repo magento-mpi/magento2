@@ -11,7 +11,9 @@
 /**
  * Placeholder container for catalog top navigation block
  */
-class Magento_FullPageCache_Model_Container_Catalognavigation extends Magento_FullPageCache_Model_Container_Abstract
+namespace Magento\FullPageCache\Model\Container;
+
+class Catalognavigation extends \Magento\FullPageCache\Model\Container\AbstractContainer
 {
     /**
      * @return string
@@ -67,7 +69,7 @@ class Magento_FullPageCache_Model_Container_Catalognavigation extends Magento_Fu
      * Save rendered block content to cache storage
      *
      * @param string $blockContent
-     * @return Magento_FullPageCache_Model_Container_Abstract
+     * @return \Magento\FullPageCache\Model\Container\AbstractContainer
      */
     public function saveCache($blockContent)
     {
@@ -108,7 +110,7 @@ class Magento_FullPageCache_Model_Container_Catalognavigation extends Magento_Fu
 
         $categoryId = $this->_getCategoryId();
         if (!$this->_coreRegistry->registry('current_category') && $categoryId) {
-            $category = Mage::getModel('Magento_Catalog_Model_Category')->load($categoryId);
+            $category = \Mage::getModel('Magento\Catalog\Model\Category')->load($categoryId);
             $this->_coreRegistry->register('current_category', $category);
         }
 

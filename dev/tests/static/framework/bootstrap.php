@@ -12,12 +12,12 @@
 define('DS', DIRECTORY_SEPARATOR);
 define('BP', realpath(__DIR__ . '/../../../../'));
 require BP . '/app/autoload.php';
-Magento_Autoload_IncludePath::addIncludePath(array(
+\Magento\Autoload\IncludePath::addIncludePath(array(
     __DIR__,
     dirname(__DIR__) . '/testsuite',
     BP . '/lib',
 ));
-Magento_TestFramework_Utility_Files::init(new Magento_TestFramework_Utility_Files(BP));
+\Magento\TestFramework\Utility\Files::init(new \Magento\TestFramework\Utility\Files(BP));
 
 function tool_autoloader($className)
 {

@@ -16,8 +16,10 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Resource_Order_Creditmemo_Grid_Collection
-    extends Magento_Sales_Model_Resource_Order_Creditmemo_Collection
+namespace Magento\Sales\Model\Resource\Order\Creditmemo\Grid;
+
+class Collection
+    extends \Magento\Sales\Model\Resource\Order\Creditmemo\Collection
 {
     /**
      * Event prefix

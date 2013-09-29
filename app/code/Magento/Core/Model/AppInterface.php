@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-interface Magento_Core_Model_AppInterface extends Magento_Core_Model_StoreManagerInterface
+namespace Magento\Core\Model;
+
+interface AppInterface extends \Magento\Core\Model\StoreManagerInterface
 {
     /**
      * Default application locale
@@ -24,7 +26,7 @@ interface Magento_Core_Model_AppInterface extends Magento_Core_Model_StoreManage
      * Default store code (for install)
      *
      */
-    const DISTRO_STORE_CODE     = Magento_Core_Model_Store::DEFAULT_CODE;
+    const DISTRO_STORE_CODE     = \Magento\Core\Model\Store::DEFAULT_CODE;
 
     /**
      * Admin store Id
@@ -40,21 +42,21 @@ interface Magento_Core_Model_AppInterface extends Magento_Core_Model_StoreManage
     /**
      * Run application. Run process responsible for request processing and sending response.
      *
-     * @return Magento_Core_Model_AppInterface
+     * @return \Magento\Core\Model\AppInterface
      */
     public function run();
 
     /**
      * Throw an exception, if the application has not been installed yet
      *
-     * @throws Magento_Exception
+     * @throws \Magento\Exception
      */
     public function requireInstalledInstance();
 
     /**
      * Retrieve cookie object
      *
-     * @return Magento_Core_Model_Cookie
+     * @return \Magento\Core\Model\Cookie
      */
     public function getCookie();
 
@@ -62,7 +64,7 @@ interface Magento_Core_Model_AppInterface extends Magento_Core_Model_StoreManage
      * Re-declare custom error handler
      *
      * @param   string $handler
-     * @return  Magento_Core_Model_AppInterface
+     * @return  \Magento\Core\Model\AppInterface
      */
     public function setErrorHandler($handler);
 
@@ -70,7 +72,7 @@ interface Magento_Core_Model_AppInterface extends Magento_Core_Model_StoreManage
      * Loading application area
      *
      * @param   string $code
-     * @return  Magento_Core_Model_AppInterface
+     * @return  \Magento\Core\Model\AppInterface
      */
     public function loadArea($code);
 
@@ -79,7 +81,7 @@ interface Magento_Core_Model_AppInterface extends Magento_Core_Model_StoreManage
      *
      * @param   string $area
      * @param   string $part
-     * @return  Magento_Core_Model_AppInterface
+     * @return  \Magento\Core\Model\AppInterface
      */
     public function loadAreaPart($area, $part);
 
@@ -87,7 +89,7 @@ interface Magento_Core_Model_AppInterface extends Magento_Core_Model_StoreManage
      * Retrieve application area
      *
      * @param   string $code
-     * @return  Magento_Core_Model_App_Area
+     * @return  \Magento\Core\Model\App\Area
      */
     public function getArea($code);
 
@@ -101,14 +103,14 @@ interface Magento_Core_Model_AppInterface extends Magento_Core_Model_StoreManage
     /**
      * Retrieve application locale object
      *
-     * @return Magento_Core_Model_LocaleInterface
+     * @return \Magento\Core\Model\LocaleInterface
      */
     public function getLocale();
 
     /**
      * Retrieve layout object
      *
-     * @return Magento_Core_Model_Layout
+     * @return \Magento\Core\Model\Layout
      */
     public function getLayout();
 
@@ -122,21 +124,21 @@ interface Magento_Core_Model_AppInterface extends Magento_Core_Model_StoreManage
     /**
      * Retrieve configuration object
      *
-     * @return Magento_Core_Model_Config
+     * @return \Magento\Core\Model\Config
      */
     public function getConfig();
 
     /**
      * Retrieve front controller object
      *
-     * @return Magento_Core_Controller_Varien_Front
+     * @return \Magento\Core\Controller\Varien\Front
      */
     public function getFrontController();
 
     /**
      * Get core cache model
      *
-     * @return Magento_Core_Model_CacheInterface
+     * @return \Magento\Core\Model\CacheInterface
      */
     public function getCacheInstance();
 
@@ -144,7 +146,7 @@ interface Magento_Core_Model_AppInterface extends Magento_Core_Model_StoreManage
     /**
      * Retrieve cache object
      *
-     * @return Zend_Cache_Core
+     * @return \Zend_Cache_Core
      */
     public function getCache();
 
@@ -163,7 +165,7 @@ interface Magento_Core_Model_AppInterface extends Magento_Core_Model_StoreManage
      * @param string $cacheId
      * @param array $tags
      * @param bool $lifeTime
-     * @return Magento_Core_Model_AppInterface
+     * @return \Magento\Core\Model\AppInterface
      */
     public function saveCache($data, $cacheId, $tags = array(), $lifeTime = false);
 
@@ -171,7 +173,7 @@ interface Magento_Core_Model_AppInterface extends Magento_Core_Model_StoreManage
      * Remove cache
      *
      * @param   string $cacheId
-     * @return  Magento_Core_Model_AppInterface
+     * @return  \Magento\Core\Model\AppInterface
      */
     public function removeCache($cacheId);
 
@@ -179,52 +181,52 @@ interface Magento_Core_Model_AppInterface extends Magento_Core_Model_StoreManage
      * Cleaning cache
      *
      * @param   array $tags
-     * @return  Magento_Core_Model_AppInterface
+     * @return  \Magento\Core\Model\AppInterface
      */
     public function cleanCache($tags = array());
 
     /**
      * Deletes all session files
      *
-     * @return Magento_Core_Model_AppInterface
+     * @return \Magento\Core\Model\AppInterface
      */
     public function cleanAllSessions();
 
     /**
      * Retrieve request object
      *
-     * @return Magento_Core_Controller_Request_Http
+     * @return \Magento\Core\Controller\Request\Http
      */
     public function getRequest();
 
     /**
      * Request setter
      *
-     * @param Magento_Core_Controller_Request_Http $request
-     * @return Magento_Core_Model_AppInterface
+     * @param \Magento\Core\Controller\Request\Http $request
+     * @return \Magento\Core\Model\AppInterface
      */
-    public function setRequest(Magento_Core_Controller_Request_Http $request);
+    public function setRequest(\Magento\Core\Controller\Request\Http $request);
 
     /**
      * Retrieve response object
      *
-     * @return Zend_Controller_Response_Http
+     * @return \Zend_Controller_Response_Http
      */
     public function getResponse();
 
     /**
      * Response setter
      *
-     * @param Magento_Core_Controller_Response_Http $response
-     * @return Magento_Core_Model_AppInterface
+     * @param \Magento\Core\Controller\Response\Http $response
+     * @return \Magento\Core\Model\AppInterface
      */
-    public function setResponse(Magento_Core_Controller_Response_Http $response);
+    public function setResponse(\Magento\Core\Controller\Response\Http $response);
 
     /**
      * Set use session var instead of SID for URL
      *
      * @param bool $var
-     * @return Magento_Core_Model_AppInterface
+     * @return \Magento\Core\Model\AppInterface
      */
     public function setUseSessionVar($var);
 
@@ -239,7 +241,7 @@ interface Magento_Core_Model_AppInterface extends Magento_Core_Model_StoreManage
      * Set Use session in URL flag
      *
      * @param bool $flag
-     * @return Magento_Core_Model_AppInterface
+     * @return \Magento\Core\Model\AppInterface
      */
     public function setUseSessionInUrl($flag = true);
 

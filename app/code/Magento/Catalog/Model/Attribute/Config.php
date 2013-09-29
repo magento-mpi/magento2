@@ -7,17 +7,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Catalog_Model_Attribute_Config
+namespace Magento\Catalog\Model\Attribute;
+
+class Config
 {
     /**
-     * @var Magento_Catalog_Model_Attribute_Config_Data
+     * @var \Magento\Catalog\Model\Attribute\Config\Data
      */
     protected $_dataStorage;
 
     /**
-     * @param Magento_Catalog_Model_Attribute_Config_Data $dataStorage
+     * @param \Magento\Catalog\Model\Attribute\Config\Data $dataStorage
      */
-    public function __construct(Magento_Catalog_Model_Attribute_Config_Data $dataStorage)
+    public function __construct(\Magento\Catalog\Model\Attribute\Config\Data $dataStorage)
     {
         $this->_dataStorage = $dataStorage;
     }

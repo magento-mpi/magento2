@@ -5,25 +5,27 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Config;
+
+class ResourceTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Config_Resource
+     * @var \Magento\Core\Model\Config\Resource
      */
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_scopeMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_cacheMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_readerMock;
 
@@ -34,11 +36,11 @@ class Magento_Core_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_scopeMock = $this->getMock('Magento_Config_ScopeInterface');
-        $this->_cacheMock = $this->getMock('Magento_Config_CacheInterface');
+        $this->_scopeMock = $this->getMock('Magento\Config\ScopeInterface');
+        $this->_cacheMock = $this->getMock('Magento\Config\CacheInterface');
 
         $this->_readerMock = $this->getMock(
-            'Magento_Core_Model_Resource_Config_Reader', array(), array(), '', false
+            'Magento\Core\Model\Resource\Config\Reader', array(), array(), '', false
         );
 
         $this->_resourcesConfig = array(
@@ -64,7 +66,7 @@ class Magento_Core_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
             ->method('load')
             ->will($this->returnValue(serialize($this->_resourcesConfig)));
 
-        $this->_model = new Magento_Core_Model_Config_Resource(
+        $this->_model = new \Magento\Core\Model\Config\Resource(
             $this->_readerMock,
             $this->_scopeMock,
             $this->_cacheMock,
@@ -73,7 +75,7 @@ class Magento_Core_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Magento_Core_Model_Config_Resource::getConnectionName
+     * @covers \Magento\Core\Model\Config\Resource::getConnectionName
      * @dataProvider getConnectionNameDataProvider
      * @param string $resourceName
      * @param string $connectionName
@@ -99,7 +101,7 @@ class Magento_Core_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
             ),
             array(
                 'resourceName' => 'brokenResourceName',
-                'connectionName' => Magento_Core_Model_Config_Resource::DEFAULT_SETUP_CONNECTION,
+                'connectionName' => \Magento\Core\Model\Config\Resource::DEFAULT_SETUP_CONNECTION,
             )
         );
     }

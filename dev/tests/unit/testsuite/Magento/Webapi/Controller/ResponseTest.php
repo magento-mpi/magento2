@@ -7,19 +7,21 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Controller_ResponseTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webapi\Controller;
+
+class ResponseTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Response object.
      *
-     * @var Magento_Webapi_Controller_Response
+     * @var \Magento\Webapi\Controller\Response
      */
     protected $_response;
 
     protected function setUp()
     {
         /** Initialize SUT. */
-        $this->_response = new Magento_Webapi_Controller_Response();
+        $this->_response = new \Magento\Webapi\Controller\Response();
         parent::setUp();
     }
 
@@ -40,19 +42,19 @@ class Magento_Webapi_Controller_ResponseTest extends PHPUnit_Framework_TestCase
         /** Test message adding functionality. */
         $this->_response->addMessage(
             'Message text',
-            Magento_Webapi_Controller_Response::HTTP_OK,
+            \Magento\Webapi\Controller\Response::HTTP_OK,
             array('key' => 'value'),
-            Magento_Webapi_Controller_Response::MESSAGE_TYPE_SUCCESS
+            \Magento\Webapi\Controller\Response::MESSAGE_TYPE_SUCCESS
         );
         $this->assertTrue($this->_response->hasMessages(), 'New message is not added correctly.');
 
         /** Test message getting functionality. */
         $expectedMessage = array(
-            Magento_Webapi_Controller_Response::MESSAGE_TYPE_SUCCESS => array(
+            \Magento\Webapi\Controller\Response::MESSAGE_TYPE_SUCCESS => array(
                 array(
                     'key' => 'value',
                     'message' => 'Message text',
-                    'code' => Magento_Webapi_Controller_Response::HTTP_OK
+                    'code' => \Magento\Webapi\Controller\Response::HTTP_OK
                 )
             )
         );

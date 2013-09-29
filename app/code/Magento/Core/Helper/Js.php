@@ -11,7 +11,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Helper_Js extends Magento_Core_Helper_Abstract
+namespace Magento\Core\Helper;
+
+class Js extends \Magento\Core\Helper\AbstractHelper
 {
     /**
      * Array of sentences of JS translations
@@ -21,26 +23,26 @@ class Magento_Core_Helper_Js extends Magento_Core_Helper_Abstract
     protected $_translateData = null;
 
     /**
-     * @var Magento_Core_Model_View_Url
+     * @var \Magento\Core\Model\View\Url
      */
     protected $_viewUrl;
 
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_View_Url $viewUrl
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\View\Url $viewUrl
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Helper_Context $context,
-        Magento_Core_Model_View_Url $viewUrl
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\View\Url $viewUrl
     ) {
         $this->_coreData = $coreData;
         parent::__construct($context);

@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-$timer = new Magento_Profiler_Driver_Standard_Stat();
+$timer = new \Magento\Profiler\Driver\Standard\Stat();
 $timer->start('root', 0.01, 50000, 1000);
 
 $timer->start('root->init', 0.02, 55000, 1400);

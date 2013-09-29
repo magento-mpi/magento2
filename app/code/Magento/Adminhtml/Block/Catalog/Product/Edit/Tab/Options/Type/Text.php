@@ -16,8 +16,10 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Type_Text extends
-    Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Type_Abstract
+namespace Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Options\Type;
+
+class Text extends
+    \Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Options\Type\AbstractType
 {
     protected $_template = 'catalog/product/edit/options/type/text.phtml';
 }

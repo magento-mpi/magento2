@@ -8,14 +8,16 @@
  * @license     {license_link}
  */
 
+namespace Magento\Page\Block\Html\Head;
+
 /**
  * Asset block interface
  */
-interface Magento_Page_Block_Html_Head_AssetBlock
+interface AssetBlock
 {
     /**
      * Get block asset
-     * @return Magento_Core_Model_Page_Asset_AssetInterface
+     * @return \Magento\Core\Model\Page\Asset\AssetInterface
      */
     public function getAsset();
 }

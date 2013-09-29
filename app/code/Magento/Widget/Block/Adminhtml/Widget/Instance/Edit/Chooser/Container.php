@@ -13,31 +13,33 @@
  *
  * @method getTheme()
  * @method getArea()
- * @method Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Container setTheme($theme)
- * @method Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Container setArea($area)
+ * @method \Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Chooser\Container setTheme($theme)
+ * @method \Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Chooser\Container setArea($area)
  */
-class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Container extends Magento_Core_Block_Html_Select
+namespace Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Chooser;
+
+class Container extends \Magento\Core\Block\Html\Select
 {
     /**
-     * @var Magento_Core_Model_Layout_MergeFactory
+     * @var \Magento\Core\Model\Layout\MergeFactory
      */
     protected $_layoutMergeFactory;
 
     /**
-     * @var Magento_Core_Model_Resource_Theme_CollectionFactory
+     * @var \Magento\Core\Model\Resource\Theme\CollectionFactory
      */
     protected $_themesFactory;
 
     /**
-     * @param Magento_Core_Block_Context $context
-     * @param Magento_Core_Model_Layout_MergeFactory $layoutMergeFactory
-     * @param Magento_Core_Model_Resource_Theme_CollectionFactory $themesFactory
+     * @param \Magento\Core\Block\Context $context
+     * @param \Magento\Core\Model\Layout\MergeFactory $layoutMergeFactory
+     * @param \Magento\Core\Model\Resource\Theme\CollectionFactory $themesFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Block_Context $context,
-        Magento_Core_Model_Layout_MergeFactory $layoutMergeFactory,
-        Magento_Core_Model_Resource_Theme_CollectionFactory $themesFactory,
+        \Magento\Core\Block\Context $context,
+        \Magento\Core\Model\Layout\MergeFactory $layoutMergeFactory,
+        \Magento\Core\Model\Resource\Theme\CollectionFactory $themesFactory,
         array $data = array()
     ) {
         $this->_layoutMergeFactory = $layoutMergeFactory;
@@ -59,7 +61,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Container exte
     /**
      * Add necessary options
      *
-     * @return Magento_Core_Block_Abstract
+     * @return \Magento\Core\Block\AbstractBlock
      */
     protected function _beforeToHtml()
     {
@@ -67,7 +69,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Container exte
             $layoutMergeParams = array(
                 'theme' => $this->_getThemeInstance($this->getTheme()),
             );
-            /** @var $layoutMerge Magento_Core_Model_Layout_Merge */
+            /** @var $layoutMerge \Magento\Core\Model\Layout\Merge */
             $layoutMerge = $this->_layoutMergeFactory->create($layoutMergeParams);
             $layoutMerge->addPageHandles(array($this->getLayoutHandle()));
             $layoutMerge->load();
@@ -94,11 +96,11 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Container exte
      * Retrieve theme instance by its identifier
      *
      * @param int $themeId
-     * @return Magento_Core_Model_Theme|null
+     * @return \Magento\Core\Model\Theme|null
      */
     protected function _getThemeInstance($themeId)
     {
-        /** @var Magento_Core_Model_Resource_Theme_Collection $themeCollection */
+        /** @var \Magento\Core\Model\Resource\Theme\Collection $themeCollection */
         $themeCollection = $this->_themesFactory->create();
         return $themeCollection->getItemById($themeId);
     }

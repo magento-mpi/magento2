@@ -16,29 +16,31 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tab_Attributes
-    extends Magento_Adminhtml_Block_Catalog_Form
-    implements Magento_Backend_Block_Widget_Tab_Interface
+namespace Magento\Adminhtml\Block\Catalog\Product\Edit\Action\Attribute\Tab;
+
+class Attributes
+    extends \Magento\Adminhtml\Block\Catalog\Form
+    implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
-     * @var Magento_Catalog_Model_ProductFactory
+     * @var \Magento\Catalog\Model\ProductFactory
      */
     protected $_productFactory;
 
     /**
-     * @param Magento_Catalog_Model_ProductFactory $productFactory
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Catalog_Model_ProductFactory $productFactory,
-        Magento_Core_Model_Registry $registry,
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_productFactory = $productFactory;
@@ -67,7 +69,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tab_Attribut
             'object' => $this,
         ));
 
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
         $fieldset = $form->addFieldset('fields', array(
             'legend' => __('Attributes'),
@@ -90,7 +92,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tab_Attribut
      */
     public function getAttributes()
     {
-        return $this->helper('Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute')
+        return $this->helper('Magento\Adminhtml\Helper\Catalog\Product\Edit\Action\Attribute')
             ->getAttributes()->getItems();
     }
 
@@ -102,17 +104,17 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tab_Attribut
     protected function _getAdditionalElementTypes()
     {
         return array(
-            'price' => 'Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Price',
-            'weight' => 'Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Weight',
-            'image' => 'Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Image',
-            'boolean' => 'Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Boolean',
+            'price' => 'Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Price',
+            'weight' => 'Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Weight',
+            'image' => 'Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Image',
+            'boolean' => 'Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Boolean',
         );
     }
 
     /**
      * Custom additional element html
      *
-     * @param Magento_Data_Form_Element_Abstract $element
+     * @param \Magento\Data\Form\Element\AbstractElement $element
      * @return string
      */
     protected function _getAdditionalElementHtml($element)

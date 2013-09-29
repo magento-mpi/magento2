@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Index_Model_Config_XsdTest extends PHPUnit_Framework_TestCase
+namespace Magento\Index\Model\Config;
+
+class XsdTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Path to xsd file
@@ -14,14 +16,14 @@ class Magento_Index_Model_Config_XsdTest extends PHPUnit_Framework_TestCase
     protected $_xsdSchemaPath;
 
     /**
-     * @var Magento_TestFramework_Utility_XsdValidator
+     * @var \Magento\TestFramework\Utility\XsdValidator
      */
     protected $_xsdValidator;
 
     protected function setUp()
     {
         $this->_xsdSchemaPath = BP . '/app/code/Magento/Index/etc/';
-        $this->_xsdValidator = new Magento_TestFramework_Utility_XsdValidator();
+        $this->_xsdValidator = new \Magento\TestFramework\Utility\XsdValidator();
     }
 
     /**

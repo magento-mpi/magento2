@@ -9,18 +9,20 @@
  * @license     {license_link}
  */
 
+namespace Magento\Connect\Controller\Adminhtml\Extension;
+
 /**
- * Test Magento_Connect_Controller_Adminhtml_Extension_Local
+ * Test \Magento\Connect\Controller\Adminhtml\Extension\Local
  *
  * @magentoAppArea adminhtml
  */
-class Magento_Connect_Controller_Adminhtml_Extension_LocalTest extends Magento_Backend_Utility_Controller
+class LocalTest extends \Magento\Backend\Utility\Controller
 {
     public function testIndexAction()
     {
         $expected = '?return=' . urlencode(
-                Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-                    ->get('Magento_Backend_Helper_Data')->getHomePageUrl()
+                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                    ->get('Magento\Backend\Helper\Data')->getHomePageUrl()
             );
         $this->dispatch('backend/admin/extension_local/index');
         $this->assertRedirect($this->stringEndsWith($expected));

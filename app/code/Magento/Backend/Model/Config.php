@@ -17,7 +17,9 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Backend_Model_Config extends Magento_Object
+namespace Magento\Backend\Model;
+
+class Config extends \Magento\Object
 {
     /**
      * Config data for sections
@@ -29,84 +31,84 @@ class Magento_Backend_Model_Config extends Magento_Object
     /**
      * Event dispatcher
      *
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventManager;
 
     /**
      * System configuration structure
      *
-     * @var Magento_Backend_Model_Config_Structure
+     * @var \Magento\Backend\Model\Config\Structure
      */
     protected $_configStructure;
 
     /**
      * Application config
      *
-     * @var Magento_Core_Model_Config
+     * @var \Magento\Core\Model\Config
      */
     protected $_appConfig;
 
     /**
      * Global factory
      *
-     * @var Magento_Core_Model_Config
+     * @var \Magento\Core\Model\Config
      */
     protected $_objectFactory;
 
     /**
      * TransactionFactory
      *
-     * @var Magento_Core_Model_Resource_TransactionFactory
+     * @var \Magento\Core\Model\Resource\TransactionFactory
      */
     protected $_transactionFactory;
 
     /**
      * Global Application
      *
-     * @var Magento_Core_Model_App
+     * @var \Magento\Core\Model\App
      */
     protected $_application;
 
     /**
      * Config data loader
      *
-     * @var Magento_Backend_Model_Config_Loader
+     * @var \Magento\Backend\Model\Config\Loader
      */
     protected $_configLoader;
 
     /**
      * Config data factory
      *
-     * @var Magento_Core_Model_Config_ValueFactory
+     * @var \Magento\Core\Model\Config\ValueFactory
      */
     protected $_configValueFactory;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_Core_Model_App $application
-     * @param Magento_Core_Model_Config $config
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Backend_Model_Config_Structure $configStructure
-     * @param Magento_Core_Model_Resource_TransactionFactory $transactionFactory
-     * @param Magento_Backend_Model_Config_Loader $configLoader
-     * @param Magento_Core_Model_Config_ValueFactory $configValueFactory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\App $application
+     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Backend\Model\Config\Structure $configStructure
+     * @param \Magento\Core\Model\Resource\TransactionFactory $transactionFactory
+     * @param \Magento\Backend\Model\Config\Loader $configLoader
+     * @param \Magento\Core\Model\Config\ValueFactory $configValueFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_App $application,
-        Magento_Core_Model_Config $config,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Backend_Model_Config_Structure $configStructure,
-        Magento_Core_Model_Resource_TransactionFactory $transactionFactory,
-        Magento_Backend_Model_Config_Loader $configLoader,
-        Magento_Core_Model_Config_ValueFactory $configValueFactory,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
+        \Magento\Core\Model\App $application,
+        \Magento\Core\Model\Config $config,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Backend\Model\Config\Structure $configStructure,
+        \Magento\Core\Model\Resource\TransactionFactory $transactionFactory,
+        \Magento\Backend\Model\Config\Loader $configLoader,
+        \Magento\Core\Model\Config\ValueFactory $configValueFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         parent::__construct($data);
@@ -124,8 +126,8 @@ class Magento_Backend_Model_Config extends Magento_Object
      * Save config section
      * Require set: section, website, store and groups
      *
-     * @throws Exception
-     * @return Magento_Backend_Model_Config
+     * @throws \Exception
+     * @return \Magento\Backend\Model\Config
      */
     public function save()
     {
@@ -141,9 +143,9 @@ class Magento_Backend_Model_Config extends Magento_Object
         $oldConfig = $this->_getConfig(true);
 
         $deleteTransaction = $this->_transactionFactory->create();
-        /* @var $deleteTransaction Magento_Core_Model_Resource_Transaction */
+        /* @var $deleteTransaction \Magento\Core\Model\Resource\Transaction */
         $saveTransaction = $this->_transactionFactory->create();
-        /* @var $saveTransaction Magento_Core_Model_Resource_Transaction */
+        /* @var $saveTransaction \Magento\Core\Model\Resource\Transaction */
 
         // Extends for old config data
         $extraOldGroups = array();
@@ -168,7 +170,7 @@ class Magento_Backend_Model_Config extends Magento_Object
                 'website' => $this->getWebsite(),
                 'store' => $this->getStore()
             ));
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // re-init configuration
             $this->_eventManager->dispatch('application_process_reinit_config');
             $this->_storeManager->reinitStores();
@@ -187,8 +189,8 @@ class Magento_Backend_Model_Config extends Magento_Object
      * @param string $sectionPath
      * @param array $extraOldGroups
      * @param array $oldConfig
-     * @param Magento_Core_Model_Resource_Transaction $saveTransaction
-     * @param Magento_Core_Model_Resource_Transaction $deleteTransaction
+     * @param \Magento\Core\Model\Resource\Transaction $saveTransaction
+     * @param \Magento\Core\Model\Resource\Transaction $deleteTransaction
      */
     protected function _processGroup(
         $groupId,
@@ -197,8 +199,8 @@ class Magento_Backend_Model_Config extends Magento_Object
         $sectionPath,
         array &$extraOldGroups,
         array &$oldConfig,
-        Magento_Core_Model_Resource_Transaction $saveTransaction,
-        Magento_Core_Model_Resource_Transaction $deleteTransaction
+        \Magento\Core\Model\Resource\Transaction $saveTransaction,
+        \Magento\Core\Model\Resource\Transaction $deleteTransaction
     ) {
         $groupPath = $sectionPath . '/' . $groupId;
         $website = $this->getWebsite();
@@ -209,7 +211,7 @@ class Magento_Backend_Model_Config extends Magento_Object
          *
          * Map field names if they were cloned
          */
-        /** @var $group Magento_Backend_Model_Config_Structure_Element_Group */
+        /** @var $group \Magento\Backend\Model\Config\Structure\Element\Group */
         $group = $this->_configStructure->getElement($groupPath);
 
 
@@ -221,7 +223,7 @@ class Magento_Backend_Model_Config extends Magento_Object
                 $cloneModel = $group->getCloneModel();
                 $mappedFields = array();
 
-                /** @var $field Magento_Backend_Model_Config_Structure_Element_Field */
+                /** @var $field \Magento\Backend\Model\Config\Structure\Element\Field */
                 foreach ($group->getChildren() as $field) {
                     foreach ($cloneModel->getPrefixes() as $prefix) {
                         $mappedFields[$prefix['field'] . $field->getId()] = $field->getId();
@@ -238,10 +240,10 @@ class Magento_Backend_Model_Config extends Magento_Object
                 if ($group->shouldCloneFields() && isset($mappedFields[$fieldId])) {
                     $originalFieldId = $mappedFields[$fieldId];
                 }
-                /** @var $field Magento_Backend_Model_Config_Structure_Element_Field */
+                /** @var $field \Magento\Backend\Model\Config\Structure\Element\Field */
                 $field = $this->_configStructure->getElement($groupPath . '/' . $originalFieldId);
 
-                /** @var Magento_Core_Model_Config_Value $backendModel */
+                /** @var \Magento\Core\Model\Config\Value $backendModel */
                 $backendModel = $field->hasBackendModel() ?
                     $field->getBackendModel() :
                     $this->_configValueFactory->create();
@@ -405,11 +407,11 @@ class Magento_Backend_Model_Config extends Magento_Object
     /**
      * Set correct scope if isSingleStoreMode = true
      *
-     * @param Magento_Backend_Model_Config_Structure_Element_Field $fieldConfig
-     * @param Magento_Core_Model_Config_Value $dataObject
+     * @param \Magento\Backend\Model\Config\Structure\Element\Field $fieldConfig
+     * @param \Magento\Core\Model\Config\Value $dataObject
      */
     protected function _checkSingleStoreMode(
-        Magento_Backend_Model_Config_Structure_Element_Field $fieldConfig,
+        \Magento\Backend\Model\Config\Structure\Element\Field $fieldConfig,
         $dataObject
     ) {
         $isSingleStoreMode = $this->_application->isSingleStoreMode();
@@ -431,7 +433,7 @@ class Magento_Backend_Model_Config extends Magento_Object
      * @param string $path
      * @param null|bool $inherit
      * @param null|array $configData
-     * @return Magento_Simplexml_Element
+     * @return \Magento\Simplexml\Element
      */
     public function getConfigDataValue($path, &$inherit = null, $configData = null)
     {

@@ -16,7 +16,9 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Resource_Layer_Filter_Attribute extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Catalog\Model\Resource\Layer\Filter;
+
+class Attribute extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Initialize connection and define main table name
@@ -30,9 +32,9 @@ class Magento_Catalog_Model_Resource_Layer_Filter_Attribute extends Magento_Core
     /**
      * Apply attribute filter to product collection
      *
-     * @param Magento_Catalog_Model_Layer_Filter_Attribute $filter
+     * @param \Magento\Catalog\Model\Layer\Filter\Attribute $filter
      * @param int $value
-     * @return Magento_Catalog_Model_Resource_Layer_Filter_Attribute
+     * @return \Magento\Catalog\Model\Resource\Layer\Filter\Attribute
      */
     public function applyFilterToCollection($filter, $value)
     {
@@ -59,7 +61,7 @@ class Magento_Catalog_Model_Resource_Layer_Filter_Attribute extends Magento_Core
     /**
      * Retrieve array with products counts per attribute option
      *
-     * @param Magento_Catalog_Model_Layer_Filter_Attribute $filter
+     * @param \Magento\Catalog\Model\Layer\Filter\Attribute $filter
      * @return array
      */
     public function getCount($filter)
@@ -67,10 +69,10 @@ class Magento_Catalog_Model_Resource_Layer_Filter_Attribute extends Magento_Core
         // clone select from collection with filters
         $select = clone $filter->getLayer()->getProductCollection()->getSelect();
         // reset columns, order and limitation conditions
-        $select->reset(Zend_Db_Select::COLUMNS);
-        $select->reset(Zend_Db_Select::ORDER);
-        $select->reset(Zend_Db_Select::LIMIT_COUNT);
-        $select->reset(Zend_Db_Select::LIMIT_OFFSET);
+        $select->reset(\Zend_Db_Select::COLUMNS);
+        $select->reset(\Zend_Db_Select::ORDER);
+        $select->reset(\Zend_Db_Select::LIMIT_COUNT);
+        $select->reset(\Zend_Db_Select::LIMIT_OFFSET);
 
         $connection = $this->_getReadAdapter();
         $attribute  = $filter->getAttributeModel();
@@ -85,7 +87,7 @@ class Magento_Catalog_Model_Resource_Layer_Filter_Attribute extends Magento_Core
             ->join(
                 array($tableAlias => $this->getMainTable()),
                 join(' AND ', $conditions),
-                array('value', 'count' => new Zend_Db_Expr("COUNT({$tableAlias}.entity_id)")))
+                array('value', 'count' => new \Zend_Db_Expr("COUNT({$tableAlias}.entity_id)")))
             ->group("{$tableAlias}.value");
 
         return $connection->fetchPairs($select);

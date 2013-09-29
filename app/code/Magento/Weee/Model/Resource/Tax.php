@@ -16,7 +16,9 @@
  * @package     Magento_Weee
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Weee_Model_Resource_Tax extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Weee\Model\Resource;
+
+class Tax extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Resource initialization
@@ -30,7 +32,7 @@ class Magento_Weee_Model_Resource_Tax extends Magento_Core_Model_Resource_Db_Abs
     /**
      * Fetch one
      *
-     * @param Magento_DB_Select|string $select
+     * @param \Magento\DB\Select|string $select
      * @return string
      */
     public function fetchOne($select)
@@ -41,7 +43,7 @@ class Magento_Weee_Model_Resource_Tax extends Magento_Core_Model_Resource_Db_Abs
     /**
      * Fetch column
      *
-     * @param Magento_DB_Select|string $select
+     * @param \Magento\DB\Select|string $select
      * @return array
      */
     public function fetchCol($select)
@@ -52,7 +54,7 @@ class Magento_Weee_Model_Resource_Tax extends Magento_Core_Model_Resource_Db_Abs
     /**
      * Update discount percents
      *
-     * @return Magento_Weee_Model_Resource_Tax
+     * @return \Magento\Weee\Model\Resource\Tax
      */
     public function updateDiscountPercents()
     {
@@ -63,7 +65,7 @@ class Magento_Weee_Model_Resource_Tax extends Magento_Core_Model_Resource_Db_Abs
      * Update products discount persent
      *
      * @param mixed $condition
-     * @return Magento_Weee_Model_Resource_Tax
+     * @return \Magento\Weee\Model\Resource\Tax
      */
     public function updateProductsDiscountPercent($condition)
     {
@@ -74,11 +76,11 @@ class Magento_Weee_Model_Resource_Tax extends Magento_Core_Model_Resource_Db_Abs
      * Update tax percents for WEEE based on products condition
      *
      * @param mixed $productCondition
-     * @return Magento_Weee_Model_Resource_Tax
+     * @return \Magento\Weee\Model\Resource\Tax
      */
     protected function _updateDiscountPercents($productCondition = null)
     {
-        $now     = Magento_Date::toTimestamp(Magento_Date::now());
+        $now     = \Magento\Date::toTimestamp(\Magento\Date::now());
         $adapter = $this->_getWriteAdapter();
 
         $select  = $this->_getReadAdapter()->select();
@@ -86,10 +88,10 @@ class Magento_Weee_Model_Resource_Tax extends Magento_Core_Model_Resource_Db_Abs
 
         $deleteCondition = '';
         if ($productCondition) {
-            if ($productCondition instanceof Magento_Catalog_Model_Product) {
+            if ($productCondition instanceof \Magento\Catalog\Model\Product) {
                 $select->where('product_id = ?', (int)$productCondition->getId());
                 $deleteCondition = $adapter->quoteInto('entity_id=?', (int)$productCondition->getId());
-            } elseif ($productCondition instanceof Magento_Catalog_Model_Product_Condition_Interface) {
+            } elseif ($productCondition instanceof \Magento\Catalog\Model\Product\Condition\ConditionInterface) {
                 $productCondition = $productCondition->getIdsSelect($adapter)->__toString();
                 $select->where("product_id IN ({$productCondition})");
                 $deleteCondition = "entity_id IN ({$productCondition})";

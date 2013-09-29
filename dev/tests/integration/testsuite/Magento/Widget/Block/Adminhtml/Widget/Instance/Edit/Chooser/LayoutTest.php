@@ -10,13 +10,15 @@
  */
 
 
+namespace Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Chooser;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_LayoutTest extends PHPUnit_Framework_TestCase
+class LayoutTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Layout|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Chooser\Layout|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_block;
 
@@ -24,12 +26,12 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_LayoutTest ext
     {
         parent::setUp();
 
-        $layoutUtility = new Magento_Core_Utility_Layout($this);
+        $layoutUtility = new \Magento\Core\Utility\Layout($this);
         $args = array(
-            'context' => Mage::getSingleton('Magento_Core_Block_Template_Context'),
-            'layoutMergeFactory' => $this->getMock('Magento_Core_Model_Layout_MergeFactory',
+            'context' => \Mage::getSingleton('Magento\Core\Block\Template\Context'),
+            'layoutMergeFactory' => $this->getMock('Magento\Core\Model\Layout\MergeFactory',
                 array(), array(), '', false),
-            'themesFactory' => Mage::getSingleton('Magento_Core_Model_Resource_Theme_CollectionFactory'),
+            'themesFactory' => \Mage::getSingleton('Magento\Core\Model\Resource\Theme\CollectionFactory'),
             'data' => array(
                 'name'  => 'page_type',
                 'id'    => 'page_types_select',
@@ -38,7 +40,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_LayoutTest ext
             )
         );
         $this->_block = $this->getMock(
-            'Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Layout',
+            'Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Chooser\Layout',
             array('_getLayoutMerge'), $args
         );
         $this->_block

@@ -9,7 +9,9 @@
  */
 
 
-class Magento_Catalog_Model_Config_Source_ListMode implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Catalog\Model\Config\Source;
+
+class ListMode implements \Magento\Core\Model\Option\ArrayInterface
 {
     public function toOptionArray()
     {

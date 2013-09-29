@@ -15,22 +15,24 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Controller_Sales_Order_Shipment extends Magento_Adminhtml_Controller_Sales_Shipment_ShipmentAbstract
+namespace Magento\Adminhtml\Controller\Sales\Order;
+
+class Shipment extends \Magento\Adminhtml\Controller\Sales\Shipment\ShipmentAbstract
 {
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Backend_Controller_Context $context
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
-        Magento_Backend_Controller_Context $context,
-        Magento_Core_Model_Registry $coreRegistry
+        \Magento\Backend\Controller\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
@@ -53,7 +55,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Shipment extends Magento_Adminhtm
     /**
      * Initialize shipment model instance
      *
-     * @return Magento_Sales_Model_Order_Shipment|bool
+     * @return \Magento\Sales\Model\Order\Shipment|bool
      */
     protected function _initShipment()
     {
@@ -63,9 +65,9 @@ class Magento_Adminhtml_Controller_Sales_Order_Shipment extends Magento_Adminhtm
         $shipmentId = $this->getRequest()->getParam('shipment_id');
         $orderId = $this->getRequest()->getParam('order_id');
         if ($shipmentId) {
-            $shipment = $this->_objectManager->create('Magento_Sales_Model_Order_Shipment')->load($shipmentId);
+            $shipment = $this->_objectManager->create('Magento\Sales\Model\Order\Shipment')->load($shipmentId);
         } elseif ($orderId) {
-            $order      = $this->_objectManager->create('Magento_Sales_Model_Order')->load($orderId);
+            $order      = $this->_objectManager->create('Magento\Sales\Model\Order')->load($orderId);
 
             /**
              * Check order existing
@@ -89,16 +91,16 @@ class Magento_Adminhtml_Controller_Sales_Order_Shipment extends Magento_Adminhtm
                 return false;
             }
             $savedQtys = $this->_getItemQtys();
-            $shipment = $this->_objectManager->create('Magento_Sales_Model_Service_Order', array('order' => $order))
+            $shipment = $this->_objectManager->create('Magento\Sales\Model\Service\Order', array('order' => $order))
                 ->prepareShipment($savedQtys);
 
             $tracks = $this->getRequest()->getPost('tracking');
             if ($tracks) {
                 foreach ($tracks as $data) {
                     if (empty($data['number'])) {
-                        throw new Magento_Core_Exception(__('Please enter a tracking number.'));
+                        throw new \Magento\Core\Exception(__('Please enter a tracking number.'));
                     }
-                    $track = $this->_objectManager->create('Magento_Sales_Model_Order_Shipment_Track')
+                    $track = $this->_objectManager->create('Magento\Sales\Model\Order\Shipment\Track')
                         ->addData($data);
                     $shipment->addTrack($track);
                 }
@@ -112,13 +114,13 @@ class Magento_Adminhtml_Controller_Sales_Order_Shipment extends Magento_Adminhtm
     /**
      * Save shipment and order in one transaction
      *
-     * @param Magento_Sales_Model_Order_Shipment $shipment
-     * @return Magento_Adminhtml_Controller_Sales_Order_Shipment
+     * @param \Magento\Sales\Model\Order\Shipment $shipment
+     * @return \Magento\Adminhtml\Controller\Sales\Order\Shipment
      */
     protected function _saveShipment($shipment)
     {
         $shipment->getOrder()->setIsInProcess(true);
-        $transactionSave = $this->_objectManager->create('Magento_Core_Model_Resource_Transaction')
+        $transactionSave = $this->_objectManager->create('Magento\Core\Model\Resource\Transaction')
             ->addObject($shipment)
             ->addObject($shipment->getOrder())
             ->save();
@@ -164,7 +166,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Shipment extends Magento_Adminhtm
         if ($shipment) {
             $this->_title(__('New Shipment'));
 
-            $comment = $this->_objectManager->get('Magento_Adminhtml_Model_Session')->getCommentText(true);
+            $comment = $this->_objectManager->get('Magento\Adminhtml\Model\Session')->getCommentText(true);
             if ($comment) {
                 $shipment->setCommentText($comment);
             }
@@ -187,7 +189,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Shipment extends Magento_Adminhtm
     {
         $data = $this->getRequest()->getPost('shipment');
         if (!empty($data['comment_text'])) {
-            $this->_objectManager->get('Magento_Adminhtml_Model_Session')->setCommentText($data['comment_text']);
+            $this->_objectManager->get('Magento\Adminhtml\Model\Session')->setCommentText($data['comment_text']);
         }
 
         try {
@@ -215,7 +217,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Shipment extends Magento_Adminhtm
             }
 
             $shipment->getOrder()->setCustomerNoteNotify(!empty($data['send_email']));
-            $responseAjax = new Magento_Object();
+            $responseAjax = new \Magento\Object();
             $isNeedCreateLabel = isset($data['create_shipping_label']) && $data['create_shipping_label'];
 
             if ($isNeedCreateLabel && $this->_createShippingLabel($shipment)) {
@@ -231,8 +233,8 @@ class Magento_Adminhtml_Controller_Sales_Order_Shipment extends Magento_Adminhtm
 
             $this->_getSession()->addSuccess($isNeedCreateLabel ? $shipmentCreatedMessage . ' ' . $labelCreatedMessage
                 : $shipmentCreatedMessage);
-            $this->_objectManager->get('Magento_Adminhtml_Model_Session')->getCommentText(true);
-        } catch (Magento_Core_Exception $e) {
+            $this->_objectManager->get('Magento\Adminhtml\Model\Session')->getCommentText(true);
+        } catch (\Magento\Core\Exception $e) {
             if ($isNeedCreateLabel) {
                 $responseAjax->setError(true);
                 $responseAjax->setMessage($e->getMessage());
@@ -240,8 +242,8 @@ class Magento_Adminhtml_Controller_Sales_Order_Shipment extends Magento_Adminhtm
                 $this->_getSession()->addError($e->getMessage());
                 $this->_redirect('*/*/new', array('order_id' => $this->getRequest()->getParam('order_id')));
             }
-        } catch (Exception $e) {
-            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+        } catch (\Exception $e) {
+            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
             if ($isNeedCreateLabel) {
                 $responseAjax->setError(true);
                 $responseAjax->setMessage(
@@ -270,17 +272,17 @@ class Magento_Adminhtml_Controller_Sales_Order_Shipment extends Magento_Adminhtm
                 $shipment->sendEmail(true)
                     ->setEmailSent(true)
                     ->save();
-                $historyItem = $this->_objectManager->create('Magento_Sales_Model_Resource_Order_Status_History_Collection')
-                    ->getUnnotifiedForInstance($shipment, Magento_Sales_Model_Order_Shipment::HISTORY_ENTITY_NAME);
+                $historyItem = $this->_objectManager->create('Magento\Sales\Model\Resource\Order\Status\History\Collection')
+                    ->getUnnotifiedForInstance($shipment, \Magento\Sales\Model\Order\Shipment::HISTORY_ENTITY_NAME);
                 if ($historyItem) {
                     $historyItem->setIsCustomerNotified(1);
                     $historyItem->save();
                 }
                 $this->_getSession()->addSuccess(__('You sent the shipment.'));
             }
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_getSession()->addError(__('Cannot send shipment information.'));
         }
         $this->_redirect('*/*/view', array(
@@ -298,14 +300,14 @@ class Magento_Adminhtml_Controller_Sales_Order_Shipment extends Magento_Adminhtm
             $number  = $this->getRequest()->getPost('number');
             $title  = $this->getRequest()->getPost('title');
             if (empty($carrier)) {
-                throw new Magento_Core_Exception(__('Please specify a carrier.'));
+                throw new \Magento\Core\Exception(__('Please specify a carrier.'));
             }
             if (empty($number)) {
-                throw new Magento_Core_Exception(__('Please enter a tracking number.'));
+                throw new \Magento\Core\Exception(__('Please enter a tracking number.'));
             }
             $shipment = $this->_initShipment();
             if ($shipment) {
-                $track = $this->_objectManager->create('Magento_Sales_Model_Order_Shipment_Track')
+                $track = $this->_objectManager->create('Magento\Sales\Model\Order\Shipment\Track')
                     ->setNumber($number)
                     ->setCarrierCode($carrier)
                     ->setTitle($title);
@@ -320,19 +322,19 @@ class Magento_Adminhtml_Controller_Sales_Order_Shipment extends Magento_Adminhtm
                     'message'   => __('Cannot initialize shipment for adding tracking number.'),
                 );
             }
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $response = array(
                 'error'     => true,
                 'message'   => $e->getMessage(),
             );
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $response = array(
                 'error'     => true,
                 'message'   => __('Cannot add tracking number.'),
             );
         }
         if (is_array($response)) {
-            $response = $this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($response);
+            $response = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($response);
         }
         $this->getResponse()->setBody($response);
     }
@@ -343,7 +345,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Shipment extends Magento_Adminhtm
     public function removeTrackAction()
     {
         $trackId    = $this->getRequest()->getParam('track_id');
-        $track = $this->_objectManager->create('Magento_Sales_Model_Order_Shipment_Track')->load($trackId);
+        $track = $this->_objectManager->create('Magento\Sales\Model\Order\Shipment\Track')->load($trackId);
         if ($track->getId()) {
             try {
                 if ($this->_initShipment()) {
@@ -357,7 +359,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Shipment extends Magento_Adminhtm
                         'message'   => __('Cannot initialize shipment for delete tracking number.'),
                     );
                 }
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $response = array(
                     'error'     => true,
                     'message'   => __('Cannot delete tracking number.'),
@@ -370,7 +372,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Shipment extends Magento_Adminhtm
             );
         }
         if (is_array($response)) {
-            $response = $this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($response);
+            $response = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($response);
         }
         $this->getResponse()->setBody($response);
     }
@@ -381,11 +383,11 @@ class Magento_Adminhtml_Controller_Sales_Order_Shipment extends Magento_Adminhtm
     public function viewTrackAction()
     {
         $trackId    = $this->getRequest()->getParam('track_id');
-        $track = $this->_objectManager->create('Magento_Sales_Model_Order_Shipment_Track')->load($trackId);
+        $track = $this->_objectManager->create('Magento\Sales\Model\Order\Shipment\Track')->load($trackId);
         if ($track->getId()) {
             try {
                 $response = $track->getNumberDetail();
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $response = array(
                     'error'     => true,
                     'message'   => __('Cannot retrieve tracking number detail.'),
@@ -399,14 +401,14 @@ class Magento_Adminhtml_Controller_Sales_Order_Shipment extends Magento_Adminhtm
         }
 
         if (is_object($response)) {
-            $block = $this->_objectManager->create('Magento_Adminhtml_Block_Template');
+            $block = $this->_objectManager->create('Magento\Adminhtml\Block\Template');
             $block->setTemplate('sales/order/shipment/tracking/info.phtml');
             $block->setTrackingInfo($response);
 
             $this->getResponse()->setBody($block->toHtml());
         } else {
             if (is_array($response)) {
-                $response = $this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($response);
+                $response = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($response);
             }
 
             $this->getResponse()->setBody($response);
@@ -425,7 +427,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Shipment extends Magento_Adminhtm
             );
             $data = $this->getRequest()->getPost('comment');
             if (empty($data['comment'])) {
-                throw new Magento_Core_Exception(__("The comment text field cannot be empty."));
+                throw new \Magento\Core\Exception(__("The comment text field cannot be empty."));
             }
             $shipment = $this->_initShipment();
             $shipment->addComment(
@@ -438,18 +440,18 @@ class Magento_Adminhtml_Controller_Sales_Order_Shipment extends Magento_Adminhtm
 
             $this->loadLayout(false);
             $response = $this->getLayout()->getBlock('shipment_comments')->toHtml();
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $response = array(
                 'error'     => true,
                 'message'   => $e->getMessage()
             );
-            $response = $this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($response);
-        } catch (Exception $e) {
+            $response = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($response);
+        } catch (\Exception $e) {
             $response = array(
                 'error'     => true,
                 'message'   => __('Cannot add new comment.')
             );
-            $response = $this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($response);
+            $response = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($response);
         }
         $this->getResponse()->setBody($response);
     }
@@ -457,10 +459,10 @@ class Magento_Adminhtml_Controller_Sales_Order_Shipment extends Magento_Adminhtm
     /**
      * Create shipping label for specific shipment with validation.
      *
-     * @param Magento_Sales_Model_Order_Shipment $shipment
+     * @param \Magento\Sales\Model\Order\Shipment $shipment
      * @return bool
      */
-    protected function _createShippingLabel(Magento_Sales_Model_Order_Shipment $shipment)
+    protected function _createShippingLabel(\Magento\Sales\Model\Order\Shipment $shipment)
     {
         if (!$shipment) {
             return false;
@@ -470,9 +472,9 @@ class Magento_Adminhtml_Controller_Sales_Order_Shipment extends Magento_Adminhtm
             return false;
         }
         $shipment->setPackages($this->getRequest()->getParam('packages'));
-        $response = $this->_objectManager->create('Magento_Shipping_Model_Shipping')->requestToShipment($shipment);
+        $response = $this->_objectManager->create('Magento\Shipping\Model\Shipping')->requestToShipment($shipment);
         if ($response->hasErrors()) {
-            throw new Magento_Core_Exception($response->getErrors());
+            throw new \Magento\Core\Exception($response->getErrors());
         }
         if (!$response->hasInfo()) {
             return false;
@@ -489,11 +491,11 @@ class Magento_Adminhtml_Controller_Sales_Order_Shipment extends Magento_Adminhtm
         $outputPdf = $this->_combineLabelsPdf($labelsContent);
         $shipment->setShippingLabel($outputPdf->render());
         $carrierCode = $carrier->getCarrierCode();
-        $carrierTitle = $this->_objectManager->get('Magento_Core_Model_Store_Config')
+        $carrierTitle = $this->_objectManager->get('Magento\Core\Model\Store\Config')
             ->getConfig('carriers/'.$carrierCode.'/title', $shipment->getStoreId());
         if ($trackingNumbers) {
             foreach ($trackingNumbers as $trackingNumber) {
-                $track = $this->_objectManager->create('Magento_Sales_Model_Order_Shipment_Track')
+                $track = $this->_objectManager->create('Magento\Sales\Model\Order\Shipment\Track')
                         ->setNumber($trackingNumber)
                         ->setCarrierCode($carrierCode)
                         ->setTitle($carrierTitle);
@@ -509,7 +511,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Shipment extends Magento_Adminhtm
      */
     public function createLabelAction()
     {
-        $response = new Magento_Object();
+        $response = new \Magento\Object();
         try {
             $shipment = $this->_initShipment();
             if ($this->_createShippingLabel($shipment)) {
@@ -517,11 +519,11 @@ class Magento_Adminhtml_Controller_Sales_Order_Shipment extends Magento_Adminhtm
                 $this->_getSession()->addSuccess(__('You created the shipping label.'));
                 $response->setOk(true);
             }
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $response->setError(true);
             $response->setMessage($e->getMessage());
-        } catch (Exception $e) {
-            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+        } catch (\Exception $e) {
+            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
             $response->setError(true);
             $response->setMessage(__('An error occurred while creating shipping label.'));
         }
@@ -543,7 +545,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Shipment extends Magento_Adminhtm
                 if (stripos($labelContent, '%PDF-') !== false) {
                     $pdfContent = $labelContent;
                 } else {
-                    $pdf = new Zend_Pdf();
+                    $pdf = new \Zend_Pdf();
                     $page = $this->_createPdfPageFromImageString($labelContent);
                     if (!$page) {
                         $this->_getSession()
@@ -560,10 +562,10 @@ class Magento_Adminhtml_Controller_Sales_Order_Shipment extends Magento_Adminhtm
                     'application/pdf'
                 );
             }
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
-        } catch (Exception $e) {
-            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+        } catch (\Exception $e) {
+            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
             $this->_getSession()
                 ->addError(__('An error occurred while creating shipping label.'));
        }
@@ -582,9 +584,9 @@ class Magento_Adminhtml_Controller_Sales_Order_Shipment extends Magento_Adminhtm
         $shipment = $this->_initShipment();
 
         if ($shipment) {
-            $pdf = $this->_objectManager->create('Magento_Sales_Model_Order_Pdf_Shipment_Packaging')->getPdf($shipment);
+            $pdf = $this->_objectManager->create('Magento\Sales\Model\Order\Pdf\Shipment\Packaging')->getPdf($shipment);
             $this->_prepareDownloadResponse(
-                'packingslip' . $this->_objectManager->get('Magento_Core_Model_Date')->date('Y-m-d_H-i-s') . '.pdf',
+                'packingslip' . $this->_objectManager->get('Magento\Core\Model\Date')->date('Y-m-d_H-i-s') . '.pdf',
                 $pdf->render(),
                 'application/pdf'
             );
@@ -611,7 +613,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Shipment extends Magento_Adminhtm
                 $ids = $request->getParam('shipment_ids');
                 array_filter($ids, 'intval');
                 if (!empty($ids)) {
-                    $shipments = $this->_objectManager->create('Magento_Sales_Model_Resource_Order_Shipment_Collection')
+                    $shipments = $this->_objectManager->create('Magento\Sales\Model\Resource\Order\Shipment\Collection')
                         ->addFieldToFilter('entity_id', array('in' => $ids));
                 }
                 break;
@@ -619,7 +621,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Shipment extends Magento_Adminhtm
                 $ids = $request->getParam('order_ids');
                 array_filter($ids, 'intval');
                 if (!empty($ids)) {
-                    $shipments = $this->_objectManager->create('Magento_Sales_Model_Resource_Order_Shipment_Collection')
+                    $shipments = $this->_objectManager->create('Magento\Sales\Model\Resource\Order\Shipment\Collection')
                         ->setOrderFilter(array('in' => $ids));
                 }
                 break;
@@ -655,14 +657,14 @@ class Magento_Adminhtml_Controller_Sales_Order_Shipment extends Magento_Adminhtm
      * Combine array of labels as instance PDF
      *
      * @param array $labelsContent
-     * @return Zend_Pdf
+     * @return \Zend_Pdf
      */
     protected function _combineLabelsPdf(array $labelsContent)
     {
-        $outputPdf = new Zend_Pdf();
+        $outputPdf = new \Zend_Pdf();
         foreach ($labelsContent as $content) {
             if (stripos($content, '%PDF-') !== false) {
-                $pdfLabel = Zend_Pdf::parse($content);
+                $pdfLabel = \Zend_Pdf::parse($content);
                 foreach ($pdfLabel->pages as $page) {
                     $outputPdf->pages[] = clone $page;
                 }
@@ -677,17 +679,17 @@ class Magento_Adminhtml_Controller_Sales_Order_Shipment extends Magento_Adminhtm
     }
 
     /**
-     * Create Zend_Pdf_Page instance with image from $imageString. Supports JPEG, PNG, GIF, WBMP, and GD2 formats.
+     * Create \Zend_Pdf_Page instance with image from $imageString. Supports JPEG, PNG, GIF, WBMP, and GD2 formats.
      *
      * @param string $imageString
-     * @return Zend_Pdf_Page|bool
+     * @return \Zend_Pdf_Page|bool
      */
     protected function _createPdfPageFromImageString($imageString)
     {
-        /** @var Magento_Filesystem $filesystem */
-        $filesystem = $this->_objectManager->get('Magento_Filesystem');
-        /** @var $tmpDir Magento_Core_Model_Dir */
-        $tmpDir = $this->_objectManager->get('Magento_Core_Model_Dir', $filesystem->getWorkingDirectory());
+        /** @var \Magento\Filesystem $filesystem */
+        $filesystem = $this->_objectManager->get('Magento\Filesystem');
+        /** @var $tmpDir \Magento\Core\Model\Dir */
+        $tmpDir = $this->_objectManager->get('Magento\Core\Model\Dir', $filesystem->getWorkingDirectory());
         $image = imagecreatefromstring($imageString);
         if (!$image) {
             return false;
@@ -695,13 +697,13 @@ class Magento_Adminhtml_Controller_Sales_Order_Shipment extends Magento_Adminhtm
 
         $xSize = imagesx($image);
         $ySize = imagesy($image);
-        $page = new Zend_Pdf_Page($xSize, $ySize);
+        $page = new \Zend_Pdf_Page($xSize, $ySize);
 
         imageinterlace($image, 0);
-        $tmpFileName = $tmpDir->getDir(Magento_Core_Model_Dir::TMP) . 'shipping_labels_'
+        $tmpFileName = $tmpDir->getDir(\Magento\Core\Model\Dir::TMP) . 'shipping_labels_'
                      . uniqid(mt_rand()) . time() . '.png';
         imagepng($image, $tmpFileName);
-        $pdfImage = Zend_Pdf_Image::imageWithPath($tmpFileName);
+        $pdfImage = \Zend_Pdf_Image::imageWithPath($tmpFileName);
         $page->drawImage($pdfImage, 0, 0, $xSize, $ySize);
         $filesystem->delete($tmpFileName);
         return $page;
@@ -710,14 +712,14 @@ class Magento_Adminhtml_Controller_Sales_Order_Shipment extends Magento_Adminhtm
     /**
      * Return grid with shipping items for Ajax request
      *
-     * @return Magento_Core_Controller_Response_Http
+     * @return \Magento\Core\Controller\Response\Http
      */
     public function getShippingItemsGridAction()
     {
         $this->_initShipment();
         return $this->getResponse()->setBody(
             $this->getLayout()
-                ->createBlock('Magento_Adminhtml_Block_Sales_Order_Shipment_Packaging_Grid')
+                ->createBlock('Magento\Adminhtml\Block\Sales\Order\Shipment\Packaging\Grid')
                 ->setIndex($this->getRequest()->getParam('index'))
                 ->toHtml()
        );

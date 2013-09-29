@@ -11,19 +11,21 @@
 /**
  * Rule conditions container
  */
-class Magento_Reminder_Model_Rule_Condition_Wishlist_Combine
-    extends Magento_Reminder_Model_Condition_Combine_Abstract
+namespace Magento\Reminder\Model\Rule\Condition\Wishlist;
+
+class Combine
+    extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
 {
     /**
      * Initialize model
      *
-     * @param Magento_Rule_Model_Condition_Context $context
+     * @param \Magento\Rule\Model\Condition\Context $context
      * @param array $data
      */
-    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
+    public function __construct(\Magento\Rule\Model\Condition\Context $context, array $data = array())
     {
         parent::__construct($context, $data);
-        $this->setType('Magento_Reminder_Model_Rule_Condition_Wishlist_Combine');
+        $this->setType('Magento\Reminder\Model\Rule\Condition\Wishlist\Combine');
     }
 
     /**
@@ -36,12 +38,12 @@ class Magento_Reminder_Model_Rule_Condition_Wishlist_Combine
         return array_merge_recursive(
             parent::getNewChildSelectOptions(), array(
                 $this->_getRecursiveChildSelectOption(),
-                Mage::getModel("Magento_Reminder_Model_Rule_Condition_Wishlist_Sharing")
+                \Mage::getModel("Magento\Reminder\Model\Rule\Condition\Wishlist\Sharing")
                     ->getNewChildSelectOptions(),
-                Mage::getModel("Magento_Reminder_Model_Rule_Condition_Wishlist_Quantity")
+                \Mage::getModel("Magento\Reminder\Model\Rule\Condition\Wishlist\Quantity")
                     ->getNewChildSelectOptions(),
                 array( // subselection combo
-                    'value' => 'Magento_Reminder_Model_Rule_Condition_Wishlist_Subselection',
+                    'value' => 'Magento\Reminder\Model\Rule\Condition\Wishlist\Subselection',
                     'label' => __('Items Subselection')
                 )
             )

@@ -3,22 +3,24 @@
  * {license_notice}
  *
  * @category   Magento
- * @package    Magento_Object
+ * @package    \Magento\Object
  * @copyright  {copyright}
  * @license    {license_link}
  */
 
 
-class Magento_Object_Factory
+namespace Magento\Object;
+
+class Factory
 {
     /**
      * Create Magento object with provided params
      *
      * @param array $data
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function create(array $data = array())
     {
-        return new Magento_Object($data);
+        return new \Magento\Object($data);
     }
 }

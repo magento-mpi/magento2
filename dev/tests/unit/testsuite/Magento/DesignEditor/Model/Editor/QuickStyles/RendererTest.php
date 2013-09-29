@@ -12,21 +12,23 @@
 /**
  * Theme css file model class
  */
-class Magento_DesignEditor_Model_Editor_QuickStyles_RendererTest
-    extends PHPUnit_Framework_TestCase
+namespace Magento\DesignEditor\Model\Editor\QuickStyles;
+
+class RendererTest
+    extends \PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider sampleData
      */
     public function testRender($expectedResult, $data)
     {
-        /** @var $rendererModel Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Renderer */
+        /** @var $rendererModel \Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Renderer */
         $rendererModel = $this->getMock(
-            'Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Renderer', null, array(), '', false
+            'Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Renderer', null, array(), '', false
         );
 
         $objectManager = $this->getMock(
-            'Magento_Object', array('get', 'toCss'), array(), '', false
+            'Magento\Object', array('get', 'toCss'), array(), '', false
         );
 
         $objectManager->expects($this->exactly(4))
@@ -37,7 +39,7 @@ class Magento_DesignEditor_Model_Editor_QuickStyles_RendererTest
             ->method('toCss')
             ->will($this->returnValue('css_string'));
 
-        $property = new ReflectionProperty($rendererModel, '_quickStyleFactory');
+        $property = new \ReflectionProperty($rendererModel, '_quickStyleFactory');
         $property->setAccessible(true);
         $property->setValue($rendererModel, $objectManager);
 

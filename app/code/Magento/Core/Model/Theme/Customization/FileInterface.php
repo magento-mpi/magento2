@@ -11,7 +11,9 @@
 /**
  * Theme service file interface
  */
-interface Magento_Core_Model_Theme_Customization_FileInterface
+namespace Magento\Core\Model\Theme\Customization;
+
+interface FileInterface
 {
     /**
      * Get type of file
@@ -23,39 +25,39 @@ interface Magento_Core_Model_Theme_Customization_FileInterface
     /**
      * Gets absolute path to a custom file
      *
-     * @param Magento_Core_Model_Theme_FileInterface $file
+     * @param \Magento\Core\Model\Theme\FileInterface $file
      * @return string
      */
-    public function getFullPath(Magento_Core_Model_Theme_FileInterface $file);
+    public function getFullPath(\Magento\Core\Model\Theme\FileInterface $file);
 
     /**
      * Creates new custom file and binds to concrete service model
      *
-     * @return Magento_Core_Model_Theme_FileInterface
+     * @return \Magento\Core\Model\Theme\FileInterface
      */
     public function create();
 
     /**
      * Saves related data to custom file
      *
-     * @param Magento_Core_Model_Theme_FileInterface $file
+     * @param \Magento\Core\Model\Theme\FileInterface $file
      * @return $this
      */
-    public function save(Magento_Core_Model_Theme_FileInterface $file);
+    public function save(\Magento\Core\Model\Theme\FileInterface $file);
 
     /**
      * Deletes related data to custom file
      *
-     * @param Magento_Core_Model_Theme_FileInterface $file
+     * @param \Magento\Core\Model\Theme\FileInterface $file
      * @return $this
      */
-    public function delete(Magento_Core_Model_Theme_FileInterface $file);
+    public function delete(\Magento\Core\Model\Theme\FileInterface $file);
 
     /**
      * Prepare file content before it will be saved
      *
-     * @param Magento_Core_Model_Theme_FileInterface $file
+     * @param \Magento\Core\Model\Theme\FileInterface $file
      * @return $this
      */
-    public function prepareFile(Magento_Core_Model_Theme_FileInterface $file);
+    public function prepareFile(\Magento\Core\Model\Theme\FileInterface $file);
 }

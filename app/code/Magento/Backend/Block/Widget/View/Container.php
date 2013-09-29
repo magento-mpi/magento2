@@ -17,7 +17,9 @@
  * @deprecated is not used in code
  */
 
-class Magento_Backend_Block_Widget_View_Container extends Magento_Backend_Block_Widget_Container
+namespace Magento\Backend\Block\Widget\View;
+
+class Container extends \Magento\Backend\Block\Widget\Container
 {
     protected $_objectId = 'id';
 
@@ -47,9 +49,9 @@ class Magento_Backend_Block_Widget_View_Container extends Magento_Backend_Block_
     protected function _prepareLayout()
     {
         $blockName = $this->_blockGroup
-            . '_Block_'
-            . str_replace(' ', '_', ucwords(str_replace('_', ' ', $this->_controller)))
-            . '_View_Plane';
+            . '\\Block\\'
+            . str_replace(' ', '\\', ucwords(str_replace('\\', ' ', $this->_controller)))
+            . '\\View\\Plane';
 
         $this->setChild('plane', $this->getLayout()->createBlock($blockName));
 

@@ -15,27 +15,29 @@
  * @package     Magento_GiftWrapping
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GiftWrapping_Model_Observer
+namespace Magento\GiftWrapping\Model;
+
+class Observer
 {
     /**
      * Gift wrapping data
      *
-     * @var Magento_GiftWrapping_Helper_Data
+     * @var \Magento\GiftWrapping\Helper\Data
      */
     protected $_giftWrappingData = null;
 
     /**
-     * @var Magento_GiftWrapping_Model_WrappingFactory
+     * @var \Magento\GiftWrapping\Model\WrappingFactory
      */
     protected $_wrappingFactory;
 
     /**
-     * @param Magento_GiftWrapping_Helper_Data $giftWrappingData
-     * @param Magento_GiftWrapping_Model_WrappingFactory $wrappingFactory
+     * @param \Magento\GiftWrapping\Helper\Data $giftWrappingData
+     * @param \Magento\GiftWrapping\Model\WrappingFactory $wrappingFactory
      */
     public function __construct(
-        Magento_GiftWrapping_Helper_Data $giftWrappingData,
-        Magento_GiftWrapping_Model_WrappingFactory $wrappingFactory
+        \Magento\GiftWrapping\Helper\Data $giftWrappingData,
+        \Magento\GiftWrapping\Model\WrappingFactory $wrappingFactory
     ) {
         $this->_giftWrappingData = $giftWrappingData;
         $this->_wrappingFactory = $wrappingFactory;
@@ -46,7 +48,7 @@ class Magento_GiftWrapping_Model_Observer
      *
      * @param mixed $entity
      * @param array $data
-     * @return Magento_GiftWrapping_Model_Observer
+     * @return \Magento\GiftWrapping\Model\Observer
      */
     protected function _saveItemInfo($entity, $data)
     {
@@ -63,7 +65,7 @@ class Magento_GiftWrapping_Model_Observer
      *
      * @param mixed $entity
      * @param array $data
-     * @return Magento_GiftWrapping_Model_Observer
+     * @return \Magento\GiftWrapping\Model\Observer
      */
     protected function _saveOrderInfo($entity, $data)
     {
@@ -86,8 +88,8 @@ class Magento_GiftWrapping_Model_Observer
     /**
      * Process gift wrapping options on checkout proccess
      *
-     * @param Magento_Object $observer
-     * @return Magento_GiftWrapping_Model_Observer
+     * @param \Magento\Object $observer
+     * @return \Magento\GiftWrapping\Model\Observer
      */
     public function checkoutProcessWrappingInfo($observer)
     {
@@ -130,7 +132,7 @@ class Magento_GiftWrapping_Model_Observer
     /**
      * Process admin order creation
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
     public function processOrderCreationData($observer)
     {
@@ -158,9 +160,9 @@ class Magento_GiftWrapping_Model_Observer
     /**
      * Set the flag is it new collecting totals
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
-    public function quoteCollectTotalsBefore(Magento_Event_Observer $observer)
+    public function quoteCollectTotalsBefore(\Magento\Event\Observer $observer)
     {
         $quote = $observer->getEvent()->getQuote();
         $quote->setIsNewGiftWrappingCollecting(true);
@@ -170,17 +172,17 @@ class Magento_GiftWrapping_Model_Observer
     /**
      * Add gift wrapping items into PayPal checkout
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
-    public function addPaypalGiftWrappingItem(Magento_Event_Observer $observer)
+    public function addPaypalGiftWrappingItem(\Magento\Event\Observer $observer)
     {
-        /** @var Magento_Paypal_Model_Cart $paypalCart */
+        /** @var \Magento\Paypal\Model\Cart $paypalCart */
         $paypalCart = $observer->getEvent()->getPaypalCart();
         $totalWrapping = 0;
         $totalCard = 0;
         if ($paypalCart) {
             $salesEntity = $paypalCart->getSalesEntity();
-            if ($salesEntity instanceof Magento_Sales_Model_Order) {
+            if ($salesEntity instanceof \Magento\Sales\Model\Order) {
                 foreach ($salesEntity->getAllItems() as $_item) {
                     if (!$_item->getParentItem() && $_item->getGwId() && $_item->getGwBasePrice()) {
                         $totalWrapping += $_item->getGwBasePrice();
@@ -217,10 +219,10 @@ class Magento_GiftWrapping_Model_Observer
     /**
      * Set gift options available flag for items
      *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_GiftWrapping_Model_Observer
+     * @param \Magento\Event\Observer $observer
+     * @return \Magento\GiftWrapping\Model\Observer
      */
-    public function prepareGiftOptpionsItems(Magento_Event_Observer $observer)
+    public function prepareGiftOptpionsItems(\Magento\Event\Observer $observer)
     {
        $items = $observer->getEvent()->getItems();
        foreach ($items as $item) {
@@ -236,9 +238,9 @@ class Magento_GiftWrapping_Model_Observer
     /**
      * Clear gift wrapping and printed card if customer uses GoogleCheckout payment method
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
-    public function googlecheckoutCheckoutBefore(Magento_Event_Observer $observer)
+    public function googlecheckoutCheckoutBefore(\Magento\Event\Observer $observer)
     {
         $quote = $observer->getEvent()->getQuote();
         foreach ($quote->getAllItems() as $item) {
@@ -251,8 +253,8 @@ class Magento_GiftWrapping_Model_Observer
     /**
      * Import giftwrapping data from order to quote
      *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_GiftWrapping_Model_Observer
+     * @param \Magento\Event\Observer $observer
+     * @return \Magento\GiftWrapping\Model\Observer
      */
     public function salesEventOrderToQuote($observer)
     {
@@ -273,12 +275,12 @@ class Magento_GiftWrapping_Model_Observer
     /**
      * Import giftwrapping data from order item to quote item
      *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_GiftWrapping_Model_Observer
+     * @param \Magento\Event\Observer $observer
+     * @return \Magento\GiftWrapping\Model\Observer
      */
     public function salesEventOrderItemToQuoteItem($observer)
     {
-        // @var $orderItem Magento_Sales_Model_Order_Item
+        // @var $orderItem \Magento\Sales\Model\Order\Item
         $orderItem = $observer->getEvent()->getOrderItem();
         // Do not import giftwrapping data if order is reordered or GW is not available for items
         $order = $orderItem->getOrder();

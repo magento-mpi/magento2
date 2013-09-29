@@ -16,25 +16,27 @@
  * @package     Magento_TargetRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_TargetRule_Model_Resource_Setup extends Magento_Catalog_Model_Resource_Setup
+namespace Magento\TargetRule\Model\Resource;
+
+class Setup extends \Magento\Catalog\Model\Resource\Setup
 {
     /**
-     * @var Magento_Enterprise_Model_Resource_Setup_MigrationFactory
+     * @var \Magento\Enterprise\Model\Resource\Setup\MigrationFactory
      */
     protected $_migrationFactory;
 
     /**
-     * @param Magento_Enterprise_Model_Resource_Setup_MigrationFactory $migrationFactory
-     * @param Magento_Core_Model_CacheInterface $cache
-     * @param Magento_Core_Model_Resource_Setup_Context $context
+     * @param \Magento\Enterprise\Model\Resource\Setup\MigrationFactory $migrationFactory
+     * @param \Magento\Core\Model\CacheInterface $cache
+     * @param \Magento\Core\Model\Resource\Setup\Context $context
      * @param string $resourceName
      * @param string $moduleName
      * @param string $connectionName
      */
     public function __construct(
-        Magento_Core_Model_Resource_Setup_Context $context,
-        Magento_Core_Model_CacheInterface $cache,
-        Magento_Enterprise_Model_Resource_Setup_MigrationFactory $migrationFactory,
+        \Magento\Core\Model\Resource\Setup\Context $context,
+        \Magento\Core\Model\CacheInterface $cache,
+        \Magento\Enterprise\Model\Resource\Setup\MigrationFactory $migrationFactory,
         $resourceName,
         $moduleName = 'Magento_TargetRule',
         $connectionName = ''
@@ -48,7 +50,7 @@ class Magento_TargetRule_Model_Resource_Setup extends Magento_Catalog_Model_Reso
      * Create migration setup
      *
      * @param array $data
-     * @return Magento_Enterprise_Model_Resource_Setup_Migration
+     * @return \Magento\Enterprise\Model\Resource\Setup\Migration
      */
     public function createMigrationSetup(array $data = array())
     {

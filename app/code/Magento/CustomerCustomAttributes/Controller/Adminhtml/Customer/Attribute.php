@@ -11,51 +11,53 @@
 /**
  * Controller for Customer Attributes Management
  */
-class Magento_CustomerCustomAttributes_Controller_Adminhtml_Customer_Attribute
-    extends Magento_Adminhtml_Controller_Action
+namespace Magento\CustomerCustomAttributes\Controller\Adminhtml\Customer;
+
+class Attribute
+    extends \Magento\Adminhtml\Controller\Action
 {
     /**
      * Customer Address Entity Type instance
      *
-     * @var Magento_Eav_Model_Entity_Type
+     * @var \Magento\Eav\Model\Entity\Type
      */
     protected $_entityType;
 
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry;
 
     /**
-     * @var Magento_Eav_Model_Config
+     * @var \Magento\Eav\Model\Config
      */
     protected $_eavConfig;
 
     /**
-     * @var Magento_Customer_Model_AttributeFactory
+     * @var \Magento\Customer\Model\AttributeFactory
      */
     protected $_attrFactory;
 
     /**
-     * @var Magento_Eav_Model_Entity_Attribute_SetFactory
+     * @var \Magento\Eav\Model\Entity\Attribute\SetFactory
      */
     protected $_attrSetFactory;
 
     /**
-     * @param Magento_Backend_Controller_Context $context
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_Eav_Model_Config $eavConfig
-     * @param Magento_Customer_Model_AttributeFactory $attrFactory
-     * @param Magento_Eav_Model_Entity_Attribute_SetFactory $attrSetFactory
+     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Customer\Model\AttributeFactory $attrFactory
+     * @param \Magento\Eav\Model\Entity\Attribute\SetFactory $attrSetFactory
      */
     public function __construct(
-        Magento_Backend_Controller_Context $context,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_Eav_Model_Config $eavConfig,
-        Magento_Customer_Model_AttributeFactory $attrFactory,
-        Magento_Eav_Model_Entity_Attribute_SetFactory $attrSetFactory
+        \Magento\Backend\Controller\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Customer\Model\AttributeFactory $attrFactory,
+        \Magento\Eav\Model\Entity\Attribute\SetFactory $attrSetFactory
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_eavConfig = $eavConfig;
@@ -67,7 +69,7 @@ class Magento_CustomerCustomAttributes_Controller_Adminhtml_Customer_Attribute
     /**
      * Return Customer Address Entity Type instance
      *
-     * @return Magento_Eav_Model_Entity_Type
+     * @return \Magento\Eav\Model\Entity\Type
      */
     protected function _getEntityType()
     {
@@ -80,7 +82,7 @@ class Magento_CustomerCustomAttributes_Controller_Adminhtml_Customer_Attribute
     /**
      * Load layout, set breadcrumbs
      *
-     * @return Magento_CustomerCustomAttributes_Controller_Adminhtml_Customer_Attribute
+     * @return \Magento\CustomerCustomAttributes\Controller\Adminhtml\Customer\Attribute
      */
     protected function _initAction()
     {
@@ -98,11 +100,11 @@ class Magento_CustomerCustomAttributes_Controller_Adminhtml_Customer_Attribute
     /**
      * Retrieve customer attribute object
      *
-     * @return Magento_Customer_Model_Attribute
+     * @return \Magento\Customer\Model\Attribute
      */
     protected function _initAttribute()
     {
-        /** @var $attribute Magento_Customer_Model_Attribute */
+        /** @var $attribute \Magento\Customer\Model\Attribute */
         $attribute = $this->_attrFactory->create();
         $websiteId = $this->getRequest()->getParam('website');
         if ($websiteId) {
@@ -138,7 +140,7 @@ class Magento_CustomerCustomAttributes_Controller_Adminhtml_Customer_Attribute
      */
     public function editAction()
     {
-        /* @var $attributeObject Magento_Customer_Model_Attribute */
+        /* @var $attributeObject \Magento\Customer\Model\Attribute */
         $attributeId = $this->getRequest()->getParam('attribute_id');
         $attributeObject = $this->_initAttribute()
             ->setEntityTypeId($this->_getEntityType()->getId());
@@ -186,7 +188,7 @@ class Magento_CustomerCustomAttributes_Controller_Adminhtml_Customer_Attribute
      */
     public function validateAction()
     {
-        $response = new Magento_Object();
+        $response = new \Magento\Object();
         $response->setError(false);
         $attributeId        = $this->getRequest()->getParam('attribute_id');
         if (!$attributeId) {
@@ -198,7 +200,7 @@ class Magento_CustomerCustomAttributes_Controller_Adminhtml_Customer_Attribute
                     __('An attribute with this code already exists.')
                 );
 
-                $this->_initLayoutMessages('Magento_Adminhtml_Model_Session');
+                $this->_initLayoutMessages('Magento\Adminhtml\Model\Session');
                 $response->setError(true);
                 $response->setMessage($this->getLayout()->getMessagesBlock()->getGroupedHtml());
             }
@@ -214,7 +216,7 @@ class Magento_CustomerCustomAttributes_Controller_Adminhtml_Customer_Attribute
      */
     protected function _filterPostData($data)
     {
-        return $this->_objectManager->get('Magento_CustomerCustomAttributes_Helper_Customer')->filterPostData($data);
+        return $this->_objectManager->get('Magento\CustomerCustomAttributes\Helper\Customer')->filterPostData($data);
     }
 
     /**
@@ -225,15 +227,15 @@ class Magento_CustomerCustomAttributes_Controller_Adminhtml_Customer_Attribute
     {
         $data = $this->getRequest()->getPost();
         if ($this->getRequest()->isPost() && $data) {
-            /* @var $attributeObject Magento_Customer_Model_Attribute */
+            /* @var $attributeObject \Magento\Customer\Model\Attribute */
             $attributeObject = $this->_initAttribute();
-            /* @var $helper Magento_CustomerCustomAttributes_Helper_Data */
-            $helper = $this->_objectManager->get('Magento_CustomerCustomAttributes_Helper_Data');
+            /* @var $helper \Magento\CustomerCustomAttributes\Helper\Data */
+            $helper = $this->_objectManager->get('Magento\CustomerCustomAttributes\Helper\Data');
 
             //filtering
             try {
                 $data = $this->_filterPostData($data);
-            } catch (Magento_Core_Exception $e) {
+            } catch (\Magento\Core\Exception $e) {
                     $this->_getSession()->addError($e->getMessage());
                     if (isset($data['attribute_id'])) {
                         $this->_redirect('*/*/edit', array('_current' => true));
@@ -269,7 +271,7 @@ class Magento_CustomerCustomAttributes_Controller_Adminhtml_Customer_Attribute
 
                 // add set and group info
                 $data['attribute_set_id']   = $this->_getEntityType()->getDefaultAttributeSetId();
-                /** @var $attrSet Magento_Eav_Model_Entity_Attribute_Set */
+                /** @var $attrSet \Magento\Eav\Model\Entity\Attribute\Set */
                 $attrSet = $this->_attrSetFactory->create();
                 $data['attribute_group_id'] = $attrSet->getDefaultGroupId($data['attribute_set_id']);
             }
@@ -331,12 +333,12 @@ class Magento_CustomerCustomAttributes_Controller_Adminhtml_Customer_Attribute
                     $this->_redirect('*/*/');
                 }
                 return;
-            } catch (Magento_Core_Exception $e) {
+            } catch (\Magento\Core\Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
                 $this->_getSession()->setAttributeData($data);
                 $this->_redirect('*/*/edit', array('_current' => true));
                 return;
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->_getSession()->addException($e,
                     __('Something went wrong saving the customer attribute.')
                 );
@@ -378,11 +380,11 @@ class Magento_CustomerCustomAttributes_Controller_Adminhtml_Customer_Attribute
                 );
                 $this->_redirect('*/*/');
                 return;
-            } catch (Magento_Core_Exception $e) {
+            } catch (\Magento\Core\Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
                 $this->_redirect('*/*/edit', array('attribute_id' => $attributeId, '_current' => true));
                 return;
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->_getSession()->addException($e,
                     __('Something went wrong deleting the customer attribute.')
                 );

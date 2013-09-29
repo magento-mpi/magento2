@@ -6,8 +6,10 @@
  * @license     {license_link}
  */
 
-class Magento_Catalog_Model_Resource_Product_Type_Grouped_AssociatedProductsCollectionTest
-    extends PHPUnit_Framework_TestCase
+namespace Magento\Catalog\Model\Resource\Product\Type\Grouped;
+
+class AssociatedProductsCollectionTest
+    extends \PHPUnit_Framework_TestCase
 {
     /**
      * @magentoDataFixture Magento/Catalog/_files/product_grouped.php
@@ -15,17 +17,17 @@ class Magento_Catalog_Model_Resource_Product_Type_Grouped_AssociatedProductsColl
      */
     public function testGetColumnValues()
     {
-        /** @var $product Magento_Catalog_Model_Product */
-        $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Product');
+        /** @var $product \Magento\Catalog\Model\Product */
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $product->load(9);
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $objectManager->get('Magento_Core_Model_Registry')->register('current_product', $product);
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $objectManager->get('Magento\Core\Model\Registry')->register('current_product', $product);
 
-        /** @var Magento_Catalog_Model_Resource_Product_Type_Grouped_AssociatedProductsCollection $collection */
-        $collection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create(
-            'Magento_Catalog_Model_Resource_Product_Type_Grouped_AssociatedProductsCollection'
+        /** @var \Magento\Catalog\Model\Resource\Product\Type\Grouped\AssociatedProductsCollection $collection */
+        $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Catalog\Model\Resource\Product\Type\Grouped\AssociatedProductsCollection'
         );
 
         $this->assertEquals(array('simple-1', 'virtual-product'), $collection->getColumnValues('sku'));

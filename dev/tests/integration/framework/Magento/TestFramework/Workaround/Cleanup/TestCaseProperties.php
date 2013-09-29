@@ -12,19 +12,21 @@
 /**
  * Automatic cleanup of test case's properties, it isn't needed to unset properties manually in tearDown() anymore
  */
-class Magento_TestFramework_Workaround_Cleanup_TestCaseProperties
+namespace Magento\TestFramework\Workaround\Cleanup;
+
+class TestCaseProperties
 {
     /**
      * Clear test method properties after each test suite
      *
-     * @param  PHPUnit_Framework_TestSuite $suite
+     * @param  \PHPUnit_Framework_TestSuite $suite
      */
-    public function endTestSuite(PHPUnit_Framework_TestSuite $suite)
+    public function endTestSuite(\PHPUnit_Framework_TestSuite $suite)
     {
         $tests = $suite->tests();
 
         foreach ($tests as $test) {
-            $reflectionClass = new ReflectionClass($test);
+            $reflectionClass = new \ReflectionClass($test);
             $properties = $reflectionClass->getProperties();
             foreach ($properties as $property) {
                 $property->setAccessible(true);

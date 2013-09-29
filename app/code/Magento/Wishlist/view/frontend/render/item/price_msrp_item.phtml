@@ -13,22 +13,22 @@
 /**
  * Template for displaying product price at product view page, gift registry and wishlist
  *
- * @var $this Magento_Catalog_Block_Product_Price
+ * @var $this \Magento\Catalog\Block\Product\Price
  */
 ?>
 <?php
-    /** @var $_coreHelper Magento_Core_Helper_Data */
-    $_coreHelper = $this->helper('Magento_Core_Helper_Data');
-    /** @var $_catalogHelper Magento_Catalog_Helper_Data */
-    $_catalogHelper = $this->helper('Magento_Catalog_Helper_Data');
+    /** @var $_coreHelper \Magento\Core\Helper\Data */
+    $_coreHelper = $this->helper('Magento\Core\Helper\Data');
+    /** @var $_catalogHelper \Magento\Catalog\Helper\Data */
+    $_catalogHelper = $this->helper('Magento\Catalog\Helper\Data');
 
-    /** @var $_product Magento_Catalog_Model_Product */
+    /** @var $_product \Magento\Catalog\Model\Product */
     $_product = $this->getProduct();
     $_id = $_product->getId();
     $_msrpPrice = '';
 ?>
     <div class="price-box map-info">
-    <?php $_price = $this->helper('Magento_Tax_Helper_Data')->getPrice($_product, $_product->getMsrp()) ?>
+    <?php $_price = $this->helper('Magento\Tax\Helper\Data')->getPrice($_product, $_product->getMsrp()) ?>
         <?php if($_product->getMsrp()): ?>
             <?php $_msrpPrice = $_coreHelper->currency($_product->getMsrp(),true,true) ?>
             <span class="old-price" ><?php echo $_msrpPrice ?></span>
@@ -50,7 +50,7 @@
     (function ($) {
         head.js("<?php echo $this->getViewFileUrl('Magento_Catalog::js/msrp.js') ?>",
             function () {
-            <?php if ($this->helper('Magento_Catalog_Helper_Data')->isShowPriceOnGesture($_product)): ?>
+            <?php if ($this->helper('Magento\Catalog\Helper\Data')->isShowPriceOnGesture($_product)): ?>
                 $('#<?php echo($popupId);?>').addToCart({
                     cartForm: "#wishlist-view-form",
                     popupId: "#<?php echo($popupId);?>",

@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
-/** @var $product Magento_Catalog_Model_Product */
-$product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Catalog_Model_Product');
+/** @var $product \Magento\Catalog\Model\Product */
+$product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Catalog\Model\Product');
 
-$product->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE)
+$product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE)
     ->setId(10)
     ->setAttributeSetId(4)
     ->setName('Simple Product')
@@ -24,7 +24,7 @@ $product->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE)
     ->setShortDescription('short description')
     ->setOptionsContainer('container1')
     ->setMsrpDisplayActualPriceType(
-        Magento_Catalog_Model_Product_Attribute_Source_Msrp_Type::TYPE_IN_CART
+        \Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type::TYPE_IN_CART
     )
     ->setPrice(10)
     ->setWeight(1)
@@ -32,8 +32,8 @@ $product->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE)
     ->setMetaKeyword('meta keyword')
     ->setMetaDescription('meta description')
 
-    ->setVisibility(Magento_Catalog_Model_Product_Visibility::VISIBILITY_BOTH)
-    ->setStatus(Magento_Catalog_Model_Product_Status::STATUS_ENABLED)
+    ->setVisibility(\Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH)
+    ->setStatus(\Magento\Catalog\Model\Product\Status::STATUS_ENABLED)
     ->setWebsiteIds(array(1))
     ->setCateroryIds(array())
     ->setStockData(
@@ -47,9 +47,9 @@ $product->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE)
 
     ->save();
 
-$product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Catalog_Model_Product');
-$product->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE)
+$product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Catalog\Model\Product');
+$product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE)
     ->setId(11)
     ->setAttributeSetId(4)
     ->setName('Simple Product2')
@@ -61,18 +61,18 @@ $product->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE)
     ->setEnableGooglecheckout(false)
     ->setOptionsContainer('container1')
     ->setMsrpEnabled(
-        Magento_Catalog_Model_Product_Attribute_Source_Msrp_Type_Enabled::MSRP_ENABLE_YES
+        \Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type\Enabled::MSRP_ENABLE_YES
     )
     ->setMsrpDisplayActualPriceType(
-        Magento_Catalog_Model_Product_Attribute_Source_Msrp_Type::TYPE_ON_GESTURE
+        \Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type::TYPE_ON_GESTURE
     )
     ->setPrice(20)
     ->setWeight(1)
     ->setMetaTitle('meta title')
     ->setMetaKeyword('meta keyword')
     ->setMetaDescription('meta description')
-    ->setVisibility(Magento_Catalog_Model_Product_Visibility::VISIBILITY_IN_CATALOG)
-    ->setStatus(Magento_Catalog_Model_Product_Status::STATUS_ENABLED)
+    ->setVisibility(\Magento\Catalog\Model\Product\Visibility::VISIBILITY_IN_CATALOG)
+    ->setStatus(\Magento\Catalog\Model\Product\Status::STATUS_ENABLED)
     ->setWebsiteIds(array(1))
     ->setCateroryIds(array())
     ->setStockData(
@@ -86,9 +86,9 @@ $product->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE)
 
     ->save();
 
-$product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Catalog_Model_Product');
-$product->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE)
+$product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Catalog\Model\Product');
+$product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE)
     ->setId(12)
     ->setAttributeSetId(4)
     ->setName('Simple Product 3')
@@ -98,12 +98,12 @@ $product->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE)
     ->setDescription('description')
     ->setShortDescription('short description')
     ->setMsrpEnabled(
-        Magento_Catalog_Model_Product_Attribute_Source_Msrp_Type_Enabled::MSRP_ENABLE_NO
+        \Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type\Enabled::MSRP_ENABLE_NO
     )
     ->setPrice(30)
     ->setWeight(1)
-    ->setVisibility(Magento_Catalog_Model_Product_Visibility::VISIBILITY_IN_CATALOG)
-    ->setStatus(Magento_Catalog_Model_Product_Status::STATUS_DISABLED)
+    ->setVisibility(\Magento\Catalog\Model\Product\Visibility::VISIBILITY_IN_CATALOG)
+    ->setStatus(\Magento\Catalog\Model\Product\Status::STATUS_DISABLED)
     ->setWebsiteIds(array(1))
     ->setCateroryIds(array())
     ->setStockData(

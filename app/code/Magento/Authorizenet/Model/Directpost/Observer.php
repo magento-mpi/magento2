@@ -15,59 +15,61 @@
  * @package     Magento_Authorizenet
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Authorizenet_Model_Directpost_Observer
+namespace Magento\Authorizenet\Model\Directpost;
+
+class Observer
 {
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry;
     
     /**
      * Core helper
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData;
 
     /**
      * Authorizenet helper
      *
-     * @var Magento_Authorizenet_Helper_Data
+     * @var \Magento\Authorizenet\Helper\Data
      */
     protected $_authorizenetData;
 
     /**
-     * @var Magento_Authorizenet_Model_DirectpostFactory
+     * @var \Magento\Authorizenet\Model\DirectpostFactory
      */
     protected $_modelFactory;
 
     /**
-     * @var Magento_Authorizenet_Model_Directpost_Session
+     * @var \Magento\Authorizenet\Model\Directpost\Session
      */
     protected $_session;
 
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_Authorizenet_Helper_Data $authorizenetData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_Authorizenet_Model_DirectpostFactory $modelFactory
-     * @param Magento_Authorizenet_Model_Directpost_Session $session
-     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param \Magento\Authorizenet\Helper\Data $authorizenetData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Authorizenet\Model\DirectpostFactory $modelFactory
+     * @param \Magento\Authorizenet\Model\Directpost\Session $session
+     * @param \Magento\Core\Model\StoreManager $storeManager
      */
     public function __construct(
-        Magento_Authorizenet_Helper_Data $authorizenetData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_Authorizenet_Model_DirectpostFactory $modelFactory,
-        Magento_Authorizenet_Model_Directpost_Session $session,
-        Magento_Core_Model_StoreManager $storeManager
+        \Magento\Authorizenet\Helper\Data $authorizenetData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Authorizenet\Model\DirectpostFactory $modelFactory,
+        \Magento\Authorizenet\Model\Directpost\Session $session,
+        \Magento\Core\Model\StoreManager $storeManager
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_authorizenetData = $authorizenetData;
@@ -80,12 +82,12 @@ class Magento_Authorizenet_Model_Directpost_Observer
     /**
      * Save order into registry to use it in the overloaded controller.
      *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_Authorizenet_Model_Directpost_Observer
+     * @param \Magento\Event\Observer $observer
+     * @return \Magento\Authorizenet\Model\Directpost\Observer
      */
-    public function saveOrderAfterSubmit(Magento_Event_Observer $observer)
+    public function saveOrderAfterSubmit(\Magento\Event\Observer $observer)
     {
-        /* @var $order Magento_Sales_Model_Order */
+        /* @var $order \Magento\Sales\Model\Order */
         $order = $observer->getEvent()->getData('order');
         $this->_coreRegistry->register('directpost_order', $order, true);
 
@@ -95,22 +97,22 @@ class Magento_Authorizenet_Model_Directpost_Observer
     /**
      * Set data for response of frontend saveOrder action
      *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_Authorizenet_Model_Directpost_Observer
+     * @param \Magento\Event\Observer $observer
+     * @return \Magento\Authorizenet\Model\Directpost\Observer
      */
-    public function addAdditionalFieldsToResponseFrontend(Magento_Event_Observer $observer)
+    public function addAdditionalFieldsToResponseFrontend(\Magento\Event\Observer $observer)
     {
-        /* @var $order Magento_Sales_Model_Order */
+        /* @var $order \Magento\Sales\Model\Order */
         $order = $this->_coreRegistry->registry('directpost_order');
 
         if ($order && $order->getId()) {
             $payment = $order->getPayment();
             if ($payment && $payment->getMethod() == $this->_modelFactory->create()->getCode()) {
-                /* @var $controller Magento_Core_Controller_Varien_Action */
+                /* @var $controller \Magento\Core\Controller\Varien\Action */
                 $controller = $observer->getEvent()->getData('controller_action');
                 $result = $this->_coreData->jsonDecode(
                     $controller->getResponse()->getBody('default'),
-                    Zend_Json::TYPE_ARRAY
+                    \Zend_Json::TYPE_ARRAY
                 );
 
                 if (empty($result['error'])) {
@@ -137,12 +139,12 @@ class Magento_Authorizenet_Model_Directpost_Observer
      * Update all edit increments for all orders if module is enabled.
      * Needed for correct work of edit orders in Admin area.
      *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_Authorizenet_Model_Directpost_Observer
+     * @param \Magento\Event\Observer $observer
+     * @return \Magento\Authorizenet\Model\Directpost\Observer
      */
-    public function updateAllEditIncrements(Magento_Event_Observer $observer)
+    public function updateAllEditIncrements(\Magento\Event\Observer $observer)
     {
-         /* @var $order Magento_Sales_Model_Order */
+         /* @var $order \Magento\Sales\Model\Order */
         $order = $observer->getEvent()->getData('order');
         $this->_authorizenetData->updateOrderEditIncrements($order);
 

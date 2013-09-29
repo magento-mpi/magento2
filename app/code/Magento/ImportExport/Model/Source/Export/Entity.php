@@ -15,18 +15,20 @@
  * @package     Magento_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_ImportExport_Model_Source_Export_Entity implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\ImportExport\Model\Source\Export;
+
+class Entity implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
-     * @var Magento_ImportExport_Model_Export_ConfigInterface
+     * @var \Magento\ImportExport\Model\Export\ConfigInterface
      */
     protected $_exportConfig;
 
     /**
-     * @param Magento_ImportExport_Model_Export_ConfigInterface $exportConfig
+     * @param \Magento\ImportExport\Model\Export\ConfigInterface $exportConfig
      */
     public function __construct(
-        Magento_ImportExport_Model_Export_ConfigInterface $exportConfig
+        \Magento\ImportExport\Model\Export\ConfigInterface $exportConfig
     ) {
         $this->_exportConfig = $exportConfig;
     }

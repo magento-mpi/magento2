@@ -15,43 +15,45 @@
  * @package     Magento_ScheduledImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_ScheduledImportExport_Helper_Data extends Magento_ImportExport_Helper_Data
+namespace Magento\ScheduledImportExport\Helper;
+
+class Data extends \Magento\ImportExport\Helper\Data
 {
     /**
      * Reward data
      *
-     * @var Magento_Reward_Helper_Data
+     * @var \Magento\Reward\Helper\Data
      */
     protected $_rewardData = null;
 
     /**
      * Customer balance data
      *
-     * @var Magento_CustomerBalance_Helper_Data
+     * @var \Magento\CustomerBalance\Helper\Data
      */
     protected $_customerBalanceData = null;
 
     /**
-     * @param Magento_CustomerBalance_Helper_Data $customerBalanceData
-     * @param Magento_Reward_Helper_Data $rewardData
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Helper_Http $coreHttp
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_Config $config
-     * @param Magento_File_Size $fileSize
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_Encryption $encryptor
+     * @param \Magento\CustomerBalance\Helper\Data $customerBalanceData
+     * @param \Magento\Reward\Helper\Data $rewardData
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Helper\Http $coreHttp
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\File\Size $fileSize
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\Encryption $encryptor
      */
     public function __construct(
-        Magento_CustomerBalance_Helper_Data $customerBalanceData,
-        Magento_Reward_Helper_Data $rewardData,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Helper_Http $coreHttp,
-        Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Config $config,
-        Magento_File_Size $fileSize,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_Encryption $encryptor
+        \Magento\CustomerBalance\Helper\Data $customerBalanceData,
+        \Magento\Reward\Helper\Data $rewardData,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Helper\Http $coreHttp,
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\Config $config,
+        \Magento\File\Size $fileSize,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\Encryption $encryptor
     ) {
         $this->_customerBalanceData = $customerBalanceData;
         $this->_rewardData = $rewardData;

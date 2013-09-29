@@ -8,36 +8,38 @@
  * @license     {license_link}
  */
 
+namespace Magento\Newsletter\Model;
+
 /**
  * Newsletter module observer
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Magento_Newsletter_Model_Observer
+class Observer
 {
     /**
      * Queue collection factory
      *
-     * @var Magento_Newsletter_Model_Resource_Queue_CollectionFactory
+     * @var \Magento\Newsletter\Model\Resource\Queue\CollectionFactory
      */
     protected $_queueCollectionFactory;
 
     /**
      * Subscriber factory
      *
-     * @var Magento_Newsletter_Model_SubscriberFactory
+     * @var \Magento\Newsletter\Model\SubscriberFactory
      */
     protected $_subscriberFactory;
 
     /**
      * Construct
      *
-     * @param Magento_Newsletter_Model_SubscriberFactory $subscriberFactory
-     * @param Magento_Newsletter_Model_Resource_Queue_CollectionFactory $queueCollectionFactory
+     * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
+     * @param \Magento\Newsletter\Model\Resource\Queue\CollectionFactory $queueCollectionFactory
      */
     public function __construct(
-        Magento_Newsletter_Model_SubscriberFactory $subscriberFactory,
-        Magento_Newsletter_Model_Resource_Queue_CollectionFactory $queueCollectionFactory
+        \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
+        \Magento\Newsletter\Model\Resource\Queue\CollectionFactory $queueCollectionFactory
     ) {
         $this->_subscriberFactory = $subscriberFactory;
         $this->_queueCollectionFactory = $queueCollectionFactory;
@@ -46,7 +48,7 @@ class Magento_Newsletter_Model_Observer
     public function subscribeCustomer($observer)
     {
         $customer = $observer->getEvent()->getCustomer();
-        if (($customer instanceof Magento_Customer_Model_Customer)) {
+        if (($customer instanceof \Magento\Customer\Model\Customer)) {
             $this->_subscriberFactory->create()->subscribeCustomer($customer);
         }
         return $this;
@@ -55,12 +57,12 @@ class Magento_Newsletter_Model_Observer
     /**
      * Customer delete handler
      *
-     * @param Magento_Object $observer
-     * @return Magento_Newsletter_Model_Observer
+     * @param \Magento\Object $observer
+     * @return \Magento\Newsletter\Model\Observer
      */
     public function customerDeleted($observer)
     {
-        /** @var Magento_Newsletter_Model_Subscriber $subscriber */
+        /** @var \Magento\Newsletter\Model\Subscriber $subscriber */
         $subscriber = $this->_subscriberFactory->create();
         $subscriber->loadByEmail($observer->getEvent()->getCustomer()->getEmail());
         if($subscriber->getId()) {
@@ -74,7 +76,7 @@ class Magento_Newsletter_Model_Observer
         $countOfQueue  = 3;
         $countOfSubscritions = 20;
 
-        /** @var Magento_Newsletter_Model_Resource_Queue_Collection $collection */
+        /** @var \Magento\Newsletter\Model\Resource\Queue\Collection $collection */
         $collection = $this->_queueCollectionFactory->create();
         $collection->setPageSize($countOfQueue)
             ->setCurPage(1)

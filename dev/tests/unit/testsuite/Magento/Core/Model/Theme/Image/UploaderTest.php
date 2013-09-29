@@ -12,43 +12,45 @@
 /**
  * Test for theme image uploader
  */
-class Magento_Core_Model_Theme_Image_UploaderTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Theme\Image;
+
+class UploaderTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Theme_Image_Uploader|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Model\Theme\Image\Uploader|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_helperMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_filesystemMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_transferAdapterMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_fileUploader;
 
     protected function setUp()
     {
-        $this->_filesystemMock = $this->getMock('Magento_Filesystem', array(), array(), '', false);
+        $this->_filesystemMock = $this->getMock('Magento\Filesystem', array(), array(), '', false);
         $this->_transferAdapterMock = $this->getMock('Zend_File_Transfer_Adapter_Http', array(), array(), '', false);
-        $this->_fileUploader = $this->getMock('Magento_File_Uploader', array(), array(), '', false);
+        $this->_fileUploader = $this->getMock('Magento\File\Uploader', array(), array(), '', false);
 
-        $uploaderFactory = $this->getMock('Magento_File_UploaderFactory', array('create'), array(), '', false);
+        $uploaderFactory = $this->getMock('Magento\File\UploaderFactory', array('create'), array(), '', false);
         $uploaderFactory->expects($this->any())->method('create')->will($this->returnValue($this->_fileUploader));
 
-        $this->_model = new Magento_Core_Model_Theme_Image_Uploader(
+        $this->_model = new \Magento\Core\Model\Theme\Image\Uploader(
             $this->_filesystemMock,
             $this->_transferAdapterMock,
             $uploaderFactory
@@ -63,14 +65,14 @@ class Magento_Core_Model_Theme_Image_UploaderTest extends PHPUnit_Framework_Test
     }
 
     /**
-     * @covers Magento_Core_Model_Theme_Image_Uploader::__construct
+     * @covers \Magento\Core\Model\Theme\Image\Uploader::__construct
      */
     public function testCunstructor()
     {
-        $this->assertNotEmpty(new Magento_Core_Model_Theme_Image_Uploader(
-            $this->getMock('Magento_Filesystem', array(), array(), '', false),
+        $this->assertNotEmpty(new \Magento\Core\Model\Theme\Image\Uploader(
+            $this->getMock('Magento\Filesystem', array(), array(), '', false),
             $this->getMock('Zend_File_Transfer_Adapter_Http', array(), array(), '', false),
-            $this->getMock('Magento_File_UploaderFactory', array('create'), array(), '', false)
+            $this->getMock('Magento\File\UploaderFactory', array('create'), array(), '', false)
         ));
     }
 
@@ -102,7 +104,7 @@ class Magento_Core_Model_Theme_Image_UploaderTest extends PHPUnit_Framework_Test
                 'checkAllowedExtension' => true,
                 'save'                  => true,
                 'result'                => false,
-                'exception'             => 'Magento_Core_Exception'
+                'exception'             => 'Magento\Core\Exception'
             ),
             array(
                 'isUploaded'            => true,
@@ -110,7 +112,7 @@ class Magento_Core_Model_Theme_Image_UploaderTest extends PHPUnit_Framework_Test
                 'checkAllowedExtension' => false,
                 'save'                  => true,
                 'result'                => false,
-                'exception'             => 'Magento_Core_Exception'
+                'exception'             => 'Magento\Core\Exception'
             ),
             array(
                 'isUploaded'            => true,
@@ -118,14 +120,14 @@ class Magento_Core_Model_Theme_Image_UploaderTest extends PHPUnit_Framework_Test
                 'checkAllowedExtension' => true,
                 'save'                  => false,
                 'result'                => false,
-                'exception'             => 'Magento_Core_Exception'
+                'exception'             => 'Magento\Core\Exception'
             ),
         );
     }
 
     /**
      * @dataProvider uploadDataProvider
-     * @covers Magento_Core_Model_Theme_Image_Uploader::uploadPreviewImage
+     * @covers \Magento\Core\Model\Theme\Image\Uploader::uploadPreviewImage
      */
     public function testUploadPreviewImage($isUploaded, $isValid, $checkExtension, $save, $result, $exception)
     {
@@ -145,8 +147,8 @@ class Magento_Core_Model_Theme_Image_UploaderTest extends PHPUnit_Framework_Test
             ->will($this->returnValue('test_filename'));
 
         $this->assertEquals(
-            Magento_Filesystem::fixSeparator($result),
-            Magento_Filesystem::fixSeparator($this->_model->uploadPreviewImage($testScope, '/tmp'))
+            \Magento\Filesystem::fixSeparator($result),
+            \Magento\Filesystem::fixSeparator($this->_model->uploadPreviewImage($testScope, '/tmp'))
         );
     }
 }

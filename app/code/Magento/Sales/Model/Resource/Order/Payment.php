@@ -11,7 +11,9 @@
 /**
  * Flat sales order payment resource
  */
-class Magento_Sales_Model_Resource_Order_Payment extends Magento_Sales_Model_Resource_Order_Abstract
+namespace Magento\Sales\Model\Resource\Order;
+
+class Payment extends \Magento\Sales\Model\Resource\Order\AbstractOrder
 {
     /**
      * Serializeable field: additional_information
@@ -30,21 +32,21 @@ class Magento_Sales_Model_Resource_Order_Payment extends Magento_Sales_Model_Res
     protected $_eventPrefix          = 'sales_order_payment_resource';
 
     /**
-     * @var Magento_Sales_Model_Payment_Method_Converter
+     * @var \Magento\Sales\Model\Payment\Method\Converter
      */
     protected $_paymentConverter;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Eav_Model_Entity_TypeFactory $eavEntityTypeFactory
-     * @param Magento_Sales_Model_Payment_Method_Converter $paymentConverter
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Eav\Model\Entity\TypeFactory $eavEntityTypeFactory
+     * @param \Magento\Sales\Model\Payment\Method\Converter $paymentConverter
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Resource $resource,
-        Magento_Eav_Model_Entity_TypeFactory $eavEntityTypeFactory,
-        Magento_Sales_Model_Payment_Method_Converter $paymentConverter
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Eav\Model\Entity\TypeFactory $eavEntityTypeFactory,
+        \Magento\Sales\Model\Payment\Method\Converter $paymentConverter
     ) {
         $this->_paymentConverter = $paymentConverter;
         parent::__construct($eventManager, $resource, $eavEntityTypeFactory);

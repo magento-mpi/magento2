@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/* @var $installer Magento_Core_Model_Resource_Setup */
+/* @var $installer \Magento\Core\Model\Resource\Setup */
 $installer = $this;
 
 $installer->startSetup();
@@ -16,7 +16,7 @@ $connection = $installer->getConnection();
 $table = $installer->getTable('widget_instance');
 
 $connection->changeColumn($table, 'package_theme', 'theme_id', array(
-    'type'     => Magento_DB_Ddl_Table::TYPE_INTEGER,
+    'type'     => \Magento\DB\Ddl\Table::TYPE_INTEGER,
     'unsigned' => true,
     'nullable' => false,
     'comment'  => 'Theme id'
@@ -28,8 +28,8 @@ $connection->addForeignKey(
     'theme_id',
     $installer->getTable('core_theme'),
     'theme_id',
-    Magento_DB_Ddl_Table::ACTION_CASCADE,
-    Magento_DB_Ddl_Table::ACTION_CASCADE
+    \Magento\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
 );
 
 $installer->endSetup();

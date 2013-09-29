@@ -12,7 +12,9 @@
  * Controller exception that can fork different actions, cause forward or redirect
  *
  */
-class Magento_Core_Controller_Varien_Exception extends Exception
+namespace Magento\Core\Controller\Varien;
+
+class Exception extends \Exception
 {
     const RESULT_FORWARD  = '_forward';
     const RESULT_REDIRECT = '_redirect';
@@ -29,7 +31,7 @@ class Magento_Core_Controller_Varien_Exception extends Exception
      * @param string $controllerName
      * @param string $moduleName
      * @param array $params
-     * @return Magento_Core_Controller_Varien_Exception
+     * @return \Magento\Core\Controller\Varien\Exception
      */
     public function prepareForward($actionName = null, $controllerName = null, $moduleName = null, array $params = array())
     {
@@ -45,7 +47,7 @@ class Magento_Core_Controller_Varien_Exception extends Exception
      * Prepare data for running a custom action
      *
      * @param string $actionName
-     * @return Magento_Core_Controller_Varien_Exception
+     * @return \Magento\Core\Controller\Varien\Exception
      */
     public function prepareFork($actionName = null)
     {
@@ -62,7 +64,7 @@ class Magento_Core_Controller_Varien_Exception extends Exception
      * @param string $action
      * @param string $flag
      * @param bool $value
-     * @return Magento_Core_Controller_Varien_Exception
+     * @return \Magento\Core\Controller\Varien\Exception
      */
     public function prepareFlag($action, $flag, $value)
     {

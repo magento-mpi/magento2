@@ -31,7 +31,9 @@
  * @package    Magento_Core
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_File_Validator_AvailablePath extends Zend_Validate_Abstract
+namespace Magento\Core\Model\File\Validator;
+
+class AvailablePath extends \Zend_Validate_Abstract
 {
     const PROTECTED_PATH     = 'protectedPath';
     const NOT_AVAILABLE_PATH = 'notAvailablePath';
@@ -195,7 +197,7 @@ class Magento_Core_Model_File_Validator_AvailablePath extends Zend_Validate_Abst
      * getMessages() will return an array of messages that explain why the
      * validation failed.
      *
-     * @throws Exception        Throw exception on empty both paths masks types
+     * @throws \Exception        Throw exception on empty both paths masks types
      * @param string $value     File/dir path
      * @return bool
      */
@@ -205,7 +207,7 @@ class Magento_Core_Model_File_Validator_AvailablePath extends Zend_Validate_Abst
         $this->_setValue($value);
 
         if (!$this->_availablePaths && !$this->_protectedPaths) {
-            throw new Exception(__('Please set available and/or protected paths list(s) before validation.'));
+            throw new \Exception(__('Please set available and/or protected paths list(s) before validation.'));
         }
 
         if (preg_match('#\.\.[\\\/]#', $this->_value)) {

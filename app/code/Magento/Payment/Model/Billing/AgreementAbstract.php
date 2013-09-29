@@ -13,12 +13,14 @@
  *
  * @author Magento Core Team <core@magentocommerce.com>
  */
-abstract class Magento_Payment_Model_Billing_AgreementAbstract extends Magento_Core_Model_Abstract
+namespace Magento\Payment\Model\Billing;
+
+abstract class AgreementAbstract extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Payment method instance
      *
-     * @var Magento_Payment_Model_Method_Abstract
+     * @var \Magento\Payment\Model\Method\AbstractMethod
      */
     protected $_paymentMethodInstance = null;
 
@@ -56,24 +58,24 @@ abstract class Magento_Payment_Model_Billing_AgreementAbstract extends Magento_C
     /**
      * Payment data
      *
-     * @var Magento_Payment_Helper_Data
+     * @var \Magento\Payment\Helper\Data
      */
     protected $_paymentData = null;
 
     /**
-     * @param Magento_Payment_Helper_Data $paymentData
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Payment\Helper\Data $paymentData
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Payment_Helper_Data $paymentData,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Payment\Helper\Data $paymentData,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_paymentData = $paymentData;
@@ -83,7 +85,7 @@ abstract class Magento_Payment_Model_Billing_AgreementAbstract extends Magento_C
     /**
      * Retreive payment method instance
      *
-     * @return Magento_Payment_Model_Method_Abstract
+     * @return \Magento\Payment\Model\Method\AbstractMethod
      */
     public function getPaymentMethodInstance()
     {
@@ -116,8 +118,8 @@ abstract class Magento_Payment_Model_Billing_AgreementAbstract extends Magento_C
     /**
      * Before save, it's overriden just to make data validation on before save event
      *
-     * @throws Magento_Core_Exception
-     * @return Magento_Core_Model_Abstract
+     * @throws \Magento\Core\Exception
+     * @return \Magento\Core\Model\AbstractModel
      */
     protected function _beforeSave()
     {
@@ -125,6 +127,6 @@ abstract class Magento_Payment_Model_Billing_AgreementAbstract extends Magento_C
             return parent::_beforeSave();
         }
         array_unshift($this->_errors, __('Unable to save Billing Agreement:'));
-        throw new Magento_Core_Exception(implode(' ', $this->_errors));
+        throw new \Magento\Core\Exception(implode(' ', $this->_errors));
     }
 }

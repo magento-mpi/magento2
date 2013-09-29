@@ -16,14 +16,16 @@
  * @package     Magento_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reports_Model_Resource_Customer_Totals_Collection extends Magento_Reports_Model_Resource_Order_Collection
+namespace Magento\Reports\Model\Resource\Customer\Totals;
+
+class Collection extends \Magento\Reports\Model\Resource\Order\Collection
 {
     /**
      * Join fields
      *
      * @param string $fromDate
      * @param string $toDate
-     * @return Magento_Reports_Model_Resource_Customer_Totals_Collection
+     * @return \Magento\Reports\Model\Resource\Customer\Totals\Collection
      */
     protected function _joinFields($fromDate = '', $toDate = '')
     {
@@ -39,7 +41,7 @@ class Magento_Reports_Model_Resource_Customer_Totals_Collection extends Magento_
      *
      * @param string $fromDate
      * @param string $toDate
-     * @return Magento_Reports_Model_Resource_Customer_Totals_Collection
+     * @return \Magento\Reports\Model\Resource\Customer\Totals\Collection
      */
     public function setDateRange($fromDate, $toDate)
     {
@@ -52,7 +54,7 @@ class Magento_Reports_Model_Resource_Customer_Totals_Collection extends Magento_
      * Set store filter collection
      *
      * @param array $storeIds
-     * @return Magento_Reports_Model_Resource_Customer_Totals_Collection
+     * @return \Magento\Reports\Model\Resource\Customer\Totals\Collection
      */
     public function setStoreIds($storeIds)
     {

@@ -8,8 +8,8 @@
  * @license     {license_link}
  */
 /**
- * @var $this Magento_Tax_Block_Checkout_Shipping
- * @see Magento_Tax_Block_Checkout_Shipping
+ * @var $this \Magento\Tax\Block\Checkout\Shipping
+ * @see \Magento\Tax\Block\Checkout\Shipping
  */
 ?>
 <?php if ($this->displayBoth()):?>
@@ -18,7 +18,7 @@
         <?php echo $this->getExcludeTaxLabel() ?>
     </td>
     <td style="<?php echo $this->getStyle() ?>" class="a-right">
-        <?php echo $this->helper('Magento_Checkout_Helper_Data')->formatPrice($this->getShippingExcludeTax()) ?>
+        <?php echo $this->helper('Magento\Checkout\Helper\Data')->formatPrice($this->getShippingExcludeTax()) ?>
     </td>
 </tr>
 <tr>
@@ -26,7 +26,7 @@
         <?php echo $this->getIncludeTaxLabel() ?>
     </td>
     <td style="<?php echo $this->getStyle() ?>" class="a-right">
-        <?php echo $this->helper('Magento_Checkout_Helper_Data')->formatPrice($this->getShippingIncludeTax()) ?>
+        <?php echo $this->helper('Magento\Checkout\Helper\Data')->formatPrice($this->getShippingIncludeTax()) ?>
     </td>
 </tr>
 <?php elseif($this->displayIncludeTax()) : ?>
@@ -35,7 +35,7 @@
         <?php echo $this->getTotal()->getTitle() ?>
     </td>
     <td style="<?php echo $this->getStyle() ?>" class="a-right">
-        <?php echo $this->helper('Magento_Checkout_Helper_Data')->formatPrice($this->getShippingIncludeTax()) ?>
+        <?php echo $this->helper('Magento\Checkout\Helper\Data')->formatPrice($this->getShippingIncludeTax()) ?>
     </td>
 </tr>
 <?php else:?>
@@ -44,7 +44,7 @@
         <?php echo $this->escapeHtml($this->getTotal()->getTitle()) ?>
     </td>
     <td style="<?php echo $this->getStyle() ?>" class="a-right">
-        <?php echo $this->helper('Magento_Checkout_Helper_Data')->formatPrice($this->getShippingExcludeTax()) ?>
+        <?php echo $this->helper('Magento\Checkout\Helper\Data')->formatPrice($this->getShippingExcludeTax()) ?>
     </td>
 </tr>
 <?php endif;?>

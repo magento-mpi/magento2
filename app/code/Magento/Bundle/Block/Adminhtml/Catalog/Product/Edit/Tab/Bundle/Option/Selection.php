@@ -15,51 +15,53 @@
  * @package     Magento_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Selection
-    extends Magento_Backend_Block_Widget
+namespace Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle\Option;
+
+class Selection
+    extends \Magento\Backend\Block\Widget
 {
     protected $_template = 'product/edit/bundle/option/selection.phtml';
 
     /**
      * Catalog data
      *
-     * @var Magento_Catalog_Helper_Data
+     * @var \Magento\Catalog\Helper\Data
      */
     protected $_catalogData = null;
 
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @var Magento_Bundle_Model_Source_Option_Selection_Price_Type
+     * @var \Magento\Bundle\Model\Source\Option\Selection\Price\Type
      */
     protected $_priceType;
 
     /**
-     * @var Magento_Backend_Model_Config_Source_Yesno
+     * @var \Magento\Backend\Model\Config\Source\Yesno
      */
     protected $_yesno;
 
     /**
-     * @param Magento_Backend_Model_Config_Source_Yesno $yesno
-     * @param Magento_Bundle_Model_Source_Option_Selection_Price_Type $priceType
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Backend\Model\Config\Source\Yesno $yesno
+     * @param \Magento\Bundle\Model\Source\Option\Selection\Price\Type $priceType
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Model_Config_Source_Yesno $yesno,
-        Magento_Bundle_Model_Source_Option_Selection_Price_Type $priceType,
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Backend\Model\Config\Source\Yesno $yesno,
+        \Magento\Bundle\Model\Source\Option\Selection\Price\Type $priceType,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_catalogData = $catalogData;
@@ -102,11 +104,11 @@ class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Sele
     /**
      * Prepare block layout
      *
-     * @return Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Selection
+     * @return \Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle_Option_Selection
      */
     protected function _prepareLayout()
     {
-        $this->addChild('selection_delete_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('selection_delete_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label' => __('Delete'),
             'class' => 'delete icon-btn',
             'on_click' => 'bSelection.remove(event)'
@@ -131,7 +133,7 @@ class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Sele
      */
     public function getPriceTypeSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Html_Select')
+        $select = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Html\Select')
             ->setData(array(
                 'id'    => $this->getFieldId() . '_{{index}}_price_type',
                 'class' => 'select select-product-option-type required-option-select'
@@ -151,7 +153,7 @@ class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Sele
      */
     public function getQtyTypeSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Html_Select')
+        $select = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Html\Select')
             ->setData(array(
                 'id' => $this->getFieldId().'_{{index}}_can_change_qty',
                 'class' => 'select'

@@ -12,19 +12,21 @@
 /**
  * Builds path for files deployed into public directory in advance
  */
-class Magento_Core_Model_View_DeployedFilesManager implements Magento_Core_Model_View_PublicFilesManagerInterface
+namespace Magento\Core\Model\View;
+
+class DeployedFilesManager implements \Magento\Core\Model\View\PublicFilesManagerInterface
 {
     /**
-     * @var Magento_Core_Model_View_Service
+     * @var \Magento\Core\Model\View\Service
      */
     protected $_viewService;
 
     /**
      * Deployed view files manager
      *
-     * @param Magento_Core_Model_View_Service $viewService
+     * @param \Magento\Core\Model\View\Service $viewService
      */
-    public function __construct(Magento_Core_Model_View_Service $viewService)
+    public function __construct(\Magento\Core\Model\View\Service $viewService)
     {
         $this->_viewService = $viewService;
     }
@@ -65,7 +67,7 @@ class Magento_Core_Model_View_DeployedFilesManager implements Magento_Core_Model
      */
     protected function _getDeployedFilePath($filePath, $params)
     {
-        /** @var $themeModel Magento_Core_Model_Theme */
+        /** @var $themeModel \Magento\Core\Model\Theme */
         $themeModel = $params['themeModel'];
         $themePath = $themeModel->getThemePath();
         while (empty($themePath) && $themeModel) {

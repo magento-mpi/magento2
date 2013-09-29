@@ -14,17 +14,19 @@
  * Collects only items segregated by isNominal property
  * Aggregates row totals per item
  */
-class Magento_Sales_Model_Quote_Address_Total_Nominal extends Magento_Sales_Model_Quote_Address_Total_Abstract
+namespace Magento\Sales\Model\Quote\Address\Total;
+
+class Nominal extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
 {
     /**
-     * @var Magento_Sales_Model_Quote_Address_Total_Nominal_CollectorFactory
+     * @var \Magento\Sales\Model\Quote\Address\Total\Nominal\CollectorFactory
      */
     protected $_collectorFactory;
 
     /**
-     * @param Magento_Sales_Model_Quote_Address_Total_Nominal_CollectorFactory $collectorFactory
+     * @param \Magento\Sales\Model\Quote\Address\Total\Nominal\CollectorFactory $collectorFactory
      */
-    public function __construct(Magento_Sales_Model_Quote_Address_Total_Nominal_CollectorFactory $collectorFactory)
+    public function __construct(\Magento\Sales\Model\Quote\Address\Total\Nominal\CollectorFactory $collectorFactory)
     {
         $this->_collectorFactory = $collectorFactory;
     }
@@ -32,11 +34,11 @@ class Magento_Sales_Model_Quote_Address_Total_Nominal extends Magento_Sales_Mode
     /**
      * Invoke collector for nominal items
      *
-     * @param Magento_Sales_Model_Quote_Address $address
-     * @param Magento_Sales_Model_Quote_Address_Total_Nominal
-     * @return $this|Magento_Sales_Model_Quote_Address_Total_Abstract
+     * @param \Magento\Sales\Model\Quote\Address $address
+     * @param \Magento\Sales\Model\Quote\Address\Total\Nominal
+     * @return $this|\Magento\Sales\Model\Quote\Address\Total\AbstractTotal
      */
-    public function collect(Magento_Sales_Model_Quote_Address $address)
+    public function collect(\Magento\Sales\Model\Quote\Address $address)
     {
         $collector = $this->_collectorFactory->create(array('store' => $address->getQuote()->getStore()));
 
@@ -59,7 +61,7 @@ class Magento_Sales_Model_Quote_Address_Total_Nominal extends Magento_Sales_Mode
                     $isCompounded = false;
                 }
                 if ((float)$itemRowTotal > 0 && $label = $model->getLabel()) {
-                    $totalDetails[] = new Magento_Object(array(
+                    $totalDetails[] = new \Magento\Object(array(
                         'label'  => $label,
                         'amount' => $itemRowTotal,
                         'is_compounded' => $isCompounded,
@@ -77,10 +79,10 @@ class Magento_Sales_Model_Quote_Address_Total_Nominal extends Magento_Sales_Mode
     /**
      * Fetch collected nominal items
      *
-     * @param Magento_Sales_Model_Quote_Address $address
-     * @return Magento_Sales_Model_Quote_Address_Total_Nominal
+     * @param \Magento\Sales\Model\Quote\Address $address
+     * @return \Magento\Sales\Model\Quote\Address\Total\Nominal
      */
-    public function fetch(Magento_Sales_Model_Quote_Address $address)
+    public function fetch(\Magento\Sales\Model\Quote\Address $address)
     {
         $items = $address->getAllNominalItems();
         if ($items) {

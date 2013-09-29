@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Eav_Model_Entity_Attribute_Config_Converter implements Magento_Config_ConverterInterface
+namespace Magento\Eav\Model\Entity\Attribute\Config;
+
+class Converter implements \Magento\Config\ConverterInterface
 {
     /**
      * Convert config
@@ -19,7 +21,7 @@ class Magento_Eav_Model_Entity_Attribute_Config_Converter implements Magento_Con
     {
         $output = array();
 
-        /** @var DOMNodeList $entities */
+        /** @var \DOMNodeList $entities */
         $entities = $source->getElementsByTagName('entity');
 
         /** @var DOMNode $entity */

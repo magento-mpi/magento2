@@ -8,20 +8,21 @@
  * @license     {license_link}
  */
 
+namespace Magento\Core\Model\Config;
 
 /**
  * Config data model
  *
- * @method Magento_Core_Model_Resource_Config_Data _getResource()
- * @method Magento_Core_Model_Resource_Config_Data getResource()
+ * @method \Magento\Core\Model\Resource\Config\Data _getResource()
+ * @method \Magento\Core\Model\Resource\Config\Data getResource()
  * @method string getScope()
- * @method Magento_Core_Model_Config_Value setScope(string $value)
+ * @method \Magento\Core\Model\Config\Value setScope(string $value)
  * @method int getScopeId()
- * @method Magento_Core_Model_Config_Value setScopeId(int $value)
+ * @method \Magento\Core\Model\Config\Value setScopeId(int $value)
  * @method string getPath()
- * @method Magento_Core_Model_Config_Value setPath(string $value)
+ * @method \Magento\Core\Model\Config\Value setPath(string $value)
  * @method string getValue()
- * @method Magento_Core_Model_Config_Value setValue(string $value)
+ * @method \Magento\Core\Model\Config\Value setValue(string $value)
  *
  * @category    Mage
  * @package     Magento_Core
@@ -29,7 +30,7 @@
  *
  * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
-class Magento_Core_Model_Config_Value extends Magento_Core_Model_Abstract
+class Value extends \Magento\Core\Model\AbstractModel
 {
     const ENTITY = 'core_config_data';
     /**
@@ -49,31 +50,31 @@ class Magento_Core_Model_Config_Value extends Magento_Core_Model_Abstract
     protected $_eventObject = 'config_data';
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Core_Model_Config
+     * @var \Magento\Core\Model\Config
      */
     protected $_config;
 
     /**
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_ConfigInterface $config
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\ConfigInterface $config
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_ConfigInterface $config,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\ConfigInterface $config,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;
@@ -86,7 +87,7 @@ class Magento_Core_Model_Config_Value extends Magento_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('Magento_Core_Model_Resource_Config_Data');
+        $this->_init('Magento\Core\Model\Resource\Config\Data');
     }
 
     /**

@@ -5,24 +5,26 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Directory_Model_Currency_Import_Source_ServiceTest extends PHPUnit_Framework_TestCase
+namespace Magento\Directory\Model\Currency\Import\Source;
+
+class ServiceTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Directory_Model_Currency_Import_Source_Service
+     * @var \Magento\Directory\Model\Currency\Import\Source\Service
      */
     protected $_model;
 
     /**
-     * @var Magento_Directory_Model_Currency_Import_Config|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Directory\Model\Currency\Import\Config|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_importConfig;
 
     protected function setUp()
     {
         $this->_importConfig = $this->getMock(
-            'Magento_Directory_Model_Currency_Import_Config', array(), array(), '', false
+            'Magento\Directory\Model\Currency\Import\Config', array(), array(), '', false
         );
-        $this->_model = new Magento_Directory_Model_Currency_Import_Source_Service($this->_importConfig);
+        $this->_model = new \Magento\Directory\Model\Currency\Import\Source\Service($this->_importConfig);
     }
 
     public function testToOptionArray()

@@ -9,7 +9,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Magento_PubSub_JobInterface
+namespace Magento\PubSub;
+
+interface JobInterface
 {
     /**
      * Status is assigned to newly created Job, identify that it is good to be sent to subscriber
@@ -39,28 +41,28 @@ interface Magento_PubSub_JobInterface
     /**
      * Get the event this job is responsible for processing
      *
-     * @return Magento_PubSub_EventInterface|null
+     * @return \Magento\PubSub\EventInterface|null
      */
     public function getEvent();
 
     /**
      * Return the subscription to send a message to
      *
-     * @return Magento_PubSub_SubscriptionInterface|null
+     * @return \Magento\PubSub\SubscriptionInterface|null
      */
     public function getSubscription();
 
     /**
      * Update the Job status to indicate it has completed successfully
      *
-     * @return Magento_PubSub_JobInterface
+     * @return \Magento\PubSub\JobInterface
      */
     public function complete();
 
     /**
      * Handle retry on failure logic and update job status accordingly.
      *
-     * @return Magento_PubSub_JobInterface
+     * @return \Magento\PubSub\JobInterface
      */
     public function handleFailure();
 
@@ -75,7 +77,7 @@ interface Magento_PubSub_JobInterface
      * Set the status of the Job
      *
      * @param int $status
-     * @return Magento_PubSub_JobInterface
+     * @return \Magento\PubSub\JobInterface
      */
     public function setStatus($status);
 }

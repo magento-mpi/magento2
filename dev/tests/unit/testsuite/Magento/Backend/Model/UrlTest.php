@@ -10,64 +10,66 @@
  */
 
 /**
- * Test class for Magento_Backend_Model_Url
+ * Test class for \Magento\Backend\Model\Url
  */
-class Magento_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
+namespace Magento\Backend\Model;
+
+class UrlTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Backend_Model_Url
+     * @var \Magento\Backend\Model\Url
      */
     protected  $_model;
 
     /**
      * Mock menu model
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_menuMock;
 
     protected $_areaFrontName = 'backendArea';
 
     /**
-     * @var Magento_Core_Model_Session|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Model\Session|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_coreSessionMock;
 
     /**
-     * @var Magento_Core_Controller_Request_Http
+     * @var \Magento\Core\Controller\Request\Http
      */
     protected $_storeConfigMock;
 
     /**
-     * @var Magento_Core_Controller_Request_Http
+     * @var \Magento\Core\Controller\Request\Http
      */
     protected $_menuConfigMock;
 
     /**
-     * @var Magento_Core_Controller_Request_Http
+     * @var \Magento\Core\Controller\Request\Http
      */
     protected $_backendHelperMock;
 
     /**
-     * @var Magento_Core_Helper_Data|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Helper\Data|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_coreDataMock;
 
     /**
-     * @var Magento_Core_Controller_Request_Http|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Controller\Request\Http|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_requestMock;
 
     protected function setUp()
     {
-        $this->_menuMock = $this->getMock('Magento_Backend_Model_Menu', array(), array(), '', false);
+        $this->_menuMock = $this->getMock('Magento\Backend\Model\Menu', array(), array(), '', false);
 
-        $this->_menuConfigMock = $this->getMock('Magento_Backend_Model_Menu_Config', array(), array(), '', false);
+        $this->_menuConfigMock = $this->getMock('Magento\Backend\Model\Menu\Config', array(), array(), '', false);
         $this->_menuConfigMock->expects($this->any())->method('getMenu')->will($this->returnValue($this->_menuMock));
 
-        $this->_coreSessionMock = $this->getMock('Magento_Core_Model_Session', array('getFormKey'), array(), '', false);
+        $this->_coreSessionMock = $this->getMock('Magento\Core\Model\Session', array('getFormKey'), array(), '', false);
         $this->_coreSessionMock->expects($this->any())->method('getFormKey')->will($this->returnValue('salt'));
 
-        $mockItem = $this->getMock('Magento_Backend_Model_Menu_Item', array(), array(), '', false);
+        $mockItem = $this->getMock('Magento\Backend\Model\Menu\Item', array(), array(), '', false);
         $mockItem->expects($this->any())->method('isDisabled')->will($this->returnValue(false));
         $mockItem->expects($this->any())->method('isAllowed')->will($this->returnValue(true));
         $mockItem->expects($this->any())
@@ -80,21 +82,21 @@ class Magento_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
             ->with($this->equalTo('Magento_Adminhtml::system_acl_roles'))
             ->will($this->returnValue($mockItem));
 
-        $helperMock = $this->getMock('Magento_Backend_Helper_Data', array(), array(), '', false);
+        $helperMock = $this->getMock('Magento\Backend\Helper\Data', array(), array(), '', false);
         $helperMock->expects($this->any())->method('getAreaFrontName')
             ->will($this->returnValue($this->_areaFrontName));
-        $this->_storeConfigMock = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false);
+        $this->_storeConfigMock = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false);
         $this->_storeConfigMock->expects($this->any())
             ->method('getConfig')
-            ->with(Magento_Backend_Model_Url::XML_PATH_STARTUP_MENU_ITEM)
+            ->with(\Magento\Backend\Model\Url::XML_PATH_STARTUP_MENU_ITEM)
             ->will($this->returnValue('Magento_Adminhtml::system_acl_roles'));
 
-        $this->_coreDataMock = $this->getMock('Magento_Core_Helper_Data', array('getHash'), array(), '', false);
+        $this->_coreDataMock = $this->getMock('Magento\Core\Helper\Data', array('getHash'), array(), '', false);
         $this->_coreDataMock->expects($this->any())->method('getHash')->will($this->returnArgument(0));
 
-        $securityInfoMock = $this->getMock('Magento_Core_Model_Url_SecurityInfoInterface');
+        $securityInfoMock = $this->getMock('Magento\Core\Model\Url\SecurityInfoInterface');
 
-        $this->_model = new Magento_Backend_Model_Url(
+        $this->_model = new \Magento\Backend\Model\Url(
             $securityInfoMock,
             $this->_storeConfigMock,
             $helperMock,
@@ -103,17 +105,17 @@ class Magento_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
             $this->_coreDataMock
         );
 
-        $this->_requestMock = $this->getMock('Magento_Core_Controller_Request_Http', array(), array(), '', false);
+        $this->_requestMock = $this->getMock('Magento\Core\Controller\Request\Http', array(), array(), '', false);
         $this->_model->setRequest($this->_requestMock);
     }
 
     public function testFindFirstAvailableMenuDenied()
     {
-        $user = $this->getMock('Magento_User_Model_User', array(), array(), '', false);
+        $user = $this->getMock('Magento\User\Model\User', array(), array(), '', false);
         $user->expects($this->once())
             ->method('setHasAvailableResources')
             ->with($this->equalTo(false));
-        $mockSession = $this->getMock('Magento_Backend_Model_Auth_Session',
+        $mockSession = $this->getMock('Magento\Backend\Model\Auth\Session',
             array('getUser', 'isAllowed'),
             array(),
             '',
@@ -135,8 +137,8 @@ class Magento_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
 
     public function testFindFirstAvailableMenu()
     {
-        $user = $this->getMock('Magento_User_Model_User', array(), array(), '', false);
-        $mockSession = $this->getMock('Magento_Backend_Model_Auth_Session',
+        $user = $this->getMock('Magento\User\Model\User', array(), array(), '', false);
+        $mockSession = $this->getMock('Magento\Backend\Model\Auth\Session',
             array('getUser', 'isAllowed'),
             array(),
             '',
@@ -149,7 +151,7 @@ class Magento_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
 
         $this->_model->setSession($mockSession);
 
-        $itemMock = $this->getMock('Magento_Backend_Model_Menu_Item', array(), array(), '', false);
+        $itemMock = $this->getMock('Magento\Backend\Model\Menu\Item', array(), array(), '', false);
         $itemMock->expects($this->once())->method('getAction')->will($this->returnValue('adminhtml/user'));
         $this->_menuMock->expects($this->any())
             ->method('getFirstAvailable')
@@ -165,13 +167,13 @@ class Magento_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
 
     public function testGetAreaFrontName()
     {
-        $helperMock = $this->getMock('Magento_Backend_Helper_Data', array(), array(), '', false);
+        $helperMock = $this->getMock('Magento\Backend\Helper\Data', array(), array(), '', false);
         $helperMock->expects($this->once())->method('getAreaFrontName')
             ->will($this->returnValue($this->_areaFrontName));
 
-        $securityInfoMock = $this->getMock('Magento_Core_Model_Url_SecurityInfoInterface');
+        $securityInfoMock = $this->getMock('Magento\Core\Model\Url\SecurityInfoInterface');
 
-        $urlModel = new Magento_Backend_Model_Url(
+        $urlModel = new \Magento\Backend\Model\Url(
             $securityInfoMock,
             $this->_storeConfigMock,
             $helperMock,
@@ -203,13 +205,13 @@ class Magento_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
 
     public function testGetActionPathWhenAreaFrontNameIsEmpty()
     {
-        $helperMock = $this->getMock('Magento_Backend_Helper_Data', array(), array(), '', false);
+        $helperMock = $this->getMock('Magento\Backend\Helper\Data', array(), array(), '', false);
         $helperMock->expects($this->once())->method('getAreaFrontName')
             ->will($this->returnValue(''));
 
-        $securityInfoMock = $this->getMock('Magento_Core_Model_Url_SecurityInfoInterface');
+        $securityInfoMock = $this->getMock('Magento\Core\Model\Url\SecurityInfoInterface');
 
-        $urlModel = new Magento_Backend_Model_Url(
+        $urlModel = new \Magento\Backend\Model\Url(
             $securityInfoMock,
             $this->_storeConfigMock,
             $helperMock,
@@ -279,7 +281,7 @@ class Magento_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
 
         $keyFromParams = $this->_model->getSecretKey($routeName, $controllerName, $actionName);
 
-        $requestMock = $this->getMock('Magento_Core_Controller_Request_Http',
+        $requestMock = $this->getMock('Magento\Core\Controller\Request\Http',
             array('getRouteName', 'getControllerName', 'getActionName', 'getBeforeForwardInfo'),
             array(),
             '',
@@ -306,7 +308,7 @@ class Magento_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
 
         $keyFromParams = $this->_model->getSecretKey($routeName, $controllerName, $actionName);
 
-        $requestMock = $this->getMock('Magento_Core_Controller_Request_Http',
+        $requestMock = $this->getMock('Magento\Core\Controller\Request\Http',
             array('getBeforeForwardInfo'),
             array(),
             '',

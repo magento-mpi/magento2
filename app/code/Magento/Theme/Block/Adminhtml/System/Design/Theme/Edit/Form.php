@@ -8,21 +8,23 @@
  * @license     {license_link}
  */
 
+namespace Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit;
+
 /**
  * Theme Edit Form
  *
  * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
-class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Form extends Magento_Backend_Block_Widget_Form_Generic
+class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
      * Initialize theme form
      *
-     * @return Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Form|Magento_Backend_Block_Widget_Form
+     * @return \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Form|\Magento\Backend\Block\Widget\Form
      */
     protected function _prepareForm()
     {
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create(array(
             'attributes' => array(
                 'id'      => 'edit_form',

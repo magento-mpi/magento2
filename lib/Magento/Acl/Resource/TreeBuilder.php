@@ -5,7 +5,9 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Acl_Resource_TreeBuilder
+namespace Magento\Acl\Resource;
+
+class TreeBuilder
 {
     /**
      * Transform resource list into sorted resource tree that includes only active resources

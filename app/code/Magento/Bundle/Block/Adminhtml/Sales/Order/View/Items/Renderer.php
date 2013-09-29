@@ -16,8 +16,10 @@
  * @package     Magento_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Bundle_Block_Adminhtml_Sales_Order_View_Items_Renderer
-    extends Magento_Adminhtml_Block_Sales_Order_View_Items_Renderer_Default
+namespace Magento\Bundle\Block\Adminhtml\Sales\Order\View\Items;
+
+class Renderer
+    extends \Magento\Adminhtml\Block\Sales\Order\View\Items\Renderer\DefaultRenderer
 {
     public function isShipmentSeparately($item = null)
     {
@@ -25,7 +27,7 @@ class Magento_Bundle_Block_Adminhtml_Sales_Order_View_Items_Renderer
             if ($parentItem = $item->getParentItem()) {
                 if ($options = $parentItem->getProductOptions()) {
                     if (isset($options['shipment_type'])
-                        && $options['shipment_type'] == Magento_Catalog_Model_Product_Type_Abstract::SHIPMENT_SEPARATELY
+                        && $options['shipment_type'] == \Magento\Catalog\Model\Product\Type\AbstractType::SHIPMENT_SEPARATELY
                     ) {
                         return true;
                     } else {
@@ -35,7 +37,7 @@ class Magento_Bundle_Block_Adminhtml_Sales_Order_View_Items_Renderer
             } else {
                 if ($options = $item->getProductOptions()) {
                     if (isset($options['shipment_type'])
-                        && $options['shipment_type'] == Magento_Catalog_Model_Product_Type_Abstract::SHIPMENT_SEPARATELY
+                        && $options['shipment_type'] == \Magento\Catalog\Model\Product\Type\AbstractType::SHIPMENT_SEPARATELY
                     ) {
                         return false;
                     } else {
@@ -47,7 +49,7 @@ class Magento_Bundle_Block_Adminhtml_Sales_Order_View_Items_Renderer
 
         if ($options = $this->getOrderItem()->getProductOptions()) {
             if (isset($options['shipment_type'])
-                && $options['shipment_type'] == Magento_Catalog_Model_Product_Type_Abstract::SHIPMENT_SEPARATELY
+                && $options['shipment_type'] == \Magento\Catalog\Model\Product\Type\AbstractType::SHIPMENT_SEPARATELY
             ) {
                 return true;
             }
@@ -61,7 +63,7 @@ class Magento_Bundle_Block_Adminhtml_Sales_Order_View_Items_Renderer
             if ($parentItem = $item->getParentItem()) {
                 if ($options = $parentItem->getProductOptions()) {
                     if (isset($options['product_calculations'])
-                        && $options['product_calculations'] == Magento_Catalog_Model_Product_Type_Abstract::CALCULATE_CHILD
+                        && $options['product_calculations'] == \Magento\Catalog\Model\Product\Type\AbstractType::CALCULATE_CHILD
                     ) {
                         return true;
                     } else {
@@ -71,7 +73,7 @@ class Magento_Bundle_Block_Adminhtml_Sales_Order_View_Items_Renderer
             } else {
                 if ($options = $item->getProductOptions()) {
                     if (isset($options['product_calculations'])
-                        && $options['product_calculations'] == Magento_Catalog_Model_Product_Type_Abstract::CALCULATE_CHILD
+                        && $options['product_calculations'] == \Magento\Catalog\Model\Product\Type\AbstractType::CALCULATE_CHILD
                     ) {
                         return false;
                     } else {
@@ -83,7 +85,7 @@ class Magento_Bundle_Block_Adminhtml_Sales_Order_View_Items_Renderer
 
         if ($options = $this->getItem()->getProductOptions()) {
             if (isset($options['product_calculations'])
-                && $options['product_calculations'] == Magento_Catalog_Model_Product_Type_Abstract::CALCULATE_CHILD
+                && $options['product_calculations'] == \Magento\Catalog\Model\Product\Type\AbstractType::CALCULATE_CHILD
             ) {
                 return true;
             }
@@ -92,7 +94,7 @@ class Magento_Bundle_Block_Adminhtml_Sales_Order_View_Items_Renderer
     }
 
     public function getSelectionAttributes($item) {
-        if ($item instanceof Magento_Sales_Model_Order_Item) {
+        if ($item instanceof \Magento\Sales\Model\Order\Item) {
             $options = $item->getProductOptions();
         } else {
             $options = $item->getOrderItem()->getProductOptions();

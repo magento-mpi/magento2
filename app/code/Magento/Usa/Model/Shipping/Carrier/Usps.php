@@ -17,9 +17,11 @@
  * @package    Magento_Usa
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Usa_Model_Shipping_Carrier_Usps
-    extends Magento_Usa_Model_Shipping_Carrier_Abstract
-    implements Magento_Shipping_Model_Carrier_Interface
+namespace Magento\Usa\Model\Shipping\Carrier;
+
+class Usps
+    extends \Magento\Usa\Model\Shipping\Carrier\AbstractCarrier
+    implements \Magento\Shipping\Model\Carrier\CarrierInterface
 {
     /**
      * USPS containers
@@ -66,28 +68,28 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
      * Destination Zip Code required flag
      *
      * @var boolean
-     * @deprecated since 1.7.0 functionality implemented in Magento_Usa_Model_Shipping_Carrier_Abstract
+     * @deprecated since 1.7.0 functionality implemented in \Magento\Usa\Model\Shipping\Carrier\AbstractCarrier
      */
     protected $_isZipCodeRequired;
 
     /**
      * Rate request data
      *
-     * @var Magento_Shipping_Model_Rate_Request|null
+     * @var \Magento\Shipping\Model\Rate\Request|null
      */
     protected $_request = null;
 
     /**
      * Raw rate request data
      *
-     * @var Magento_Object|null
+     * @var \Magento\Object|null
      */
     protected $_rawRequest = null;
 
     /**
      * Rate result data
      *
-     * @var Magento_Shipping_Model_Rate_Result|null
+     * @var \Magento\Shipping\Model\Rate\Result|null
      */
     protected $_result = null;
 
@@ -108,50 +110,50 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
     /**
      * Usa data
      *
-     * @var Magento_Usa_Helper_Data
+     * @var \Magento\Usa\Helper\Data
      */
     protected $_usaData = null;
 
     /**
-     * @var Magento_Catalog_Model_Resource_Product_CollectionFactory
+     * @var \Magento\Catalog\Model\Resource\Product\CollectionFactory
      */
     protected $_productCollFactory;
 
     /**
      * Usps constructor
      *
-     * @param Magento_Usa_Helper_Data $usaData
-     * @param Magento_Catalog_Model_Resource_Product_CollectionFactory $productCollFactory
-     * @param Magento_Usa_Model_Simplexml_ElementFactory $xmlElFactory
-     * @param Magento_Shipping_Model_Rate_ResultFactory $rateFactory
-     * @param Magento_Shipping_Model_Rate_Result_MethodFactory $rateMethodFactory
-     * @param Magento_Shipping_Model_Rate_Result_ErrorFactory $rateErrorFactory
-     * @param Magento_Shipping_Model_Tracking_ResultFactory $trackFactory
-     * @param Magento_Shipping_Model_Tracking_Result_ErrorFactory $trackErrorFactory
-     * @param Magento_Shipping_Model_Tracking_Result_StatusFactory $trackStatusFactory
-     * @param Magento_Directory_Model_RegionFactory $regionFactory
-     * @param Magento_Directory_Model_CountryFactory $countryFactory
-     * @param Magento_Directory_Model_CurrencyFactory $currencyFactory
-     * @param Magento_Directory_Helper_Data $directoryData
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param \Magento\Usa\Helper\Data $usaData
+     * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollFactory
+     * @param \Magento\Usa\Model\Simplexml\ElementFactory $xmlElFactory
+     * @param \Magento\Shipping\Model\Rate\ResultFactory $rateFactory
+     * @param \Magento\Shipping\Model\Rate\Result\MethodFactory $rateMethodFactory
+     * @param \Magento\Shipping\Model\Rate\Result\ErrorFactory $rateErrorFactory
+     * @param \Magento\Shipping\Model\Tracking\ResultFactory $trackFactory
+     * @param \Magento\Shipping\Model\Tracking\Result\ErrorFactory $trackErrorFactory
+     * @param \Magento\Shipping\Model\Tracking\Result\StatusFactory $trackStatusFactory
+     * @param \Magento\Directory\Model\RegionFactory $regionFactory
+     * @param \Magento\Directory\Model\CountryFactory $countryFactory
+     * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
+     * @param \Magento\Directory\Helper\Data $directoryData
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param array $data
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Magento_Usa_Helper_Data $usaData,
-        Magento_Catalog_Model_Resource_Product_CollectionFactory $productCollFactory,
-        Magento_Usa_Model_Simplexml_ElementFactory $xmlElFactory,
-        Magento_Shipping_Model_Rate_ResultFactory $rateFactory,
-        Magento_Shipping_Model_Rate_Result_MethodFactory $rateMethodFactory,
-        Magento_Shipping_Model_Rate_Result_ErrorFactory $rateErrorFactory,
-        Magento_Shipping_Model_Tracking_ResultFactory $trackFactory,
-        Magento_Shipping_Model_Tracking_Result_ErrorFactory $trackErrorFactory,
-        Magento_Shipping_Model_Tracking_Result_StatusFactory $trackStatusFactory,
-        Magento_Directory_Model_RegionFactory $regionFactory,
-        Magento_Directory_Model_CountryFactory $countryFactory,
-        Magento_Directory_Model_CurrencyFactory $currencyFactory,
-        Magento_Directory_Helper_Data $directoryData,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
+        \Magento\Usa\Helper\Data $usaData,
+        \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollFactory,
+        \Magento\Usa\Model\Simplexml\ElementFactory $xmlElFactory,
+        \Magento\Shipping\Model\Rate\ResultFactory $rateFactory,
+        \Magento\Shipping\Model\Rate\Result\MethodFactory $rateMethodFactory,
+        \Magento\Shipping\Model\Rate\Result\ErrorFactory $rateErrorFactory,
+        \Magento\Shipping\Model\Tracking\ResultFactory $trackFactory,
+        \Magento\Shipping\Model\Tracking\Result\ErrorFactory $trackErrorFactory,
+        \Magento\Shipping\Model\Tracking\Result\StatusFactory $trackStatusFactory,
+        \Magento\Directory\Model\RegionFactory $regionFactory,
+        \Magento\Directory\Model\CountryFactory $countryFactory,
+        \Magento\Directory\Model\CurrencyFactory $currencyFactory,
+        \Magento\Directory\Helper\Data $directoryData,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
         array $data = array()
     ) {
         $this->_usaData = $usaData;
@@ -167,10 +169,10 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
     /**
      * Collect and get rates
      *
-     * @param Magento_Shipping_Model_Rate_Request $request
-     * @return Magento_Shipping_Model_Rate_Result|bool|null
+     * @param \Magento\Shipping\Model\Rate\Request $request
+     * @return \Magento\Shipping\Model\Rate\Result|bool|null
      */
-    public function collectRates(Magento_Shipping_Model_Rate_Request $request)
+    public function collectRates(\Magento\Shipping\Model\Rate\Request $request)
     {
         if (!$this->getConfigFlag($this->_activeFlag)) {
             return false;
@@ -188,14 +190,14 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
     /**
      * Prepare and set request to this instance
      *
-     * @param Magento_Shipping_Model_Rate_Request $request
-     * @return Magento_Usa_Model_Shipping_Carrier_Usps
+     * @param \Magento\Shipping\Model\Rate\Request $request
+     * @return \Magento\Usa\Model\Shipping\Carrier\Usps
      */
-    public function setRequest(Magento_Shipping_Model_Rate_Request $request)
+    public function setRequest(\Magento\Shipping\Model\Rate\Request $request)
     {
         $this->_request = $request;
 
-        $r = new Magento_Object();
+        $r = new \Magento\Object();
 
         if ($request->getLimitMethod()) {
             $r->setService($request->getLimitMethod());
@@ -263,7 +265,7 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
             $r->setOrigPostal($request->getOrigPostcode());
         } else {
             $r->setOrigPostal($this->_coreStoreConfig->getConfig(
-                Magento_Shipping_Model_Shipping::XML_PATH_STORE_ZIP,
+                \Magento\Shipping\Model\Shipping::XML_PATH_STORE_ZIP,
                 $request->getStoreId()
             ));
         }
@@ -272,7 +274,7 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
             $r->setOrigCountryId($request->getOrigCountryId());
         } else {
             $r->setOrigCountryId($this->_coreStoreConfig->getConfig(
-                Magento_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID,
+                \Magento\Shipping\Model\Shipping::XML_PATH_STORE_COUNTRY_ID,
                 $request->getStoreId()
             ));
         }
@@ -323,7 +325,7 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
     /**
      * Get quotes
      *
-     * @return Magento_Shipping_Model_Rate_Result
+     * @return \Magento\Shipping\Model\Rate\Result
      */
     protected function _getQuotes()
     {
@@ -350,7 +352,7 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
      * Build RateV3 request, send it to USPS gateway and retrieve quotes in XML format
      *
      * @link http://www.usps.com/webtools/htm/Rate-Calculators-v2-3.htm
-     * @return Magento_Shipping_Model_Rate_Result
+     * @return \Magento\Shipping\Model\Rate\Result
      */
     protected function _getXmlQuotes()
     {
@@ -448,7 +450,7 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
                 if (!$url) {
                     $url = $this->_defaultGatewayUrl;
                 }
-                $client = new Zend_Http_Client();
+                $client = new \Zend_Http_Client();
                 $client->setUri($url);
                 $client->setConfig(array('maxredirects'=>0, 'timeout'=>30));
                 $client->setParameterGet('API', $api);
@@ -458,7 +460,7 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
 
                 $debugData['result'] = $responseBody;
                 $this->_setCachedQuotes($request, $responseBody);
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $debugData['result'] = array('error' => $e->getMessage(), 'code' => $e->getCode());
                 $responseBody = '';
             }
@@ -472,7 +474,7 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
      *
      * @link http://www.usps.com/webtools/htm/Rate-Calculators-v2-3.htm
      * @param string $response
-     * @return Magento_Shipping_Model_Rate_Result
+     * @return \Magento\Shipping\Model\Rate\Result
      */
     protected function _parseXmlResponse($response)
     {
@@ -837,7 +839,7 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
      */
     protected function setTrackingReqeust()
     {
-        $r = new Magento_Object();
+        $r = new \Magento\Object();
 
         $userId = $this->getConfigData('userid');
         $r->setUserId($userId);
@@ -873,7 +875,7 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
                 if (!$url) {
                     $url = $this->_defaultGatewayUrl;
                 }
-                $client = new Zend_Http_Client();
+                $client = new \Zend_Http_Client();
                 $client->setUri($url);
                 $client->setConfig(array('maxredirects'=>0, 'timeout'=>30));
                 $client->setParameterGet('API', $api);
@@ -882,7 +884,7 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
                 $responseBody = $response->getBody();
                 $debugData['result'] = $responseBody;
             }
-            catch (Exception $e) {
+            catch (\Exception $e) {
                 $debugData['result'] = array('error' => $e->getMessage(), 'code' => $e->getCode());
                 $responseBody = '';
             }
@@ -957,7 +959,7 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
     public function getResponse()
     {
         $statuses = '';
-        if ($this->_result instanceof Magento_Shipping_Model_Tracking_Result) {
+        if ($this->_result instanceof \Magento\Shipping\Model\Tracking\Result) {
             if ($trackings = $this->_result->getAllTrackings()) {
                 foreach ($trackings as $tracking) {
                     if($data = $tracking->getAllData()) {
@@ -1253,19 +1255,19 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
      * As integration guide it is important to follow appropriate sequence for tags e.g.: <FromLastName /> must be
      * after <FromFirstName />
      *
-     * @param Magento_Object $request
+     * @param \Magento\Object $request
      * @return string
      */
-    protected function _formUsExpressShipmentRequest(Magento_Object $request)
+    protected function _formUsExpressShipmentRequest(\Magento\Object $request)
     {
         $packageParams = $request->getPackageParams();
 
         $packageWeight = $request->getPackageWeight();
-        if ($packageParams->getWeightUnits() != Zend_Measure_Weight::OUNCE) {
+        if ($packageParams->getWeightUnits() != \Zend_Measure_Weight::OUNCE) {
             $packageWeight = round($this->_usaData->convertMeasureWeight(
                 $request->getPackageWeight(),
                 $packageParams->getWeightUnits(),
-                Zend_Measure_Weight::OUNCE
+                \Zend_Measure_Weight::OUNCE
             ));
         }
 
@@ -1319,11 +1321,11 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
      * As integration guide it is important to follow appropriate sequence for tags e.g.: <FromLastName /> must be
      * after <FromFirstName />
      *
-     * @param Magento_Object $request
+     * @param \Magento\Object $request
      * @param string $serviceType
      * @return string
      */
-    protected function _formUsSignatureConfirmationShipmentRequest(Magento_Object $request, $serviceType)
+    protected function _formUsSignatureConfirmationShipmentRequest(\Magento\Object $request, $serviceType)
     {
         switch ($serviceType) {
             case 'PRIORITY':
@@ -1342,15 +1344,15 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
                 $serviceType = 'Library Mail';
                 break;
             default:
-                throw new Exception(__('Service type does not match'));
+                throw new \Exception(__('Service type does not match'));
         }
         $packageParams = $request->getPackageParams();
         $packageWeight = $request->getPackageWeight();
-        if ($packageParams->getWeightUnits() != Zend_Measure_Weight::OUNCE) {
+        if ($packageParams->getWeightUnits() != \Zend_Measure_Weight::OUNCE) {
             $packageWeight = round($this->_usaData->convertMeasureWeight(
                 $request->getPackageWeight(),
                 $packageParams->getWeightUnits(),
-                Zend_Measure_Weight::OUNCE
+                \Zend_Measure_Weight::OUNCE
             ));
         }
 
@@ -1414,10 +1416,10 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
      * As integration guide it is important to follow appropriate sequence for tags e.g.: <FromLastName /> must be
      * after <FromFirstName />
      *
-     * @param Magento_Object $request
+     * @param \Magento\Object $request
      * @return string
      */
-    protected function _formIntlShipmentRequest(Magento_Object $request)
+    protected function _formIntlShipmentRequest(\Magento\Object $request)
     {
         $packageParams = $request->getPackageParams();
         $height = $packageParams->getHeight();
@@ -1425,35 +1427,35 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
         $length = $packageParams->getLength();
         $girth = $packageParams->getGirth();
         $packageWeight = $request->getPackageWeight();
-        if ($packageParams->getWeightUnits() != Zend_Measure_Weight::POUND) {
+        if ($packageParams->getWeightUnits() != \Zend_Measure_Weight::POUND) {
             $packageWeight = $this->_usaData->convertMeasureWeight(
                 $request->getPackageWeight(),
                 $packageParams->getWeightUnits(),
-                Zend_Measure_Weight::POUND
+                \Zend_Measure_Weight::POUND
             );
         }
-        if ($packageParams->getDimensionUnits() != Zend_Measure_Length::INCH) {
+        if ($packageParams->getDimensionUnits() != \Zend_Measure_Length::INCH) {
             $length = round($this->_usaData->convertMeasureDimension(
                 $packageParams->getLength(),
                 $packageParams->getDimensionUnits(),
-                Zend_Measure_Length::INCH
+                \Zend_Measure_Length::INCH
             ));
             $width = round($this->_usaData->convertMeasureDimension(
                 $packageParams->getWidth(),
                 $packageParams->getDimensionUnits(),
-                Zend_Measure_Length::INCH
+                \Zend_Measure_Length::INCH
             ));
             $height = round($this->_usaData->convertMeasureDimension(
                 $packageParams->getHeight(),
                 $packageParams->getDimensionUnits(),
-                Zend_Measure_Length::INCH
+                \Zend_Measure_Length::INCH
             ));
         }
-        if ($packageParams->getGirthDimensionUnits() != Zend_Measure_Length::INCH) {
+        if ($packageParams->getGirthDimensionUnits() != \Zend_Measure_Length::INCH) {
             $girth = round($this->_usaData->convertMeasureDimension(
                 $packageParams->getGirth(),
                 $packageParams->getGirthDimensionUnits(),
-                Zend_Measure_Length::INCH
+                \Zend_Measure_Length::INCH
             ));
         }
 
@@ -1557,7 +1559,7 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
         $countriesOfManufacture = array();
         $productIds = array();
         foreach ($packageItems as $itemShipment) {
-                $item = new Magento_Object();
+                $item = new \Magento\Object();
                 $item->setData($itemShipment);
 
                 $productIds[]= $item->getProductId();
@@ -1574,15 +1576,15 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
         $packagePoundsWeight = $packageOuncesWeight = 0;
         // for ItemDetail
         foreach ($packageItems as $itemShipment) {
-            $item = new Magento_Object();
+            $item = new \Magento\Object();
             $item->setData($itemShipment);
 
             $itemWeight = $item->getWeight() * $item->getQty();
-            if ($packageParams->getWeightUnits() != Zend_Measure_Weight::POUND) {
+            if ($packageParams->getWeightUnits() != \Zend_Measure_Weight::POUND) {
                 $itemWeight = $this->_usaData->convertMeasureWeight(
                     $itemWeight,
                     $packageParams->getWeightUnits(),
-                    Zend_Measure_Weight::POUND
+                    \Zend_Measure_Weight::POUND
                 );
             }
             if (!empty($countriesOfManufacture[$item->getProductId()])) {
@@ -1652,13 +1654,13 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
     /**
      * Do shipment request to carrier web service, obtain Print Shipping Labels and process errors in response
      *
-     * @param Magento_Object $request
-     * @return Magento_Object
+     * @param \Magento\Object $request
+     * @return \Magento\Object
      */
-    protected function _doShipmentRequest(Magento_Object $request)
+    protected function _doShipmentRequest(\Magento\Object $request)
     {
         $this->_prepareShipmentRequest($request);
-        $result = new Magento_Object();
+        $result = new \Magento\Object();
         $service = $this->getCode('service_to_code', $request->getShippingMethod());
         $recipientUSCountry = $this->_isUSCountry($request->getRecipientAddressCountryCode());
 
@@ -1688,7 +1690,7 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
         if (!$url) {
             $url = $this->_defaultGatewayUrl;
         }
-        $client = new Zend_Http_Client();
+        $client = new \Zend_Http_Client();
         $client->setUri($url);
         $client->setConfig(array('maxredirects'=>0, 'timeout'=>30));
         $client->setParameterGet('API', $api);
@@ -1728,10 +1730,10 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
     /**
      * Return container types of carrier
      *
-     * @param Magento_Object|null $params
+     * @param \Magento\Object|null $params
      * @return array|bool
      */
-    public function getContainerTypes(Magento_Object $params = null)
+    public function getContainerTypes(\Magento\Object $params = null)
     {
         if (is_null($params)) {
             return $this->_getAllowedContainers();
@@ -1762,10 +1764,10 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
     /**
      * Return delivery confirmation types of carrier
      *
-     * @param Magento_Object|null $params
+     * @param \Magento\Object|null $params
      * @return array
      */
-    public function getDeliveryConfirmationTypes(Magento_Object $params = null)
+    public function getDeliveryConfirmationTypes(\Magento\Object $params = null)
     {
         if ($params == null) {
             return array();
@@ -1792,10 +1794,10 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
     /**
      * Return content types of package
      *
-     * @param Magento_Object $params
+     * @param \Magento\Object $params
      * @return array
      */
-    public function getContentTypes(Magento_Object $params)
+    public function getContentTypes(\Magento\Object $params)
     {
         $countryShipper     = $params->getCountryShipper();
         $countryRecipient   = $params->getCountryRecipient();

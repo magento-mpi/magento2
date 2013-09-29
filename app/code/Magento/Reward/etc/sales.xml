@@ -10,19 +10,19 @@
 <config>
     <section name="quote">
         <group name="totals">
-            <item name="reward" instance="Magento_Reward_Model_Total_Quote_Reward" sort_order="650">
-                <renderer name="frontend" instance="Magento_Reward_Block_Checkout_Total"/>
+            <item name="reward" instance="Magento\Reward\Model\Total\Quote\Reward" sort_order="650">
+                <renderer name="frontend" instance="Magento\Reward\Block\Checkout\Total"/>
             </item>
         </group>
     </section>
     <section name="order_invoice">
         <group name="totals">
-            <item name="reward" instance="Magento_Reward_Model_Total_Invoice_Reward" sort_order="450"/>
+            <item name="reward" instance="Magento\Reward\Model\Total\Invoice\Reward" sort_order="450"/>
         </group>
     </section>
     <section name="order_creditmemo">
         <group name="totals">
-            <item name="reward" instance="Magento_Reward_Model_Total_Creditmemo_Reward" sort_order="500"/>
+            <item name="reward" instance="Magento\Reward\Model\Total\Creditmemo\Reward" sort_order="500"/>
         </group>
     </section>
 </config>

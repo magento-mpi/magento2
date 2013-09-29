@@ -15,7 +15,9 @@
  * @package    Magento_Sales
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Order_Pdf_Items_Creditmemo_Grouped extends Magento_Sales_Model_Order_Pdf_Items_Creditmemo_Default
+namespace Magento\Sales\Model\Order\Pdf\Items\Creditmemo;
+
+class Grouped extends \Magento\Sales\Model\Order\Pdf\Items\Creditmemo\DefaultCreditmemo
 {
     /**
      * Draw process

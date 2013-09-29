@@ -15,17 +15,19 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Variable_Config
+namespace Magento\Core\Model\Variable;
+
+class Config
 {
     /**
-     * @var Magento_Core_Model_View_Url
+     * @var \Magento\Core\Model\View\Url
      */
     protected $_viewUrl;
 
     /**
-     * @param Magento_Core_Model_View_Url $viewUrl
+     * @param \Magento\Core\Model\View\Url $viewUrl
      */
-    public function __construct(Magento_Core_Model_View_Url $viewUrl)
+    public function __construct(\Magento\Core\Model\View\Url $viewUrl)
     {
         $this->_viewUrl = $viewUrl;
     }
@@ -33,7 +35,7 @@ class Magento_Core_Model_Variable_Config
     /**
      * Prepare variable wysiwyg config
      *
-     * @param Magento_Object $config
+     * @param \Magento\Object $config
      * @return array
      */
     public function getWysiwygPluginSettings($config)
@@ -75,6 +77,6 @@ class Magento_Core_Model_Variable_Config
      */
     public function getVariablesWysiwygActionUrl()
     {
-        return Mage::getSingleton('Magento_Backend_Model_Url')->getUrl('*/system_variable/wysiwygPlugin');
+        return \Mage::getSingleton('Magento\Backend\Model\Url')->getUrl('*/system_variable/wysiwygPlugin');
     }
 }

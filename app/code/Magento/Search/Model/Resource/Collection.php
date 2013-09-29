@@ -16,8 +16,10 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Search_Model_Resource_Collection
-    extends Magento_Catalog_Model_Resource_Product_Collection
+namespace Magento\Search\Model\Resource;
+
+class Collection
+    extends \Magento\Catalog\Model\Resource\Product\Collection
 {
 
     /**
@@ -58,7 +60,7 @@ class Magento_Search_Model_Resource_Collection
     /**
      * Store engine instance
      *
-     * @var Magento_Search_Model_Resource_Engine
+     * @var \Magento\Search\Model\Resource\Engine
      */
     protected $_engine = null;
 
@@ -115,49 +117,49 @@ class Magento_Search_Model_Resource_Collection
     /**
      * Catalog search data
      *
-     * @var Magento_CatalogSearch_Helper_Data
+     * @var \Magento\CatalogSearch\Helper\Data
      */
     protected $_catalogSearchData;
 
     /**
      * Search data
      *
-     * @var Magento_Search_Helper_Data
+     * @var \Magento\Search\Helper\Data
      */
     protected $_searchData;
 
     /**
      * Store manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * Construct
      *
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Catalog_Helper_Product_Flat $catalogProductFlat
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Search_Helper_Data $searchData
-     * @param Magento_CatalogSearch_Helper_Data $catalogSearchData
-     * @param Magento_Core_Model_EntityFactory $entityFactory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Catalog\Helper\Product\Flat $catalogProductFlat
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Search\Helper\Data $searchData
+     * @param \Magento\CatalogSearch\Helper\Data $catalogSearchData
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Catalog_Helper_Product_Flat $catalogProductFlat,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Logger $logger,
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_EntityFactory $entityFactory,
-        Magento_Search_Helper_Data $searchData,
-        Magento_CatalogSearch_Helper_Data $catalogSearchData,
-        Magento_Core_Model_StoreManagerInterface $storeManager
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Catalog\Helper\Product\Flat $catalogProductFlat,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Search\Helper\Data $searchData,
+        \Magento\CatalogSearch\Helper\Data $catalogSearchData,
+        \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
         parent::__construct($catalogData, $catalogProductFlat, $eventManager, $logger, $fetchStrategy,
             $coreStoreConfig, $entityFactory);
@@ -169,7 +171,7 @@ class Magento_Search_Model_Resource_Collection
     /**
      * Load faceted data if not loaded
      *
-     * @return Magento_Search_Model_Resource_Collection
+     * @return \Magento\Search\Model\Resource\Collection
      */
     public function loadFacetedData()
     {
@@ -225,7 +227,7 @@ class Magento_Search_Model_Resource_Collection
      * @param string $field
      * @param string | array $condition
      *
-     * @return Magento_Search_Model_Resource_Collection
+     * @return \Magento\Search\Model\Resource\Collection
      */
     public function setFacetCondition($field, $condition = null)
     {
@@ -249,12 +251,12 @@ class Magento_Search_Model_Resource_Collection
      *
      * @param   string $queryText
      *
-     * @return  Magento_Search_Model_Resource_Collection
+     * @return  \Magento\Search\Model\Resource\Collection
      */
     public function addSearchFilter($queryText)
     {
         /**
-         * @var Magento_CatalogSearch_Model_Query $query
+         * @var \Magento\CatalogSearch\Model\Query $query
          */
         $query = $this->_catalogSearchData->getQuery();
         $this->_searchQueryText = $queryText;
@@ -273,7 +275,7 @@ class Magento_Search_Model_Resource_Collection
      * @param   string|array $param
      * @param   string|array $value
      *
-     * @return  Magento_Search_Model_Resource_Collection
+     * @return  \Magento\Search\Model\Resource\Collection
      */
     public function addSearchParam($param, $value = null)
     {
@@ -305,7 +307,7 @@ class Magento_Search_Model_Resource_Collection
      * Add search query filter (fq)
      *
      * @param   array $param
-     * @return  Magento_Search_Model_Resource_Collection
+     * @return  \Magento\Search\Model\Resource\Collection
      */
     public function addFqFilter($param)
     {
@@ -323,7 +325,7 @@ class Magento_Search_Model_Resource_Collection
      * Set search query
      *
      * @param  string $query
-     * @return Magento_Search_Model_Resource_Collection
+     * @return \Magento\Search\Model\Resource\Collection
      */
     public function addAdvancedSearchFilter($query)
     {
@@ -333,10 +335,10 @@ class Magento_Search_Model_Resource_Collection
     /**
      * Specify category filter for product collection
      *
-     * @param   Magento_Catalog_Model_Category $category
-     * @return  Magento_Search_Model_Resource_Collection
+     * @param   \Magento\Catalog\Model\Category $category
+     * @return  \Magento\Search\Model\Resource\Collection
      */
-    public function addCategoryFilter(Magento_Catalog_Model_Category $category)
+    public function addCategoryFilter(\Magento\Catalog\Model\Category $category)
     {
         $this->addFqFilter(array('category_ids' => $category->getId()));
         parent::addCategoryFilter($category);
@@ -348,7 +350,7 @@ class Magento_Search_Model_Resource_Collection
      *
      * @param string $attribute
      * @param string $dir
-     * @return Magento_Search_Model_Resource_Collection
+     * @return \Magento\Search\Model\Resource\Collection
      */
     public function setOrder($attribute, $dir = 'desc')
     {
@@ -366,7 +368,7 @@ class Magento_Search_Model_Resource_Collection
         $store  = $this->_storeManager->getStore();
         $params = array(
             'store_id'      => $store->getId(),
-            'locale_code'   => $store->getConfig(Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_LOCALE),
+            'locale_code'   => $store->getConfig(\Magento\Core\Model\LocaleInterface::XML_PATH_DEFAULT_LOCALE),
             'filters'       => $this->_searchQueryFilters
         );
         $params['filters']     = $this->_searchQueryFilters;
@@ -385,7 +387,7 @@ class Magento_Search_Model_Resource_Collection
      * Search documents by query
      * Set found ids and number of found results
      *
-     * @return Magento_Search_Model_Resource_Collection
+     * @return \Magento\Search\Model\Resource\Collection
      */
     protected function _beforeLoad()
     {
@@ -435,7 +437,7 @@ class Magento_Search_Model_Resource_Collection
     /**
      * Sort collection items by sort order of found ids
      *
-     * @return Magento_Search_Model_Resource_Collection
+     * @return \Magento\Search\Model\Resource\Collection
      */
     protected function _afterLoad()
     {
@@ -515,7 +517,7 @@ class Magento_Search_Model_Resource_Collection
     /**
      * Set query *:* to disable query limitation
      *
-     * @return Magento_Search_Model_Resource_Collection
+     * @return \Magento\Search\Model\Resource\Collection
      */
     public function setGeneralDefaultQuery()
     {
@@ -527,7 +529,7 @@ class Magento_Search_Model_Resource_Collection
      * Set search engine
      *
      * @param object $engine
-     * @return Magento_Search_Model_Resource_Collection
+     * @return \Magento\Search\Model\Resource\Collection
      */
     public function setEngine($engine)
     {
@@ -540,7 +542,7 @@ class Magento_Search_Model_Resource_Collection
      *
      * @param array $fields
      *
-     * @return Magento_Search_Model_Resource_Collection
+     * @return \Magento\Search\Model\Resource\Collection
      */
     public function addFieldsToFilter($fields)
     {
@@ -550,8 +552,8 @@ class Magento_Search_Model_Resource_Collection
     /**
      * Adding product count to categories collection
      *
-     * @param   Magento_Eav_Model_Entity_Collection_Abstract $categoryCollection
-     * @return  Magento_Search_Model_Resource_Collection
+     * @param   \Magento\Eav\Model\Entity\Collection\AbstractCollection $categoryCollection
+     * @return  \Magento\Search\Model\Resource\Collection
      */
     public function addCountToCategories($categoryCollection)
     {
@@ -562,7 +564,7 @@ class Magento_Search_Model_Resource_Collection
      * Set product visibility filter for enabled products
      *
      * @param   array $visibility
-     * @return  Magento_Catalog_Model_Resource_Product_Collection
+     * @return  \Magento\Catalog\Model\Resource\Product\Collection
      */
     public function setVisibility($visibility)
     {

@@ -10,28 +10,30 @@
 
 
 /**
- * Custom Zend_Controller_Response_Http class (formally)
+ * Custom \Zend_Controller_Response_Http class (formally)
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Controller_Response_Http extends Zend_Controller_Response_Http
+namespace Magento\Core\Controller\Response;
+
+class Http extends \Zend_Controller_Response_Http
 {
     /**
      * Transport object for observers to perform
      *
-     * @var Magento_Object
+     * @var \Magento\Object
      */
     protected static $_transportObject = null;
 
     /**
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventManager;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param \Magento\Core\Model\Event\Manager $eventManager
      */
-    public function __construct(Magento_Core_Model_Event_Manager $eventManager)
+    public function __construct(\Magento\Core\Model\Event\Manager $eventManager)
     {
         $this->_eventManager = $eventManager;
     }
@@ -41,12 +43,12 @@ class Magento_Core_Controller_Response_Http extends Zend_Controller_Response_Htt
      *
      * @link  http://bugs.php.net/bug.php?id=36705
      *
-     * @return Magento_Core_Controller_Response_Http
+     * @return \Magento\Core\Controller\Response\Http
      */
     public function sendHeaders()
     {
         if (!$this->canSendHeaders()) {
-            $this->_objectManager->get('Magento_Core_Model_Logger')
+            $this->_objectManager->get('Magento\Core\Model\Logger')
                 ->log('HEADERS ALREADY SENT: '.mageDebugBacktrace(true, true, true));
             return $this;
         }
@@ -85,7 +87,7 @@ class Magento_Core_Controller_Response_Http extends Zend_Controller_Response_Htt
      *
      * @param string $url
      * @param int $code
-     * @return Magento_Core_Controller_Response_Http
+     * @return \Magento\Core\Controller\Response\Http
      */
     public function setRedirect($url, $code = 302)
     {
@@ -93,7 +95,7 @@ class Magento_Core_Controller_Response_Http extends Zend_Controller_Response_Htt
          * Use single transport object instance
          */
         if (self::$_transportObject === null) {
-            self::$_transportObject = new Magento_Object;
+            self::$_transportObject = new \Magento\Object;
         }
         self::$_transportObject->setUrl($url);
         self::$_transportObject->setCode($code);

@@ -11,7 +11,9 @@
 /**
  * VDE area model
  */
-class Magento_DesignEditor_Model_Area
+namespace Magento\DesignEditor\Model;
+
+class Area
 {
     /**
      * VDE configuration area name

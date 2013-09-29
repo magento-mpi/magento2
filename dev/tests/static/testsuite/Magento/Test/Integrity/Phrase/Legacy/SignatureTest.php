@@ -6,13 +6,15 @@
  * @license   {license_link}
  */
 
-use Magento\Tools\I18n\Code\Parser\Adapter\Php\Tokenizer\Translate\MethodCollector;
-use Magento\Tools\I18n\Code\Parser\Adapter\Php\Tokenizer;
-
 /**
  * Scan source code for detects invocations of outdated __() method
  */
-class Magento_Test_Integrity_Phrase_Legacy_SignatureTest extends Magento_Test_Integrity_Phrase_AbstractTestCase
+namespace Magento\Test\Integrity\Phrase\Legacy;
+
+use Magento\Tools\I18n\Code\Parser\Adapter\Php\Tokenizer;
+use Magento\Tools\I18n\Code\Parser\Adapter\Php\Tokenizer\Translate\MethodCollector;
+
+class SignatureTest extends \Magento\Test\Integrity\Phrase\AbstractTestCase
 {
     /**
      * @var \Magento\Tools\I18n\Code\Parser\Adapter\Php\Tokenizer\Translate\MethodCollector
@@ -21,7 +23,9 @@ class Magento_Test_Integrity_Phrase_Legacy_SignatureTest extends Magento_Test_In
 
     protected function setUp()
     {
-        $this->_phraseCollector = new MethodCollector(new Tokenizer());
+        $this->_phraseCollector = new \Magento\Tools\I18n\Code\Parser\Adapter\Php\Tokenizer\Translate\MethodCollector(
+            new \Magento\Tools\I18n\Code\Parser\Adapter\Php\Tokenizer()
+        );
     }
 
     public function testSignature()

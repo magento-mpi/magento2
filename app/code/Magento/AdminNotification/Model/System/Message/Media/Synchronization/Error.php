@@ -5,8 +5,10 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_AdminNotification_Model_System_Message_Media_Synchronization_Error
-    extends Magento_AdminNotification_Model_System_Message_Media_SynchronizationAbstract
+namespace Magento\AdminNotification\Model\System\Message\Media\Synchronization;
+
+class Error
+    extends \Magento\AdminNotification\Model\System\Message\Media\SynchronizationAbstract
 {
     /**
      * Message identity

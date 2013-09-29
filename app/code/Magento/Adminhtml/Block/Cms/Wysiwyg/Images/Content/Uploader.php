@@ -15,27 +15,29 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Cms_Wysiwyg_Images_Content_Uploader extends Magento_Adminhtml_Block_Media_Uploader
+namespace Magento\Adminhtml\Block\Cms\Wysiwyg\Images\Content;
+
+class Uploader extends \Magento\Adminhtml\Block\Media\Uploader
 {
     /**
-     * @var Magento_Cms_Model_Wysiwyg_Images_Storage
+     * @var \Magento\Cms\Model\Wysiwyg\Images\Storage
      */
     protected $_imagesStorage;
 
     /**
-     * @param Magento_Cms_Model_Wysiwyg_Images_Storage $imagesStorage
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_View_Url $viewUrl
-     * @param Magento_File_Size $fileSize
+     * @param \Magento\Cms\Model\Wysiwyg\Images\Storage $imagesStorage
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\View\Url $viewUrl
+     * @param \Magento\File\Size $fileSize
      * @param array $data
      */
     public function __construct(
-        Magento_Cms_Model_Wysiwyg_Images_Storage $imagesStorage,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_View_Url $viewUrl,
-        Magento_File_Size $fileSize,
+        \Magento\Cms\Model\Wysiwyg\Images\Storage $imagesStorage,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\View\Url $viewUrl,
+        \Magento\File\Size $fileSize,
         array $data = array()
     ) {
         $this->_imagesStorage = $imagesStorage;

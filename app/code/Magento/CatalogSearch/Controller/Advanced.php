@@ -15,43 +15,45 @@
  * @package    Magento_CatalogSearch
  * @module     Catalog
  */
-class Magento_CatalogSearch_Controller_Advanced extends Magento_Core_Controller_Front_Action
+namespace Magento\CatalogSearch\Controller;
+
+class Advanced extends \Magento\Core\Controller\Front\Action
 {
 
     /**
      * Url factory
      *
-     * @var Magento_Core_Model_UrlFactory
+     * @var \Magento\Core\Model\UrlFactory
      */
     protected $_urlFactory;
 
     /**
      * Catalog search advanced
      *
-     * @var Magento_CatalogSearch_Model_Advanced
+     * @var \Magento\CatalogSearch\Model\Advanced
      */
     protected $_catalogSearchAdvanced;
 
     /**
      * Catalog search session
      *
-     * @var Magento_CatalogSearch_Model_Session
+     * @var \Magento\CatalogSearch\Model\Session
      */
     protected $_catalogSearchSession;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Controller_Varien_Action_Context $context
-     * @param Magento_CatalogSearch_Model_Session $catalogSearchSession
-     * @param Magento_CatalogSearch_Model_Advanced $catalogSearchAdvanced
-     * @param Magento_Core_Model_UrlFactory $urlFactory
+     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\CatalogSearch\Model\Session $catalogSearchSession
+     * @param \Magento\CatalogSearch\Model\Advanced $catalogSearchAdvanced
+     * @param \Magento\Core\Model\UrlFactory $urlFactory
      */
     public function __construct(
-        Magento_Core_Controller_Varien_Action_Context $context,
-        Magento_CatalogSearch_Model_Session $catalogSearchSession,
-        Magento_CatalogSearch_Model_Advanced $catalogSearchAdvanced,
-        Magento_Core_Model_UrlFactory $urlFactory
+        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\CatalogSearch\Model\Session $catalogSearchSession,
+        \Magento\CatalogSearch\Model\Advanced $catalogSearchAdvanced,
+        \Magento\Core\Model\UrlFactory $urlFactory
     ) {
         $this->_catalogSearchSession = $catalogSearchSession;
         $this->_catalogSearchAdvanced = $catalogSearchAdvanced;
@@ -62,7 +64,7 @@ class Magento_CatalogSearch_Controller_Advanced extends Magento_Core_Controller_
     public function indexAction()
     {
         $this->loadLayout();
-        $this->_initLayoutMessages('Magento_CatalogSearch_Model_Session');
+        $this->_initLayoutMessages('Magento\CatalogSearch\Model\Session');
         $this->renderLayout();
     }
 
@@ -71,7 +73,7 @@ class Magento_CatalogSearch_Controller_Advanced extends Magento_Core_Controller_
         $this->loadLayout();
         try {
             $this->_catalogSearchAdvanced->addFilters($this->getRequest()->getQuery());
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_catalogSearchSession->addError($e->getMessage());
             $this->_redirectError(
                 $this->_urlFactory->create()
@@ -79,7 +81,7 @@ class Magento_CatalogSearch_Controller_Advanced extends Magento_Core_Controller_
                     ->getUrl('*/*/')
             );
         }
-        $this->_initLayoutMessages('Magento_Catalog_Model_Session');
+        $this->_initLayoutMessages('Magento\Catalog\Model\Session');
         $this->renderLayout();
     }
 }

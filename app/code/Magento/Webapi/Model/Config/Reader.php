@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Model_Config_Reader extends Magento_Config_XmlAbstract
+namespace Magento\Webapi\Model\Config;
+
+class Reader extends \Magento\Config\XmlAbstract
 {
     /**
      * Get absolute path to the XML-schema file
@@ -22,11 +24,11 @@ class Magento_Webapi_Model_Config_Reader extends Magento_Config_XmlAbstract
     /**
      * Extract configuration data from the DOM structure
      *
-     * @param DOMDocument $dom
+     * @param \DOMDocument $dom
      * @return array
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    protected function _extractData(DOMDocument $dom)
+    protected function _extractData(\DOMDocument $dom)
     {
         return array();
     }
@@ -53,12 +55,12 @@ class Magento_Webapi_Model_Config_Reader extends Magento_Config_XmlAbstract
 
     /**
      * Get Dom configuration model
-     * @return Magento_Config_Dom
+     * @return \Magento\Config\Dom
      */
     protected function _getDomConfigModel()
     {
         if (is_null($this->_domConfig)) {
-            $this->_domConfig = new Magento_Webapi_Model_Config_Dom(
+            $this->_domConfig = new \Magento\Webapi\Model\Config\Dom(
                 $this->_getInitialXml(),
                 $this->_getIdAttributes()
             );
@@ -77,7 +79,7 @@ class Magento_Webapi_Model_Config_Reader extends Magento_Config_XmlAbstract
 
     /**
      * Retrieve services
-     * @return DOMDocument
+     * @return \DOMDocument
      */
     public function getServices()
     {

@@ -5,17 +5,19 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Core_Model_Module_Declaration_FileResolver implements Magento_Config_FileResolverInterface
+namespace Magento\Core\Model\Module\Declaration;
+
+class FileResolver implements \Magento\Config\FileResolverInterface
 {
     /**
-     * @var Magento_Core_Model_Dir
+     * @var \Magento\Core\Model\Dir
      */
     protected $_applicationDirs;
 
     /**
-     * @param Magento_Core_Model_Dir $applicationDirs
+     * @param \Magento\Core\Model\Dir $applicationDirs
      */
-    public function __construct(Magento_Core_Model_Dir $applicationDirs)
+    public function __construct(\Magento\Core\Model\Dir $applicationDirs)
     {
         $this->_applicationDirs = $applicationDirs;
     }
@@ -26,7 +28,7 @@ class Magento_Core_Model_Module_Declaration_FileResolver implements Magento_Conf
      */
     public function get($filename, $scope)
     {
-        $appCodeDir =  $this->_applicationDirs->getDir(Magento_Core_Model_Dir::MODULES);
+        $appCodeDir =  $this->_applicationDirs->getDir(\Magento\Core\Model\Dir::MODULES);
         $moduleFilePattern = $appCodeDir . DIRECTORY_SEPARATOR . '*' . DIRECTORY_SEPARATOR . '*' . DIRECTORY_SEPARATOR
             . 'etc' . DIRECTORY_SEPARATOR . 'module.xml';
         $moduleFileList = glob($moduleFilePattern);
@@ -42,7 +44,7 @@ class Magento_Core_Model_Module_Declaration_FileResolver implements Magento_Conf
             $output[$scope][] = $file;
         }
 
-        $appConfigDir = $this->_applicationDirs->getDir(Magento_Core_Model_Dir::CONFIG);
+        $appConfigDir = $this->_applicationDirs->getDir(\Magento\Core\Model\Dir::CONFIG);
         $globalEnablerPattern = $appConfigDir . DIRECTORY_SEPARATOR . '*' . DIRECTORY_SEPARATOR . 'module.xml';
         $output['base'] = glob($globalEnablerPattern);
         // Put global enablers at the end of the file list

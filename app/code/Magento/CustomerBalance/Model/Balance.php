@@ -11,27 +11,29 @@
 /**
  * Customer balance model
  *
- * @method Magento_CustomerBalance_Model_Resource_Balance _getResource()
- * @method Magento_CustomerBalance_Model_Resource_Balance getResource()
+ * @method \Magento\CustomerBalance\Model\Resource\Balance _getResource()
+ * @method \Magento\CustomerBalance\Model\Resource\Balance getResource()
  * @method int getCustomerId()
- * @method Magento_CustomerBalance_Model_Balance setCustomerId(int $value)
+ * @method \Magento\CustomerBalance\Model\Balance setCustomerId(int $value)
  * @method int getWebsiteId()
- * @method Magento_CustomerBalance_Model_Balance setWebsiteId(int $value)
- * @method Magento_CustomerBalance_Model_Balance setAmount(float $value)
+ * @method \Magento\CustomerBalance\Model\Balance setWebsiteId(int $value)
+ * @method \Magento\CustomerBalance\Model\Balance setAmount(float $value)
  * @method string getBaseCurrencyCode()
- * @method Magento_CustomerBalance_Model_Balance setBaseCurrencyCode(string $value)
- * @method Magento_CustomerBalance_Model_Balance setAmountDelta() setAmountDelta(float $value)
- * @method Magento_CustomerBalance_Model_Balance setComment() setComment(string $value)
- * @method Magento_CustomerBalance_Model_Balance setCustomer() setCustomer(Magento_Customer_Model_Customer $customer)
+ * @method \Magento\CustomerBalance\Model\Balance setBaseCurrencyCode(string $value)
+ * @method \Magento\CustomerBalance\Model\Balance setAmountDelta() setAmountDelta(float $value)
+ * @method \Magento\CustomerBalance\Model\Balance setComment() setComment(string $value)
+ * @method \Magento\CustomerBalance\Model\Balance setCustomer() setCustomer(\Magento\Customer\Model\Customer $customer)
  *
  * @category    Magento
  * @package     Magento_CustomerBalance
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CustomerBalance_Model_Balance extends Magento_Core_Model_Abstract
+namespace Magento\CustomerBalance\Model;
+
+class Balance extends \Magento\Core\Model\AbstractModel
 {
     /**
-     * @var Magento_Customer_Model_Customer
+     * @var \Magento\Customer\Model\Customer
      */
     protected $_customer;
 
@@ -39,38 +41,38 @@ class Magento_CustomerBalance_Model_Balance extends Magento_Core_Model_Abstract
     protected $_eventObject = 'balance';
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Customer_Model_CustomerFactory
+     * @var \Magento\Customer\Model\CustomerFactory
      */
     protected $_customerFactory;
 
     /**
-     * @var Magento_CustomerBalance_Model_Balance_HistoryFactory
+     * @var \Magento\CustomerBalance\Model\Balance\HistoryFactory
      */
     protected $_historyFactory;
 
     /**
-     * @param Magento_CustomerBalance_Model_Balance_HistoryFactory $historyFactory
-     * @param Magento_Customer_Model_CustomerFactory $customerFactory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\CustomerBalance\Model\Balance\HistoryFactory $historyFactory
+     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_CustomerBalance_Model_Balance_HistoryFactory $historyFactory,
-        Magento_Customer_Model_CustomerFactory $customerFactory,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\CustomerBalance\Model\Balance\HistoryFactory $historyFactory,
+        \Magento\Customer\Model\CustomerFactory $customerFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_customerFactory = $customerFactory;
@@ -85,7 +87,7 @@ class Magento_CustomerBalance_Model_Balance extends Magento_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('Magento_CustomerBalance_Model_Resource_Balance');
+        $this->_init('Magento\CustomerBalance\Model\Resource\Balance');
     }
 
     /**
@@ -102,8 +104,8 @@ class Magento_CustomerBalance_Model_Balance extends Magento_Core_Model_Abstract
      * Load balance by customer
      * Website id should either be set or not admin
      *
-     * @return Magento_CustomerBalance_Model_Balance
-     * @throws Magento_Core_Exception
+     * @return \Magento\CustomerBalance\Model\Balance
+     * @throws \Magento\Core\Exception
      */
     public function loadByCustomer()
     {
@@ -112,7 +114,7 @@ class Magento_CustomerBalance_Model_Balance extends Magento_Core_Model_Abstract
             $websiteId = $this->getWebsiteId();
         } else {
             if ($this->_storeManager->isAdmin()) {
-                throw new Magento_Core_Exception(__('A website ID must be set.'));
+                throw new \Magento\Core\Exception(__('A website ID must be set.'));
             }
             $websiteId = $this->_storeManager->getStore()->getWebsiteId();
         }
@@ -125,15 +127,15 @@ class Magento_CustomerBalance_Model_Balance extends Magento_Core_Model_Abstract
      *
      * @param bool $shouldNotify
      * @param int $storeId
-     * @return Magento_CustomerBalance_Model_Balance
-     * @throws Magento_Core_Exception
+     * @return \Magento\CustomerBalance\Model\Balance
+     * @throws \Magento\Core\Exception
      */
     public function setNotifyByEmail($shouldNotify, $storeId = null)
     {
         $this->setData('notify_by_email', $shouldNotify);
         if ($shouldNotify) {
             if (null === $storeId) {
-                throw new Magento_Core_Exception(__('Please also set the Store ID.'));
+                throw new \Magento\Core\Exception(__('Please also set the Store ID.'));
             }
             $this->setStoreId($storeId);
         }
@@ -144,25 +146,25 @@ class Magento_CustomerBalance_Model_Balance extends Magento_Core_Model_Abstract
     /**
      * Validate before saving
      *
-     * @return Magento_CustomerBalance_Model_Balance
+     * @return \Magento\CustomerBalance\Model\Balance
      */
     protected function _beforeSave()
     {
         $this->_ensureCustomer();
 
         if (0 == $this->getWebsiteId()) {
-            throw new Magento_Core_Exception(__('A website ID must be set.'));
+            throw new \Magento\Core\Exception(__('A website ID must be set.'));
         }
 
         // check history action
         if (!$this->getId()) {
             $this->loadByCustomer();
             if (!$this->getId()) {
-                $this->setHistoryAction(Magento_CustomerBalance_Model_Balance_History::ACTION_CREATED);
+                $this->setHistoryAction(\Magento\CustomerBalance\Model\Balance\History::ACTION_CREATED);
             }
         }
         if (!$this->hasHistoryAction()) {
-            $this->setHistoryAction(Magento_CustomerBalance_Model_Balance_History::ACTION_UPDATED);
+            $this->setHistoryAction(\Magento\CustomerBalance\Model\Balance\History::ACTION_UPDATED);
         }
 
         // check balance delta and email notification settings
@@ -171,7 +173,7 @@ class Magento_CustomerBalance_Model_Balance extends Magento_Core_Model_Abstract
             $this->setNotifyByEmail(false);
         }
         if ($this->getNotifyByEmail() && !$this->hasStoreId()) {
-            throw new Magento_Core_Exception(__('The Store ID must be set to send email notifications.'));
+            throw new \Magento\Core\Exception(__('The Store ID must be set to send email notifications.'));
         }
 
         return parent::_beforeSave();
@@ -180,7 +182,7 @@ class Magento_CustomerBalance_Model_Balance extends Magento_Core_Model_Abstract
     /**
      * Update history after saving
      *
-     * @return Magento_CustomerBalance_Model_Balance
+     * @return \Magento\CustomerBalance\Model\Balance
      */
     protected function _afterSave()
     {
@@ -199,7 +201,7 @@ class Magento_CustomerBalance_Model_Balance extends Magento_Core_Model_Abstract
     /**
      * Make sure proper customer information is set. Load customer if required
      *
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     protected function _ensureCustomer()
     {
@@ -207,7 +209,7 @@ class Magento_CustomerBalance_Model_Balance extends Magento_Core_Model_Abstract
             $this->setCustomerId($this->getCustomer()->getId());
         }
         if (!$this->getCustomerId()) {
-            throw new Magento_Core_Exception(__('A customer ID must be specified.'));
+            throw new \Magento\Core\Exception(__('A customer ID must be specified.'));
         }
         if (!$this->getCustomer()) {
             $this->setCustomer(
@@ -215,7 +217,7 @@ class Magento_CustomerBalance_Model_Balance extends Magento_Core_Model_Abstract
             );
         }
         if (!$this->getCustomer()->getId()) {
-            throw new Magento_Core_Exception(__('This customer is not set or does not exist.'));
+            throw new \Magento\Core\Exception(__('This customer is not set or does not exist.'));
         }
     }
 
@@ -249,10 +251,10 @@ class Magento_CustomerBalance_Model_Balance extends Magento_Core_Model_Abstract
     /**
      * Check whether balance completely covers specified quote
      *
-     * @param Magento_Sales_Model_Quote $quote
+     * @param \Magento\Sales\Model\Quote $quote
      * @return bool
      */
-    public function isFullAmountCovered(Magento_Sales_Model_Quote $quote, $isEstimation = false)
+    public function isFullAmountCovered(\Magento\Sales\Model\Quote $quote, $isEstimation = false)
     {
         if (!$isEstimation && !$quote->getUseCustomerBalance()) {
             return false;
@@ -266,7 +268,7 @@ class Magento_CustomerBalance_Model_Balance extends Magento_Core_Model_Abstract
      *
      * @param int $websiteId
      * @param string $currencyCode
-     * @return Magento_CustomerBalance_Model_Balance
+     * @return \Magento\CustomerBalance\Model\Balance
      */
     public function setCustomersBalanceCurrencyTo($websiteId, $currencyCode)
     {
@@ -278,7 +280,7 @@ class Magento_CustomerBalance_Model_Balance extends Magento_Core_Model_Abstract
      * Delete customer orphan balances
      *
      * @param int $customerId
-     * @return Magento_CustomerBalance_Model_Balance
+     * @return \Magento\CustomerBalance\Model\Balance
      */
     public function deleteBalancesByCustomerId($customerId)
     {
@@ -289,7 +291,7 @@ class Magento_CustomerBalance_Model_Balance extends Magento_Core_Model_Abstract
     /**
      * Get customer orphan balances count
      *
-     * @return Magento_CustomerBalance_Model_Balance
+     * @return \Magento\CustomerBalance\Model\Balance
      */
     public function getOrphanBalancesCount($customerId)
     {
@@ -299,7 +301,7 @@ class Magento_CustomerBalance_Model_Balance extends Magento_Core_Model_Abstract
     /**
      * Public version of afterLoad
      *
-     * @return Magento_Core_Model_Abstract
+     * @return \Magento\Core\Model\AbstractModel
      */
     public function afterLoad()
     {

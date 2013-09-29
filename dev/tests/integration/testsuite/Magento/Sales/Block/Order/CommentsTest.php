@@ -9,17 +9,19 @@
  * @license     {license_link}
  */
 
-class Magento_Sales_Block_Order_CommentsTest extends PHPUnit_Framework_TestCase
+namespace Magento\Sales\Block\Order;
+
+class CommentsTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Sales_Block_Order_Comments
+     * @var \Magento\Sales\Block\Order\Comments
      */
     protected $_block;
 
     protected function setUp()
     {
-        $this->_block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
-            ->createBlock('Magento_Sales_Block_Order_Comments');
+        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            ->createBlock('Magento\Sales\Block\Order\Comments');
     }
 
     /**
@@ -41,30 +43,30 @@ class Magento_Sales_Block_Order_CommentsTest extends PHPUnit_Framework_TestCase
     {
         return array(
             array(
-                Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Sales_Model_Order_Invoice'),
-                'Magento_Sales_Model_Resource_Order_Invoice_Comment_Collection'
+                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Sales\Model\Order\Invoice'),
+                'Magento\Sales\Model\Resource\Order\Invoice\Comment\Collection'
             ),
             array(
-                Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Sales_Model_Order_Creditmemo'),
-                'Magento_Sales_Model_Resource_Order_Creditmemo_Comment_Collection'
+                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Sales\Model\Order\Creditmemo'),
+                'Magento\Sales\Model\Resource\Order\Creditmemo\Comment\Collection'
             ),
             array(
-                Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Sales_Model_Order_Shipment'),
-                'Magento_Sales_Model_Resource_Order_Shipment_Comment_Collection'
+                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Sales\Model\Order\Shipment'),
+                'Magento\Sales\Model\Resource\Order\Shipment\Comment\Collection'
             )
         );
     }
 
     /**
-     * @expectedException Magento_Core_Exception
+     * @expectedException \Magento\Core\Exception
      */
     public function testGetCommentsWrongEntityException()
     {
-        $entity = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Product');
+        $entity = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $this->_block->setEntity($entity);
         $this->_block->getComments();
     }

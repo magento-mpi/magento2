@@ -5,17 +5,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Sales_Model_Resource_Order_Collection_Factory
+namespace Magento\Sales\Model\Resource\Order\Collection;
+
+class Factory
 {
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
@@ -23,16 +25,16 @@ class Magento_Sales_Model_Resource_Order_Collection_Factory
     /**
      * @param string $className
      * @param array $data
-     * @return Magento_Sales_Model_Resource_Order_Collection_Abstract
-     * @throws InvalidArgumentException
+     * @return \Magento\Sales\Model\Resource\Order\Collection\AbstractCollection
+     * @throws \InvalidArgumentException
      */
     public function create($className, array $data = array())
     {
         $instance = $this->_objectManager->create($className, $data);
 
-        if (!($instance instanceof Magento_Sales_Model_Resource_Order_Collection_Abstract)) {
-            throw new InvalidArgumentException(
-                $className . ' does not implement Magento_Sales_Model_Resource_Order_Collection_Abstract'
+        if (!($instance instanceof \Magento\Sales\Model\Resource\Order\Collection\AbstractCollection)) {
+            throw new \InvalidArgumentException(
+                $className . ' does not implement \Magento\Sales\Model\Resource\Order\Collection\AbstractCollection'
             );
         }
         return $instance;

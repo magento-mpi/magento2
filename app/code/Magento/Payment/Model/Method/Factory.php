@@ -7,23 +7,25 @@
  */
 
 /**
- * Class Magento_Payment_Model_Method_Factory
+ * Class \Magento\Payment\Model\Method\Factory
  */
-class Magento_Payment_Model_Method_Factory
+namespace Magento\Payment\Model\Method;
+
+class Factory
 {
     /**
      * Object manager
      *
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
      * Construct
      *
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
@@ -33,14 +35,14 @@ class Magento_Payment_Model_Method_Factory
      *
      * @param string $className
      * @param array $data
-     * @return Magento_Payment_Model_Method_Abstract
-     * @throws Magento_Core_Exception
+     * @return \Magento\Payment\Model\Method\AbstractMethod
+     * @throws \Magento\Core\Exception
      */
     public function create($className, $data = array())
     {
         $method = $this->_objectManager->create($className, $data);
-        if (!($method instanceof Magento_Payment_Model_Method_Abstract)) {
-            throw new Magento_Core_Exception(sprintf("%s class doesn't extend Magento_Payment_Model_Method_Abstract",
+        if (!($method instanceof \Magento\Payment\Model\Method\AbstractMethod)) {
+            throw new \Magento\Core\Exception(sprintf("%s class doesn't extend \Magento\Payment\Model\Method\AbstractMethod",
                 $className));
         }
         return $method;

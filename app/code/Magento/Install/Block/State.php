@@ -15,7 +15,9 @@
  * @package    Magento_Install
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Install_Block_State extends Magento_Core_Block_Template
+namespace Magento\Install\Block;
+
+class State extends \Magento\Core\Block\Template
 {
     /**
      * @var string
@@ -27,7 +29,7 @@ class Magento_Install_Block_State extends Magento_Core_Block_Template
      */
     protected function _construct()
     {
-        $this->assign('steps', Mage::getSingleton('Magento_Install_Model_Wizard')->getSteps());
+        $this->assign('steps', \Mage::getSingleton('Magento\Install\Model\Wizard')->getSteps());
     }
 
     /**
@@ -56,7 +58,7 @@ class Magento_Install_Block_State extends Magento_Core_Block_Template
      */
     public function isDownloaderInstall()
     {
-        $session = Mage::app()->getCookie()->get('magento_downloader_session');
+        $session = \Mage::app()->getCookie()->get('magento_downloader_session');
         return $session ? true : false;
     }
 }

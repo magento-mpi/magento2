@@ -15,17 +15,19 @@
  * @package     Magento_Log
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Log_Model_Resource_Shell
+namespace Magento\Log\Model\Resource;
+
+class Shell
 {
     /**
-     * @var Magento_Core_Model_Resource
+     * @var \Magento\Core\Model\Resource
      */
     protected $_resource;
 
     /**
-     * @param Magento_Core_Model_Resource $resource
+     * @param \Magento\Core\Model\Resource $resource
      */
-    public function __construct(Magento_Core_Model_Resource $resource)
+    public function __construct(\Magento\Core\Model\Resource $resource)
     {
         $this->_resource = $resource;
     }
@@ -50,7 +52,7 @@ class Magento_Log_Model_Resource_Shell
             'catalog_compare_item'
         );
 
-        $resHelper = Mage::getResourceHelper('Magento_Log');
+        $resHelper = \Mage::getResourceHelper('Magento_Log');
         $result = array();
         foreach ($tables as $table) {
             $info = $resHelper->getTableInfo($this->_resource->getTableName($table));

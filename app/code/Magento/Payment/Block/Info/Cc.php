@@ -11,38 +11,40 @@
 /**
  * Credit card generic payment info
  */
-class Magento_Payment_Block_Info_Cc extends Magento_Payment_Block_Info
+namespace Magento\Payment\Block\Info;
+
+class Cc extends \Magento\Payment\Block\Info
 {
     /**
      * Locale model
      *
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
     /**
      * Payment config model
      *
-     * @var Magento_Payment_Model_Config
+     * @var \Magento\Payment\Model\Config
      */
     protected $_paymentConfig;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Payment_Model_Config $paymentConfig
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Payment\Model\Config $paymentConfig
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Payment_Model_Config $paymentConfig,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Payment\Model\Config $paymentConfig,
         array $data = array()
     ) {
         parent::__construct($coreData, $context, $storeManager, $data);
@@ -91,7 +93,7 @@ class Magento_Payment_Block_Info_Cc extends Magento_Payment_Block_Info
     /**
      * Retrieve CC expiration date
      *
-     * @return Zend_Date
+     * @return \Zend_Date
      */
     public function getCcExpDate()
     {
@@ -104,8 +106,8 @@ class Magento_Payment_Block_Info_Cc extends Magento_Payment_Block_Info
     /**
      * Prepare credit card related payment info
      *
-     * @param Magento_Object|array $transport
-     * @return Magento_Object
+     * @param \Magento\Object|array $transport
+     * @return \Magento\Object
      */
     protected function _prepareSpecificInformation($transport = null)
     {

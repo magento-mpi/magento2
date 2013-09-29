@@ -15,7 +15,9 @@
  * @package  Magento_Usa
  * @author   Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_Page extends Zend_Pdf_Page
+namespace Magento\Usa\Model\Shipping\Carrier\Dhl\Label\Pdf;
+
+class Page extends \Zend_Pdf_Page
 {
     /**
      * Text align constants
@@ -28,7 +30,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_Page extends Zend_Pdf_Pag
      * Dhl International Label Creation Class Pdf Page constructor
      * Create/Make a copy of pdf page
      *
-     * @param Magento_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_Page|string $param1
+     * @param \Magento\Usa\Model\Shipping\Carrier\Dhl\Label\Pdf\Page|string $param1
      * @param null $param2
      * @param null $param3
      */
@@ -37,26 +39,26 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_Page extends Zend_Pdf_Pag
      *
      * Create/Make a copy of pdf page
      *
-     * @param Magento_Core_Helper_String $coreString
-     * @param Magento_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_Page|string $param1
+     * @param \Magento\Core\Helper\String $coreString
+     * @param \Magento\Usa\Model\Shipping\Carrier\Dhl\Label\Pdf\Page|string $param1
      * @param null $param2
      * @param null $param3
      */
     /**
      * Core string
      *
-     * @var Magento_Core_Helper_String
+     * @var \Magento\Core\Helper\String
      */
     protected $_coreString = null;
 
     public function __construct(
-        Magento_Core_Helper_String $coreString,
+        \Magento\Core\Helper\String $coreString,
         $param1,
         $param2 = null,
         $param3 = null
     ) {
         $this->_coreString = $coreString;
-        if ($param1 instanceof Magento_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_Page
+        if ($param1 instanceof \Magento\Usa\Model\Shipping\Carrier\Dhl\Label\Pdf\Page
             && $param2 === null && $param3 === null
         ) {
             $this->_contents = $param1->getContents();
@@ -78,11 +80,11 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_Page extends Zend_Pdf_Pag
      * Calculate the width of given text in points taking into account current font and font-size
      *
      * @param string $text
-     * @param Zend_Pdf_Resource_Font $font
+     * @param \Zend_Pdf_Resource_Font $font
      * @param float $font_size
      * @return float
      */
-    public function getTextWidth($text, Zend_Pdf_Resource_Font $font, $font_size)
+    public function getTextWidth($text, \Zend_Pdf_Resource_Font $font, $font_size)
     {
         $drawing_text = iconv('', 'UTF-16BE', $text);
         $characters = array();
@@ -104,8 +106,8 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_Page extends Zend_Pdf_Pag
      * @param string $charEncoding (optional) Character encoding of source text.
      *   Defaults to current locale.
      * @param $align
-     * @throws Zend_Pdf_Exception
-     * @return Magento_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_Page
+     * @throws \Zend_Pdf_Exception
+     * @return \Magento\Usa\Model\Shipping\Carrier\Dhl\Label\Pdf\Page
      */
     public function drawText($text, $x, $y, $charEncoding = '', $align = self::ALIGN_LEFT)
     {
@@ -137,14 +139,14 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_Page extends Zend_Pdf_Pag
      * @param int $y
      * @param int $maxWidth - number of symbols
      * @param string $align
-     * @throws Zend_Pdf_Exception
+     * @throws \Zend_Pdf_Exception
      * @return float
      */
     public function drawLines($lines, $x, $y, $maxWidth, $align = self::ALIGN_LEFT)
     {
         foreach ($lines as $line) {
             if (strlen($line) > $maxWidth) {
-                $subLines = $this->_coreString->str_split($line, $maxWidth, true, true);
+                $subLines = $this->_coreString->strSplit($line, $maxWidth, true, true);
                 $y = $this->drawLines(array_filter($subLines), $x, $y, $maxWidth, $align);
                 continue;
             }

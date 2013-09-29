@@ -11,12 +11,14 @@
 /**
  * Db adapters factory
  */
-class Magento_Tools_Migration_Acl_Db_Adapter_Factory
+namespace Magento\Tools\Migration\Acl\Db\Adapter;
+
+class Factory
 {
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
@@ -26,25 +28,25 @@ class Magento_Tools_Migration_Acl_Db_Adapter_Factory
      *
      * @param array $config
      * @param string $type
-     * @throws InvalidArgumentException
-     * @return Zend_Db_Adapter_Abstract
+     * @throws \InvalidArgumentException
+     * @return \Zend_Db_Adapter_Abstract
      */
     public function getAdapter(array $config, $type = null)
     {
-        $dbAdapterClassName = 'Magento_Db_Adapter_Pdo_Mysql';
+        $dbAdapterClassName = 'Magento\Db\Adapter\Pdo\Mysql';
 
         if (false == empty($type)) {
             $dbAdapterClassName = $type;
         }
 
         if (false == class_exists($dbAdapterClassName, true)) {
-            throw new InvalidArgumentException('Specified adapter not exists: ' . $dbAdapterClassName);
+            throw new \InvalidArgumentException('Specified adapter not exists: ' . $dbAdapterClassName);
         }
 
         $adapter = $this->_objectManager->create($dbAdapterClassName, array('config' => $config));
-        if (false == ($adapter instanceof Zend_Db_Adapter_Abstract)) {
+        if (false == ($adapter instanceof \Zend_Db_Adapter_Abstract)) {
             unset($adapter);
-            throw new InvalidArgumentException('Specified adapter is not instance of Zend_Db_Adapter_Abstract');
+            throw new \InvalidArgumentException('Specified adapter is not instance of \Zend_Db_Adapter_Abstract');
         }
         return $adapter;
     }

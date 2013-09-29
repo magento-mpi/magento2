@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Controller_Tax_Rate extends Magento_Adminhtml_Controller_Action
+namespace Magento\Adminhtml\Controller\Tax;
+
+class Rate extends \Magento\Adminhtml\Controller\Action
 {
     /**
      * Show Main Grid
@@ -37,14 +39,14 @@ class Magento_Adminhtml_Controller_Tax_Rate extends Magento_Adminhtml_Controller
      */
     public function addAction()
     {
-        $rateModel = $this->_objectManager->get('Magento_Tax_Model_Calculation_Rate')
+        $rateModel = $this->_objectManager->get('Magento\Tax\Model\Calculation\Rate')
             ->load(null);
 
         $this->_title(__('Tax Zones and Rates'));
 
         $this->_title(__('New Tax Rate'));
 
-        $rateModel->setData($this->_objectManager->get('Magento_Adminhtml_Model_Session')->getFormData(true));
+        $rateModel->setData($this->_objectManager->get('Magento\Adminhtml\Model\Session')->getFormData(true));
 
         if ($rateModel->getZipIsRange() && !$rateModel->hasTaxPostcode()) {
             $rateModel->setTaxPostcode($rateModel->getZipFrom() . '-' . $rateModel->getZipTo());
@@ -54,10 +56,10 @@ class Magento_Adminhtml_Controller_Tax_Rate extends Magento_Adminhtml_Controller
             ->_addBreadcrumb(__('Manage Tax Rates'), __('Manage Tax Rates'), $this->getUrl('*/tax_rate'))
             ->_addBreadcrumb(__('New Tax Rate'), __('New Tax Rate'))
             ->_addContent(
-                $this->getLayout()->createBlock('Magento_Adminhtml_Block_Tax_Rate_Toolbar_Save')
+                $this->getLayout()->createBlock('Magento\Adminhtml\Block\Tax\Rate\Toolbar\Save')
                 ->assign('header', __('Add New Tax Rate'))
                 ->assign('form',
-                    $this->getLayout()->createBlock('Magento_Adminhtml_Block_Tax_Rate_Form', 'tax_rate_form')
+                    $this->getLayout()->createBlock('Magento\Adminhtml\Block\Tax\Rate\Form', 'tax_rate_form')
                 )
             )
             ->renderLayout();
@@ -74,25 +76,25 @@ class Magento_Adminhtml_Controller_Tax_Rate extends Magento_Adminhtml_Controller
         if ($ratePost) {
             $rateId = $this->getRequest()->getParam('tax_calculation_rate_id');
             if ($rateId) {
-                $rateModel = $this->_objectManager->get('Magento_Tax_Model_Calculation_Rate')->load($rateId);
+                $rateModel = $this->_objectManager->get('Magento\Tax\Model\Calculation\Rate')->load($rateId);
                 if (!$rateModel->getId()) {
                     unset($ratePost['tax_calculation_rate_id']);
                 }
             }
 
-            $rateModel = $this->_objectManager->create('Magento_Tax_Model_Calculation_Rate')->setData($ratePost);
+            $rateModel = $this->_objectManager->create('Magento\Tax\Model\Calculation\Rate')->setData($ratePost);
 
             try {
                 $rateModel->save();
 
-                $this->_objectManager->get('Magento_Adminhtml_Model_Session')->addSuccess(__('The tax rate has been saved.'));
+                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addSuccess(__('The tax rate has been saved.'));
                 $this->getResponse()->setRedirect($this->getUrl("*/*/"));
                 return true;
-            } catch (Magento_Core_Exception $e) {
-                $this->_objectManager->get('Magento_Adminhtml_Model_Session')->setFormData($ratePost);
-                $this->_objectManager->get('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
-            } catch (Exception $e) {
-                $this->_objectManager->get('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
+            } catch (\Magento\Core\Exception $e) {
+                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->setFormData($ratePost);
+                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
+            } catch (\Exception $e) {
+                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
             }
 
             $this->_redirectReferer();
@@ -109,24 +111,24 @@ class Magento_Adminhtml_Controller_Tax_Rate extends Magento_Adminhtml_Controller
         $responseContent = '';
         try {
             $rateData = $this->_processRateData($this->getRequest()->getPost());
-            $rate = $this->_objectManager->create('Magento_Tax_Model_Calculation_Rate')
+            $rate = $this->_objectManager->create('Magento\Tax\Model\Calculation\Rate')
                 ->setData($rateData)
                 ->save();
-            $responseContent = $this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode(array(
+            $responseContent = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode(array(
                 'success' => true,
                 'error_message' => '',
                 'tax_calculation_rate_id' => $rate->getId(),
                 'code' => $rate->getCode(),
             ));
-        } catch (Magento_Core_Exception $e) {
-            $responseContent = $this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode(array(
+        } catch (\Magento\Core\Exception $e) {
+            $responseContent = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode(array(
                 'success' => false,
                 'error_message' => $e->getMessage(),
                 'tax_calculation_rate_id' => '',
                 'code' => '',
             ));
-        } catch (Exception $e) {
-            $responseContent = $this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode(array(
+        } catch (\Exception $e) {
+            $responseContent = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode(array(
                 'success' => false,
                 'error_message' => __('Something went wrong saving this rate.'),
                 'tax_calculation_rate_id' => '',
@@ -164,7 +166,7 @@ class Magento_Adminhtml_Controller_Tax_Rate extends Magento_Adminhtml_Controller
         $this->_title(__('Tax Zones and Rates'));
 
         $rateId = (int)$this->getRequest()->getParam('rate');
-        $rateModel = $this->_objectManager->get('Magento_Tax_Model_Calculation_Rate')->load($rateId);
+        $rateModel = $this->_objectManager->get('Magento\Tax\Model\Calculation\Rate')->load($rateId);
         if (!$rateModel->getId()) {
             $this->getResponse()->setRedirect($this->getUrl("*/*/"));
             return;
@@ -180,10 +182,10 @@ class Magento_Adminhtml_Controller_Tax_Rate extends Magento_Adminhtml_Controller
             ->_addBreadcrumb(__('Manage Tax Rates'), __('Manage Tax Rates'), $this->getUrl('*/tax_rate'))
             ->_addBreadcrumb(__('Edit Tax Rate'), __('Edit Tax Rate'))
             ->_addContent(
-                $this->getLayout()->createBlock('Magento_Adminhtml_Block_Tax_Rate_Toolbar_Save')
+                $this->getLayout()->createBlock('Magento\Adminhtml\Block\Tax\Rate\Toolbar\Save')
                 ->assign('header', __('Edit Tax Rate'))
                 ->assign('form',
-                    $this->getLayout()->createBlock('Magento_Adminhtml_Block_Tax_Rate_Form', 'tax_rate_form')
+                    $this->getLayout()->createBlock('Magento\Adminhtml\Block\Tax\Rate\Form', 'tax_rate_form')
                         ->setShowLegend(true)
                 )
             )
@@ -198,22 +200,22 @@ class Magento_Adminhtml_Controller_Tax_Rate extends Magento_Adminhtml_Controller
     public function deleteAction()
     {
         if ($rateId = $this->getRequest()->getParam('rate')) {
-            $rateModel = $this->_objectManager->create('Magento_Tax_Model_Calculation_Rate')->load($rateId);
+            $rateModel = $this->_objectManager->create('Magento\Tax\Model\Calculation\Rate')->load($rateId);
             if ($rateModel->getId()) {
                 try {
                     $rateModel->delete();
 
-                    $this->_objectManager->get('Magento_Adminhtml_Model_Session')
+                    $this->_objectManager->get('Magento\Adminhtml\Model\Session')
                         ->addSuccess(__('The tax rate has been deleted.'));
                     $this->getResponse()->setRedirect($this->getUrl("*/*/"));
                     return true;
                 }
-                catch (Magento_Core_Exception $e) {
-                    $this->_objectManager->get('Magento_Adminhtml_Model_Session')
+                catch (\Magento\Core\Exception $e) {
+                    $this->_objectManager->get('Magento\Adminhtml\Model\Session')
                         ->addError($e->getMessage());
                 }
-                catch (Exception $e) {
-                    $this->_objectManager->get('Magento_Adminhtml_Model_Session')
+                catch (\Exception $e) {
+                    $this->_objectManager->get('Magento\Adminhtml\Model\Session')
                         ->addError(__('Something went wrong deleting this rate.'));
                 }
                 if ($referer = $this->getRequest()->getServer('HTTP_REFERER')) {
@@ -223,7 +225,7 @@ class Magento_Adminhtml_Controller_Tax_Rate extends Magento_Adminhtml_Controller
                     $this->getResponse()->setRedirect($this->getUrl("*/*/"));
                 }
             } else {
-                $this->_objectManager->get('Magento_Adminhtml_Model_Session')
+                $this->_objectManager->get('Magento\Adminhtml\Model\Session')
                     ->addError(__('Something went wrong deleting this rate because of an incorrect rate ID.'));
                 $this->getResponse()->setRedirect($this->getUrl('*/*/'));
             }
@@ -239,19 +241,19 @@ class Magento_Adminhtml_Controller_Tax_Rate extends Magento_Adminhtml_Controller
         $responseContent = '';
         $rateId = (int)$this->getRequest()->getParam('tax_calculation_rate_id');
         try {
-            $rate = $this->_objectManager->create('Magento_Tax_Model_Calculation_Rate')->load($rateId);
+            $rate = $this->_objectManager->create('Magento\Tax\Model\Calculation\Rate')->load($rateId);
             $rate->delete();
-            $responseContent = $this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode(array(
+            $responseContent = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode(array(
                 'success' => true,
                 'error_message' => ''
             ));
-        } catch (Magento_Core_Exception $e) {
-            $responseContent = $this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode(array(
+        } catch (\Magento\Core\Exception $e) {
+            $responseContent = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode(array(
                 'success' => false,
                 'error_message' => $e->getMessage()
             ));
-        } catch (Exception $e) {
-            $responseContent = $this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode(array(
+        } catch (\Exception $e) {
+            $responseContent = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode(array(
                 'success' => false,
                 'error_message' => __('An error occurred while deleting this tax rate.')
             ));
@@ -283,7 +285,7 @@ class Magento_Adminhtml_Controller_Tax_Rate extends Magento_Adminhtml_Controller
     /**
      * Initialize action
      *
-     * @return Magento_Adminhtml_Controller_Action
+     * @return \Magento\Adminhtml\Controller\Action
      */
     protected function _initAction()
     {
@@ -306,8 +308,8 @@ class Magento_Adminhtml_Controller_Tax_Rate extends Magento_Adminhtml_Controller
 
         $this->loadLayout()
             ->_setActiveMenu('Magento_Tax::system_convert_tax')
-            ->_addContent($this->getLayout()->createBlock('Magento_Adminhtml_Block_Tax_Rate_ImportExportHeader'))
-            ->_addContent($this->getLayout()->createBlock('Magento_Adminhtml_Block_Tax_Rate_ImportExport'))
+            ->_addContent($this->getLayout()->createBlock('Magento\Adminhtml\Block\Tax\Rate\ImportExportHeader'))
+            ->_addContent($this->getLayout()->createBlock('Magento\Adminhtml\Block\Tax\Rate\ImportExport'))
             ->renderLayout();
     }
 
@@ -319,21 +321,21 @@ class Magento_Adminhtml_Controller_Tax_Rate extends Magento_Adminhtml_Controller
     {
         if ($this->getRequest()->isPost() && !empty($_FILES['import_rates_file']['tmp_name'])) {
             try {
-                /** @var $importHandler Magento_Tax_Model_Rate_CsvImportHandler */
-                $importHandler = $this->_objectManager->create('Magento_Tax_Model_Rate_CsvImportHandler');
+                /** @var $importHandler \Magento\Tax\Model\Rate\CsvImportHandler */
+                $importHandler = $this->_objectManager->create('Magento\Tax\Model\Rate\CsvImportHandler');
                 $importHandler->importFromCsvFile($this->getRequest()->getFiles('import_rates_file'));
 
-                $this->_objectManager->get('Magento_Adminhtml_Model_Session')
+                $this->_objectManager->get('Magento\Adminhtml\Model\Session')
                     ->addSuccess(__('The tax rate has been imported.'));
-            } catch (Magento_Core_Exception $e) {
-                $this->_objectManager->get('Magento_Adminhtml_Model_Session')
+            } catch (\Magento\Core\Exception $e) {
+                $this->_objectManager->get('Magento\Adminhtml\Model\Session')
                     ->addError($e->getMessage());
-            } catch (Exception $e) {
-                $this->_objectManager->get('Magento_Adminhtml_Model_Session')
+            } catch (\Exception $e) {
+                $this->_objectManager->get('Magento\Adminhtml\Model\Session')
                     ->addError(__('Invalid file upload attempt'));
             }
         } else {
-            $this->_objectManager->get('Magento_Adminhtml_Model_Session')
+            $this->_objectManager->get('Magento\Adminhtml\Model\Session')
                 ->addError(__('Invalid file upload attempt'));
         }
         $this->_redirectReferer();
@@ -346,7 +348,7 @@ class Magento_Adminhtml_Controller_Tax_Rate extends Magento_Adminhtml_Controller
     public function exportPostAction()
     {
         /** start csv content and set template */
-        $headers = new Magento_Object(array(
+        $headers = new \Magento\Object(array(
             'code'         => __('Code'),
             'country_name' => __('Country'),
             'region_name'  => __('State'),
@@ -363,7 +365,7 @@ class Magento_Adminhtml_Controller_Tax_Rate extends Magento_Adminhtml_Controller
         $storeTaxTitleTemplate       = array();
         $taxCalculationRateTitleDict = array();
 
-        foreach ($this->_objectManager->create('Magento_Core_Model_Store')->getCollection()->setLoadDefault(false) as $store) {
+        foreach ($this->_objectManager->create('Magento\Core\Model\Store')->getCollection()->setLoadDefault(false) as $store) {
             $storeTitle = 'title_' . $store->getId();
             $content   .= ',"' . $store->getCode() . '"';
             $template  .= ',"{{' . $storeTitle . '}}"';
@@ -373,7 +375,7 @@ class Magento_Adminhtml_Controller_Tax_Rate extends Magento_Adminhtml_Controller
 
         $content .= "\n";
 
-        foreach ($this->_objectManager->create('Magento_Tax_Model_Calculation_Rate_Title')->getCollection() as $title) {
+        foreach ($this->_objectManager->create('Magento\Tax\Model\Calculation\Rate\Title')->getCollection() as $title) {
             $rateId = $title->getTaxCalculationRateId();
 
             if (! array_key_exists($rateId, $taxCalculationRateTitleDict)) {
@@ -384,7 +386,7 @@ class Magento_Adminhtml_Controller_Tax_Rate extends Magento_Adminhtml_Controller
         }
         unset($title);
 
-        $collection = $this->_objectManager->create('Magento_Tax_Model_Resource_Calculation_Rate_Collection')
+        $collection = $this->_objectManager->create('Magento\Tax\Model\Resource\Calculation\Rate\Collection')
             ->joinCountryTable()
             ->joinRegionTable();
 

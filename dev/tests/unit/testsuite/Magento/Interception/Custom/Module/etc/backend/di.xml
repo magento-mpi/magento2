@@ -8,10 +8,10 @@
  */
 -->
 <config>
-    <type name="Magento_Interception_Custom_Module_Model_Item">
-        <plugin name="advanced_plugin" type="Magento_Interception_Custom_Module_Model_ItemPlugin_Advanced" sortOrder="5"/>
+    <type name="Magento\Interception\Custom\Module\Model\Item">
+        <plugin name="advanced_plugin" type="Magento\Interception\Custom\Module\Model\ItemPlugin\Advanced" sortOrder="5"/>
     </type>
-    <type name="Magento_Interception_Custom_Module_Model_ItemContainer">
-        <plugin name="simple_plugin" type="Magento_Interception_Custom_Module_Model_ItemContainerPlugin_Simple" sortOrder="15"/>
+    <type name="Magento\Interception\Custom\Module\Model\ItemContainer">
+        <plugin name="simple_plugin" type="Magento\Interception\Custom\Module\Model\ItemContainerPlugin\Simple" sortOrder="15"/>
     </type>
 </config>

@@ -7,37 +7,39 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Controller_ErrorProcessorTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webapi\Controller;
+
+class ErrorProcessorTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var Magento_Webapi_Controller_ErrorProcessor */
+    /** @var \Magento\Webapi\Controller\ErrorProcessor */
     protected $_errorProcessor;
 
-    /** @var Magento_Core_Helper_Data */
+    /** @var \Magento\Core\Helper\Data */
     protected $_helperMock;
 
-    /** @var Magento_Core_Model_App */
+    /** @var \Magento\Core\Model\App */
     protected $_appMock;
 
-    /** @var Magento_Core_Model_Logger */
+    /** @var \Magento\Core\Model\Logger */
     protected $_loggerMock;
 
     protected function setUp()
     {
         /** Set up mocks for SUT. */
-        $this->_helperMock = $this->getMockBuilder('Magento_Core_Helper_Data')
+        $this->_helperMock = $this->getMockBuilder('Magento\Core\Helper\Data')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_appMock = $this->getMockBuilder('Magento_Core_Model_App')
+        $this->_appMock = $this->getMockBuilder('Magento\Core\Model\App')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_loggerMock = $this->getMockBuilder('Magento_Core_Model_Logger')
+        $this->_loggerMock = $this->getMockBuilder('Magento\Core\Model\Logger')
             ->disableOriginalConstructor()
             ->getMock();
 
         /** Initialize SUT. */
-        $this->_errorProcessor = new Magento_Webapi_Controller_ErrorProcessor(
+        $this->_errorProcessor = new \Magento\Webapi\Controller\ErrorProcessor(
             $this->_helperMock,
             $this->_appMock,
             $this->_loggerMock
@@ -165,10 +167,10 @@ class Magento_Webapi_Controller_ErrorProcessorTest extends PHPUnit_Framework_Tes
         $this->_appMock->expects($this->once())->method('isDeveloperMode')->will($this->returnValue(true));
         /** Init Logical exception. */
         $errorMessage = 'Error Message';
-        $logicalException = new LogicException($errorMessage);
-        /** Assert that Logic exception is converted to Magento_Webapi_Exception without message obfuscation. */
+        $logicalException = new \LogicException($errorMessage);
+        /** Assert that Logic exception is converted to \Magento\Webapi\Exception without message obfuscation. */
         $maskedException = $this->_errorProcessor->maskException($logicalException);
-        $this->assertInstanceOf('Magento_Webapi_Exception', $maskedException);
+        $this->assertInstanceOf('Magento\Webapi\Exception', $maskedException);
         $this->assertEquals(
             $errorMessage,
             $maskedException->getMessage(),
@@ -198,53 +200,54 @@ class Magento_Webapi_Controller_ErrorProcessorTest extends PHPUnit_Framework_Tes
     public function dataProviderForSendResponseExceptions()
     {
         return array(
-            'Magento_Service_ResourceNotFoundException' => array(
-                new Magento_Service_ResourceNotFoundException('Resource not found', 2345, null,
+            'Magento\Service\ResourceNotFoundException' => array(
+                new \Magento\Service\ResourceNotFoundException('Resource not found', 2345, null,
                     array('datail1' => 'value1'), 'resource10'),
-                Magento_Webapi_Exception::HTTP_NOT_FOUND,
+                \Magento\Webapi\Exception::HTTP_NOT_FOUND,
                 'Resource not found',
                 2345,
                 array('datail1' => 'value1', 'resource_id' => 'resource10')
             ),
-            'Magento_Service_ResourceNotFoundException (Empty message)' => array(
-                new Magento_Service_ResourceNotFoundException('', 2345, null,
+            'Magento\Service\ResourceNotFoundException (Empty message)' => array(
+                new \Magento\Service\ResourceNotFoundException('', 2345, null,
                     array('datail1' => 'value1'), 'resource10'),
-                Magento_Webapi_Exception::HTTP_NOT_FOUND,
+                \Magento\Webapi\Exception::HTTP_NOT_FOUND,
                 "Resource with ID 'resource10' not found.",
                 2345,
                 array('datail1' => 'value1', 'resource_id' => 'resource10')
             ),
-            'Magento_Service_AuthorizationException' => array(
-                new Magento_Service_AuthorizationException('Service authorization exception', 345, null, array(), 3, 4),
-                Magento_Webapi_Exception::HTTP_UNAUTHORIZED,
+            'Magento\Service\AuthorizationException' => array(
+                new \Magento\Service\AuthorizationException('Service authorization exception', 345, null,
+                    array(), 3, 4),
+                \Magento\Webapi\Exception::HTTP_UNAUTHORIZED,
                 'Service authorization exception',
                 345,
                 array('user_id' => 3, 'resource_id' => 4)
             ),
             'Magento_Service_AuthorizationException (Empty message)' => array(
-                new Magento_Service_AuthorizationException('', 345, null, array(), 3, 4),
-                Magento_Webapi_Exception::HTTP_UNAUTHORIZED,
+                new \Magento\Service\AuthorizationException('', 345, null, array(), 3, 4),
+                \Magento\Webapi\Exception::HTTP_UNAUTHORIZED,
                 "User with ID '3' is not authorized to access resource with ID '4'.",
                 345,
                 array('user_id' => 3, 'resource_id' => 4)
             ),
-            'Magento_Service_Exception' => array(
-                new Magento_Service_Exception('Generic service exception', 4567),
-                Magento_Webapi_Exception::HTTP_BAD_REQUEST,
+            'Magento\Service\Exception' => array(
+                new \Magento\Service\Exception('Generic service exception', 4567),
+                \Magento\Webapi\Exception::HTTP_BAD_REQUEST,
                 'Generic service exception',
                 4567,
                 array()
             ),
-            'Magento_Service_Exception_With_Parameters' => array(
-                new Magento_Service_Exception('Parameterized service exception', 1234, null, array("P1", "P2")),
-                Magento_Webapi_Exception::HTTP_BAD_REQUEST,
+            'Magento\Service\Exception\With\Parameters' => array(
+                new \Magento\Service\Exception('Parameterized service exception', 1234, null, array("P1", "P2")),
+                \Magento\Webapi\Exception::HTTP_BAD_REQUEST,
                 'Parameterized service exception',
                 1234,
                 array("P1", "P2")
             ),
             'Exception' => array(
-                new Exception('Non service exception', 5678),
-                Magento_Webapi_Exception::HTTP_INTERNAL_ERROR,
+                new \Exception('Non service exception', 5678),
+                \Magento\Webapi\Exception::HTTP_INTERNAL_ERROR,
                 'Internal Error. Details are available in Magento log file. Report ID: webapi-',
                 0,
                 array()
@@ -255,7 +258,7 @@ class Magento_Webapi_Controller_ErrorProcessorTest extends PHPUnit_Framework_Tes
     /**
      * Assert that masked exception contains expected data.
      *
-     * @param Exception $maskedException
+     * @param \Exception $maskedException
      * @param int $expectedHttpCode
      * @param string $expectedMessage
      * @param int $expectedCode
@@ -269,13 +272,13 @@ class Magento_Webapi_Controller_ErrorProcessorTest extends PHPUnit_Framework_Tes
         $expectedDetails
     ) {
         /** All masked exceptions must be Mage_Webapi_Exception */
-        $expectedType = 'Magento_Webapi_Exception';
+        $expectedType = 'Magento\Webapi\Exception';
         $this->assertInstanceOf(
             $expectedType,
             $maskedException,
             "Masked exception type is invalid: expected '{$expectedType}', given '" . get_class($maskedException) . "'."
         );
-        /** @var $maskedException Magento_Webapi_Exception */
+        /** @var $maskedException \Magento\Webapi\Exception */
         $this->assertEquals(
             $expectedHttpCode,
             $maskedException->getHttpCode(),

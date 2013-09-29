@@ -5,12 +5,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Logging_Model_Processor
+namespace Magento\Logging\Model;
+
+class Processor
 {
     /**
      * Logging events config
      *
-     * @var Magento_Logging_Model_Config
+     * @var \Magento\Logging\Model\Config
      */
     protected $_config;
 
@@ -24,14 +26,14 @@ class Magento_Logging_Model_Processor
     /**
      * Instance of controller handler
      *
-     * @var Magento_Logging_Model_Handler_Controllers
+     * @var \Magento\Logging\Model\Handler\Controllers
      */
     protected $_controllersHandler;
 
     /**
      * Instance of model controller
      *
-     * @var Magento_Logging_Model_Handler_Models
+     * @var \Magento\Logging\Model\Handler\Models
      */
     protected $_modelsHandler;
 
@@ -87,77 +89,77 @@ class Magento_Logging_Model_Processor
     /**
      * Backend auth session
      *
-     * @var Magento_Backend_Model_Auth_Session
+     * @var \Magento\Backend\Model\Auth\Session
      */
     protected $_authSession;
 
     /**
      * Backend session
      *
-     * @var Magento_Backend_Model_Session
+     * @var \Magento\Backend\Model\Session
      */
     protected $_backendSession;
 
     /**
      * Object manager
      *
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
      * Logger model
      *
-     * @var Magento_Core_Model_Logger
+     * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
 
     /**
      * Event model factory
      *
-     * @var Magento_Logging_Model_EventFactory
+     * @var \Magento\Logging\Model\EventFactory
      */
     protected $_eventFactory;
 
     /**
      * Request
      *
-     * @var Magento_Core_Controller_Request_Http
+     * @var \Magento\Core\Controller\Request\Http
      */
     protected $_request;
 
     /**
      * Core http
      *
-     * @var Magento_Core_Helper_Http
+     * @var \Magento\Core\Helper\Http
      */
     protected $_httpHelper;
 
     /**
      * Constructor: initialize configuration model, controller and model handler
      *
-     * @param Magento_Logging_Model_Config $config
-     * @param Magento_Logging_Model_Handler_Models $modelsHandler
-     * @param Magento_Backend_Model_Auth_Session $authSession
-     * @param Magento_Backend_Model_Session $backendSession
-     * @param Magento_ObjectManager $objectManager
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Logging_Model_Handler_ControllersFactory $handlerControllersFactory
-     * @param Magento_Logging_Model_EventFactory $eventFactory
-     * @param Magento_Core_Controller_Request_Http $request
-     * @param Magento_Core_Helper_Http $httpHelper
+     * @param \Magento\Logging\Model\Config $config
+     * @param \Magento\Logging\Model\Handler\Models $modelsHandler
+     * @param \Magento\Backend\Model\Auth\Session $authSession
+     * @param \Magento\Backend\Model\Session $backendSession
+     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Logging\Model\Handler\ControllersFactory $handlerControllersFactory
+     * @param \Magento\Logging\Model\EventFactory $eventFactory
+     * @param \Magento\Core\Controller\Request\Http $request
+     * @param \Magento\Core\Helper\Http $httpHelper
      */
     public function __construct(
-        Magento_Logging_Model_Config $config,
-        Magento_Logging_Model_Handler_Models $modelsHandler,
-        Magento_Backend_Model_Auth_Session $authSession,
-        Magento_Backend_Model_Session $backendSession,
-        Magento_ObjectManager $objectManager,
-        Magento_Core_Model_Logger $logger,
-        Magento_Logging_Model_Handler_ControllersFactory $handlerControllersFactory,
-        Magento_Logging_Model_EventFactory $eventFactory,
-        Magento_Core_Controller_Request_Http $request,
-        Magento_Core_Helper_Http $httpHelper
+        \Magento\Logging\Model\Config $config,
+        \Magento\Logging\Model\Handler\Models $modelsHandler,
+        \Magento\Backend\Model\Auth\Session $authSession,
+        \Magento\Backend\Model\Session $backendSession,
+        \Magento\ObjectManager $objectManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Logging\Model\Handler\ControllersFactory $handlerControllersFactory,
+        \Magento\Logging\Model\EventFactory $eventFactory,
+        \Magento\Core\Controller\Request\Http $request,
+        \Magento\Core\Helper\Http $httpHelper
     ) {
         $this->_config = $config;
         $this->_modelsHandler = $modelsHandler;
@@ -176,7 +178,7 @@ class Magento_Logging_Model_Processor
      *
      * @param string $fullActionName Full action name like 'adminhtml_catalog_product_edit'
      * @param string $actionName Action name like 'save', 'edit' etc.
-     * @return Magento_Logging_Model_Processor
+     * @return \Magento\Logging\Model\Processor
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.NPathComplexity)
      */
@@ -235,7 +237,7 @@ class Magento_Logging_Model_Processor
      *
      * @param object $model
      * @param string $action
-     * @return Magento_Logging_Model_Processor|false
+     * @return \Magento\Logging\Model\Processor|false
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.NPathComplexity)
      */
@@ -327,7 +329,7 @@ class Magento_Logging_Model_Processor
     /**
      * Postdispatch action handler
      *
-     * @return Magento_Logging_Model_Processor|false
+     * @return \Magento\Logging\Model\Processor|false
      */
     public function logAction()
     {
@@ -360,7 +362,7 @@ class Magento_Logging_Model_Processor
             $loggingEvent->save();
             $this->_saveEventChanges($loggingEvent);
 
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_logger->logException($e);
             return false;
         }
@@ -370,7 +372,7 @@ class Magento_Logging_Model_Processor
     /**
      * Initialize logging event
      *
-     * @return Magento_Logging_Model_Event
+     * @return \Magento\Logging\Model\Event
      */
     private function _initLoggingEvent()
     {
@@ -381,7 +383,7 @@ class Magento_Logging_Model_Processor
             $username = $this->_authSession->getUser()->getUsername();
         }
         $errors = $this->_backendSession->getMessages()->getErrors();
-        /** @var Magento_Logging_Model_Event $loggingEvent */
+        /** @var \Magento\Logging\Model\Event $loggingEvent */
         $loggingEvent = $this->_eventFactory->create()->setData(array(
             'ip'            => $this->_httpHelper->getRemoteAddr(),
             'x_forwarded_ip'=> $this->_request->getServer('HTTP_X_FORWARDED_FOR'),
@@ -395,8 +397,8 @@ class Magento_Logging_Model_Processor
     }
 
     /**
-     * @param Magento_Logging_Model_Event$loggingEvent
-     * @return Magento_Logging_Model_Processor|false
+     * @param \Magento\Logging\Model\Event$loggingEvent
+     * @return \Magento\Logging\Model\Processor|false
      */
     private function _callPostdispatchCallback($loggingEvent)
     {
@@ -413,7 +415,7 @@ class Magento_Logging_Model_Processor
             }
             if (!$handler || !$callback || !method_exists($handler, $callback)) {
                 $this->_logger->logException(
-                    new Magento_Core_Exception(sprintf("Unknown callback function: %s::%s", $handler, $callback)));
+                    new \Magento\Core\Exception(sprintf("Unknown callback function: %s::%s", $handler, $callback)));
             }
         }
 
@@ -430,8 +432,8 @@ class Magento_Logging_Model_Processor
     /**
      * Save event changes
      *
-     * @param Magento_Logging_Model_Event $loggingEvent
-     * @return Magento_Logging_Model_Processor|false
+     * @param \Magento\Logging\Model\Event $loggingEvent
+     * @return \Magento\Logging\Model\Processor|false
      */
     private function _saveEventChanges($loggingEvent)
     {
@@ -450,7 +452,7 @@ class Magento_Logging_Model_Processor
     /**
      * Log "denied" action
      *
-     * @return Magento_Logging_Model_Processor|false
+     * @return \Magento\Logging\Model\Processor|false
      */
     public function logDeniedAction()
     {
@@ -547,8 +549,8 @@ class Magento_Logging_Model_Processor
     /**
      * Add new event changes
      *
-     * @param Magento_Logging_Model_Event_Changes $eventChange
-     * @return Magento_Logging_Model_Processor
+     * @param \Magento\Logging\Model\Event\Changes $eventChange
+     * @return \Magento\Logging\Model\Processor
      */
     public function addEventChanges($eventChange)
     {

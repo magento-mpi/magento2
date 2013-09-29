@@ -15,7 +15,9 @@
  * @package    Magento_Paypal
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Paypal_Block_Hosted_Pro_Info extends Magento_Paypal_Block_Payment_Info
+namespace Magento\Paypal\Block\Hosted\Pro;
+
+class Info extends \Magento\Paypal\Block\Payment\Info
 {
     /**
      * Don't show CC type

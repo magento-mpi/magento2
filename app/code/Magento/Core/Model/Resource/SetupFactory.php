@@ -8,17 +8,19 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Resource_SetupFactory
+namespace Magento\Core\Model\Resource;
+
+class SetupFactory
 {
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
@@ -28,14 +30,14 @@ class Magento_Core_Model_Resource_SetupFactory
      *
      * @param $className
      * @param array $arguments
-     * @return Magento_Core_Model_Resource_SetupInterface
-     * @throws LogicException
+     * @return \Magento\Core\Model\Resource\SetupInterface
+     * @throws \LogicException
      */
     public function create($className, array $arguments = array())
     {
         $object = $this->_objectManager->create($className, $arguments);
-        if (false == ($object instanceof Magento_Core_Model_Resource_SetupInterface)) {
-            throw new LogicException($className . ' doesn\'t implement Magento_Core_Model_Resource_SetupInterface');
+        if (false == ($object instanceof \Magento\Core\Model\Resource\SetupInterface)) {
+            throw new \LogicException($className . ' doesn\'t implement \Magento\Core\Model\Resource\SetupInterface');
         }
         return $object;
     }

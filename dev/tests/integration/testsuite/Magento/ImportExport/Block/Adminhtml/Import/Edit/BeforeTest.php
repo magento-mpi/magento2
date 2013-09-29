@@ -10,14 +10,16 @@
  */
 
 /**
- * Test class for Magento_ImportExport_Block_Adminhtml_Import_Edit_Before
+ * Test class for \Magento\ImportExport\Block\Adminhtml\Import\Edit\Before
  */
-class Magento_ImportExport_Block_Adminhtml_Import_Edit_BeforeTest extends PHPUnit_Framework_TestCase
+namespace Magento\ImportExport\Block\Adminhtml\Import\Edit;
+
+class BeforeTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Test model
      *
-     * @var Magento_ImportExport_Block_Adminhtml_Import_Edit_Before
+     * @var \Magento\ImportExport\Block\Adminhtml\Import\Edit\Before
      */
     protected $_model;
 
@@ -66,13 +68,13 @@ class Magento_ImportExport_Block_Adminhtml_Import_Edit_BeforeTest extends PHPUni
 
     protected function setUp()
     {
-        $coreHelper = $this->getMock('Magento_Core_Helper_Data', array('jsonEncode'), array(), '', false, false);
+        $coreHelper = $this->getMock('Magento\Core\Helper\Data', array('jsonEncode'), array(), '', false, false);
         $coreHelper->expects($this->any())
             ->method('jsonEncode')
             ->will($this->returnCallback(array($this, 'jsonEncodeCallback')));
 
         $importModel = $this->getMock(
-            'Magento_ImportExport_Model_Import',
+            'Magento\ImportExport\Model\Import',
             array('getEntityBehaviors', 'getUniqueEntityBehaviors'),
             array(),
             '',
@@ -88,10 +90,10 @@ class Magento_ImportExport_Block_Adminhtml_Import_Edit_BeforeTest extends PHPUni
         $arguments = array(
             'coreData'  => $coreHelper,
             'importModel' => $importModel,
-            'urlBuilder' => $this->getMock('Magento_Backend_Model_Url', array(), array(), '', false)
+            'urlBuilder' => $this->getMock('Magento\Backend\Model\Url', array(), array(), '', false)
         );
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $this->_model = $objectManager->create('Magento_ImportExport_Block_Adminhtml_Import_Edit_Before', $arguments);
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $this->_model = $objectManager->create('Magento\ImportExport\Block\Adminhtml\Import\Edit\Before', $arguments);
     }
 
     protected function tearDown()
@@ -100,37 +102,37 @@ class Magento_ImportExport_Block_Adminhtml_Import_Edit_BeforeTest extends PHPUni
     }
 
     /**
-     * Callback method for Magento_Core_Helper_Data::jsonEncode
+     * Callback method for \Magento\Core\Helper\Data::jsonEncode
      *
      * @param mixed $data
      * @return string
      */
     public function jsonEncodeCallback($data)
     {
-        return Zend_Json::encode($data);
+        return \Zend_Json::encode($data);
     }
 
     /**
      * Test for getEntityBehaviors method
      *
-     * @covers Magento_ImportExport_Block_Adminhtml_Import_Edit_Before::getEntityBehaviors
+     * @covers \Magento\ImportExport\Block\Adminhtml\Import\Edit\Before::getEntityBehaviors
      */
     public function testGetEntityBehaviors()
     {
         $actualEntities = $this->_model->getEntityBehaviors();
-        $expectedEntities = Zend_Json::encode($this->_expectedEntities);
+        $expectedEntities = \Zend_Json::encode($this->_expectedEntities);
         $this->assertEquals($expectedEntities, $actualEntities);
     }
 
     /**
      * Test for getUniqueBehaviors method
      *
-     * @covers Magento_ImportExport_Block_Adminhtml_Import_Edit_Before::getUniqueBehaviors
+     * @covers \Magento\ImportExport\Block\Adminhtml\Import\Edit\Before::getUniqueBehaviors
      */
     public function testGetUniqueBehaviors()
     {
         $actualBehaviors = $this->_model->getUniqueBehaviors();
-        $expectedBehaviors = Zend_Json::encode($this->_expectedBehaviors);
+        $expectedBehaviors = \Zend_Json::encode($this->_expectedBehaviors);
         $this->assertEquals($expectedBehaviors, $actualBehaviors);
     }
 }

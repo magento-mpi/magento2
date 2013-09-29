@@ -16,7 +16,9 @@
  * @package     Magento_VersionsCms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_VersionsCms_Model_Resource_Page_Revision extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\VersionsCms\Model\Resource\Page;
+
+class Revision extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Name of page table from config
@@ -62,10 +64,10 @@ class Magento_VersionsCms_Model_Resource_Page_Revision extends Magento_Core_Mode
     /**
      * Process page data before saving
      *
-     * @param Magento_Core_Model_Abstract $object
-     * @return Magento_VersionsCms_Model_Resource_Page_Revision
+     * @param \Magento\Core\Model\AbstractModel $object
+     * @return \Magento\VersionsCms\Model\Resource\Page\Revision
      */
-    protected function _beforeSave(Magento_Core_Model_Abstract $object)
+    protected function _beforeSave(\Magento\Core\Model\AbstractModel $object)
     {
         if (!$object->getCopiedFromOriginal()) {
             /*
@@ -77,7 +79,7 @@ class Magento_VersionsCms_Model_Resource_Page_Revision extends Magento_Core_Mode
             foreach (array('custom_theme_from', 'custom_theme_to') as $dataKey) {
                 $date = $object->getData($dataKey);
                 if (!$date) {
-                    $object->setData($dataKey, new Zend_Db_Expr('NULL'));
+                    $object->setData($dataKey, new \Zend_Db_Expr('NULL'));
                 }
             }
         }
@@ -87,10 +89,10 @@ class Magento_VersionsCms_Model_Resource_Page_Revision extends Magento_Core_Mode
     /**
      * Process data after save
      *
-     * @param Magento_Core_Model_Abstract $object
-     * @return Magento_VersionsCms_Model_Resource_Page_Revision
+     * @param \Magento\Core\Model\AbstractModel $object
+     * @return \Magento\VersionsCms\Model\Resource\Page\Revision
      */
-    protected function _afterSave(Magento_Core_Model_Abstract $object)
+    protected function _afterSave(\Magento\Core\Model\AbstractModel $object)
     {
         $this->_aggregateVersionData((int)$object->getVersionId());
 
@@ -101,10 +103,10 @@ class Magento_VersionsCms_Model_Resource_Page_Revision extends Magento_Core_Mode
      * Process data after delete
      * Validate if this revision can be removed
      *
-     * @param Magento_Core_Model_Abstract $object
-     * @return Magento_VersionsCms_Model_Resource_Page_Revision
+     * @param \Magento\Core\Model\AbstractModel $object
+     * @return \Magento\VersionsCms\Model\Resource\Page\Revision
      */
-    protected function _afterDelete(Magento_Core_Model_Abstract $object)
+    protected function _afterDelete(\Magento\Core\Model\AbstractModel $object)
     {
         $this->_aggregateVersionData((int)$object->getVersionId());
 
@@ -115,10 +117,10 @@ class Magento_VersionsCms_Model_Resource_Page_Revision extends Magento_Core_Mode
      * Checking if revision was published
      *
      *
-     * @param Magento_Core_Model_Abstract $object
+     * @param \Magento\Core\Model\AbstractModel $object
      * @return bool
      */
-    public function isRevisionPublished(Magento_Core_Model_Abstract $object)
+    public function isRevisionPublished(\Magento\Core\Model\AbstractModel $object)
     {
         $select = $this->_getReadAdapter()->select();
         $select->from($this->_pageTable, 'published_revision_id')
@@ -133,7 +135,7 @@ class Magento_VersionsCms_Model_Resource_Page_Revision extends Magento_Core_Mode
      * Aggregate data for version
      *
      * @param int $versionId
-     * @return Magento_VersionsCms_Model_Resource_Page_Revision
+     * @return \Magento\VersionsCms\Model\Resource\Page\Revision
      */
     protected function _aggregateVersionData($versionId)
     {
@@ -143,7 +145,7 @@ class Magento_VersionsCms_Model_Resource_Page_Revision extends Magento_Core_Mode
             ->where('version_id = ?', (int)$versionId)
             ->group('version_id');
 
-        $sql = new Zend_Db_Expr(sprintf('(%s)', $selectCount));
+        $sql = new \Zend_Db_Expr(sprintf('(%s)', $selectCount));
         $select = clone $selectCount;
         $select->reset()
             ->join(array('r' => $sql), 'p.version_id = r.version_id', array('revisions_count'))
@@ -159,11 +161,11 @@ class Magento_VersionsCms_Model_Resource_Page_Revision extends Magento_Core_Mode
     /**
      * Publishing passed revision object to page
      *
-     * @param Magento_VersionsCms_Model_Page_Revision $object
+     * @param \Magento\VersionsCms\Model\Page\Revision $object
      * @param int $targetId
-     * @return Magento_VersionsCms_Model_Resource_Page_Revision
+     * @return \Magento\VersionsCms\Model\Resource\Page\Revision
      */
-    public function publish(Magento_VersionsCms_Model_Page_Revision $object, $targetId)
+    public function publish(\Magento\VersionsCms\Model\Page\Revision $object, $targetId)
     {
         $data      = $this->_prepareDataForTable($object, $this->_pageTable);
         $condition = array('page_id = ?' => $targetId);
@@ -175,12 +177,12 @@ class Magento_VersionsCms_Model_Resource_Page_Revision extends Magento_Core_Mode
     /**
      * Loading revision's data with extra access level checking.
      *
-     * @param Magento_VersionsCms_Model_Page_Revision $object
+     * @param \Magento\VersionsCms\Model\Page\Revision $object
      * @param array|string $accessLevel
      * @param int $userId
      * @param int|string $value
      * @param string|null $field
-     * @return Magento_VersionsCms_Model_Resource_Page_Revision
+     * @return \Magento\VersionsCms\Model\Resource\Page\Revision
      */
     public function loadWithRestrictions($object, $accessLevel, $userId, $value, $field)
     {
@@ -227,12 +229,12 @@ class Magento_VersionsCms_Model_Resource_Page_Revision extends Magento_Core_Mode
      * Used to load clean revision without any data that is under revision control but which
      * will have all other data from version and page tables.
      *
-     * @param Magento_VersionsCms_Model_Page_Revision $object
+     * @param \Magento\VersionsCms\Model\Page\Revision $object
      * @param int $versionId
      * @param int $pageId
      * @param array|string $accessLevel
      * @param int $userId
-     * @return Magento_VersionsCms_Model_Resource_Page_Revision
+     * @return \Magento\VersionsCms\Model\Resource\Page\Revision
      */
     public function loadByVersionPageWithRestrictions($object, $versionId, $pageId, $accessLevel, $userId)
     {
@@ -241,8 +243,8 @@ class Magento_VersionsCms_Model_Resource_Page_Revision extends Magento_Core_Mode
             // getting main load select
             $select = $this->_getLoadSelect($this->getIdFieldName(), false, $object);
             // reseting all columns and where as we don't have need them
-            $select->reset(Zend_Db_Select::COLUMNS)
-                   ->reset(Zend_Db_Select::WHERE);
+            $select->reset(\Zend_Db_Select::COLUMNS)
+                   ->reset(\Zend_Db_Select::WHERE);
 
             // adding where conditions with restriction filter
             $whereConditions = array($this->_getPermissionCondition($accessLevel, $userId));
@@ -301,10 +303,10 @@ class Magento_VersionsCms_Model_Resource_Page_Revision extends Magento_Core_Mode
     /**
      * Joining version table using specified conditions and join type.
      *
-     * @param Zend_Db_Select $select
+     * @param \Zend_Db_Select $select
      * @param string $joinType
      * @param string $joinConditions
-     * @return Zend_Db_Select
+     * @return \Zend_Db_Select
      */
     protected function _joinVersionData($select, $joinType, $joinConditions)
     {
@@ -318,10 +320,10 @@ class Magento_VersionsCms_Model_Resource_Page_Revision extends Magento_Core_Mode
     /**
      * Joining page table using specified conditions and join type.
      *
-     * @param Zend_Db_Select $select
+     * @param \Zend_Db_Select $select
      * @param string $joinType can be joinInner, joinRight, joinLeft
      * @param string $joinConditions
-     * @return Zend_Db_Select
+     * @return \Zend_Db_Select
      */
     protected function _joinPageData($select, $joinType, $joinConditions)
     {
@@ -334,12 +336,12 @@ class Magento_VersionsCms_Model_Resource_Page_Revision extends Magento_Core_Mode
     /**
      * Applying order by create datetime and limitation to one record.
      *
-     * @param Magento_DB_Select $select
-     * @return Magento_DB_Select
+     * @param \Magento\DB\Select $select
+     * @return \Magento\DB\Select
      */
     protected function _addSingleLimitation($select)
     {
-        $select->order($this->getMainTable() . '.created_at ' . Magento_DB_Select::SQL_DESC)->limit(1);
+        $select->order($this->getMainTable() . '.created_at ' . \Magento\DB\Select::SQL_DESC)->limit(1);
         return $select;
     }
 }

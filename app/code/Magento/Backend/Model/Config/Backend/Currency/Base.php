@@ -10,7 +10,7 @@
 
 
 /**
- * Backend Directory currency backend model
+ * Backend \Directory currency backend model
  *
  * Allows dispatching before and after events for each controller action
  *
@@ -18,17 +18,19 @@
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backend_Model_Config_Backend_Currency_Base extends Magento_Backend_Model_Config_Backend_Currency_Abstract
+namespace Magento\Backend\Model\Config\Backend\Currency;
+
+class Base extends \Magento\Backend\Model\Config\Backend\Currency\AbstractCurrency
 {
     /**
      * Check base currency is available in installed currencies
      *
-     * @return Magento_Backend_Model_Config_Backend_Currency_Base
+     * @return \Magento\Backend\Model\Config\Backend\Currency\Base
      */
     protected function _afterSave()
     {
         if (!in_array($this->getValue(), $this->_getInstalledCurrencies())) {
-            Mage::throwException(__('Sorry, we haven\'t installed the base currency you selected.'));
+            \Mage::throwException(__('Sorry, we haven\'t installed the base currency you selected.'));
         }
 
         return $this;

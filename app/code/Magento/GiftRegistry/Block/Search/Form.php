@@ -14,7 +14,9 @@
  * @category   Magento
  * @package    Magento_GiftRegistry
  */
-class Magento_GiftRegistry_Block_Search_Form extends Magento_Core_Block_Template
+namespace Magento\GiftRegistry\Block\Search;
+
+class Form extends \Magento\Core\Block\Template
 {
     protected $_formData = null;
 
@@ -37,7 +39,7 @@ class Magento_GiftRegistry_Block_Search_Form extends Magento_Core_Block_Template
     public function getFormData($key)
     {
         if (is_null($this->_formData)) {
-            $this->_formData = Mage::getSingleton('Magento_Customer_Model_Session')->getRegistrySearchData();
+            $this->_formData = \Mage::getSingleton('Magento\Customer\Model\Session')->getRegistrySearchData();
         }
         if (!$this->_formData || !isset($this->_formData[$key])) {
             return null;
@@ -48,12 +50,12 @@ class Magento_GiftRegistry_Block_Search_Form extends Magento_Core_Block_Template
     /**
      * Return available gift registry types collection
      *
-     * @return Magento_GiftRegistry_Model_Resource_Type_Collection
+     * @return \Magento\GiftRegistry\Model\Resource\Type\Collection
      */
     public function getTypesCollection()
     {
-        return Mage::getModel('Magento_GiftRegistry_Model_Type')->getCollection()
-            ->addStoreData(Mage::app()->getStore()->getId());
+        return \Mage::getModel('Magento\GiftRegistry\Model\Type')->getCollection()
+            ->addStoreData(\Mage::app()->getStore()->getId());
     }
 
     /**
@@ -63,7 +65,7 @@ class Magento_GiftRegistry_Block_Search_Form extends Magento_Core_Block_Template
      */
     public function getTypeSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('Magento_Core_Block_Html_Select')
+        $select = $this->getLayout()->createBlock('Magento\Core\Block\Html\Select')
             ->setData(array(
                 'id'    => 'params-type-id',
                 'class' => 'select'

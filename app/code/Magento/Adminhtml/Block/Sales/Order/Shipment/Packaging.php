@@ -11,32 +11,35 @@
 /**
  * Adminhtml shipment packaging
  */
-class Magento_Adminhtml_Block_Sales_Order_Shipment_Packaging extends Magento_Adminhtml_Block_Template
+
+namespace Magento\Adminhtml\Block\Sales\Order\Shipment;
+
+class Packaging extends \Magento\Adminhtml\Block\Template
 {
     /**
-     * @var Magento_Usa_Model_Shipping_Carrier_Usps_Source_Size
+     * @var \Magento\Usa\Model\Shipping\Carrier\Usps\Source\Size
      */
     protected $_sourceSizeModel;
 
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Usa_Model_Shipping_Carrier_Usps_Source_Size $sourceSizeModel
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Usa\Model\Shipping\Carrier\Usps\Source\Size $sourceSizeModel
+     * @param \Magento\Core\Model\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Usa_Model_Shipping_Carrier_Usps_Source_Size $sourceSizeModel,
-        Magento_Core_Model_Registry $coreRegistry,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Usa\Model\Shipping\Carrier\Usps\Source\Size $sourceSizeModel,
+        \Magento\Core\Model\Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
@@ -47,7 +50,7 @@ class Magento_Adminhtml_Block_Sales_Order_Shipment_Packaging extends Magento_Adm
     /**
      * Retrieve shipment model instance
      *
-     * @return Magento_Sales_Model_Order_Shipment
+     * @return \Magento\Sales\Model\Order\Shipment
      */
     public function getShipment()
     {
@@ -125,9 +128,9 @@ class Magento_Adminhtml_Block_Sales_Order_Shipment_Packaging extends Magento_Adm
         $storeId = $this->getShipment()->getStoreId();
         $address = $order->getShippingAddress();
         $carrier = $order->getShippingCarrier();
-        $countryShipper = $this->_storeConfig->getConfig(Magento_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID, $storeId);
+        $countryShipper = $this->_storeConfig->getConfig(\Magento\Shipping\Model\Shipping::XML_PATH_STORE_COUNTRY_ID, $storeId);
         if ($carrier) {
-            $params = new Magento_Object(array(
+            $params = new \Magento\Object(array(
                 'method' => $order->getShippingMethod(true)->getMethod(),
                 'country_shipper' => $countryShipper,
                 'country_recipient' => $address->getCountryId(),
@@ -179,7 +182,7 @@ class Magento_Adminhtml_Block_Sales_Order_Shipment_Packaging extends Magento_Adm
         $countryId = $this->getShipment()->getOrder()->getShippingAddress()->getCountryId();
         $carrier = $this->getShipment()->getOrder()->getShippingCarrier();
         if ($carrier) {
-            $params = new Magento_Object(array('country_recipient' => $countryId));
+            $params = new \Magento\Object(array('country_recipient' => $countryId));
             $confirmationTypes = $carrier->getDeliveryConfirmationTypes($params);
             $confirmationType = !empty($confirmationTypes[$code]) ? $confirmationTypes[$code] : '';
             return $confirmationType;
@@ -223,7 +226,7 @@ class Magento_Adminhtml_Block_Sales_Order_Shipment_Packaging extends Magento_Adm
      *
      * @param  $itemId
      * @param  $itemsOf
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function getShipmentItem($itemId, $itemsOf)
     {
@@ -235,7 +238,7 @@ class Magento_Adminhtml_Block_Sales_Order_Shipment_Packaging extends Magento_Adm
                 return $item;
             }
         }
-        return new Magento_Object();
+        return new \Magento\Object();
     }
 
     /**
@@ -249,7 +252,7 @@ class Magento_Adminhtml_Block_Sales_Order_Shipment_Packaging extends Magento_Adm
         $order = $this->getShipment()->getOrder();
         $address = $order->getShippingAddress();
         $shipperAddressCountryCode = $this->_storeConfig->getConfig(
-            Magento_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID,
+            \Magento\Shipping\Model\Shipping::XML_PATH_STORE_COUNTRY_ID,
             $storeId
         );
         $recipientAddressCountryCode = $address->getCountryId();
@@ -268,7 +271,7 @@ class Magento_Adminhtml_Block_Sales_Order_Shipment_Packaging extends Magento_Adm
     {
         $countryId = $this->getShipment()->getOrder()->getShippingAddress()->getCountryId();
         $carrier = $this->getShipment()->getOrder()->getShippingCarrier();
-        $params = new Magento_Object(array('country_recipient' => $countryId));
+        $params = new \Magento\Object(array('country_recipient' => $countryId));
         if ($carrier && is_array($carrier->getDeliveryConfirmationTypes($params))) {
             return $carrier->getDeliveryConfirmationTypes($params);
         }
@@ -285,7 +288,7 @@ class Magento_Adminhtml_Block_Sales_Order_Shipment_Packaging extends Magento_Adm
         $data['shipment_id'] = $this->getShipment()->getId();
         $url = $this->getUrl('*/sales_order_shipment/printPackage', $data);
         return $this->getLayout()
-            ->createBlock('Magento_Adminhtml_Block_Widget_Button')
+            ->createBlock('Magento\Adminhtml\Block\Widget\Button')
             ->setData(array(
                 'label'   => __('Print'),
                 'onclick' => 'setLocation(\'' . $url . '\')'
@@ -318,9 +321,9 @@ class Magento_Adminhtml_Block_Sales_Order_Shipment_Packaging extends Magento_Adm
         $storeId = $this->getShipment()->getStoreId();
         $address = $order->getShippingAddress();
         $carrier = $order->getShippingCarrier();
-        $countryShipper = $this->_storeConfig->getConfig(Magento_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID, $storeId);
+        $countryShipper = $this->_storeConfig->getConfig(\Magento\Shipping\Model\Shipping::XML_PATH_STORE_COUNTRY_ID, $storeId);
         if ($carrier) {
-            $params = new Magento_Object(array(
+            $params = new \Magento\Object(array(
                 'method' => $order->getShippingMethod(true)->getMethod(),
                 'country_shipper' => $countryShipper,
                 'country_recipient' => $address->getCountryId(),
@@ -382,7 +385,7 @@ class Magento_Adminhtml_Block_Sales_Order_Shipment_Packaging extends Magento_Adm
     /**
      * Get Usps source size model
      *
-     * @return Magento_Usa_Model_Shipping_Carrier_Usps_Source_Size
+     * @return \Magento\Usa\Model\Shipping\Carrier\Usps\Source\Size
      */
     public function getSourceSizeModel()
     {

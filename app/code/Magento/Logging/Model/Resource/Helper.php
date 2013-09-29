@@ -9,7 +9,9 @@
 /**
  * Resource helper class
  */
-class Magento_Logging_Model_Resource_Helper extends Magento_Core_Model_Resource_Helper
+namespace Magento\Logging\Model\Resource;
+
+class Helper extends \Magento\Core\Model\Resource\Helper
 {
     /**
      * Construct

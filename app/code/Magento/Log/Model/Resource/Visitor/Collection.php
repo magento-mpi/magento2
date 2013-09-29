@@ -17,7 +17,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Log_Model_Resource_Visitor_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Log\Model\Resource\Visitor;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Visitor data table name
@@ -100,7 +102,7 @@ class Magento_Log_Model_Resource_Visitor_Collection extends Magento_Core_Model_R
      */
     protected function _construct()
     {
-        $this->_init('Magento_Log_Model_Visitor', 'Magento_Log_Model_Resource_Visitor');
+        $this->_init('Magento\Log\Model\Visitor', 'Magento\Log\Model\Resource\Visitor');
 
         $this->_visitorTable     = $this->getTable('log_visitor');
         $this->_visitorInfoTable = $this->getTable('log_visitor_info');
@@ -115,7 +117,7 @@ class Magento_Log_Model_Resource_Visitor_Collection extends Magento_Core_Model_R
     /**
      * Filter for customers only
      *
-     * @return Magento_Log_Model_Resource_Visitor_Collection
+     * @return \Magento\Log\Model\Resource\Visitor\Collection
      */
     public function showCustomersOnly()
     {
@@ -130,13 +132,13 @@ class Magento_Log_Model_Resource_Visitor_Collection extends Magento_Core_Model_R
      *
      * @param string $fieldName
      * @param array $condition
-     * @return Magento_Log_Model_Resource_Visitor_Collection
+     * @return \Magento\Log\Model\Resource\Visitor\Collection
      */
     public function addFieldToFilter($fieldName, $condition = null)
     {
         if ($fieldName == 'type' && is_array($condition) && isset($condition['eq'])) {
             $fieldName = 'customer_id';
-            if ($condition['eq'] === Magento_Log_Model_Visitor::VISITOR_TYPE_VISITOR) {
+            if ($condition['eq'] === \Magento\Log\Model\Visitor::VISITOR_TYPE_VISITOR) {
                 $condition = array('null' => 1);
             } else {
                 $condition = array('moreq' => 1);
@@ -165,7 +167,7 @@ class Magento_Log_Model_Resource_Visitor_Collection extends Magento_Core_Model_R
      *
      * @param boolean $printQuery
      * @param boolean $logQuery
-     * @return Magento_Core_Model_Resource_Db_Collection_Abstract
+     * @return \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
      */
     public function load($printQuery = false, $logQuery = false)
     {

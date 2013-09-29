@@ -16,12 +16,14 @@
  * @package    Magento_Centinel
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Centinel_Model_Observer extends Magento_Object
+namespace Magento\Centinel\Model;
+
+class Observer extends \Magento\Object
 {
     /**
      * Centinel data
      *
-     * @var Magento_Centinel_Helper_Data
+     * @var \Magento\Centinel\Helper\Data
      */
     protected $_centinelData = null;
 
@@ -31,11 +33,11 @@ class Magento_Centinel_Model_Observer extends Magento_Object
      * By default is looking for first argument as array and assigns it as object
      * attributes This behavior may change in child classes
      *
-     * @param Magento_Centinel_Helper_Data $centinelData
+     * @param \Magento\Centinel\Helper\Data $centinelData
      * @param array $data
      */
     public function __construct(
-        Magento_Centinel_Helper_Data $centinelData,
+        \Magento\Centinel\Helper\Data $centinelData,
         array $data = array()
     ) {
         $this->_centinelData = $centinelData;
@@ -45,8 +47,8 @@ class Magento_Centinel_Model_Observer extends Magento_Object
     /**
      * Set cmpi data to payment
      *
-     * @param Magento_Object $observer
-     * @return Magento_Centinel_Model_Observer
+     * @param \Magento\Object $observer
+     * @return \Magento\Centinel\Model\Observer
      */
     public function salesEventConvertQuoteToOrder($observer)
     {
@@ -62,8 +64,8 @@ class Magento_Centinel_Model_Observer extends Magento_Object
     /**
      * Add cmpi data to info block
      *
-     * @param Magento_Object $observer
-     * @return Magento_Centinel_Model_Observer
+     * @param \Magento\Object $observer
+     * @return \Magento\Centinel\Model\Observer
      */
     public function paymentInfoBlockPrepareSpecificInformation($observer)
     {
@@ -76,11 +78,11 @@ class Magento_Centinel_Model_Observer extends Magento_Object
         $helper = $this->_centinelData;
 
         $info = array(
-            Magento_Centinel_Model_Service::CMPI_PARES,
-            Magento_Centinel_Model_Service::CMPI_ENROLLED,
-            Magento_Centinel_Model_Service::CMPI_ECI,
-            Magento_Centinel_Model_Service::CMPI_CAVV,
-            Magento_Centinel_Model_Service::CMPI_XID
+            \Magento\Centinel\Model\Service::CMPI_PARES,
+            \Magento\Centinel\Model\Service::CMPI_ENROLLED,
+            \Magento\Centinel\Model\Service::CMPI_ECI,
+            \Magento\Centinel\Model\Service::CMPI_CAVV,
+            \Magento\Centinel\Model\Service::CMPI_XID
         );
         foreach ($info as $key) {
             if ($value = $payment->getAdditionalInformation($key)) {
@@ -93,8 +95,8 @@ class Magento_Centinel_Model_Observer extends Magento_Object
     /**
      * Add centinel logo block into payment form
      *
-     * @param Magento_Object $observer
-     * @return Magento_Centinel_Model_Observer
+     * @param \Magento\Object $observer
+     * @return \Magento\Centinel\Model\Observer
      */
     public function paymentFormBlockToHtmlBefore($observer)
     {
@@ -113,8 +115,8 @@ class Magento_Centinel_Model_Observer extends Magento_Object
     /**
      * Reset validation data
      *
-     * @param Magento_Object $observer
-     * @return Magento_Centinel_Model_Observer
+     * @param \Magento\Object $observer
+     * @return \Magento\Centinel\Model\Observer
      */
     public function checkoutSubmitAllAfter($observer)
     {

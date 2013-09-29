@@ -9,10 +9,10 @@
  * @license     {license_link}
  */
 
-/** @var $product Magento_Catalog_Model_Product */
-$product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Catalog_Model_Product');
-$product->setTypeId(Magento_GiftCard_Model_Catalog_Product_Type_Giftcard::TYPE_GIFTCARD)
+/** @var $product \Magento\Catalog\Model\Product */
+$product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Catalog\Model\Product');
+$product->setTypeId(\Magento\GiftCard\Model\Catalog\Product\Type\Giftcard::TYPE_GIFTCARD)
     ->setId(1)
     ->setAttributeSetId(4)
     ->setWebsiteIds(array(1))
@@ -23,8 +23,8 @@ $product->setTypeId(Magento_GiftCard_Model_Catalog_Product_Type_Giftcard::TYPE_G
     ->setMetaTitle('Gift Card Meta Title')
     ->setMetaKeyword('Gift Card Meta Keyword')
     ->setMetaDescription('Gift Card Meta Description')
-    ->setVisibility(Magento_Catalog_Model_Product_Visibility::VISIBILITY_BOTH)
-    ->setStatus(Magento_Catalog_Model_Product_Status::STATUS_ENABLED)
+    ->setVisibility(\Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH)
+    ->setStatus(\Magento\Catalog\Model\Product\Status::STATUS_ENABLED)
     ->setCategoryIds(array(2))
     ->setStockData(array('use_config_manage_stock' => 0))
     ->setCanSaveCustomOptions(true)

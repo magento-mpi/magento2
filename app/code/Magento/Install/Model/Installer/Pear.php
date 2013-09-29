@@ -11,7 +11,9 @@
 /**
  * PEAR Packages Download Manager
  */
-class Magento_Install_Model_Installer_Pear extends Magento_Install_Model_Installer_Abstract
+namespace Magento\Install\Model\Installer;
+
+class Pear extends \Magento\Install\Model\Installer\AbstractInstaller
 {
     /**
      * @return array
@@ -20,7 +22,7 @@ class Magento_Install_Model_Installer_Pear extends Magento_Install_Model_Install
     {
         $packages = array(
             'pear/PEAR-stable',
-            'connect.magentocommerce.com/core/Magento_Pear_Helpers',
+            'connect.magentocommerce.com/core/\Magento\Pear_Helpers',
             'connect.magentocommerce.com/core/Lib_ZF',
             'connect.magentocommerce.com/core/Lib_Varien',
             'connect.magentocommerce.com/core/Magento_All',
@@ -36,7 +38,7 @@ class Magento_Install_Model_Installer_Pear extends Magento_Install_Model_Install
      */
     public function checkDownloads()
     {
-        $pear = new Magento_Pear;
+        $pear = new \Magento\Pear;
         $pkg = new PEAR_PackageFile($pear->getConfig(), false);
         $result = true;
         foreach ($this->getPackages() as $package) {
@@ -48,7 +50,7 @@ class Magento_Install_Model_Installer_Pear extends Magento_Install_Model_Install
                         if (is_array($message)) {
                             $message = $message['message'];
                         }
-                        Mage::getSingleton('Magento_Install_Model_Session')->addError($message);
+                        \Mage::getSingleton('Magento\Install\Model\Session')->addError($message);
                     }
                 } else {
                     print_r($obj->getUserInfo());

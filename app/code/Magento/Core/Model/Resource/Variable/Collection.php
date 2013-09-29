@@ -16,7 +16,9 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Resource_Variable_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Core\Model\Resource\Variable;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Store Id
@@ -32,14 +34,14 @@ class Magento_Core_Model_Resource_Variable_Collection extends Magento_Core_Model
     protected function _construct()
     {
         parent::_construct();
-        $this->_init('Magento_Core_Model_Variable', 'Magento_Core_Model_Resource_Variable');
+        $this->_init('Magento\Core\Model\Variable', 'Magento\Core\Model\Resource\Variable');
     }
 
     /**
      * Setter
      *
      * @param integer $storeId
-     * @return Magento_Core_Model_Resource_Variable_Collection
+     * @return \Magento\Core\Model\Resource\Variable\Collection
      */
     public function setStoreId($storeId)
     {
@@ -60,7 +62,7 @@ class Magento_Core_Model_Resource_Variable_Collection extends Magento_Core_Model
     /**
      * Add store values to result
      *
-     * @return Magento_Core_Model_Resource_Variable_Collection
+     * @return \Magento\Core\Model\Resource\Variable\Collection
      */
     public function addValuesToResult()
     {

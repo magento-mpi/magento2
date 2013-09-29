@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Sales_Model_Quote_Address_Total_Tax extends Magento_Sales_Model_Quote_Address_Total_Abstract
+namespace Magento\Sales\Model\Quote\Address\Total;
+
+class Tax extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
 {
     /**
      * @var array
@@ -18,31 +20,31 @@ class Magento_Sales_Model_Quote_Address_Total_Tax extends Magento_Sales_Model_Qu
     /**
      * Tax data
      *
-     * @var Magento_Tax_Helper_Data
+     * @var \Magento\Tax\Helper\Data
      */
     protected $_taxData = null;
 
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
-     * @var Magento_Tax_Model_Calculation
+     * @var \Magento\Tax\Model\Calculation
      */
     protected $_calculation;
 
     /**
-     * @param Magento_Tax_Helper_Data $taxData
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Tax_Model_Calculation $calculation
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Tax\Model\Calculation $calculation
      */
     public function __construct(
-        Magento_Tax_Helper_Data $taxData,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Tax_Model_Calculation $calculation
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Tax\Model\Calculation $calculation
     ) {
         $this->_taxData = $taxData;
         $this->_coreStoreConfig = $coreStoreConfig;
@@ -51,10 +53,10 @@ class Magento_Sales_Model_Quote_Address_Total_Tax extends Magento_Sales_Model_Qu
     }
 
     /**
-     * @param Magento_Sales_Model_Quote_Address $address
-     * @return $this|Magento_Sales_Model_Quote_Address_Total_Abstract
+     * @param \Magento\Sales\Model\Quote\Address $address
+     * @return $this|\Magento\Sales\Model\Quote\Address\Total\AbstractTotal
      */
-    public function collect(Magento_Sales_Model_Quote_Address $address)
+    public function collect(\Magento\Sales\Model\Quote\Address $address)
     {
         $store = $address->getQuote()->getStore();
 
@@ -69,7 +71,7 @@ class Magento_Sales_Model_Quote_Address_Total_Tax extends Magento_Sales_Model_Qu
         $custTaxClassId = $address->getQuote()->getCustomerTaxClassId();
 
         $taxCalculationModel = $this->_calculation;
-        /* @var $taxCalculationModel Magento_Tax_Model_Calculation */
+        /* @var $taxCalculationModel \Magento\Tax\Model\Calculation */
         $request = $taxCalculationModel->getRateRequest(
             $address,
             $address->getQuote()->getBillingAddress(),
@@ -172,7 +174,7 @@ class Magento_Sales_Model_Quote_Address_Total_Tax extends Magento_Sales_Model_Qu
         }
 
         $shippingTaxClass = $this->_coreStoreConfig->getConfig(
-            Magento_Tax_Model_Config::CONFIG_XML_PATH_SHIPPING_TAX_CLASS,
+            \Magento\Tax\Model\Config::CONFIG_XML_PATH_SHIPPING_TAX_CLASS,
             $store
         );
 
@@ -217,13 +219,13 @@ class Magento_Sales_Model_Quote_Address_Total_Tax extends Magento_Sales_Model_Qu
     }
 
     /**
-     * @param Magento_Sales_Model_Quote_Address $address
+     * @param \Magento\Sales\Model\Quote\Address $address
      * @param array $applied
      * @param int $amount
      * @param int $baseAmount
      * @param int $rate
      */
-    protected function _saveAppliedTaxes(Magento_Sales_Model_Quote_Address $address, $applied, $amount, $baseAmount, $rate)
+    protected function _saveAppliedTaxes(\Magento\Sales\Model\Quote\Address $address, $applied, $amount, $baseAmount, $rate)
     {
         $previouslyAppliedTaxes = $address->getAppliedTaxes();
         $process = count($previouslyAppliedTaxes);
@@ -263,10 +265,10 @@ class Magento_Sales_Model_Quote_Address_Total_Tax extends Magento_Sales_Model_Qu
     }
 
     /**
-     * @param Magento_Sales_Model_Quote_Address $address
+     * @param \Magento\Sales\Model\Quote\Address $address
      * @return $this
      */
-    public function fetch(Magento_Sales_Model_Quote_Address $address)
+    public function fetch(\Magento\Sales\Model\Quote\Address $address)
     {
         $applied = $address->getAppliedTaxes();
         $store = $address->getQuote()->getStore();

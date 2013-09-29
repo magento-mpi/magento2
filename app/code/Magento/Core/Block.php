@@ -11,7 +11,9 @@
 /**
  * Magento Block interface
  */
-interface Magento_Core_Block
+namespace Magento\Core;
+
+interface Block
 {
     /**
      * Produce and return block's html output

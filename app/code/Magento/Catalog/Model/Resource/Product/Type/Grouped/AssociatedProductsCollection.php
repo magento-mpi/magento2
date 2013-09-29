@@ -15,42 +15,44 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Resource_Product_Type_Grouped_AssociatedProductsCollection
-    extends Magento_Catalog_Model_Resource_Product_Link_Product_Collection
+namespace Magento\Catalog\Model\Resource\Product\Type\Grouped;
+
+class AssociatedProductsCollection
+    extends \Magento\Catalog\Model\Resource\Product\Link\Product\Collection
 {
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @var Magento_Catalog_Model_ProductTypes_ConfigInterface
+     * @var \Magento\Catalog\Model\ProductTypes\ConfigInterface
      */
     protected $_config;
 
     /**
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Catalog_Helper_Product_Flat $catalogProductFlat
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Magento_Catalog_Model_ProductTypes_ConfigInterface $config
-     * @param Magento_Core_Model_EntityFactory $entityFactory
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Catalog\Helper\Product\Flat $catalogProductFlat
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $config
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      */
     public function __construct(
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Catalog_Helper_Product_Flat $catalogProductFlat,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Logger $logger,
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Magento_Catalog_Model_ProductTypes_ConfigInterface $config,
-        Magento_Core_Model_EntityFactory $entityFactory,
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Catalog\Helper\Product\Flat $catalogProductFlat,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Catalog\Model\ProductTypes\ConfigInterface $config,
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Core\Model\Store\Config $coreStoreConfig
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_config = $config;
@@ -62,7 +64,7 @@ class Magento_Catalog_Model_Resource_Product_Type_Grouped_AssociatedProductsColl
     /**
      * Retrieve currently edited product model
      *
-     * @return Magento_Catalog_Model_Product
+     * @return \Magento\Catalog\Model\Product
      */
     protected function _getProduct()
     {

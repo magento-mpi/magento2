@@ -16,27 +16,29 @@
  * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reward_Model_Total_Quote_Reward extends Magento_Sales_Model_Quote_Address_Total_Abstract
+namespace Magento\Reward\Model\Total\Quote;
+
+class Reward extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
 {
     /**
      * Reward data
      *
-     * @var Magento_Reward_Helper_Data
+     * @var \Magento\Reward\Helper\Data
      */
     protected $_rewardData = null;
 
     /**
-     * @var Magento_Reward_Model_RewardFactory
+     * @var \Magento\Reward\Model\RewardFactory
      */
     protected $_rewardFactory;
 
     /**
-     * @param Magento_Reward_Helper_Data $rewardData
-     * @param Magento_Reward_Model_RewardFactory $rewardFactory
+     * @param \Magento\Reward\Helper\Data $rewardData
+     * @param \Magento\Reward\Model\RewardFactory $rewardFactory
      */
     public function __construct(
-        Magento_Reward_Helper_Data $rewardData,
-        Magento_Reward_Model_RewardFactory $rewardFactory
+        \Magento\Reward\Helper\Data $rewardData,
+        \Magento\Reward\Model\RewardFactory $rewardFactory
     ) {
         $this->_rewardData = $rewardData;
         $this->_rewardFactory = $rewardFactory;
@@ -46,12 +48,12 @@ class Magento_Reward_Model_Total_Quote_Reward extends Magento_Sales_Model_Quote_
     /**
      * Collect reward totals
      *
-     * @param Magento_Sales_Model_Quote_Address $address
-     * @return Magento_Reward_Model_Total_Quote_Reward
+     * @param \Magento\Sales\Model\Quote\Address $address
+     * @return \Magento\Reward\Model\Total\Quote\Reward
      */
-    public function collect(Magento_Sales_Model_Quote_Address $address)
+    public function collect(\Magento\Sales\Model\Quote\Address $address)
     {
-        /* @var $quote Magento_Sales_Model_Quote */
+        /* @var $quote \Magento\Sales\Model\Quote */
         $quote = $address->getQuote();
         if (!$this->_rewardData->isEnabledOnFront($quote->getStore()->getWebsiteId())) {
             return $this;
@@ -68,7 +70,7 @@ class Magento_Reward_Model_Total_Quote_Reward extends Magento_Sales_Model_Quote_
         }
 
         if ($address->getBaseGrandTotal() >= 0 && $quote->getCustomer()->getId() && $quote->getUseRewardPoints()) {
-            /* @var $reward Magento_Reward_Model_Reward */
+            /* @var $reward \Magento\Reward\Model\Reward */
             $reward = $quote->getRewardInstance();
             if (!$reward || !$reward->getId()) {
                 $reward = $this->_rewardFactory->create()
@@ -112,10 +114,10 @@ class Magento_Reward_Model_Total_Quote_Reward extends Magento_Sales_Model_Quote_
     /**
      * Retrieve reward total data and set it to quote address
      *
-     * @param Magento_Sales_Model_Quote_Address $address
-     * @return Magento_Reward_Model_Total_Quote_Reward
+     * @param \Magento\Sales\Model\Quote\Address $address
+     * @return \Magento\Reward\Model\Total\Quote\Reward
      */
-    public function fetch(Magento_Sales_Model_Quote_Address $address)
+    public function fetch(\Magento\Sales\Model\Quote\Address $address)
     {
         $websiteId = $address->getQuote()->getStore()->getWebsiteId();
         if (!$this->_rewardData->isEnabledOnFront($websiteId)) {

@@ -11,7 +11,9 @@
 /**
  * Theme Image Path
  */
-class Magento_Core_Model_Theme_Image_Path
+namespace Magento\Core\Model\Theme\Image;
+
+class Path
 {
     /**
      * Image preview path
@@ -24,31 +26,31 @@ class Magento_Core_Model_Theme_Image_Path
     const DEFAULT_PREVIEW_IMAGE = 'Magento_Core::theme/default_preview.jpg';
 
     /**
-     * @var Magento_Core_Model_Dir
+     * @var \Magento\Core\Model\Dir
      */
     protected $_dir;
 
     /**
-     * @var Magento_Core_Model_View_Url
+     * @var \Magento\Core\Model\View\Url
      */
     protected $_viewUrl;
 
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager;
 
     /**
      * Initialize dependencies
      *
-     * @param Magento_Core_Model_Dir $dir
-     * @param Magento_Core_Model_View_Url $viewUrl
-     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param \Magento\Core\Model\Dir $dir
+     * @param \Magento\Core\Model\View\Url $viewUrl
+     * @param \Magento\Core\Model\StoreManager $storeManager
      */
     public function __construct(
-        Magento_Core_Model_Dir $dir,
-        Magento_Core_Model_View_Url $viewUrl,
-        Magento_Core_Model_StoreManager $storeManager
+        \Magento\Core\Model\Dir $dir,
+        \Magento\Core\Model\View\Url $viewUrl,
+        \Magento\Core\Model\StoreManager $storeManager
     ) {
         $this->_dir = $dir;
         $this->_viewUrl = $viewUrl;
@@ -62,7 +64,7 @@ class Magento_Core_Model_Theme_Image_Path
      */
     public function getPreviewImageDirectoryUrl()
     {
-        return $this->_storeManager->getStore()->getBaseUrl(Magento_Core_Model_Store::URL_TYPE_MEDIA)
+        return $this->_storeManager->getStore()->getBaseUrl(\Magento\Core\Model\Store::URL_TYPE_MEDIA)
             . self::PREVIEW_DIRECTORY_PATH . '/';
     }
 
@@ -83,7 +85,7 @@ class Magento_Core_Model_Theme_Image_Path
      */
     public function getImagePreviewDirectory()
     {
-        return $this->_dir->getDir(Magento_Core_Model_Dir::MEDIA) . DIRECTORY_SEPARATOR
+        return $this->_dir->getDir(\Magento\Core\Model\Dir::MEDIA) . DIRECTORY_SEPARATOR
             . str_replace('/', DIRECTORY_SEPARATOR, self::PREVIEW_DIRECTORY_PATH);
     }
 
@@ -95,7 +97,7 @@ class Magento_Core_Model_Theme_Image_Path
     public function getTemporaryDirectory()
     {
         return implode(DIRECTORY_SEPARATOR, array(
-            $this->_dir->getDir(Magento_Core_Model_Dir::MEDIA), 'theme', 'origin'
+            $this->_dir->getDir(\Magento\Core\Model\Dir::MEDIA), 'theme', 'origin'
         ));
     }
 }

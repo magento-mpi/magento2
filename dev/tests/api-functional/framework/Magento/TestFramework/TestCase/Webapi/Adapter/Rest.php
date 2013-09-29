@@ -7,16 +7,18 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_TestFramework_TestCase_Webapi_Adapter_Rest
-    implements Magento_TestFramework_TestCase_Webapi_AdapterInterface
+namespace Magento\TestFramework\TestCase\Webapi\Adapter;
+
+class Rest
+    implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
 {
-    /** @var Magento_Webapi_Model_Config */
+    /** @var \Magento\Webapi\Model\Config */
     protected $_config;
 
-    /** @var Magento_Oauth_Model_Consumer */
+    /** @var \Magento\Oauth\Model\Consumer */
     protected static $_consumer;
 
-    /** @var Magento_Oauth_Model_Token */
+    /** @var \Magento\Oauth\Model\Token */
     protected static $_token;
 
     /** @var string */
@@ -33,25 +35,25 @@ class Magento_TestFramework_TestCase_Webapi_Adapter_Rest
      */
     public function __construct()
     {
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $this->_config = $objectManager->get('Magento_Webapi_Model_Config');
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $this->_config = $objectManager->get('Magento\Webapi\Model\Config');
     }
 
     /**
      * {@inheritdoc}
-     * @throws Exception
+     * @throws \Exception
      */
     public function call($serviceInfo, $arguments = array())
     {
         $resourcePath = $this->_getRestResourcePath($serviceInfo);
         $httpMethod = $this->_getRestHttpMethod($serviceInfo);
         //Get a valid token
-        $token = Magento_TestFramework_Authentication_OauthHelper::getAccessToken();
-        /** @var $oAuthClient Magento_TestFramework_Authentication_Rest_OauthClient*/
+        $token = \Magento\TestFramework\Authentication\OauthHelper::getAccessToken();
+        /** @var $oAuthClient \Magento\TestFramework\Authentication\Rest\OauthClient*/
         $oAuthClient = $token['oauth_client'];
         // delegate the request to vanilla cURL REST client
-        $curlClient = new Magento_TestFramework_TestCase_Webapi_Adapter_Rest_CurlClient();
+        $curlClient = new \Magento\TestFramework\TestCase\Webapi\Adapter\Rest\CurlClient();
         $oauthHeader = $oAuthClient
             ->buildOauthHeaderForApiRequest($curlClient->constructResourceUrl($resourcePath),
                                             $token['key'],
@@ -59,25 +61,25 @@ class Magento_TestFramework_TestCase_Webapi_Adapter_Rest
                                             ($httpMethod == 'PUT' || $httpMethod == 'POST') ? $arguments : array(),
                                             $httpMethod);
         switch ($httpMethod) {
-            case Magento_Webapi_Model_Rest_Config::HTTP_METHOD_GET:
+            case \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET:
                 $response = $curlClient->get($resourcePath, array(), $oauthHeader);
                 break;
-            case Magento_Webapi_Model_Rest_Config::HTTP_METHOD_POST:
+            case \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST:
                 $response = $curlClient->post($resourcePath, $arguments, $oauthHeader);
                 break;
-            case Magento_Webapi_Model_Rest_Config::HTTP_METHOD_PUT:
+            case \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT:
                 $response = $curlClient->put($resourcePath, $arguments, $oauthHeader);
                 break;
-            case Magento_Webapi_Model_Rest_Config::HTTP_METHOD_DELETE:
+            case \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_DELETE:
                 $response = $curlClient->delete($resourcePath, $oauthHeader);
                 break;
             default:
-                throw new LogicException("HTTP method '{$httpMethod}' is not supported.");
+                throw new \LogicException("HTTP method '{$httpMethod}' is not supported.");
         }
         if (!is_array($response)) {
             /** Array is defined as the only return type in the adapter interface */
             $responseType = gettype($response);
-            throw new RuntimeException("Response type is invalid. Array expected, '{$responseType}' given.");
+            throw new \RuntimeException("Response type is invalid. Array expected, '{$responseType}' given.");
         }
         return $response;
     }
@@ -87,7 +89,7 @@ class Magento_TestFramework_TestCase_Webapi_Adapter_Rest
      *
      * @param array $serviceInfo
      * @return string
-     * @throws Exception
+     * @throws \Exception
      */
     protected function _getRestResourcePath($serviceInfo)
     {
@@ -105,17 +107,17 @@ class Magento_TestFramework_TestCase_Webapi_Adapter_Rest
                 $numberOfPlaceholders = substr_count($routePattern, ':');
                 if ($numberOfPlaceholders == 1) {
                     if (!isset($serviceInfo['entityId'])) {
-                        throw new LogicException('Entity ID is required (to be used instead of placeholder).');
+                        throw new \LogicException('Entity ID is required (to be used instead of placeholder).');
                     }
                     $resourcePath = preg_replace('#:\w+#', $serviceInfo['entityId'], $routePattern);
                 } else if ($numberOfPlaceholders > 1) {
-                    throw new LogicException("Current implementation of Web API functional framework "
+                    throw new \LogicException("Current implementation of Web API functional framework "
                         . "is able to process only one placeholder in REST route.");
                 }
             }
         }
         if (!isset($resourcePath)) {
-            throw new Exception("REST endpoint cannot be identified.");
+            throw new \Exception("REST endpoint cannot be identified.");
         }
         return $resourcePath;
     }
@@ -125,7 +127,7 @@ class Magento_TestFramework_TestCase_Webapi_Adapter_Rest
      *
      * @param array $serviceInfo
      * @return string
-     * @throws Exception
+     * @throws \Exception
      */
     protected function _getRestHttpMethod($serviceInfo)
     {
@@ -142,7 +144,7 @@ class Magento_TestFramework_TestCase_Webapi_Adapter_Rest
             }
         }
         if (!isset($httpMethod)) {
-            throw new Exception("REST HTTP method cannot be identified.");
+            throw new \Exception("REST HTTP method cannot be identified.");
         }
         return $httpMethod;
     }

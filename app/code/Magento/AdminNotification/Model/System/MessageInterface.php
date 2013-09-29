@@ -7,7 +7,9 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-interface Magento_AdminNotification_Model_System_MessageInterface
+namespace Magento\AdminNotification\Model\System;
+
+interface MessageInterface
 {
     const SEVERITY_CRITICAL = 1;
     const SEVERITY_MAJOR = 2;

@@ -11,24 +11,26 @@
 /**
  * Wishlist reports controller
  */
-class Magento_MultipleWishlist_Controller_Adminhtml_Report_Customer_Wishlist extends Magento_Adminhtml_Controller_Action
+namespace Magento\MultipleWishlist\Controller\Adminhtml\Report\Customer;
+
+class Wishlist extends \Magento\Adminhtml\Controller\Action
 {
     /**
      * Backend auth session
      *
-     * @var Magento_Backend_Model_Auth_Session
+     * @var \Magento\Backend\Model\Auth\Session
      */
     protected $_backendAuthSession;
 
     /**
      * Construct
      *
-     * @param Magento_Backend_Controller_Context $context
-     * @param Magento_Backend_Model_Auth_Session $backendAuthSession
+     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
      */
     public function __construct(
-        Magento_Backend_Controller_Context $context,
-        Magento_Backend_Model_Auth_Session $backendAuthSession
+        \Magento\Backend\Controller\Context $context,
+        \Magento\Backend\Model\Auth\Session $backendAuthSession
     ) {
         $this->_backendAuthSession = $backendAuthSession;
         parent::__construct($context);
@@ -37,7 +39,7 @@ class Magento_MultipleWishlist_Controller_Adminhtml_Report_Customer_Wishlist ext
     /**
      * Init layout and add breadcrumbs
      *
-     * @return Magento_MultipleWishlist_Controller_Adminhtml_Report_Customer_Wishlist
+     * @return \Magento\MultipleWishlist\Controller\Adminhtml\Report\Customer\Wishlist
      */
     protected function _initAction()
     {
@@ -81,7 +83,7 @@ class Magento_MultipleWishlist_Controller_Adminhtml_Report_Customer_Wishlist ext
     {
         $this->loadLayout();
         $fileName = 'customer_wishlists.xml';
-        /** @var Magento_Backend_Block_Widget_Grid_ExportInterface $exportBlock */
+        /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock */
         $exportBlock = $this->getLayout()->getChildBlock('adminhtml.block.report.customer.wishlist.grid', 'grid.export');
         $this->_prepareDownloadResponse($fileName, $exportBlock->getExcelFile($fileName));
     }
@@ -93,7 +95,7 @@ class Magento_MultipleWishlist_Controller_Adminhtml_Report_Customer_Wishlist ext
     {
         $this->loadLayout();
         $fileName = 'customer_wishlists.csv';
-        /** @var Magento_Backend_Block_Widget_Grid_ExportInterface $exportBlock  */
+        /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock  */
  	 	$exportBlock = $this->getLayout()->getChildBlock('adminhtml.block.report.customer.wishlist.grid', 'grid.export');
  	 	$this->_prepareDownloadResponse($fileName, $exportBlock->getCsvFile());
     }
@@ -101,7 +103,7 @@ class Magento_MultipleWishlist_Controller_Adminhtml_Report_Customer_Wishlist ext
     /**
      * Retrieve admin session model
      *
-     * @return Magento_Backend_Model_Auth_Session
+     * @return \Magento\Backend\Model\Auth\Session
      */
     protected function _getAdminSession()
     {

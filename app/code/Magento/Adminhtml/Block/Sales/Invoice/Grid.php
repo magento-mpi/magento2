@@ -13,34 +13,36 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Sales_Invoice_Grid extends Magento_Adminhtml_Block_Widget_Grid
+namespace Magento\Adminhtml\Block\Sales\Invoice;
+
+class Grid extends \Magento\Adminhtml\Block\Widget\Grid
 {
     /**
-     * @var Magento_Sales_Model_Resource_Order_Invoice_Grid_CollectionFactory
+     * @var \Magento\Sales\Model\Resource\Order\Invoice\Grid\CollectionFactory
      */
     protected $_collectionFactory;
 
     /**
-     * @var Magento_Sales_Model_Order_InvoiceFactory
+     * @var \Magento\Sales\Model\Order\InvoiceFactory
      */
     protected $_invoiceFactory;
 
     /**
-     * @param Magento_Sales_Model_Order_InvoiceFactory $invoiceFactory
-     * @param Magento_Sales_Model_Resource_Order_Invoice_Grid_CollectionFactory $collectionFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Url $urlModel
+     * @param \Magento\Sales\Model\Order\InvoiceFactory $invoiceFactory
+     * @param \Magento\Sales\Model\Resource\Order\Invoice\Grid\CollectionFactory $collectionFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
      * @param array $data
      */
     public function __construct(
-        Magento_Sales_Model_Order_InvoiceFactory $invoiceFactory,
-        Magento_Sales_Model_Resource_Order_Invoice_Grid_CollectionFactory $collectionFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Url $urlModel,
+        \Magento\Sales\Model\Order\InvoiceFactory $invoiceFactory,
+        \Magento\Sales\Model\Resource\Order\Invoice\Grid\CollectionFactory $collectionFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
         array $data = array()
     ) {
         $this->_invoiceFactory = $invoiceFactory;
@@ -65,7 +67,7 @@ class Magento_Adminhtml_Block_Sales_Invoice_Grid extends Magento_Adminhtml_Block
      */
     protected function _getCollectionClass()
     {
-        return 'Magento_Sales_Model_Resource_Order_Invoice_Grid_Collection';
+        return 'Magento\Sales\Model\Resource\Order\Invoice\Grid\Collection';
     }
 
     protected function _prepareCollection()

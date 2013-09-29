@@ -9,20 +9,22 @@
  * @license     {license_link}
  */
 
+namespace Magento\CatalogEvent\Model\Resource\Event;
+
 /**
  * @magentoDataFixture Magento/CatalogEvent/_files/events.php
  */
-class Magento_CatalogEvent_Model_Resource_Event_CollectionTest extends PHPUnit_Framework_TestCase
+class CollectionTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_CatalogEvent_Model_Resource_Event_Collection
+     * @var \Magento\CatalogEvent\Model\Resource\Event\Collection
      */
     protected $_collection;
 
     protected function setUp()
     {
-        $this->_collection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_CatalogEvent_Model_Resource_Event_Collection');
+        $this->_collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\CatalogEvent\Model\Resource\Event\Collection');
     }
 
     /**
@@ -37,10 +39,10 @@ class Magento_CatalogEvent_Model_Resource_Event_CollectionTest extends PHPUnit_F
         $items = array_values($this->_collection->getItems());
         $this->assertEquals($expectedItemCount, count($items), 'Expected number of collection items.');
 
-        /** @var $actualItem Magento_CatalogEvent_Model_Event */
+        /** @var $actualItem \Magento\CatalogEvent\Model\Event */
         $actualItem = $items[$expectedItemIndex];
 
-        $this->assertInstanceOf('Magento_CatalogEvent_Model_Event', $actualItem);
+        $this->assertInstanceOf('Magento\CatalogEvent\Model\Event', $actualItem);
         foreach ($expectedItemData as $filedName => $expectedValue) {
             $actualValue = $actualItem->getDataUsingMethod($filedName);
             $this->assertEquals($expectedValue, $actualValue, "Field '{$filedName}' value doesn't match expectations.");
@@ -76,7 +78,7 @@ class Magento_CatalogEvent_Model_Resource_Event_CollectionTest extends PHPUnit_F
                     'category_id'   => 2,
                     'display_state' => 3,
                     /*Magento_CatalogEvent_Model_Event::DISPLAY_CATEGORY_PAGE,
-                        Magento_CatalogEvent_Model_Event::DISPLAY_PRODUCT_PAGE*/
+                        \Magento\CatalogEvent\Model\Event::DISPLAY_PRODUCT_PAGE*/
                     'sort_order'    => 10,
                     'status'        => 'upcoming'/*Magento_CatalogEvent_Model_Event::STATUS_UPCOMING*/,
                     'image'         => 'default_store_view.jpg'

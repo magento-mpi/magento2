@@ -15,17 +15,20 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Layout_Argument_Handler_Url extends Magento_Core_Model_Layout_Argument_HandlerAbstract
+namespace Magento\Core\Model\Layout\Argument\Handler;
+
+class Url extends \Magento\Core\Model\Layout\Argument\AbstractHandler
 {
     /**
-     * @var Magento_Core_Model_UrlInterface
+     * @var \Magento\Core\Model\UrlInterface
      */
     protected $_urlModel;
 
     /**
-     * @param Magento_Core_Model_UrlInterface $urlModel
+     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Core\Model\UrlInterface $urlModel
      */
-    public function __construct(Magento_Core_Model_UrlInterface $urlModel)
+    public function __construct(\Magento\Core\Model\UrlInterface  $urlModel)
     {
         $this->_urlModel = $urlModel;
     }
@@ -35,7 +38,7 @@ class Magento_Core_Model_Layout_Argument_Handler_Url extends Magento_Core_Model_
      *
      * @param array $argument
      * @return string
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function process(array $argument)
     {
@@ -47,7 +50,7 @@ class Magento_Core_Model_Layout_Argument_Handler_Url extends Magento_Core_Model_
 
     /**
      * @param array $argument
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     protected function _validate(array $argument)
     {
@@ -55,7 +58,7 @@ class Magento_Core_Model_Layout_Argument_Handler_Url extends Magento_Core_Model_
         $value = $argument['value'];
 
         if (!isset($value['path'])) {
-            throw new InvalidArgumentException(
+            throw new \InvalidArgumentException(
                 'Passed value has incorrect format. ' . $this->_getArgumentInfo($argument)
             );
         }
@@ -65,7 +68,7 @@ class Magento_Core_Model_Layout_Argument_Handler_Url extends Magento_Core_Model_
      * @param $argument
      * @return array
      */
-    protected function _getArgumentValue(Magento_Core_Model_Layout_Element $argument)
+    protected function _getArgumentValue(\Magento\Core\Model\Layout\Element $argument)
     {
         $result = array(
             'path' => (string)$argument['path'],

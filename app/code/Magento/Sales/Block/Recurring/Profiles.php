@@ -11,13 +11,15 @@
 /**
  * Recurring profiles listing
  */
-class Magento_Sales_Block_Recurring_Profiles extends Magento_Core_Block_Template
+namespace Magento\Sales\Block\Recurring;
+
+class Profiles extends \Magento\Core\Block\Template
 {
 
     /**
      * Set back Url
      *
-     * @return Magento_Sales_Block_Recurring_Profiles
+     * @return \Magento\Sales\Block\Recurring\Profiles
      */
     protected function _beforeToHtml()
     {

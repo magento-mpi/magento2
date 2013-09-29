@@ -8,33 +8,35 @@
  * @license     {license_link}
  */
 
-class Magento_Rma_Block_Adminhtml_Rma_Edit extends Magento_Adminhtml_Block_Widget_Form_Container
+namespace Magento\Rma\Block\Adminhtml\Rma;
+
+class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
 {
 
     /**
      * Variable to store RMA instance
      *
-     * @var null|Magento_Rma_Model_Rma
+     * @var null|\Magento\Rma\Model\Rma
      */
     protected $_rma = null;
 
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -59,8 +61,8 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit extends Magento_Adminhtml_Block_Widge
         $statusIsClosed = in_array(
             $this->getRma()->getStatus(),
             array(
-                Magento_Rma_Model_Rma_Source_Status::STATE_CLOSED,
-                Magento_Rma_Model_Rma_Source_Status::STATE_PROCESSED_CLOSED
+                \Magento\Rma\Model\Rma\Source\Status::STATE_CLOSED,
+                \Magento\Rma\Model\Rma\Source\Status::STATE_PROCESSED_CLOSED
             )
         );
 
@@ -129,7 +131,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit extends Magento_Adminhtml_Block_Widge
     /**
      * Declare rma instance
      *
-     * @return  Magento_Rma_Model_Item
+     * @return  \Magento\Rma\Model\Item
      */
     public function getRma()
     {

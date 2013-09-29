@@ -7,17 +7,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Config_BaseFactory
+namespace Magento\Core\Model\Config;
+
+class BaseFactory
 {
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
@@ -25,11 +27,11 @@ class Magento_Core_Model_Config_BaseFactory
     /**
      * Create config model
      *
-     * @param string|Magento_Simplexml_Element $sourceData
-     * @return Magento_Core_Model_Config_Base
+     * @param string|\Magento\Simplexml\Element $sourceData
+     * @return \Magento\Core\Model\Config\Base
      */
     public function create($sourceData = null)
     {
-        return $this->_objectManager->create('Magento_Core_Model_Config_Base', array('sourceData' => $sourceData));
+        return $this->_objectManager->create('Magento\Core\Model\Config\Base', array('sourceData' => $sourceData));
     }
 }

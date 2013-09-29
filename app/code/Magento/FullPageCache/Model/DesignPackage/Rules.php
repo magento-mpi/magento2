@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_FullPageCache_Model_DesignPackage_Rules
+namespace Magento\FullPageCache\Model\DesignPackage;
+
+class Rules
 {
     /**
      * Design change cache suffix
@@ -15,33 +17,33 @@ class Magento_FullPageCache_Model_DesignPackage_Rules
     /**
      * Design change model
      *
-     * @var Magento_Core_Model_Design
+     * @var \Magento\Core\Model\Design
      */
     protected $_designChange;
 
     /**
      * Design model
      *
-     * @var Magento_Core_Model_View_DesignInterface
+     * @var \Magento\Core\Model\View\DesignInterface
      */
     protected $_design;
 
     /**
      * FPC cache model
      *
-     * @var Magento_FullPageCache_Model_Cache
+     * @var \Magento\FullPageCache\Model\Cache
      */
     protected $_fpcCache;
 
     /**
-     * @param Magento_Core_Model_Design $designChange
-     * @param Magento_Core_Model_View_DesignInterface $design
-     * @param Magento_FullPageCache_Model_Cache $fpcCache
+     * @param \Magento\Core\Model\Design $designChange
+     * @param \Magento\Core\Model\View\DesignInterface $design
+     * @param \Magento\FullPageCache\Model\Cache $fpcCache
      */
     public function __construct(
-        Magento_Core_Model_Design $designChange,
-        Magento_Core_Model_View_DesignInterface $design,
-        Magento_FullPageCache_Model_Cache $fpcCache
+        \Magento\Core\Model\Design $designChange,
+        \Magento\Core\Model\View\DesignInterface $design,
+        \Magento\FullPageCache\Model\Cache $fpcCache
     ) {
         $this->_designChange = $designChange;
         $this->_design = $design;
@@ -59,7 +61,7 @@ class Magento_FullPageCache_Model_DesignPackage_Rules
         $output = '';
         $rules = $exceptions ? @unserialize($exceptions) : array();
         if (false === empty($rules)) {
-            $output = Magento_Core_Model_View_Design::getPackageByUserAgent($rules);
+            $output = \Magento\Core\Model\View\Design::getPackageByUserAgent($rules);
         }
         return $output;
     }
@@ -72,9 +74,9 @@ class Magento_FullPageCache_Model_DesignPackage_Rules
      */
     public function getPackageName($storeId)
     {
-        Magento_Profiler::start('process_design_change');
+        \Magento\Profiler::start('process_design_change');
 
-        $exceptions = $this->_fpcCache->load(Magento_FullPageCache_Model_DesignPackage_Info::DESIGN_EXCEPTION_KEY);
+        $exceptions = $this->_fpcCache->load(\Magento\FullPageCache\Model\DesignPackage\Info::DESIGN_EXCEPTION_KEY);
 
         $date = date('Y-m-d');
         $changeCacheId =  $this->getCacheId($storeId, $date);
@@ -85,14 +87,14 @@ class Magento_FullPageCache_Model_DesignPackage_Rules
             $this->_fpcCache->save(
                 serialize($result),
                 $changeCacheId,
-                array(Magento_FullPageCache_Model_Processor::CACHE_TAG),
+                array(\Magento\FullPageCache\Model\Processor::CACHE_TAG),
                 86400
             );
         } else {
             $result = unserialize($result);
         }
 
-        Magento_Profiler::stop('process_design_change');
+        \Magento\Profiler::stop('process_design_change');
 
         $output = $this->_getPackageByUserAgent($exceptions);
         if ('' === $output) {

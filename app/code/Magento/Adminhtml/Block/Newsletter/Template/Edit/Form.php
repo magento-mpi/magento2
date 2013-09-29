@@ -16,27 +16,29 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Newsletter_Template_Edit_Form extends Magento_Backend_Block_Widget_Form_Generic
+namespace Magento\Adminhtml\Block\Newsletter\Template\Edit;
+
+class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
-     * @var Magento_Cms_Model_Wysiwyg_Config
+     * @var \Magento\Cms\Model\Wysiwyg\Config
      */
     protected $_wysiwygConfig;
 
     /**
-     * @param Magento_Cms_Model_Wysiwyg_Config $wysiwygConfig
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
+     * @param \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Cms_Model_Wysiwyg_Config $wysiwygConfig,
-        Magento_Core_Model_Registry $registry,
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
+        \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_wysiwygConfig = $wysiwygConfig;
@@ -46,7 +48,7 @@ class Magento_Adminhtml_Block_Newsletter_Template_Edit_Form extends Magento_Back
     /**
      * Retrieve template object
      *
-     * @return Magento_Newsletter_Model_Template
+     * @return \Magento\Newsletter\Model\Template
      */
     public function getModel()
     {
@@ -56,18 +58,18 @@ class Magento_Adminhtml_Block_Newsletter_Template_Edit_Form extends Magento_Back
     /**
      * Prepare form before rendering HTML
      *
-     * @return Magento_Adminhtml_Block_Newsletter_Template_Edit_Form
+     * @return \Magento\Adminhtml\Block\Newsletter\Template\Edit\Form
      */
     protected function _prepareForm()
     {
         $model  = $this->getModel();
         $identity = $this->_storeConfig->getConfig(
-            Magento_Newsletter_Model_Subscriber::XML_PATH_UNSUBSCRIBE_EMAIL_IDENTITY
+            \Magento\Newsletter\Model\Subscriber::XML_PATH_UNSUBSCRIBE_EMAIL_IDENTITY
         );
         $identityName = $this->_storeConfig->getConfig('trans_email/ident_'.$identity.'/name');
         $identityEmail = $this->_storeConfig->getConfig('trans_email/ident_'.$identity.'/email');
 
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create(array(
             'attributes' => array(
                 'id'        => 'edit_form',

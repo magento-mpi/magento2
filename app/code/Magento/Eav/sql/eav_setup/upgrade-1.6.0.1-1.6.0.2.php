@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/** @var $installer  Magento_Eav_Model_Entity_Setup*/
+/** @var $installer  \Magento\Eav\Model\Entity\Setup*/
 $installer = $this;
 
 $installer->startSetup();
@@ -17,21 +17,21 @@ $connection = $installer->getConnection();
 $tableName = $installer->getTable('eav_attribute_group');
 
 $connection->addColumn($tableName, 'attribute_group_code', array(
-    'type' => Magento_DB_Ddl_Table::TYPE_TEXT,
+    'type' => \Magento\DB\Ddl\Table::TYPE_TEXT,
     'length' => '255',
     'comment' => 'Attribute Group Code',
 ));
 
 $connection->addColumn($tableName, 'tab_group_code', array(
-    'type' => Magento_DB_Ddl_Table::TYPE_TEXT,
+    'type' => \Magento\DB\Ddl\Table::TYPE_TEXT,
     'length' => '255',
     'comment' => 'Tab Group Code',
 ));
 
-/** @var $groups Magento_Eav_Model_Resource_Entity_Attribute_Group_Collection*/
-$groups = Mage::getResourceModel('Magento_Eav_Model_Resource_Entity_Attribute_Group_Collection');
+/** @var $groups \Magento\Eav\Model\Resource\Entity\Attribute\Group\Collection*/
+$groups = \Mage::getResourceModel('Magento\Eav\Model\Resource\Entity\Attribute\Group\Collection');
 foreach ($groups as $group) {
-    /** @var $group Magento_Eav_Model_Entity_Attribute_Group*/
+    /** @var $group \Magento\Eav\Model\Entity\Attribute\Group*/
     $group->save();
 }
 

@@ -11,34 +11,36 @@
 /**
  * Reminder Rule data model
  *
- * @method Magento_Reminder_Model_Resource_Rule _getResource()
- * @method Magento_Reminder_Model_Resource_Rule getResource()
+ * @method \Magento\Reminder\Model\Resource\Rule _getResource()
+ * @method \Magento\Reminder\Model\Resource\Rule getResource()
  * @method string getName()
- * @method Magento_Reminder_Model_Rule setName(string $value)
+ * @method \Magento\Reminder\Model\Rule setName(string $value)
  * @method string getDescription()
- * @method Magento_Reminder_Model_Rule setDescription(string $value)
+ * @method \Magento\Reminder\Model\Rule setDescription(string $value)
  * @method string getConditionsSerialized()
- * @method Magento_Reminder_Model_Rule setConditionsSerialized(string $value)
+ * @method \Magento\Reminder\Model\Rule setConditionsSerialized(string $value)
  * @method string getConditionSql()
- * @method Magento_Reminder_Model_Rule setConditionSql(string $value)
+ * @method \Magento\Reminder\Model\Rule setConditionSql(string $value)
  * @method int getIsActive()
- * @method Magento_Reminder_Model_Rule setIsActive(int $value)
+ * @method \Magento\Reminder\Model\Rule setIsActive(int $value)
  * @method int getSalesruleId()
- * @method Magento_Reminder_Model_Rule setSalesruleId(int $value)
+ * @method \Magento\Reminder\Model\Rule setSalesruleId(int $value)
  * @method string getSchedule()
- * @method Magento_Reminder_Model_Rule setSchedule(string $value)
+ * @method \Magento\Reminder\Model\Rule setSchedule(string $value)
  * @method string getDefaultLabel()
- * @method Magento_Reminder_Model_Rule setDefaultLabel(string $value)
+ * @method \Magento\Reminder\Model\Rule setDefaultLabel(string $value)
  * @method string getDefaultDescription()
- * @method Magento_Reminder_Model_Rule setDefaultDescription(string $value)
- * @method Magento_Reminder_Model_Rule setActiveFrom(string $value)
- * @method Magento_Reminder_Model_Rule setActiveTo(string $value)
+ * @method \Magento\Reminder\Model\Rule setDefaultDescription(string $value)
+ * @method \Magento\Reminder\Model\Rule setActiveFrom(string $value)
+ * @method \Magento\Reminder\Model\Rule setActiveTo(string $value)
  *
  * @category    Magento
  * @package     Magento_Reminder
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reminder_Model_Rule extends Magento_Rule_Model_Abstract
+namespace Magento\Reminder\Model;
+
+class Rule extends \Magento\Rule\Model\AbstractModel
 {
     const XML_PATH_EMAIL_TEMPLATE  = 'magento_reminder_email_template';
 
@@ -50,28 +52,28 @@ class Magento_Reminder_Model_Rule extends Magento_Rule_Model_Abstract
     /**
      * Reminder data
      *
-     * @var Magento_Reminder_Helper_Data
+     * @var \Magento\Reminder\Helper\Data
      */
     protected $_reminderData = null;
 
     /**
-     * @param Magento_Reminder_Helper_Data $reminderData
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Reminder_Model_Resource_Rule $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Reminder\Helper\Data $reminderData
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Reminder\Model\Resource\Rule $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Reminder_Helper_Data $reminderData,
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Reminder_Model_Resource_Rule $resource,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Reminder\Helper\Data $reminderData,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Reminder\Model\Resource\Rule $resource,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_reminderData = $reminderData;
@@ -86,13 +88,13 @@ class Magento_Reminder_Model_Rule extends Magento_Rule_Model_Abstract
     protected function _construct()
     {
         parent::_construct();
-        $this->_init('Magento_Reminder_Model_Resource_Rule');
+        $this->_init('Magento\Reminder\Model\Resource\Rule');
     }
 
     /**
      * Set template, label and description data per store
      *
-     * @return Magento_Reminder_Model_Rule
+     * @return \Magento\Reminder\Model\Rule
      */
     protected function _afterLoad()
     {
@@ -114,12 +116,12 @@ class Magento_Reminder_Model_Rule extends Magento_Rule_Model_Abstract
     /**
      * Set aggregated conditions SQL and reset sales rule Id if applicable
      *
-     * @return Magento_Reminder_Model_Rule
+     * @return \Magento\Reminder\Model\Rule
      */
     protected function _beforeSave()
     {
         $this->setConditionSql(
-            $this->getConditions()->getConditionsSql(null, new Zend_Db_Expr(':website_id'))
+            $this->getConditions()->getConditionsSql(null, new \Zend_Db_Expr(':website_id'))
         );
 
         if (!$this->getSalesruleId()) {
@@ -133,35 +135,35 @@ class Magento_Reminder_Model_Rule extends Magento_Rule_Model_Abstract
     /**
      * Getter for rule combine conditions instance
      *
-     * @return Magento_Reminder_Model_Rule_Condition_Combine
+     * @return \Magento\Reminder\Model\Rule\Condition\Combine
      */
     public function getConditionsInstance()
     {
-        return Mage::getModel('Magento_Reminder_Model_Rule_Condition_Combine_Root');
+        return \Mage::getModel('Magento\Reminder\Model\Rule\Condition\Combine\Root');
     }
 
     /**
      * Getter for rule actions collection instance
      *
-     * @return Magento_Rule_Model_Action_Collection
+     * @return \Magento\Rule\Model\Action\Collection
      */
     public function getActionsInstance()
     {
-        return Mage::getModel('Magento_Rule_Model_Action_Collection');
+        return \Mage::getModel('Magento\Rule\Model\Action\Collection');
     }
 
     /**
      * Send reminder emails
      *
-     * @return Magento_Reminder_Model_Rule
+     * @return \Magento\Reminder\Model\Rule
      */
     public function sendReminderEmails()
     {
-        /** @var $mail Magento_Core_Model_Email_Template */
-        $mail = Mage::getModel('Magento_Core_Model_Email_Template');
+        /** @var $mail \Magento\Core\Model\Email\Template */
+        $mail = \Mage::getModel('Magento\Core\Model\Email\Template');
 
-        /* @var $translate Magento_Core_Model_Translate */
-        $translate = Mage::getSingleton('Magento_Core_Model_Translate');
+        /* @var $translate \Magento\Core\Model\Translate */
+        $translate = \Mage::getSingleton('Magento\Core\Model\Translate');
         $translate->setTranslateInline(false);
 
         $identity = $this->_reminderData->getEmailIdentity();
@@ -172,8 +174,8 @@ class Magento_Reminder_Model_Rule extends Magento_Rule_Model_Abstract
         $recipients = $this->_getResource()->getCustomersForNotification($limit, $this->getRuleId());
 
         foreach ($recipients as $recipient) {
-            /* @var $customer Magento_Customer_Model_Customer */
-            $customer = Mage::getModel('Magento_Customer_Model_Customer')->load($recipient['customer_id']);
+            /* @var $customer \Magento\Customer\Model\Customer */
+            $customer = \Mage::getModel('Magento\Customer\Model\Customer')->load($recipient['customer_id']);
             if (!$customer || !$customer->getId()) {
                 continue;
             }
@@ -181,7 +183,7 @@ class Magento_Reminder_Model_Rule extends Magento_Rule_Model_Abstract
             if ($customer->getStoreId()) {
                 $store = $customer->getStore();
             } else {
-                $store = Mage::app()->getWebsite($customer->getWebsiteId())->getDefaultStore();
+                $store = \Mage::app()->getWebsite($customer->getWebsiteId())->getDefaultStore();
             }
 
             $storeData = $this->getStoreData($recipient['rule_id'], $store->getId());
@@ -189,8 +191,8 @@ class Magento_Reminder_Model_Rule extends Magento_Rule_Model_Abstract
                 continue;
             }
 
-            /* @var $coupon Magento_SalesRule_Model_Coupon */
-            $coupon = Mage::getModel('Magento_SalesRule_Model_Coupon')->load($recipient['coupon_id']);
+            /* @var $coupon \Magento\SalesRule\Model\Coupon */
+            $coupon = \Mage::getModel('Magento\SalesRule\Model\Coupon')->load($recipient['coupon_id']);
 
             $templateVars = array(
                 'store'          => $store,
@@ -201,7 +203,7 @@ class Magento_Reminder_Model_Rule extends Magento_Rule_Model_Abstract
             );
 
             $mail->setDesignConfig(array(
-                'area' => Magento_Core_Model_App_Area::AREA_FRONTEND,
+                'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
                 'store' => $store->getId()
             ));
             $mail->sendTransactional($storeData['template_id'], $identity,
@@ -222,12 +224,12 @@ class Magento_Reminder_Model_Rule extends Magento_Rule_Model_Abstract
     /**
      * Match customers for current rule and assign coupons
      *
-     * @return Magento_Reminder_Model_Observer
+     * @return \Magento\Reminder\Model\Observer
      */
     protected function _matchCustomers()
     {
         $threshold   = $this->_reminderData->getSendFailureThreshold();
-        $currentDate = Mage::getModel('Magento_Core_Model_Date')->date('Y-m-d');
+        $currentDate = \Mage::getModel('Magento\Core\Model\Date')->date('Y-m-d');
         $rules       = $this->getCollection()->addDateFilter($currentDate)->addIsActiveFilter(1);
 
         if ($this->getRuleId()) {
@@ -238,8 +240,8 @@ class Magento_Reminder_Model_Rule extends Magento_Rule_Model_Abstract
             $this->_getResource()->deactivateMatchedCustomers($rule->getId());
 
             if ($rule->getSalesruleId()) {
-                /* @var $salesRule Magento_SalesRule_Model_Rule */
-                $salesRule = Mage::getSingleton('Magento_SalesRule_Model_Rule')->load($rule->getSalesruleId());
+                /* @var $salesRule \Magento\SalesRule\Model\Rule */
+                $salesRule = \Mage::getSingleton('Magento\SalesRule\Model\Rule')->load($rule->getSalesruleId());
                 $websiteIds = array_intersect($rule->getWebsiteIds(), $salesRule->getWebsiteIds());
             } else {
                 $salesRule = null;
@@ -282,7 +284,7 @@ class Magento_Reminder_Model_Rule extends Magento_Rule_Model_Abstract
      * Detaches Sales Rule from all Email Remainder Rules that uses it
      *
      * @param int $salesRuleId
-     * @return Magento_Reminder_Model_Rule
+     * @return \Magento\Reminder\Model\Rule
      */
     public function detachSalesRule($salesRuleId)
     {

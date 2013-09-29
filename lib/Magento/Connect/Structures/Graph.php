@@ -8,11 +8,13 @@
  * @license     {license_link}
  */
 
-class Magento_Connect_Structures_Graph
+namespace Magento\Connect\Structures;
+
+class Graph
 {
     protected $_nodes = array();
     protected $_directed = false;
-    protected $_nodeClassName = 'Magento_Connect_Structures_Node';
+    protected $_nodeClassName = 'Magento\Connect\Structures\Node';
 
     const ACYCLIC_VISITED_KEY = 'acyclic-test-visited';
     const SORT_VISITED_KEY = 'topological-sort-visited';
@@ -42,17 +44,17 @@ class Magento_Connect_Structures_Graph
     /**
      * Add node to list
      *
-     * @param Magento_Connect_Structures_Graph_Node $newNode
+     * @param \Magento\Connect\Structures\Graph_Node $newNode
      * @return void
      */
     public function addNode(&$newNode)
     {
         if(!$newNode instanceof $this->_nodeClassName) {
-            throw new Exception(__METHOD__." : invalid node class, should be instance of: ".$this->_nodeClassName);
+            throw new \Exception(__METHOD__." : invalid node class, should be instance of: ".$this->_nodeClassName);
         }
         foreach($this->_nodes as $key => $node) {
             if($newNode === $node) {
-                throw new Exception(__METHOD__." : received duplicate object");
+                throw new \Exception(__METHOD__." : received duplicate object");
             }
         }
         $this->_nodes[] =& $newNode;
@@ -61,7 +63,7 @@ class Magento_Connect_Structures_Graph
 
     /**
      * Remove a Node from the Graph
-     * @param  Magento_Connect_Structures_Graph_Node  $node
+     * @param  \Magento\Connect\Structures\Graph_Node  $node
      */
     public function removeNode(&$node)
     {

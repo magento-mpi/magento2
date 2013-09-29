@@ -8,38 +8,40 @@
  * @license     {license_link}
  */
 
-class Magento_Backend_Model_Config_Structure_Element_Dependency_Mapper
+namespace Magento\Backend\Model\Config\Structure\Element\Dependency;
+
+class Mapper
 {
     /**
      * Field locator model
      *
-     * @var Magento_Backend_Model_Config_Structure_SearchInterface
+     * @var \Magento\Backend\Model\Config\Structure\SearchInterface
      */
     protected $_fieldLocator;
 
     /**
      * Dependency Field model
      *
-     * @var Magento_Backend_Model_Config_Structure_Element_Dependency_FieldFactory
+     * @var \Magento\Backend\Model\Config\Structure\Element\Dependency\FieldFactory
      */
     protected $_fieldFactory;
 
     /**
      * Application object
      *
-     * @var Magento_Core_Model_App
+     * @var \Magento\Core\Model\App
      */
     protected $_application;
 
     /**
-     * @param Magento_Core_Model_App $application
-     * @param Magento_Backend_Model_Config_Structure_SearchInterface $fieldLocator
-     * @param Magento_Backend_Model_Config_Structure_Element_Dependency_FieldFactory $fieldFactory
+     * @param \Magento\Core\Model\App $application
+     * @param \Magento\Backend\Model\Config\Structure\SearchInterface $fieldLocator
+     * @param \Magento\Backend\Model\Config\Structure\Element\Dependency\FieldFactory $fieldFactory
      */
     public function __construct(
-        Magento_Core_Model_App $application,
-        Magento_Backend_Model_Config_Structure_SearchInterface $fieldLocator,
-        Magento_Backend_Model_Config_Structure_Element_Dependency_FieldFactory $fieldFactory
+        \Magento\Core\Model\App $application,
+        \Magento\Backend\Model\Config\Structure\SearchInterface $fieldLocator,
+        \Magento\Backend\Model\Config\Structure\Element\Dependency\FieldFactory $fieldFactory
     ) {
 
         $this->_fieldLocator = $fieldLocator;
@@ -62,7 +64,7 @@ class Magento_Backend_Model_Config_Structure_Element_Dependency_Mapper
         foreach ($dependencies as $depend) {
             $field = $this->_fieldFactory->create(array('fieldData' => $depend, 'fieldPrefix' => $fieldPrefix));
             $shouldAddDependency = true;
-            /** @var Magento_Backend_Model_Config_Structure_Element_Field $dependentField  */
+            /** @var \Magento\Backend\Model\Config\Structure\Element\Field $dependentField  */
             $dependentField = $this->_fieldLocator->getElement($depend['id']);
             /*
             * If dependent field can't be shown in current scope and real dependent config value

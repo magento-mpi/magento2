@@ -14,33 +14,35 @@
  * @category   Magento
  * @package    Magento_Invitation
  */
-class Magento_Invitation_Helper_Data extends Magento_Core_Helper_Abstract
+namespace Magento\Invitation\Helper;
+
+class Data extends \Magento\Core\Helper\AbstractHelper
 {
     protected $_isRegistrationAllowed = null;
 
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
     /**
      * Customer data
      *
-     * @var Magento_Customer_Helper_Data
+     * @var \Magento\Customer\Helper\Data
      */
     protected $_customerData = null;
 
     /**
-     * @param Magento_Customer_Helper_Data $customerData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Helper_Context $context
+     * @param \Magento\Customer\Helper\Data $customerData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Helper\Context $context
      */
     public function __construct(
-        Magento_Customer_Helper_Data $customerData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Helper_Context $context
+        \Magento\Customer\Helper\Data $customerData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Helper\Context $context
     ) {
         $this->_customerData = $customerData;
         $this->_coreData = $coreData;
@@ -51,23 +53,23 @@ class Magento_Invitation_Helper_Data extends Magento_Core_Helper_Abstract
      * Return text for invitation status
      *
      * @param $invitation
-     * @return Magento_Invitation_Model_Invitation
+     * @return \Magento\Invitation\Model\Invitation
      */
     public function getInvitationStatusText($invitation)
     {
-        return Mage::getSingleton('Magento_Invitation_Model_Source_Invitation_Status')
+        return \Mage::getSingleton('Magento\Invitation\Model\Source\Invitation\Status')
             ->getOptionText($invitation->getStatus());
     }
 
     /**
      * Return invitation url
      *
-     * @param Magento_Invitation_Model_Invitation $invitation
+     * @param \Magento\Invitation\Model\Invitation $invitation
      * @return string
      */
     public function getInvitationUrl($invitation)
     {
-        return Mage::getModel('Magento_Core_Model_Url')->setStore($invitation->getStoreId())
+        return \Mage::getModel('Magento\Core\Model\Url')->setStore($invitation->getStoreId())
             ->getUrl('magento_invitation/customer_account/create', array(
                 'invitation' => $this->_coreData->urlEncode($invitation->getInvitationCode()),
                 '_store_to_url' => true,

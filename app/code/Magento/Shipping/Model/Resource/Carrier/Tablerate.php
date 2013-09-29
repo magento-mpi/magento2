@@ -15,7 +15,9 @@
  * @package    Magento_Shipping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Shipping_Model_Resource_Carrier_Tablerate extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Shipping\Model\Resource\Carrier;
+
+class Tablerate extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Import table rates website ID
@@ -82,26 +84,26 @@ class Magento_Shipping_Model_Resource_Carrier_Tablerate extends Magento_Core_Mod
     protected $_conditionFullNames  = array();
 
     /**
-     * @var Magento_Core_Model_Config
+     * @var \Magento\Core\Model\Config
      */
     protected $_coreConfig;
 
     /**
-     * @var Magento_Core_Model_Logger
+     * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
     
     /**
      * Class constructor
      *
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Core_Model_Config $coreConfig
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Core\Model\Config $coreConfig
      */
     public function __construct(
-        Magento_Core_Model_Logger $logger,
-        Magento_Core_Model_Resource $resource,
-        Magento_Core_Model_Config $coreConfig
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Core\Model\Config $coreConfig
     ) {
         parent::__construct($resource);
         $this->_coreConfig = $coreConfig;
@@ -121,10 +123,10 @@ class Magento_Shipping_Model_Resource_Carrier_Tablerate extends Magento_Core_Mod
     /**
      * Return table rate array or false by rate request
      *
-     * @param Magento_Shipping_Model_Rate_Request $request
+     * @param \Magento\Shipping\Model\Rate\Request $request
      * @return array|boolean
      */
-    public function getRate(Magento_Shipping_Model_Rate_Request $request)
+    public function getRate(\Magento\Shipping\Model\Rate\Request $request)
     {
         $adapter = $this->_getReadAdapter();
         $bind = array(
@@ -191,25 +193,25 @@ class Magento_Shipping_Model_Resource_Carrier_Tablerate extends Magento_Core_Mod
     /**
      * Upload table rate file and import data from it
      *
-     * @param Magento_Object $object
-     * @throws Magento_Core_Exception
-     * @return Magento_Shipping_Model_Resource_Carrier_Tablerate
+     * @param \Magento\Object $object
+     * @throws \Magento\Core\Exception
+     * @return \Magento\Shipping\Model\Resource\Carrier\Tablerate
      */
-    public function uploadAndImport(Magento_Object $object)
+    public function uploadAndImport(\Magento\Object $object)
     {
         if (empty($_FILES['groups']['tmp_name']['tablerate']['fields']['import']['value'])) {
             return $this;
         }
 
         $csvFile = $_FILES['groups']['tmp_name']['tablerate']['fields']['import']['value'];
-        $website = Mage::app()->getWebsite($object->getScopeId());
+        $website = \Mage::app()->getWebsite($object->getScopeId());
 
         $this->_importWebsiteId     = (int)$website->getId();
         $this->_importUniqueHash    = array();
         $this->_importErrors        = array();
         $this->_importedRows        = 0;
 
-        $io     = new Magento_Io_File();
+        $io     = new \Magento\Io\File();
         $info   = pathinfo($csvFile);
         $io->open(array('path' => $info['dirname']));
         $io->streamOpen($info['basename'], 'r');
@@ -218,7 +220,7 @@ class Magento_Shipping_Model_Resource_Carrier_Tablerate extends Magento_Core_Mod
         $headers = $io->streamReadCsv();
         if ($headers === false || count($headers) < 5) {
             $io->streamClose();
-            Mage::throwException(__('Please correct Table Rates File Format.'));
+            \Mage::throwException(__('Please correct Table Rates File Format.'));
         }
 
         if ($object->getData('groups/tablerate/fields/condition_name/inherit') == '1') {
@@ -264,22 +266,22 @@ class Magento_Shipping_Model_Resource_Carrier_Tablerate extends Magento_Core_Mod
             }
             $this->_saveImportData($importData);
             $io->streamClose();
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $adapter->rollback();
             $io->streamClose();
-            Mage::throwException($e->getMessage());
-        } catch (Exception $e) {
+            \Mage::throwException($e->getMessage());
+        } catch (\Exception $e) {
             $adapter->rollback();
             $io->streamClose();
             $this->_logger->logException($e);
-            Mage::throwException(__('Something went wrong while importing table rates.'));
+            \Mage::throwException(__('Something went wrong while importing table rates.'));
         }
 
         $adapter->commit();
 
         if ($this->_importErrors) {
             $error = __('We couldn\'t import this file because of these errors: %1', implode(" \n", $this->_importErrors));
-            Mage::throwException($error);
+            \Mage::throwException($error);
         }
 
         return $this;
@@ -288,7 +290,7 @@ class Magento_Shipping_Model_Resource_Carrier_Tablerate extends Magento_Core_Mod
     /**
      * Load directory countries
      *
-     * @return Magento_Shipping_Model_Resource_Carrier_Tablerate
+     * @return \Magento\Shipping\Model\Resource\Carrier\Tablerate
      */
     protected function _loadDirectoryCountries()
     {
@@ -299,8 +301,8 @@ class Magento_Shipping_Model_Resource_Carrier_Tablerate extends Magento_Core_Mod
         $this->_importIso2Countries = array();
         $this->_importIso3Countries = array();
 
-        /** @var $collection Magento_Directory_Model_Resource_Country_Collection */
-        $collection = Mage::getResourceModel('Magento_Directory_Model_Resource_Country_Collection');
+        /** @var $collection \Magento\Directory\Model\Resource\Country\Collection */
+        $collection = \Mage::getResourceModel('Magento\Directory\Model\Resource\Country\Collection');
         foreach ($collection->getData() as $row) {
             $this->_importIso2Countries[$row['iso2_code']] = $row['country_id'];
             $this->_importIso3Countries[$row['iso3_code']] = $row['country_id'];
@@ -312,7 +314,7 @@ class Magento_Shipping_Model_Resource_Carrier_Tablerate extends Magento_Core_Mod
     /**
      * Load directory regions
      *
-     * @return Magento_Shipping_Model_Resource_Carrier_Tablerate
+     * @return \Magento\Shipping\Model\Resource\Carrier\Tablerate
      */
     protected function _loadDirectoryRegions()
     {
@@ -322,8 +324,8 @@ class Magento_Shipping_Model_Resource_Carrier_Tablerate extends Magento_Core_Mod
 
         $this->_importRegions = array();
 
-        /** @var $collection Magento_Directory_Model_Resource_Region_Collection */
-        $collection = Mage::getResourceModel('Magento_Directory_Model_Resource_Region_Collection');
+        /** @var $collection \Magento\Directory\Model\Resource\Region\Collection */
+        $collection = \Mage::getResourceModel('Magento\Directory\Model\Resource\Region\Collection');
         foreach ($collection->getData() as $row) {
             $this->_importRegions[$row['country_id']][$row['code']] = (int)$row['region_id'];
         }
@@ -340,7 +342,7 @@ class Magento_Shipping_Model_Resource_Carrier_Tablerate extends Magento_Core_Mod
     protected function _getConditionFullName($conditionName)
     {
         if (!isset($this->_conditionFullNames[$conditionName])) {
-            $name = Mage::getSingleton('Magento_Shipping_Model_Carrier_Tablerate')->getCode('condition_name_short', $conditionName);
+            $name = \Mage::getSingleton('Magento\Shipping\Model\Carrier\Tablerate')->getCode('condition_name_short', $conditionName);
             $this->_conditionFullNames[$conditionName] = $name;
         }
 
@@ -434,7 +436,7 @@ class Magento_Shipping_Model_Resource_Carrier_Tablerate extends Magento_Core_Mod
      * Save import data batch
      *
      * @param array $data
-     * @return Magento_Shipping_Model_Resource_Carrier_Tablerate
+     * @return \Magento\Shipping\Model\Resource\Carrier\Tablerate
      */
     protected function _saveImportData(array $data)
     {

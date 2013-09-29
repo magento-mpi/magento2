@@ -6,5 +6,5 @@
  * @license    {license_link}
  */
 
-$objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
+$objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
 $bootstrapFactory = $objectManager->getObject('Magento_Bootstrap_ModelFactory');

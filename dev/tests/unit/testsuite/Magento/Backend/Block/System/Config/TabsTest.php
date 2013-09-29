@@ -9,50 +9,52 @@
  * @license     {license_link}
  */
 
-class Magento_Backend_Block_System_Config_TabsTest extends PHPUnit_Framework_TestCase
+namespace Magento\Backend\Block\System\Config;
+
+class TabsTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Backend_Block_System_Config_Tabs
+     * @var \Magento\Backend\Block\System\Config\Tabs
      */
     protected $_object;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_structureMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_requestMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_urlBuilderMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject|Magento_Core_Model_Factory_Helper
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Model\Factory\Helper
      */
     protected $_helperFactoryMock;
 
     protected function setUp()
     {
-        $this->_requestMock = $this->getMock('Magento_Core_Controller_Request_Http', array(), array(), '', false);
+        $this->_requestMock = $this->getMock('Magento\Core\Controller\Request\Http', array(), array(), '', false);
         $this->_requestMock->expects($this->any())->method('getParam')->with('section')
             ->will($this->returnValue('currentSectionId'));
-        $this->_structureMock = $this->getMock('Magento_Backend_Model_Config_Structure', array(), array(), '', false);
+        $this->_structureMock = $this->getMock('Magento\Backend\Model\Config\Structure', array(), array(), '', false);
         $this->_structureMock->expects($this->once())->method('getTabs')->will($this->returnValue(array()));
-        $this->_urlBuilderMock = $this->getMock('Magento_Backend_Model_Url', array(), array(), '', false);
+        $this->_urlBuilderMock = $this->getMock('Magento\Backend\Model\Url', array(), array(), '', false);
 
         $this->_helperFactoryMock = $this->getMock(
-            'Magento_Core_Model_Factory_Helper', array('get'), array(), '', false, false
+            'Magento\Core\Model\Factory\Helper', array('get'), array(), '', false, false
         );
-        $backendHelperMock = $this->getMock('Magento_Backend_Helper_Data', array(), array(), '', false);
+        $backendHelperMock = $this->getMock('Magento\Backend\Helper\Data', array(), array(), '', false);
         $this->_helperFactoryMock
             ->expects($this->once())
             ->method('get')
-            ->with('Magento_Backend_Helper_Data', array())
+            ->with('Magento\Backend\Helper\Data', array())
             ->will($this->returnValue($backendHelperMock));
 
         $data = array(
@@ -61,8 +63,8 @@ class Magento_Backend_Block_System_Config_TabsTest extends PHPUnit_Framework_Tes
             'urlBuilder' => $this->_urlBuilderMock,
             'helperFactory' => $this->_helperFactoryMock,
         );
-        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_object = $helper->getObject('Magento_Backend_Block_System_Config_Tabs', $data);
+        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $this->_object = $helper->getObject('Magento\Backend\Block\System\Config\Tabs', $data);
     }
 
     protected function tearDown()
@@ -82,7 +84,7 @@ class Magento_Backend_Block_System_Config_TabsTest extends PHPUnit_Framework_Tes
             ->will($this->returnValue('testSectionUrl'));
 
         $sectionMock = $this->getMock(
-            'Magento_Backend_Model_Config_Structure_Element_Section', array(), array(), '', false
+            'Magento\Backend\Model\Config\Structure\Element\Section', array(), array(), '', false
         );
         $sectionMock->expects($this->once())
             ->method('getId')
@@ -94,7 +96,7 @@ class Magento_Backend_Block_System_Config_TabsTest extends PHPUnit_Framework_Tes
     public function testIsSectionActiveReturnsTrueForActiveSection()
     {
         $sectionMock = $this->getMock(
-            'Magento_Backend_Model_Config_Structure_Element_Section', array(), array(), '', false
+            'Magento\Backend\Model\Config\Structure\Element\Section', array(), array(), '', false
         );
         $sectionMock->expects($this->once())
             ->method('getId')
@@ -105,7 +107,7 @@ class Magento_Backend_Block_System_Config_TabsTest extends PHPUnit_Framework_Tes
     public function testIsSectionActiveReturnsFalseForNonActiveSection()
     {
         $sectionMock = $this->getMock(
-            'Magento_Backend_Model_Config_Structure_Element_Section', array(), array(), '', false
+            'Magento\Backend\Model\Config\Structure\Element\Section', array(), array(), '', false
         );
         $sectionMock->expects($this->once())
             ->method('getId')

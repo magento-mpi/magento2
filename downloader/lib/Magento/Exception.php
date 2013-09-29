@@ -9,11 +9,13 @@
  */
 
 /**
- * Class for Exception
+ * Class for \Exception
  *
  * @category    Magento
  * @package     Mage
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Exception extends Exception
+namespace Magento;
+
+class Exception extends \Exception
 {}

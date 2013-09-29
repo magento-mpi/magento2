@@ -15,24 +15,26 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes_Create extends Magento_Backend_Block_Widget_Button
+namespace Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Attributes;
+
+class Create extends \Magento\Backend\Block\Widget\Button
 {
     /**
      * Config of create new attribute
      *
-     * @var Magento_Object
+     * @var \Magento\Object
      */
     protected $_config = null;
 
     /**
      * Retrive config of new attribute creation
      *
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function getConfig()
     {
         if (is_null($this->_config)) {
-           $this->_config = new Magento_Object();
+           $this->_config = new \Magento\Object();
         }
 
         return $this->_config;
@@ -93,4 +95,4 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes_Create extends
     {
         return $this->getId() . 'JsObject';
     }
-} // Class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes_Create End
+} // Class \Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Attributes\Create End

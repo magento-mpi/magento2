@@ -16,7 +16,9 @@
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backend_Model_Config_Backend_Log_Cron extends Magento_Core_Model_Config_Value
+namespace Magento\Backend\Model\Config\Backend\Log;
+
+class Cron extends \Magento\Core\Model\Config\Value
 {
     const CRON_STRING_PATH  = 'crontab/jobs/log_clean/schedule/cron_expr';
     const CRON_MODEL_PATH   = 'crontab/jobs/log_clean/run/model';
@@ -24,7 +26,7 @@ class Magento_Backend_Model_Config_Backend_Log_Cron extends Magento_Core_Model_C
     /**
      * Cron settings after save
      *
-     * @return Magento_Backend_Model_Config_Backend_Log_Cron
+     * @return \Magento\Backend\Model\Config\Backend\Log\Cron
      */
     protected function _afterSave()
     {
@@ -32,8 +34,8 @@ class Magento_Backend_Model_Config_Backend_Log_Cron extends Magento_Core_Model_C
         $time       = $this->getData('groups/log/fields/time/value');
         $frequncy   = $this->getData('groups/log/fields/frequency/value');
 
-        $frequencyWeekly    = Magento_Cron_Model_Config_Source_Frequency::CRON_WEEKLY;
-        $frequencyMonthly   = Magento_Cron_Model_Config_Source_Frequency::CRON_MONTHLY;
+        $frequencyWeekly    = \Magento\Cron\Model\Config\Source\Frequency::CRON_WEEKLY;
+        $frequencyMonthly   = \Magento\Cron\Model\Config\Source\Frequency::CRON_MONTHLY;
 
         if ($enabled) {
             $cronExprArray = array(
@@ -49,20 +51,20 @@ class Magento_Backend_Model_Config_Backend_Log_Cron extends Magento_Core_Model_C
         }
 
         try {
-            Mage::getModel('Magento_Core_Model_Config_Value')
+            \Mage::getModel('Magento\Core\Model\Config\Value')
                 ->load(self::CRON_STRING_PATH, 'path')
                 ->setValue($cronExprString)
                 ->setPath(self::CRON_STRING_PATH)
                 ->save();
 
-            Mage::getModel('Magento_Core_Model_Config_Value')
+            \Mage::getModel('Magento\Core\Model\Config\Value')
                 ->load(self::CRON_MODEL_PATH, 'path')
                 ->setValue((string) $this->_config->getNode(self::CRON_MODEL_PATH))
                 ->setPath(self::CRON_MODEL_PATH)
                 ->save();
         }
-        catch (Exception $e) {
-            Mage::throwException(__('We can\'t save the Cron expression.'));
+        catch (\Exception $e) {
+            \Mage::throwException(__('We can\'t save the Cron expression.'));
         }
     }
 }

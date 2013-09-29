@@ -10,12 +10,12 @@
  */
 
 /* Create attribute */
-/** @var $installer Magento_Catalog_Model_Resource_Setup */
-$installer = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Catalog_Model_Resource_Setup', array('resourceName' => 'catalog_setup'));
-/** @var $attribute Magento_Catalog_Model_Resource_Eav_Attribute */
-$attribute = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Catalog_Model_Resource_Eav_Attribute');
+/** @var $installer \Magento\Catalog\Model\Resource\Setup */
+$installer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Catalog\Model\Resource\Setup', array('resourceName' => 'catalog_setup'));
+/** @var $attribute \Magento\Catalog\Model\Resource\Eav\Attribute */
+$attribute = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Catalog\Model\Resource\Eav\Attribute');
 $attribute->setData(array(
     'attribute_code'                => 'test_configurable',
     'entity_type_id'                => $installer->getEntityTypeId('catalog_product'),
@@ -54,18 +54,18 @@ $attribute->save();
 $installer->addAttributeToGroup('catalog_product', 'Default', 'General', $attribute->getId());
 
 /* Create simple products per each option */
-/** @var $options Magento_Eav_Model_Resource_Entity_Attribute_Option_Collection */
-$options = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Eav_Model_Resource_Entity_Attribute_Option_Collection');
+/** @var $options \Magento\Eav\Model\Resource\Entity\Attribute\Option\Collection */
+$options = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Eav\Model\Resource\Entity\Attribute\Option\Collection');
 $options->setAttributeFilter($attribute->getId());
 
 $attributeValues = array();
 $productIds = array();
 foreach ($options as $option) {
-    /** @var $product Magento_Catalog_Model_Product */
-    $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Catalog_Model_Product');
-    $product->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE)
+    /** @var $product \Magento\Catalog\Model\Product */
+    $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Catalog\Model\Product');
+    $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE)
         ->setId($option->getId() * 10)
         ->setAttributeSetId($installer->getAttributeSetId('catalog_product', 'Default'))
         ->setWebsiteIds(array(1))
@@ -73,8 +73,8 @@ foreach ($options as $option) {
         ->setSku('simple_' . $option->getId())
         ->setPrice(10)
         ->setTestConfigurable($option->getId())
-        ->setVisibility(Magento_Catalog_Model_Product_Visibility::VISIBILITY_NOT_VISIBLE)
-        ->setStatus(Magento_Catalog_Model_Product_Status::STATUS_ENABLED)
+        ->setVisibility(\Magento\Catalog\Model\Product\Visibility::VISIBILITY_NOT_VISIBLE)
+        ->setStatus(\Magento\Catalog\Model\Product\Status::STATUS_ENABLED)
         ->setStockData(array(
             'use_config_manage_stock' => 1,
             'qty'                     => 100,
@@ -92,18 +92,18 @@ foreach ($options as $option) {
     $productIds[] = $product->getId();
 }
 
-/** @var $product Magento_Catalog_Model_Product */
-$product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Catalog_Model_Product');
-$product->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_CONFIGURABLE)
+/** @var $product \Magento\Catalog\Model\Product */
+$product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Catalog\Model\Product');
+$product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE)
     ->setId(1)
     ->setAttributeSetId($installer->getAttributeSetId('catalog_product', 'Default'))
     ->setWebsiteIds(array(1))
     ->setName('Configurable Product')
     ->setSku('configurable')
     ->setPrice(100)
-    ->setVisibility(Magento_Catalog_Model_Product_Visibility::VISIBILITY_BOTH)
-    ->setStatus(Magento_Catalog_Model_Product_Status::STATUS_ENABLED)
+    ->setVisibility(\Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH)
+    ->setStatus(\Magento\Catalog\Model\Product\Status::STATUS_ENABLED)
     ->setStockData(array(
         'use_config_manage_stock' => 1,
         'is_in_stock'             => 1,

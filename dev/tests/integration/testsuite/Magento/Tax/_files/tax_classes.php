@@ -9,28 +9,28 @@
  * @license     {license_link}
  */
 
-$customerTaxClass1 = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Tax_Model_Class')
+$customerTaxClass1 = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Tax\Model\ClassModel')
     ->setClassName('CustomerTaxClass1')
-    ->setClassType(Magento_Tax_Model_Class::TAX_CLASS_TYPE_CUSTOMER)
+    ->setClassType(\Magento\Tax\Model\ClassModel::TAX_CLASS_TYPE_CUSTOMER)
     ->save();
 
-$customerTaxClass2 = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Tax_Model_Class')
+$customerTaxClass2 = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Tax\Model\ClassModel')
     ->setClassName('CustomerTaxClass2')
-    ->setClassType(Magento_Tax_Model_Class::TAX_CLASS_TYPE_CUSTOMER)
+    ->setClassType(\Magento\Tax\Model\ClassModel::TAX_CLASS_TYPE_CUSTOMER)
     ->save();
 
-$productTaxClass1 = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Tax_Model_Class')
+$productTaxClass1 = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Tax\Model\ClassModel')
     ->setClassName('ProductTaxClass1')
-    ->setClassType(Magento_Tax_Model_Class::TAX_CLASS_TYPE_PRODUCT)
+    ->setClassType(\Magento\Tax\Model\ClassModel::TAX_CLASS_TYPE_PRODUCT)
     ->save();
 
-$productTaxClass2 = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Tax_Model_Class')
+$productTaxClass2 = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Tax\Model\ClassModel')
     ->setClassName('ProductTaxClass2')
-    ->setClassType(Magento_Tax_Model_Class::TAX_CLASS_TYPE_PRODUCT)
+    ->setClassType(\Magento\Tax\Model\ClassModel::TAX_CLASS_TYPE_PRODUCT)
     ->save();
 
 $taxRate = array(
@@ -40,12 +40,12 @@ $taxRate = array(
     'code' => '*',
     'rate' => '7.5'
 );
-$rate = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Tax_Model_Calculation_Rate')->setData($taxRate)->save();
+$rate = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Tax\Model\Calculation\Rate')->setData($taxRate)->save();
 
-/** @var $objectManager Magento_TestFramework_ObjectManager */
-$objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-$objectManager->get('Magento_Core_Model_Registry')->register('_fixture/Magento_Tax_Model_Calculation_Rate', $rate);
+/** @var $objectManager \Magento\TestFramework\ObjectManager */
+$objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+$objectManager->get('Magento\Core\Model\Registry')->register('_fixture/Magento_Tax_Model_Calculation_Rate', $rate);
 
 $ruleData = array(
     'code' => 'Test Rule',
@@ -56,12 +56,12 @@ $ruleData = array(
     'tax_rate' => array($rate->getId())
 );
 
-$taxRule = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Tax_Model_Calculation_Rule')->setData($ruleData)->save();
+$taxRule = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Tax\Model\Calculation\Rule')->setData($ruleData)->save();
 
-$objectManager->get('Magento_Core_Model_Registry')->register('_fixture/Magento_Tax_Model_Calculation_Rule', $taxRule);
+$objectManager->get('Magento\Core\Model\Registry')->register('_fixture/Magento_Tax_Model_Calculation_Rule', $taxRule);
 
 $ruleData['code'] = 'Test Rule Duplicate';
 
-Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Tax_Model_Calculation_Rule')->setData($ruleData)->save();
+\Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Tax\Model\Calculation\Rule')->setData($ruleData)->save();

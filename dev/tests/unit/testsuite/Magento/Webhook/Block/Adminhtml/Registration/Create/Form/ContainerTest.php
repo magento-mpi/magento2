@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento_Webhook_Block_Adminhtml_Registration_Create_Form_Container
+ * \Magento\Webhook\Block\Adminhtml\Registration\Create\Form\Container
  *
  * {license_notice}
  *
@@ -9,12 +9,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Block_Adminhtml_Registration_Create_Form_ContainerTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webhook\Block\Adminhtml\Registration\Create\Form;
+
+class ContainerTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var  Magento_Webhook_Block_Adminhtml_Registration_Activate */
+    /** @var  \Magento\Webhook\Block\Adminhtml\Registration\Activate */
     private $_block;
 
-    /** @var Magento_Core_Model_Url */
+    /** @var \Magento\Core\Model\Url */
     private $_urlBuilder;
 
     /** @var array  */
@@ -26,23 +28,23 @@ class Magento_Webhook_Block_Adminhtml_Registration_Create_Form_ContainerTest ext
 
     protected function setUp()
     {
-        $this->_urlBuilder = $this->getMock('Magento_Core_Model_Url', array('getUrl'), array(), '', false);
+        $this->_urlBuilder = $this->getMock('Magento\Core\Model\Url', array('getUrl'), array(), '', false);
 
-        /** @var  $coreData Magento_Core_Helper_Data */
-        $coreData = $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false);
+        /** @var  $coreData \Magento\Core\Helper\Data */
+        $coreData = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
 
-        /** @var Magento_Core_Block_Template_Context $context */
-        $context = $this->getMock('Magento_Backend_Block_Template_Context', array('getUrlBuilder'), array(), '', false);
+        /** @var \Magento\Core\Block\Template\Context $context */
+        $context = $this->getMock('Magento\Backend\Block\Template\Context', array('getUrlBuilder'), array(), '', false);
         $context->expects($this->once())
             ->method('getUrlBuilder')
             ->will($this->returnValue($this->_urlBuilder));
 
-        $registry = $this->getMock('Magento_Core_Model_Registry', array('registry'), array(), '', false);
+        $registry = $this->getMock('Magento\Core\Model\Registry', array('registry'), array(), '', false);
         $registry->expects($this->once())
             ->method('registry')
             ->with('current_subscription')
             ->will($this->returnValue($this->_subscription));
-        $this->_block = new Magento_Webhook_Block_Adminhtml_Registration_Create_Form_Container(
+        $this->_block = new \Magento\Webhook\Block\Adminhtml\Registration\Create\Form\Container(
             $coreData, $context, $registry);
     }
 

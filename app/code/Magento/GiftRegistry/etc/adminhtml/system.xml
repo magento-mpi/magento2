@@ -19,7 +19,7 @@
                 <label>General Options</label>
                 <field id="enabled" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Enable Gift Registry</label>
-                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>Magento\Backend\Model\Config\Source\Yesno</source_model>
                 </field>
                 <field id="max_registrant" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Maximum Recipients</label>
@@ -29,22 +29,22 @@
                 <label>Owner Notification</label>
                 <field id="template" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Email Template</label>
-                    <source_model>Magento_Backend_Model_Config_Source_Email_Template</source_model>
+                    <source_model>Magento\Backend\Model\Config\Source\Email\Template</source_model>
                 </field>
                 <field id="identity" translate="label" type="select" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Email Sender</label>
-                    <source_model>Magento_Backend_Model_Config_Source_Email_Identity</source_model>
+                    <source_model>Magento\Backend\Model\Config\Source\Email\Identity</source_model>
                 </field>
             </group>
             <group id="sharing_email" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Gift Registry Sharing</label>
                 <field id="template" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Email Template</label>
-                    <source_model>Magento_Backend_Model_Config_Source_Email_Template</source_model>
+                    <source_model>Magento\Backend\Model\Config\Source\Email\Template</source_model>
                 </field>
                 <field id="identity" translate="label" type="select" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Email Sender</label>
-                    <source_model>Magento_Backend_Model_Config_Source_Email_Identity</source_model>
+                    <source_model>Magento\Backend\Model\Config\Source\Email\Identity</source_model>
                 </field>
                 <field id="send_limit" translate="label" type="text" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Maximum Sent Emails Threshold</label>
@@ -54,11 +54,11 @@
                 <label>Gift Registry Update</label>
                 <field id="template" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Email Template</label>
-                    <source_model>Magento_Backend_Model_Config_Source_Email_Template</source_model>
+                    <source_model>Magento\Backend\Model\Config\Source\Email\Template</source_model>
                 </field>
                 <field id="identity" translate="label" type="select" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Email Sender</label>
-                    <source_model>Magento_Backend_Model_Config_Source_Email_Identity</source_model>
+                    <source_model>Magento\Backend\Model\Config\Source\Email\Identity</source_model>
                 </field>
             </group>
         </section>

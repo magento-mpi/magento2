@@ -9,14 +9,16 @@
  */
 
 
-class Magento_Backend_Model_Config_Source_Currency implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Backend\Model\Config\Source;
+
+class Currency implements \Magento\Core\Model\Option\ArrayInterface
 {
     protected $_options;
 
     public function toOptionArray()
     {
         if (!$this->_options) {
-            $this->_options = Mage::app()->getLocale()->getOptionCurrencies();
+            $this->_options = \Mage::app()->getLocale()->getOptionCurrencies();
         }
         $options = $this->_options;
         return $options;

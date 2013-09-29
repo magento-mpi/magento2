@@ -9,23 +9,25 @@
  */
 
 /**
- * Factory class for Magento_Sales_Model_Quote_Address_Total_Abstract
+ * Factory class for \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
  */
-class Magento_Sales_Model_Quote_Address_TotalFactory
+namespace Magento\Sales\Model\Quote\Address;
+
+class TotalFactory
 {
     /**
      * Object Manager instance
      *
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager = null;
 
     /**
      * Quote address factory constructor
      *
-     * @param Magento_ObjectManager $objManager
+     * @param \Magento\ObjectManager $objManager
      */
-    public function __construct(Magento_ObjectManager $objManager)
+    public function __construct(\Magento\ObjectManager $objManager)
     {
         $this->_objectManager = $objManager;
     }
@@ -35,7 +37,7 @@ class Magento_Sales_Model_Quote_Address_TotalFactory
      *
      * @param string $instanceName
      * @param array $data
-     * @return Magento_Sales_Model_Quote_Address_Total_Abstract
+     * @return \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
      */
     public function create($instanceName, array $data = array())
     {

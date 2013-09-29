@@ -8,7 +8,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Code_Plugin_GeneratorTest_SimpleObjectManager implements Magento_ObjectManager
+namespace Magento\Code\Plugin\GeneratorTest;
+
+/**
+ * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+ */
+class SimpleObjectManager implements \Magento\ObjectManager
 {
 
     /**

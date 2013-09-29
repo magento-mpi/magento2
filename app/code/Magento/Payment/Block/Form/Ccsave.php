@@ -9,7 +9,9 @@
  */
 
 
-class Magento_Payment_Block_Form_Ccsave extends Magento_Payment_Block_Form_Cc
+namespace Magento\Payment\Block\Form;
+
+class Ccsave extends \Magento\Payment\Block\Form\Cc
 {
 
     protected $_template = 'Magento_Payment::form/ccsave.phtml';

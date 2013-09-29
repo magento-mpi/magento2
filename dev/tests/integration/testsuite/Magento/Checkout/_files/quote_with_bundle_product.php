@@ -11,12 +11,12 @@
 
 require __DIR__ . '/../../../Magento/Bundle/_files/product.php';
 
-/** @var $product Magento_Catalog_Model_Product */
-$product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Catalog_Model_Product');
+/** @var $product \Magento\Catalog\Model\Product */
+$product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Catalog\Model\Product');
 $product->load(3);
 
-/** @var $typeInstance Magento_Bundle_Model_Product_Type */
+/** @var $typeInstance \Magento\Bundle\Model\Product\Type */
 //Load options
 $typeInstance = $product->getTypeInstance();
 $typeInstance->setStoreFilter($product->getStoreId(), $product);
@@ -25,30 +25,30 @@ $selectionCollection = $typeInstance->getSelectionsCollection($typeInstance->get
 
 $bundleOptions = array();
 $bundleOptionsQty = array();
-/** @var $option Magento_Bundle_Model_Option */
+/** @var $option \Magento\Bundle\Model\Option */
 foreach ($optionCollection as $option) {
-    /** @var $selection Magento_Bundle_Model_Selection */
+    /** @var $selection \Magento\Bundle\Model\Selection */
     $selection = $selectionCollection->getFirstItem();
     $bundleOptions[$option->getId()] = $selection->getSelectionId();
     $bundleOptionsQty[$option->getId()] = 1;
 }
 
-$requestInfo = new Magento_Object(array(
+$requestInfo = new \Magento\Object(array(
     'qty' => 1,
     'bundle_option' => $bundleOptions,
     'bundle_option_qty' => $bundleOptionsQty
 ));
 
-/** @var $cart Magento_Checkout_Model_Cart */
-$cart = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Checkout_Model_Cart');
+/** @var $cart \Magento\Checkout\Model\Cart */
+$cart = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Checkout\Model\Cart');
 $cart->addProduct($product, $requestInfo);
 $cart->save();
 
-/** @var $objectManager Magento_TestFramework_ObjectManager */
-$objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-$objectManager->get('Magento_Core_Model_Registry')->unregister('_singleton/Magento_Checkout_Model_Session');
+/** @var $objectManager \Magento\TestFramework\ObjectManager */
+$objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+$objectManager->get('Magento\Core\Model\Registry')->unregister('_singleton/Magento\Checkout\Model\Session');
 
-/** @var $objectManager Magento_TestFramework_ObjectManager */
-$objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-$objectManager->removeSharedInstance('Magento_Checkout_Model_Session');
+/** @var $objectManager \Magento\TestFramework\ObjectManager */
+$objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+$objectManager->removeSharedInstance('Magento\Checkout\Model\Session');

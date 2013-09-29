@@ -15,23 +15,25 @@
  * @package    Magento_Page
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Page_Block_Html_Welcome extends Magento_Core_Block_Template
+namespace Magento\Page\Block\Html;
+
+class Welcome extends \Magento\Core\Block\Template
 {
     /**
-     * @var Magento_Core_Model_Layout
+     * @var \Magento\Core\Model\Layout
      */
     protected $_layout;
 
     /**
-     * @param Magento_Core_Model_Layout $layout
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
+     * @param \Magento\Core\Model\Layout $layout
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Layout $layout,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
+        \Magento\Core\Model\Layout $layout,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_layout = $layout;

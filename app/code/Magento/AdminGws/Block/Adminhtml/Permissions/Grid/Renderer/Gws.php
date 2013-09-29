@@ -12,8 +12,10 @@
  * Website permissions column grid
  *
  */
-class Magento_AdminGws_Block_Adminhtml_Permissions_Grid_Renderer_Gws
-    extends Magento_Backend_Block_Widget_Grid_Column_Renderer_Abstract
+namespace Magento\AdminGws\Block\Adminhtml\Permissions\Grid\Renderer;
+
+class Gws
+    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**
      * @var array
@@ -21,18 +23,18 @@ class Magento_AdminGws_Block_Adminhtml_Permissions_Grid_Renderer_Gws
     public static $websites = array();
 
     /**
-     * @var Magento_Core_Model_Resource_Store_Group_Collection
+     * @var \Magento\Core\Model\Resource\Store\Group\Collection
      */
     protected $_storeGroupCollection;
 
     /**
-     * @param Magento_Core_Model_Resource_Store_Group_Collection $storeGroupCollection
-     * @param Magento_Backend_Block_Context $context
+     * @param \Magento\Core\Model\Resource\Store\Group\Collection $storeGroupCollection
+     * @param \Magento\Backend\Block\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Resource_Store_Group_Collection $storeGroupCollection,
-        Magento_Backend_Block_Context $context,
+        \Magento\Core\Model\Resource\Store\Group\Collection $storeGroupCollection,
+        \Magento\Backend\Block\Context $context,
         array $data = array()
     ) {
         $this->_storeGroupCollection = $storeGroupCollection;
@@ -47,10 +49,10 @@ class Magento_AdminGws_Block_Adminhtml_Permissions_Grid_Renderer_Gws
      * - website_ids - string, comma-separated
      * - store_group_ids - string, comma-separated
      *
-     * @param Magento_Object $row
+     * @param \Magento\Object $row
      * @return string
      */
-    public function render(Magento_Object $row)
+    public function render(\Magento\Object $row)
     {
         if ($row->getData('gws_is_all')) {
             return __('All');
@@ -59,7 +61,7 @@ class Magento_AdminGws_Block_Adminhtml_Permissions_Grid_Renderer_Gws
         // lookup websites and store groups in system
         if (!self::$websites) {
             foreach ($this->_storeGroupCollection as $storeGroup) {
-                /* @var $storeGroup Magento_Core_Model_Store_Group */
+                /* @var $storeGroup \Magento\Core\Model\Store\Group */
                 $website = $storeGroup->getWebsite();
                 $websiteId = (string)$storeGroup->getWebsiteId();
                 self::$websites[$websiteId]['name'] = $website->getName();

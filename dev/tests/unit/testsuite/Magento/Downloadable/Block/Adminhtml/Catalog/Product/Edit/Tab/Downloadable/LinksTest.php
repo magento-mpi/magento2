@@ -9,36 +9,38 @@
  * @license     {license_link}
  */
 
-class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_LinksTest
-    extends PHPUnit_Framework_TestCase
+namespace Magento\Downloadable\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable;
+
+class LinksTest
+    extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Links
+     * @var \Magento\Downloadable\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable_Links
      */
     protected $_block;
 
     protected function setUp()
     {
-        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $urlBuilder = $this->getMock('Magento_Backend_Model_Url', array(), array(), '', false);
-        $attributeFactory = $this->getMock('Magento_Eav_Model_Entity_AttributeFactory', array(), array(), '', false);
-        $urlFactory = $this->getMock('Magento_Backend_Model_UrlFactory', array(), array(), '', false);
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $urlBuilder = $this->getMock('Magento\Backend\Model\Url', array(), array(), '', false);
+        $attributeFactory = $this->getMock('Magento\Eav\Model\Entity\AttributeFactory', array(), array(), '', false);
+        $urlFactory = $this->getMock('Magento\Backend\Model\UrlFactory', array(), array(), '', false);
 
         $this->_block = $objectManagerHelper->getObject(
-            'Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Links',
+            'Magento\Downloadable\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable\Links',
             array(
                 'urlBuilder'                                => $urlBuilder,
-                'Magento_Eav_Model_Entity_AttributeFactory' => $attributeFactory,
-                'Magento_Backend_Model_UrlFactory'          => $urlFactory,
+                'Magento\Eav\Model\Entity\AttributeFactory' => $attributeFactory,
+                'Magento\Backend\Model\UrlFactory'          => $urlFactory,
             )
         );
     }
 
     /**
-     * Test that getConfig method retrieve Magento_Object object
+     * Test that getConfig method retrieve \Magento\Object object
      */
     public function testGetConfig()
     {
-        $this->assertInstanceOf('Magento_Object', $this->_block->getConfig());
+        $this->assertInstanceOf('Magento\Object', $this->_block->getConfig());
     }
 }

@@ -9,17 +9,19 @@
  * @license     {license_link}
  */
 
-class Magento_Catalog_Helper_OutputTest extends PHPUnit_Framework_TestCase
+namespace Magento\Catalog\Helper;
+
+class OutputTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Catalog_Helper_Output
+     * @var \Magento\Catalog\Helper\Output
      */
     protected $_helper;
 
     protected function setUp()
     {
-        $this->_helper = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Catalog_Helper_Output');
+        $this->_helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Catalog\Helper\Output');
     }
 
     /**
@@ -33,12 +35,12 @@ class Magento_Catalog_Helper_OutputTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(array(), $this->_helper->getHandlers('method'));
 
         // add one handler
-        $objectOne = new StdClass;
+        $objectOne = new \StdClass;
         $this->_helper->addHandler('valid', $objectOne);
         $this->assertSame(array($objectOne), $this->_helper->getHandlers('valid'));
 
         // add another one
-        $objectTwo = new StdClass;
+        $objectTwo = new \StdClass;
         $this->_helper->addHandler('valid', $objectTwo);
         $this->assertSame(array($objectOne, $objectTwo), $this->_helper->getHandlers('valid'));
     }
@@ -52,21 +54,21 @@ class Magento_Catalog_Helper_OutputTest extends PHPUnit_Framework_TestCase
     public function testProductAttribute()
     {
         $this->_testAttribute(
-            'productAttribute', Magento_Catalog_Model_Product::ENTITY, "&lt;p&gt;line1&lt;/p&gt;<br />\nline2"
+            'productAttribute', \Magento\Catalog\Model\Product::ENTITY, "&lt;p&gt;line1&lt;/p&gt;<br />\nline2"
         );
     }
 
     public function testCategoryAttribute()
     {
         $this->_testAttribute(
-            'categoryAttribute', Magento_Catalog_Model_Category::ENTITY, "&lt;p&gt;line1&lt;/p&gt;\nline2"
+            'categoryAttribute', \Magento\Catalog\Model\Category::ENTITY, "&lt;p&gt;line1&lt;/p&gt;\nline2"
         );
     }
 
     /**
      * Helper method for testProcess()
      *
-     * @param Magento_Catalog_Helper_Output $helper
+     * @param \Magento\Catalog\Helper\Output $helper
      * @param string $string
      * @param mixed $params
      * @return string
@@ -74,7 +76,7 @@ class Magento_Catalog_Helper_OutputTest extends PHPUnit_Framework_TestCase
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function sampleProcessor(Magento_Catalog_Helper_Output $helper, $string, $params)
+    public function sampleProcessor(\Magento\Catalog\Helper\Output $helper, $string, $params)
     {
         return __CLASS__ . $string;
     }
@@ -85,12 +87,12 @@ class Magento_Catalog_Helper_OutputTest extends PHPUnit_Framework_TestCase
      * @param string $method
      * @param string $entityCode
      * @param string $expectedResult
-     * @throws Exception on assertion failure
+     * @throws \Exception on assertion failure
      */
     protected function _testAttribute($method, $entityCode, $expectedResult)
     {
         $attributeName = 'description';
-        $attribute = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Eav_Model_Config')
+        $attribute = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Eav\Model\Config')
             ->getAttribute($entityCode, $attributeName);
         $isHtml = $attribute->getIsHtmlAllowedOnFront();
         $isWysiwyg = $attribute->getIsWysiwygEnabled();
@@ -102,7 +104,7 @@ class Magento_Catalog_Helper_OutputTest extends PHPUnit_Framework_TestCase
             );
 
             $attribute->setIsHtmlAllowedOnFront($isHtml)->setIsWysiwygEnabled($isWysiwyg);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $attribute->setIsHtmlAllowedOnFront($isHtml)->setIsWysiwygEnabled($isWysiwyg);
             throw $e;
         }

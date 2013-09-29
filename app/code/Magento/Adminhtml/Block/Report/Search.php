@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Report_Search extends Magento_Backend_Block_Widget_Grid_Container
+namespace Magento\Adminhtml\Block\Report;
+
+class Search extends \Magento\Backend\Block\Widget\Grid\Container
 {
     /**
      * Initialize Grid Container

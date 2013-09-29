@@ -16,14 +16,16 @@
  * @package    Magento_Wishlist
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Wishlist_Block_Share_Email_Items extends Magento_Wishlist_Block_Abstract
+namespace Magento\Wishlist\Block\Share\Email;
+
+class Items extends \Magento\Wishlist\Block\AbstractBlock
 {
     protected $_template = 'email/items.phtml';
 
     /**
      * Retrieve Product View URL
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @param array $additional
      * @return string
      */
@@ -36,7 +38,7 @@ class Magento_Wishlist_Block_Share_Email_Items extends Magento_Wishlist_Block_Ab
     /**
      * Retrieve URL for add product to shopping cart
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @param array $additional
      * @return string
      */
@@ -50,7 +52,7 @@ class Magento_Wishlist_Block_Share_Email_Items extends Magento_Wishlist_Block_Ab
     /**
      * Check whether whishlist item has description
      *
-     * @param Magento_Wishlist_Model_Item $item
+     * @param \Magento\Wishlist\Model\Item $item
      * @return bool
      */
     public function hasDescription($item)

@@ -9,24 +9,26 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_TemplateTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model;
+
+class TemplateTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider setDesignConfigExceptionDataProvider
-     * @expectedException Magento_Exception
+     * @expectedException \Magento\Exception
      */
     public function testSetDesignConfigException($config)
     {
-        // Magento_Core_Model_Template is an abstract class
-        $model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_Email_Template');
+        // \Magento\Core\Model\Template is an abstract class
+        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Email\Template');
         $model->setDesignConfig($config);
     }
 
     public function setDesignConfigExceptionDataProvider()
     {
-        $storeId = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Core_Model_StoreManagerInterface')->getStore()->getId();
+        $storeId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Core\Model\StoreManagerInterface')->getStore()->getId();
         return array(
             array(array()),
             array(array('area' => 'frontend')),

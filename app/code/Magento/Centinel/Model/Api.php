@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Centinel\Model;
 
 /**
  * 3D Secure Validation Library for Payment
@@ -16,7 +17,8 @@ include_once '3Dsecure/CentinelClient.php';
 /**
  * 3D Secure Validation Api
  */
-class Magento_Centinel_Model_Api extends Magento_Object
+
+class Api extends \Magento\Object
 {
     /**
      * Fields that should be replaced in debug with '***'
@@ -57,22 +59,22 @@ class Magento_Centinel_Model_Api extends Magento_Object
     /**
      * Centinel validation client
      *
-     * @var CentinelClient
+     * @var \CentinelClient
      */
     protected $_clientInstance = null;
 
     /**
      * Log adapter factory
      *
-     * @var Magento_Core_Model_Log_AdapterFactory
+     * @var \Magento\Core\Model\Log\AdapterFactory
      */
     protected $_logFactory;
 
     /**
-     * @param Magento_Core_Model_Log_AdapterFactory $logFactory
+     * @param \Magento\Core\Model\Log\AdapterFactory $logFactory
      * @param array $data
      */
-    public function __construct(Magento_Core_Model_Log_AdapterFactory $logFactory, array $data = array())
+    public function __construct(\Magento\Core\Model\Log\AdapterFactory $logFactory, array $data = array())
     {
         $this->_logFactory = $logFactory;
         parent::__construct($data);
@@ -81,7 +83,7 @@ class Magento_Centinel_Model_Api extends Magento_Object
     /**
      * Return Centinel thin client object
      *
-     * @return CentinelClient
+     * @return \CentinelClient
      */
     protected function _getClientInstance()
     {
@@ -137,7 +139,7 @@ class Magento_Centinel_Model_Api extends Magento_Object
      * @param $method string
      * @param $data array
      *
-     * @return CentinelClient
+     * @return \CentinelClient
      */
     protected function _call($method, $data)
     {
@@ -158,7 +160,7 @@ class Magento_Centinel_Model_Api extends Magento_Object
                 $client->add($key, $val);
             }
             $client->sendHttp($this->_getApiEndpointUrl(), $this->_getTimeoutConnect(), $this->_getTimeoutRead());
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $debugData['response'] = array('error' => $e->getMessage(), 'code' => $e->getCode());
             $this->_debug($debugData);
             throw $e;
@@ -174,7 +176,7 @@ class Magento_Centinel_Model_Api extends Magento_Object
      * Getter for API call URL
      *
      * @return string
-     * @throws Exception
+     * @throws \Exception
      */
     protected function _getApiEndpointUrl()
     {
@@ -183,7 +185,7 @@ class Magento_Centinel_Model_Api extends Magento_Object
         }
         $url = $this->getApiEndpointUrl();
         if (!$url) {
-            throw new Exception('Centinel API endpoint URL is not configured properly.');
+            throw new \Exception('Centinel API endpoint URL is not configured properly.');
         }
         return $url;
     }
@@ -191,11 +193,11 @@ class Magento_Centinel_Model_Api extends Magento_Object
     /**
      * Call centinel api lookup method
      *
-     * @return Magento_Centinel_Model_Api
+     * @return \Magento\Centinel\Model\Api
      */
     public function callLookup($data)
     {
-        $result = new Magento_Object();
+        $result = new \Magento\Object();
 
         $month = strlen($data->getCardExpMonth()) == 1 ? '0' . $data->getCardExpMonth() : $data->getCardExpMonth();
         $currencyCode = $data->getCurrencyCode();
@@ -229,11 +231,11 @@ class Magento_Centinel_Model_Api extends Magento_Object
     /**
      * Call centinel api authentication method
      *
-     * @return Magento_Centinel_Model_Api
+     * @return \Magento\Centinel\Model\Api
      */
     public function callAuthentication($data)
     {
-        $result = new Magento_Object();
+        $result = new \Magento\Object();
 
         $clientResponse = $this->_call('cmpi_authenticate', array(
             'TransactionId' => $data->getTransactionId(),

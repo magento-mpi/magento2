@@ -16,7 +16,9 @@
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backend_Model_Config_Backend_Image extends Magento_Backend_Model_Config_Backend_File
+namespace Magento\Backend\Model\Config\Backend;
+
+class Image extends \Magento\Backend\Model\Config\Backend\File
 {
     /**
      * Getter for allowed extensions of uploaded files

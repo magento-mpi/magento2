@@ -13,7 +13,9 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_App_Area
+namespace Magento\Core\Model\App;
+
+class Area
 {
     const AREA_GLOBAL   = 'global';
     const AREA_FRONTEND = 'frontend';
@@ -46,66 +48,66 @@ class Magento_Core_Model_App_Area
     /**
      * Event Manager
      *
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventManager;
 
     /**
      * Translator
      *
-     * @var Magento_Core_Model_Translate
+     * @var \Magento\Core\Model\Translate
      */
     protected $_translator;
 
     /**
      * Application config
      *
-     * @var Magento_Core_Model_Config
+     * @var \Magento\Core\Model\Config
      */
     protected $_config;
 
     /**
      * Object manager
      *
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @var Magento_Core_Model_ObjectManager_ConfigLoader
+     * @var \Magento\Core\Model\ObjectManager\ConfigLoader
      */
     protected $_diConfigLoader;
 
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
-     * @var Magento_Core_Model_Logger
+     * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
 
     /**
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Translate $translator
-     * @param Magento_Core_Model_Config $config
-     * @param Magento_Core_Model_ObjectManager $objectManager
-     * @param Magento_Core_Model_ObjectManager_ConfigLoader $diConfigLoader
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Translate $translator
+     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Core\Model\ObjectManager $objectManager
+     * @param \Magento\Core\Model\ObjectManager\ConfigLoader $diConfigLoader
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param string $areaCode
      */
     public function __construct(
-        Magento_Core_Model_Logger $logger,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Translate $translator,
-        Magento_Core_Model_Config $config,
-        Magento_Core_Model_ObjectManager $objectManager,
-        Magento_Core_Model_ObjectManager_ConfigLoader $diConfigLoader,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Translate $translator,
+        \Magento\Core\Model\Config $config,
+        \Magento\Core\Model\ObjectManager $objectManager,
+        \Magento\Core\Model\ObjectManager\ConfigLoader $diConfigLoader,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
         $areaCode
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
@@ -122,7 +124,7 @@ class Magento_Core_Model_App_Area
      * Load area data
      *
      * @param   string|null $part
-     * @return  Magento_Core_Model_App_Area
+     * @return  \Magento\Core\Model\App\Area
      */
     public function load($part=null)
     {
@@ -139,7 +141,7 @@ class Magento_Core_Model_App_Area
     /**
      * Detect and apply design for the area
      *
-     * @param Zend_Controller_Request_Http $request
+     * @param \Zend_Controller_Request_Http $request
      */
     public function detectDesign($request = null)
     {
@@ -147,7 +149,7 @@ class Magento_Core_Model_App_Area
             $isDesignException = ($request && $this->_applyUserAgentDesignException($request));
             if (!$isDesignException) {
                 $this->_getDesignChange()
-                    ->loadChange(Mage::app()->getStore()->getId())
+                    ->loadChange(\Mage::app()->getStore()->getId())
                     ->changeDesign($this->_getDesign());
             }
         }
@@ -156,7 +158,7 @@ class Magento_Core_Model_App_Area
     /**
      * Analyze user-agent information to override custom design settings
      *
-     * @param Zend_Controller_Request_Http $request
+     * @param \Zend_Controller_Request_Http $request
      * @return bool
      */
     protected function _applyUserAgentDesignException($request)
@@ -177,40 +179,40 @@ class Magento_Core_Model_App_Area
                     return true;
                 }
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_logger->logException($e);
         }
         return false;
     }
 
     /**
-     * @return Magento_Core_Model_View_DesignInterface
+     * @return \Magento\Core\Model\View\DesignInterface
      */
     protected function _getDesign()
     {
-        return $this->_objectManager->get('Magento_Core_Model_View_DesignInterface');
+        return $this->_objectManager->get('Magento\Core\Model\View\DesignInterface');
     }
 
     /**
-     * @return Magento_Core_Model_Design
+     * @return \Magento\Core\Model\Design
      */
     protected function _getDesignChange()
     {
-        return Mage::getSingleton('Magento_Core_Model_Design');
+        return \Mage::getSingleton('Magento\Core\Model\Design');
     }
 
     /**
      * Loading part of area
      *
      * @param   string $part
-     * @return  Magento_Core_Model_App_Area
+     * @return  \Magento\Core\Model\App\Area
      */
     protected function _loadPart($part)
     {
         if (isset($this->_loadedParts[$part])) {
             return $this;
         }
-        Magento_Profiler::start('load_area:' . $this->_code . '.' . $part,
+        \Magento\Profiler::start('load_area:' . $this->_code . '.' . $part,
             array('group' => 'load_area', 'area_code' => $this->_code, 'part' => $part));
         switch ($part) {
             case self::PART_CONFIG:
@@ -224,7 +226,7 @@ class Magento_Core_Model_App_Area
                 break;
         }
         $this->_loadedParts[$part] = true;
-        Magento_Profiler::stop('load_area:' . $this->_code . '.' . $part);
+        \Magento\Profiler::stop('load_area:' . $this->_code . '.' . $part);
         return $this;
     }
 
@@ -239,22 +241,22 @@ class Magento_Core_Model_App_Area
     /**
      * Initialize translate object.
      *
-     * @return Magento_Core_Model_App_Area
+     * @return \Magento\Core\Model\App\Area
      */
     protected function _initTranslate()
     {
-        $dispatchResult = new Magento_Object(array(
+        $dispatchResult = new \Magento\Object(array(
             'inline_type' => null,
             'params' => array('area' => $this->_code)
         ));
-        $eventManager = $this->_objectManager->get('Magento_Core_Model_Event_Manager');
+        $eventManager = $this->_objectManager->get('Magento\Core\Model\Event\Manager');
         $eventManager->dispatch('translate_initialization_before', array(
             'translate_object' => $this->_translator,
             'result' => $dispatchResult
         ));
         $this->_translator->init($this->_code, $dispatchResult, false);
 
-        Magento_Phrase::setRenderer($this->_objectManager->get('Magento_Phrase_RendererInterface'));
+        \Magento\Phrase::setRenderer($this->_objectManager->get('Magento\Phrase\RendererInterface'));
         return $this;
     }
 

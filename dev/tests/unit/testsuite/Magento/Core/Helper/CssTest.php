@@ -6,18 +6,20 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Helper_CssTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Helper;
+
+class CssTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Helper_Css
+     * @var \Magento\Core\Helper\Css
      */
     protected $_object;
 
     protected function setUp()
     {
-        $filesystem = new Magento_Filesystem(new Magento_Filesystem_Adapter_Local());
-        $dirs = new Magento_Core_Model_Dir('/base_dir');
-        $this->_object = new Magento_Core_Helper_Css($filesystem, $dirs);
+        $filesystem = new \Magento\Filesystem(new \Magento\Filesystem\Adapter\Local());
+        $dirs = new \Magento\Core\Model\Dir('/base_dir');
+        $this->_object = new \Magento\Core\Helper\Css($filesystem, $dirs);
     }
 
     /**
@@ -47,7 +49,7 @@ class Magento_Core_Helper_CssTest extends PHPUnit_Framework_TestCase
             return dirname($originalPath) . '/' . $relativeUrl;
         };
 
-        $object = new Magento_Object(array('resolved_path' => array('body.gif' => '/base_dir/pub/dir/body.gif')));
+        $object = new \Magento\Object(array('resolved_path' => array('body.gif' => '/base_dir/pub/dir/body.gif')));
         $objectCallback = array($object, 'getResolvedPath');
 
         $source = file_get_contents($fixturePath . 'source.css');
@@ -123,7 +125,7 @@ class Magento_Core_Helper_CssTest extends PHPUnit_Framework_TestCase
     /**
      * @param string $originalFile
      * @param string $newFile
-     * @expectedException Magento_Core_Exception
+     * @expectedException \Magento\Core\Exception
      * @expectedExceptionMessage Offset can be calculated for internal resources only.
      * @dataProvider replaceCssRelativeUrlsExceptionDataProvider
      */

@@ -16,7 +16,9 @@
  * @package     Magento_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backend_Model_Config_Source_Checktype implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Backend\Model\Config\Source;
+
+class Checktype implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
      * Retrieve Check Type Option array
@@ -27,11 +29,11 @@ class Magento_Backend_Model_Config_Source_Checktype implements Magento_Core_Mode
     {
         return array(
             array(
-                'value' => Magento_Sendfriend_Helper_Data::CHECK_IP,
+                'value' => \Magento\Sendfriend\Helper\Data::CHECK_IP,
                 'label' => __('IP Address')
             ),
             array(
-                'value' => Magento_Sendfriend_Helper_Data::CHECK_COOKIE,
+                'value' => \Magento\Sendfriend\Helper\Data::CHECK_COOKIE,
                 'label' => __('Cookie (unsafe)')
             ),
         );

@@ -15,25 +15,27 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tab_Inventory
-    extends Magento_Adminhtml_Block_Widget
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+namespace Magento\Adminhtml\Block\Catalog\Product\Edit\Action\Attribute\Tab;
+
+class Inventory
+    extends \Magento\Adminhtml\Block\Widget
+    implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
 {
     /**
-     * @var Magento_CatalogInventory_Model_Source_Backorders
+     * @var \Magento\CatalogInventory\Model\Source\Backorders
      */
     protected $_backorders;
 
     /**
-     * @param Magento_CatalogInventory_Model_Source_Backorders $backorders
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
+     * @param \Magento\CatalogInventory\Model\Source\Backorders $backorders
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_CatalogInventory_Model_Source_Backorders $backorders,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
+        \Magento\CatalogInventory\Model\Source\Backorders $backorders,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_backorders = $backorders;
@@ -79,7 +81,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tab_Inventor
      */
     public function getDefaultConfigValue($field)
     {
-        return $this->_storeConfig->getConfig(Magento_CatalogInventory_Model_Stock_Item::XML_PATH_ITEM . $field, $this->getStoreId());
+        return $this->_storeConfig->getConfig(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_ITEM . $field, $this->getStoreId());
     }
 
     /**

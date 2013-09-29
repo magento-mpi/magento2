@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_WebsiteRestriction_Controller_IndexTest extends Magento_TestFramework_TestCase_ControllerAbstract
+namespace Magento\WebsiteRestriction\Controller;
+
+class IndexTest extends \Magento\TestFramework\TestCase\ControllerAbstract
 {
     /**
      * @magentoConfigFixture current_store general/restriction/is_active 1
@@ -20,17 +22,17 @@ class Magento_WebsiteRestriction_Controller_IndexTest extends Magento_TestFramew
      */
     public function testStubAction()
     {
-        $page = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Cms_Model_Page');
+        $page = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Cms\Model\Page');
         $page->load('page100', 'identifier'); // fixture
 
-        $websiteId = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Core_Model_StoreManagerInterface')->getWebsite('base')->getId(); // fixture, pre-installed
+        $websiteId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Core\Model\StoreManagerInterface')->getWebsite('base')->getId(); // fixture, pre-installed
         /**
          * besides more expensive, cleaning by tags currently triggers system setup = DDL = breaks transaction
          * therefore cleanup is performed by cache ID
          */
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
             ->removeCache("RESTRICTION_LANGING_PAGE_{$websiteId}");
         $this->markTestIncomplete('MAGETWO-4342');
 

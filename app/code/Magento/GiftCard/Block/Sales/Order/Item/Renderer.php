@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_GiftCard_Block_Sales_Order_Item_Renderer extends Magento_Sales_Block_Order_Item_Renderer_Default
+namespace Magento\GiftCard\Block\Sales\Order\Item;
+
+class Renderer extends \Magento\Sales\Block\Order\Item\Renderer\DefaultRenderer
 {
     /**
      * Prepare custom option for display, returns false if there's no value

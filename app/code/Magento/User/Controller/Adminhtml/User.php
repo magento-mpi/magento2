@@ -5,33 +5,35 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_User_Controller_Adminhtml_User extends Magento_Backend_Controller_ActionAbstract
+namespace Magento\User\Controller\Adminhtml;
+
+class User extends \Magento\Backend\Controller\AbstractAction
 {
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry;
 
     /**
      * User model factory
      *
-     * @var Magento_User_Model_UserFactory
+     * @var \Magento\User\Model\UserFactory
      */
     protected $_userFactory;
 
     /**
      * Construct
      *
-     * @param Magento_Backend_Controller_Context $context
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_User_Model_UserFactory $userFactory
+     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\User\Model\UserFactory $userFactory
      */
     public function __construct(
-        Magento_Backend_Controller_Context $context,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_User_Model_UserFactory $userFactory
+        \Magento\Backend\Controller\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\User\Model\UserFactory $userFactory
     ) {
         parent::__construct($context);
         $this->_coreRegistry = $coreRegistry;
@@ -66,7 +68,7 @@ class Magento_User_Controller_Adminhtml_User extends Magento_Backend_Controller_
         $this->_title(__('Users'));
 
         $userId = $this->getRequest()->getParam('user_id');
-        /** @var Magento_User_Model_User $model */
+        /** @var \Magento\User\Model\User $model */
         $model = $this->_userFactory->create();
 
         if ($userId) {
@@ -77,7 +79,7 @@ class Magento_User_Controller_Adminhtml_User extends Magento_Backend_Controller_
                 return;
             }
         } else {
-            $model->setInterfaceLocale(Magento_Core_Model_LocaleInterface::DEFAULT_LOCALE);
+            $model->setInterfaceLocale(\Magento\Core\Model\LocaleInterface::DEFAULT_LOCALE);
         }
 
         $this->_title($model->getId() ? $model->getName() : __('New User'));
@@ -107,8 +109,8 @@ class Magento_User_Controller_Adminhtml_User extends Magento_Backend_Controller_
             $this->_redirect('*/*/');
             return;
         }
-        /** @var $model Magento_User_Model_User */
-        $model = $this->_objectManager->create('Magento_User_Model_User')->load($userId);
+        /** @var $model \Magento\User\Model\User */
+        $model = $this->_objectManager->create('Magento\User\Model\User')->load($userId);
         if ($userId && $model->isObjectNew()) {
             $this->_getSession()->addError(__('This user no longer exists.'));
             $this->_redirect('*/*/');
@@ -120,11 +122,11 @@ class Magento_User_Controller_Adminhtml_User extends Magento_Backend_Controller_
             $model->setRoleId($uRoles[0]);
         }
 
-        $currentUser = $this->_objectManager->get('Magento_Backend_Model_Auth_Session')->getUser();
+        $currentUser = $this->_objectManager->get('Magento\Backend\Model\Auth\Session')->getUser();
         if ($userId == $currentUser->getId()
-            && $this->_objectManager->get('Magento_Core_Model_Locale_Validator')->isValid($data['interface_locale'])
+            && $this->_objectManager->get('Magento\Core\Model\Locale\Validator')->isValid($data['interface_locale'])
         ) {
-            $this->_objectManager->get('Magento_Backend_Model_Locale_Manager')
+            $this->_objectManager->get('Magento\Backend\Model\Locale\Manager')
                 ->switchBackendInterfaceLocale($data['interface_locale']);
         }
 
@@ -133,7 +135,7 @@ class Magento_User_Controller_Adminhtml_User extends Magento_Backend_Controller_
             $this->_getSession()->addSuccess(__('You saved the user.'));
             $this->_getSession()->setUserData(false);
             $this->_redirect('*/*/');
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addMessages($e->getMessages());
             $this->_getSession()->setUserData($data);
             $this->_redirect('*/*/edit', array('_current' => true));
@@ -159,7 +161,7 @@ class Magento_User_Controller_Adminhtml_User extends Magento_Backend_Controller_
 
     public function deleteAction()
     {
-        $currentUser = $this->_objectManager->get('Magento_Backend_Model_Auth_Session')->getUser();
+        $currentUser = $this->_objectManager->get('Magento\Backend\Model\Auth\Session')->getUser();
 
         if ($userId = $this->getRequest()->getParam('user_id')) {
             if ( $currentUser->getId() == $userId ) {
@@ -170,7 +172,7 @@ class Magento_User_Controller_Adminhtml_User extends Magento_Backend_Controller_
                 return;
             }
             try {
-                /** @var Magento_User_Model_User $model */
+                /** @var \Magento\User\Model\User $model */
                 $model = $this->_userFactory->create();
                 $model->setId($userId);
                 $model->delete();
@@ -178,7 +180,7 @@ class Magento_User_Controller_Adminhtml_User extends Magento_Backend_Controller_
                 $this->_redirect('*/*/');
                 return;
             }
-            catch (Exception $e) {
+            catch (\Exception $e) {
                 $this->_session->addError($e->getMessage());
                 $this->_redirect('*/*/edit', array('user_id' => $this->getRequest()->getParam('user_id')));
                 return;
@@ -191,7 +193,7 @@ class Magento_User_Controller_Adminhtml_User extends Magento_Backend_Controller_
     public function rolesGridAction()
     {
         $userId = $this->getRequest()->getParam('user_id');
-        /** @var Magento_User_Model_User $model */
+        /** @var \Magento\User\Model\User $model */
         $model = $this->_userFactory->create();
 
         if ($userId) {

@@ -6,19 +6,21 @@
  * @license     {license_link}
  */
 
+namespace Magento\Backend\Block\Widget;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Backend_Block_Widget_ContainerTest extends PHPUnit_Framework_TestCase
+class ContainerTest extends \PHPUnit_Framework_TestCase
 {
     public function testPseudoConstruct()
     {
-        /** @var $block Magento_Backend_Block_Widget_Container */
-        $block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
-            ->createBlock('Magento_Backend_Block_Widget_Container', '',
+        /** @var $block \Magento\Backend\Block\Widget\Container */
+        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            ->createBlock('Magento\Backend\Block\Widget\Container', '',
                 array('data' => array(
-                    Magento_Backend_Block_Widget_Container::PARAM_CONTROLLER => 'one',
-                    Magento_Backend_Block_Widget_Container::PARAM_HEADER_TEXT => 'two',
+                    \Magento\Backend\Block\Widget\Container::PARAM_CONTROLLER => 'one',
+                    \Magento\Backend\Block\Widget\Container::PARAM_HEADER_TEXT => 'two',
                 ))
             );
         $this->assertStringEndsWith('one', $block->getHeaderCssClass());

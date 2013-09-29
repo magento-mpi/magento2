@@ -8,27 +8,29 @@
  * @license     {license_link}
  */
 
-class Magento_Adminhtml_Helper_Sales extends Magento_Core_Helper_Abstract
+namespace Magento\Adminhtml\Helper;
+
+class Sales extends \Magento\Core\Helper\AbstractHelper
 {
     /**
-     * @var Magento_Sales_Model_Config
+     * @var \Magento\Sales\Model\Config
      */
     protected $_salesConfig;
 
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Sales_Model_Config $salesConfig
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Sales\Model\Config $salesConfig
      */
     public function __construct(
-        Magento_Core_Model_StoreManager $storeManager,
-        Magento_Core_Helper_Context $context,
-        Magento_Sales_Model_Config $salesConfig
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Helper\Context $context,
+        \Magento\Sales\Model\Config $salesConfig
     ) {
         $this->_storeManager = $storeManager;
         $this->_salesConfig = $salesConfig;
@@ -38,7 +40,7 @@ class Magento_Adminhtml_Helper_Sales extends Magento_Core_Helper_Abstract
     /**
      * Display price attribute value in base order currency and in place order currency
      *
-     * @param   Magento_Object $dataObject
+     * @param   \Magento\Object $dataObject
      * @param   string $code
      * @param   bool $strong
      * @param   string $separator
@@ -58,7 +60,7 @@ class Magento_Adminhtml_Helper_Sales extends Magento_Core_Helper_Abstract
     /**
      * Get "double" prices html (block with base and place currency)
      *
-     * @param   Magento_Object $dataObject
+     * @param   \Magento\Object $dataObject
      * @param   float $basePrice
      * @param   float $price
      * @param   bool $strong
@@ -68,7 +70,7 @@ class Magento_Adminhtml_Helper_Sales extends Magento_Core_Helper_Abstract
     public function displayPrices($dataObject, $basePrice, $price, $strong = false, $separator = '<br/>')
     {
         $order = false;
-        if ($dataObject instanceof Magento_Sales_Model_Order) {
+        if ($dataObject instanceof \Magento\Sales\Model\Order) {
             $order = $dataObject;
         } else {
             $order = $dataObject->getOrder();
@@ -96,18 +98,18 @@ class Magento_Adminhtml_Helper_Sales extends Magento_Core_Helper_Abstract
     /**
      * Filter collection by removing not available product types
      *
-     * @param Magento_Core_Model_Resource_Db_Collection_Abstract $collection
-     * @return Magento_Core_Model_Resource_Db_Collection_Abstract
+     * @param \Magento\Core\Model\Resource\Db\Collection\AbstractCollection $collection
+     * @return \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
      */
     public function applySalableProductTypesFilter($collection)
     {
         $productTypes = $this->_salesConfig->getAvailableProductTypes();
         foreach($collection->getItems() as $key => $item) {
-            if ($item instanceof Magento_Catalog_Model_Product) {
+            if ($item instanceof \Magento\Catalog\Model\Product) {
                 $type = $item->getTypeId();
-            } else if ($item instanceof Magento_Sales_Model_Order_Item) {
+            } else if ($item instanceof \Magento\Sales\Model\Order\Item) {
                 $type = $item->getProductType();
-            } else if ($item instanceof Magento_Sales_Model_Quote_Item) {
+            } else if ($item instanceof \Magento\Sales\Model\Quote\Item) {
                 $type = $item->getProductType();
             } else {
                 $type = '';

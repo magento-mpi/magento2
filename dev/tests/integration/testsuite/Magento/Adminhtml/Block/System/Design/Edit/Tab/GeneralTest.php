@@ -9,27 +9,29 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\Block\System\Design\Edit\Tab;
+
 /**
- * Test class for Magento_Adminhtml_Block_System_Design_Edit_Tab_General
+ * Test class for \Magento\Adminhtml\Block\System\Design\Edit\Tab\General
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_Block_System_Design_Edit_Tab_GeneralTest extends PHPUnit_Framework_TestCase
+class GeneralTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @magentoAppIsolation enabled
      */
     public function testPrepareForm()
     {
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $objectManager->get('Magento_Core_Model_View_DesignInterface')
-            ->setArea(Magento_Core_Model_App_Area::AREA_ADMINHTML)
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $objectManager->get('Magento\Core\Model\View\DesignInterface')
+            ->setArea(\Magento\Core\Model\App\Area::AREA_ADMINHTML)
             ->setDefaultDesignTheme();
-        $objectManager->get('Magento_Core_Model_Registry')
-            ->register('design', $objectManager ->create('Magento_Core_Model_Design'));
-        $layout = $objectManager ->create('Magento_Core_Model_Layout');
-        $block = $layout->addBlock('Magento_Adminhtml_Block_System_Design_Edit_Tab_General');
-        $prepareFormMethod = new ReflectionMethod(
-            'Magento_Adminhtml_Block_System_Design_Edit_Tab_General', '_prepareForm'
+        $objectManager->get('Magento\Core\Model\Registry')
+            ->register('design', $objectManager ->create('Magento\Core\Model\Design'));
+        $layout = $objectManager ->create('Magento\Core\Model\Layout');
+        $block = $layout->addBlock('Magento\Adminhtml\Block\System\Design\Edit\Tab\General');
+        $prepareFormMethod = new \ReflectionMethod(
+            'Magento\Adminhtml\Block\System\Design\Edit\Tab\General', '_prepareForm'
         );
         $prepareFormMethod->setAccessible(true);
         $prepareFormMethod->invoke($block);

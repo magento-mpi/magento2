@@ -16,22 +16,24 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Product_Attribute_Backend_Price extends Magento_Eav_Model_Entity_Attribute_Backend_Abstract
+namespace Magento\Catalog\Model\Product\Attribute\Backend;
+
+class Price extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
 {
     /**
      * Catalog helper
      *
-     * @var Magento_Catalog_Helper_Data
+     * @var \Magento\Catalog\Helper\Data
      */
     protected $_helper;
 
     /**
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Core_Model_Logger $logger
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Model\Logger $logger
      */
     public function __construct(
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Core_Model_Logger $logger
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Model\Logger $logger
     ) {
         $this->_helper = $catalogData;
         parent::__construct($logger);
@@ -41,8 +43,8 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Price extends Magento_Eav_
      * Set Attribute instance
      * Rewrite for redefine attribute scope
      *
-     * @param Magento_Catalog_Model_Resource_Eav_Attribute $attribute
-     * @return Magento_Catalog_Model_Product_Attribute_Backend_Price
+     * @param \Magento\Catalog\Model\Resource\Eav\Attribute $attribute
+     * @return \Magento\Catalog\Model\Product\Attribute\Backend\Price
      */
     public function setAttribute($attribute)
     {
@@ -54,15 +56,15 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Price extends Magento_Eav_
     /**
      * Redefine Attribute scope
      *
-     * @param Magento_Catalog_Model_Resource_Eav_Attribute $attribute
-     * @return Magento_Catalog_Model_Product_Attribute_Backend_Price
+     * @param \Magento\Catalog\Model\Resource\Eav\Attribute $attribute
+     * @return \Magento\Catalog\Model\Product\Attribute\Backend\Price
      */
     public function setScope($attribute)
     {
         if ($this->_helper->isPriceGlobal()) {
-            $attribute->setIsGlobal(Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL);
+            $attribute->setIsGlobal(\Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_GLOBAL);
         } else {
-            $attribute->setIsGlobal(Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_WEBSITE);
+            $attribute->setIsGlobal(\Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_WEBSITE);
         }
 
         return $this;
@@ -71,8 +73,8 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Price extends Magento_Eav_
     /**
      * After Save Attribute manipulation
      *
-     * @param Magento_Catalog_Model_Product $object
-     * @return Magento_Catalog_Model_Product_Attribute_Backend_Price
+     * @param \Magento\Catalog\Model\Product $object
+     * @return \Magento\Catalog\Model\Product\Attribute\Backend\Price
      */
     public function afterSave($object)
     {
@@ -86,17 +88,17 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Price extends Magento_Eav_
             return $this;
         }
 
-        if ($this->getAttribute()->getIsGlobal() == Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_WEBSITE) {
-            $baseCurrency = Mage::app()->getBaseCurrencyCode();
+        if ($this->getAttribute()->getIsGlobal() == \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_WEBSITE) {
+            $baseCurrency = \Mage::app()->getBaseCurrencyCode();
 
             $storeIds = $object->getStoreIds();
             if (is_array($storeIds)) {
                 foreach ($storeIds as $storeId) {
-                    $storeCurrency = Mage::app()->getStore($storeId)->getBaseCurrencyCode();
+                    $storeCurrency = \Mage::app()->getStore($storeId)->getBaseCurrencyCode();
                     if ($storeCurrency == $baseCurrency) {
                         continue;
                     }
-                    $rate = Mage::getModel('Magento_Directory_Model_Currency')->load($baseCurrency)->getRate($storeCurrency);
+                    $rate = \Mage::getModel('Magento\Directory\Model\Currency')->load($baseCurrency)->getRate($storeCurrency);
                     if (!$rate) {
                         $rate = 1;
                     }
@@ -112,8 +114,8 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Price extends Magento_Eav_
     /**
      * Validate
      *
-     * @param Magento_Catalog_Model_Product $object
-     * @throws Magento_Core_Exception
+     * @param \Magento\Catalog\Model\Product $object
+     * @throws \Magento\Core\Exception
      * @return bool
      */
     public function validate($object)
@@ -124,7 +126,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Price extends Magento_Eav_
         }
 
         if (!preg_match('/^\d*(\.|,)?\d{0,4}$/i', $value) || $value < 0) {
-            Mage::throwException(
+            \Mage::throwException(
                 __('Please enter a number 0 or greater in this field.')
             );
         }

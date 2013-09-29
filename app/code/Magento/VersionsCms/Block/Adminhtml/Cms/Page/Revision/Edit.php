@@ -16,13 +16,15 @@
  * @package     Magento_VersionsCms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Revision_Edit extends Magento_Adminhtml_Block_Cms_Page_Edit
+namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision;
+
+class Edit extends \Magento\Adminhtml\Block\Cms\Page\Edit
 {
 
     /**
      * Constructor. Modifying default CE buttons.
      *
-     * @return Magento_VersionsCms_Block_Adminhtml_Cms_Page_Revision_Edit
+     * @return \Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit
      */
     protected function _construct()
     {
@@ -35,8 +37,8 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Revision_Edit extends Magento
         $this->_controller = 'adminhtml_cms_page_revision';
         $this->_blockGroup = 'Magento_VersionsCms';
 
-        /* @var $config Magento_VersionsCms_Model_Config */
-        $config = Mage::getSingleton('Magento_VersionsCms_Model_Config');
+        /* @var $config \Magento\VersionsCms\Model\Config */
+        $config = \Mage::getSingleton('Magento\VersionsCms\Model\Config');
 
         $this->setFormActionUrl($this->getUrl('*/cms_page_revision/save'));
 

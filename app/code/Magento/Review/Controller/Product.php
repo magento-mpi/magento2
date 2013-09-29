@@ -15,7 +15,9 @@
  * @package    Magento_Review
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Review_Controller_Product extends Magento_Core_Controller_Front_Action
+namespace Magento\Review\Controller;
+
+class Product extends \Magento\Core\Controller\Front\Action
 {
     /**
      * Action list where need check enabled cookie
@@ -27,98 +29,98 @@ class Magento_Review_Controller_Product extends Magento_Core_Controller_Front_Ac
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
 
     /**
-     * @var Magento_Core_Model_UrlInterface
+     * @var \Magento\Core\Model\UrlInterface
      */
     protected $_urlModel;
 
     /**
-     * @var Magento_Review_Model_Session
+     * @var \Magento\Review\Model\Session
      */
     protected $_reviewSession;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Catalog_Model_CategoryFactory
+     * @var \Magento\Catalog\Model\CategoryFactory
      */
     protected $_categoryFactory;
 
     /**
-     * @var Magento_Core_Model_Logger
+     * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
 
     /**
-     * @var Magento_Catalog_Model_ProductFactory
+     * @var \Magento\Catalog\Model\ProductFactory
      */
     protected $_productFactory;
 
     /**
-     * @var Magento_Review_Model_ReviewFactory
+     * @var \Magento\Review\Model\ReviewFactory
      */
     protected $_reviewFactory;
 
     /**
-     * @var Magento_Rating_Model_RatingFactory
+     * @var \Magento\Rating\Model\RatingFactory
      */
     protected $_ratingFactory;
 
     /**
-     * @var Magento_Core_Model_Session
+     * @var \Magento\Core\Model\Session
      */
     protected $_session;
 
     /**
-     * @var Magento_Catalog_Model_Design
+     * @var \Magento\Catalog\Model\Design
      */
     protected $_catalogDesign;
 
     /**
-     * @param Magento_Core_Controller_Varien_Action_Context $context
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_Customer_Model_Session $customerSession
-     * @param Magento_Core_Model_UrlInterface $urlModel
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Catalog_Model_CategoryFactory $categoryFactory
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Catalog_Model_ProductFactory $productFactory
-     * @param Magento_Review_Model_ReviewFactory $reviewFactory
-     * @param Magento_Rating_Model_RatingFactory $ratingFactory
-     * @param Magento_Core_Model_Session $session
-     * @param Magento_Catalog_Model_Design $catalogDesign
+     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Core\Model\UrlInterface $urlModel
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Review\Model\ReviewFactory $reviewFactory
+     * @param \Magento\Rating\Model\RatingFactory $ratingFactory
+     * @param \Magento\Core\Model\Session $session
+     * @param \Magento\Catalog\Model\Design $catalogDesign
      */
     public function __construct(
-        Magento_Core_Controller_Varien_Action_Context $context,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_Customer_Model_Session $customerSession,
-        Magento_Core_Model_UrlInterface $urlModel,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Catalog_Model_CategoryFactory $categoryFactory,
-        Magento_Core_Model_Logger $logger,
-        Magento_Catalog_Model_ProductFactory $productFactory,
-        Magento_Review_Model_ReviewFactory $reviewFactory,
-        Magento_Rating_Model_RatingFactory $ratingFactory,
-        Magento_Core_Model_Session $session,
-        Magento_Catalog_Model_Design $catalogDesign
+        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Core\Model\UrlInterface $urlModel,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\CategoryFactory $categoryFactory,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Review\Model\ReviewFactory $reviewFactory,
+        \Magento\Rating\Model\RatingFactory $ratingFactory,
+        \Magento\Core\Model\Session $session,
+        \Magento\Catalog\Model\Design $catalogDesign
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_customerSession = $customerSession;
         $this->_urlModel = $urlModel;
         /** @todo Should be fixed in scope of MAGETWO-14639 */
-        $this->_reviewSession = Magento_Core_Model_ObjectManager::getInstance()->get('Magento_Review_Model_Session');
+        $this->_reviewSession = \Magento\Core\Model\ObjectManager::getInstance()->get('Magento\Review\Model\Session');
         $this->_storeManager = $storeManager;
         $this->_categoryFactory = $categoryFactory;
         $this->_logger = $logger;
@@ -135,7 +137,7 @@ class Magento_Review_Controller_Product extends Magento_Core_Controller_Front_Ac
     {
         parent::preDispatch();
 
-        $allowGuest = $this->_objectManager->get('Magento_Review_Helper_Data')->getIsGuestAllowToWrite();
+        $allowGuest = $this->_objectManager->get('Magento\Review\Helper\Data')->getIsGuestAllowToWrite();
         if (!$this->getRequest()->isDispatched()) {
             return;
         }
@@ -148,7 +150,7 @@ class Magento_Review_Controller_Product extends Magento_Core_Controller_Front_Ac
                 $this->_reviewSession
                     ->setFormData($this->getRequest()->getPost())
                     ->setRedirectUrl($this->_getRefererUrl());
-                $this->_redirectUrl($this->_objectManager->get('Magento_Customer_Helper_Data')->getLoginUrl());
+                $this->_redirectUrl($this->_objectManager->get('Magento\Customer\Helper\Data')->getLoginUrl());
             }
         }
 
@@ -157,7 +159,7 @@ class Magento_Review_Controller_Product extends Magento_Core_Controller_Front_Ac
     /**
      * Initialize and check product
      *
-     * @return Magento_Catalog_Model_Product
+     * @return \Magento\Catalog\Model\Product
      */
     protected function _initProduct()
     {
@@ -181,7 +183,7 @@ class Magento_Review_Controller_Product extends Magento_Core_Controller_Front_Ac
                 'product'           => $product,
                 'controller_action' => $this
             ));
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_logger->logException($e);
             return false;
         }
@@ -194,7 +196,7 @@ class Magento_Review_Controller_Product extends Magento_Core_Controller_Front_Ac
      * Return false if product was not loaded or has incorrect status.
      *
      * @param int $productId
-     * @return bool|Magento_Catalog_Model_Product
+     * @return bool|\Magento\Catalog\Model\Product
      */
     protected function _loadProduct($productId)
     {
@@ -205,7 +207,7 @@ class Magento_Review_Controller_Product extends Magento_Core_Controller_Front_Ac
         $product = $this->_productFactory->create()
             ->setStoreId($this->_storeManager->getStore()->getId())
             ->load($productId);
-        /* @var $product Magento_Catalog_Model_Product */
+        /* @var $product \Magento\Catalog\Model\Product */
         if (!$product->getId() || !$product->isVisibleInCatalog() || !$product->isVisibleInSiteVisibility()) {
             return false;
         }
@@ -221,7 +223,7 @@ class Magento_Review_Controller_Product extends Magento_Core_Controller_Front_Ac
      * Return false if review was not loaded or review is not approved.
      *
      * @param $reviewId
-     * @return bool|Magento_Review_Model_Review
+     * @return bool|\Magento\Review\Model\Review
      */
     protected function _loadReview($reviewId)
     {
@@ -230,7 +232,7 @@ class Magento_Review_Controller_Product extends Magento_Core_Controller_Front_Ac
         }
 
         $review = $this->_reviewFactory->create()->load($reviewId);
-        /* @var $review Magento_Review_Model_Review */
+        /* @var $review \Magento\Review\Model\Review */
         if (!$review->getId() || !$review->isApproved() || !$review->isAvailableOnStore($this->_storeManager->getStore())) {
             return false;
         }
@@ -258,16 +260,16 @@ class Magento_Review_Controller_Product extends Magento_Core_Controller_Front_Ac
 
         if (($product = $this->_initProduct()) && !empty($data)) {
             $session    = $this->_session;
-            /* @var $session Magento_Core_Model_Session */
+            /* @var $session \Magento\Core\Model\Session */
             $review     = $this->_reviewFactory->create()->setData($data);
-            /* @var $review Magento_Review_Model_Review */
+            /* @var $review \Magento\Review\Model\Review */
 
             $validate = $review->validate();
             if ($validate === true) {
                 try {
-                    $review->setEntityId($review->getEntityIdByCode(Magento_Review_Model_Review::ENTITY_PRODUCT_CODE))
+                    $review->setEntityId($review->getEntityIdByCode(\Magento\Review\Model\Review::ENTITY_PRODUCT_CODE))
                         ->setEntityPkValue($product->getId())
-                        ->setStatusId(Magento_Review_Model_Review::STATUS_PENDING)
+                        ->setStatusId(\Magento\Review\Model\Review::STATUS_PENDING)
                         ->setCustomerId($this->_customerSession->getCustomerId())
                         ->setStoreId($this->_storeManager->getStore()->getId())
                         ->setStores(array($this->_storeManager->getStore()->getId()))
@@ -283,7 +285,7 @@ class Magento_Review_Controller_Product extends Magento_Core_Controller_Front_Ac
 
                     $review->aggregate();
                     $session->addSuccess(__('Your review has been accepted for moderation.'));
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     $session->setFormData($data);
                     $session->addError(__('We cannot post the review.'));
                 }
@@ -360,8 +362,8 @@ class Magento_Review_Controller_Product extends Magento_Core_Controller_Front_Ac
         }
 
         $this->loadLayout();
-        $this->_initLayoutMessages('Magento_Review_Model_Session');
-        $this->_initLayoutMessages('Magento_Catalog_Model_Session');
+        $this->_initLayoutMessages('Magento\Review\Model\Session');
+        $this->_initLayoutMessages('Magento\Catalog\Model\Session');
         $this->renderLayout();
     }
 
@@ -377,13 +379,13 @@ class Magento_Review_Controller_Product extends Magento_Core_Controller_Front_Ac
         );
 
         if ($product->getPageLayout()) {
-            $this->_objectManager->get('Magento_Page_Helper_Layout')
+            $this->_objectManager->get('Magento\Page\Helper\Layout')
                 ->applyHandle($product->getPageLayout());
         }
         $this->loadLayoutUpdates();
 
         if ($product->getPageLayout()) {
-            $this->_objectManager->get('Magento_Page_Helper_Layout')
+            $this->_objectManager->get('Magento\Page\Helper\Layout')
                 ->applyTemplate($product->getPageLayout());
         }
         $update->addUpdate($product->getCustomLayoutUpdate());

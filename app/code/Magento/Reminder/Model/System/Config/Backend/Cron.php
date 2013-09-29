@@ -11,7 +11,9 @@
 /**
  * Reminder Cron Backend Model
  */
-class Magento_Reminder_Model_System_Config_Backend_Cron extends Magento_Core_Model_Config_Value
+namespace Magento\Reminder\Model\System\Config\Backend;
+
+class Cron extends \Magento\Core\Model\Config\Value
 {
     const CRON_STRING_PATH  = 'crontab/jobs/send_notification/schedule/cron_expr';
     const CRON_MODEL_PATH   = 'crontab/jobs/send_notification/run/model';
@@ -19,16 +21,16 @@ class Magento_Reminder_Model_System_Config_Backend_Cron extends Magento_Core_Mod
     /**
      * Cron settings after save
      *
-     * @return Magento_Reminder_Model_System_Config_Backend_Cron
+     * @return \Magento\Reminder\Model\System\Config\Backend\Cron
      */
     protected function _afterSave()
     {
         $cronExprString = '';
 
         if ($this->getFieldsetDataValue('enabled')) {
-            $minutely = Magento_Reminder_Model_Observer::CRON_MINUTELY;
-            $hourly   = Magento_Reminder_Model_Observer::CRON_HOURLY;
-            $daily    = Magento_Reminder_Model_Observer::CRON_DAILY;
+            $minutely = \Magento\Reminder\Model\Observer::CRON_MINUTELY;
+            $hourly   = \Magento\Reminder\Model\Observer::CRON_HOURLY;
+            $daily    = \Magento\Reminder\Model\Observer::CRON_DAILY;
 
             $frequency  = $this->getFieldsetDataValue('frequency');
 
@@ -42,7 +44,7 @@ class Magento_Reminder_Model_System_Config_Backend_Cron extends Magento_Core_Mod
                     $cronExprString = "{$minutes} * * * *";
                 }
                 else {
-                    Mage::throwException(__('Please specify a valid number of minute.'));
+                    \Mage::throwException(__('Please specify a valid number of minute.'));
                 }
             }
             elseif ($frequency == $daily) {
@@ -54,21 +56,21 @@ class Magento_Reminder_Model_System_Config_Backend_Cron extends Magento_Core_Mod
         }
 
         try {
-            Mage::getModel('Magento_Core_Model_Config_Value')
+            \Mage::getModel('Magento\Core\Model\Config\Value')
                 ->load(self::CRON_STRING_PATH, 'path')
                 ->setValue($cronExprString)
                 ->setPath(self::CRON_STRING_PATH)
                 ->save();
 
-            Mage::getModel('Magento_Core_Model_Config_Value')
+            \Mage::getModel('Magento\Core\Model\Config\Value')
                 ->load(self::CRON_MODEL_PATH, 'path')
                 ->setValue((string) $this->_config->getNode(self::CRON_MODEL_PATH))
                 ->setPath(self::CRON_MODEL_PATH)
                 ->save();
         }
 
-        catch (Exception $e) {
-            Mage::throwException(__('Unable to save Cron expression'));
+        catch (\Exception $e) {
+            \Mage::throwException(__('Unable to save Cron expression'));
         }
     }
 }

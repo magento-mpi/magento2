@@ -15,16 +15,18 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Report_Product_Downloads_Renderer_Purchases
-    extends Magento_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
+namespace Magento\Adminhtml\Block\Report\Product\Downloads\Renderer;
+
+class Purchases
+    extends \Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**
      * Renders Purchases value
      *
-     * @param   Magento_Object $row
+     * @param   \Magento\Object $row
      * @return  string
      */
-    public function render(Magento_Object $row)
+    public function render(\Magento\Object $row)
     {
         if ( ($value = $row->getData($this->getColumn()->getIndex())) > 0) {
             return $value;

@@ -15,39 +15,41 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Sales_Order_View_Info extends Magento_Adminhtml_Block_Sales_Order_Abstract
+namespace Magento\Adminhtml\Block\Sales\Order\View;
+
+class Info extends \Magento\Adminhtml\Block\Sales\Order\AbstractOrder
 {
     /**
-     * @var Magento_Customer_Model_GroupFactory
+     * @var \Magento\Customer\Model\GroupFactory
      */
     protected $_groupFactory;
 
     /**
-     * @var Magento_Customer_Model_CustomerFactory
+     * @var \Magento\Customer\Model\CustomerFactory
      */
     protected $_customerFactory;
 
     /**
-     * @var Magento_Eav_Model_Config
+     * @var \Magento\Eav\Model\Config
      */
     protected $_eavConfig;
 
     /**
-     * @param Magento_Customer_Model_GroupFactory $groupFactory
-     * @param Magento_Customer_Model_CustomerFactory $customerFactory
-     * @param Magento_Eav_Model_Config $eavConfig
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Customer\Model\GroupFactory $groupFactory
+     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Customer_Model_GroupFactory $groupFactory,
-        Magento_Customer_Model_CustomerFactory $customerFactory,
-        Magento_Eav_Model_Config $eavConfig,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Customer\Model\GroupFactory $groupFactory,
+        \Magento\Customer\Model\CustomerFactory $customerFactory,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_customerFactory = $customerFactory;
@@ -62,7 +64,7 @@ class Magento_Adminhtml_Block_Sales_Order_View_Info extends Magento_Adminhtml_Bl
     protected function _beforeToHtml()
     {
         if (!$this->getParentBlock()) {
-            throw new Magento_Core_Exception(__('Please correct the parent block for this block.'));
+            throw new \Magento\Core\Exception(__('Please correct the parent block for this block.'));
         }
         $this->setOrder($this->getParentBlock()->getOrder());
 
@@ -142,7 +144,7 @@ class Magento_Adminhtml_Block_Sales_Order_View_Info extends Magento_Adminhtml_Bl
         $entityType = 'customer';
         $customer   = $this->_customerFactory->create();
         foreach ($this->_eavConfig->getEntityAttributeCodes($entityType) as $attributeCode) {
-            /* @var $attribute Magento_Customer_Model_Attribute */
+            /* @var $attribute \Magento\Customer\Model\Attribute */
             $attribute = $this->_eavConfig->getAttribute($entityType, $attributeCode);
             if (!$attribute->getIsVisible() || $attribute->getIsSystem()) {
                 continue;
@@ -151,8 +153,8 @@ class Magento_Adminhtml_Block_Sales_Order_View_Info extends Magento_Adminhtml_Bl
             $orderValue = $this->getOrder()->getData($orderKey);
             if ($orderValue != '') {
                 $customer->setData($attribute->getAttributeCode(), $orderValue);
-                $dataModel  = Magento_Customer_Model_Attribute_Data::factory($attribute, $customer);
-                $value      = $dataModel->outputValue(Magento_Customer_Model_Attribute_Data::OUTPUT_FORMAT_HTML);
+                $dataModel  = \Magento\Customer\Model\Attribute\Data::factory($attribute, $customer);
+                $value      = $dataModel->outputValue(\Magento\Customer\Model\Attribute\Data::OUTPUT_FORMAT_HTML);
                 $sortOrder  = $attribute->getSortOrder() + $attribute->getIsUserDefined() ? 200 : 0;
                 $sortOrder  = $this->_prepareAccountDataSortOrder($accountData, $sortOrder);
                 $accountData[$sortOrder] = array(
@@ -170,7 +172,7 @@ class Magento_Adminhtml_Block_Sales_Order_View_Info extends Magento_Adminhtml_Bl
     /**
      * Get link to edit order address page
      *
-     * @param Magento_Sales_Model_Order_Address $address
+     * @param \Magento\Sales\Model\Order\Address $address
      * @param string $label
      * @return string
      */

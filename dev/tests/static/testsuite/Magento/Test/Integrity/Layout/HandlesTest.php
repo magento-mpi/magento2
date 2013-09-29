@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Test_Integrity_Layout_HandlesTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Integrity\Layout;
+
+class HandlesTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Test dependencies between handle attributes that is out of coverage by XSD
@@ -85,7 +87,7 @@ class Magento_Test_Integrity_Layout_HandlesTest extends PHPUnit_Framework_TestCa
     public function testLayoutFormat($layoutFile)
     {
         $schemaFile = BP . '/app/code/Magento/Core/etc/layout_single.xsd';
-        $domLayout = new Magento_Config_Dom(file_get_contents($layoutFile));
+        $domLayout = new \Magento\Config\Dom(file_get_contents($layoutFile));
         $result = $domLayout->validate($schemaFile, $errors);
         $this->assertTrue($result, print_r($errors, true));
     }
@@ -95,6 +97,6 @@ class Magento_Test_Integrity_Layout_HandlesTest extends PHPUnit_Framework_TestCa
      */
     public function layoutFilesDataProvider()
     {
-        return Magento_TestFramework_Utility_Files::init()->getLayoutFiles();
+        return \Magento\TestFramework\Utility\Files::init()->getLayoutFiles();
     }
 }

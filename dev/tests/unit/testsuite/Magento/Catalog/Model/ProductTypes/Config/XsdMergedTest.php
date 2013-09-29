@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Catalog_Model_ProductTypes_Config_XsdMergedTest extends PHPUnit_Framework_TestCase
+namespace Magento\Catalog\Model\ProductTypes\Config;
+
+class XsdMergedTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Path to xsd schema file
@@ -14,14 +16,14 @@ class Magento_Catalog_Model_ProductTypes_Config_XsdMergedTest extends PHPUnit_Fr
     protected $_xsdSchema;
 
     /**
-     * @var Magento_TestFramework_Utility_XsdValidator
+     * @var \Magento\TestFramework\Utility\XsdValidator
      */
     protected $_xsdValidator;
 
     protected function setUp()
     {
         $this->_xsdSchema = BP . '/app/code/Magento/Catalog/etc/product_types_merged.xsd';
-        $this->_xsdValidator = new Magento_TestFramework_Utility_XsdValidator();
+        $this->_xsdValidator = new \Magento\TestFramework\Utility\XsdValidator();
     }
 
     /**

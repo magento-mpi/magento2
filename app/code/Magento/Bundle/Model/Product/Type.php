@@ -15,7 +15,9 @@
  * @package     Magento_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Type_Abstract
+namespace Magento\Bundle\Model\Product;
+
+class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
 {
     /**
      * Product is composite
@@ -76,86 +78,86 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
     /**
      * Catalog data
      *
-     * @var Magento_Catalog_Helper_Data
+     * @var \Magento\Catalog\Helper\Data
      */
     protected $_catalogData = null;
 
     /**
      * Catalog product
      *
-     * @var Magento_Catalog_Helper_Product
+     * @var \Magento\Catalog\Helper\Product
      */
     protected $_catalogProduct = null;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Bundle_Model_OptionFactory
+     * @var \Magento\Bundle\Model\OptionFactory
      */
     protected $_bundleOption;
 
     /**
-     * @var Magento_Bundle_Model_Resource_Selection
+     * @var \Magento\Bundle\Model\Resource\Selection
      */
     protected $_bundleSelection;
 
     /**
-     * @var Magento_Catalog_Model_Config
+     * @var \Magento\Catalog\Model\Config
      */
     protected $_config;
 
     /**
-     * @var Magento_Bundle_Model_Resource_Selection_CollectionFactory
+     * @var \Magento\Bundle\Model\Resource\Selection\CollectionFactory
      */
     protected $_bundleCollection;
 
     /**
-     * @var Magento_Bundle_Model_Resource_BundleFactory
+     * @var \Magento\Bundle\Model\Resource\BundleFactory
      */
     protected $_bundleFactory;
 
     /**
-     * @var Magento_Bundle_Model_SelectionFactory $bundleModelSelection
+     * @var \Magento\Bundle\Model\SelectionFactory $bundleModelSelection
      */
     protected $_bundleModelSelection;
 
     /**
-     * @param Magento_Bundle_Model_SelectionFactory $bundleModelSelection
-     * @param Magento_Bundle_Model_Resource_BundleFactory $bundleFactory
-     * @param Magento_Bundle_Model_Resource_Selection_CollectionFactory $bundleCollection
-     * @param Magento_Catalog_Model_Config $config
-     * @param Magento_Bundle_Model_Resource_Selection $bundleSelection
-     * @param Magento_Bundle_Model_OptionFactory $bundleOption
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Catalog_Helper_Product $catalogProduct
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Helper_File_Storage_Database $fileStorageDb
-     * @param Magento_Filesystem $filesystem
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_Core_Model_Logger $logger
+     * @param \Magento\Bundle\Model\SelectionFactory $bundleModelSelection
+     * @param \Magento\Bundle\Model\Resource\BundleFactory $bundleFactory
+     * @param \Magento\Bundle\Model\Resource\Selection\CollectionFactory $bundleCollection
+     * @param \Magento\Catalog\Model\Config $config
+     * @param \Magento\Bundle\Model\Resource\Selection $bundleSelection
+     * @param \Magento\Bundle\Model\OptionFactory $bundleOption
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Catalog\Helper\Product $catalogProduct
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Helper\File\Storage\Database $fileStorageDb
+     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Core\Model\Logger $logger
      * @param array $data
      */
     public function __construct(
-        Magento_Bundle_Model_SelectionFactory $bundleModelSelection,
-        Magento_Bundle_Model_Resource_BundleFactory $bundleFactory,
-        Magento_Bundle_Model_Resource_Selection_CollectionFactory $bundleCollection,
-        Magento_Catalog_Model_Config $config,
-        Magento_Bundle_Model_Resource_Selection $bundleSelection,
-        Magento_Bundle_Model_OptionFactory $bundleOption,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Catalog_Helper_Product $catalogProduct,
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Helper_File_Storage_Database $fileStorageDb,
-        Magento_Filesystem $filesystem,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_Core_Model_Logger $logger,
+        \Magento\Bundle\Model\SelectionFactory $bundleModelSelection,
+        \Magento\Bundle\Model\Resource\BundleFactory $bundleFactory,
+        \Magento\Bundle\Model\Resource\Selection\CollectionFactory $bundleCollection,
+        \Magento\Catalog\Model\Config $config,
+        \Magento\Bundle\Model\Resource\Selection $bundleSelection,
+        \Magento\Bundle\Model\OptionFactory $bundleOption,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Catalog\Helper\Product $catalogProduct,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Helper\File\Storage\Database $fileStorageDb,
+        \Magento\Filesystem $filesystem,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Core\Model\Logger $logger,
         array $data = array()
     ) {
         $this->_catalogProduct = $catalogProduct;
@@ -173,11 +175,11 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
     /**
      * Return relation info about used products
      *
-     * @return Magento_Object Object with information data
+     * @return \Magento\Object Object with information data
      */
     public function getRelationInfo()
     {
-        $info = new Magento_Object();
+        $info = new \Magento\Object();
         $info->setTable('catalog_product_bundle_selection')
             ->setParentFieldName('parent_product_id')
             ->setChildFieldName('product_id');
@@ -213,7 +215,7 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
     /**
      * Return product sku based on sku_type attribute
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @return string
      */
     public function getSku($product)
@@ -243,7 +245,7 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
     /**
      * Return product weight based on weight_type attribute
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @return decimal
      */
     public function getWeight($product)
@@ -273,7 +275,7 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
     /**
      * Check is virtual product
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @return bool
      */
     public function isVirtual($product)
@@ -298,7 +300,7 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
     /**
      * Before save type related data
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      */
     public function beforeSave($product)
     {
@@ -309,9 +311,9 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
             $product->setData('weight', false);
         }
 
-        if ($product->getPriceType() == Magento_Bundle_Model_Product_Price::PRICE_TYPE_DYNAMIC) {
+        if ($product->getPriceType() == \Magento\Bundle\Model\Product\Price::PRICE_TYPE_DYNAMIC) {
             $product->setData(
-                'msrp_enabled', Magento_Catalog_Model_Product_Attribute_Source_Msrp_Type_Enabled::MSRP_ENABLE_NO
+                'msrp_enabled', \Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type\Enabled::MSRP_ENABLE_NO
             );
             $product->unsetData('msrp');
             $product->unsetData('msrp_display_actual_price_type');
@@ -344,13 +346,13 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
     /**
      * Save type related data
      *
-     * @param Magento_Catalog_Model_Product $product
-     * @return Magento_Bundle_Model_Product_Type
+     * @param \Magento\Catalog\Model\Product $product
+     * @return \Magento\Bundle\Model\Product\Type
      */
     public function save($product)
     {
         parent::save($product);
-        /* @var $resource Magento_Bundle_Model_Resource_Bundle */
+        /* @var $resource \Magento\Bundle\Model\Resource\Bundle */
         $resource = $this->_bundleFactory->create();
 
         $options = $product->getBundleOptionsData();
@@ -421,7 +423,7 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
     /**
      * Retrieve bundle options items
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @return array
      */
     public function getOptions($product)
@@ -432,7 +434,7 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
     /**
      * Retrieve bundle options ids
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @return array
      */
     public function getOptionsIds($product)
@@ -443,8 +445,8 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
     /**
      * Retrieve bundle option collection
      *
-     * @param Magento_Catalog_Model_Product $product
-     * @return Magento_Bundle_Model_Resource_Option_Collection
+     * @param \Magento\Catalog\Model\Product $product
+     * @return \Magento\Bundle\Model\Resource\Option\Collection
      */
     public function getOptionsCollection($product)
     {
@@ -454,7 +456,7 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
                 ->setPositionOrder();
 
             $storeId = $this->getStoreFilter($product);
-            if ($storeId instanceof Magento_Core_Model_Store) {
+            if ($storeId instanceof \Magento\Core\Model\Store) {
                 $storeId = $storeId->getId();
             }
 
@@ -468,8 +470,8 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
      * Retrive bundle selections collection based on used options
      *
      * @param array $optionIds
-     * @param Magento_Catalog_Model_Product $product
-     * @return Magento_Bundle_Model_Resource_Selection_Collection
+     * @param \Magento\Catalog\Model\Product $product
+     * @return \Magento\Bundle\Model\Resource\Selection\Collection
      */
     public function getSelectionsCollection($optionIds, $product)
     {
@@ -506,12 +508,12 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
      * so need to change quote item qty option value too.
      *
      * @param   array           $options
-     * @param   Magento_Object   $option
+     * @param   \Magento\Object   $option
      * @param   mixed           $value
-     * @param   Magento_Catalog_Model_Product $product
-     * @return  Magento_Bundle_Model_Product_Type
+     * @param   \Magento\Catalog\Model\Product $product
+     * @return  \Magento\Bundle\Model\Product\Type
      */
-    public function updateQtyOption($options, Magento_Object $option, $value, $product)
+    public function updateQtyOption($options, \Magento\Object $option, $value, $product)
     {
         $optionProduct      = $option->getProduct($product);
         $optionUpdateFlag   = $option->getHasQtyOptionUpdate();
@@ -541,7 +543,7 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
      * Prepare Quote Item Quantity
      *
      * @param mixed $qty
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @return int
      */
     public function prepareQuoteItemQty($qty, $product)
@@ -552,7 +554,7 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
     /**
      * Checking if we can sale this bundle
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @return bool
      */
     public function isSalable($product)
@@ -597,12 +599,12 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
      * Prepare product and its configuration to be added to some products list.
      * Perform standard preparation process and then prepare of bundle selections options.
      *
-     * @param Magento_Object $buyRequest
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Object $buyRequest
+     * @param \Magento\Catalog\Model\Product $product
      * @param string $processMode
      * @return array|string
      */
-    protected function _prepareProduct(Magento_Object $buyRequest, $product, $processMode)
+    protected function _prepareProduct(\Magento\Object $buyRequest, $product, $processMode)
     {
         $result = parent::_prepareProduct($buyRequest, $product, $processMode);
 
@@ -795,8 +797,8 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
      * Retrieve bundle selections collection based on ids
      *
      * @param array $selectionIds
-     * @param Magento_Catalog_Model_Product $product
-     * @return Magento_Bundle_Model_Resource_Selection_Collection
+     * @param \Magento\Catalog\Model\Product $product
+     * @return \Magento\Bundle\Model\Resource\Selection\Collection
      */
     public function getSelectionsByIds($selectionIds, $product)
     {
@@ -831,8 +833,8 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
      * Retrieve bundle options collection based on ids
      *
      * @param array $optionIds
-     * @param Magento_Catalog_Model_Product $product
-     * @return Magento_Bundle_Model_Resource_Option_Collection
+     * @param \Magento\Catalog\Model\Product $product
+     * @return \Magento\Bundle\Model\Resource\Option\Collection
      */
     public function getOptionsByIds($optionIds, $product)
     {
@@ -857,7 +859,7 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
      * Prepare additional options/information for order item which will be
      * created from this product
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @return array
      */
     public function getOrderOptions($product)
@@ -920,8 +922,8 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
      * Sort selections method for usort function
      * Sort selections by option position, selection position and selection id
      *
-     * @param  Magento_Catalog_Model_Product $a
-     * @param  Magento_Catalog_Model_Product $b
+     * @param  \Magento\Catalog\Model\Product $a
+     * @param  \Magento\Catalog\Model\Product $b
      * @return int
      */
     public function shakeSelections($a, $b)
@@ -948,7 +950,7 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
     /**
      * Return true if product has options
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @return bool
      */
     public function hasOptions($product)
@@ -967,7 +969,7 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
     /**
      * Allow for updates of chidren qty's
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @return boolean true
      */
     public function getForceChildItemQtyChanges($product)
@@ -979,7 +981,7 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
      * Retrieve additional searchable data from type instance
      * Using based on product id and store_id data
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @return array
      */
     public function getSearchableData($product)
@@ -998,9 +1000,9 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
     /**
      * Check if product can be bought
      *
-     * @param Magento_Catalog_Model_Product $product
-     * @return Magento_Bundle_Model_Product_Type
-     * @throws Magento_Core_Exception
+     * @param \Magento\Catalog\Model\Product $product
+     * @return \Magento\Bundle\Model\Product\Type
+     * @throws \Magento\Core\Exception
      */
     public function checkProductBuyState($product)
     {
@@ -1010,19 +1012,19 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
         $selectionIds       = $product->getCustomOption('bundle_selection_ids');
         $selectionIds       = unserialize($selectionIds->getValue());
         $buyRequest         = $product->getCustomOption('info_buyRequest');
-        $buyRequest         = new Magento_Object(unserialize($buyRequest->getValue()));
+        $buyRequest         = new \Magento\Object(unserialize($buyRequest->getValue()));
         $bundleOption       = $buyRequest->getBundleOption();
 
         if (empty($bundleOption)) {
-            throw new Magento_Core_Exception($this->getSpecifyOptionMessage());
+            throw new \Magento\Core\Exception($this->getSpecifyOptionMessage());
         }
 
         $skipSaleableCheck = $this->_catalogProduct->getSkipSaleableCheck();
         foreach ($selectionIds as $selectionId) {
-            /* @var $selection Magento_Bundle_Model_Selection */
+            /* @var $selection \Magento\Bundle\Model\Selection */
             $selection = $productSelections->getItemById($selectionId);
             if (!$selection || (!$selection->isSalable() && !$skipSaleableCheck)) {
-                throw new Magento_Core_Exception(__('The required options you selected are not available.'));
+                throw new \Magento\Core\Exception(__('The required options you selected are not available.'));
             }
         }
 
@@ -1030,7 +1032,7 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
         $optionsCollection = $this->getOptionsCollection($product);
         foreach ($optionsCollection->getItems() as $option) {
             if ($option->getRequired() && empty($bundleOption[$option->getId()])) {
-                throw new Magento_Core_Exception(__('Please select all required options.'));
+                throw new \Magento\Core\Exception(__('Please select all required options.'));
             }
         }
 
@@ -1041,7 +1043,7 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
      * Retrieve products divided into groups required to purchase
      * At least one product in each group has to be purchased
      *
-     * @param  Magento_Catalog_Model_Product $product
+     * @param  \Magento\Catalog\Model\Product $product
      * @return array
      */
     public function getProductsToPurchaseByReqGroups($product)
@@ -1069,8 +1071,8 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
     /**
      * Prepare selected options for bundle product
      *
-     * @param  Magento_Catalog_Model_Product $product
-     * @param  Magento_Object $buyRequest
+     * @param  \Magento\Catalog\Model\Product $product
+     * @param  \Magento\Object $buyRequest
      * @return array
      */
     public function processBuyRequest($product, $buyRequest)
@@ -1092,12 +1094,12 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
     /**
      * Check if product can be configured
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @return bool
      */
     public function canConfigure($product)
     {
-        return $product instanceof Magento_Catalog_Model_Product
+        return $product instanceof \Magento\Catalog\Model\Product
             && $product->isAvailable()
             && parent::canConfigure($product);
     }
@@ -1105,7 +1107,7 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
     /**
      * Check if Minimum Advertise Price is enabled at least in one option
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @param int $visibility
      * @return bool|null
      */
@@ -1154,9 +1156,9 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
     /**
      * Delete data specific for Bundle product type
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      */
-    public function deleteTypeSpecificData(Magento_Catalog_Model_Product $product)
+    public function deleteTypeSpecificData(\Magento\Catalog\Model\Product $product)
     {
     }
 }

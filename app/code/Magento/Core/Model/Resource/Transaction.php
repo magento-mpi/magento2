@@ -17,7 +17,9 @@
  * @package    Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Resource_Transaction
+namespace Magento\Core\Model\Resource;
+
+class Transaction
 {
     /**
      * Objects which will be involved to transaction
@@ -42,7 +44,7 @@ class Magento_Core_Model_Resource_Transaction
     /**
      * Begin transaction for all involved object resources
      *
-     * @return Magento_Core_Model_Resource_Transaction
+     * @return \Magento\Core\Model\Resource\Transaction
      */
     protected function _startTransaction()
     {
@@ -55,7 +57,7 @@ class Magento_Core_Model_Resource_Transaction
     /**
      * Commit transaction for all resources
      *
-     * @return Magento_Core_Model_Resource_Transaction
+     * @return \Magento\Core\Model\Resource\Transaction
      */
     protected function _commitTransaction()
     {
@@ -68,7 +70,7 @@ class Magento_Core_Model_Resource_Transaction
     /**
      * Rollback transaction
      *
-     * @return Magento_Core_Model_Resource_Transaction
+     * @return \Magento\Core\Model\Resource\Transaction
      */
     protected function _rollbackTransaction()
     {
@@ -81,7 +83,7 @@ class Magento_Core_Model_Resource_Transaction
     /**
      * Run all configured object callbacks
      *
-     * @return Magento_Core_Model_Resource_Transaction
+     * @return \Magento\Core\Model\Resource\Transaction
      */
     protected function _runCallbacks()
     {
@@ -94,11 +96,11 @@ class Magento_Core_Model_Resource_Transaction
     /**
      * Adding object for using in transaction
      *
-     * @param Magento_Core_Model_Abstract $object
+     * @param \Magento\Core\Model\AbstractModel $object
      * @param string $alias
-     * @return Magento_Core_Model_Resource_Transaction
+     * @return \Magento\Core\Model\Resource\Transaction
      */
-    public function addObject(Magento_Core_Model_Abstract $object, $alias='')
+    public function addObject(\Magento\Core\Model\AbstractModel $object, $alias='')
     {
         $this->_objects[] = $object;
         if (!empty($alias)) {
@@ -111,7 +113,7 @@ class Magento_Core_Model_Resource_Transaction
      * Add callback function which will be called before commit transactions
      *
      * @param callback $callback
-     * @return Magento_Core_Model_Resource_Transaction
+     * @return \Magento\Core\Model\Resource\Transaction
      */
     public function addCommitCallback($callback)
     {
@@ -122,8 +124,8 @@ class Magento_Core_Model_Resource_Transaction
     /**
      * Initialize objects save transaction
      *
-     * @return Magento_Core_Model_Resource_Transaction
-     * @throws Exception
+     * @return \Magento\Core\Model\Resource\Transaction
+     * @throws \Exception
      */
     public function save()
     {
@@ -134,14 +136,14 @@ class Magento_Core_Model_Resource_Transaction
             foreach ($this->_objects as $object) {
                 $object->save();
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $error = $e;
         }
 
         if ($error === false) {
             try {
                 $this->_runCallbacks();
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $error = $e;
             }
         }
@@ -159,8 +161,8 @@ class Magento_Core_Model_Resource_Transaction
     /**
      * Initialize objects delete transaction
      *
-     * @return Magento_Core_Model_Resource_Transaction
-     * @throws Exception
+     * @return \Magento\Core\Model\Resource\Transaction
+     * @throws \Exception
      */
     public function delete()
     {
@@ -171,14 +173,14 @@ class Magento_Core_Model_Resource_Transaction
             foreach ($this->_objects as $object) {
                 $object->delete();
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $error = $e;
         }
 
         if ($error === false) {
             try {
                 $this->_runCallbacks();
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $error = $e;
             }
         }

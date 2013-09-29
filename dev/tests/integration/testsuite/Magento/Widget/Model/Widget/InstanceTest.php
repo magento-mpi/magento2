@@ -8,17 +8,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Widget_Model_Widget_InstanceTest extends PHPUnit_Framework_TestCase
+namespace Magento\Widget\Model\Widget;
+
+class InstanceTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Widget_Model_Widget_Instance
+     * @var \Magento\Widget\Model\Widget\Instance
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Widget_Model_Widget_Instance');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Widget\Model\Widget\Instance');
     }
 
     public function testSetGetType()
@@ -30,8 +32,8 @@ class Magento_Widget_Model_Widget_InstanceTest extends PHPUnit_Framework_TestCas
 
     public function testSetThemeId()
     {
-        $theme = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Core_Model_View_DesignInterface')
+        $theme = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Core\Model\View\DesignInterface')
             ->setDefaultDesignTheme()
             ->getDesignTheme();
         $this->_model->setThemeId($theme->getId());
@@ -40,11 +42,11 @@ class Magento_Widget_Model_Widget_InstanceTest extends PHPUnit_Framework_TestCas
     }
 
     /**
-     * @return Magento_Widget_Model_Widget_Instance
+     * @return \Magento\Widget\Model\Widget\Instance
      */
     public function testGetWidgetConfigAsArray()
     {
-        $config = $this->_model->setType('Magento_Catalog_Block_Product_Widget_New')->getWidgetConfigAsArray();
+        $config = $this->_model->setType('Magento\Catalog\Block\Product\Widget\NewWidget')->getWidgetConfigAsArray();
         $this->assertTrue(is_array($config));
         $element = null;
         if (isset($config['parameters']) && isset($config['parameters']['template'])
@@ -64,11 +66,11 @@ class Magento_Widget_Model_Widget_InstanceTest extends PHPUnit_Framework_TestCas
     }
 
     /**
-     * @return Magento_Widget_Model_Widget_Instance
+     * @return \Magento\Widget\Model\Widget\Instance
      */
     public function testGetWidgetSupportedContainers()
     {
-        $this->_model->setType('Magento_Catalog_Block_Product_Widget_New');
+        $this->_model->setType('Magento\Catalog\Block\Product\Widget\NewWidget');
         $containers = $this->_model->getWidgetSupportedContainers();
         $this->assertInternalType('array', $containers);
         $this->assertContains('left', $containers);
@@ -78,7 +80,7 @@ class Magento_Widget_Model_Widget_InstanceTest extends PHPUnit_Framework_TestCas
     }
 
     /**
-     * @param Magento_Widget_Model_Widget_Instance $model
+     * @param \Magento\Widget\Model\Widget\Instance $model
      * @depends testGetWidgetSupportedContainers
      */
     public function testGetWidgetSupportedTemplatesByContainer($model)
@@ -93,10 +95,10 @@ class Magento_Widget_Model_Widget_InstanceTest extends PHPUnit_Framework_TestCas
     }
 
     /**
-     * @param Magento_Widget_Model_Widget_Instance $model
+     * @param \Magento\Widget\Model\Widget\Instance $model
      * @depends testGetWidgetConfigAsArray
      */
-    public function testGenerateLayoutUpdateXml(Magento_Widget_Model_Widget_Instance $model)
+    public function testGenerateLayoutUpdateXml(\Magento\Widget\Model\Widget\Instance $model)
     {
         $params = array(
             'display_mode' => 'fixed',

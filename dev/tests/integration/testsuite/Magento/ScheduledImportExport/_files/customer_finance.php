@@ -10,68 +10,68 @@
  */
 
 // add new website
-/** @var $website Magento_Core_Model_Website */
-$website = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Core_Model_Website');
+/** @var $website \Magento\Core\Model\Website */
+$website = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Core\Model\Website');
 $website->setCode('finance_website')
     ->setName('Finance Website');
 $website->save();
-Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+\Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
     ->reinitStores();
 
 // create test customer
-/** @var $customer Magento_Customer_Model_Customer */
-$customer = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Customer_Model_Customer');
+/** @var $customer \Magento\Customer\Model\Customer */
+$customer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Customer\Model\Customer');
 $customer->addData(array(
     'firstname' => 'Test',
     'lastname' => 'User'
 ));
 $customerEmail = 'customer_finance_test@test.com';
 $registerKey = 'customer_finance_email';
-/** @var $objectManager Magento_TestFramework_ObjectManager */
-$objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-$objectManager->get('Magento_Core_Model_Registry')->unregister($registerKey);
-$objectManager->get('Magento_Core_Model_Registry')->register($registerKey, $customerEmail);
+/** @var $objectManager \Magento\TestFramework\ObjectManager */
+$objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+$objectManager->get('Magento\Core\Model\Registry')->unregister($registerKey);
+$objectManager->get('Magento\Core\Model\Registry')->register($registerKey, $customerEmail);
 $customer->setEmail($customerEmail);
 $customer->setWebsiteId(
-    Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+    \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
         ->getStore()->getWebsiteId()
 );
 $customer->save();
 
 // create store credit and reward points
-/** @var $helper Magento_ScheduledImportExport_Helper_Data */
-$helper = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_ScheduledImportExport_Helper_Data');
+/** @var $helper \Magento\ScheduledImportExport\Helper\Data */
+$helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\ScheduledImportExport\Helper\Data');
 
 // increment to modify balance values
 $increment = 0;
-$websites = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+$websites = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
     ->getWebsites();
-/** @var $website Magento_Core_Model_Website */
+/** @var $website \Magento\Core\Model\Website */
 foreach ($websites as $website) {
     $increment += 10;
 
-    /** @var $customerBalance Magento_CustomerBalance_Model_Balance */
-    $customerBalance = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_CustomerBalance_Model_Balance');
+    /** @var $customerBalance \Magento\CustomerBalance\Model\Balance */
+    $customerBalance = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\CustomerBalance\Model\Balance');
     $customerBalance->setCustomerId($customer->getId());
     $customerBalanceAmount = 50 + $increment;
     $registerKey = 'customer_balance_' . $website->getCode();
-    $objectManager->get('Magento_Core_Model_Registry')->unregister($registerKey);
-    $objectManager->get('Magento_Core_Model_Registry')->register($registerKey, $customerBalanceAmount);
+    $objectManager->get('Magento\Core\Model\Registry')->unregister($registerKey);
+    $objectManager->get('Magento\Core\Model\Registry')->register($registerKey, $customerBalanceAmount);
     $customerBalance->setAmountDelta($customerBalanceAmount);
     $customerBalance->setWebsiteId($website->getId());
     $customerBalance->save();
 
-    /** @var $rewardPoints Magento_Reward_Model_Reward */
-    $rewardPoints = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Reward_Model_Reward');
+    /** @var $rewardPoints \Magento\Reward\Model\Reward */
+    $rewardPoints = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Reward\Model\Reward');
     $rewardPoints->setCustomerId($customer->getId());
     $rewardPointsBalance = 100 + $increment;
     $registerKey = 'reward_point_balance_' . $website->getCode();
-    $objectManager->get('Magento_Core_Model_Registry')->unregister($registerKey);
-    $objectManager->get('Magento_Core_Model_Registry')->register($registerKey, $rewardPointsBalance);
+    $objectManager->get('Magento\Core\Model\Registry')->unregister($registerKey);
+    $objectManager->get('Magento\Core\Model\Registry')->register($registerKey, $rewardPointsBalance);
     $rewardPoints->setPointsBalance($rewardPointsBalance);
     $rewardPoints->setWebsiteId($website->getId());
     $rewardPoints->save();

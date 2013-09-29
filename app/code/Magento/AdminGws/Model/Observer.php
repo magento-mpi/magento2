@@ -7,81 +7,83 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_AdminGws_Model_Observer extends Magento_AdminGws_Model_Observer_Abstract
+namespace Magento\AdminGws\Model;
+
+class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
 {
     const ACL_WEBSITE_LEVEL = 'website';
     const ACL_STORE_LEVEL = 'store';
 
     /**
-     * @var Magento_Core_Model_Resource_Store_Group_Collection
+     * @var \Magento\Core\Model\Resource\Store\Group\Collection
      */
     protected $_storeGroupCollection;
     protected $_callbacks      = array();
     protected $_controllersMap = null;
 
     /**
-     * @var Magento_AdminGws_Model_ConfigInterface
+     * @var \Magento\AdminGws\Model\ConfigInterface
      */
     protected $_config;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Core_Controller_Request_Http
+     * @var \Magento\Core\Controller\Request\Http
      */
     protected $_request;
 
     /**
-     * @var Magento_Backend_Model_Auth_Session
+     * @var \Magento\Backend\Model\Auth\Session
      */
     protected $_backendAuthSession;
 
     /**
-     * @var Magento_Core_Model_System_Store
+     * @var \Magento\Core\Model\System\Store
      */
     protected $_systemStore;
 
     /**
-     * @var Magento_Acl_Builder
+     * @var \Magento\Acl\Builder
      */
     protected $_aclBuilder;
 
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @var Magento_User_Model_Resource_Role_Collection
+     * @var \Magento\User\Model\Resource\Role\Collection
      */
     protected $_userRoles;
 
     /**
-     * @param Magento_Backend_Model_Auth_Session $backendAuthSession
-     * @param Magento_Core_Model_System_Store $systemStore
-     * @param Magento_Acl_Builder $aclBuilder
-     * @param Magento_ObjectManager $objectManager
-     * @param Magento_User_Model_Resource_Role_Collection $userRoles
-     * @param Magento_Core_Model_Resource_Store_Group_Collection $storeGroups
-     * @param Magento_AdminGws_Model_Role $role
-     * @param Magento_AdminGws_Model_ConfigInterface $config
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Controller_Request_Http $request
+     * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
+     * @param \Magento\Core\Model\System\Store $systemStore
+     * @param \Magento\Acl\Builder $aclBuilder
+     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\User\Model\Resource\Role\Collection $userRoles
+     * @param \Magento\Core\Model\Resource\Store\Group\Collection $storeGroups
+     * @param \Magento\AdminGws\Model\Role $role
+     * @param \Magento\AdminGws\Model\ConfigInterface $config
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Controller\Request\Http $request
      */
     public function __construct(
-        Magento_Backend_Model_Auth_Session $backendAuthSession,
-        Magento_Core_Model_System_Store $systemStore,
-        Magento_Acl_Builder $aclBuilder,
-        Magento_ObjectManager $objectManager,
-        Magento_User_Model_Resource_Role_Collection $userRoles,
-        Magento_Core_Model_Resource_Store_Group_Collection $storeGroups,
-        Magento_AdminGws_Model_Role $role,
-        Magento_AdminGws_Model_ConfigInterface $config,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Controller_Request_Http $request
+        \Magento\Backend\Model\Auth\Session $backendAuthSession,
+        \Magento\Core\Model\System\Store $systemStore,
+        \Magento\Acl\Builder $aclBuilder,
+        \Magento\ObjectManager $objectManager,
+        \Magento\User\Model\Resource\Role\Collection $userRoles,
+        \Magento\Core\Model\Resource\Store\Group\Collection $storeGroups,
+        \Magento\AdminGws\Model\Role $role,
+        \Magento\AdminGws\Model\ConfigInterface $config,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Controller\Request\Http $request
     ) {
         $this->_backendAuthSession = $backendAuthSession;
         $this->_systemStore = $systemStore;
@@ -101,8 +103,8 @@ class Magento_AdminGws_Model_Observer extends Magento_AdminGws_Model_Observer_Ab
      * If all permissions are allowed, all possible websites / store groups / stores will be set
      * If only websites selected, all their store groups and stores will be set as well
      *
-     * @param  Magento_Event_Observer $observer
-     * @return Magento_AdminGws_Model_Observer
+     * @param  \Magento\Event\Observer $observer
+     * @return \Magento\AdminGws\Model\Observer
      */
     public function addDataAfterRoleLoad($observer)
     {
@@ -165,7 +167,7 @@ class Magento_AdminGws_Model_Observer extends Magento_AdminGws_Model_Observer_Ab
     /**
      * Get all store groups
      *
-     * @return Magento_Core_Model_Resource_Store_Group_Collection
+     * @return \Magento\Core\Model\Resource\Store\Group\Collection
      */
     protected function _getAllStoreGroups()
     {
@@ -175,8 +177,8 @@ class Magento_AdminGws_Model_Observer extends Magento_AdminGws_Model_Observer_Ab
     /**
      * Transform array of website ids and array of store group ids into comma-separated strings
      *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_AdminGws_Model_Observer
+     * @param \Magento\Event\Observer $observer
+     * @return \Magento\AdminGws\Model\Observer
      */
     public function setDataBeforeRoleSave($observer)
     {
@@ -186,13 +188,13 @@ class Magento_AdminGws_Model_Observer extends Magento_AdminGws_Model_Observer_Ab
 
         // validate specified data
         if ($object->getGwsIsAll() === 0 && empty($websiteIds) && empty($storeGroupIds)) {
-            throw new Magento_Core_Exception(
+            throw new \Magento\Core\Exception(
                 __('Please specify at least one website or one store group.')
             );
         }
         if (!$this->_role->getIsAll()) {
             if ($object->getGwsIsAll()) {
-                throw new Magento_Core_Exception(
+                throw new \Magento\Core\Exception(
                     __('You need more permissions to set All Scopes to a Role.')
                 );
             }
@@ -207,12 +209,12 @@ class Magento_AdminGws_Model_Observer extends Magento_AdminGws_Model_Observer_Ab
             $allWebsiteIds = array_keys($this->_storeManager->getWebsites());
             foreach ($websiteIds as $websiteId) {
                 if (!in_array($websiteId, $allWebsiteIds)) {
-                    throw new Magento_Core_Exception(__('Incorrect website ID: %1', $websiteId));
+                    throw new \Magento\Core\Exception(__('Incorrect website ID: %1', $websiteId));
                 }
                 // prevent granting disallowed websites
                 if (!$this->_role->getIsAll()) {
                     if (!$this->_role->hasWebsiteAccess($websiteId, true)) {
-                        throw new Magento_Core_Exception(
+                        throw new \Magento\Core\Exception(
                             __('You need more permissions to access website "%1".', $this->_storeManager->getWebsite($websiteId)->getName())
                         );
                     }
@@ -231,11 +233,11 @@ class Magento_AdminGws_Model_Observer extends Magento_AdminGws_Model_Observer_Ab
             }
             foreach ($storeGroupIds as $storeGroupId) {
                 if (!array($storeGroupId, $allStoreGroups)) {
-                    throw new Magento_Core_Exception(__('Incorrect store ID: %1', $storeGroupId));
+                    throw new \Magento\Core\Exception(__('Incorrect store ID: %1', $storeGroupId));
                 }
                 // prevent granting disallowed store group
                 if (count(array_diff($storeGroupIds, $this->_role->getStoreGroupIds()))) {
-                    throw new Magento_Core_Exception(
+                    throw new \Magento\Core\Exception(
                         __('You need more permissions to save this setting.')
                     );
                 }
@@ -251,8 +253,8 @@ class Magento_AdminGws_Model_Observer extends Magento_AdminGws_Model_Observer_Ab
     /**
      * Prepare role object permissions data before saving
      *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_AdminGws_Model_Observer
+     * @param \Magento\Event\Observer $observer
+     * @return \Magento\AdminGws\Model\Observer
      */
     public function prepareRoleSave($observer)
     {
@@ -273,7 +275,7 @@ class Magento_AdminGws_Model_Observer extends Magento_AdminGws_Model_Observer_Ab
     /**
      * Copy permission scopes to new specified website
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
     public function copyWebsiteCopyPermissions($observer)
     {
@@ -298,7 +300,7 @@ class Magento_AdminGws_Model_Observer extends Magento_AdminGws_Model_Observer_Ab
     /**
      * Reinit stores only with allowed scopes
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
     public function adminControllerPredispatch($observer)
     {
@@ -330,8 +332,8 @@ class Magento_AdminGws_Model_Observer extends Magento_AdminGws_Model_Observer_Ab
     /**
      * Check access to massaction status block
      *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_AdminGws_Model_Observer
+     * @param \Magento\Event\Observer $observer
+     * @return \Magento\AdminGws\Model\Observer
      */
     public function catalogProductPrepareMassAction($observer)
     {
@@ -339,7 +341,7 @@ class Magento_AdminGws_Model_Observer extends Magento_AdminGws_Model_Observer_Ab
             return $this;
         }
 
-        $storeId = $this->_request->getParam('store', Magento_Core_Model_AppInterface::ADMIN_STORE_ID);
+        $storeId = $this->_request->getParam('store', \Magento\Core\Model\AppInterface::ADMIN_STORE_ID);
         if ($this->_role->hasStoreAccess($storeId)) {
             return $this;
         }
@@ -355,7 +357,7 @@ class Magento_AdminGws_Model_Observer extends Magento_AdminGws_Model_Observer_Ab
      * Deny acl level rules.
      *
      * @param string $level
-     * @return Magento_AdminGws_Model_Observer
+     * @return \Magento\AdminGws\Model\Observer
      */
     protected function _denyAclLevelRules($level)
     {
@@ -368,7 +370,7 @@ class Magento_AdminGws_Model_Observer extends Magento_AdminGws_Model_Observer_Ab
     /**
      * Limit a collection
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
     public function limitCollection($observer)
     {
@@ -379,7 +381,7 @@ class Magento_AdminGws_Model_Observer extends Magento_AdminGws_Model_Observer_Ab
         if (!$callback = $this->_pickCallback('collection_load_before', $collection)) {
             return;
         }
-        $this->_invokeCallback($callback, 'Magento_AdminGws_Model_Collections', $collection);
+        $this->_invokeCallback($callback, 'Magento\AdminGws\Model\Collections', $collection);
     }
 
     /**
@@ -396,13 +398,13 @@ class Magento_AdminGws_Model_Observer extends Magento_AdminGws_Model_Observer_Ab
         if (!$callback = $this->_pickCallback('model_save_before', $model)) {
             return;
         }
-        $this->_invokeCallback($callback, 'Magento_AdminGws_Model_Models', $model);
+        $this->_invokeCallback($callback, 'Magento\AdminGws\Model\Models', $model);
     }
 
     /**
      * Initialize a model after loading it
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return void
      */
     public function validateModelLoadAfter($observer)
@@ -414,13 +416,13 @@ class Magento_AdminGws_Model_Observer extends Magento_AdminGws_Model_Observer_Ab
         if (!$callback = $this->_pickCallback('model_load_after', $model)) {
             return;
         }
-        $this->_invokeCallback($callback, 'Magento_AdminGws_Model_Models', $model);
+        $this->_invokeCallback($callback, 'Magento\AdminGws\Model\Models', $model);
     }
 
     /**
      * Validate a model before delete
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return void
      */
     public function validateModelDeleteBefore($observer)
@@ -433,13 +435,13 @@ class Magento_AdminGws_Model_Observer extends Magento_AdminGws_Model_Observer_Ab
         if (!$callback = $this->_pickCallback('model_delete_before', $model)) {
             return;
         }
-        $this->_invokeCallback($callback, 'Magento_AdminGws_Model_Models', $model);
+        $this->_invokeCallback($callback, 'Magento\AdminGws\Model\Models', $model);
     }
 
     /**
      * Validate page by current request (module, controller, action)
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
     public function validateControllerPredispatch($observer)
     {
@@ -479,7 +481,7 @@ class Magento_AdminGws_Model_Observer extends Magento_AdminGws_Model_Observer_Ab
         if ($callback) {
             $this->_invokeCallback(
                 $callback,
-                'Magento_AdminGws_Model_Controllers',
+                'Magento\AdminGws\Model\Controllers',
                 $observer->getEvent()->getControllerAction()
             );
         }
@@ -488,7 +490,7 @@ class Magento_AdminGws_Model_Observer extends Magento_AdminGws_Model_Observer_Ab
     /**
      * Apply restrictions to misc blocks before html
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
     public function restrictBlocks($observer)
     {
@@ -502,7 +504,7 @@ class Magento_AdminGws_Model_Observer extends Magento_AdminGws_Model_Observer_Ab
             return;
         }
         /* the $observer is used intentionally */
-        $this->_invokeCallback($callback, 'Magento_AdminGws_Model_Blocks', $observer);
+        $this->_invokeCallback($callback, 'Magento\AdminGws\Model\Blocks', $observer);
     }
 
     /**
@@ -537,6 +539,7 @@ class Magento_AdminGws_Model_Observer extends Magento_AdminGws_Model_Observer_Ab
                  */
                 //if (class_exists($className, false)) {
                 if ($className) {
+                    $className = str_replace('_', '\\', $className);
                     $this->_callbacks[$callbackGroup][$className] = $this->_recognizeCallbackString($callback);
                 }
                 //}

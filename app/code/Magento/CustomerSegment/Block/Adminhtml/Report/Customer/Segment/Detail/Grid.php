@@ -15,13 +15,15 @@
  * @package    Magento_CustomerSegment
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Detail_Grid
-    extends Magento_Backend_Block_Widget_Grid
+namespace Magento\CustomerSegment\Block\Adminhtml\Report\Customer\Segment\Detail;
+
+class Grid
+    extends \Magento\Backend\Block\Widget\Grid
 {
     /**
      * Instantiate collection and set required data joins
      *
-     * @return Magento_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Detail_Grid
+     * @return \Magento\CustomerSegment\Block\Adminhtml\Report\Customer\Segment\Detail\Grid
      */
     protected function _prepareCollection()
     {

@@ -16,7 +16,9 @@
  * @package     Magento_CatalogSearch
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CatalogSearch_Model_Resource_Indexer_Fulltext extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\CatalogSearch\Model\Resource\Indexer;
+
+class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Initialize connection and define catalog product table as main table

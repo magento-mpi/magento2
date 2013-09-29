@@ -8,10 +8,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\Sales\Block\Recurring\Profile\View;
+
 /**
  * Recurring profile view reference
  */
-class Magento_Sales_Block_Recurring_Profile_View_Reference extends Magento_Sales_Block_Recurring_Profile_View
+class Reference extends \Magento\Sales\Block\Recurring\Profile\View
 {
     /**
      * Prepare reference info

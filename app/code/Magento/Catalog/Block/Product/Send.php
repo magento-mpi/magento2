@@ -16,7 +16,9 @@
  * @package    Magento_Catalog
  * @module     Catalog
  */
-class Magento_Catalog_Block_Product_Send extends Magento_Catalog_Block_Product_Abstract
+namespace Magento\Catalog\Block\Product;
+
+class Send extends \Magento\Catalog\Block\Product\AbstractProduct
 {
     /**
      * Retrieve username for form field
@@ -25,12 +27,12 @@ class Magento_Catalog_Block_Product_Send extends Magento_Catalog_Block_Product_A
      */
     public function getUserName()
     {
-        return Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer()->getName();
+        return \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomer()->getName();
     }
 
     public function getEmail()
     {
-        return (string)Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer()->getEmail();
+        return (string)\Mage::getSingleton('Magento\Customer\Model\Session')->getCustomer()->getEmail();
     }
 
     public function getProductId()

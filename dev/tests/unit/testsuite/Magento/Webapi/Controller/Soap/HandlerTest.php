@@ -1,30 +1,32 @@
 <?php
 /**
- * Test for Magento_Webapi_Controller_Soap_Handler.
+ * Test for \Magento\Webapi\Controller\Soap\Handler.
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Controller_Soap_HandlerTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webapi\Controller\Soap;
+
+class HandlerTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var Magento_Webapi_Controller_Soap_Handler */
+    /** @var \Magento\Webapi\Controller\Soap\Handler */
     protected $_handler;
 
-    /** @var Magento_Core_Model_App */
+    /** @var \Magento\Core\Model\App */
     protected $_appMock;
 
-    /** @var Magento_ObjectManager */
+    /** @var \Magento\ObjectManager */
     protected $_objectManagerMock;
 
-    /** @var Magento_Webapi_Controller_Soap_Security */
+    /** @var \Magento\Webapi\Controller\Soap\Security */
     protected $_soapSecurityMock;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_apiConfigMock;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_requestMock;
 
     /** @var array */
@@ -34,7 +36,7 @@ class Magento_Webapi_Controller_Soap_HandlerTest extends PHPUnit_Framework_TestC
     {
         $this->markTestIncomplete("Needs to be fixed after service layer implementation.");
         /** Prepare mocks for SUT constructor. */
-        $this->_apiConfigMock = $this->getMockBuilder('Magento_Webapi_Model_Soap_Config')
+        $this->_apiConfigMock = $this->getMockBuilder('Magento\Webapi\Model\Soap\Config')
             ->setMethods(
                 array(
                     'getServiceNameByOperation',
@@ -43,19 +45,19 @@ class Magento_Webapi_Controller_Soap_HandlerTest extends PHPUnit_Framework_TestC
                 )
             )->disableOriginalConstructor()
             ->getMock();
-        $this->_requestMock = $this->getMockBuilder('Magento_Webapi_Controller_Soap_Request')
+        $this->_requestMock = $this->getMockBuilder('Magento\Webapi\Controller\Soap\Request')
             ->setMethods(array('getRequestedServices'))
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_appMock = $this->getMockBuilder('Magento_Core_Model_App')->disableOriginalConstructor()->getMock();
-        $this->_objectManagerMock = $this->getMockBuilder('Magento_ObjectManager')->disableOriginalConstructor()
+        $this->_appMock = $this->getMockBuilder('Magento\Core\Model\App')->disableOriginalConstructor()->getMock();
+        $this->_objectManagerMock = $this->getMockBuilder('Magento\ObjectManager')->disableOriginalConstructor()
             ->getMock();
 
-        $this->_soapSecurityMock = $this->getMockBuilder('Magento_Webapi_Controller_Soap_Security')
+        $this->_soapSecurityMock = $this->getMockBuilder('Magento\Webapi\Controller\Soap\Security')
             ->disableOriginalConstructor()->getMock();
         /** Initialize SUT. */
-        $this->_handler = new Magento_Webapi_Controller_Soap_Handler(
+        $this->_handler = new \Magento\Webapi\Controller\Soap\Handler(
             $this->_appMock,
             $this->_requestMock,
             $this->_objectManagerMock,
@@ -78,7 +80,7 @@ class Magento_Webapi_Controller_Soap_HandlerTest extends PHPUnit_Framework_TestC
         /** Prepare mocks for SUT constructor. */
         $this->_handler->setRequestHeaders(array('invalidHeader'));
         $this->setExpectedException(
-            'Magento_Webapi_Model_Soap_Fault',
+            'Magento\Webapi\Model\Soap\Fault',
             'WS-Security UsernameToken is not found in SOAP-request.'
         );
         /** Execute SUT. */
@@ -100,7 +102,7 @@ class Magento_Webapi_Controller_Soap_HandlerTest extends PHPUnit_Framework_TestC
             ->method('getServiceNameByOperation')
             ->will($this->returnValueMap($getServiceValueMap));
         $this->setExpectedException(
-            'Magento_Webapi_Model_Soap_Fault',
+            'Magento\Webapi\Model\Soap\Fault',
             'Method "operation" is not found.'
         );
         /** Execute SUT. */
@@ -118,7 +120,7 @@ class Magento_Webapi_Controller_Soap_HandlerTest extends PHPUnit_Framework_TestC
             ->method('getServiceNameByOperation')
             ->will($this->returnValue(false));
         $this->setExpectedException(
-            'Magento_Webapi_Model_Soap_Fault',
+            'Magento\Webapi\Model\Soap\Fault',
             'The version of "operationName" operation cannot be identified.'
         );
         /** Execute SUT. */
@@ -147,8 +149,8 @@ class Magento_Webapi_Controller_Soap_HandlerTest extends PHPUnit_Framework_TestC
         $this->_apiConfigMock->expects($this->once())
             ->method('getControllerClassByOperationName')
             ->with($operation)
-            ->will($this->returnValue('Vendor_Module_Controller_Webapi_Resource'));
-        $controllerMock = $this->getMockBuilder('Vendor_Module_Controller_Webapi_Resource')
+            ->will($this->returnValue('Vendor\Module\Controller\Webapi\Resource'));
+        $controllerMock = $this->getMockBuilder('Vendor\Module\Controller\Webapi\Resource')
             ->disableOriginalConstructor()
             ->setMethods(array($action))
             ->getMock();
@@ -173,7 +175,7 @@ class Magento_Webapi_Controller_Soap_HandlerTest extends PHPUnit_Framework_TestC
 
         /** Execute SUT. */
         $this->assertEquals(
-            (object)array(Magento_Webapi_Controller_Soap_Handler::RESULT_NODE_NAME => $expectedResult),
+            (object)array(\Magento\Webapi\Controller\Soap\Handler::RESULT_NODE_NAME => $expectedResult),
             $this->_handler->__call($operation, $this->_arguments)
         );
     }
@@ -184,22 +186,22 @@ class Magento_Webapi_Controller_Soap_HandlerTest extends PHPUnit_Framework_TestC
     protected function _prepareSoapRequest()
     {
         /** Process security header by __call() method. */
-        $this->_handler->setRequestHeaders(array(Magento_Webapi_Controller_Soap_Security::HEADER_SECURITY));
-        $usernameToken = new stdClass();
+        $this->_handler->setRequestHeaders(array(\Magento\Webapi\Controller\Soap\Security::HEADER_SECURITY));
+        $usernameToken = new \stdClass();
         // @codingStandardsIgnoreStart
-        $usernameToken->UsernameToken = new stdClass();
+        $usernameToken->UsernameToken = new \stdClass();
         $usernameToken->UsernameToken->Username = 'username';
         $usernameToken->UsernameToken->Password = 'password';
         $usernameToken->UsernameToken->Nonce = 'nonce';
         $usernameToken->UsernameToken->Created = 'created';
         // @codingStandardsIgnoreEnd
         $this->_handler->__call(
-            Magento_Webapi_Controller_Soap_Security::HEADER_SECURITY,
+            \Magento\Webapi\Controller\Soap\Security::HEADER_SECURITY,
             array($usernameToken)
         );
 
         /** Override arguments for process action header. */
-        $request = new stdClass();
+        $request = new \stdClass();
         $request->customerId = 1;
         $this->_arguments = array($request);
     }

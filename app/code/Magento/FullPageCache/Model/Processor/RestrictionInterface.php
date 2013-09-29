@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-interface Magento_FullPageCache_Model_Processor_RestrictionInterface
+namespace Magento\FullPageCache\Model\Processor;
+
+interface RestrictionInterface
 {
     /**
      * Cookie key name for disabling FPC

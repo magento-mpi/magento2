@@ -16,7 +16,9 @@
  * @package    Magento_Persistent
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Persistent_Helper_Data extends Magento_Core_Helper_Data
+namespace Magento\Persistent\Helper;
+
+class Data extends \Magento\Core\Helper\Data
 {
     const XML_PATH_ENABLED = 'persistent/options/enabled';
     const XML_PATH_LIFE_TIME = 'persistent/options/lifetime';
@@ -35,45 +37,45 @@ class Magento_Persistent_Helper_Data extends Magento_Core_Helper_Data
     /**
      * Persistent session
      *
-     * @var Magento_Persistent_Helper_Session
+     * @var \Magento\Persistent\Helper\Session
      */
     protected $_persistentSession = null;
 
     /**
      * Checkout data
      *
-     * @var Magento_Checkout_Helper_Data
+     * @var \Magento\Checkout\Helper\Data
      */
     protected $_checkoutData = null;
 
     /**
      * Core url
      *
-     * @var Magento_Core_Helper_Url
+     * @var \Magento\Core\Helper\Url
      */
     protected $_coreUrl = null;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Helper_Url $coreUrl
-     * @param Magento_Checkout_Helper_Data $checkoutData
-     * @param Magento_Persistent_Helper_Session $persistentSession
-     * @param Magento_Core_Helper_Http $coreHttp
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_Config $config
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_Encryption $encryptor
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Helper\Url $coreUrl
+     * @param \Magento\Checkout\Helper\Data $checkoutData
+     * @param \Magento\Persistent\Helper\Session $persistentSession
+     * @param \Magento\Core\Helper\Http $coreHttp
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\Encryption $encryptor
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Helper_Url $coreUrl,
-        Magento_Checkout_Helper_Data $checkoutData,
-        Magento_Persistent_Helper_Session $persistentSession,
-        Magento_Core_Helper_Http $coreHttp,
-        Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Config $config,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_Encryption $encryptor
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Helper\Url $coreUrl,
+        \Magento\Checkout\Helper\Data $checkoutData,
+        \Magento\Persistent\Helper\Session $persistentSession,
+        \Magento\Core\Helper\Http $coreHttp,
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\Config $config,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\Encryption $encryptor
     ) {
         $this->_coreUrl = $coreUrl;
         $this->_checkoutData = $checkoutData;
@@ -84,7 +86,7 @@ class Magento_Persistent_Helper_Data extends Magento_Core_Helper_Data
     /**
      * Checks whether Persistence Functionality is enabled
      *
-     * @param int|string|Magento_Core_Model_Store $store
+     * @param int|string|\Magento\Core\Model\Store $store
      * @return bool
      */
     public function isEnabled($store = null)
@@ -95,7 +97,7 @@ class Magento_Persistent_Helper_Data extends Magento_Core_Helper_Data
     /**
      * Checks whether "Remember Me" enabled
      *
-     * @param int|string|Magento_Core_Model_Store $store
+     * @param int|string|\Magento\Core\Model\Store $store
      * @return bool
      */
     public function isRememberMeEnabled($store = null)
@@ -106,7 +108,7 @@ class Magento_Persistent_Helper_Data extends Magento_Core_Helper_Data
     /**
      * Is "Remember Me" checked by default
      *
-     * @param int|string|Magento_Core_Model_Store $store
+     * @param int|string|\Magento\Core\Model\Store $store
      * @return bool
      */
     public function isRememberMeCheckedDefault($store = null)
@@ -117,7 +119,7 @@ class Magento_Persistent_Helper_Data extends Magento_Core_Helper_Data
     /**
      * Is shopping cart persist
      *
-     * @param int|string|Magento_Core_Model_Store $store
+     * @param int|string|\Magento\Core\Model\Store $store
      * @return bool
      */
     public function isShoppingCartPersist($store = null)
@@ -128,7 +130,7 @@ class Magento_Persistent_Helper_Data extends Magento_Core_Helper_Data
     /**
      * Get Persistence Lifetime
      *
-     * @param int|string|Magento_Core_Model_Store $store
+     * @param int|string|\Magento\Core\Model\Store $store
      * @return int
      */
     public function getLifeTime($store = null)
@@ -180,7 +182,7 @@ class Magento_Persistent_Helper_Data extends Magento_Core_Helper_Data
     /**
      * Check whether specified action should be processed
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return bool
      */
     public function canProcess($observer)
@@ -188,11 +190,11 @@ class Magento_Persistent_Helper_Data extends Magento_Core_Helper_Data
         $action = $observer->getEvent()->getAction();
         $controllerAction = $observer->getEvent()->getControllerAction();
 
-        if ($action instanceof Magento_Core_Controller_Varien_Action) {
-            return !$action->getFlag('', Magento_Core_Controller_Varien_Action::FLAG_NO_START_SESSION);
+        if ($action instanceof \Magento\Core\Controller\Varien\Action) {
+            return !$action->getFlag('', \Magento\Core\Controller\Varien\Action::FLAG_NO_START_SESSION);
         }
-        if ($controllerAction instanceof Magento_Core_Controller_Varien_Action) {
-            return !$controllerAction->getFlag('', Magento_Core_Controller_Varien_Action::FLAG_NO_START_SESSION);
+        if ($controllerAction instanceof \Magento\Core\Controller\Varien\Action) {
+            return !$controllerAction->getFlag('', \Magento\Core\Controller\Varien\Action::FLAG_NO_START_SESSION);
         }
         return true;
     }

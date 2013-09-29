@@ -8,15 +8,17 @@
  * @license     {license_link}
  */
 
+namespace Magento\Backend\Model\Config\Backend;
+
 /**
  * System config file field backend model
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Magento_Backend_Model_Config_Backend_File extends Magento_Core_Model_Config_Value
+class File extends \Magento\Core\Model\Config\Value
 {
     /**
-     * @var Magento_Backend_Model_Config_Backend_File_RequestData_Interface
+     * @var \Magento\Backend\Model\Config\Backend\File\RequestData\RequestDataInterface
      */
     protected $_requestData;
 
@@ -28,39 +30,39 @@ class Magento_Backend_Model_Config_Backend_File extends Magento_Core_Model_Confi
     protected $_maxFileSize = 0;
 
     /**
-     * @var Magento_Filesystem
+     * @var \Magento\Filesystem
      */
     protected $_filesystem;
 
     /**
-     * @var Magento_Core_Model_File_UploaderFactory
+     * @var \Magento\Core\Model\File\UploaderFactory
      */
     protected $_uploaderFactory;
 
     /**
-     * @param Magento_Core_Model_File_UploaderFactory $uploaderFactory
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Core_Model_Config $config
-     * @param Magento_Backend_Model_Config_Backend_File_RequestData_Interface $requestData
-     * @param Magento_Filesystem $filesystem
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Core\Model\File\UploaderFactory $uploaderFactory
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Backend\Model\Config\Backend\File\RequestData_Interface $requestData
+     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Magento_Core_Model_File_UploaderFactory $uploaderFactory,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_StoreManager $storeManager,
-        Magento_Core_Model_Config $config,
-        Magento_Backend_Model_Config_Backend_File_RequestData_Interface $requestData,
-        Magento_Filesystem $filesystem,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Core\Model\File\UploaderFactory $uploaderFactory,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\Config $config,
+        \Magento\Backend\Model\Config\Backend\File\RequestData\RequestDataInterface $requestData,
+        \Magento\Filesystem $filesystem,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_uploaderFactory = $uploaderFactory;
@@ -80,7 +82,7 @@ class Magento_Backend_Model_Config_Backend_File extends Magento_Core_Model_Confi
     /**
      * Save uploaded file before saving config value
      *
-     * @return Magento_Backend_Model_Config_Backend_File
+     * @return \Magento\Backend\Model\Config\Backend\File
      */
     protected function _beforeSave()
     {
@@ -104,8 +106,8 @@ class Magento_Backend_Model_Config_Backend_File extends Magento_Core_Model_Confi
                 $uploader->addValidateCallback('size', $this, 'validateMaxSize');
                 $result = $uploader->save($uploadDir);
 
-            } catch (Exception $e) {
-                Mage::throwException($e->getMessage());
+            } catch (\Exception $e) {
+                \Mage::throwException($e->getMessage());
                 return $this;
             }
 
@@ -131,13 +133,13 @@ class Magento_Backend_Model_Config_Backend_File extends Magento_Core_Model_Confi
      * Validation callback for checking max file size
      *
      * @param  string $filePath Path to temporary uploaded file
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     public function validateMaxSize($filePath)
     {
         if ($this->_maxFileSize > 0
             && $this->_filesystem->getFileSize($filePath, dirname($filePath)) > ($this->_maxFileSize * 1024)) {
-            throw Mage::exception(
+            throw \Mage::exception(
                 'Magento_Core', __('The file you\'re uploading exceeds the server size limit of %1 kilobytes.',
                          $this->_maxFileSize)
             );
@@ -160,15 +162,15 @@ class Magento_Backend_Model_Config_Backend_File extends Magento_Core_Model_Confi
      * Return path to directory for upload file
      *
      * @return string
-     * @throw Magento_Core_Exception
+     * @throw \Magento\Core\Exception
      */
     protected function _getUploadDir()
     {
         $fieldConfig = $this->getFieldConfig();
-        /* @var $fieldConfig Magento_Simplexml_Element */
+        /* @var $fieldConfig \Magento\Simplexml\Element */
 
         if (!array_key_exists('upload_dir', $fieldConfig)) {
-            Mage::throwException(
+            \Mage::throwException(
                 __('The base directory to upload file is not specified.')
             );
         }
@@ -201,7 +203,7 @@ class Magento_Backend_Model_Config_Backend_File extends Magento_Core_Model_Confi
      */
     protected function _getUploadRoot($token)
     {
-        return Mage::getBaseDir('media');
+        return \Mage::getBaseDir('media');
     }
 
     /**

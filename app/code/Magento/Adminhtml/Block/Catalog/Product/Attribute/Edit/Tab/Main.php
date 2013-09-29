@@ -15,21 +15,22 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main
-    extends Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract
+namespace Magento\Adminhtml\Block\Catalog\Product\Attribute\Edit\Tab;
+
+class Main extends \Magento\Eav\Block\Adminhtml\Attribute\Edit\Main\AbstractMain
 {
     /**
      * Adding product form elements for editing attribute
      *
-     * @return Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main
+     * @return \Magento\Adminhtml\Block\Catalog\Product\Attribute\Edit\Tab\Main
      */
     protected function _prepareForm()
     {
         parent::_prepareForm();
         $attributeObject = $this->getAttributeObject();
-        /* @var $form Magento_Data_Form */
+        /* @var $form \Magento\Data\Form */
         $form = $this->getForm();
-        /* @var $fieldset Magento_Data_Form_Element_Fieldset */
+        /* @var $fieldset \Magento\Data\Form\Element\Fieldset */
         $fieldset = $form->getElement('base_fieldset');
         $fiedsToRemove = array(
             'attribute_code',
@@ -38,7 +39,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main
         );
 
         foreach ($fieldset->getElements() as $element) {
-            /** @var Magento_Data_Form_Abstract $element  */
+            /** @var \Magento\Data\Form\AbstractForm $element  */
             if (substr($element->getId(), 0, strlen('default_value')) == 'default_value') {
                 $fiedsToRemove[] = $element->getId();
             }
@@ -65,7 +66,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main
             );
         }
 
-        $response = new Magento_Object();
+        $response = new \Magento\Object();
         $response->setTypes(array());
         $this->_eventManager->dispatch('adminhtml_product_attribute_types', array('response'=>$response));
         $_disabledTypes = array();
@@ -101,6 +102,6 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main
      */
     protected function _getAdditionalElementTypes()
     {
-        return array('apply' => 'Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Apply');
+        return array('apply' => 'Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Apply');
     }
 }

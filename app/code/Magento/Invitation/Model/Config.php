@@ -14,7 +14,9 @@
  * @category   Magento
  * @package    Magento_Invitation
  */
-class Magento_Invitation_Model_Config
+namespace Magento\Invitation\Model;
+
+class Config
 {
     const XML_PATH_ENABLED = 'magento_invitation/general/enabled';
     const XML_PATH_ENABLED_ON_FRONT = 'magento_invitation/general/enabled_on_front';
@@ -28,15 +30,15 @@ class Magento_Invitation_Model_Config
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      */
     public function __construct(
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        \Magento\Core\Model\Store\Config $coreStoreConfig
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
     }

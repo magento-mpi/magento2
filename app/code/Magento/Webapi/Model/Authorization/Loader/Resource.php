@@ -7,19 +7,20 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Webapi\Model\Authorization\Loader;
 
 /**
- * Class Magento_Webapi_Model_Authorization_Loader_Resource
+ * Class \Magento\Webapi\Model\Authorization\Loader\Resource
  */
-class Magento_Webapi_Model_Authorization_Loader_Resource extends Magento_Acl_Loader_Resource
+class Resource extends \Magento\Acl\Loader\Resource
 {
     /**
-     * @param Magento_Webapi_Model_Acl_Resource_ProviderInterface $resourceProvider
-     * @param Magento_Acl_ResourceFactory $resourceFactory
+     * @param \Magento\Webapi\Model\Acl\Resource\ProviderInterface $resourceProvider
+     * @param \Magento\Acl\ResourceFactory $resourceFactory
      */
     public function __construct(
-        Magento_Webapi_Model_Acl_Resource_ProviderInterface $resourceProvider,
-        Magento_Acl_ResourceFactory $resourceFactory
+        \Magento\Webapi\Model\Acl\Resource\ProviderInterface $resourceProvider,
+        \Magento\Acl\ResourceFactory $resourceFactory
     ) {
         parent::__construct($resourceProvider, $resourceFactory);
     }
@@ -27,9 +28,9 @@ class Magento_Webapi_Model_Authorization_Loader_Resource extends Magento_Acl_Loa
     /**
      * Deny each resource for all roles.
      *
-     * @param Magento_Acl $acl
+     * @param \Magento\Acl $acl
      */
-    protected function _denyResources(Magento_Acl $acl)
+    protected function _denyResources(\Magento\Acl $acl)
     {
         foreach ($acl->getResources() as $aclResource) {
             $acl->deny(null, $aclResource);
@@ -39,16 +40,16 @@ class Magento_Webapi_Model_Authorization_Loader_Resource extends Magento_Acl_Loa
     /**
      * Load virtual resources as sub-resources of existing one.
      *
-     * @param Magento_Acl $acl
+     * @param \Magento\Acl $acl
      */
-    protected function _loadVirtualResources(Magento_Acl $acl)
+    protected function _loadVirtualResources(\Magento\Acl $acl)
     {
         $virtualResources = $this->_resourceProvider->getAclVirtualResources();
         foreach ($virtualResources as $virtualResource) {
             $resourceParent = $virtualResource['parent'];
             $resourceId = $virtualResource['id'];
             if ($acl->has($resourceParent) && !$acl->has($resourceId)) {
-                /** @var $resource Magento_Acl_Resource */
+                /** @var $resource \Magento\Acl\Resource */
                 $resource = $this->_resourceFactory->createResource(array('resourceId' => $resourceId));
                 $acl->addResource($resource, $resourceParent);
             }
@@ -58,10 +59,10 @@ class Magento_Webapi_Model_Authorization_Loader_Resource extends Magento_Acl_Loa
     /**
      * Populate ACL with resources from external storage.
      *
-     * @param Magento_Acl $acl
-     * @throws Magento_Core_Exception
+     * @param \Magento\Acl $acl
+     * @throws \Magento\Core\Exception
      */
-    public function populateAcl(Magento_Acl $acl)
+    public function populateAcl(\Magento\Acl $acl)
     {
         parent::populateAcl($acl);
         $this->_denyResources($acl);

@@ -9,15 +9,17 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Resource_Theme_CollectionTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Resource\Theme;
+
+class CollectionTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @return Magento_Core_Model_Resource_Theme_Collection
+     * @return \Magento\Core\Model\Resource\Theme\Collection
      */
     protected static function _getThemesCollection()
     {
-        return  Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_Resource_Theme_Collection');
+        return  \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Resource\Theme\Collection');
     }
 
     /**
@@ -48,7 +50,7 @@ class Magento_Core_Model_Resource_Theme_CollectionTest extends PHPUnit_Framework
     {
         $themeCollection = self::_getThemesCollection();
         $hasFound = false;
-        /** @var $theme Magento_Core_Model_Theme */
+        /** @var $theme \Magento\Core\Model\Theme */
         foreach ($themeCollection as $theme) {
             if ($theme->getFullPath() == $fullPath) {
                 $hasFound = true;
@@ -80,13 +82,13 @@ class Magento_Core_Model_Resource_Theme_CollectionTest extends PHPUnit_Framework
      * @magentoDataFixture setThemeFixture
      * @magentoDbIsolation enabled
      * @dataProvider addAreaFilterDataProvider
-     * @covers Magento_Core_Model_Theme::addAreaFilter
+     * @covers \Magento\Core\Model\Theme::addAreaFilter
      */
     public function testAddAreaFilter($area, $themeCount)
     {
-        /** @var $themeCollection Magento_Core_Model_Resource_Theme_Collection */
-        $themeCollection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_Resource_Theme_Collection');
+        /** @var $themeCollection \Magento\Core\Model\Resource\Theme\Collection */
+        $themeCollection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Resource\Theme\Collection');
         $themeCollection->addAreaFilter($area);
         $this->assertCount($themeCount, $themeCollection);
     }
@@ -107,13 +109,13 @@ class Magento_Core_Model_Resource_Theme_CollectionTest extends PHPUnit_Framework
      * @magentoDataFixture setThemeFixture
      * @magentoDbIsolation enabled
      * @dataProvider addTypeFilterDataProvider
-     * @covers Magento_Core_Model_Theme::addTypeFilter
+     * @covers \Magento\Core\Model\Theme::addTypeFilter
      */
     public function testAddTypeFilter($themeType, $themeCount)
     {
-        /** @var $themeCollection Magento_Core_Model_Resource_Theme_Collection */
-        $themeCollection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_Resource_Theme_Collection');
+        /** @var $themeCollection \Magento\Core\Model\Resource\Theme\Collection */
+        $themeCollection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Resource\Theme\Collection');
         $themeCollection->addAreaFilter('test_area3');
         if ($themeType !== false) {
             $themeCollection->addTypeFilter($themeType);
@@ -127,9 +129,9 @@ class Magento_Core_Model_Resource_Theme_CollectionTest extends PHPUnit_Framework
     public function addTypeFilterDataProvider()
     {
         return array(
-            array('themeType' => Magento_Core_Model_Theme::TYPE_PHYSICAL, 'themeCount' => 1),
-            array('themeType' => Magento_Core_Model_Theme::TYPE_VIRTUAL, 'themeCount' => 1),
-            array('themeType' => Magento_Core_Model_Theme::TYPE_STAGING, 'themeCount' => 1),
+            array('themeType' => \Magento\Core\Model\Theme::TYPE_PHYSICAL, 'themeCount' => 1),
+            array('themeType' => \Magento\Core\Model\Theme::TYPE_VIRTUAL, 'themeCount' => 1),
+            array('themeType' => \Magento\Core\Model\Theme::TYPE_STAGING, 'themeCount' => 1),
             array('themeType' => false, 'themeCount' => 3)
         );
     }
@@ -137,20 +139,20 @@ class Magento_Core_Model_Resource_Theme_CollectionTest extends PHPUnit_Framework
     /**
      * @magentoDataFixture setThemeFixture
      * @magentoDbIsolation enabled
-     * @covers Magento_Core_Model_Theme::filterVisibleThemes
+     * @covers \Magento\Core\Model\Theme::filterVisibleThemes
      */
     public function testFilterVisibleThemes()
     {
-        /** @var $themeCollection Magento_Core_Model_Resource_Theme_Collection */
-        $themeCollection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_Resource_Theme_Collection');
+        /** @var $themeCollection \Magento\Core\Model\Resource\Theme\Collection */
+        $themeCollection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Resource\Theme\Collection');
         $themeCollection->addAreaFilter('test_area3')->filterVisibleThemes();
         $this->assertCount(2, $themeCollection);
-        /** @var $theme Magento_Core_Model_Theme */
+        /** @var $theme \Magento\Core\Model\Theme */
         foreach ($themeCollection as $theme) {
             $this->assertTrue(in_array(
                 $theme->getType(),
-                array(Magento_Core_Model_Theme::TYPE_PHYSICAL, Magento_Core_Model_Theme::TYPE_VIRTUAL)
+                array(\Magento\Core\Model\Theme::TYPE_PHYSICAL, \Magento\Core\Model\Theme::TYPE_VIRTUAL)
             ));
         }
     }
@@ -186,16 +188,16 @@ class Magento_Core_Model_Resource_Theme_CollectionTest extends PHPUnit_Framework
     /**
      * Set themes fixtures
      *
-     * @return Magento_Core_Model_Resource_Theme_Collection
+     * @return \Magento\Core\Model\Resource\Theme\Collection
      */
     public static function setThemeFixture()
     {
         $themeCollection = self::_getThemesCollection();
         $themeCollection->load();
         foreach (self::getThemeList() as $themeData) {
-            /** @var $themeModel Magento_Core_Model_Theme */
-            $themeModel = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-                ->create('Magento_Core_Model_Theme');
+            /** @var $themeModel \Magento\Core\Model\Theme */
+            $themeModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                ->create('Magento\Core\Model\Theme');
             $themeModel->setData($themeData);
             $themeCollection->addItem($themeModel);
         }
@@ -203,16 +205,16 @@ class Magento_Core_Model_Resource_Theme_CollectionTest extends PHPUnit_Framework
     }
 
     /**
-     * @throws Exception
+     * @throws \Exception
      */
     public static function setInheritedThemeFixture()
     {
         $fixture = self::getInheritedThemeList();
         $idByPath = array();
         foreach ($fixture as $themeData) {
-            /** @var $themeModel Magento_Core_Model_Theme */
-            $themeModel = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-                ->create('Magento_Core_Model_Theme');
+            /** @var $themeModel \Magento\Core\Model\Theme */
+            $themeModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                ->create('Magento\Core\Model\Theme');
             $themeModel->setData($themeData);
 
             if ($themeData['parent_id'] && isset($idByPath[$themeData['parent_id']])) {
@@ -241,7 +243,7 @@ class Magento_Core_Model_Resource_Theme_CollectionTest extends PHPUnit_Framework
                 'preview_image'        => 'test_default.jpg',
                 'is_featured'          => '1',
                 'area'                 => 'test_area',
-                'type'                 => Magento_Core_Model_Theme::TYPE_PHYSICAL,
+                'type'                 => \Magento\Core\Model\Theme::TYPE_PHYSICAL,
             ),
             array(
                 'parent_id'            => '0',
@@ -252,7 +254,7 @@ class Magento_Core_Model_Resource_Theme_CollectionTest extends PHPUnit_Framework
                 'preview_image'        => 'test_default.jpg',
                 'is_featured'          => '1',
                 'area'                 => 'test_area2',
-                'type'                 => Magento_Core_Model_Theme::TYPE_VIRTUAL,
+                'type'                 => \Magento\Core\Model\Theme::TYPE_VIRTUAL,
             ),
             array(
                 'parent_id'            => '0',
@@ -263,7 +265,7 @@ class Magento_Core_Model_Resource_Theme_CollectionTest extends PHPUnit_Framework
                 'preview_image'        => 'test_default.jpg',
                 'is_featured'          => '1',
                 'area'                 => 'test_area3',
-                'type'                 => Magento_Core_Model_Theme::TYPE_STAGING,
+                'type'                 => \Magento\Core\Model\Theme::TYPE_STAGING,
             ),
             array(
                 'parent_id'            => '0',
@@ -274,7 +276,7 @@ class Magento_Core_Model_Resource_Theme_CollectionTest extends PHPUnit_Framework
                 'preview_image'        => 'test_default.jpg',
                 'is_featured'          => '1',
                 'area'                 => 'test_area3',
-                'type'                 => Magento_Core_Model_Theme::TYPE_PHYSICAL,
+                'type'                 => \Magento\Core\Model\Theme::TYPE_PHYSICAL,
             ),
             array(
                 'parent_id'            => '0',
@@ -285,7 +287,7 @@ class Magento_Core_Model_Resource_Theme_CollectionTest extends PHPUnit_Framework
                 'preview_image'        => 'test_default.jpg',
                 'is_featured'          => '1',
                 'area'                 => 'test_area3',
-                'type'                 => Magento_Core_Model_Theme::TYPE_VIRTUAL,
+                'type'                 => \Magento\Core\Model\Theme::TYPE_VIRTUAL,
             )
         );
     }
@@ -305,7 +307,7 @@ class Magento_Core_Model_Resource_Theme_CollectionTest extends PHPUnit_Framework
                 'preview_image'        => 'test1_test1.jpg',
                 'is_featured'          => '1',
                 'area'                 => 'area51',
-                'type'                 => Magento_Core_Model_Theme::TYPE_PHYSICAL
+                'type'                 => \Magento\Core\Model\Theme::TYPE_PHYSICAL
             ),
             array(
                 'parent_id'            => 'area51/test1/test1',
@@ -316,7 +318,7 @@ class Magento_Core_Model_Resource_Theme_CollectionTest extends PHPUnit_Framework
                 'preview_image'        => 'test1_test2.jpg',
                 'is_featured'          => '1',
                 'area'                 => 'area51',
-                'type'                 => Magento_Core_Model_Theme::TYPE_VIRTUAL
+                'type'                 => \Magento\Core\Model\Theme::TYPE_VIRTUAL
             ),
             array(
                 'parent_id'            => 'area51/test1/test2',
@@ -327,7 +329,7 @@ class Magento_Core_Model_Resource_Theme_CollectionTest extends PHPUnit_Framework
                 'preview_image'        => 'test1_test3.jpg',
                 'is_featured'          => '1',
                 'area'                 => 'area51',
-                'type'                 => Magento_Core_Model_Theme::TYPE_VIRTUAL
+                'type'                 => \Magento\Core\Model\Theme::TYPE_VIRTUAL
             ),
             array(
                 'parent_id'            => 'area51/test1/test0',
@@ -338,32 +340,32 @@ class Magento_Core_Model_Resource_Theme_CollectionTest extends PHPUnit_Framework
                 'preview_image'        => 'test1_test4.jpg',
                 'is_featured'          => '1',
                 'area'                 => 'area51',
-                'type'                 => Magento_Core_Model_Theme::TYPE_VIRTUAL
+                'type'                 => \Magento\Core\Model\Theme::TYPE_VIRTUAL
             ),
         );
     }
 
     /**
-     * @covers Magento_Core_Model_Resource_Theme_Collection::filterPhysicalThemes
+     * @covers \Magento\Core\Model\Resource\Theme\Collection::filterPhysicalThemes
      */
     public function testFilterPhysicalThemesPerPage()
     {
         $collection = $this->_getThemesCollection();
-        $collection->filterPhysicalThemes(1, Magento_Core_Model_Resource_Theme_Collection::DEFAULT_PAGE_SIZE);
+        $collection->filterPhysicalThemes(1, \Magento\Core\Model\Resource\Theme\Collection::DEFAULT_PAGE_SIZE);
 
         $this->assertLessThanOrEqual(
-            Magento_Core_Model_Resource_Theme_Collection::DEFAULT_PAGE_SIZE, $collection->count()
+            \Magento\Core\Model\Resource\Theme\Collection::DEFAULT_PAGE_SIZE, $collection->count()
         );
 
-        /** @var $theme Magento_Core_Model_Theme */
+        /** @var $theme \Magento\Core\Model\Theme */
         foreach ($collection as $theme) {
-            $this->assertEquals(Magento_Core_Model_App_Area::AREA_FRONTEND, $theme->getArea());
-            $this->assertEquals(Magento_Core_Model_Theme::TYPE_PHYSICAL, $theme->getType());
+            $this->assertEquals(\Magento\Core\Model\App\Area::AREA_FRONTEND, $theme->getArea());
+            $this->assertEquals(\Magento\Core\Model\Theme::TYPE_PHYSICAL, $theme->getType());
         }
     }
 
     /**
-     * @covers Magento_Core_Model_Resource_Theme_Collection::filterPhysicalThemes
+     * @covers \Magento\Core\Model\Resource\Theme\Collection::filterPhysicalThemes
      */
     public function testFilterPhysicalThemes()
     {
@@ -371,10 +373,10 @@ class Magento_Core_Model_Resource_Theme_CollectionTest extends PHPUnit_Framework
 
         $this->assertGreaterThan(0, $collection->count());
 
-        /** @var $theme Magento_Core_Model_Theme */
+        /** @var $theme \Magento\Core\Model\Theme */
         foreach ($collection as $theme) {
-            $this->assertEquals(Magento_Core_Model_App_Area::AREA_FRONTEND, $theme->getArea());
-            $this->assertEquals(Magento_Core_Model_Theme::TYPE_PHYSICAL, $theme->getType());
+            $this->assertEquals(\Magento\Core\Model\App\Area::AREA_FRONTEND, $theme->getArea());
+            $this->assertEquals(\Magento\Core\Model\Theme::TYPE_PHYSICAL, $theme->getType());
         }
     }
 }

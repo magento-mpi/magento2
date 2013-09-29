@@ -15,8 +15,10 @@
  * @package     Magento_MultipleWishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_MultipleWishlist_Block_Customer_Wishlist_Item_Column_Copy
-    extends Magento_MultipleWishlist_Block_Customer_Wishlist_Item_Column_Management
+namespace Magento\MultipleWishlist\Block\Customer\Wishlist\Item\Column;
+
+class Copy
+    extends \Magento\MultipleWishlist\Block\Customer\Wishlist\Item\Column\Management
 {
     /**
      * Checks whether column should be shown in table

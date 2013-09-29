@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento_Backend_Model_Config_Structure_Element_Field
+ * \Magento\Backend\Model\Config\Structure\Element\Field
  *
  * {license_notice}
  *
@@ -11,81 +11,83 @@
  * @license     {license_link}
  */
 
-class Magento_Backend_Model_Config_Structure_Element_FieldTest extends PHPUnit_Framework_TestCase
+namespace Magento\Backend\Model\Config\Structure\Element;
+
+class FieldTest extends \PHPUnit_Framework_TestCase
 {
     const FIELD_TEST_CONSTANT = "field test constant";
 
     /**
-     * @var Magento_Backend_Model_Config_Structure_Element_Field
+     * @var \Magento\Backend\Model\Config\Structure\Element\Field
      */
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_applicationMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_backendFactoryMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_sourceFactoryMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_commentFactoryMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_blockFactoryMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_dsGraphMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_depMapperMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_iteratorMock;
 
     protected function setUp()
     {
         $this->_iteratorMock = $this->getMock(
-            'Magento_Backend_Model_Config_Structure_Element_Iterator', array(), array(), '', false
+            'Magento\Backend\Model\Config\Structure\Element\Iterator', array(), array(), '', false
         );
-        $this->_applicationMock = $this->getMock('Magento_Core_Model_App', array(), array(), '', false);
+        $this->_applicationMock = $this->getMock('Magento\Core\Model\App', array(), array(), '', false);
         $this->_backendFactoryMock = $this->getMock(
-            'Magento_Backend_Model_Config_BackendFactory', array(), array(), '', false
+            'Magento\Backend\Model\Config\BackendFactory', array(), array(), '', false
         );
         $this->_sourceFactoryMock = $this->getMock(
-            'Magento_Backend_Model_Config_SourceFactory', array(), array(), '', false
+            'Magento\Backend\Model\Config\SourceFactory', array(), array(), '', false
         );
         $this->_commentFactoryMock = $this->getMock(
-            'Magento_Backend_Model_Config_CommentFactory', array(), array(), '', false
+            'Magento\Backend\Model\Config\CommentFactory', array(), array(), '', false
         );
         $this->_blockFactoryMock = $this->getMock(
-            'Magento_Core_Model_BlockFactory', array(), array(), '', false
+            'Magento\Core\Model\BlockFactory', array(), array(), '', false
         );
         $this->_dsGraphMock = $this->getMock(
-            'Magento_Core_Model_DataService_Graph', array(), array(), '', false
+            'Magento\Core\Model\DataService\Graph', array(), array(), '', false
         );
         $this->_depMapperMock = $this->getMock(
-            'Magento_Backend_Model_Config_Structure_Element_Dependency_Mapper', array(), array(), '', false
+            'Magento\Backend\Model\Config\Structure\Element\Dependency\Mapper', array(), array(), '', false
         );
 
-        $this->_model = new Magento_Backend_Model_Config_Structure_Element_Field(
+        $this->_model = new \Magento\Backend\Model\Config\Structure\Element\Field(
             $this->_applicationMock,
             $this->_backendFactoryMock,
             $this->_sourceFactoryMock,
@@ -130,7 +132,7 @@ class Magento_Backend_Model_Config_Structure_Element_FieldTest extends PHPUnit_F
     {
         $config = array('comment' => array('model' => 'Model_Name'));
         $this->_model->setData($config, 'scope');
-        $commentModelMock = $this->getMock('Magento_Backend_Model_Config_CommentInterface');
+        $commentModelMock = $this->getMock('Magento\Backend\Model\Config\CommentInterface');
         $commentModelMock->expects($this->once())
             ->method('getCommentText')
             ->with('currentValue')
@@ -151,7 +153,7 @@ class Magento_Backend_Model_Config_Structure_Element_FieldTest extends PHPUnit_F
     public function testGetTooltipCreatesTooltipBlock()
     {
         $this->_model->setData(array('tooltip_block' => 'Magento_Core_Block_Tooltip'), 'scope');
-        $tooltipBlock = $this->getMock('Magento_Core_Block');
+        $tooltipBlock = $this->getMock('Magento\Core\Block');
         $tooltipBlock->expects($this->once())->method('toHtml')->will($this->returnValue('tooltip block'));
         $this->_blockFactoryMock->expects($this->once())
             ->method('createBlock')
@@ -245,7 +247,7 @@ class Magento_Backend_Model_Config_Structure_Element_FieldTest extends PHPUnit_F
             )
         );
         $this->_model->setData($params, 'scope');
-        $elementMock = $this->getMock('Magento_Data_Form_Element_Text', array('setOriginalData'), array(), '', false);
+        $elementMock = $this->getMock('Magento\Data\Form\Element\Text', array('setOriginalData'), array(), '', false);
         unset($params['someArr']);
         $elementMock->expects($this->once())->method('setOriginalData')->with($params);
         $this->_model->populateInput($elementMock);
@@ -305,13 +307,13 @@ class Magento_Backend_Model_Config_Structure_Element_FieldTest extends PHPUnit_F
         $option = array(
             array(
                 'label' => 'test',
-                'value' => "{{Magento_Backend_Model_Config_Structure_Element_FieldTest::FIELD_TEST_CONSTANT}}"
+                'value' => "{{\Magento\Backend\Model\Config\Structure\Element\FieldTest::FIELD_TEST_CONSTANT}}"
             ),
         );
         $expected = array(
             array(
                 'label' => __('test'),
-                'value' => Magento_Backend_Model_Config_Structure_Element_FieldTest::FIELD_TEST_CONSTANT
+                'value' => \Magento\Backend\Model\Config\Structure\Element\FieldTest::FIELD_TEST_CONSTANT
             ),
         );
 
@@ -322,7 +324,7 @@ class Magento_Backend_Model_Config_Structure_Element_FieldTest extends PHPUnit_F
     public function testGetOptionsUsesOptionsInterfaceIfNoMethodIsProvided()
     {
         $this->_model->setData(array('source_model' => 'Source_Model_Name'), 'scope');
-        $sourceModelMock = $this->getMock('Magento_Core_Model_Option_ArrayInterface');
+        $sourceModelMock = $this->getMock('Magento\Core\Model\Option\ArrayInterface');
         $this->_sourceFactoryMock->expects($this->once())
             ->method('create')
             ->with('Source_Model_Name')
@@ -344,7 +346,7 @@ class Magento_Backend_Model_Config_Structure_Element_FieldTest extends PHPUnit_F
             array('source_model' => 'Source_Model_Name::retrieveElements', 'path' => 'path', 'type' => 'multiselect'),
             'scope'
         );
-        $sourceModelMock = $this->getMock('Magento_Object', array('setPath', 'retrieveElements'));
+        $sourceModelMock = $this->getMock('Magento\Object', array('setPath', 'retrieveElements'));
         $this->_sourceFactoryMock->expects($this->once())
             ->method('create')
             ->with('Source_Model_Name')
@@ -363,7 +365,7 @@ class Magento_Backend_Model_Config_Structure_Element_FieldTest extends PHPUnit_F
             array('source_model' => 'Source_Model_Name::retrieveElements', 'path' => 'path', 'type' => 'select'),
             'scope'
         );
-        $sourceModelMock = $this->getMock('Magento_Object', array('setPath', 'retrieveElements'));
+        $sourceModelMock = $this->getMock('Magento\Object', array('setPath', 'retrieveElements'));
         $this->_sourceFactoryMock->expects($this->once())
             ->method('create')
             ->with('Source_Model_Name')

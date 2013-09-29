@@ -9,19 +9,21 @@
  * @license     {license_link}
  */
 
-class Magento_Page_Block_Html_HeadTest extends PHPUnit_Framework_TestCase
+namespace Magento\Page\Block\Html;
+
+class HeadTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Page_Block_Html_Head
+     * @var \Magento\Page\Block\Html\Head
      */
     private $_block;
 
     protected function setUp()
     {
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\View\DesignInterface')
             ->setDesignTheme('magento_demo', 'frontend');
-        $this->_block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
-            ->createBlock('Magento_Page_Block_Html_Head');
+        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            ->createBlock('Magento\Page\Block\Html\Head');
     }
 
     /**
@@ -33,7 +35,7 @@ class Magento_Page_Block_Html_HeadTest extends PHPUnit_Framework_TestCase
     {
         $this->_block->addChild(
             'zero.js',
-            'Magento_Page_Block_Html_Head_Script',
+            'Magento\Page\Block\Html\Head\Script',
             array(
                 'file' => 'zero.js',
                 'properties' => array(
@@ -43,28 +45,28 @@ class Magento_Page_Block_Html_HeadTest extends PHPUnit_Framework_TestCase
         );
         $this->_block->addChild(
             'varien/js.js',
-            'Magento_Page_Block_Html_Head_Script',
+            'Magento\Page\Block\Html\Head\Script',
             array(
                 'file' => 'varien/js.js',
             )
         );
         $this->_block->addChild(
             'Magento_Bundle::bundle.js',
-            'Magento_Page_Block_Html_Head_Script',
+            'Magento\Page\Block\Html\Head\Script',
             array(
                 'file' => 'Magento_Bundle::bundle.js',
             )
         );
         $this->_block->addChild(
             'ui.css',
-            'Magento_Page_Block_Html_Head_Css',
+            'Magento\Page\Block\Html\Head\Css',
             array(
                 'file' => 'tiny_mce/themes/advanced/skins/default/ui.css',
             )
         );
         $this->_block->addChild(
             'styles.css',
-            'Magento_Page_Block_Html_Head_Css',
+            'Magento\Page\Block\Html\Head\Css',
             array(
                 'file' => 'css/styles.css',
                 'properties' => array(
@@ -76,7 +78,7 @@ class Magento_Page_Block_Html_HeadTest extends PHPUnit_Framework_TestCase
 
         $this->_block->addChild(
             'magento-page-head-canonical-link',
-            'Magento_Page_Block_Html_Head_Link',
+            'Magento\Page\Block\Html\Head\Link',
             array(
                 'url' => 'http://localhost/index.php/category.html',
                 'properties' => array('attributes' => array('rel' => 'next'))
@@ -85,7 +87,7 @@ class Magento_Page_Block_Html_HeadTest extends PHPUnit_Framework_TestCase
 
         $this->_block->addChild(
             'varien/form.js',
-            'Magento_Page_Block_Html_Head_Script',
+            'Magento\Page\Block\Html\Head\Script',
             array(
                 'file' => 'varien/form.js',
                 'properties' => array(
@@ -121,14 +123,14 @@ class Magento_Page_Block_Html_HeadTest extends PHPUnit_Framework_TestCase
 
         $this->_block->addChild(
             'ui.css',
-            'Magento_Page_Block_Html_Head_Css',
+            'Magento\Page\Block\Html\Head\Css',
             array(
                 'file' => 'not_exist_folder/wrong_bad_file2.xyz',
             )
         );
         $this->_block->addChild(
             'jjs',
-            'Magento_Page_Block_Html_Head_Script',
+            'Magento\Page\Block\Html\Head\Script',
             array(
                 'file' => 'not_exist_folder/wrong_bad_file.xyz',
             )
@@ -152,21 +154,21 @@ class Magento_Page_Block_Html_HeadTest extends PHPUnit_Framework_TestCase
     {
         $this->_block->addChild(
             'varien/js.js',
-            'Magento_Page_Block_Html_Head_Script',
+            'Magento\Page\Block\Html\Head\Script',
             array(
                 'file' => 'varien/js.js',
             )
         );
         $this->_block->addChild(
             'jjs',
-            'Magento_Page_Block_Html_Head_Script',
+            'Magento\Page\Block\Html\Head\Script',
             array(
                 'file' => 'not_exist_folder/wrong_bad_file.xyz',
             )
         );
         $this->_block->addChild(
             'wrong_bad_file2.xyz',
-            'Magento_Page_Block_Html_Head_Script',
+            'Magento\Page\Block\Html\Head\Script',
             array(
                 'file' => 'not_exist_folder/wrong_bad_file2.xyz',
                 'properties' => array(
@@ -176,7 +178,7 @@ class Magento_Page_Block_Html_HeadTest extends PHPUnit_Framework_TestCase
         );
         $this->_block->addChild(
             'sdsdsd.css',
-            'Magento_Page_Block_Html_Head_Css',
+            'Magento\Page\Block\Html\Head\Css',
             array(
                 'file' => 'not_exist_folder/wrong_bad_file2.xyz',
             )
@@ -184,7 +186,7 @@ class Magento_Page_Block_Html_HeadTest extends PHPUnit_Framework_TestCase
 
         $this->_block->addChild(
             'css/styles.css',
-            'Magento_Page_Block_Html_Head_Css',
+            'Magento\Page\Block\Html\Head\Css',
             array(
                 'file' => 'css/styles.css',
                 'properties' => array(
@@ -215,7 +217,7 @@ class Magento_Page_Block_Html_HeadTest extends PHPUnit_Framework_TestCase
     {
         $this->_block->addChild(
             'jjs',
-            'Magento_Page_Block_Html_Head_Script',
+            'Magento\Page\Block\Html\Head\Script',
             array(
                 'file' => 'varien/js.js',
             )
@@ -234,7 +236,7 @@ class Magento_Page_Block_Html_HeadTest extends PHPUnit_Framework_TestCase
     {
         $this->_block->addChild(
             'jjs',
-            'Magento_Page_Block_Html_Head_Script',
+            'Magento\Page\Block\Html\Head\Script',
             array(
                 'file' => 'varien/js.js',
             )
@@ -253,7 +255,7 @@ class Magento_Page_Block_Html_HeadTest extends PHPUnit_Framework_TestCase
     {
         $this->_block->addChild(
             'magento-page-head-test-link',
-            'Magento_Page_Block_Html_Head_Link',
+            'Magento\Page\Block\Html\Head\Link',
             array(
                 'url' => 'http://localhost/index.php/category.html',
                 'properties' => array('attributes' => array(

@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Centinel_Block_Adminhtml_Validation_Form extends Magento_Adminhtml_Block_Sales_Order_Create_Abstract
+namespace Magento\Centinel\Block\Adminhtml\Validation;
+
+class Form extends \Magento\Adminhtml\Block\Sales\Order\Create\AbstractCreate
 {
     /**
      * Prepare validation and template parameters

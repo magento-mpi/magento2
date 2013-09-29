@@ -11,8 +11,9 @@
 /**
  * Source model for available paypal express payment actions
  */
-class Magento_Paypal_Model_System_Config_Source_PaymentActions_Express
-    implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Paypal\Model\System\Config\Source\PaymentActions;
+
+class Express implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
      * Options getter
@@ -21,8 +22,8 @@ class Magento_Paypal_Model_System_Config_Source_PaymentActions_Express
      */
     public function toOptionArray()
     {
-        $configModel = Mage::getModel('Magento_Paypal_Model_Config');
-        $configModel->setMethod(Magento_Paypal_Model_Config::METHOD_WPP_EXPRESS);
+        $configModel = \Mage::getModel('Magento\Paypal\Model\Config');
+        $configModel->setMethod(\Magento\Paypal\Model\Config::METHOD_WPP_EXPRESS);
         return $configModel->getPaymentActions();
     }
 }

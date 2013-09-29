@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Magento_Search_Model_AdapterInterface
+namespace Magento\Search\Model;
+
+interface AdapterInterface
 {
     /**
      * Retrieve server status
@@ -64,7 +66,7 @@ interface Magento_Search_Model_AdapterInterface
      * Add prepared Solr Input documents to Solr index
      *
      * @param array $docs
-     * @return Magento_Search_Model_Adapter_Solr_Abstract
+     * @return \Magento\Search\Model\Adapter\Solr\AbstractSolr
      */
     public function addDocs($docs);
 
@@ -146,7 +148,7 @@ interface Magento_Search_Model_AdapterInterface
     /**
      * Retrieve attribute solr field name
      *
-     * @param   Magento_Catalog_Model_Resource_Eav_Attribute|string $attribute
+     * @param   \Magento\Catalog\Model\Resource\Eav\Attribute|string $attribute
      * @param   string $target - default|sort|nav
      *
      * @return  string|bool

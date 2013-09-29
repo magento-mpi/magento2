@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_SalesRule_Model_Resource_Report_RuleTest extends PHPUnit_Framework_TestCase
+namespace Magento\SalesRule\Model\Resource\Report;
+
+class RuleTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Test table name
@@ -30,13 +32,13 @@ class Magento_SalesRule_Model_Resource_Report_RuleTest extends PHPUnit_Framework
     public function testGetUniqRulesNamesList()
     {
         $dbAdapterMock = $this->getMockForAbstractClass('Zend_Db_Adapter_Abstract', array(), '', false);
-        $select = $this->getMock('Magento_DB_Select', array('from'), array($dbAdapterMock));
+        $select = $this->getMock('Magento\DB\Select', array('from'), array($dbAdapterMock));
         $select->expects($this->once())
             ->method('from')
             ->with(self::TABLE_NAME, $this->isInstanceOf('Zend_Db_Expr'))
             ->will($this->returnValue($select));
 
-        $adapterMock = $this->getMock('Magento_DB_Adapter_Pdo_Mysql', array('select', 'fetchAll'), array(), '', false);
+        $adapterMock = $this->getMock('Magento\DB\Adapter\Pdo\Mysql', array('select', 'fetchAll'), array(), '', false);
         $adapterMock->expects($this->once())
             ->method('select')
             ->will($this->returnValue($select));
@@ -45,7 +47,7 @@ class Magento_SalesRule_Model_Resource_Report_RuleTest extends PHPUnit_Framework
             ->with($select)
             ->will($this->returnCallback(array($this, 'fetchAllCallback')));
 
-        $resourceMock = $this->getMock('Magento_Core_Model_Resource',
+        $resourceMock = $this->getMock('Magento\Core\Model\Resource',
             array('getConnection', 'getTableName'), array(), '', false
         );
         $resourceMock->expects($this->any())
@@ -55,9 +57,9 @@ class Magento_SalesRule_Model_Resource_Report_RuleTest extends PHPUnit_Framework
             ->method('getTableName')
             ->will($this->returnValue(self::TABLE_NAME));
 
-        $objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $model = $objectManager->getObject(
-            'Magento_SalesRule_Model_Resource_Report_Rule',
+            'Magento\SalesRule\Model\Resource\Report\Rule',
             array('resource' => $resourceMock)
         );
 
@@ -71,17 +73,17 @@ class Magento_SalesRule_Model_Resource_Report_RuleTest extends PHPUnit_Framework
     /**
      * Check structure of sql query
      *
-     * @param Magento_DB_Select $select
+     * @param \Magento\DB\Select $select
      * @return array
      */
-    public function fetchAllCallback(Magento_DB_Select $select)
+    public function fetchAllCallback(\Magento\DB\Select $select)
     {
-        $whereParts = $select->getPart(Magento_DB_Select::WHERE);
+        $whereParts = $select->getPart(\Magento\DB\Select::WHERE);
         $this->assertCount(2, $whereParts);
         $this->assertContains("rule_name IS NOT NULL", $whereParts[0]);
         $this->assertContains("rule_name <> ''", $whereParts[1]);
 
-        $orderParts = $select->getPart(Magento_DB_Select::ORDER);
+        $orderParts = $select->getPart(\Magento\DB\Select::ORDER);
         $this->assertCount(1, $orderParts);
         $expectedOrderParts = array('rule_name', 'ASC');
         $this->assertEquals($expectedOrderParts, $orderParts[0]);

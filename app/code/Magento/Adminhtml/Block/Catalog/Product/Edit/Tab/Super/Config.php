@@ -15,59 +15,61 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config
-    extends Magento_Backend_Block_Widget
-    implements Magento_Backend_Block_Widget_Tab_Interface
+namespace Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super;
+
+class Config
+    extends \Magento\Backend\Block\Widget
+    implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     protected $_template = 'catalog/product/edit/super/config.phtml';
 
     /**
      * Catalog data
      *
-     * @var Magento_Catalog_Helper_Data
+     * @var \Magento\Catalog\Helper\Data
      */
     protected $_catalogData = null;
 
     /**
-     * @var Magento_Core_Model_App
+     * @var \Magento\Core\Model\App
      */
     protected $_app;
 
     /**
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @var Magento_Catalog_Model_Product_Type_Configurable
+     * @var \Magento\Catalog\Model\Product\Type\Configurable
      */
     protected $_configurableType;
 
     /**
-     * @param Magento_Catalog_Model_Product_Type_Configurable $configurableType
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Core_Model_App $app
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\Catalog\Model\Product\Type\Configurable $configurableType
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Model\App $app
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
-        Magento_Catalog_Model_Product_Type_Configurable $configurableType,
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Core_Model_App $app,
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $coreRegistry,
+        \Magento\Catalog\Model\Product\Type\Configurable $configurableType,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Model\App $app,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_configurableType = $configurableType;
@@ -136,25 +138,25 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config
     /**
      * Prepare Layout data
      *
-     * @return Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config
+     * @return \Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super\Config
      */
     protected function _prepareLayout()
     {
-        $this->addChild('create_empty', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('create_empty', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label' => __('Create Empty'),
             'class' => 'add',
             'onclick' => 'superProduct.createEmptyProduct()'
         ));
-        $this->addChild('super_settings', 'Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Settings');
+        $this->addChild('super_settings', 'Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super\Settings');
 
 // @todo: Remove unused code and blocks
 //        if ($this->getProduct()->getId()) {
 //            $this->setChild('simple',
-//                $this->getLayout()->createBlock('Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Simple',
+//                $this->getLayout()->createBlock('Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super\Config\Simple',
 //                    'catalog.product.edit.tab.super.config.simple')
 //            );
 //
-//            $this->addChild('create_from_configurable', 'Magento_Adminhtml_Block_Widget_Button', array(
+//            $this->addChild('create_from_configurable', 'Magento\Adminhtml\Block\Widget\Button', array(
 //                'label' => __('Copy From Configurable'),
 //                'class' => 'add',
 //                'onclick' => 'superProduct.createNewProduct()'
@@ -163,7 +165,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config
 
         $this->addChild(
             'generate',
-            'Magento_Backend_Block_Widget_Button',
+            'Magento\Backend\Block\Widget\Button',
             array(
                 'label' => __('Generate Variations'),
                 'class' => 'generate',
@@ -183,7 +185,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config
         );
         $this->addChild(
             'add_attribute',
-            'Magento_Backend_Block_Widget_Button',
+            'Magento\Backend\Block\Widget\Button',
             array(
                 'label' => __('Create New Variation Set'),
                 'class' => 'new-variation-set',
@@ -212,7 +214,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config
         );
         $this->addChild(
             'add_option',
-            'Magento_Backend_Block_Widget_Button',
+            'Magento\Backend\Block\Widget\Button',
             array(
                 'label' => __('Add Option'),
                 'class' => 'action- scalable add',
@@ -231,7 +233,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config
     /**
      * Retrieve currently edited product object
      *
-     * @return Magento_Catalog_Model_Product
+     * @return \Magento\Catalog\Model\Product
      */
     public function getProduct()
     {
@@ -301,7 +303,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config
     /**
      * Retrieve configurable settings
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @return array
      */
     public function getConfigurableSettings($product) {
@@ -350,7 +352,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config
             '*/*/new',
             array(
                 'set'      => $this->getProduct()->getAttributeSetId(),
-                'type'     => Magento_Catalog_Model_Product_Type::TYPE_SIMPLE,
+                'type'     => \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE,
                 'required' => $this->_getRequiredAttributesIds(),
                 'popup'    => 1
             )
@@ -368,7 +370,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config
             '*/*/new',
             array(
                 'set'      => $this->getProduct()->getAttributeSetId(),
-                'type'     => Magento_Catalog_Model_Product_Type::TYPE_SIMPLE,
+                'type'     => \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE,
                 'required' => $this->_getRequiredAttributesIds(),
                 'popup'    => 1,
                 'product'  => $this->getProduct()->getId()
@@ -467,7 +469,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config
     }
 
     /**
-     * @return Magento_Core_Model_App
+     * @return \Magento\Core\Model\App
      */
     public function getApp()
     {
@@ -475,7 +477,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config
     }
 
     /**
-     * @return Magento_Core_Model_LocaleInterface
+     * @return \Magento\Core\Model\LocaleInterface
      */
     public function getLocale()
     {
@@ -485,7 +487,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config
     /**
      * Get base application currency
      *
-     * @return Zend_Currency
+     * @return \Zend_Currency
      */
     public function getBaseCurrency()
     {

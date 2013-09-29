@@ -9,23 +9,25 @@
  * @license     {license_link}
  */
 
-class Magento_Eav_Model_Resource_Entity_Attribute_CollectionTest extends PHPUnit_Framework_TestCase
+namespace Magento\Eav\Model\Resource\Entity\Attribute;
+
+class CollectionTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Eav_Model_Resource_Entity_Attribute_Collection
+     * @var \Magento\Eav\Model\Resource\Entity\Attribute\Collection
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Eav_Model_Resource_Entity_Attribute_Collection');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Eav\Model\Resource\Entity\Attribute\Collection');
     }
 
     /**
      * Returns array of set ids, present in collection attributes
      *
-     * @param Magento_Eav_Model_Resource_Entity_Attribute_Collection $collection
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Collection $collection
      * @return array
      */
     protected function _getSets($collection)
@@ -43,8 +45,8 @@ class Magento_Eav_Model_Resource_Entity_Attribute_CollectionTest extends PHPUnit
 
     public function testSetAttributeGroupFilter()
     {
-        $collection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Eav_Model_Resource_Entity_Attribute_Collection');
+        $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Eav\Model\Resource\Entity\Attribute\Collection');
         $groupsPresent = $this->_getGroups($collection);
         $includeGroupId = current($groupsPresent);
 
@@ -57,7 +59,7 @@ class Magento_Eav_Model_Resource_Entity_Attribute_CollectionTest extends PHPUnit
     /**
      * Returns array of group ids, present in collection attributes
      *
-     * @param Magento_Eav_Model_Resource_Entity_Attribute_Collection $collection
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Collection $collection
      * @return array
      */
     protected function _getGroups($collection)
@@ -77,8 +79,8 @@ class Magento_Eav_Model_Resource_Entity_Attribute_CollectionTest extends PHPUnit
     public function testAddAttributeGrouping()
     {
         $select = $this->_model->getSelect();
-        $this->assertEmpty($select->getPart(Zend_Db_Select::GROUP));
+        $this->assertEmpty($select->getPart(\Zend_Db_Select::GROUP));
         $this->_model->addAttributeGrouping();
-        $this->assertEquals(array('main_table.attribute_id'), $select->getPart(Zend_Db_Select::GROUP));
+        $this->assertEquals(array('main_table.attribute_id'), $select->getPart(\Zend_Db_Select::GROUP));
     }
 }

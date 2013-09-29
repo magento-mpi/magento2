@@ -16,11 +16,13 @@
  * @package     Enterpise_Reminder
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reminder_Model_Resource_Reminder_Collection
-    extends Magento_Reminder_Model_Resource_Rule_Collection
+namespace Magento\Reminder\Model\Resource\Reminder;
+
+class Collection
+    extends \Magento\Reminder\Model\Resource\Rule\Collection
 {
     /**
-     * @return Magento_Reminder_Model_Resource_Reminder_Collection|Magento_Core_Model_Resource_Db_Collection_Abstract
+     * @return \Magento\Reminder\Model\Resource\Reminder\Collection|\Magento\Core\Model\Resource\Db\Collection\AbstractCollection
      */
     protected function _initSelect()
     {

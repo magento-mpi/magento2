@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Controller_ErrorProcessor
+namespace Magento\Webapi\Controller;
+
+class ErrorProcessor
 {
     const DEFAULT_SHUTDOWN_FUNCTION = 'apiShutdownFunction';
 
@@ -21,26 +23,26 @@ class Magento_Webapi_Controller_ErrorProcessor
     const DATA_FORMAT_XML = 'xml';
     /**#@-*/
 
-    /** @var Magento_Core_Helper_Data */
+    /** @var \Magento\Core\Helper\Data */
     protected $_coreHelper;
 
-    /** @var Magento_Core_Model_App */
+    /** @var \Magento\Core\Model\App */
     protected $_app;
 
-    /** @var Magento_Core_Model_Logger */
+    /** @var \Magento\Core\Model\Logger */
     protected $_logger;
 
     /**
      * Initialize dependencies. Register custom shutdown function.
      *
-     * @param Magento_Core_Helper_Data $helper
-     * @param Magento_Core_Model_App $app
-     * @param Magento_Core_Model_Logger $logger
+     * @param \Magento\Core\Helper\Data $helper
+     * @param \Magento\Core\Model\App $app
+     * @param \Magento\Core\Model\Logger $logger
      */
     public function __construct(
-        Magento_Core_Helper_Data $helper,
-        Magento_Core_Model_App $app,
-        Magento_Core_Model_Logger $logger
+        \Magento\Core\Helper\Data $helper,
+        \Magento\Core\Model\App $app,
+        \Magento\Core\Model\Logger $logger
     ) {
         $this->_coreHelper = $helper;
         $this->_app = $app;
@@ -51,44 +53,44 @@ class Magento_Webapi_Controller_ErrorProcessor
     /**
      * Mask actual exception for security reasons in case when it should not be exposed to API clients.
      *
-     * Convert any exception into Magento_Webapi_Exception.
+     * Convert any exception into \Magento\Webapi\Exception.
      *
-     * @param Exception $exception
-     * @return Magento_Webapi_Exception
+     * @param \Exception $exception
+     * @return \Magento\Webapi\Exception
      */
-    public function maskException(Exception $exception)
+    public function maskException(\Exception $exception)
     {
         /** Log information about actual exception. */
         $reportId = $this->_logException($exception);
-        if ($exception instanceof Magento_Service_Exception) {
-            if ($exception instanceof Magento_Service_ResourceNotFoundException) {
-                $httpCode = Magento_Webapi_Exception::HTTP_NOT_FOUND;
-            } elseif ($exception instanceof Magento_Service_AuthorizationException) {
-                $httpCode = Magento_Webapi_Exception::HTTP_UNAUTHORIZED;
+        if ($exception instanceof \Magento\Service\Exception) {
+            if ($exception instanceof \Magento\Service\ResourceNotFoundException) {
+                $httpCode = \Magento\Webapi\Exception::HTTP_NOT_FOUND;
+            } elseif ($exception instanceof \Magento\Service\AuthorizationException) {
+                $httpCode = \Magento\Webapi\Exception::HTTP_UNAUTHORIZED;
             } else {
-                $httpCode = Magento_Webapi_Exception::HTTP_BAD_REQUEST;
+                $httpCode = \Magento\Webapi\Exception::HTTP_BAD_REQUEST;
             }
-            $maskedException = new Magento_Webapi_Exception(
+            $maskedException = new \Magento\Webapi\Exception(
                 $exception->getMessage(),
                 $exception->getCode(),
                 $httpCode,
                 $exception->getParameters()
             );
-        } else if ($exception instanceof Magento_Webapi_Exception) {
+        } else if ($exception instanceof \Magento\Webapi\Exception) {
             $maskedException = $exception;
         } else {
             if (!$this->_app->isDeveloperMode()) {
                 /** Create exception with masked message. */
-                $maskedException = new Magento_Webapi_Exception(
+                $maskedException = new \Magento\Webapi\Exception(
                     __('Internal Error. Details are available in Magento log file. Report ID: %1', $reportId),
                     0,
-                    Magento_Webapi_Exception::HTTP_INTERNAL_ERROR
+                    \Magento\Webapi\Exception::HTTP_INTERNAL_ERROR
                 );
             } else {
-                $maskedException = new Magento_Webapi_Exception(
+                $maskedException = new \Magento\Webapi\Exception(
                     $exception->getMessage(),
                     $exception->getCode(),
-                    Magento_Webapi_Exception::HTTP_INTERNAL_ERROR
+                    \Magento\Webapi\Exception::HTTP_INTERNAL_ERROR
                 );
             }
         }
@@ -100,13 +102,13 @@ class Magento_Webapi_Controller_ErrorProcessor
      *
      * Create report if not in developer mode and render error to send correct API response.
      *
-     * @param Exception $exception
+     * @param \Exception $exception
      * @param int $httpCode
      * @SuppressWarnings(PHPMD.ExitExpression)
      */
-    public function renderException(Exception $exception, $httpCode = self::DEFAULT_ERROR_HTTP_CODE)
+    public function renderException(\Exception $exception, $httpCode = self::DEFAULT_ERROR_HTTP_CODE)
     {
-        if ($this->_app->isDeveloperMode() || $exception instanceof Magento_Webapi_Exception) {
+        if ($this->_app->isDeveloperMode() || $exception instanceof \Magento\Webapi\Exception) {
             $this->render($exception->getMessage(), $exception->getTraceAsString(), $httpCode);
         } else {
             $reportId = $this->_logException($exception);
@@ -122,10 +124,10 @@ class Magento_Webapi_Controller_ErrorProcessor
     /**
      * Log information about exception to exception log.
      *
-     * @param Exception $exception
+     * @param \Exception $exception
      * @return string $reportId
      */
-    protected function _logException(Exception $exception)
+    protected function _logException(\Exception $exception)
     {
         $exceptionClass = get_class($exception);
         $reportId = uniqid("webapi-");
@@ -207,7 +209,7 @@ class Magento_Webapi_Controller_ErrorProcessor
     /**
      * Declare web API-specific shutdown function.
      *
-     * @return Magento_Webapi_Controller_ErrorProcessor
+     * @return \Magento\Webapi\Controller\ErrorProcessor
      */
     public function registerShutdownFunction()
     {
@@ -241,7 +243,7 @@ class Magento_Webapi_Controller_ErrorProcessor
      */
     protected function _saveFatalErrorReport($reportData)
     {
-        $file = new Magento_Io_File();
+        $file = new \Magento\Io\File();
         $reportDir = BP . '/var/report/api';
         $file->checkAndCreateFolder($reportDir, 0777);
         $reportId = abs(intval(microtime(true) * rand(100, 1000)));

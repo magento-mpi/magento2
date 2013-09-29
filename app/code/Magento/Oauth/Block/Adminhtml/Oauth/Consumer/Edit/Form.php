@@ -11,7 +11,9 @@
  *
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Oauth_Block_Adminhtml_Oauth_Consumer_Edit_Form extends Magento_Backend_Block_Widget_Form_Generic
+namespace Magento\Oauth\Block\Adminhtml\Oauth\Consumer\Edit;
+
+class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /** Key used to store consumer data into the registry */
     const REGISTRY_KEY_CURRENT_CONSUMER = 'current_consumer';
@@ -22,7 +24,7 @@ class Magento_Oauth_Block_Adminhtml_Oauth_Consumer_Edit_Form extends Magento_Bac
     /**
      * Prepare form before rendering HTML
      *
-     * @return Magento_Oauth_Block_Adminhtml_Oauth_Consumer_Edit_Form
+     * @return \Magento\Oauth\Block\Adminhtml\Oauth\Consumer\Edit\Form
      */
     protected function _prepareForm()
     {

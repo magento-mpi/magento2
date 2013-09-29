@@ -12,20 +12,22 @@
  * Archive controller
  *
  */
-class Magento_SalesArchive_Controller_Adminhtml_Sales_Archive extends Magento_Adminhtml_Controller_Action
+namespace Magento\SalesArchive\Controller\Adminhtml\Sales;
+
+class Archive extends \Magento\Adminhtml\Controller\Action
 {
     /**
-     * @var Magento_SalesArchive_Model_Archive
+     * @var \Magento\SalesArchive\Model\Archive
      */
     protected $_archiveModel;
 
     /**
-     * @param Magento_Backend_Controller_Context $context
-     * @param Magento_SalesArchive_Model_Archive $archiveModel
+     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\SalesArchive\Model\Archive $archiveModel
      */
     public function __construct(
-        Magento_Backend_Controller_Context $context,
-        Magento_SalesArchive_Model_Archive $archiveModel
+        \Magento\Backend\Controller\Context $context,
+        \Magento\SalesArchive\Model\Archive $archiveModel
     ) {
         $this->_archiveModel = $archiveModel;
         parent::__construct($context);
@@ -34,7 +36,7 @@ class Magento_SalesArchive_Controller_Adminhtml_Sales_Archive extends Magento_Ad
     /**
      * Render archive grid
      *
-     * @return Magento_SalesArchive_Controller_Adminhtml_Sales_Archive
+     * @return \Magento\SalesArchive\Controller\Adminhtml\Sales\Archive
      */
     protected function _renderGrid()
     {
@@ -288,19 +290,19 @@ class Magento_SalesArchive_Controller_Adminhtml_Sales_Archive extends Magento_Ad
         switch ($action) {
             case 'invoice':
                 $fileName = 'invoice_archive.' . $type;
-                $grid = $layout->createBlock('Magento_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Invoice_Grid');
+                $grid = $layout->createBlock('Magento\SalesArchive\Block\Adminhtml\Sales\Archive\Order\Invoice\Grid');
                 break;
             case 'shipment':
                 $fileName = 'shipment_archive.' . $type;
-                $grid = $layout->createBlock('Magento_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Shipment_Grid');
+                $grid = $layout->createBlock('Magento\SalesArchive\Block\Adminhtml\Sales\Archive\Order\Shipment\Grid');
                 break;
             case 'creditmemo':
                 $fileName = 'creditmemo_archive.' . $type;
-                $grid = $layout->createBlock('Magento_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Creditmemo_Grid');
+                $grid = $layout->createBlock('Magento\SalesArchive\Block\Adminhtml\Sales\Archive\Order\Creditmemo\Grid');
                 break;
             default:
                 $fileName = 'orders_archive.' . $type;
-                /** @var Magento_Backend_Block_Widget_Grid_ExportInterface $grid  */
+                /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $grid  */
                 $grid = $layout->getChildBlock('sales.order.grid', 'grid.export');
                 break;
         }

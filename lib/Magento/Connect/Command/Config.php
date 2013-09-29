@@ -9,8 +9,10 @@
  */
 
 
-class Magento_Connect_Command_Config
-extends Magento_Connect_Command
+namespace Magento\Connect\Command;
+
+class Config
+extends \Magento\Connect\Command
 
 {
     const PARAM_KEY = 0;
@@ -46,7 +48,7 @@ extends Magento_Connect_Command
             }
             $data = array($command  => array('data'=>$values));
             $this->ui()->output($data);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             if($ftp) {
                 @unlink($config->getFilename());
             }
@@ -68,7 +70,7 @@ extends Magento_Connect_Command
 
         try {
             if(count($params) < 2) {
-                throw new Exception("Parameters count should be >= 2");
+                throw new \Exception("Parameters count should be >= 2");
             }
             $key = strtolower($params[self::PARAM_KEY]);
             $val = strval($params[self::PARAM_VAL]);
@@ -82,20 +84,20 @@ extends Magento_Connect_Command
             }
 
             if(!$config->hasKey($key)) {
-                throw new Exception ("No such config variable: {$key}!");
+                throw new \Exception ("No such config variable: {$key}!");
             }
             if(!$config->validate($key, $val)) {
                 $possible = $this->config()->possible($key);
                 $type = $this->config()->type($key);
                 $errString = "Invalid value specified for $key!";
-                throw new Exception($errString);
+                throw new \Exception($errString);
             }
             if($ftp) {
                 $packager->writeToRemoteConfig($config, $ftpObj);
             }
             $this->config()->$key = $val;
             $this->ui()->output('Success');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             if($ftp) {
                 @unlink($config->getFilename());
             }
@@ -116,7 +118,7 @@ extends Magento_Connect_Command
 
         try {
             if(count($params) < 1) {
-                throw new Exception("Parameters count should be >= 1");
+                throw new \Exception("Parameters count should be >= 1");
             }
             $packager = $this->getPackager();
             $ftp = empty($options['ftp']) ? false : $options['ftp'];
@@ -127,13 +129,13 @@ extends Magento_Connect_Command
             }
             $key = strtolower($params[self::PARAM_KEY]);
             if(!$config->hasKey($key)) {
-                throw new Exception("No such config variable '{$key}'!");
+                throw new \Exception("No such config variable '{$key}'!");
             }
             if($ftp) {
                 @unlink($config->getFilename());
             }
             $this->ui()->output($config->$key);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             if($ftp) {
                 @unlink($config->getFilename());
             }
@@ -153,7 +155,7 @@ extends Magento_Connect_Command
         try {
             $this->cleanupParams($params);
             if(count($params) < 1) {
-                throw new Exception( "Parameters count should be >= 1");
+                throw new \Exception( "Parameters count should be >= 1");
             }
             $packager = $this->getPackager();
             $ftp = empty($options['ftp']) ? false : $options['ftp'];
@@ -165,7 +167,7 @@ extends Magento_Connect_Command
 
             $key = strtolower($params[self::PARAM_KEY]);
             if(!$this->config()->hasKey($key)) {
-                throw new Exception("No such config variable '{$key}'!");
+                throw new \Exception("No such config variable '{$key}'!");
             }
 
             $possible = $config->possible($key);
@@ -182,7 +184,7 @@ extends Magento_Connect_Command
             'doc' => $doc,
             );
             $this->ui()->output($data);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             if($ftp) {
                 @unlink($config->getFilename());
             }

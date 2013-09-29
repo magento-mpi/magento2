@@ -16,7 +16,9 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Calculator
+namespace Magento\Core\Model;
+
+class Calculator
 {
     /**
      * Delta collected during rounding steps
@@ -28,19 +30,19 @@ class Magento_Core_Model_Calculator
     /**
      * Store instance
      *
-     * @var Magento_Core_Model_Store|null
+     * @var \Magento\Core\Model\Store|null
      */
     protected $_store = null;
 
     /**
      * Initialize calculator
      *
-     * @param Magento_Core_Model_Store|int $store
+     * @param \Magento\Core\Model\Store|int $store
      */
     public function __construct($store)
     {
-        if (!($store instanceof Magento_Core_Model_Store)) {
-            $store = Mage::app()->getStore($store);
+        if (!($store instanceof \Magento\Core\Model\Store)) {
+            $store = \Mage::app()->getStore($store);
         }
         $this->_store = $store;
     }

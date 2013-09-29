@@ -11,7 +11,9 @@
 /**
  * Template constructions filter
  */
-class Magento_Filter_Template implements Zend_Filter_Interface
+namespace Magento\Filter;
+
+class Template implements \Zend_Filter_Interface
 {
     /**
      * Construction regular expression
@@ -43,7 +45,7 @@ class Magento_Filter_Template implements Zend_Filter_Interface
      * Sets template variables that's can be called through {var ...} statement
      *
      * @param array $variables
-     * @return Magento_Filter_Template
+     * @return \Magento\Filter\Template
      */
     public function setVariables(array $variables)
     {
@@ -57,7 +59,7 @@ class Magento_Filter_Template implements Zend_Filter_Interface
      * Sets the processor of includes.
      *
      * @param array $callback it must return string
-     * @return Magento_Filter_Template
+     * @return \Magento\Filter\Template
      */
     public function setIncludeProcessor(array $callback)
     {
@@ -80,7 +82,7 @@ class Magento_Filter_Template implements Zend_Filter_Interface
      *
      * @param string $value
      * @return string
-     * @throws Exception
+     * @throws \Exception
      */
     public function filter($value)
     {
@@ -97,7 +99,7 @@ class Magento_Filter_Template implements Zend_Filter_Interface
                     }
                     try {
                         $replacedValue = call_user_func($callback, $construction);
-                    } catch (Exception $e) {
+                    } catch (\Exception $e) {
                         throw $e;
                     }
                     $value = str_replace($construction[0], $replacedValue, $value);
@@ -113,7 +115,7 @@ class Magento_Filter_Template implements Zend_Filter_Interface
                 }
                 try {
                     $replacedValue = call_user_func($callback, $construction);
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     throw $e;
                 }
                 $value = str_replace($construction[0], $replacedValue, $value);
@@ -204,7 +206,7 @@ class Magento_Filter_Template implements Zend_Filter_Interface
      */
     protected function _getIncludeParameters($value)
     {
-        $tokenizer = new Magento_Filter_Template_Tokenizer_Parameter();
+        $tokenizer = new \Magento\Filter\Template\Tokenizer\Parameter();
         $tokenizer->setString($value);
         $params = $tokenizer->tokenize();
         foreach ($params as $key => $value) {
@@ -224,8 +226,8 @@ class Magento_Filter_Template implements Zend_Filter_Interface
      */
     protected function _getVariable($value, $default = '{no_value_defined}')
     {
-        Magento_Profiler::start('email_template_processing_variables');
-        $tokenizer = new Magento_Filter_Template_Tokenizer_Variable();
+        \Magento\Profiler::start('email_template_processing_variables');
+        $tokenizer = new \Magento\Filter\Template\Tokenizer\Variable();
         $tokenizer->setString($value);
         $stackVars = $tokenizer->tokenize();
         $result = $default;
@@ -235,7 +237,7 @@ class Magento_Filter_Template implements Zend_Filter_Interface
                 // Getting of template value
                 $stackVars[$i]['variable'] =& $this->_templateVars[$stackVars[$i]['name']];
             } elseif (isset($stackVars[$i - 1]['variable'])
-                && $stackVars[$i - 1]['variable'] instanceof Magento_Object
+                && $stackVars[$i - 1]['variable'] instanceof \Magento\Object
             ) {
                 // If object calling methods or getting properties
                 if ($stackVars[$i]['type'] == 'property') {
@@ -262,7 +264,7 @@ class Magento_Filter_Template implements Zend_Filter_Interface
             // If value for construction exists set it
             $result = $stackVars[$last]['variable'];
         }
-        Magento_Profiler::stop('email_template_processing_variables');
+        \Magento\Profiler::stop('email_template_processing_variables');
         return $result;
     }
 }

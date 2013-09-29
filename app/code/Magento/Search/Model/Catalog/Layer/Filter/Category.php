@@ -16,23 +16,25 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Search_Model_Catalog_Layer_Filter_Category extends Magento_Catalog_Model_Layer_Filter_Category
+namespace Magento\Search\Model\Catalog\Layer\Filter;
+
+class Category extends \Magento\Catalog\Model\Layer\Filter\Category
 {
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_Registry $coreRegistry,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
@@ -77,7 +79,7 @@ class Magento_Search_Model_Catalog_Layer_Filter_Category extends Magento_Catalog
     /**
      * Add params to faceted search
      *
-     * @return Magento_Search_Model_Catalog_Layer_Filter_Category
+     * @return \Magento\Search\Model\Catalog\Layer\Filter\Category
      */
     public function addFacetCondition()
     {

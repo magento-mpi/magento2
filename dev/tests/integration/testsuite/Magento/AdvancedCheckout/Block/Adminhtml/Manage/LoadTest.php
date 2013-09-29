@@ -9,22 +9,24 @@
  * @license     {license_link}
  */
 
+namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_AdvancedCheckout_Block_Adminhtml_Manage_LoadTest extends PHPUnit_Framework_TestCase
+class LoadTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var Magento_Core_Model_Layout */
+    /** @var \Magento\Core\Model\Layout */
     protected $_layout = null;
 
-    /** @var Magento_AdvancedCheckout_Block_Adminhtml_Manage_Load */
+    /** @var \Magento\AdvancedCheckout\Block\Adminhtml\Manage\Load */
     protected $_block = null;
 
     protected function setUp()
     {
         parent::setUp();
-        $this->_layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout');
-        $this->_block = $this->_layout->createBlock('Magento_AdvancedCheckout_Block_Adminhtml_Manage_Load');
+        $this->_layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout');
+        $this->_block = $this->_layout->createBlock('Magento\AdvancedCheckout\Block\Adminhtml\Manage\Load');
     }
 
     public function testToHtml()
@@ -37,10 +39,10 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_LoadTest extends PHPUnit_F
         $containerContent = 'Content in container';
 
         $parent = $this->_block->getNameInLayout();
-        $this->_layout->addBlock('Magento_Core_Block_Text', $blockName, $parent)->setText($content);
+        $this->_layout->addBlock('Magento\Core\Block\Text', $blockName, $parent)->setText($content);
         $this->_layout->addContainer($containerName, 'Container', array(), $parent);
-        $this->_layout->addBlock('Magento_Core_Block_Text', '', $containerName)->setText($containerContent);
-        $this->_layout->addBlock('Magento_Core_Block_Text', $blockNameOne, $parent)->setText($contentOne);
+        $this->_layout->addBlock('Magento\Core\Block\Text', '', $containerName)->setText($containerContent);
+        $this->_layout->addBlock('Magento\Core\Block\Text', $blockNameOne, $parent)->setText($contentOne);
 
         $result = $this->_block->toHtml();
         $expectedDecoded = array(
@@ -49,7 +51,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_LoadTest extends PHPUnit_F
             $blockNameOne    => $contentOne
         );
         $this->assertEquals($expectedDecoded,
-            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Helper_Data')
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Helper\Data')
                 ->jsonDecode($result)
         );
     }

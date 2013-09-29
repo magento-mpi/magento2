@@ -5,33 +5,35 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Widget_Model_WidgetTest extends PHPUnit_Framework_TestCase
+namespace Magento\Widget\Model;
+
+class WidgetTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Widget_Model_Config_Data|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Widget\Model\Config\Data|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_storage;
 
     /**
-     * @var Magento_Widget_Model_Widget
+     * @var \Magento\Widget\Model\Widget
      */
     protected $_model;
 
     public function setUp()
     {
-        $this->_storage = $this->getMockBuilder('Magento_Widget_Model_Config_Data')
+        $this->_storage = $this->getMockBuilder('Magento\Widget\Model\Config\Data')
             ->disableOriginalConstructor()
             ->getMock();
-        $viewUrl = $this->getMockBuilder('Magento_Core_Model_View_Url')
+        $viewUrl = $this->getMockBuilder('Magento\Core\Model\View\Url')
             ->disableOriginalConstructor()
             ->getMock();
-        $viewFileSystem = $this->getMockBuilder('Magento_Core_Model_View_FileSystem')
+        $viewFileSystem = $this->getMockBuilder('Magento\Core\Model\View\FileSystem')
             ->disableOriginalConstructor()
             ->getMock();
-        $coreData = $this->getMockBuilder('Magento_Core_Helper_Data')
+        $coreData = $this->getMockBuilder('Magento\Core\Helper\Data')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_model = new Magento_Widget_Model_Widget($coreData, $this->_storage, $viewUrl, $viewFileSystem);
+        $this->_model = new \Magento\Widget\Model\Widget($coreData, $this->_storage, $viewUrl, $viewFileSystem);
     }
 
     public function testGetWidgets()

@@ -6,9 +6,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_WebsiteRestriction_Model_Config
-    extends Magento_Config_Data_Scoped
-    implements Magento_WebsiteRestriction_Model_ConfigInterface
+namespace Magento\WebsiteRestriction\Model;
+
+class Config
+    extends \Magento\Config\Data\Scoped
+    implements \Magento\WebsiteRestriction\Model\ConfigInterface
 {
     const XML_PATH_RESTRICTION_ENABLED          = 'general/restriction/is_active';
     const XML_PATH_RESTRICTION_MODE             = 'general/restriction/mode';
@@ -17,7 +19,7 @@ class Magento_WebsiteRestriction_Model_Config
     const XML_PATH_RESTRICTION_HTTP_REDIRECT    = 'general/restriction/http_redirect';
 
     /**
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_storeConfig;
 
@@ -29,17 +31,17 @@ class Magento_WebsiteRestriction_Model_Config
     protected $_scopePriorityScheme = array('global');
 
     /**
-     * @param Magento_WebsiteRestriction_Model_Config_Reader $reader
-     * @param Magento_Config_ScopeInterface $configScope
-     * @param Magento_Config_CacheInterface $cache
-     * @param Magento_Core_Model_Store_Config $storeConfig
+     * @param \Magento\WebsiteRestriction\Model\Config\Reader $reader
+     * @param \Magento\Config\ScopeInterface $configScope
+     * @param \Magento\Config\CacheInterface $cache
+     * @param \Magento\Core\Model\Store\Config $storeConfig
      * @param string $cacheId
      */
     public function __construct(
-        Magento_WebsiteRestriction_Model_Config_Reader $reader,
-        Magento_Config_ScopeInterface $configScope,
-        Magento_Config_CacheInterface $cache,
-        Magento_Core_Model_Store_Config $storeConfig,
+        \Magento\WebsiteRestriction\Model\Config\Reader $reader,
+        \Magento\Config\ScopeInterface $configScope,
+        \Magento\Config\CacheInterface $cache,
+        \Magento\Core\Model\Store\Config $storeConfig,
         $cacheId = 'website_restrictions'
     ) {
         $this->_storeConfig = $storeConfig;
@@ -69,7 +71,7 @@ class Magento_WebsiteRestriction_Model_Config
     /**
      * Define if restriction is active
      *
-     * @param Magento_Core_Model_Store|string|int $store
+     * @param \Magento\Core\Model\Store|string|int $store
      * @return bool
      */
     public function isRestrictionEnabled($store = null)

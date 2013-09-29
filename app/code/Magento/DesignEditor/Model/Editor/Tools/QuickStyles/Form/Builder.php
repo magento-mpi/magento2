@@ -11,46 +11,48 @@
 /**
  * VDE area model
  */
-class Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Builder
+namespace Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Form;
+
+class Builder
 {
     /**
-     * @var Magento_Data_Form_Factory
+     * @var \Magento\Data\Form\Factory
      */
     protected $_formFactory;
 
     /**
-     * @var Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Renderer_Factory
+     * @var \Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Form\Renderer\Factory
      */
     protected $_rendererFactory;
 
     /**
-     * @var Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Element_Factory
+     * @var \Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Form\Element\Factory
      */
     protected $_elementsFactory;
 
     /**
-     * @var Magento_DesignEditor_Model_Editor_Tools_Controls_Factory
+     * @var \Magento\DesignEditor\Model\Editor\Tools\Controls\Factory
      */
     protected $_configFactory;
 
     /**
-     * @var Magento_DesignEditor_Model_Editor_Tools_Controls_Configuration
+     * @var \Magento\DesignEditor\Model\Editor\Tools\Controls\Configuration
      */
     protected $_config;
 
     /**
      * Constructor
      *
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_DesignEditor_Model_Editor_Tools_Controls_Factory $configFactory
-     * @param Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Renderer_Factory $rendererFactory
-     * @param Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Element_Factory $elementsFactory
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\DesignEditor\Model\Editor\Tools\Controls\Factory $configFactory
+     * @param \Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Form\Renderer\Factory $rendererFactory
+     * @param \Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Form\Element\Factory $elementsFactory
      */
     public function __construct(
-        Magento_Data_Form_Factory $formFactory,
-        Magento_DesignEditor_Model_Editor_Tools_Controls_Factory $configFactory,
-        Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Renderer_Factory $rendererFactory,
-        Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Element_Factory $elementsFactory
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\DesignEditor\Model\Editor\Tools\Controls\Factory $configFactory,
+        \Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Form\Renderer\Factory $rendererFactory,
+        \Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Form\Element\Factory $elementsFactory
     ) {
         $this->_formFactory     = $formFactory;
         $this->_configFactory   = $configFactory;
@@ -62,28 +64,28 @@ class Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Builder
      * Create varien data form with provided params
      *
      * @param array $data
-     * @return Magento_Data_Form
-     * @throws InvalidArgumentException
+     * @return \Magento\Data\Form
+     * @throws \InvalidArgumentException
      */
     public function create(array $data = array())
     {
         $isFilePresent = true;
         try {
             $this->_config = $this->_configFactory->create(
-                Magento_DesignEditor_Model_Editor_Tools_Controls_Factory::TYPE_QUICK_STYLES,
+                \Magento\DesignEditor\Model\Editor\Tools\Controls\Factory::TYPE_QUICK_STYLES,
                 $data['theme'],
                 $data['parent_theme']
             );
-        } catch (Magento_Exception $e) {
+        } catch (\Magento\Exception $e) {
             $isFilePresent = false;
         }
 
         if (!isset($data['tab'])) {
-            throw new InvalidArgumentException((sprintf('Invalid controls tab "%s".', $data['tab'])));
+            throw new \InvalidArgumentException((sprintf('Invalid controls tab "%s".', $data['tab'])));
         }
 
         if ($isFilePresent) {
-            /** @var $form Magento_Data_Form */
+            /** @var $form \Magento\Data\Form */
             $form = $this->_formFactory->create(array(
                 'attributes' => $data,
             ));
@@ -112,13 +114,13 @@ class Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Builder
     /**
      * Check is any elements present in form
      *
-     * @param Magento_Data_Form $form
+     * @param \Magento\Data\Form $form
      * @return bool
      */
     protected function _isFormEmpty($form)
     {
         $isEmpty = true;
-        /** @var  $elements Magento_Data_Form_Element_Collection */
+        /** @var  $elements \Magento\Data\Form\Element\Collection */
         $elements = $form->getElements();
         foreach ($elements as $element) {
             if ($element->getElements()->count()) {
@@ -132,23 +134,23 @@ class Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Builder
     /**
      * Add column elements to form
      *
-     * @param Magento_Data_Form $form
+     * @param \Magento\Data\Form $form
      * @param string $tab
      * @return array
      */
     protected function _initColumns($form, $tab)
     {
-        /** @var $columnLeft Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_Column */
+        /** @var $columnLeft \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Column */
         $columnLeft = $form->addField('column-left-' . $tab, 'column', array());
         $columnLeft->setRendererFactory($this->_rendererFactory)
             ->setElementsFactory($this->_elementsFactory);
 
-        /** @var $columnMiddle Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_Column */
+        /** @var $columnMiddle \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Column */
         $columnMiddle = $form->addField('column-middle-' . $tab, 'column', array());
         $columnMiddle->setRendererFactory($this->_rendererFactory)
             ->setElementsFactory($this->_elementsFactory);
 
-        /** @var $columnRight Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_Column */
+        /** @var $columnRight \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Column */
         $columnRight = $form->addField('column-right-' . $tab, 'column', array());
         $columnRight->setRendererFactory($this->_rendererFactory)
             ->setElementsFactory($this->_elementsFactory);
@@ -180,7 +182,7 @@ class Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Builder
 
             $config = $this->_buildElementConfig($id, $positionData, $control);
 
-            /** @var $column Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_Column */
+            /** @var $column \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Column */
             $column = $columns[$positionData['column']];
             $column->addField($id, $control['type'], $config);
         }
@@ -223,10 +225,10 @@ class Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Builder
     /**
      * Add custom element types
      *
-     * @param Magento_Data_Form $form
+     * @param \Magento\Data\Form $form
      */
     protected function _addElementTypes($form)
     {
-        $form->addType('column', 'Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_Column');
+        $form->addType('column', 'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Column');
     }
 }

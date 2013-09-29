@@ -9,7 +9,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Outbound_Message implements Magento_Outbound_MessageInterface
+namespace Magento\Outbound;
+
+class Message implements \Magento\Outbound\MessageInterface
 {
     /** default timeout value in seconds */
     const DEFAULT_TIMEOUT = 20;

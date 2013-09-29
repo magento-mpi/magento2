@@ -12,16 +12,18 @@
  * Difference columns renderer
  *
  */
-class Magento_Logging_Block_Adminhtml_Details_Renderer_Diff
-    extends Magento_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
+namespace Magento\Logging\Block\Adminhtml\Details\Renderer;
+
+class Diff
+    extends \Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**
      * Render the grid cell value
      *
-     * @param Magento_Object $row
+     * @param \Magento\Object $row
      * @return string
      */
-    public function render(Magento_Object $row)
+    public function render(\Magento\Object $row)
     {
         $html = '-';
         $columnData = $row->getData($this->getColumn()->getIndex());
@@ -55,7 +57,7 @@ class Magento_Logging_Block_Adminhtml_Details_Renderer_Diff
             } else {
                 $html = $columnData;
             }
-        }catch (Exception $e) {
+        }catch (\Exception $e) {
             $html = $columnData;
         }
         return $html;

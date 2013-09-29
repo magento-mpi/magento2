@@ -16,7 +16,9 @@
  * @package     Magento_SalesArchive
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_SalesArchive_Model_Resource_Archive extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\SalesArchive\Model\Resource;
+
+class Archive extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Archive entities tables association
@@ -24,39 +26,39 @@ class Magento_SalesArchive_Model_Resource_Archive extends Magento_Core_Model_Res
      * @var $_tables array
      */
     protected $_tables   = array(
-        Magento_SalesArchive_Model_ArchivalList::ORDER
+        \Magento\SalesArchive\Model\ArchivalList::ORDER
             => array('sales_flat_order_grid', 'magento_sales_order_grid_archive'),
-        Magento_SalesArchive_Model_ArchivalList::INVOICE
+        \Magento\SalesArchive\Model\ArchivalList::INVOICE
             => array('sales_flat_invoice_grid', 'magento_sales_invoice_grid_archive'),
-        Magento_SalesArchive_Model_ArchivalList::SHIPMENT
+        \Magento\SalesArchive\Model\ArchivalList::SHIPMENT
             => array('sales_flat_shipment_grid', 'magento_sales_shipment_grid_archive'),
-        Magento_SalesArchive_Model_ArchivalList::CREDITMEMO
+        \Magento\SalesArchive\Model\ArchivalList::CREDITMEMO
             => array('sales_flat_creditmemo_grid', 'magento_sales_creditmemo_grid_archive')
     );
 
     /**
      * Sales archive config
      *
-     * @var Magento_SalesArchive_Model_Config
+     * @var \Magento\SalesArchive\Model\Config
      */
     protected $_salesArchiveConfig;
 
     /**
      * Sales archival model list
      *
-     * @var Magento_SalesArchive_Model_ArchivalList
+     * @var \Magento\SalesArchive\Model\ArchivalList
      */
     protected $_archivalList;
 
     /**
-     * @param Magento_SalesArchive_Model_Config $salesArchiveConfig
-     * @param Magento_Core_Model_Resource $resource
-     * @param Magento_SalesArchive_Model_ArchivalList $archivalList
+     * @param \Magento\SalesArchive\Model\Config $salesArchiveConfig
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\SalesArchive\Model\ArchivalList $archivalList
      */
     public function __construct(
-        Magento_SalesArchive_Model_Config $salesArchiveConfig,
-        Magento_Core_Model_Resource $resource,
-        Magento_SalesArchive_Model_ArchivalList $archivalList
+        \Magento\SalesArchive\Model\Config $salesArchiveConfig,
+        \Magento\Core\Model\Resource $resource,
+        \Magento\SalesArchive\Model\ArchivalList $archivalList
     ) {
         $this->_salesArchiveConfig = $salesArchiveConfig;
         $this->_archivalList = $archivalList;
@@ -163,12 +165,12 @@ class Magento_SalesArchive_Model_Resource_Archive extends Magento_Core_Model_Res
      *
      * @param array $statuses
      * @param int $archiveAge
-     * @return Magento_DB_Select
+     * @return \Magento\DB\Select
      */
     protected function _getOrderIdsForArchiveSelect($statuses, $archiveAge)
     {
         $adapter = $this->_getReadAdapter();
-        $table = $this->getArchiveEntitySourceTable(Magento_SalesArchive_Model_ArchivalList::ORDER);
+        $table = $this->getArchiveEntitySourceTable(\Magento\SalesArchive\Model\ArchivalList::ORDER);
         $select = $adapter->select()
             ->from($table, 'entity_id')
             ->where('status IN(?)', $statuses);
@@ -176,7 +178,7 @@ class Magento_SalesArchive_Model_Resource_Archive extends Magento_Core_Model_Res
         if ($archiveAge) { // Check archive age
             $archivePeriodExpr = $adapter->getDateSubSql($adapter->quote($this->formatDate(true)),
                 (int) $archiveAge,
-                Magento_DB_Adapter_Interface::INTERVAL_DAY
+                \Magento\DB\Adapter\AdapterInterface::INTERVAL_DAY
             );
             $select->where($archivePeriodExpr . ' >= updated_at');
         }
@@ -187,7 +189,7 @@ class Magento_SalesArchive_Model_Resource_Archive extends Magento_Core_Model_Res
     /**
      * Retrieve order ids for archive subselect expression
      *
-     * @return Zend_Db_Expr
+     * @return \Zend_Db_Expr
      */
     public function getOrderIdsForArchiveExpression()
     {
@@ -198,7 +200,7 @@ class Magento_SalesArchive_Model_Resource_Archive extends Magento_Core_Model_Res
             $statuses = array(0);
         }
         $select = $this->_getOrderIdsForArchiveSelect($statuses, $archiveAge);
-        return new Zend_Db_Expr($select);
+        return new \Zend_Db_Expr($select);
     }
 
     /**
@@ -207,7 +209,7 @@ class Magento_SalesArchive_Model_Resource_Archive extends Magento_Core_Model_Res
      * @param string $archiveEntity
      * @param string $conditionField
      * @param array $conditionValue
-     * @return Magento_SalesArchive_Model_Resource_Archive
+     * @return \Magento\SalesArchive\Model\Resource\Archive
      */
     public function moveToArchive($archiveEntity, $conditionField, $conditionValue)
     {
@@ -238,7 +240,7 @@ class Magento_SalesArchive_Model_Resource_Archive extends Magento_Core_Model_Res
      * @param string $archiveEntity
      * @param string $conditionField
      * @param array $conditionValue
-     * @return Magento_SalesArchive_Model_Resource_Archive
+     * @return \Magento\SalesArchive\Model\Resource\Archive
      */
     public function removeFromGrid($archiveEntity, $conditionField, $conditionValue)
     {
@@ -249,11 +251,11 @@ class Magento_SalesArchive_Model_Resource_Archive extends Magento_Core_Model_Res
         $sourceTable = $this->getArchiveEntitySourceTable($archiveEntity);
         $targetTable = $this->getArchiveEntityTable($archiveEntity);
         $sourceResource = $this->_archivalList->getResource($archiveEntity);
-        if ($conditionValue instanceof Zend_Db_Expr) {
+        if ($conditionValue instanceof \Zend_Db_Expr) {
             $select = $adapter->select();
             // Remove order grid records moved to archive
             $select->from($targetTable, $sourceResource->getIdFieldName());
-            $condition = $adapter->quoteInto($sourceResource->getIdFieldName() . ' IN(?)', new Zend_Db_Expr($select));
+            $condition = $adapter->quoteInto($sourceResource->getIdFieldName() . ' IN(?)', new \Zend_Db_Expr($select));
         } else {
             $fieldCondition = $adapter->quoteIdentifier($conditionField) . ' IN(?)';
             $condition = $adapter->quoteInto($fieldCondition, $conditionValue);
@@ -266,11 +268,11 @@ class Magento_SalesArchive_Model_Resource_Archive extends Magento_Core_Model_Res
     /**
      * Remove records from archive
      *
-     * @param Magento_SalesArchive_Model_Archive $archive
+     * @param \Magento\SalesArchive\Model\Archive $archive
      * @param string $archiveEntity
      * @param string $conditionField
      * @param array $conditionValue
-     * @return Magento_SalesArchive_Model_Resource_Archive
+     * @return \Magento\SalesArchive\Model\Resource\Archive
      */
     public function removeFromArchive($archiveEntity, $conditionField = '', $conditionValue = null)
     {
@@ -291,7 +293,7 @@ class Magento_SalesArchive_Model_Resource_Archive extends Magento_Core_Model_Res
         $updatedAtIndex = array_search('updated_at', $selectFields);
         if ($updatedAtIndex !== false) {
             unset($selectFields[$updatedAtIndex]);
-            $selectFields['updated_at'] = new Zend_Db_Expr($adapter->quoteInto('?', $this->formatDate(true)));
+            $selectFields['updated_at'] = new \Zend_Db_Expr($adapter->quoteInto('?', $this->formatDate(true)));
         }
 
         $select = $adapter->select()
@@ -302,10 +304,10 @@ class Magento_SalesArchive_Model_Resource_Archive extends Magento_Core_Model_Res
         }
 
         $adapter->query($select->insertFromSelect($targetTable, $insertFields, true));
-        if ($conditionValue instanceof Zend_Db_Expr) {
+        if ($conditionValue instanceof \Zend_Db_Expr) {
             $select->reset()
                 ->from($targetTable, $sourceResource->getIdFieldName()); // Remove order grid records from archive
-            $condition = $adapter->quoteInto($sourceResource->getIdFieldName() . ' IN(?)', new Zend_Db_Expr($select));
+            $condition = $adapter->quoteInto($sourceResource->getIdFieldName() . ' IN(?)', new \Zend_Db_Expr($select));
         } elseif (!empty($conditionField)) {
             $condition = $adapter->quoteInto(
                 $adapter->quoteIdentifier($conditionField) . ' IN(?)', $conditionValue
@@ -323,7 +325,7 @@ class Magento_SalesArchive_Model_Resource_Archive extends Magento_Core_Model_Res
      *
      * @param string $archiveEntity
      * @param array $ids
-     * @return Magento_SalesArchive_Model_Resource_Archive
+     * @return \Magento\SalesArchive\Model\Resource\Archive
      */
     public function updateGridRecords($archiveEntity, $ids)
     {
@@ -331,7 +333,7 @@ class Magento_SalesArchive_Model_Resource_Archive extends Magento_Core_Model_Res
             return $this;
         }
 
-        /* @var $resource Magento_Sales_Model_Resource_Abstract */
+        /* @var $resource \Magento\Sales\Model\Resource\AbstractResource */
         $resource = $this->_archivalList->getResource($archiveEntity);
 
         $gridColumns = array_keys($this->_getWriteAdapter()->describeTable(
@@ -362,7 +364,7 @@ class Magento_SalesArchive_Model_Resource_Archive extends Magento_Core_Model_Res
             return array();
         }
 
-        /** @var $resource Magento_Sales_Model_Resource_Abstract */
+        /** @var $resource \Magento\Sales\Model\Resource\AbstractResource */
         $resource = $this->_archivalList->getResource($archiveEntity);
 
         $select = $this->_getReadAdapter()->select()

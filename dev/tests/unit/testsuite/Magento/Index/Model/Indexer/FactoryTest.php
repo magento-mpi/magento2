@@ -5,34 +5,36 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Index_Model_Indexer_FactoryTest extends PHPUnit_Framework_TestCase
+namespace Magento\Index\Model\Indexer;
+
+class FactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Index_Model_Indexer_Factory
+     * @var \Magento\Index\Model\Indexer\Factory
      */
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_objectManagerMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_indexerMock;
 
     protected function setUp()
     {
-        $this->_objectManagerMock = $this->getMock('Magento_ObjectManager');
+        $this->_objectManagerMock = $this->getMock('Magento\ObjectManager');
         $this->_indexerMock = $this->getMock(
-            'Magento_Catalog_Model_Category_Indexer_Flat', array(), array(), '', false
+            'Magento\Catalog\Model\Category\Indexer\Flat', array(), array(), '', false
         );
-        $this->_model = new Magento_Index_Model_Indexer_Factory($this->_objectManagerMock);
+        $this->_model = new \Magento\Index\Model\Indexer\Factory($this->_objectManagerMock);
     }
 
     /**
-     * @covers Magento_Index_Model_Indexer_Factory::create
+     * @covers \Magento\Index\Model\Indexer\Factory::create
      */
     public function testCreate()
     {
@@ -41,11 +43,13 @@ class Magento_Index_Model_Indexer_FactoryTest extends PHPUnit_Framework_TestCase
             ->with('Magento_Indexer')
             ->will($this->returnValue($this->_indexerMock));
 
-        $this->assertInstanceOf('Magento_Index_Model_Indexer_Abstract', $this->_model->create('Magento_Indexer'));
+        $this->assertInstanceOf('Magento\Index\Model\Indexer\AbstractIndexer',
+            $this->_model->create('Magento_Indexer')
+        );
     }
 
     /**
-     * @covers Magento_Index_Model_Indexer_Factory::create
+     * @covers \Magento\Index\Model\Indexer\Factory::create
      */
     public function testCreateWithNoInstance()
     {

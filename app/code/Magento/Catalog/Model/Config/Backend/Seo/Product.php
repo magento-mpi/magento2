@@ -9,12 +9,14 @@
  */
 
 
-class Magento_Catalog_Model_Config_Backend_Seo_Product extends Magento_Core_Model_Config_Value
+namespace Magento\Catalog\Model\Config\Backend\Seo;
+
+class Product extends \Magento\Core\Model\Config\Value
 {
     /**
      * Refresh category url rewrites if configuration was changed
      *
-     * @return Magento_Catalog_Model_Config_Backend_Seo_Product
+     * @return \Magento\Catalog\Model\Config\Backend\Seo\Product
      */
     protected function _afterSave()
     {

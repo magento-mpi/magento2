@@ -15,16 +15,18 @@
  * @package     Magento_AdvancedCheckout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_AdvancedCheckout_Block_Adminhtml_Sku_Errors_Grid_Renderer_Html
-    extends Magento_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
+namespace Magento\AdvancedCheckout\Block\Adminhtml\Sku\Errors\Grid\Renderer;
+
+class Html
+    extends \Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**
      * Return data "as is", don't escape HTML
      *
-     * @param Magento_Object $row
+     * @param \Magento\Object $row
      * @return mixed
      */
-    public function render(Magento_Object $row)
+    public function render(\Magento\Object $row)
     {
         return $row->getData($this->getColumn()->getIndex());
     }

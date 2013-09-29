@@ -18,10 +18,10 @@ $designChanges = array(
     array('store' => 'admin',   'design' => 'admin_tomorrow_design',    'date' => '+1 day'),
 );
 foreach ($designChanges as $designChangeData) {
-    $storeId = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-        ->get('Magento_Core_Model_StoreManagerInterface')->getStore($designChangeData['store'])->getId();
-    $change = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-        ->create('Magento_Core_Model_Design');
+    $storeId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+        ->get('Magento\Core\Model\StoreManagerInterface')->getStore($designChangeData['store'])->getId();
+    $change = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+        ->create('Magento\Core\Model\Design');
     $change->setStoreId($storeId)
         ->setDesign($designChangeData['design'])
         ->setDateFrom($designChangeData['date'])

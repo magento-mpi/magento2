@@ -11,7 +11,9 @@
 /**
  * Configuration of controls
  */
-class Magento_DesignEditor_Model_Editor_Tools_Controls_Configuration
+namespace Magento\DesignEditor\Model\Editor\Tools\Controls;
+
+class Configuration
 {
     /**
      * Module name used for saving data to the view configuration
@@ -21,42 +23,42 @@ class Magento_DesignEditor_Model_Editor_Tools_Controls_Configuration
     /**
      * Application Event Dispatcher
      *
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventDispatcher;
 
     /**
-     * @var Magento_DesignEditor_Model_Config_Control_Abstract
+     * @var \Magento\DesignEditor\Model\Config\Control\AbstractControl
      */
     protected $_configuration;
 
     /**
-     * @var Magento_Core_Model_View_DesignInterface
+     * @var \Magento\Core\Model\View\DesignInterface
      */
     protected $_design;
 
     /**
-     * @var Magento_Filesystem
+     * @var \Magento\Filesystem
      */
     protected $_filesystem;
 
     /**
-     * @var Magento_Core_Model_Theme
+     * @var \Magento\Core\Model\Theme
      */
     protected $_theme;
 
     /**
-     * @var Magento_Core_Model_Theme
+     * @var \Magento\Core\Model\Theme
      */
     protected $_parentTheme;
 
     /**
-     * @var Magento_Config_View
+     * @var \Magento\Config\View
      */
     protected $_viewConfig;
 
     /**
-     * @var Magento_Config_View
+     * @var \Magento\Config\View
      */
     protected $_viewConfigParent;
 
@@ -77,29 +79,29 @@ class Magento_DesignEditor_Model_Editor_Tools_Controls_Configuration
     /**
      * View config model
      *
-     * @var Magento_Core_Model_View_Config
+     * @var \Magento\Core\Model\View\Config
      */
     protected $_viewConfigLoader;
 
     /**
      * Initialize dependencies
      *
-     * @param Magento_Core_Model_View_DesignInterface $design
-     * @param Magento_Filesystem $filesystem
-     * @param Magento_Core_Model_Event_Manager $eventDispatcher
-     * @param Magento_Core_Model_View_Config $viewConfig
-     * @param Magento_DesignEditor_Model_Config_Control_Abstract|null $configuration
-     * @param Magento_Core_Model_Theme|null $theme
-     * @param Magento_Core_Model_Theme $parentTheme
+     * @param \Magento\Core\Model\View\DesignInterface $design
+     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\Core\Model\Event\Manager $eventDispatcher
+     * @param \Magento\Core\Model\View\Config $viewConfig
+     * @param \Magento\DesignEditor\Model\Config\Control\AbstractControl|null $configuration
+     * @param \Magento\Core\Model\Theme|null $theme
+     * @param \Magento\Core\Model\Theme $parentTheme
      */
     public function __construct(
-        Magento_Core_Model_View_DesignInterface $design,
-        Magento_Filesystem $filesystem,
-        Magento_Core_Model_Event_Manager $eventDispatcher,
-        Magento_Core_Model_View_Config $viewConfig,
-        Magento_DesignEditor_Model_Config_Control_Abstract $configuration = null,
-        Magento_Core_Model_Theme $theme = null,
-        Magento_Core_Model_Theme $parentTheme = null
+        \Magento\Core\Model\View\DesignInterface $design,
+        \Magento\Filesystem $filesystem,
+        \Magento\Core\Model\Event\Manager $eventDispatcher,
+        \Magento\Core\Model\View\Config $viewConfig,
+        \Magento\DesignEditor\Model\Config\Control\AbstractControl $configuration = null,
+        \Magento\Core\Model\Theme $theme = null,
+        \Magento\Core\Model\Theme $parentTheme = null
     ) {
         $this->_configuration = $configuration;
         $this->_theme = $theme;
@@ -114,16 +116,16 @@ class Magento_DesignEditor_Model_Editor_Tools_Controls_Configuration
     /**
      * Initialize view configurations
      *
-     * @return Magento_DesignEditor_Model_Editor_Tools_Controls_Configuration
+     * @return \Magento\DesignEditor\Model\Editor\Tools\Controls\Configuration
      */
     protected function _initViewConfigs()
     {
         $this->_viewConfig = $this->_viewConfigLoader->getViewConfig(array(
-            'area'       => Magento_Core_Model_View_DesignInterface::DEFAULT_AREA,
+            'area'       => \Magento\Core\Model\View\DesignInterface::DEFAULT_AREA,
             'themeModel' => $this->_theme
         ));
         $this->_viewConfigParent = $this->_viewConfigLoader->getViewConfig(array(
-            'area'       => Magento_Core_Model_View_DesignInterface::DEFAULT_AREA,
+            'area'       => \Magento\Core\Model\View\DesignInterface::DEFAULT_AREA,
             'themeModel' => $this->_parentTheme
         ));
         return $this;
@@ -132,7 +134,7 @@ class Magento_DesignEditor_Model_Editor_Tools_Controls_Configuration
     /**
      * Load all control values
      *
-     * @return Magento_DesignEditor_Model_Editor_Tools_Controls_Configuration
+     * @return \Magento\DesignEditor\Model\Editor\Tools\Controls\Configuration
      */
     protected function _loadControlsData()
     {
@@ -149,7 +151,7 @@ class Magento_DesignEditor_Model_Editor_Tools_Controls_Configuration
      * Prepare list of control links
      *
      * @param array $controls
-     * @return Magento_DesignEditor_Model_Editor_Tools_Controls_Configuration
+     * @return \Magento\DesignEditor\Model\Editor\Tools\Controls\Configuration
      */
     protected function _prepareControlList(array &$controls)
     {
@@ -167,10 +169,10 @@ class Magento_DesignEditor_Model_Editor_Tools_Controls_Configuration
      *
      * @param array $control
      * @param string $paramName
-     * @param Magento_Config_View $viewConfiguration
-     * @return Magento_DesignEditor_Model_Editor_Tools_Controls_Configuration
+     * @param \Magento\Config\View $viewConfiguration
+     * @return \Magento\DesignEditor\Model\Editor\Tools\Controls\Configuration
      */
-    protected function _loadControlData(array &$control, $paramName, Magento_Config_View $viewConfiguration)
+    protected function _loadControlData(array &$control, $paramName, \Magento\Config\View $viewConfiguration)
     {
         if (!empty($control['var'])) {
             list($module, $varKey) = $this->_extractModuleKey($control['var']);
@@ -194,12 +196,12 @@ class Magento_DesignEditor_Model_Editor_Tools_Controls_Configuration
      *
      * @param string $controlName
      * @return array
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     public function getControlData($controlName)
     {
         if (!isset($this->_controlList[$controlName])) {
-            throw new Magento_Core_Exception("Unknown control: \"{$controlName}\"");
+            throw new \Magento\Core\Exception("Unknown control: \"{$controlName}\"");
         }
         return $this->_controlList[$controlName];
     }
@@ -239,20 +241,20 @@ class Magento_DesignEditor_Model_Editor_Tools_Controls_Configuration
      * Save control values data
      *
      * @param array $controlsData
-     * @return Magento_DesignEditor_Model_Editor_Tools_Controls_Configuration
+     * @return \Magento\DesignEditor\Model\Editor\Tools\Controls\Configuration
      */
     public function saveData(array $controlsData)
     {
         $configDom = $this->_viewConfig->getDomConfigCopy()->getDom();
         $varData = $this->_prepareVarData($controlsData, $this->_controlList);
 
-        /** @var $varsNode DOMElement */
+        /** @var $varsNode \DOMElement */
         foreach ($configDom->childNodes->item(0)->childNodes as $varsNode) {
             $moduleName = $varsNode->getAttribute('module');
             if (!isset($varData[$moduleName])) {
                 continue;
             }
-            /** @var $varNode DOMElement */
+            /** @var $varNode \DOMElement */
             foreach ($varsNode->getElementsByTagName('var') as $varNode) {
                 $varName = $varNode->getAttribute('name');
                 if (isset($varData[$moduleName][$varName])) {
@@ -272,7 +274,7 @@ class Magento_DesignEditor_Model_Editor_Tools_Controls_Configuration
     /**
      * Get control configuration
      *
-     * @return Magento_DesignEditor_Model_Config_Control_Abstract
+     * @return \Magento\DesignEditor\Model\Config\Control\AbstractControl
      */
     public function getControlConfig()
     {
@@ -282,10 +284,10 @@ class Magento_DesignEditor_Model_Editor_Tools_Controls_Configuration
     /**
      * Save customized DOM of view configuration
      *
-     * @param DOMDocument $config
-     * @return Magento_DesignEditor_Model_Editor_Tools_Controls_Configuration
+     * @param \DOMDocument $config
+     * @return \Magento\DesignEditor\Model\Editor\Tools\Controls\Configuration
      */
-    protected function _saveViewConfiguration(DOMDocument $config)
+    protected function _saveViewConfiguration(\DOMDocument $config)
     {
         $targetPath = $this->_theme->getCustomization()->getCustomViewConfigPath();
         $this->_filesystem->setIsAllowCreateDirectories(true)->write($targetPath, $config->saveXML());

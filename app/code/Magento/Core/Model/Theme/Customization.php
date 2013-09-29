@@ -11,42 +11,44 @@
 /**
  * Theme customizations manager
  */
-class Magento_Core_Model_Theme_Customization implements Magento_Core_Model_Theme_CustomizationInterface
+namespace Magento\Core\Model\Theme;
+
+class Customization implements \Magento\Core\Model\Theme\CustomizationInterface
 {
     /**
-     * @var Magento_Core_Model_Resource_Theme_File_CollectionFactory
+     * @var \Magento\Core\Model\Resource\Theme\File\CollectionFactory
      */
     protected $_fileFactory;
 
     /**
-     * @var Magento_Core_Model_Theme_Customization_Path
+     * @var \Magento\Core\Model\Theme\Customization\Path
      */
     protected $_customizationPath;
 
     /**
-     * @var Magento_Core_Model_Theme
+     * @var \Magento\Core\Model\Theme
      */
     protected $_theme;
 
     /**
-     * @var Magento_Core_Model_Resource_Theme_File_Collection
+     * @var \Magento\Core\Model\Resource\Theme\File\Collection
      */
     protected $_themeFiles;
 
     /**
-     * @var Magento_Core_Model_Resource_Theme_File_Collection[]
+     * @var \Magento\Core\Model\Resource\Theme\File\Collection[]
      */
     protected $_themeFilesByType = array();
 
     /**
-     * @param Magento_Core_Model_Resource_Theme_File_CollectionFactory $fileFactory
-     * @param Magento_Core_Model_Theme_Customization_Path $customizationPath
-     * @param Magento_Core_Model_Theme $theme
+     * @param \Magento\Core\Model\Resource\Theme\File\CollectionFactory $fileFactory
+     * @param \Magento\Core\Model\Theme\Customization\Path $customizationPath
+     * @param \Magento\Core\Model\Theme $theme
      */
     public function __construct(
-        Magento_Core_Model_Resource_Theme_File_CollectionFactory $fileFactory,
-        Magento_Core_Model_Theme_Customization_Path $customizationPath,
-        Magento_Core_Model_Theme $theme = null
+        \Magento\Core\Model\Resource\Theme\File\CollectionFactory $fileFactory,
+        \Magento\Core\Model\Theme\Customization\Path $customizationPath,
+        \Magento\Core\Model\Theme $theme = null
     ) {
         $this->_fileFactory = $fileFactory;
         $this->_customizationPath = $customizationPath;
@@ -56,7 +58,7 @@ class Magento_Core_Model_Theme_Customization implements Magento_Core_Model_Theme
     /**
      * Retrieve list of files which belong to a theme
      *
-     * @return Magento_Core_Model_Theme_FileInterface[]
+     * @return \Magento\Core\Model\Theme\FileInterface[]
      */
     public function getFiles()
     {
@@ -72,7 +74,7 @@ class Magento_Core_Model_Theme_Customization implements Magento_Core_Model_Theme
      * Retrieve list of files which belong to a theme only by type
      *
      * @param string $type
-     * @return Magento_Core_Model_Theme_FileInterface[]
+     * @return \Magento\Core\Model\Theme\FileInterface[]
      */
     public function getFilesByType($type)
     {
@@ -89,15 +91,15 @@ class Magento_Core_Model_Theme_Customization implements Magento_Core_Model_Theme
     /**
      * Get short file information
      *
-     * @param Magento_Core_Model_Theme_FileInterface[] $files
+     * @param \Magento\Core\Model\Theme\FileInterface[] $files
      * @return array
      */
     public function generateFileInfo(array $files)
     {
         $filesInfo = array();
-        /** @var $file Magento_Core_Model_Theme_FileInterface */
+        /** @var $file \Magento\Core\Model\Theme\FileInterface */
         foreach ($files as $file) {
-            if ($file instanceof Magento_Core_Model_Theme_FileInterface) {
+            if ($file instanceof \Magento\Core\Model\Theme\FileInterface) {
                 $filesInfo[] = $file->getFileInfo();
             }
         }
@@ -140,7 +142,7 @@ class Magento_Core_Model_Theme_Customization implements Magento_Core_Model_Theme
     public function reorder($type, array $sequence)
     {
         $sortOrderSequence = array_flip(array_values($sequence));
-        /** @var $file Magento_Core_Model_Theme_FileInterface */
+        /** @var $file \Magento\Core\Model\Theme\FileInterface */
         foreach ($this->getFilesByType($type) as $file) {
             if (isset($sortOrderSequence[$file->getId()])) {
                 $prevSortOrder = $file->getData('sort_order');
@@ -162,7 +164,7 @@ class Magento_Core_Model_Theme_Customization implements Magento_Core_Model_Theme
      */
     public function delete(array $fileIds)
     {
-        /** @var $file Magento_Core_Model_Theme_FileInterface */
+        /** @var $file \Magento\Core\Model\Theme\FileInterface */
         foreach ($this->getFiles() as $file) {
             if (in_array($file->getId(), $fileIds)) {
                 $file->delete();

@@ -15,15 +15,17 @@
  * @category   Magento
  * @package    Magento_Invitation
  */
-class Magento_Invitation_Model_Adminhtml_System_Config_Backend_Limited
-    extends Magento_Core_Model_Config_Value
+namespace Magento\Invitation\Model\Adminhtml\System\Config\Backend;
+
+class Limited
+    extends \Magento\Core\Model\Config\Value
 {
 
     /**
      * Validating entered value if it will be 0 (unlimited)
      * throw notice and change it to old one
      *
-     * @return Magento_Invitation_Model_Adminhtml_System_Config_Backend_Limited
+     * @return \Magento\Invitation\Model\Adminhtml\System\Config\Backend\Limited
      */
     protected function _beforeSave()
     {
@@ -39,7 +41,7 @@ class Magento_Invitation_Model_Adminhtml_System_Config_Backend_Limited
 
             }
             $this->setValue($value);
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addNotice(
+            \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addNotice(
                 __('Please correct the value for "%1" parameter, otherwise we\'ll use the saved value instead.', $parameter)
             );
         }

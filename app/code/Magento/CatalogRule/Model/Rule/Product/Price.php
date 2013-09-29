@@ -12,28 +12,30 @@
 /**
  * Catalog Rule Product Aggregated Price per date Model
  *
- * @method Magento_CatalogRule_Model_Resource_Rule_Product_Price _getResource()
- * @method Magento_CatalogRule_Model_Resource_Rule_Product_Price getResource()
+ * @method \Magento\CatalogRule\Model\Resource\Rule\Product\Price _getResource()
+ * @method \Magento\CatalogRule\Model\Resource\Rule\Product\Price getResource()
  * @method string getRuleDate()
- * @method Magento_CatalogRule_Model_Rule_Product_Price setRuleDate(string $value)
+ * @method \Magento\CatalogRule\Model\Rule\Product\Price setRuleDate(string $value)
  * @method int getCustomerGroupId()
- * @method Magento_CatalogRule_Model_Rule_Product_Price setCustomerGroupId(int $value)
+ * @method \Magento\CatalogRule\Model\Rule\Product\Price setCustomerGroupId(int $value)
  * @method int getProductId()
- * @method Magento_CatalogRule_Model_Rule_Product_Price setProductId(int $value)
+ * @method \Magento\CatalogRule\Model\Rule\Product\Price setProductId(int $value)
  * @method float getRulePrice()
- * @method Magento_CatalogRule_Model_Rule_Product_Price setRulePrice(float $value)
+ * @method \Magento\CatalogRule\Model\Rule\Product\Price setRulePrice(float $value)
  * @method int getWebsiteId()
- * @method Magento_CatalogRule_Model_Rule_Product_Price setWebsiteId(int $value)
+ * @method \Magento\CatalogRule\Model\Rule\Product\Price setWebsiteId(int $value)
  * @method string getLatestStartDate()
- * @method Magento_CatalogRule_Model_Rule_Product_Price setLatestStartDate(string $value)
+ * @method \Magento\CatalogRule\Model\Rule\Product\Price setLatestStartDate(string $value)
  * @method string getEarliestEndDate()
- * @method Magento_CatalogRule_Model_Rule_Product_Price setEarliestEndDate(string $value)
+ * @method \Magento\CatalogRule\Model\Rule\Product\Price setEarliestEndDate(string $value)
  *
  * @category    Magento
  * @package     Magento_CatalogRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CatalogRule_Model_Rule_Product_Price extends Magento_Core_Model_Abstract
+namespace Magento\CatalogRule\Model\Rule\Product;
+
+class Price extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Initialize resource model
@@ -41,22 +43,22 @@ class Magento_CatalogRule_Model_Rule_Product_Price extends Magento_Core_Model_Ab
      */
     protected function _construct()
     {
-        $this->_init('Magento_CatalogRule_Model_Resource_Rule_Product_Price');
+        $this->_init('Magento\CatalogRule\Model\Resource\Rule\Product\Price');
     }
 
     /**
      * Apply price rule price to price index table
      *
-     * @param Magento_DB_Select $select
+     * @param \Magento\DB\Select $select
      * @param array|string $indexTable
      * @param string $entityId
      * @param string $customerGroupId
      * @param string $websiteId
      * @param array $updateFields       the array fields for compare with rule price and update
      * @param string $websiteDate
-     * @return Magento_CatalogRule_Model_Rule_Product_Price
+     * @return \Magento\CatalogRule\Model\Rule\Product\Price
      */
-    public function applyPriceRuleToIndexTable(Magento_DB_Select $select, $indexTable, $entityId, $customerGroupId,
+    public function applyPriceRuleToIndexTable(\Magento\DB\Select $select, $indexTable, $entityId, $customerGroupId,
         $websiteId, $updateFields, $websiteDate)
     {
 

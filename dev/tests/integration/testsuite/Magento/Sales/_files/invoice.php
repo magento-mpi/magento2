@@ -9,13 +9,13 @@
  */
 
 require 'order.php';
-/** @var Magento_Sales_Model_Order $order */
+/** @var \Magento\Sales\Model\Order $order */
 
-$orderService = Magento_TestFramework_ObjectManager::getInstance()->create('Magento_Sales_Model_Service_Order',
+$orderService = \Magento\TestFramework\ObjectManager::getInstance()->create('Magento\Sales\Model\Service\Order',
     array('order' => $order));
 $invoice = $orderService->prepareInvoice();
 $invoice->register();
 $order->setIsInProcess(true);
-$transactionSave = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Core_Model_Resource_Transaction');
+$transactionSave = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Core\Model\Resource\Transaction');
 $transactionSave->addObject($invoice)->addObject($order)->save();

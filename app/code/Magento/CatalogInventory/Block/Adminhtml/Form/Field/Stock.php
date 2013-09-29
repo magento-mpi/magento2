@@ -11,14 +11,16 @@
 /**
  * HTML select element block
  */
-class Magento_CatalogInventory_Block_Adminhtml_Form_Field_Stock extends Magento_Data_Form_Element_Select
+namespace Magento\CatalogInventory\Block\Adminhtml\Form\Field;
+
+class Stock extends \Magento\Data\Form\Element\Select
 {
     const QUANTITY_FIELD_HTML_ID = 'qty';
 
     /**
      * Quantity field element
      *
-     * @var Magento_Data_Form_Element_Text
+     * @var \Magento\Data\Form\Element\Text
      */
     protected $_qty;
 
@@ -32,24 +34,24 @@ class Magento_CatalogInventory_Block_Adminhtml_Form_Field_Stock extends Magento_
     /**
      * Text element factory
      *
-     * @var Magento_Data_Form_Element_TextFactory
+     * @var \Magento\Data\Form\Element\TextFactory
      */
     protected $_factoryText;
 
     /**
      * Construct
      * 
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Data_Form_Element_Factory $factoryElement
-     * @param Magento_Data_Form_Element_CollectionFactory $factoryCollection
-     * @param Magento_Data_Form_Element_TextFactory $factoryText
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Data\Form\Element\Factory $factoryElement
+     * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
+     * @param \Magento\Data\Form\Element\TextFactory $factoryText
      * @param array $attributes
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Data_Form_Element_Factory $factoryElement,
-        Magento_Data_Form_Element_CollectionFactory $factoryCollection,
-        Magento_Data_Form_Element_TextFactory $factoryText,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Data\Form\Element\Factory $factoryElement,
+        \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
+        \Magento\Data\Form\Element\TextFactory $factoryText,
         array $attributes = array()
     ) {
         $this->_factoryText = $factoryText;
@@ -62,11 +64,11 @@ class Magento_CatalogInventory_Block_Adminhtml_Form_Field_Stock extends Magento_
     /**
      * Create quantity field
      *
-     * @return Magento_Data_Form_Element_Text
+     * @return \Magento\Data\Form\Element\Text
      */
     protected function _createQtyElement()
     {
-        /** @var \Magento_Data_Form_Element_Text $element */
+        /** @var \\Magento\Data\Form\Element\Text $element */
         $element = $this->_factoryText->create();
         $element->setId(self::QUANTITY_FIELD_HTML_ID)->setName('qty')->addClass('validate-number input-text');
         return $element;
@@ -88,7 +90,7 @@ class Magento_CatalogInventory_Block_Adminhtml_Form_Field_Stock extends Magento_
      * Set form to quantity element in addition to current element
      *
      * @param $form
-     * @return Magento_Data_Form
+     * @return \Magento\Data\Form
      */
     public function setForm($form)
     {
@@ -100,7 +102,7 @@ class Magento_CatalogInventory_Block_Adminhtml_Form_Field_Stock extends Magento_
      * Set value to quantity element in addition to current element
      *
      * @param $value
-     * @return Magento_Data_Form_Element_Select
+     * @return \Magento\Data\Form\Element\Select
      */
     public function setValue($value)
     {
@@ -138,7 +140,7 @@ class Magento_CatalogInventory_Block_Adminhtml_Form_Field_Stock extends Magento_
     /**
      * Disable fields depending on product type
      *
-     * @return Magento_CatalogInventory_Block_Adminhtml_Form_Field_Stock
+     * @return \Magento\CatalogInventory\Block\Adminhtml\Form\Field\Stock
      */
     protected function _disableFields()
     {

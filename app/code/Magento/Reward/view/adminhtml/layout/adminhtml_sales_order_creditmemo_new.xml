@@ -9,13 +9,13 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <referenceBlock name="creditmemo_totals">
-        <block class="Magento_Adminhtml_Block_Sales_Order_Totals_Item" name="reward_points" template="Magento_Reward::sales/order/total.phtml">
+        <block class="Magento\Adminhtml\Block\Sales\Order\Totals\Item" name="reward_points" template="Magento_Reward::sales/order/total.phtml">
             <action method="setBeforeCondition">
                 <argument name="condition" xsi:type="string">customerbalance</argument>
             </action>
         </block>
     </referenceBlock>
     <referenceContainer name="submit_before">
-        <block class="Magento_Reward_Block_Adminhtml_Sales_Order_Creditmemo_Reward" name="reward_points_creditmemo" template="sales/order/creditmemo/reward.phtml"/>
+        <block class="Magento\Reward\Block\Adminhtml\Sales\Order\Creditmemo\Reward" name="reward_points_creditmemo" template="sales/order/creditmemo/reward.phtml"/>
     </referenceContainer>
 </layout>

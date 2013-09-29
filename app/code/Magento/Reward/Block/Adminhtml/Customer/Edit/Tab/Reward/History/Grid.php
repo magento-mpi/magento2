@@ -7,13 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_History_Grid
-    extends Magento_Backend_Block_Widget_Grid
+namespace Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\History;
+
+class Grid
+    extends \Magento\Backend\Block\Widget\Grid
 {
     /**
      * Prepare grid collection object
      *
-     * @return Magento_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_History_Grid
+     * @return \Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\History\Grid
      */
     protected function _prepareCollection()
     {

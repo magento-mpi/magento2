@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 ?>
-<?php /** @var $this Magento_GiftRegistry_Block_Customer_Edit_Registry */ ?>
+<?php /** @var $this \Magento\GiftRegistry\Block\Customer\Edit\Registry */ ?>
 <input type="hidden" name="entity_id" id="entity_id" value="<?php echo $this->getEntity()->getEntityId(); ?>" />
 <input type="hidden" name="type_id" id="type_id" value="<?php echo $this->getTypeId(); ?>" />
 <div class="fieldset">
@@ -77,7 +77,7 @@ foreach ($fieldsets as $fieldset => $fields) : ?>
                                 isRegionRequired: false,
                                 isZipRequired: false,
                                 isCountryRequired: true,
-                                regionJson: <?php echo $this->helper('Magento_Directory_Helper_Data')->getRegionJson(); ?>
+                                regionJson: <?php echo $this->helper('Magento\Directory\Helper\Data')->getRegionJson(); ?>
                             });
                         });
                 })(jQuery);

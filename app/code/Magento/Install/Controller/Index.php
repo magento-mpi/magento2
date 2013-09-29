@@ -12,7 +12,9 @@
 /**
  * Install index controller
  */
-class Magento_Install_Controller_Index extends Magento_Install_Controller_Action
+namespace Magento\Install\Controller;
+
+class Index extends \Magento\Install\Controller\Action
 {
 
     /**
@@ -21,9 +23,9 @@ class Magento_Install_Controller_Index extends Magento_Install_Controller_Action
     public function preDispatch()
     {
         $this->setFlag('', self::FLAG_NO_CHECK_INSTALLATION, true);
-        if (!Mage::isInstalled()) {
-            foreach (glob(Mage::getBaseDir(Magento_Core_Model_Dir::VAR_DIR) . '/*', GLOB_ONLYDIR) as $dir) {
-                Magento_Io_File::rmdirRecursive($dir);
+        if (!\Mage::isInstalled()) {
+            foreach (glob(\Mage::getBaseDir(\Magento\Core\Model\Dir::VAR_DIR) . '/*', GLOB_ONLYDIR) as $dir) {
+                \Magento\Io\File::rmdirRecursive($dir);
             }
         }
         parent::preDispatch();

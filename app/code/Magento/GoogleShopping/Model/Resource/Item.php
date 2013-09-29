@@ -15,7 +15,9 @@
  * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GoogleShopping_Model_Resource_Item extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\GoogleShopping\Model\Resource;
+
+class Item extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     protected function _construct()
     {
@@ -25,12 +27,12 @@ class Magento_GoogleShopping_Model_Resource_Item extends Magento_Core_Model_Reso
     /**
      * Load Item model by product
      *
-     * @param Magento_GoogleShopping_Model_Item $model
-     * @return Magento_GoogleShopping_Model_Resource_Item
+     * @param \Magento\GoogleShopping\Model\Item $model
+     * @return \Magento\GoogleShopping\Model\Resource\Item
      */
     public function loadByProduct($model)
     {
-        if (!($model->getProduct() instanceof Magento_Object)) {
+        if (!($model->getProduct() instanceof \Magento\Object)) {
             return $this;
         }
 

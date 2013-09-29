@@ -8,11 +8,13 @@
  * @license    {license_link}
  */
 
-class Magento_Tools_Migration_System_Configuration_Mapper_Section
-    extends Magento_Tools_Migration_System_Configuration_Mapper_Abstract
+namespace Magento\Tools\Migration\System\Configuration\Mapper;
+
+class Section
+    extends \Magento\Tools\Migration\System\Configuration\Mapper\AbstractMapper
 {
     /**
-     * @var Magento_Tools_Migration_System_Configuration_Mapper_Group
+     * @var \Magento\Tools\Migration\System\Configuration\Mapper\Group
      */
     protected $_groupMapper;
 
@@ -30,9 +32,9 @@ class Magento_Tools_Migration_System_Configuration_Mapper_Section
     );
 
     /**
-     * @param Magento_Tools_Migration_System_Configuration_Mapper_Group $groupMapper
+     * @param \Magento\Tools\Migration\System\Configuration\Mapper\Group $groupMapper
      */
-    public function __construct(Magento_Tools_Migration_System_Configuration_Mapper_Group $groupMapper)
+    public function __construct(\Magento\Tools\Migration\System\Configuration\Mapper\Group $groupMapper)
     {
         $this->_groupMapper = $groupMapper;
     }

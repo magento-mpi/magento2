@@ -8,25 +8,27 @@
  * @license     {license_link}
  */
 
-class Magento_GiftCardAccount_Block_Sales_Order_Giftcards extends Magento_Core_Block_Template
+namespace Magento\GiftCardAccount\Block\Sales\Order;
+
+class Giftcards extends \Magento\Core\Block\Template
 {
     /**
      * Gift card account data
      *
-     * @var Magento_GiftCardAccount_Helper_Data
+     * @var \Magento\GiftCardAccount\Helper\Data
      */
     protected $_giftCardAccountData = null;
 
     /**
-     * @param Magento_GiftCardAccount_Helper_Data $giftCardAccountData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
+     * @param \Magento\GiftCardAccount\Helper\Data $giftCardAccountData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_GiftCardAccount_Helper_Data $giftCardAccountData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
+        \Magento\GiftCardAccount\Helper\Data $giftCardAccountData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_giftCardAccountData = $giftCardAccountData;
@@ -36,7 +38,7 @@ class Magento_GiftCardAccount_Block_Sales_Order_Giftcards extends Magento_Core_B
     /**
      * Retrieve current order model instance
      *
-     * @return Magento_Sales_Model_Order
+     * @return \Magento\Sales\Model\Order
      */
     public function getOrder()
     {
@@ -57,12 +59,12 @@ class Magento_GiftCardAccount_Block_Sales_Order_Giftcards extends Magento_Core_B
     {
         $result = array();
         $source = $this->getSource();
-        if (!($source instanceof Magento_Sales_Model_Order)) {
+        if (!($source instanceof \Magento\Sales\Model\Order)) {
             return $result;
         }
         $cards = $this->_giftCardAccountData->getCards($this->getOrder());
         foreach ($cards as $card) {
-            $obj = new Magento_Object();
+            $obj = new \Magento\Object();
             $obj->setBaseAmount($card['ba'])
                 ->setAmount($card['a'])
                 ->setCode($card['c']);
@@ -75,11 +77,11 @@ class Magento_GiftCardAccount_Block_Sales_Order_Giftcards extends Magento_Core_B
     /**
      * Initialize giftcard order total
      *
-     * @return Magento_GiftCardAccount_Block_Sales_Order_Giftcards
+     * @return \Magento\GiftCardAccount\Block\Sales\Order\Giftcards
      */
     public function initTotals()
     {
-        $total = new Magento_Object(array(
+        $total = new \Magento\Object(array(
             'code'      => $this->getNameInLayout(),
             'block_name'=> $this->getNameInLayout(),
             'area'      => $this->getArea()

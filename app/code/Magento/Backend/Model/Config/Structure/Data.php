@@ -5,18 +5,20 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Backend_Model_Config_Structure_Data extends Magento_Config_Data_Scoped
+namespace Magento\Backend\Model\Config\Structure;
+
+class Data extends \Magento\Config\Data\Scoped
 {
     /**
-     * @param Magento_Backend_Model_Config_Structure_Reader $reader
-     * @param Magento_Config_ScopeInterface $configScope
-     * @param Magento_Config_CacheInterface $cache
+     * @param \Magento\Backend\Model\Config\Structure\Reader $reader
+     * @param \Magento\Config\ScopeInterface $configScope
+     * @param \Magento\Config\CacheInterface $cache
      * @param $cacheId
      */
     public function __construct(
-        Magento_Backend_Model_Config_Structure_Reader $reader,
-        Magento_Config_ScopeInterface $configScope,
-        Magento_Config_CacheInterface $cache,
+        \Magento\Backend\Model\Config\Structure\Reader $reader,
+        \Magento\Config\ScopeInterface $configScope,
+        \Magento\Config\CacheInterface $cache,
         $cacheId
     ) {
         parent::__construct($reader, $configScope, $cache, $cacheId);

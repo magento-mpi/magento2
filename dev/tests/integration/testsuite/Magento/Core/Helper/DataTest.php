@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Helper_DataTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Helper;
+
+class DataTest extends \PHPUnit_Framework_TestCase
 {
     const DATE_TIMEZONE = 'America/Los_Angeles'; // hardcoded in the installation
 
@@ -23,25 +25,25 @@ class Magento_Core_Helper_DataTest extends PHPUnit_Framework_TestCase
     const DATETIME_FORMAT_SHORT = 'n/j/y g:i A';
 
     /**
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_helper = null;
 
     /**
-     * @var DateTime
+     * @var \DateTime
      */
     protected $_dateTime = null;
 
     protected function setUp()
     {
-        $this->_helper = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Helper_Data');
-        $this->_dateTime = new DateTime;
-        $this->_dateTime->setTimezone(new DateTimeZone(self::DATE_TIMEZONE));
+        $this->_helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Helper\Data');
+        $this->_dateTime = new \DateTime;
+        $this->_dateTime->setTimezone(new \DateTimeZone(self::DATE_TIMEZONE));
     }
 
     public function testGetEncryptor()
     {
-        $this->assertInstanceOf('Magento_Core_Model_Encryption', $this->_helper->getEncryptor());
+        $this->assertInstanceOf('Magento\Core\Model\Encryption', $this->_helper->getEncryptor());
     }
 
     public function testCurrency()
@@ -67,7 +69,7 @@ class Magento_Core_Helper_DataTest extends PHPUnit_Framework_TestCase
             $this->_dateTime->format(self::DATETIME_FORMAT_SHORT), $this->_helper->formatDate(null, 'short', true)
         );
 
-        $zendDate = new Zend_Date($this->_dateTime->format('U'));
+        $zendDate = new \Zend_Date($this->_dateTime->format('U'));
         $this->assertEquals(
             $zendDate->toString(self::DATETIME_FORMAT_SHORT_ISO),
             $this->_helper->formatTime($zendDate, 'short', true)
@@ -82,7 +84,7 @@ class Magento_Core_Helper_DataTest extends PHPUnit_Framework_TestCase
             $this->_dateTime->format(self::DATETIME_FORMAT_SHORT), $this->_helper->formatTime(null, 'short', true)
         );
 
-        $zendDate = new Zend_Date($this->_dateTime->format('U'));
+        $zendDate = new \Zend_Date($this->_dateTime->format('U'));
         $this->assertEquals(
             $zendDate->toString(self::TIME_FORMAT_SHORT_ISO),
             $this->_helper->formatTime($zendDate, 'short')
@@ -100,7 +102,7 @@ class Magento_Core_Helper_DataTest extends PHPUnit_Framework_TestCase
     public function testValidateKey()
     {
         $validKey = md5(uniqid());
-        $this->assertInstanceOf('Magento_Crypt', $this->_helper->validateKey($validKey));
+        $this->assertInstanceOf('Magento\Crypt', $this->_helper->validateKey($validKey));
     }
 
     public function testGetRandomString()
@@ -159,9 +161,9 @@ class Magento_Core_Helper_DataTest extends PHPUnit_Framework_TestCase
             'customer_email' => 'admin@example.com',
             'customer_group_id' => '1',
         );
-        $source = new Magento_Object($data);
-        $target = new Magento_Object();
-        $expectedTarget = new Magento_Object($data);
+        $source = new \Magento\Object($data);
+        $target = new \Magento\Object();
+        $expectedTarget = new \Magento\Object($data);
         $expectedTarget->setDataChanges(true); // hack for assertion
 
         $this->assertNull($this->_helper->copyFieldsetToTarget($fieldset, $aspect, 'invalid_source', array()));
@@ -182,7 +184,7 @@ class Magento_Core_Helper_DataTest extends PHPUnit_Framework_TestCase
             'customer_email' => 'admin@example.com',
             'customer_group_id' => '1',
         );
-        $source = new Magento_Object($data);
+        $source = new \Magento\Object($data);
         $target = array();
         $expectedTarget = $data;
 
@@ -211,16 +213,16 @@ class Magento_Core_Helper_DataTest extends PHPUnit_Framework_TestCase
         // arrays
         $this->assertEquals($decorated, $this->_helper->decorateArray($original, ''));
 
-        // Magento_Object
+        // \Magento\Object
         $sample = array(
-            new Magento_Object($original[0]),
-            new Magento_Object($original[1]),
-            new Magento_Object($original[2]),
+            new \Magento\Object($original[0]),
+            new \Magento\Object($original[1]),
+            new \Magento\Object($original[2]),
         );
         $decoratedVo = array(
-            new Magento_Object($decorated[0]),
-            new Magento_Object($decorated[1]),
-            new Magento_Object($decorated[2]),
+            new \Magento\Object($decorated[0]),
+            new \Magento\Object($decorated[1]),
+            new \Magento\Object($decorated[2]),
         );
         foreach ($decoratedVo as $obj) {
             $obj->setDataChanges(true); // hack for assertion
@@ -250,7 +252,7 @@ XML;
     /**
      * @param array $array
      * @param string $rootName
-     * @expectedException Magento_Exception
+     * @expectedException \Magento\Exception
      * @dataProvider assocToXmlExceptionDataProvider
      */
     public function testAssocToXmlException($array, $rootName = '_')
@@ -274,7 +276,7 @@ XML;
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <_><one>1</one><two><three>3</three><four>4</four></two></_>
 XML;
-        $result = $this->_helper->xmlToAssoc(new SimpleXMLElement($xmlstr));
+        $result = $this->_helper->xmlToAssoc(new \SimpleXMLElement($xmlstr));
         $this->assertEquals(array('one' => '1', 'two' => array('three' => '3', 'four'  => '4')), $result);
     }
 

@@ -9,7 +9,7 @@
  */
 ?>
 <?php
-/** @var $this Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Manage */
+/** @var $this \Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Manage */
 ?>
 <div id="cms-hierarchy-manage-container" class="cms-popup" style="display:none;">
     <div class="entry-edit">
@@ -88,7 +88,7 @@
         var buttonAction = null;
         var descriptionText = '';
         if (action == 'delete') {
-            title = <?php echo json_encode($this->helper('Magento_VersionsCms_Helper_Data')->getDeleteMultipleHierarchiesText()); ?>;
+            title = <?php echo json_encode($this->helper('Magento\VersionsCms\Helper\Data')->getDeleteMultipleHierarchiesText()); ?>;
             buttonText = <?php echo json_encode(__('Delete')); ?>;
             buttonClass = 'scalable ok_button delete';
             buttonAction = submitDelete;

@@ -8,8 +8,10 @@
  * @license     {license_link}
  */
 
-class Magento_GiftRegistry_Block_Adminhtml_Customer_Edit_Form
-    extends Magento_Adminhtml_Block_Widget_Form
+namespace Magento\GiftRegistry\Block\Adminhtml\Customer\Edit;
+
+class Form
+    extends \Magento\Adminhtml\Block\Widget\Form
 {
 
     protected $_template = 'customer/form.phtml';
@@ -17,20 +19,20 @@ class Magento_GiftRegistry_Block_Adminhtml_Customer_Edit_Form
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -40,14 +42,14 @@ class Magento_GiftRegistry_Block_Adminhtml_Customer_Edit_Form
     /**
      * Prepare layout
      *
-     * @return Magento_GiftRegistry_Block_Adminhtml_Customer_Edit_Form
+     * @return \Magento\GiftRegistry\Block\Adminhtml\Customer\Edit\Form
      */
     protected function _prepareLayout()
     {
-        $this->addChild('entity_items', 'Magento_GiftRegistry_Block_Adminhtml_Customer_Edit_Items');
-        $this->addChild('cart_items', 'Magento_GiftRegistry_Block_Adminhtml_Customer_Edit_Cart');
-        $this->addChild('sharing_form', 'Magento_GiftRegistry_Block_Adminhtml_Customer_Edit_Sharing');
-        $this->addChild('update_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('entity_items', 'Magento\GiftRegistry\Block\Adminhtml\Customer\Edit\Items');
+        $this->addChild('cart_items', 'Magento\GiftRegistry\Block\Adminhtml\Customer\Edit\Cart');
+        $this->addChild('sharing_form', 'Magento\GiftRegistry\Block\Adminhtml\Customer\Edit\Sharing');
+        $this->addChild('update_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label' => __('Update Items and Qty\'s'),
             'type'  => 'submit'
         ));
@@ -62,7 +64,7 @@ class Magento_GiftRegistry_Block_Adminhtml_Customer_Edit_Form
      */
     public function getWebsiteName()
     {
-        return Mage::app()->getWebsite($this->getEntity()->getWebsiteId())->getName();
+        return \Mage::app()->getWebsite($this->getEntity()->getWebsiteId())->getName();
     }
 
     /**
@@ -72,7 +74,7 @@ class Magento_GiftRegistry_Block_Adminhtml_Customer_Edit_Form
      */
     public function getOwnerName()
     {
-        $customer = Mage::getModel('Magento_Customer_Model_Customer')
+        $customer = \Mage::getModel('Magento\Customer\Model\Customer')
             ->load($this->getEntity()->getCustomerId());
 
         return $this->escapeHtml($customer->getName());
@@ -95,7 +97,7 @@ class Magento_GiftRegistry_Block_Adminhtml_Customer_Edit_Form
      */
     public function getTypeName()
     {
-        $type = Mage::getModel('Magento_GiftRegistry_Model_Type')
+        $type = \Mage::getModel('Magento\GiftRegistry\Model\Type')
             ->load($this->getEntity()->getTypeId());
 
         return $this->escapeHtml($type->getLabel());
@@ -134,7 +136,7 @@ class Magento_GiftRegistry_Block_Adminhtml_Customer_Edit_Form
    /**
      * Return gift registry entity object
      *
-     * @return Magento_GiftRegistry_Model_Entity
+     * @return \Magento\GiftRegistry\Model\Entity
      */
     public function getEntity()
     {
@@ -144,7 +146,7 @@ class Magento_GiftRegistry_Block_Adminhtml_Customer_Edit_Form
    /**
      * Return shipping address
      *
-     * @return Magento_GiftRegistry_Model_Entity
+     * @return \Magento\GiftRegistry\Model\Entity
      */
     public function getShippingAddressHtml()
     {
@@ -154,12 +156,12 @@ class Magento_GiftRegistry_Block_Adminhtml_Customer_Edit_Form
    /**
      * Return gift registry creation data
      *
-     * @return Magento_GiftRegistry_Model_Entity
+     * @return \Magento\GiftRegistry\Model\Entity
      */
     public function getCreatedAt()
     {
         return $this->formatDate($this->getEntity()->getCreatedAt(),
-            Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM, true
+            \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM, true
         );
     }
 

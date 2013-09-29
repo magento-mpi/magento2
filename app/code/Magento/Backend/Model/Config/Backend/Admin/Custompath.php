@@ -15,33 +15,35 @@
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backend_Model_Config_Backend_Admin_Custompath extends Magento_Core_Model_Config_Value
+namespace Magento\Backend\Model\Config\Backend\Admin;
+
+class Custompath extends \Magento\Core\Model\Config\Value
 {
     /**
      * Backend data
      *
-     * @var Magento_Backend_Helper_Data
+     * @var \Magento\Backend\Helper\Data
      */
     protected $_backendData = null;
 
     /**
-     * @param Magento_Backend_Helper_Data $backendData
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Core_Model_Config $config
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Backend\Helper\Data $backendData
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Helper_Data $backendData,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_StoreManager $storeManager,
-        Magento_Core_Model_Config $config,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Backend\Helper\Data $backendData,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\Config $config,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_backendData = $backendData;
@@ -51,7 +53,7 @@ class Magento_Backend_Model_Config_Backend_Admin_Custompath extends Magento_Core
     /**
      * Check whether redirect should be set
      *
-     * @return Magento_Backend_Model_Config_Backend_Admin_Custom
+     * @return \Magento\Backend\Model\Config\Backend\Admin\Custom
      */
     protected function _beforeSave()
     {

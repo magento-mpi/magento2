@@ -9,20 +9,22 @@
  * @license     {license_link}
  */
 
-class Magento_Search_Model_Adminhtml_System_Config_Source_EngineTest extends PHPUnit_Framework_TestCase
+namespace Magento\Search\Model\Adminhtml\System\Config\Source;
+
+class EngineTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Search_Model_Adminhtml_System_Config_Source_Engine
+     * @var \Magento\Search\Model\Adminhtml\System\Config\Source\Engine
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model= new Magento_Search_Model_Adminhtml_System_Config_Source_Engine();
+        $this->_model= new \Magento\Search\Model\Adminhtml\System\Config\Source\Engine();
     }
 
     /**
-     * Check if Magento_Search_Model_Adminhtml_System_Config_Source_Engine has method toOptionArray
+     * Check if \Magento\Search\Model\Adminhtml\System\Config\Source\Engine has method toOptionArray
      */
     public function testToOptionArrayExistence()
     {

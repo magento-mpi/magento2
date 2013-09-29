@@ -16,7 +16,9 @@
  * @package    Magento_Io
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Io_Ftp extends Magento_Io_Abstract
+namespace Magento\Io;
+
+class Ftp extends \Magento\Io\AbstractIo
 {
     const ERROR_EMPTY_HOST = 1;
     const ERROR_INVALID_CONNECTION = 2;
@@ -70,7 +72,7 @@ class Magento_Io_Ftp extends Magento_Io_Abstract
     {
         if (empty($args['host'])) {
             $this->_error = self::ERROR_EMPTY_HOST;
-            throw new Magento_Io_Exception('Empty host specified');
+            throw new \Magento\Io\IoException('Empty host specified');
         }
 
         if (empty($args['port'])) {
@@ -103,20 +105,20 @@ class Magento_Io_Ftp extends Magento_Io_Abstract
         }
         if (!$this->_conn) {
             $this->_error = self::ERROR_INVALID_CONNECTION;
-            throw new Magento_Io_Exception('Could not establish FTP connection, invalid host or port');
+            throw new \Magento\Io\IoException('Could not establish FTP connection, invalid host or port');
         }
 
         if (!@ftp_login($this->_conn, $this->_config['user'], $this->_config['password'])) {
             $this->_error = self::ERROR_INVALID_LOGIN;
             $this->close();
-            throw new Magento_Io_Exception('Invalid user name or password');
+            throw new \Magento\Io\IoException('Invalid user name or password');
         }
 
         if (!empty($this->_config['path'])) {
             if (!@ftp_chdir($this->_conn, $this->_config['path'])) {
                 $this->_error = self::ERROR_INVALID_PATH;
                 $this->close();
-                throw new Magento_Io_Exception('Invalid path');
+                throw new \Magento\Io\IoException('Invalid path');
             }
         }
 
@@ -124,7 +126,7 @@ class Magento_Io_Ftp extends Magento_Io_Abstract
             if (!@ftp_pasv($this->_conn, true)) {
                 $this->_error = self::ERROR_INVALID_MODE;
                 $this->close();
-                throw new Magento_Io_Exception('Invalid file transfer mode');
+                throw new \Magento\Io\IoException('Invalid file transfer mode');
             }
         }
 

@@ -16,7 +16,9 @@
  * @package     Magento_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-interface Magento_Backend_Model_Auth_Credential_StorageInterface
+namespace Magento\Backend\Model\Auth\Credential;
+
+interface StorageInterface
 {
     /**
      * Authenticate process.

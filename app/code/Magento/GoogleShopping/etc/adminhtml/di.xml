@@ -10,5 +10,5 @@
  */
 -->
 <config>
-    <preference for="Magento_Core_Model_Session_Abstract" type="Magento_Backend_Model_Session" />
+    <preference for="Magento\Core\Model\Session\AbstractSession" type="Magento\Backend\Model\Session" />
 </config>

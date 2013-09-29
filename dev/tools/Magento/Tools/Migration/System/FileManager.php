@@ -8,26 +8,28 @@
  * @license    {license_link}
  */
 
-class Magento_Tools_Migration_System_FileManager
+namespace Magento\Tools\Migration\System;
+
+class FileManager
 {
     /**
-     * @var Magento_Tools_Migration_System_FileReader
+     * @var \Magento\Tools\Migration\System\FileReader
      */
     protected $_reader;
 
     /**
-     * @var Magento_Tools_Migration_System_WriterInterface
+     * @var \Magento\Tools\Migration\System\WriterInterface
      */
     protected $_writer;
 
 
     /**
-     * @param Magento_Tools_Migration_System_FileReader $reader
-     * @param Magento_Tools_Migration_System_WriterInterface $writer
+     * @param \Magento\Tools\Migration\System\FileReader $reader
+     * @param \Magento\Tools\Migration\System\WriterInterface $writer
      */
     public function __construct(
-        Magento_Tools_Migration_System_FileReader $reader,
-        Magento_Tools_Migration_System_WriterInterface $writer
+        \Magento\Tools\Migration\System\FileReader $reader,
+        \Magento\Tools\Migration\System\WriterInterface $writer
     ) {
         $this->_reader = $reader;
         $this->_writer = $writer;

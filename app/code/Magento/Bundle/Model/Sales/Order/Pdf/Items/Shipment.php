@@ -15,33 +15,35 @@
  * @package    Magento_Bundle
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Bundle_Model_Sales_Order_Pdf_Items_Shipment extends Magento_Bundle_Model_Sales_Order_Pdf_Items_Abstract
+namespace Magento\Bundle\Model\Sales\Order\Pdf\Items;
+
+class Shipment extends \Magento\Bundle\Model\Sales\Order\Pdf\Items\AbstractItems
 {
     /**
      * Core string
      *
-     * @var Magento_Core_Helper_String
+     * @var \Magento\Core\Helper\String
      */
     protected $_coreString = null;
 
     /**
-     * @param Magento_Core_Helper_String $coreString
-     * @param Magento_Tax_Helper_Data $taxData
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Dir $coreDir
-     * @param Magento_Data_Collection_Db $resourceCollection
-     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param \Magento\Core\Helper\String $coreString
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Dir $coreDir
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_String $coreString,
-        Magento_Tax_Helper_Data $taxData,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_Dir $coreDir,
-        Magento_Data_Collection_Db $resourceCollection = null,
-        Magento_Core_Model_Resource_Abstract $resource = null,
+        \Magento\Core\Helper\String $coreString,
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Dir $coreDir,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
         array $data = array()
     ) {
         $this->_coreString = $coreString;
@@ -89,7 +91,7 @@ class Magento_Bundle_Model_Sales_Order_Pdf_Items_Shipment extends Magento_Bundle
                 if ($_prevOptionId != $attributes['option_id']) {
                     $line[0] = array(
                         'font'  => 'italic',
-                        'text'  => $this->_coreString->str_split($attributes['option_label'], 60, true, true),
+                        'text'  => $this->_coreString->strSplit($attributes['option_label'], 60, true, true),
                         'feed'  => 60
                     );
 
@@ -132,7 +134,7 @@ class Magento_Bundle_Model_Sales_Order_Pdf_Items_Shipment extends Magento_Bundle
                 $name = $_item->getName();
             }
             $text = array();
-            foreach ($stringHelper->str_split($name, 60, true, true) as $part) {
+            foreach ($stringHelper->strSplit($name, 60, true, true) as $part) {
                 $text[] = $part;
             }
             $line[] = array(
@@ -142,7 +144,7 @@ class Magento_Bundle_Model_Sales_Order_Pdf_Items_Shipment extends Magento_Bundle
 
             // draw SKUs
             $text = array();
-            foreach ($this->_coreString->str_split($_item->getSku(), 25) as $part) {
+            foreach ($this->_coreString->strSplit($_item->getSku(), 25) as $part) {
                 $text[] = $part;
             }
             $line[] = array(
@@ -160,7 +162,7 @@ class Magento_Bundle_Model_Sales_Order_Pdf_Items_Shipment extends Magento_Bundle
                 foreach ($options['options'] as $option) {
                     $lines = array();
                     $lines[][] = array(
-                        'text'  => $stringHelper->str_split(strip_tags($option['label']), 70, true, true),
+                        'text'  => $stringHelper->strSplit(strip_tags($option['label']), 70, true, true),
                         'font'  => 'italic',
                         'feed'  => 60
                     );
@@ -172,7 +174,7 @@ class Magento_Bundle_Model_Sales_Order_Pdf_Items_Shipment extends Magento_Bundle
                             : strip_tags($option['value']);
                         $values = explode(', ', $_printValue);
                         foreach ($values as $value) {
-                            foreach ($stringHelper->str_split($value, 50, true, true) as $_value) {
+                            foreach ($stringHelper->strSplit($value, 50, true, true) as $_value) {
                                 $text[] = $_value;
                             }
                         }

@@ -12,25 +12,27 @@
 /**
  * Prepare Log Online Visitors Model
  *
- * @method Magento_Log_Model_Resource_Visitor_Online getResource()
+ * @method \Magento\Log\Model\Resource\Visitor\Online getResource()
  * @method string getVisitorType()
- * @method Magento_Log_Model_Visitor_Online setVisitorType(string $value)
+ * @method \Magento\Log\Model\Visitor\Online setVisitorType(string $value)
  * @method int getRemoteAddr()
- * @method Magento_Log_Model_Visitor_Online setRemoteAddr(int $value)
+ * @method \Magento\Log\Model\Visitor\Online setRemoteAddr(int $value)
  * @method string getFirstVisitAt()
- * @method Magento_Log_Model_Visitor_Online setFirstVisitAt(string $value)
+ * @method \Magento\Log\Model\Visitor\Online setFirstVisitAt(string $value)
  * @method string getLastVisitAt()
- * @method Magento_Log_Model_Visitor_Online setLastVisitAt(string $value)
+ * @method \Magento\Log\Model\Visitor\Online setLastVisitAt(string $value)
  * @method int getCustomerId()
- * @method Magento_Log_Model_Visitor_Online setCustomerId(int $value)
+ * @method \Magento\Log\Model\Visitor\Online setCustomerId(int $value)
  * @method string getLastUrl()
- * @method Magento_Log_Model_Visitor_Online setLastUrl(string $value)
+ * @method \Magento\Log\Model\Visitor\Online setLastUrl(string $value)
  *
  * @category    Magento
  * @package     Magento_Log
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Log_Model_Visitor_Online extends Magento_Core_Model_Abstract
+namespace Magento\Log\Model\Visitor;
+
+class Online extends \Magento\Core\Model\AbstractModel
 {
     const XML_PATH_ONLINE_INTERVAL      = 'customer/online_customers/online_minutes_interval';
     const XML_PATH_UPDATE_FREQUENCY     = 'log/visitor/online_update_frequency';
@@ -38,31 +40,31 @@ class Magento_Log_Model_Visitor_Online extends Magento_Core_Model_Abstract
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
-     * @var Magento_Core_Model_CacheInterface
+     * @var \Magento\Core\Model\CacheInterface
      */
     protected $_cache;
 
     /**
-     * @param Magento_Core_Model_CacheInterface $cache
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Core\Model\CacheInterface $cache
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_CacheInterface $cache,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Core\Model\CacheInterface $cache,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_cache = $cache;
@@ -76,13 +78,13 @@ class Magento_Log_Model_Visitor_Online extends Magento_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('Magento_Log_Model_Resource_Visitor_Online');
+        $this->_init('Magento\Log\Model\Resource\Visitor\Online');
     }
 
     /**
      * Retrieve resource instance wrapper
      *
-     * @return Magento_Log_Model_Resource_Visitor_Online
+     * @return \Magento\Log\Model\Resource\Visitor\Online
      */
     protected function _getResource()
     {
@@ -92,7 +94,7 @@ class Magento_Log_Model_Visitor_Online extends Magento_Core_Model_Abstract
     /**
      * Prepare Online visitors collection
      *
-     * @return Magento_Log_Model_Visitor_Online
+     * @return \Magento\Log\Model\Visitor\Online
      */
     public function prepare()
     {
@@ -114,7 +116,7 @@ class Magento_Log_Model_Visitor_Online extends Magento_Core_Model_Abstract
      * Set Prepare at timestamp (if time is null, set current timestamp)
      *
      * @param int $time
-     * @return Magento_Log_Model_Resource_Visitor_Online
+     * @return \Magento\Log\Model\Resource\Visitor\Online
      */
     public function setPrepareAt($time = null)
     {
@@ -144,7 +146,7 @@ class Magento_Log_Model_Visitor_Online extends Magento_Core_Model_Abstract
     {
         $value = intval($this->_coreStoreConfig->getConfig(self::XML_PATH_ONLINE_INTERVAL));
         if (!$value) {
-            $value = Magento_Log_Model_Visitor::DEFAULT_ONLINE_MINUTES_INTERVAL;
+            $value = \Magento\Log\Model\Visitor::DEFAULT_ONLINE_MINUTES_INTERVAL;
         }
         return $value;
     }

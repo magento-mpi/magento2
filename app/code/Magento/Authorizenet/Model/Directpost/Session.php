@@ -15,14 +15,16 @@
  * @package    Magento_Authorizenet
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Authorizenet_Model_Directpost_Session extends Magento_Core_Model_Session_Abstract
+namespace Magento\Authorizenet\Model\Directpost;
+
+class Session extends \Magento\Core\Model\Session\AbstractSession
 {
     /**
-     * @param Magento_Core_Model_Session_Context $context
+     * @param \Magento\Core\Model\Session\Context $context
      * @param array $data
      * @param string $sessionName
      */
-    public function __construct(Magento_Core_Model_Session_Context $context, array $data = array(), $sessionName = null)
+    public function __construct(\Magento\Core\Model\Session\Context $context, array $data = array(), $sessionName = null)
     {
         parent::__construct($context, $data);
         $this->init('authorizenet_directpost', $sessionName);

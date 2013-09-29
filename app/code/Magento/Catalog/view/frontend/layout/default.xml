@@ -9,14 +9,14 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <referenceBlock name="head">
-        <block class="Magento_Page_Block_Html_Head_Css" name="magento-catalog-widgets-css">
+        <block class="Magento\Page\Block\Html\Head\Css" name="magento-catalog-widgets-css">
             <arguments>
                 <argument name="file" xsi:type="string">Magento_Catalog::widgets.css</argument>
             </arguments>
         </block>
     </referenceBlock>
     <referenceContainer name="left">
-        <block class="Magento_Core_Block_Template" name="left.permanent.callout" template="Magento_Page::callouts/left_col.phtml">
+        <block class="Magento\Core\Block\Template" name="left.permanent.callout" template="Magento_Page::callouts/left_col.phtml">
             <action method="setImgSrc">
                 <argument name="src" xsi:type="string">Magento_Catalog::images/media/col_left_callout.jpg</argument>
             </action>
@@ -29,8 +29,8 @@
         </block>
     </referenceContainer>
     <referenceContainer name="right">
-        <block class="Magento_Catalog_Block_Product_Compare_Sidebar" before="cart_sidebar" name="catalog.compare.sidebar" template="product/compare/sidebar.phtml"/>
-        <block class="Magento_Core_Block_Template" name="right.permanent.callout" template="Magento_Page::callouts/right_col.phtml">
+        <block class="Magento\Catalog\Block\Product\Compare\Sidebar" before="cart_sidebar" name="catalog.compare.sidebar" template="product/compare/sidebar.phtml"/>
+        <block class="Magento\Core\Block\Template" name="right.permanent.callout" template="Magento_Page::callouts/right_col.phtml">
             <action method="setImgSrc">
                 <argument name="src" xsi:type="string">Magento_Catalog::images/media/col_right_callout.jpg</argument>
             </action>
@@ -39,21 +39,21 @@
             </action>
         </block>
     </referenceContainer>
-    <block class="Magento_Catalog_Block_Product_Price_Template" name="catalog_product_price_template"/>
+    <block class="Magento\Catalog\Block\Product\Price\Template" name="catalog_product_price_template"/>
     <referenceBlock name="catalog_product_price_template">
         <action method="addPriceBlockType">
             <argument name="type" xsi:type="string">msrp</argument>
-            <argument name="block" xsi:type="string">Magento_Catalog_Block_Product_Price</argument>
+            <argument name="block" xsi:type="string">Magento\Catalog\Block\Product\Price</argument>
             <argument name="template" xsi:type="string">product/price_msrp.phtml</argument>
         </action>
         <action method="addPriceBlockType">
             <argument name="type" xsi:type="string">msrp_item</argument>
-            <argument name="block" xsi:type="string">Magento_Catalog_Block_Product_Price</argument>
+            <argument name="block" xsi:type="string">Magento\Catalog\Block\Product\Price</argument>
             <argument name="template" xsi:type="string">product/price_msrp_item.phtml</argument>
         </action>
         <action method="addPriceBlockType">
             <argument name="type" xsi:type="string">msrp_noform</argument>
-            <argument name="block" xsi:type="string">Magento_Catalog_Block_Product_Price</argument>
+            <argument name="block" xsi:type="string">Magento\Catalog\Block\Product\Price</argument>
             <argument name="template" xsi:type="string">product/price_msrp_noform.phtml</argument>
         </action>
     </referenceBlock>

@@ -19,8 +19,8 @@
                 <label>Contact Us</label>
                 <field id="enabled" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Enable Contact Us</label>
-                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
-                    <backend_model>Magento_Contacts_Model_System_Config_Backend_Links</backend_model>
+                    <source_model>Magento\Backend\Model\Config\Source\Yesno</source_model>
+                    <backend_model>Magento\Contacts\Model\System\Config\Backend\Links</backend_model>
                 </field>
             </group>
             <group id="email" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
@@ -31,11 +31,11 @@
                 </field>
                 <field id="sender_email_identity" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Email Sender</label>
-                    <source_model>Magento_Backend_Model_Config_Source_Email_Identity</source_model>
+                    <source_model>Magento\Backend\Model\Config\Source\Email\Identity</source_model>
                 </field>
                 <field id="email_template" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Email Template</label>
-                    <source_model>Magento_Backend_Model_Config_Source_Email_Template</source_model>
+                    <source_model>Magento\Backend\Model\Config\Source\Email\Template</source_model>
                 </field>
             </group>
         </section>

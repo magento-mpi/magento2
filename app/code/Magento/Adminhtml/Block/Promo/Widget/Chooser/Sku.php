@@ -15,48 +15,50 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Promo_Widget_Chooser_Sku extends Magento_Backend_Block_Widget_Grid_Extended
+namespace Magento\Adminhtml\Block\Promo\Widget\Chooser;
+
+class Sku extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
-     * @var Magento_Catalog_Model_Product_Type
+     * @var \Magento\Catalog\Model\Product\Type
      */
     protected $_catalogType;
 
     /**
-     * @var Magento_Catalog_Model_Resource_Product_CollectionFactory
+     * @var \Magento\Catalog\Model\Resource\Product\CollectionFactory
      */
     protected $_cpCollection;
 
     /**
-     * @var Magento_Eav_Model_Resource_Entity_Attribute_Set_CollectionFactory
+     * @var \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory
      */
     protected $_eavAttSetCollection;
 
     /**
-     * @var Magento_Catalog_Model_ProductFactory
+     * @var \Magento\Catalog\Model\ProductFactory
      */
     protected $_catalogProduct;
 
     /**
-     * @param Magento_Catalog_Model_ProductFactory $catalogProduct
-     * @param Magento_Eav_Model_Resource_Entity_Attribute_Set_CollectionFactory $eavAttSetCollection
-     * @param Magento_Catalog_Model_Resource_Product_CollectionFactory $cpCollection
-     * @param Magento_Catalog_Model_Product_Type $catalogType
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Url $urlModel
+     * @param \Magento\Catalog\Model\ProductFactory $catalogProduct
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory $eavAttSetCollection
+     * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $cpCollection
+     * @param \Magento\Catalog\Model\Product\Type $catalogType
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
      * @param array $data
      */
     public function __construct(
-        Magento_Catalog_Model_ProductFactory $catalogProduct,
-        Magento_Eav_Model_Resource_Entity_Attribute_Set_CollectionFactory $eavAttSetCollection,
-        Magento_Catalog_Model_Resource_Product_CollectionFactory $cpCollection,
-        Magento_Catalog_Model_Product_Type $catalogType,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Url $urlModel,
+        \Magento\Catalog\Model\ProductFactory $catalogProduct,
+        \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory $eavAttSetCollection,
+        \Magento\Catalog\Model\Resource\Product\CollectionFactory $cpCollection,
+        \Magento\Catalog\Model\Product\Type $catalogType,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
         array $data = array()
     ) {
         $this->_catalogType = $catalogType;
@@ -109,7 +111,7 @@ class Magento_Adminhtml_Block_Promo_Widget_Chooser_Sku extends Magento_Backend_B
     /**
      * Prepare Catalog Product Collection for attribute SKU in Promo Conditions SKU chooser
      *
-     * @return Magento_Adminhtml_Block_Promo_Widget_Chooser_Sku
+     * @return \Magento\Adminhtml\Block\Promo\Widget\Chooser\Sku
      */
     protected function _prepareCollection()
     {
@@ -125,7 +127,7 @@ class Magento_Adminhtml_Block_Promo_Widget_Chooser_Sku extends Magento_Backend_B
     /**
      * Define Cooser Grid Columns and filters
      *
-     * @return Magento_Adminhtml_Block_Promo_Widget_Chooser_Sku
+     * @return \Magento\Adminhtml\Block\Promo\Widget\Chooser\Sku
      */
     protected function _prepareColumns()
     {

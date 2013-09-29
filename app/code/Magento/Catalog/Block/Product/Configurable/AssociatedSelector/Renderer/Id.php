@@ -16,19 +16,21 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Catalog_Block_Product_Configurable_AssociatedSelector_Renderer_Id
-    extends Magento_Backend_Block_Widget_Grid_Column_Renderer_Abstract
+namespace Magento\Catalog\Block\Product\Configurable\AssociatedSelector\Renderer;
+
+class Id
+    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**
      * Render grid row
      *
-     * @param Magento_Object $row
+     * @param \Magento\Object $row
      * @return string
      */
-    public function render(Magento_Object $row)
+    public function render(\Magento\Object $row)
     {
         $imageUrl = $row->getImage() && $row->getImage() != 'no_selection'
-            ? $this->escapeHtml($this->_helperFactory->get('Magento_Catalog_Helper_Product')->getImageUrl($row))
+            ? $this->escapeHtml($this->_helperFactory->get('Magento\Catalog\Helper\Product')->getImageUrl($row))
             : '';
         return $this->_getValue($row) . '<input type="hidden" data-role="image-url" value="' . $imageUrl . '"/>';
     }

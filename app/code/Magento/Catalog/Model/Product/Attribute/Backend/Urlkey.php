@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Catalog_Model_Product_Attribute_Backend_Urlkey extends Magento_Eav_Model_Entity_Attribute_Backend_Abstract
+namespace Magento\Catalog\Model\Product\Attribute\Backend;
+
+class Urlkey extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
 {
     public function beforeSave($object)
     {
@@ -37,13 +39,13 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Urlkey extends Magento_Eav
 
     public function afterSave($object)
     {
-        /* @var $object Magento_Catalog_Model_Product */
+        /* @var $object \Magento\Catalog\Model\Product */
         /**
-         * Logic moved to Magento_Catalog_Model_Indexer_Url
+         * Logic moved to \Magento\Catalog\Model\Indexer\Url
          */
         /*if (!$object->getExcludeUrlRewrite() &&
             ($object->dataHasChangedFor('url_key') || $object->getIsChangedCategories() || $object->getIsChangedWebsites())) {
-            Mage::getSingleton('Magento_Catalog_Model_Url')->refreshProductRewrite($object->getId());
+            \Mage::getSingleton('Magento\Catalog\Model\Url')->refreshProductRewrite($object->getId());
         }*/
         return $this;
     }

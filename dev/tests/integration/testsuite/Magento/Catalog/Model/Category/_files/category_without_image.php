@@ -12,9 +12,9 @@
 /**
  * After installation system has two categories: root one with ID:1 and Default category with ID:2
  */
-/** @var $category Magento_Catalog_Model_Category */
-$category = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Catalog_Model_Category');
+/** @var $category \Magento\Catalog\Model\Category */
+$category = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Catalog\Model\Category');
 $category->setName('Category Without Image 1')
     ->setParentId(2)
     ->setLevel(2)
@@ -23,6 +23,6 @@ $category->setName('Category Without Image 1')
     ->setIsActive(true)
     ->save();
 
-/** @var $objectManager Magento_TestFramework_ObjectManager */
-$objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-$objectManager->get('Magento_Core_Model_Registry')->register('_fixture/Magento_Catalog_Model_Category', $category);
+/** @var $objectManager \Magento\TestFramework\ObjectManager */
+$objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+$objectManager->get('Magento\Core\Model\Registry')->register('_fixture/Magento\Catalog\Model\Category', $category);

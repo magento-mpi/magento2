@@ -15,30 +15,32 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Newsletter_Template_Preview extends Magento_Adminhtml_Block_Widget
+namespace Magento\Adminhtml\Block\Newsletter\Template;
+
+class Preview extends \Magento\Adminhtml\Block\Widget
 {
     /**
-     * @var Magento_Newsletter_Model_TemplateFactory
+     * @var \Magento\Newsletter\Model\TemplateFactory
      */
     protected $_templateFactory;
 
     /**
-     * @var Magento_Newsletter_Model_SubscriberFactory
+     * @var \Magento\Newsletter\Model\SubscriberFactory
      */
     protected $_subscriberFactory;
 
     /**
-     * @param Magento_Newsletter_Model_TemplateFactory $templateFactory
-     * @param Magento_Newsletter_Model_SubscriberFactory $subscriberFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
+     * @param \Magento\Newsletter\Model\TemplateFactory $templateFactory
+     * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Newsletter_Model_TemplateFactory $templateFactory,
-        Magento_Newsletter_Model_SubscriberFactory $subscriberFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
+        \Magento\Newsletter\Model\TemplateFactory $templateFactory,
+        \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_templateFactory = $templateFactory;
@@ -48,7 +50,7 @@ class Magento_Adminhtml_Block_Newsletter_Template_Preview extends Magento_Adminh
 
     protected function _toHtml()
     {
-        /* @var $template Magento_Newsletter_Model_Template */
+        /* @var $template \Magento\Newsletter\Model\Template */
         $template = $this->_templateFactory->create();
 
         if ($id = (int)$this->getRequest()->getParam('id')) {
@@ -64,7 +66,7 @@ class Magento_Adminhtml_Block_Newsletter_Template_Preview extends Magento_Adminh
             $storeId = $this->_storeManager->getDefaultStoreView()->getId();
         }
 
-        Magento_Profiler::start("newsletter_template_proccessing");
+        \Magento\Profiler::start("newsletter_template_proccessing");
         $vars = array();
 
         $vars['subscriber'] = $this->_subscriberFactory->create();
@@ -80,7 +82,7 @@ class Magento_Adminhtml_Block_Newsletter_Template_Preview extends Magento_Adminh
             $templateProcessed = "<pre>" . htmlspecialchars($templateProcessed) . "</pre>";
         }
 
-        Magento_Profiler::stop("newsletter_template_proccessing");
+        \Magento\Profiler::stop("newsletter_template_proccessing");
 
         return $templateProcessed;
     }

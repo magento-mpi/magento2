@@ -12,7 +12,9 @@
  * Customer balance block for My Account
  *
  */
-class Magento_CustomerBalance_Block_Account extends Magento_Core_Block_Template
+namespace Magento\CustomerBalance\Block;
+
+class Account extends \Magento\Core\Block\Template
 {
 
 }

@@ -16,14 +16,16 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Newsletter_Model_Session extends Magento_Core_Model_Session_Abstract
+namespace Magento\Newsletter\Model;
+
+class Session extends \Magento\Core\Model\Session\AbstractSession
 {
     /**
-     * @param Magento_Core_Model_Session_Context $context
+     * @param \Magento\Core\Model\Session\Context $context
      * @param array $data
      * @param string $sessionName
      */
-    public function __construct(Magento_Core_Model_Session_Context $context, array $data = array(), $sessionName = null)
+    public function __construct(\Magento\Core\Model\Session\Context $context, array $data = array(), $sessionName = null)
     {
         parent::__construct($context, $data);
         $this->init('newsletter', $sessionName);

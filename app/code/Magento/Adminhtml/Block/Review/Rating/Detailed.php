@@ -11,7 +11,9 @@
 /**
  * Adminhtml detailed rating stars
  */
-class Magento_Adminhtml_Block_Review_Rating_Detailed extends Magento_Adminhtml_Block_Template
+namespace Magento\Adminhtml\Block\Review\Rating;
+
+class Detailed extends \Magento\Adminhtml\Block\Template
 {
     protected $_voteCollection = false;
 
@@ -20,34 +22,34 @@ class Magento_Adminhtml_Block_Review_Rating_Detailed extends Magento_Adminhtml_B
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @var Magento_Rating_Model_Resource_Rating_CollectionFactory
+     * @var \Magento\Rating\Model\Resource\Rating\CollectionFactory
      */
     protected $_ratingsFactory;
 
     /**
-     * @var Magento_Rating_Model_Resource_Rating_Option_Vote_CollectionFactory
+     * @var \Magento\Rating\Model\Resource\Rating\Option\Vote\CollectionFactory
      */
     protected $_votesFactory;
 
     /**
-     * @param Magento_Rating_Model_Resource_Rating_CollectionFactory $ratingsFactory
-     * @param Magento_Rating_Model_Resource_Rating_Option_Vote_CollectionFactory $votesFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Rating\Model\Resource\Rating\CollectionFactory $ratingsFactory
+     * @param \Magento\Rating\Model\Resource\Rating\Option\Vote\CollectionFactory $votesFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Rating_Model_Resource_Rating_CollectionFactory $ratingsFactory,
-        Magento_Rating_Model_Resource_Rating_Option_Vote_CollectionFactory $votesFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Rating\Model\Resource\Rating\CollectionFactory $ratingsFactory,
+        \Magento\Rating\Model\Resource\Rating\Option\Vote\CollectionFactory $votesFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_ratingsFactory = $ratingsFactory;

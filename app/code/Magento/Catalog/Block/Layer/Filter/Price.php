@@ -15,7 +15,9 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Block_Layer_Filter_Price extends Magento_Catalog_Block_Layer_Filter_Abstract
+namespace Magento\Catalog\Block\Layer\Filter;
+
+class Price extends \Magento\Catalog\Block\Layer\Filter\AbstractFilter
 {
     /**
      * Initialize Price filter module
@@ -25,13 +27,13 @@ class Magento_Catalog_Block_Layer_Filter_Price extends Magento_Catalog_Block_Lay
     {
         parent::_construct();
 
-        $this->_filterModelName = 'Magento_Catalog_Model_Layer_Filter_Price';
+        $this->_filterModelName = 'Magento\Catalog\Model\Layer\Filter\Price';
     }
 
     /**
      * Prepare filter process
      *
-     * @return Magento_Catalog_Block_Layer_Filter_Price
+     * @return \Magento\Catalog\Block\Layer\Filter\Price
      */
     protected function _prepareFilter()
     {

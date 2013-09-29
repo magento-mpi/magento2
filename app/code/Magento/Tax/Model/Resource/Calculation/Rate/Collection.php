@@ -16,20 +16,22 @@
  * @package     Magento_Tax
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Tax_Model_Resource_Calculation_Rate_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Tax\Model\Resource\Calculation\Rate;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Resource initialization
      */
     protected function _construct()
     {
-        $this->_init('Magento_Tax_Model_Calculation_Rate', 'Magento_Tax_Model_Resource_Calculation_Rate');
+        $this->_init('Magento\Tax\Model\Calculation\Rate', 'Magento\Tax\Model\Resource\Calculation\Rate');
     }
 
     /**
      * Join country table to result
      *
-     * @return Magento_Tax_Model_Resource_Calculation_Rate_Collection
+     * @return \Magento\Tax\Model\Resource\Calculation\Rate\Collection
      */
     public function joinCountryTable()
     {
@@ -45,7 +47,7 @@ class Magento_Tax_Model_Resource_Calculation_Rate_Collection extends Magento_Cor
     /**
      * Join Region Table
      *
-     * @return Magento_Tax_Model_Resource_Calculation_Rate_Collection
+     * @return \Magento\Tax\Model\Resource\Calculation\Rate\Collection
      */
     public function joinRegionTable()
     {
@@ -60,12 +62,12 @@ class Magento_Tax_Model_Resource_Calculation_Rate_Collection extends Magento_Cor
     /**
      * Join rate title for specified store
      *
-     * @param Magento_Core_Model_Store|string|int $store
-     * @return Magento_Tax_Model_Resource_Calculation_Rate_Collection
+     * @param \Magento\Core\Model\Store|string|int $store
+     * @return \Magento\Tax\Model\Resource\Calculation\Rate\Collection
      */
     public function joinTitle($store = null)
     {
-        $storeId = (int)Mage::app()->getStore($store)->getId();
+        $storeId = (int)\Mage::app()->getStore($store)->getId();
         $this->_select->joinLeft(
             array('title_table' => $this->getTable('tax_calculation_rate_title')),
             $this->getConnection()->quoteInto('main_table.tax_calculation_rate_id = title_table.tax_calculation_rate_id AND title_table.store_id = ?', $storeId),
@@ -78,11 +80,11 @@ class Magento_Tax_Model_Resource_Calculation_Rate_Collection extends Magento_Cor
     /**
      * Joins store titles for rates
      *
-     * @return Magento_Tax_Model_Resource_Calculation_Rate_Collection
+     * @return \Magento\Tax\Model\Resource\Calculation\Rate\Collection
      */
     public function joinStoreTitles()
     {
-        $storeCollection =  Mage::app()->getStores(true);
+        $storeCollection =  \Mage::app()->getStores(true);
         foreach ($storeCollection as $store) {
             $tableAlias    = sprintf('title_table_%s', $store->getId());
             $joinCondition = implode(' AND ', array(
@@ -102,7 +104,7 @@ class Magento_Tax_Model_Resource_Calculation_Rate_Collection extends Magento_Cor
      * Add rate filter
      *
      * @param int $rateId
-     * @return Magento_Tax_Model_Resource_Calculation_Rate_Collection
+     * @return \Magento\Tax\Model\Resource\Calculation\Rate\Collection
      */
     public function addRateFilter($rateId)
     {

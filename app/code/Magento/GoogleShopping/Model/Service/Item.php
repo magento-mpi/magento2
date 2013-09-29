@@ -15,34 +15,36 @@
  * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GoogleShopping_Model_Service_Item extends Magento_GoogleShopping_Model_Service
+namespace Magento\GoogleShopping\Model\Service;
+
+class Item extends \Magento\GoogleShopping\Model\Service
 {
     /**
-     * @var Magento_GoogleShopping_Helper_Data|null
+     * @var \Magento\GoogleShopping\Helper\Data|null
      */
     protected $_gsData = null;
 
     /**
      * Date
      *
-     * @var Magento_Core_Model_Date|null
+     * @var \Magento\Core\Model\Date|null
      */
     protected $_date;
 
     /**
-     * @param Magento_Core_Model_Log_AdapterFactory $logAdapterFactory
-     * @param Magento_Core_Model_Date $date
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_GoogleShopping_Model_Config $config
-     * @param Magento_GoogleShopping_Helper_Data $gsData
+     * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
+     * @param \Magento\Core\Model\Date $date
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\GoogleShopping\Model\Config $config
+     * @param \Magento\GoogleShopping\Helper\Data $gsData
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Log_AdapterFactory $logAdapterFactory,
-        Magento_Core_Model_Date $date,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_GoogleShopping_Model_Config $config,
-        Magento_GoogleShopping_Helper_Data $gsData,
+        \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
+        \Magento\Core\Model\Date $date,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\GoogleShopping\Model\Config $config,
+        \Magento\GoogleShopping\Helper\Data $gsData,
         array $data = array()
     ) {
         $this->_date = $date;
@@ -54,7 +56,7 @@ class Magento_GoogleShopping_Model_Service_Item extends Magento_GoogleShopping_M
      * Return Store level Service Instance
      *
      * @param int $storeId
-     * @return Magento_Gdata_Gshopping_Content
+     * @return \Magento\Gdata\Gshopping\Content
      */
     public function getService($storeId = null)
     {
@@ -67,8 +69,8 @@ class Magento_GoogleShopping_Model_Service_Item extends Magento_GoogleShopping_M
     /**
      * Insert Item into Google Content
      *
-     * @param Magento_GoogleShopping_Model_Item $item
-     * @return Magento_GoogleShopping_Model_Service_Item
+     * @param \Magento\GoogleShopping\Model\Item $item
+     * @return \Magento\GoogleShopping\Model\Service\Item
      */
     public function insert($item)
     {
@@ -94,8 +96,8 @@ class Magento_GoogleShopping_Model_Service_Item extends Magento_GoogleShopping_M
     /**
      * Update Item data in Google Content
      *
-     * @param Magento_GoogleShopping_Model_Item $item
-     * @return Magento_GoogleShopping_Model_Service_Item
+     * @param \Magento\GoogleShopping\Model\Item $item
+     * @return \Magento\GoogleShopping\Model\Service\Item
      */
     public function update($item)
     {
@@ -116,8 +118,8 @@ class Magento_GoogleShopping_Model_Service_Item extends Magento_GoogleShopping_M
     /**
      * Delete Item from Google Content
      *
-     * @param Magento_GoogleShopping_Model_Item $item
-     * @return Magento_GoogleShopping_Model_Service_Item
+     * @param \Magento\GoogleShopping\Model\Item $item
+     * @return \Magento\GoogleShopping\Model\Service\Item
      */
     public function delete($item)
     {
@@ -143,14 +145,14 @@ class Magento_GoogleShopping_Model_Service_Item extends Magento_GoogleShopping_M
     /**
      * Return Google Content Item Attribute Value
      *
-     * @param Magento_Gdata_Gshopping_Entry $entry
+     * @param \Magento\Gdata\Gshopping\Entry $entry
      * @param string $name Google Content attribute name
      * @return string|null Attribute value
      */
     protected function _getAttributeValue($entry, $name)
     {
         $attribute = $entry->getContentAttributeByName($name);
-        return ($attribute instanceof Magento_Gdata_Gshopping_Extension_Attribute)
+        return ($attribute instanceof \Magento\Gdata\Gshopping\Extension\Attribute)
             ? $attribute->text
             : null;
     }
@@ -158,8 +160,8 @@ class Magento_GoogleShopping_Model_Service_Item extends Magento_GoogleShopping_M
     /**
      * Retrieve item query for Google Content
      *
-     * @param Magento_GoogleShopping_Model_Item $item
-     * @return Magento_Gdata_Gshopping_ItemQuery
+     * @param \Magento\GoogleShopping\Model\Item $item
+     * @return \Magento\Gdata\Gshopping\ItemQuery
      */
     protected function _buildItemQuery($item)
     {
@@ -180,14 +182,14 @@ class Magento_GoogleShopping_Model_Service_Item extends Magento_GoogleShopping_M
     /**
      * Return item stats array based on Zend Gdata Entry object
      *
-     * @param Magento_Gdata_Gshopping_Entry $entry
+     * @param \Magento\Gdata\Gshopping\Entry $entry
      * @return array
      */
     protected function _getEntryStats($entry)
     {
         $result = array();
         $expirationDate = $entry->getContentAttributeByName('expiration_date');
-        if ($expirationDate instanceof Magento_Gdata_Gshopping_Extension_Attribute) {
+        if ($expirationDate instanceof \Magento\Gdata\Gshopping\Extension\Attribute) {
             $result['expires'] = $this->convertContentDateToTimestamp($expirationDate->text);
         }
 

@@ -15,7 +15,9 @@
  * @category   Magento
  * @package    Magento_VersionsCms
  */
-class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_Form_Grid extends Magento_Adminhtml_Block_Widget_Grid
+namespace Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Edit\Form;
+
+class Grid extends \Magento\Adminhtml\Block\Widget\Grid
 {
     /**
      * Initialize Grid block
@@ -35,11 +37,11 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_Form_Grid extends M
     /**
      * Prepare Cms Page Collection for Grid
      *
-     * @return Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_Tab_Pages_Grid
+     * @return \Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Edit_Tab_Pages_Grid
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('Magento_Cms_Model_Page')->getCollection();
+        $collection = \Mage::getModel('Magento\Cms\Model\Page')->getCollection();
 
         $store = $this->_getStore();
         if ($store->getId()) {
@@ -53,7 +55,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_Form_Grid extends M
     /**
      * Prepare Grid columns
      *
-     * @return Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_Tab_Pages_Grid
+     * @return \Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Edit_Tab_Pages_Grid
      */
     protected function _prepareColumns()
     {
@@ -103,11 +105,11 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_Form_Grid extends M
     /**
      * Get selected store by store id passed through query.
      *
-     * @return Magento_Core_Model_Store
+     * @return \Magento\Core\Model\Store
      */
     protected function _getStore()
     {
         $storeId = (int) $this->getRequest()->getParam('store', 0);
-        return Mage::app()->getStore($storeId);
+        return \Mage::app()->getStore($storeId);
     }
 }

@@ -5,20 +5,22 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Sales_Block_Items_AbstractTest extends PHPUnit_Framework_TestCase
+namespace Magento\Sales\Block\Items;
+
+class AbstractTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var Magento_TestFramework_Helper_ObjectManager */
+    /** @var \Magento\TestFramework\Helper\ObjectManager */
     protected $_objectManager;
 
     protected function setUp()
     {
-        $this->_objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
+        $this->_objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
     }
 
     public function testGetItemRenderer()
     {
-        $renderer = $this->getMock('Magento_Core_Block_Abstract', array('setRenderedBlock'), array(), '', false);
-        $layout = $this->getMock('Magento_Core_Model_Layout', array(
+        $renderer = $this->getMock('Magento\Core\Block\AbstractBlock', array('setRenderedBlock'), array(), '', false);
+        $layout = $this->getMock('Magento\Core\Model\Layout', array(
             'getChildName', 'getBlock'
         ), array(), '', false);
         $layout->expects($this->at(0))
@@ -30,9 +32,9 @@ class Magento_Sales_Block_Items_AbstractTest extends PHPUnit_Framework_TestCase
             ->with('some-block-name')
             ->will($this->returnValue($renderer));
 
-        /** @var $block Magento_Sales_Block_Items_Abstract */
-        $block = $this->_objectManager->getObject('Magento_Sales_Block_Items_Abstract', array(
-            'context' => $this->_objectManager->getObject('Magento_Backend_Block_Template_Context', array(
+        /** @var $block \Magento\Sales\Block\Items\AbstractItems */
+        $block = $this->_objectManager->getObject('Magento\Sales\Block\Items\AbstractItems', array(
+            'context' => $this->_objectManager->getObject('Magento\Backend\Block\Template\Context', array(
                 'layout' => $layout,
             ))
         ));
@@ -45,13 +47,13 @@ class Magento_Sales_Block_Items_AbstractTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException RuntimeException
+     * @expectedException \RuntimeException
      * @expectedExceptionMessage Renderer for type "some-type" does not exist.
      */
     public function testGetItemRendererThrowsExceptionForNonexistentRenderer()
     {
         $renderer = $this->getMock('StdClass');
-        $layout = $this->getMock('Magento_Core_Model_Layout', array(
+        $layout = $this->getMock('Magento\Core\Model\Layout', array(
             'getChildName', 'getBlock'
         ), array(), '', false);
         $layout->expects($this->at(0))
@@ -63,9 +65,9 @@ class Magento_Sales_Block_Items_AbstractTest extends PHPUnit_Framework_TestCase
             ->with('some-block-name')
             ->will($this->returnValue($renderer));
 
-        /** @var $block Magento_Sales_Block_Items_Abstract */
-        $block = $this->_objectManager->getObject('Magento_Sales_Block_Items_Abstract', array(
-            'context' => $this->_objectManager->getObject('Magento_Backend_Block_Template_Context', array(
+        /** @var $block \Magento\Sales\Block\Items\AbstractItems */
+        $block = $this->_objectManager->getObject('Magento\Sales\Block\Items\AbstractItems', array(
+            'context' => $this->_objectManager->getObject('Magento\Backend\Block\Template\Context', array(
                 'layout' => $layout,
             ))
         ));

@@ -16,7 +16,9 @@
  * @package     Magento_VersionsCms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_VersionsCms_Model_Resource_Page_Version extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\VersionsCms\Model\Resource\Page;
+
+class Version extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Resource initialization
@@ -29,10 +31,10 @@ class Magento_VersionsCms_Model_Resource_Page_Version extends Magento_Core_Model
     /**
      * Checking if version id not last public for its page
      *
-     * @param Magento_Core_Model_Abstract $object
+     * @param \Magento\Core\Model\AbstractModel $object
      * @return bool
      */
-    public function isVersionLastPublic(Magento_Core_Model_Abstract $object)
+    public function isVersionLastPublic(\Magento\Core\Model\AbstractModel $object)
     {
         $select = $this->_getReadAdapter()->select();
         $select->from($this->getMainTable(), 'COUNT(*)')
@@ -44,7 +46,7 @@ class Magento_VersionsCms_Model_Resource_Page_Version extends Magento_Core_Model
 
         $bind = array(
             ':page_id'      => $object->getPageId(),
-            ':access_level' => Magento_VersionsCms_Model_Page_Version::ACCESS_LEVEL_PUBLIC,
+            ':access_level' => \Magento\VersionsCms\Model\Page\Version::ACCESS_LEVEL_PUBLIC,
             ':version_id'   => $object->getVersionId()
         );
 
@@ -54,10 +56,10 @@ class Magento_VersionsCms_Model_Resource_Page_Version extends Magento_Core_Model
     /**
      * Checking if Version does not contain published revision
      *
-     * @param Magento_Core_Model_Abstract $object
+     * @param \Magento\Core\Model\AbstractModel $object
      * @return bool
      */
-    public function isVersionHasPublishedRevision(Magento_Core_Model_Abstract $object)
+    public function isVersionHasPublishedRevision(\Magento\Core\Model\AbstractModel $object)
     {
         $select = $this->_getReadAdapter()->select();
         $select->from(array('p' => $this->getTable('cms_page')), array())
@@ -75,10 +77,10 @@ class Magento_VersionsCms_Model_Resource_Page_Version extends Magento_Core_Model
     /**
      * Add access restriction filters to allow load only by granted user.
      *
-     * @param Magento_DB_Select $select
+     * @param \Magento\DB\Select $select
      * @param int $accessLevel
      * @param int $userId
-     * @return Magento_DB_Select
+     * @return \Magento\DB\Select
      */
     protected function _addAccessRestrictionsToSelect($select, $accessLevel, $userId)
     {
@@ -103,12 +105,12 @@ class Magento_VersionsCms_Model_Resource_Page_Version extends Magento_Core_Model
     /**
      * Loading data with extra access level checking.
      *
-     * @param Magento_VersionsCms_Model_Page_Version $object
+     * @param \Magento\VersionsCms\Model\Page\Version $object
      * @param array|string $accessLevel
      * @param int $userId
      * @param int|string $value
      * @param string|null $field
-     * @return Magento_VersionsCms_Model_Resource_Page_Version
+     * @return \Magento\VersionsCms\Model\Resource\Page\Version
      */
     public function loadWithRestrictions($object, $accessLevel, $userId, $value, $field = null)
     {

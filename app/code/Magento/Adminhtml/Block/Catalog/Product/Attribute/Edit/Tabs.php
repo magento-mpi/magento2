@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tabs extends Magento_Adminhtml_Block_Widget_Tabs
+namespace Magento\Adminhtml\Block\Catalog\Product\Attribute\Edit;
+
+class Tabs extends \Magento\Adminhtml\Block\Widget\Tabs
 {
 
     protected function _construct()

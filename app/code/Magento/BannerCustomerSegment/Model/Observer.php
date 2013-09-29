@@ -5,39 +5,41 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_BannerCustomerSegment_Model_Observer
+namespace Magento\BannerCustomerSegment\Model;
+
+class Observer
 {
     /**
-     * @var Magento_CustomerSegment_Model_Customer
+     * @var \Magento\CustomerSegment\Model\Customer
      */
     private $_segmentCustomer;
 
     /**
-     * @var Magento_CustomerSegment_Helper_Data
+     * @var \Magento\CustomerSegment\Helper\Data
      */
     private $_segmentHelper;
 
     /**
-     * @var Magento_CustomerSegment_Model_Resource_Segment_Collection
+     * @var \Magento\CustomerSegment\Model\Resource\Segment\Collection
      */
     private $_segmentCollection;
 
     /**
-     * @var Magento_BannerCustomerSegment_Model_Resource_BannerSegmentLink
+     * @var \Magento\BannerCustomerSegment\Model\Resource\BannerSegmentLink
      */
     private $_bannerSegmentLink;
 
     /**
-     * @param Magento_CustomerSegment_Model_Customer $segmentCustomer
-     * @param Magento_CustomerSegment_Helper_Data $segmentHelper
-     * @param Magento_CustomerSegment_Model_Resource_Segment_Collection $segmentCollection
-     * @param Magento_BannerCustomerSegment_Model_Resource_BannerSegmentLink $bannerSegmentLink
+     * @param \Magento\CustomerSegment\Model\Customer $segmentCustomer
+     * @param \Magento\CustomerSegment\Helper\Data $segmentHelper
+     * @param \Magento\CustomerSegment\Model\Resource\Segment\Collection $segmentCollection
+     * @param \Magento\BannerCustomerSegment\Model\Resource\BannerSegmentLink $bannerSegmentLink
      */
     public function __construct(
-        Magento_CustomerSegment_Model_Customer $segmentCustomer,
-        Magento_CustomerSegment_Helper_Data $segmentHelper,
-        Magento_CustomerSegment_Model_Resource_Segment_Collection $segmentCollection,
-        Magento_BannerCustomerSegment_Model_Resource_BannerSegmentLink $bannerSegmentLink
+        \Magento\CustomerSegment\Model\Customer $segmentCustomer,
+        \Magento\CustomerSegment\Helper\Data $segmentHelper,
+        \Magento\CustomerSegment\Model\Resource\Segment\Collection $segmentCollection,
+        \Magento\BannerCustomerSegment\Model\Resource\BannerSegmentLink $bannerSegmentLink
     ) {
         $this->_segmentCustomer = $segmentCustomer;
         $this->_segmentHelper = $segmentHelper;
@@ -48,14 +50,14 @@ class Magento_BannerCustomerSegment_Model_Observer
     /**
      * Assign the list of customer segment ids associated with a banner entity, passed as an event argument
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
-    public function loadCustomerSegmentRelations(Magento_Event_Observer $observer)
+    public function loadCustomerSegmentRelations(\Magento\Event\Observer $observer)
     {
         if (!$this->_segmentHelper->isEnabled()) {
             return;
         }
-        /** @var Magento_Banner_Model_Banner $banner */
+        /** @var \Magento\Banner\Model\Banner $banner */
         $banner = $observer->getEvent()->getBanner();
         $segmentIds = $this->_bannerSegmentLink->loadBannerSegments($banner->getId());
         $banner->setData('customer_segment_ids', $segmentIds);
@@ -64,15 +66,15 @@ class Magento_BannerCustomerSegment_Model_Observer
     /**
      * Store customer segment ids associated with a banner entity, passed as an event argument
      *
-     * @param Magento_Event_Observer $observer
-     * @throws UnexpectedValueException
+     * @param \Magento\Event\Observer $observer
+     * @throws \UnexpectedValueException
      */
-    public function saveCustomerSegmentRelations(Magento_Event_Observer $observer)
+    public function saveCustomerSegmentRelations(\Magento\Event\Observer $observer)
     {
         if (!$this->_segmentHelper->isEnabled()) {
             return;
         }
-        /** @var Magento_Banner_Model_Banner $banner */
+        /** @var \Magento\Banner\Model\Banner $banner */
         $banner = $observer->getEvent()->getBanner();
         $segmentIds = $banner->getData('customer_segment_ids') ?: array();
         if (!is_array($segmentIds)) {
@@ -87,18 +89,18 @@ class Magento_BannerCustomerSegment_Model_Observer
     /**
      * Add customer segment fields to the banner form, passed as an event argument
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
-    public function addFieldsToBannerForm(Magento_Event_Observer $observer)
+    public function addFieldsToBannerForm(\Magento\Event\Observer $observer)
     {
         if (!$this->_segmentHelper->isEnabled()) {
             return;
         }
-        /* @var Magento_Data_Form $form */
+        /* @var \Magento\Data\Form $form */
         $form = $observer->getEvent()->getForm();
-        /** @var Magento_Object $model */
+        /** @var \Magento\Object $model */
         $model = $observer->getEvent()->getModel();
-        /** @var Magento_Backend_Block_Widget_Form_Element_Dependence $afterFormBlock */
+        /** @var \Magento\Backend\Block\Widget\Form\Element\Dependence $afterFormBlock */
         $afterFormBlock = $observer->getEvent()->getAfterFormBlock();
         $this->_segmentHelper->addSegmentFieldsToForm($form, $model, $afterFormBlock);
     }
@@ -106,14 +108,14 @@ class Magento_BannerCustomerSegment_Model_Observer
     /**
      * Apply customer segment filter to a collection, passed as an event argument
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
-    public function addCustomerSegmentFilterToCollection(Magento_Event_Observer $observer)
+    public function addCustomerSegmentFilterToCollection(\Magento\Event\Observer $observer)
     {
         if (!$this->_segmentHelper->isEnabled()) {
             return;
         }
-        /** @var Magento_Core_Model_Resource_Db_Collection_Abstract $collection */
+        /** @var \Magento\Core\Model\Resource\Db\Collection\AbstractCollection $collection */
         $collection = $observer->getEvent()->getCollection();
         $segmentIds = $this->_segmentCustomer->getCurrentCustomerSegmentIds();
         $this->_bannerSegmentLink->addBannerSegmentFilter($collection->getSelect(), $segmentIds);
@@ -122,14 +124,14 @@ class Magento_BannerCustomerSegment_Model_Observer
     /**
      * Apply customer segment filter to a select object, passed as an event argument
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
-    public function addCustomerSegmentFilterToSelect(Magento_Event_Observer $observer)
+    public function addCustomerSegmentFilterToSelect(\Magento\Event\Observer $observer)
     {
         if (!$this->_segmentHelper->isEnabled()) {
             return;
         }
-        /** @var Zend_Db_Select $select */
+        /** @var \Zend_Db_Select $select */
         $select = $observer->getEvent()->getSelect();
         $segmentIds = $this->_segmentCustomer->getCurrentCustomerSegmentIds();
         $this->_bannerSegmentLink->addBannerSegmentFilter($select, $segmentIds);

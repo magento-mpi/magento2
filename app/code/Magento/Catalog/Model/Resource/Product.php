@@ -16,7 +16,9 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Resource_Product extends Magento_Catalog_Model_Resource_Abstract
+namespace Magento\Catalog\Model\Resource;
+
+class Product extends \Magento\Catalog\Model\Resource\AbstractResource
 {
     /**
      * Product to website linkage table
@@ -38,7 +40,7 @@ class Magento_Catalog_Model_Resource_Product extends Magento_Catalog_Model_Resou
     public function __construct()
     {
         parent::__construct();
-        $this->setType(Magento_Catalog_Model_Product::ENTITY)
+        $this->setType(\Magento\Catalog\Model\Product::ENTITY)
              ->setConnection('catalog_read', 'catalog_write');
         $this->_productWebsiteTable  = $this->getTable('catalog_product_website');
         $this->_productCategoryTable = $this->getTable('catalog_category_product');
@@ -57,14 +59,14 @@ class Magento_Catalog_Model_Resource_Product extends Magento_Catalog_Model_Resou
     /**
      * Retrieve product website identifiers
      *
-     * @param Magento_Catalog_Model_Product|int $product
+     * @param \Magento\Catalog\Model\Product|int $product
      * @return array
      */
     public function getWebsiteIds($product)
     {
         $adapter = $this->_getReadAdapter();
 
-        if ($product instanceof Magento_Catalog_Model_Product) {
+        if ($product instanceof \Magento\Catalog\Model\Product) {
             $productId = $product->getId();
         } else {
             $productId = $product;
@@ -104,7 +106,7 @@ class Magento_Catalog_Model_Resource_Product extends Magento_Catalog_Model_Resou
     /**
      * Retrieve product category identifiers
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @return array
      */
     public function getCategoryIds($product)
@@ -140,16 +142,16 @@ class Magento_Catalog_Model_Resource_Product extends Magento_Catalog_Model_Resou
     /**
      * Process product data before save
      *
-     * @param Magento_Object $object
-     * @return Magento_Catalog_Model_Resource_Product
+     * @param \Magento\Object $object
+     * @return \Magento\Catalog\Model\Resource\Product
      */
-    protected function _beforeSave(Magento_Object $object)
+    protected function _beforeSave(\Magento\Object $object)
     {
         /**
          * Check if declared category ids in object data.
          */
         if ($object->hasCategoryIds()) {
-            $categoryIds = Mage::getResourceSingleton('Magento_Catalog_Model_Resource_Category')->verifyIds(
+            $categoryIds = \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Category')->verifyIds(
                 $object->getCategoryIds()
             );
             $object->setCategoryIds($categoryIds);
@@ -168,10 +170,10 @@ class Magento_Catalog_Model_Resource_Product extends Magento_Catalog_Model_Resou
     /**
      * Save data related with product
      *
-     * @param Magento_Object $product
-     * @return Magento_Catalog_Model_Resource_Product
+     * @param \Magento\Object $product
+     * @return \Magento\Catalog\Model\Resource\Product
      */
-    protected function _afterSave(Magento_Object $product)
+    protected function _afterSave(\Magento\Object $product)
     {
         $this->_saveWebsiteIds($product)
             ->_saveCategories($product);
@@ -181,8 +183,8 @@ class Magento_Catalog_Model_Resource_Product extends Magento_Catalog_Model_Resou
     /**
      * Save product website relations
      *
-     * @param Magento_Catalog_Model_Product $product
-     * @return Magento_Catalog_Model_Resource_Product
+     * @param \Magento\Catalog\Model\Product $product
+     * @return \Magento\Catalog\Model\Resource\Product
      */
     protected function _saveWebsiteIds($product)
     {
@@ -230,10 +232,10 @@ class Magento_Catalog_Model_Resource_Product extends Magento_Catalog_Model_Resou
     /**
      * Save product category relations
      *
-     * @param Magento_Object $object
-     * @return Magento_Catalog_Model_Resource_Product
+     * @param \Magento\Object $object
+     * @return \Magento\Catalog\Model\Resource\Product
      */
-    protected function _saveCategories(Magento_Object $object)
+    protected function _saveCategories(\Magento\Object $object)
     {
         /**
          * If category ids data is not declared we haven't do manipulations
@@ -289,8 +291,8 @@ class Magento_Catalog_Model_Resource_Product extends Magento_Catalog_Model_Resou
     /**
      * Refresh Product Enabled Index
      *
-     * @param Magento_Catalog_Model_Product $product
-     * @return Magento_Catalog_Model_Resource_Product
+     * @param \Magento\Catalog\Model\Product $product
+     * @return \Magento\Catalog\Model\Resource\Product
      */
     public function refreshIndex($product)
     {
@@ -307,8 +309,8 @@ class Magento_Catalog_Model_Resource_Product extends Magento_Catalog_Model_Resou
         $condition = array('product_id = ?' => (int)$product->getId());
         $writeAdapter->delete($this->getTable('catalog_category_product_index'), $condition);
 
-        /** @var $categoryObject Magento_Catalog_Model_Resource_Category */
-        $categoryObject = Mage::getResourceSingleton('Magento_Catalog_Model_Resource_Category');
+        /** @var $categoryObject \Magento\Catalog\Model\Resource\Category */
+        $categoryObject = \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Category');
         if (!empty($categoryIds)) {
             $categoriesSelect = $writeAdapter->select()
                 ->from($this->getTable('catalog_category_entity'))
@@ -334,7 +336,7 @@ class Magento_Catalog_Model_Resource_Product extends Magento_Catalog_Model_Resou
                 $storeIds = array();
 
                 foreach ($websites as $websiteId) {
-                    $website  = Mage::app()->getWebsite($websiteId);
+                    $website  = \Mage::app()->getWebsite($websiteId);
                     $storeIds = array_merge($storeIds, $website->getStoreIds());
                 }
 
@@ -355,10 +357,10 @@ class Magento_Catalog_Model_Resource_Product extends Magento_Catalog_Model_Resou
      * if store parameter is null - index will refreshed for all stores
      * if product parameter is null - idex will be refreshed for all products
      *
-     * @param Magento_Core_Model_Store $store
-     * @param Magento_Catalog_Model_Product $product
-     * @throws Magento_Core_Exception
-     * @return Magento_Catalog_Model_Resource_Product
+     * @param \Magento\Core\Model\Store $store
+     * @param \Magento\Catalog\Model\Product $product
+     * @throws \Magento\Core\Exception
+     * @return \Magento\Catalog\Model\Resource\Product
      */
     public function refreshEnabledIndex($store = null, $product = null)
     {
@@ -376,7 +378,7 @@ class Magento_Catalog_Model_Resource_Product extends Magento_Catalog_Model_Resou
 
         $indexTable = $this->getTable('catalog_product_enabled_index');
         if (is_null($store) && is_null($product)) {
-            Mage::throwException(
+            \Mage::throwException(
                 __('To reindex the enabled product(s), please specify the store or product.')
             );
         } elseif (is_null($product) || is_array($product)) {
@@ -391,7 +393,7 @@ class Magento_Catalog_Model_Resource_Product extends Magento_Catalog_Model_Resou
 
             $selectFields = array(
                 't_v_default.entity_id',
-                new Zend_Db_Expr($storeId),
+                new \Zend_Db_Expr($storeId),
                 $adapter->getCheckSql('t_v.value_id > 0', 't_v.value', 't_v_default.value'),
             );
 
@@ -404,7 +406,7 @@ class Magento_Catalog_Model_Resource_Product extends Magento_Catalog_Model_Resou
             );
         } elseif ($store === null) {
             foreach ($product->getStoreIds() as $storeId) {
-                $store = Mage::app()->getStore($storeId);
+                $store = \Mage::app()->getStore($storeId);
                 $this->refreshEnabledIndex($store, $product);
             }
             return $this;
@@ -418,8 +420,8 @@ class Magento_Catalog_Model_Resource_Product extends Magento_Catalog_Model_Resou
             );
 
             $selectFields = array(
-                new Zend_Db_Expr($productId),
-                new Zend_Db_Expr($storeId),
+                new \Zend_Db_Expr($productId),
+                new \Zend_Db_Expr($storeId),
                 $adapter->getCheckSql('t_v.value_id > 0', 't_v.value', 't_v_default.value')
             );
 
@@ -471,7 +473,7 @@ class Magento_Catalog_Model_Resource_Product extends Magento_Catalog_Model_Resou
 
         $select->where('t_v_default.attribute_id = ?', $visibilityAttributeId)
             ->where('t_v_default.store_id = ?', 0)
-            ->where(sprintf('%s = ?', $valueCondition), Magento_Catalog_Model_Product_Status::STATUS_ENABLED);
+            ->where(sprintf('%s = ?', $valueCondition), \Magento\Catalog\Model\Product\Status::STATUS_ENABLED);
 
         if (is_array($product) && !empty($product)) {
             $select->where('t_v_default.entity_id IN (?)', $product);
@@ -486,12 +488,12 @@ class Magento_Catalog_Model_Resource_Product extends Magento_Catalog_Model_Resou
     /**
      * Get collection of product categories
      *
-     * @param Magento_Catalog_Model_Product $product
-     * @return Magento_Catalog_Model_Resource_Category_Collection
+     * @param \Magento\Catalog\Model\Product $product
+     * @return \Magento\Catalog\Model\Resource\Category\Collection
      */
     public function getCategoryCollection($product)
     {
-        $collection = Mage::getResourceModel('Magento_Catalog_Model_Resource_Category_Collection')
+        $collection = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Category\Collection')
             ->joinField('product_id',
                 'catalog_category_product',
                 'product_id',
@@ -504,7 +506,7 @@ class Magento_Catalog_Model_Resource_Product extends Magento_Catalog_Model_Resou
     /**
      * Retrieve category ids where product is available
      *
-     * @param Magento_Catalog_Model_Product $object
+     * @param \Magento\Catalog\Model\Product $object
      * @return array
      */
     public function getAvailableInCategories($object)
@@ -525,13 +527,13 @@ class Magento_Catalog_Model_Resource_Product extends Magento_Catalog_Model_Resou
      */
     public function getDefaultAttributeSourceModel()
     {
-        return 'Magento_Eav_Model_Entity_Attribute_Source_Table';
+        return 'Magento\Eav\Model\Entity\Attribute\Source\Table';
     }
 
     /**
      * Check availability display product in category
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @param int $categoryId
      * @return string
      */
@@ -550,7 +552,7 @@ class Magento_Catalog_Model_Resource_Product extends Magento_Catalog_Model_Resou
      *
      * @param int $oldId
      * @param int $newId
-     * @return Magento_Catalog_Model_Resource_Product
+     * @return \Magento\Catalog\Model\Resource\Product
      */
     public function duplicate($oldId, $newId)
     {
@@ -568,7 +570,7 @@ class Magento_Catalog_Model_Resource_Product extends Magento_Catalog_Model_Resou
                     'entity_type_id',
                     'attribute_id',
                     'store_id',
-                    'entity_id' => new Zend_Db_Expr($adapter->quote($newId)),
+                    'entity_id' => new \Zend_Db_Expr($adapter->quote($newId)),
                     'value'
                 ))
                 ->where('entity_id = ?', $oldId)
@@ -584,7 +586,7 @@ class Magento_Catalog_Model_Resource_Product extends Magento_Catalog_Model_Resou
                     'entity_id',
                     'value'
                 ),
-                Magento_DB_Adapter_Interface::INSERT_ON_DUPLICATE
+                \Magento\DB\Adapter\AdapterInterface::INSERT_ON_DUPLICATE
             ));
         }
 
@@ -597,7 +599,7 @@ class Magento_Catalog_Model_Resource_Product extends Magento_Catalog_Model_Resou
         $updateCond[]         = $adapter->quoteInto('attribute_id = ?', $statusAttributeId);
         $adapter->update(
             $statusAttributeTable,
-            array('value' => Magento_Catalog_Model_Product_Status::STATUS_DISABLED),
+            array('value' => \Magento\Catalog\Model\Product\Status::STATUS_DISABLED),
             $updateCond
         );
 
@@ -643,7 +645,7 @@ class Magento_Catalog_Model_Resource_Product extends Magento_Catalog_Model_Resou
     /**
      * Return assigned images for specific stores
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @param int|array $storeIds
      * @return array
      *

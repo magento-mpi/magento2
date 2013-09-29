@@ -16,9 +16,11 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
-    extends Magento_Backend_Block_Widget_Grid_Extended
-    implements Magento_Backend_Block_Widget_Tab_Interface
+namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Edit\Tab;
+
+class Versions
+    extends \Magento\Backend\Block\Widget\Grid\Extended
+    implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * Array of admin users in system
@@ -29,33 +31,33 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
     /**
      * Cms data
      *
-     * @var Magento_VersionsCms_Helper_Data
+     * @var \Magento\VersionsCms\Helper\Data
      */
     protected $_cmsData = null;
 
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_VersionsCms_Helper_Data $cmsData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Url $urlModel
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\VersionsCms\Helper\Data $cmsData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Core\Model\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
-        Magento_VersionsCms_Helper_Data $cmsData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Url $urlModel,
-        Magento_Core_Model_Registry $coreRegistry,
+        \Magento\VersionsCms\Helper\Data $cmsData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        \Magento\Core\Model\Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
@@ -74,17 +76,17 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
     /**
      * Prepares collection of versions
      *
-     * @return Magento_VersionsCms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
+     * @return \Magento\VersionsCms\Block\Adminhtml\Cms\Page\Edit\Tab\Versions
      */
     protected function _prepareCollection()
     {
-        $userId = Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getUser()->getId();
+        $userId = \Mage::getSingleton('Magento\Backend\Model\Auth\Session')->getUser()->getId();
 
-        /* var $collection Magento_VersionsCms_Model_Resource_Version_Collection */
-        $collection = Mage::getModel('Magento_VersionsCms_Model_Page_Version')->getCollection()
+        /* var $collection \Magento\VersionsCms\Model\Resource\Version\Collection */
+        $collection = \Mage::getModel('Magento\VersionsCms\Model\Page\Version')->getCollection()
             ->addPageFilter($this->getPage())
             ->addVisibilityFilter($userId,
-                Mage::getSingleton('Magento_VersionsCms_Model_Config')->getAllowedAccessLevel())
+                \Mage::getSingleton('Magento\VersionsCms\Model\Config')->getAllowedAccessLevel())
             ->addUserColumn()
             ->addUserNameColumn();
 
@@ -100,7 +102,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
     /**
      * Retrieve collection for grid if there is not collection call _prepareCollection
      *
-     * @return Magento_VersionsCms_Model_Resource_Page_Version_Collection
+     * @return \Magento\VersionsCms\Model\Resource\Page\Version\Collection
      */
     public function getCollection()
     {
@@ -114,7 +116,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
     /**
      * Prepare versions grid columns
      *
-     * @return Magento_VersionsCms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
+     * @return \Magento\VersionsCms\Block\Adminhtml\Cms\Page\Edit\Tab\Versions
      */
     protected function _prepareColumns()
     {
@@ -171,7 +173,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
     /**
      * Returns cms page object from registry
      *
-     * @return Magento_Cms_Model_Page
+     * @return \Magento\Cms\Model\Page
      */
     public function getPage()
     {
@@ -222,11 +224,11 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
      * Prepare massactions for this grid.
      * For now it is only ability to remove versions
      *
-     * @return Magento_VersionsCms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
+     * @return \Magento\VersionsCms\Block\Adminhtml\Cms\Page\Edit\Tab\Versions
      */
     protected function _prepareMassaction()
     {
-        if (Mage::getSingleton('Magento_VersionsCms_Model_Config')->canCurrentUserDeleteVersion()) {
+        if (\Mage::getSingleton('Magento\VersionsCms\Model\Config')->canCurrentUserDeleteVersion()) {
             $this->setMassactionIdField('version_id');
             $this->getMassactionBlock()->setFormFieldName('version');
 

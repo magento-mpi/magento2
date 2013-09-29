@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Install_Model_Installer_Db_Mysql4Test extends PHPUnit_Framework_TestCase
+namespace Magento\Install\Model\Installer\Db;
+
+class Mysql4Test extends \PHPUnit_Framework_TestCase
 {
     /**
      * Test possible ways of declaring InnoDB engine by MySQL
@@ -21,9 +23,9 @@ class Magento_Install_Model_Installer_Db_Mysql4Test extends PHPUnit_Framework_Te
      */
     public function testSupportEngine(array $supportedEngines, $expectedResult)
     {
-        $connectionMock = $this->getMock('Magento_DB_Adapter_Interface');
-        $resourceMock = $this->getMock('Magento_Core_Model_Resource_Type_Db_Pdo_Mysql', array(), array(), '', false);
-        $adapterFactoryMock = $this->getMock('Magento_Core_Model_Resource_Type_Db_Pdo_MysqlFactory',
+        $connectionMock = $this->getMock('Magento\DB\Adapter\AdapterInterface');
+        $resourceMock = $this->getMock('Magento\Core\Model\Resource\Type\Db\Pdo\Mysql', array(), array(), '', false);
+        $adapterFactoryMock = $this->getMock('Magento\Core\Model\Resource\Type\Db\Pdo\MysqlFactory',
             array('create', 'getConnectionData', 'getConnection'), array(), '', false);
         $adapterFactoryMock->expects($this->once())->method('create')
             ->will($this->returnValue($resourceMock));
@@ -34,7 +36,7 @@ class Magento_Install_Model_Installer_Db_Mysql4Test extends PHPUnit_Framework_Te
 
         $connectionMock->expects($this->once())->method('fetchPairs')->will($this->returnValue($supportedEngines));
 
-        $installer = new Magento_Install_Model_Installer_Db_Mysql4($adapterFactoryMock);
+        $installer = new \Magento\Install\Model\Installer\Db\Mysql4($adapterFactoryMock);
         $this->assertEquals($expectedResult, $installer->supportEngine());
     }
 
@@ -60,9 +62,9 @@ class Magento_Install_Model_Installer_Db_Mysql4Test extends PHPUnit_Framework_Te
      */
     public function testGetRequiredExtensions($config, $dbExtensions, $expectedResult)
     {
-        $adapterFactoryMock = $this->getMock('Magento_Core_Model_Resource_Type_Db_Pdo_MysqlFactory',
+        $adapterFactoryMock = $this->getMock('Magento\Core\Model\Resource\Type\Db\Pdo\MysqlFactory',
             array(), array(), '', false);
-        $installer = new Magento_Install_Model_Installer_Db_Mysql4($adapterFactoryMock, $dbExtensions);
+        $installer = new \Magento\Install\Model\Installer\Db\Mysql4($adapterFactoryMock, $dbExtensions);
         $installer->setConfig($config);
         $this->assertEquals($expectedResult, $installer->getRequiredExtensions());
     }

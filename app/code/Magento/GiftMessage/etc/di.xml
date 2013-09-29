@@ -8,10 +8,10 @@
  */
 -->
 <config>
-    <type name="Magento_Core_Model_Db_Updater">
+    <type name="Magento\Core\Model\Db\Updater">
         <param name="resourceList">
             <value>
-                <giftmessage_setup>Magento_GiftMessage_Model_Resource_Setup</giftmessage_setup>
+                <giftmessage_setup>Magento\GiftMessage\Model\Resource\Setup</giftmessage_setup>
             </value>
         </param>
     </type>

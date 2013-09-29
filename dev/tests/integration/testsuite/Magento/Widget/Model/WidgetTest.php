@@ -8,17 +8,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Widget_Model_WidgetTest extends PHPUnit_Framework_TestCase
+namespace Magento\Widget\Model;
+
+class WidgetTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Widget_Model_Widget
+     * @var \Magento\Widget\Model\Widget
      */
     protected $_model = null;
 
     protected function setUp()
     {
-        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Widget_Model_Widget');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Widget\Model\Widget');
     }
 
     public function testGetWidgetsArray()
@@ -44,10 +46,10 @@ class Magento_Widget_Model_WidgetTest extends PHPUnit_Framework_TestCase
      */
     public function testGetPlaceholderImageUrl($type, $expectedFile)
     {
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\View\DesignInterface')
             ->setDesignTheme('magento_basic', 'adminhtml');
-        $expectedPubFile = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Dir')
-                ->getDir(Magento_Core_Model_Dir::STATIC_VIEW) . "/adminhtml/magento_basic/en_US/{$expectedFile}";
+        $expectedPubFile = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Dir')
+                ->getDir(\Magento\Core\Model\Dir::STATIC_VIEW) . "/adminhtml/magento_basic/en_US/{$expectedFile}";
         if (file_exists($expectedPubFile)) {
             unlink($expectedPubFile);
         }
@@ -65,7 +67,7 @@ class Magento_Widget_Model_WidgetTest extends PHPUnit_Framework_TestCase
     {
         return array(
             'custom image'  => array(
-                'Magento_Catalog_Block_Product_Widget_New',
+                'Magento\Catalog\Block\Product\Widget\NewWidget',
                 'Magento_Catalog/images/product_widget_new.gif'
             ),
             'default image' => array(
@@ -83,18 +85,18 @@ class Magento_Widget_Model_WidgetTest extends PHPUnit_Framework_TestCase
      */
     public function testGetPlaceholderImageUrlAtTheme()
     {
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        /** @var Magento_Core_Model_Dir $dir */
-        $dir = $objectManager->get('Magento_Core_Model_Dir');
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        /** @var \Magento\Core\Model\Dir $dir */
+        $dir = $objectManager->get('Magento\Core\Model\Dir');
 
-        $property = new ReflectionProperty($dir, '_dirs');
+        $property = new \ReflectionProperty($dir, '_dirs');
         $property->setAccessible(true);
         $dirs = $property->getValue($dir);
-        $dirs[Magento_Core_Model_Dir::THEMES] = dirname(__DIR__) . '/_files/design';
+        $dirs[\Magento\Core\Model\Dir::THEMES] = dirname(__DIR__) . '/_files/design';
         $property->setValue($dir, $dirs);
 
         $actualFile = $this->testGetPlaceholderImageUrl(
-            'Magento_Catalog_Block_Product_Widget_New',
+            'Magento\Catalog\Block\Product\Widget\NewWidget',
             'Magento_Catalog/images/product_widget_new.gif'
         );
 

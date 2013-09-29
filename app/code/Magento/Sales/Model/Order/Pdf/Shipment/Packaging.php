@@ -11,64 +11,66 @@
 /**
  * Sales Order Shipment PDF model
  */
-class Magento_Sales_Model_Order_Pdf_Shipment_Packaging extends Magento_Sales_Model_Order_Pdf_Abstract
+namespace Magento\Sales\Model\Order\Pdf\Shipment;
+
+class Packaging extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
 {
     /**
      * Usa data
      *
-     * @var Magento_Usa_Helper_Data
+     * @var \Magento\Usa\Helper\Data
      */
     protected $_usaData = null;
 
     /**
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Core_Model_Layout
+     * @var \Magento\Core\Model\Layout
      */
     protected $_layout;
 
     /**
-     * @param Magento_Payment_Helper_Data $paymentData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Helper_String $coreString
-     * @param Magento_Core_Model_Store_ConfigInterface $coreStoreConfig
-     * @param Magento_Core_Model_Translate $translate
-     * @param Magento_Core_Model_Dir $coreDir
-     * @param Magento_Shipping_Model_Config $shippingConfig
-     * @param Magento_Sales_Model_Order_Pdf_Config $pdfConfig
-     * @param Magento_Sales_Model_Order_Pdf_Total_Factory $pdfTotalFactory
-     * @param Magento_Sales_Model_Order_Pdf_ItemsFactory $pdfItemsFactory
-     * @param Magento_Usa_Helper_Data $usaData
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Layout $layout
+     * @param \Magento\Payment\Helper\Data $paymentData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Helper\String $coreString
+     * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
+     * @param \Magento\Core\Model\Translate $translate
+     * @param \Magento\Core\Model\Dir $coreDir
+     * @param \Magento\Shipping\Model\Config $shippingConfig
+     * @param \Magento\Sales\Model\Order\Pdf\Config $pdfConfig
+     * @param \Magento\Sales\Model\Order\Pdf\Total\Factory $pdfTotalFactory
+     * @param \Magento\Sales\Model\Order\Pdf\ItemsFactory $pdfItemsFactory
+     * @param \Magento\Usa\Helper\Data $usaData
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Layout $layout
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Magento_Payment_Helper_Data $paymentData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Helper_String $coreString,
-        Magento_Core_Model_Store_ConfigInterface $coreStoreConfig,
-        Magento_Core_Model_Translate $translate,
-        Magento_Core_Model_Dir $coreDir,
-        Magento_Shipping_Model_Config $shippingConfig,
-        Magento_Sales_Model_Order_Pdf_Config $pdfConfig,
-        Magento_Sales_Model_Order_Pdf_Total_Factory $pdfTotalFactory,
-        Magento_Sales_Model_Order_Pdf_ItemsFactory $pdfItemsFactory,
-        Magento_Usa_Helper_Data $usaData,
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Layout $layout,
+        \Magento\Payment\Helper\Data $paymentData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Helper\String $coreString,
+        \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
+        \Magento\Core\Model\Translate $translate,
+        \Magento\Core\Model\Dir $coreDir,
+        \Magento\Shipping\Model\Config $shippingConfig,
+        \Magento\Sales\Model\Order\Pdf\Config $pdfConfig,
+        \Magento\Sales\Model\Order\Pdf\Total\Factory $pdfTotalFactory,
+        \Magento\Sales\Model\Order\Pdf\ItemsFactory $pdfItemsFactory,
+        \Magento\Usa\Helper\Data $usaData,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Layout $layout,
         array $data = array()
     ) {
         $this->_usaData = $usaData;
@@ -83,14 +85,14 @@ class Magento_Sales_Model_Order_Pdf_Shipment_Packaging extends Magento_Sales_Mod
      * Format pdf file
      *
      * @param  null $shipment
-     * @return Zend_Pdf
+     * @return \Zend_Pdf
      */
     public function getPdf($shipment = null)
     {
         $this->_beforeGetPdf();
         $this->_initRenderer('shipment');
 
-        $pdf = new Zend_Pdf();
+        $pdf = new \Zend_Pdf();
         $this->_setPdf($pdf);
         $page = $this->newPage();
 
@@ -104,7 +106,7 @@ class Magento_Sales_Model_Order_Pdf_Shipment_Packaging extends Magento_Sales_Mod
 
         $this->y = 740;
         $this->_drawPackageBlock($page);
-        $page->setFillColor(new Zend_Pdf_Color_GrayScale(0));
+        $page->setFillColor(new \Zend_Pdf_Color_GrayScale(0));
         $this->_afterGetPdf();
 
         if ($shipment->getStoreId()) {
@@ -116,17 +118,17 @@ class Magento_Sales_Model_Order_Pdf_Shipment_Packaging extends Magento_Sales_Mod
     /**
      * Draw header block
      *
-     * @param  Zend_Pdf_Page $page
-     * @return Magento_Sales_Model_Order_Pdf_Shipment_Packaging
+     * @param  \Zend_Pdf_Page $page
+     * @return \Magento\Sales\Model\Order\Pdf\Shipment\Packaging
      */
-    protected function _drawHeaderBlock(Zend_Pdf_Page $page) {
-        $page->setFillColor(new Zend_Pdf_Color_GrayScale(0.5));
-        $page->setLineColor(new Zend_Pdf_Color_GrayScale(0.5));
+    protected function _drawHeaderBlock(\Zend_Pdf_Page $page) {
+        $page->setFillColor(new \Zend_Pdf_Color_GrayScale(0.5));
+        $page->setLineColor(new \Zend_Pdf_Color_GrayScale(0.5));
         $page->setLineWidth(0.5);
         $page->drawRectangle(25, 790, 570, 755);
-        $page->setFillColor(new Zend_Pdf_Color_GrayScale(1));
+        $page->setFillColor(new \Zend_Pdf_Color_GrayScale(1));
         $page->drawText(__('Packages'), 35, 770, 'UTF-8');
-        $page->setFillColor(new Zend_Pdf_Color_Rgb(0.93, 0.92, 0.92));
+        $page->setFillColor(new \Zend_Pdf_Color_Rgb(0.93, 0.92, 0.92));
 
         return $this;
     }
@@ -134,35 +136,35 @@ class Magento_Sales_Model_Order_Pdf_Shipment_Packaging extends Magento_Sales_Mod
     /**
      * Draw packages block
      *
-     * @param  Zend_Pdf_Page $page
-     * @return Magento_Sales_Model_Order_Pdf_Shipment_Packaging
+     * @param  \Zend_Pdf_Page $page
+     * @return \Magento\Sales\Model\Order\Pdf\Shipment\Packaging
      */
-    protected function _drawPackageBlock(Zend_Pdf_Page $page)
+    protected function _drawPackageBlock(\Zend_Pdf_Page $page)
     {
         if ($this->getPackageShippingBlock()) {
             $packaging = $this->getPackageShippingBlock();
         } else {
-            $packaging = $this->_layout->getBlockSingleton('Magento_Adminhtml_Block_Sales_Order_Shipment_Packaging');
+            $packaging = $this->_layout->getBlockSingleton('Magento\Adminhtml\Block\Sales\Order\Shipment\Packaging');
         }
         $packages = $packaging->getPackages();
 
         $packageNum = 1;
         foreach ($packages as $packageId => $package) {
-            $page->setFillColor(new Zend_Pdf_Color_Rgb(0.93, 0.92, 0.92));
+            $page->setFillColor(new \Zend_Pdf_Color_Rgb(0.93, 0.92, 0.92));
             $page->drawRectangle(25, $this->y + 15, 190, $this->y - 35);
             $page->drawRectangle(190, $this->y + 15, 350, $this->y - 35);
             $page->drawRectangle(350, $this->y + 15, 570, $this->y - 35);
 
-            $page->setFillColor(new Zend_Pdf_Color_GrayScale(1));
+            $page->setFillColor(new \Zend_Pdf_Color_GrayScale(1));
             $page->drawRectangle(520, $this->y + 15, 570, $this->y - 5);
 
-            $page->setFillColor(new Zend_Pdf_Color_GrayScale(0));
+            $page->setFillColor(new \Zend_Pdf_Color_GrayScale(0));
             $packageText = __('Package') . ' ' . $packageNum;
             $page->drawText($packageText, 525, $this->y , 'UTF-8');
             $packageNum++;
 
-            $package = new Magento_Object($package);
-            $params = new Magento_Object($package->getParams());
+            $package = new \Magento\Object($package);
+            $params = new \Magento\Object($package->getParams());
             $dimensionUnits = $this->_usaData->getMeasureDimensionName($params->getDimensionUnits());
 
             $typeText = __('Type') . ' : '
@@ -240,11 +242,11 @@ class Magento_Sales_Model_Order_Pdf_Shipment_Packaging extends Magento_Sales_Mod
             }
 
             $this->y = $this->y - 5;
-            $page->setFillColor(new Zend_Pdf_Color_GrayScale(1));
+            $page->setFillColor(new \Zend_Pdf_Color_GrayScale(1));
             $page->drawRectangle(25, $this->y, 570, $this->y - 30 - (count($package->getItems()) * 12));
 
             $this->y = $this->y - 10;
-            $page->setFillColor(new Zend_Pdf_Color_GrayScale(0));
+            $page->setFillColor(new \Zend_Pdf_Color_GrayScale(0));
             $page->drawText(__('Items in the Package'), 30, $this->y, 'UTF-8');
 
             $txtIndent = 5;
@@ -259,7 +261,7 @@ class Magento_Sales_Model_Order_Pdf_Shipment_Packaging extends Magento_Sales_Mod
             }
 
             $i = 0;
-            $page->setFillColor(new Zend_Pdf_Color_Rgb(0.93, 0.92, 0.92));
+            $page->setFillColor(new \Zend_Pdf_Color_Rgb(0.93, 0.92, 0.92));
             $page->drawRectangle($itemCollsX[$i], $this->y - 5, $itemCollsX[++$i], $this->y - 15);
             $page->drawRectangle($itemCollsX[$i], $this->y - 5, $itemCollsX[++$i], $this->y - 15);
             $page->drawRectangle($itemCollsX[$i], $this->y - 5, $itemCollsX[++$i], $this->y - 15);
@@ -269,7 +271,7 @@ class Magento_Sales_Model_Order_Pdf_Shipment_Packaging extends Magento_Sales_Mod
             $this->y = $this->y - 12;
             $i = 0;
 
-            $page->setFillColor(new Zend_Pdf_Color_GrayScale(0));
+            $page->setFillColor(new \Zend_Pdf_Color_GrayScale(0));
             $page->drawText(__('Product'), $itemCollsX[$i] + $txtIndent, $this->y, 'UTF-8');
             $page->drawText(__('Weight'), $itemCollsX[++$i] + $txtIndent, $this->y, 'UTF-8');
             if ($packaging->displayCustomsValue()) {
@@ -287,10 +289,10 @@ class Magento_Sales_Model_Order_Pdf_Shipment_Packaging extends Magento_Sales_Mod
 
             $i = 0;
             foreach ($package->getItems() as $itemId => $item) {
-                $item = new Magento_Object($item);
+                $item = new \Magento\Object($item);
                 $i = 0;
 
-                $page->setFillColor(new Zend_Pdf_Color_GrayScale(1));
+                $page->setFillColor(new \Zend_Pdf_Color_GrayScale(1));
                 $page->drawRectangle($itemCollsX[$i], $this->y - 3, $itemCollsX[++$i], $this->y - 15);
                 $page->drawRectangle($itemCollsX[$i], $this->y - 3, $itemCollsX[++$i], $this->y - 15);
                 $page->drawRectangle($itemCollsX[$i], $this->y - 3, $itemCollsX[++$i], $this->y - 15);
@@ -299,7 +301,7 @@ class Magento_Sales_Model_Order_Pdf_Shipment_Packaging extends Magento_Sales_Mod
 
                 $this->y = $this->y - 12;
                 $i = 0;
-                $page->setFillColor(new Zend_Pdf_Color_GrayScale(0));
+                $page->setFillColor(new \Zend_Pdf_Color_GrayScale(0));
                 $page->drawText($item->getName(), $itemCollsX[$i] + $txtIndent, $this->y, 'UTF-8');
                 $page->drawText($item->getWeight(), $itemCollsX[++$i] + $txtIndent, $this->y, 'UTF-8');
                 if ($packaging->displayCustomsValue()) {

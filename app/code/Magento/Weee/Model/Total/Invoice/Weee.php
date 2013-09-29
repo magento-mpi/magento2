@@ -9,12 +9,14 @@
  */
 
 
-class Magento_Weee_Model_Total_Invoice_Weee extends Magento_Sales_Model_Order_Invoice_Total_Abstract
+namespace Magento\Weee\Model\Total\Invoice;
+
+class Weee extends \Magento\Sales\Model\Order\Invoice\Total\AbstractTotal
 {
     /**
      * Weee data
      *
-     * @var Magento_Weee_Helper_Data
+     * @var \Magento\Weee\Helper\Data
      */
     protected $_weeeData = null;
 
@@ -24,11 +26,11 @@ class Magento_Weee_Model_Total_Invoice_Weee extends Magento_Sales_Model_Order_In
      * By default is looking for first argument as array and assigns it as object
      * attributes This behavior may change in child classes
      *
-     * @param Magento_Weee_Helper_Data $weeeData
+     * @param \Magento\Weee\Helper\Data $weeeData
      * @param array $data
      */
     public function __construct(
-        Magento_Weee_Helper_Data $weeeData,
+        \Magento\Weee\Helper\Data $weeeData,
         array $data = array()
     ) {
         $this->_weeeData = $weeeData;
@@ -38,10 +40,10 @@ class Magento_Weee_Model_Total_Invoice_Weee extends Magento_Sales_Model_Order_In
     /**
      * Weee tax collector
      *
-     * @param Magento_Sales_Model_Order_Invoice $invoice
-     * @return Magento_Weee_Model_Total_Invoice_Weee
+     * @param \Magento\Sales\Model\Order\Invoice $invoice
+     * @return \Magento\Weee\Model\Total\Invoice\Weee
      */
-    public function collect(Magento_Sales_Model_Order_Invoice $invoice)
+    public function collect(\Magento\Sales\Model\Order\Invoice $invoice)
     {
         $store = $invoice->getStore();
 

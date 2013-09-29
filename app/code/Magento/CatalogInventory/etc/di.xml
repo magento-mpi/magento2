@@ -8,33 +8,33 @@
  */
 -->
 <config>
-    <type name="Magento_CatalogInventory_Model_Observer">
+    <type name="Magento\CatalogInventory\Model\Observer">
         <param name="indexerPrice">
-            <instance type="Magento_Catalog_Model_Resource_Product_Indexer_Price_Proxy" />
+            <instance type="Magento\Catalog\Model\Resource\Product\Indexer\Price\Proxy" />
         </param>
         <param name="resourceIndexerStock">
-            <instance type="Magento_CatalogInventory_Model_Resource_Indexer_Stock_Proxy" />
+            <instance type="Magento\CatalogInventory\Model\Resource\Indexer\Stock\Proxy" />
         </param>
         <param name="resourceStock">
-            <instance type="Magento_CatalogInventory_Model_Resource_Stock_Proxy" />
+            <instance type="Magento\CatalogInventory\Model\Resource\Stock\Proxy" />
         </param>
         <param name="indexer">
-            <instance type="Magento_Index_Model_Indexer_Proxy" />
+            <instance type="Magento\Index\Model\Indexer\Proxy" />
         </param>
         <param name="stock">
-            <instance type="Magento_CatalogInventory_Model_Stock_Proxy" />
+            <instance type="Magento\CatalogInventory\Model\Stock\Proxy" />
         </param>
         <param name="stockStatus">
-            <instance type="Magento_CatalogInventory_Model_Stock_Status_Proxy" />
+            <instance type="Magento\CatalogInventory\Model\Stock\Status\Proxy" />
         </param>
         <param name="catalogInventoryData">
-            <instance type="Magento_CatalogInventory_Helper_Data_Proxy" />
+            <instance type="Magento\CatalogInventory\Helper\Data\Proxy" />
         </param>
     </type>
-    <type name="Magento_Core_Model_Db_Updater">
+    <type name="Magento\Core\Model\Db\Updater">
         <param name="resourceList">
             <value>
-                <cataloginventory_setup>Magento_Eav_Model_Entity_Setup</cataloginventory_setup>
+                <cataloginventory_setup>Magento\Eav\Model\Entity\Setup</cataloginventory_setup>
             </value>
         </param>
     </type>

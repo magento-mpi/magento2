@@ -9,6 +9,6 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <container name="root" label="Root" output="1">
-        <block class="Magento_Authorizenet_Block_Directpost_Iframe" name="iframe" template="directpost/iframe.phtml"/>
+        <block class="Magento\Authorizenet\Block\Directpost\Iframe" name="iframe" template="directpost/iframe.phtml"/>
     </container>
 </layout>

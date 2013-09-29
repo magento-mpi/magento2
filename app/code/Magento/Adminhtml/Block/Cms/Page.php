@@ -16,7 +16,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Cms_Page extends Magento_Adminhtml_Block_Widget_Grid_Container
+namespace Magento\Adminhtml\Block\Cms;
+
+class Page extends \Magento\Adminhtml\Block\Widget\Grid\Container
 {
 
     /**

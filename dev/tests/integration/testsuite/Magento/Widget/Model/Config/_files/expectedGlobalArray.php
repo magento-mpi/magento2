@@ -8,7 +8,7 @@
 return array(
     'sales_widget_guestform' => array(
         '@' => array(
-            'type' => 'Magento_Sales_Block_Widget_Guest_Form',
+            'type' => 'Magento\Sales\Block\Widget\Guest\Form',
         ),
         'is_email_compatible' => '1',
         'name' => 'Orders and Returns',
@@ -35,7 +35,7 @@ return array(
                 'visible' => '0'
             ),
             'link_display' => array(
-                'source_model' => 'Magento_Backend_Model_Config_Source_Yesno',
+                'source_model' => 'Magento\Backend\Model\Config\Source\Yesno',
                 'type' => 'select',
                 'visible' => '1',
                 'sort_order' => '10',
@@ -62,7 +62,7 @@ return array(
                     'type' => 'complex',
                 ),
                 'helper_block' => array(
-                    'type' => 'Magento_Adminhtml_Block_Catalog_Product_Widget_Chooser',
+                    'type' => 'Magento\Adminhtml\Block\Catalog\Product\Widget\Chooser',
                     'data' => array(
                         'button' => array(
                             'open' => 'Select Product...'

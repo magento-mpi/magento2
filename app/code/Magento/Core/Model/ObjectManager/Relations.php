@@ -7,7 +7,9 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Core_Model_ObjectManager_Relations implements Magento_ObjectManager_Relations
+namespace Magento\Core\Model\ObjectManager;
+
+class Relations implements \Magento\ObjectManager\Relations
 {
     /**
      * List of class relations

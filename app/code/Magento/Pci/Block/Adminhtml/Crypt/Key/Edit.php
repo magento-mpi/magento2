@@ -12,7 +12,9 @@
  * Encryption key change edit page block
  *
  */
-class Magento_Pci_Block_Adminhtml_Crypt_Key_Edit extends Magento_Adminhtml_Block_Widget_Form_Container
+namespace Magento\Pci\Block\Adminhtml\Crypt\Key;
+
+class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
 {
     protected $_blockGroup = null;
     protected $_controller = 'crypt_key';
@@ -23,7 +25,7 @@ class Magento_Pci_Block_Adminhtml_Crypt_Key_Edit extends Magento_Adminhtml_Block
      */
     protected function _construct()
     {
-        Magento_Object::__construct();
+        \Magento\Object::__construct();
         $this->_addButton('save', array(
             'label'     => __('Change Encryption Key'),
             'class'     => 'save',

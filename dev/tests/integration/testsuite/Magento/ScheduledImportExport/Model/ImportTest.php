@@ -6,26 +6,28 @@
  * @license     {license_link}
  */
 
-class Magento_ScheduledImportExport_Model_ImportTest extends PHPUnit_Framework_TestCase
+namespace Magento\ScheduledImportExport\Model;
+
+class ImportTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @magentoDbIsolation enabled
      */
     public function testRunSchedule()
     {
-        /** @var Magento_TestFramework_ObjectManager $objectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $productModel = $objectManager->create('Magento_Catalog_Model_Product');
+        /** @var \Magento\TestFramework\ObjectManager $objectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $productModel = $objectManager->create('Magento\Catalog\Model\Product');
         $product = $productModel->loadByAttribute('sku', 'product_100500'); // fixture
         $this->assertFalse($product);
 
-        $importExportData = $objectManager->get('Magento_ImportExport_Helper_Data');
-        $importConfig = $objectManager->get('Magento_ImportExport_Model_Import_ConfigInterface');
-        $logger = $objectManager->get('Magento_Core_Model_Logger');
-        $indexer = $objectManager->get('Magento_Index_Model_Indexer');
+        $importExportData = $objectManager->get('Magento\ImportExport\Helper\Data');
+        $importConfig = $objectManager->get('Magento\ImportExport\Model\Import\ConfigInterface');
+        $logger = $objectManager->get('Magento\Core\Model\Logger');
+        $indexer = $objectManager->get('Magento\Index\Model\Indexer');
 
         // Mock the reindexAll() method, because it has DDL operations, thus breaks DB-isolating transaction
-        $model = $this->getMock('Magento_ScheduledImportExport_Model_Import', array('reindexAll'), array(
+        $model = $this->getMock('Magento\ScheduledImportExport\Model\Import', array('reindexAll'), array(
             $indexer, $logger, $importExportData, $importConfig, array(
                 'entity'   => 'catalog_product',
                 'behavior' => 'append',
@@ -35,7 +37,7 @@ class Magento_ScheduledImportExport_Model_ImportTest extends PHPUnit_Framework_T
             ->method('reindexAll')
             ->will($this->returnSelf());
 
-        $operation = $objectManager->create('Magento_ScheduledImportExport_Model_Scheduled_Operation');
+        $operation = $objectManager->create('Magento\ScheduledImportExport\Model\Scheduled\Operation');
         $operation->setFileInfo(array(
             'file_name' => __DIR__ . '/../_files/product.csv',
             'server_type' => 'file',

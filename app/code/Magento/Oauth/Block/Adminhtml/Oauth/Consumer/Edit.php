@@ -11,7 +11,9 @@
  *
  * @author Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Oauth_Block_Adminhtml_Oauth_Consumer_Edit extends Magento_Backend_Block_Widget_Form_Container
+namespace Magento\Oauth\Block\Adminhtml\Oauth\Consumer;
+
+class Edit extends \Magento\Backend\Block\Widget\Form\Container
 {
     /** Key used to store subscription data into the registry */
     const REGISTRY_KEY_CURRENT_CONSUMER = 'current_consumer';
@@ -23,15 +25,15 @@ class Magento_Oauth_Block_Adminhtml_Oauth_Consumer_Edit extends Magento_Backend_
     protected $_consumerData;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Backend_Block_Template_Context $context
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Model_Registry $registry,
-        Magento_Backend_Block_Template_Context $context,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
         parent::__construct($coreData, $context, $data);

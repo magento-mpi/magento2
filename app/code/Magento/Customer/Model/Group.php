@@ -11,17 +11,19 @@
 /**
  * Customer group model
  *
- * @method Magento_Customer_Model_Resource_Group _getResource()
- * @method Magento_Customer_Model_Resource_Group getResource()
+ * @method \Magento\Customer\Model\Resource\Group _getResource()
+ * @method \Magento\Customer\Model\Resource\Group getResource()
  * @method string getCustomerGroupCode()
- * @method Magento_Customer_Model_Group setCustomerGroupCode(string $value)
- * @method Magento_Customer_Model_Group setTaxClassId(int $value)
+ * @method \Magento\Customer\Model\Group setCustomerGroupCode(string $value)
+ * @method \Magento\Customer\Model\Group setTaxClassId(int $value)
  *
  * @category    Magento
  * @package     Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Customer_Model_Group extends Magento_Core_Model_Abstract
+namespace Magento\Customer\Model;
+
+class Group extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Xml config path for create account default group
@@ -54,26 +56,26 @@ class Magento_Customer_Model_Group extends Magento_Core_Model_Abstract
     protected static $_taxClassIds = array();
 
     /**
-     * @var Magento_Core_Model_Config
+     * @var \Magento\Core\Model\Config
      */
     protected $_coreConfig;
 
     /**
      * Constructor
      *
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Config $coreConfig
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_Config $coreConfig,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Config $coreConfig,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct(
@@ -88,7 +90,7 @@ class Magento_Customer_Model_Group extends Magento_Core_Model_Abstract
 
     protected function _construct()
     {
-        $this->_init('Magento_Customer_Model_Resource_Group');
+        $this->_init('Magento\Customer\Model\Resource\Group');
     }
 
     /**
@@ -136,13 +138,13 @@ class Magento_Customer_Model_Group extends Magento_Core_Model_Abstract
     /**
      * Run reindex process after data save
      *
-     * @return Magento_Customer_Model_Group
+     * @return \Magento\Customer\Model\Group
      */
     protected function _afterSave()
     {
         parent::_afterSave();
-        Mage::getSingleton('Magento_Index_Model_Indexer')->processEntityAction(
-            $this, self::ENTITY, Magento_Index_Model_Event::TYPE_SAVE
+        \Mage::getSingleton('Magento\Index\Model\Indexer')->processEntityAction(
+            $this, self::ENTITY, \Magento\Index\Model\Event::TYPE_SAVE
         );
         return $this;
     }
@@ -150,7 +152,7 @@ class Magento_Customer_Model_Group extends Magento_Core_Model_Abstract
     /**
      * Prepare data before save
      *
-     * @return Magento_Core_Model_Abstract
+     * @return \Magento\Core\Model\AbstractModel
      */
     protected function _beforeSave()
     {
@@ -161,7 +163,7 @@ class Magento_Customer_Model_Group extends Magento_Core_Model_Abstract
     /**
      * Prepare customer group data
      *
-     * @return Magento_Customer_Model_Group
+     * @return \Magento\Customer\Model\Group
      */
     protected function _prepareData()
     {

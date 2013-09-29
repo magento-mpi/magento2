@@ -1,19 +1,21 @@
 <?php
 /**
- * Proxy class for Magento_Code_GeneratorTest_SourceClassWithoutNamespace
+ * Proxy class for \Magento\Code\GeneratorTest\SourceClassWithoutNamespace
  *
  * {license_notice}
  *
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Code_GeneratorTest_SourceClassWithoutNamespaceProxy
-    extends \Magento_Code_GeneratorTest_SourceClassWithoutNamespace
+namespace Magento\Code\GeneratorTest;
+
+class SourceClassWithoutNamespaceProxy
+    extends \Magento\Code\GeneratorTest\SourceClassWithoutNamespace
 {
     /**
      * Object Manager instance
      *
-     * @var \Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager = null;
 
@@ -27,7 +29,7 @@ class Magento_Code_GeneratorTest_SourceClassWithoutNamespaceProxy
     /**
      * Proxied instance
      *
-     * @var \Magento_Code_GeneratorTest_SourceClassWithoutNamespace
+     * @var \Magento\Code\GeneratorTest\SourceClassWithoutNamespace
      */
     protected $_subject = null;
 
@@ -41,13 +43,13 @@ class Magento_Code_GeneratorTest_SourceClassWithoutNamespaceProxy
     /**
      * Proxy constructor
      *
-     * @param \Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      * @param string $instanceName
      * @param bool $shared
      */
     public function __construct(
-        \Magento_ObjectManager $objectManager,
-        $instanceName = 'Magento_Code_GeneratorTest_SourceClassWithoutNamespace',
+        \Magento\ObjectManager $objectManager,
+        $instanceName = 'Magento\Code\GeneratorTest\SourceClassWithoutNamespace',
         $shared = true
     ) {
         $this->_objectManager = $objectManager;
@@ -68,7 +70,7 @@ class Magento_Code_GeneratorTest_SourceClassWithoutNamespaceProxy
      */
     public function __wakeup()
     {
-        $this->_objectManager = Magento_Core_Model_ObjectManager::getInstance();
+        $this->_objectManager = \Magento\Core\Model\ObjectManager::getInstance();
     }
 
     /**
@@ -82,7 +84,7 @@ class Magento_Code_GeneratorTest_SourceClassWithoutNamespaceProxy
     /**
      * Get proxied instance
      *
-     * @return \Magento_Code_GeneratorTest_SourceClassWithoutNamespace
+     * @return \Magento\Code\GeneratorTest\SourceClassWithoutNamespace
      */
     protected function _getSubject()
     {

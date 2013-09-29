@@ -23,7 +23,7 @@
             <events>
                 <event controller_action="adminhtml_checkout_index">
                     <expected_models>
-                        <expected_model class="Magento_Sales_Model_Quote" />
+                        <expected_model class="Magento\Sales\Model\Quote" />
                     </expected_models>
                 </event>
             </events>

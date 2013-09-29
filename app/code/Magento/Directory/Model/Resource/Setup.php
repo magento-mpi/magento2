@@ -15,23 +15,25 @@
  * @package     Magento_Directory
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Directory_Model_Resource_Setup extends Magento_Core_Model_Resource_Setup
+namespace Magento\Directory\Model\Resource;
+
+class Setup extends \Magento\Core\Model\Resource\Setup
 {
     /**
-     * @var Magento_Directory_Helper_Data
+     * @var \Magento\Directory\Helper\Data
      */
     protected $_directoryData;
 
     /**
-     * @param Magento_Core_Model_Resource_Setup_Context $context
-     * @param Magento_Directory_Helper_Data $directoryData
+     * @param \Magento\Core\Model\Resource\Setup\Context $context
+     * @param \Magento\Directory\Helper\Data $directoryData
      * @param string $resourceName
      * @param string $moduleName
      * @param string $connectionName
      */
     public function __construct(
-        Magento_Core_Model_Resource_Setup_Context $context,
-        Magento_Directory_Helper_Data $directoryData,
+        \Magento\Core\Model\Resource\Setup\Context $context,
+        \Magento\Directory\Helper\Data $directoryData,
         $resourceName,
         $moduleName = 'Magento_Directory',
         $connectionName = ''
@@ -42,7 +44,7 @@ class Magento_Directory_Model_Resource_Setup extends Magento_Core_Model_Resource
 
 
     /**
-     * @return Magento_Directory_Helper_Data
+     * @return \Magento\Directory\Helper\Data
      */
     public function getDirectoryData()
     {

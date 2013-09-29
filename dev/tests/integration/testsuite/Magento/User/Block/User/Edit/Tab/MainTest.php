@@ -9,47 +9,49 @@
  * @license     {license_link}
  */
 
+namespace Magento\User\Block\User\Edit\Tab;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_User_Block_User_Edit_Tab_MainTest extends Magento_Backend_Utility_Controller
+class MainTest extends \Magento\Backend\Utility\Controller
 {
     /**
-     * @var Magento_User_Block_User_Edit_Tab_Main
+     * @var \Magento\User\Block\User\Edit\Tab\Main
      */
     protected $_block;
 
     /**
-     * @var Magento_User_Model_User
+     * @var \Magento\User\Model\User
      */
     protected $_user;
 
     protected function setUp()
     {
         parent::setUp();
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         
-        $this->_block = $objectManager->create('Magento_User_Block_User_Edit_Tab_Main');
+        $this->_block = $objectManager->create('Magento\User\Block\User\Edit\Tab\Main');
         $this->_block->setArea('adminhtml');
-        $this->_user = $objectManager->create('Magento_User_Model_User');
+        $this->_user = $objectManager->create('Magento\User\Model\User');
 
-        $objectManager->get('Magento_Core_Model_Registry')->register('permissions_user', $this->_user);
+        $objectManager->get('Magento\Core\Model\Registry')->register('permissions_user', $this->_user);
     }
 
     protected function tearDown()
     {
         $this->_block = null;
         $this->_user = null;
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $objectManager->get('Magento_Core_Model_Registry')->unregister('permissions_user');
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $objectManager->get('Magento\Core\Model\Registry')->unregister('permissions_user');
         parent::tearDown();
     }
 
     public function testToHtmlPasswordFieldsExistingEntry()
     {
-        $this->_user->loadByUsername(Magento_TestFramework_Bootstrap::ADMIN_NAME);
+        $this->_user->loadByUsername(\Magento\TestFramework\Bootstrap::ADMIN_NAME);
         $actualHtml = $this->_block->toHtml();
         $this->assertSelectCount(
             'input.required-entry[type="password"]', 0, $actualHtml,

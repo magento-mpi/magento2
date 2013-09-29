@@ -9,20 +9,22 @@
  */
 
 
-class Magento_Sales_Model_Quote_Address_Total_Subtotal extends Magento_Sales_Model_Quote_Address_Total_Abstract
+namespace Magento\Sales\Model\Quote\Address\Total;
+
+class Subtotal extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
 {
     /**
      * Sales data
      *
-     * @var Magento_Sales_Helper_Data
+     * @var \Magento\Sales\Helper\Data
      */
     protected $_salesData = null;
 
     /**
-     * @param Magento_Sales_Helper_Data $salesData
+     * @param \Magento\Sales\Helper\Data $salesData
      */
     public function __construct(
-        Magento_Sales_Helper_Data $salesData
+        \Magento\Sales\Helper\Data $salesData
     ) {
         $this->_salesData = $salesData;
     }
@@ -30,10 +32,10 @@ class Magento_Sales_Model_Quote_Address_Total_Subtotal extends Magento_Sales_Mod
     /**
      * Collect address subtotal
      *
-     * @param   Magento_Sales_Model_Quote_Address $address
-     * @return  Magento_Sales_Model_Quote_Address_Total_Subtotal
+     * @param   \Magento\Sales\Model\Quote\Address $address
+     * @return  \Magento\Sales\Model\Quote\Address\Total\Subtotal
      */
-    public function collect(Magento_Sales_Model_Quote_Address $address)
+    public function collect(\Magento\Sales\Model\Quote\Address $address)
     {
         parent::collect($address);
         $address->setTotalQty(0);
@@ -78,7 +80,7 @@ class Magento_Sales_Model_Quote_Address_Total_Subtotal extends Magento_Sales_Mod
      */
     protected function _initItem($address, $item)
     {
-        if ($item instanceof Magento_Sales_Model_Quote_Address_Item) {
+        if ($item instanceof \Magento\Sales\Model\Quote\Address\Item) {
             $quoteItem = $item->getAddress()->getQuote()->getItemById($item->getQuoteItemId());
         }
         else {
@@ -129,17 +131,17 @@ class Magento_Sales_Model_Quote_Address_Total_Subtotal extends Magento_Sales_Mod
      *
      * @param  $address
      * @param  $item
-     * @return Magento_Sales_Model_Quote_Address_Total_Subtotal
+     * @return \Magento\Sales\Model\Quote\Address\Total\Subtotal
      */
     protected function _removeItem($address, $item)
     {
-        if ($item instanceof Magento_Sales_Model_Quote_Item) {
+        if ($item instanceof \Magento\Sales\Model\Quote\Item) {
             $address->removeItem($item->getId());
             if ($address->getQuote()) {
                 $address->getQuote()->removeItem($item->getId());
             }
         }
-        elseif ($item instanceof Magento_Sales_Model_Quote_Address_Item) {
+        elseif ($item instanceof \Magento\Sales\Model\Quote\Address\Item) {
             $address->removeItem($item->getId());
             if ($address->getQuote()) {
                 $address->getQuote()->removeItem($item->getQuoteItemId());
@@ -152,10 +154,10 @@ class Magento_Sales_Model_Quote_Address_Total_Subtotal extends Magento_Sales_Mod
     /**
      * Assign subtotal amount and label to address object
      *
-     * @param   Magento_Sales_Model_Quote_Address $address
-     * @return  Magento_Sales_Model_Quote_Address_Total_Subtotal
+     * @param   \Magento\Sales\Model\Quote\Address $address
+     * @return  \Magento\Sales\Model\Quote\Address\Total\Subtotal
      */
-    public function fetch(Magento_Sales_Model_Quote_Address $address)
+    public function fetch(\Magento\Sales\Model\Quote\Address $address)
     {
         $address->addTotal(array(
             'code'  => $this->getCode(),

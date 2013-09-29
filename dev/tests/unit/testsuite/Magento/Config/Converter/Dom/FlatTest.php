@@ -5,10 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Config_Converter_Dom_FlatTest extends PHPUnit_Framework_TestCase
+namespace Magento\Config\Converter\Dom;
+
+class FlatTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Config_Converter_Dom_Flat
+     * @var \Magento\Config\Converter\Dom\Flat
      */
     protected $_model;
 
@@ -21,7 +23,7 @@ class Magento_Config_Converter_Dom_FlatTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = new Magento_Config_Converter_Dom_Flat(array(
+        $this->_model = new \Magento\Config\Converter\Dom\Flat(array(
             '/root/multipleNode' => 'id'
         ));
         $this->_fixturePath = realpath(__DIR__ . '/../../')
@@ -36,7 +38,7 @@ class Magento_Config_Converter_Dom_FlatTest extends PHPUnit_Framework_TestCase
     {
         $expected = require ($this->_fixturePath . 'result.php');
 
-        $dom = new DOMDocument();
+        $dom = new \DOMDocument();
         $dom->load($this->_fixturePath . 'source.xml');
 
         $actual = $this->_model->convert($dom);

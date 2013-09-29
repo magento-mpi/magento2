@@ -12,20 +12,22 @@
  * Wrapper that performs Paypal Express and Checkout communication
  * Use current Paypal Express method instance
  */
-class Magento_PaypalUk_Model_Express_Checkout extends Magento_Paypal_Model_Express_Checkout
+namespace Magento\PaypalUk\Model\Express;
+
+class Checkout extends \Magento\Paypal\Model\Express\Checkout
 {
     /**
      * Api Model Type
      *
      * @var string
      */
-    protected $_apiType = 'Magento_PaypalUk_Model_Api_Nvp';
+    protected $_apiType = 'Magento\PaypalUk\Model\Api\Nvp';
 
     /**
      * Payment method tpye
      * @var unknown_type
      */
-    protected $_methodType = Magento_Paypal_Model_Config::METHOD_WPP_PE_EXPRESS;
+    protected $_methodType = \Magento\Paypal\Model\Config::METHOD_WPP_PE_EXPRESS;
 
     /**
      * Set shipping method to quote, if needed

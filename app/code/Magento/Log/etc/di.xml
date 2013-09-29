@@ -8,14 +8,14 @@
  */
 -->
 <config>
-    <type name="Magento_Log_Model_Shell_Command_Clean">
+    <type name="Magento\Log\Model\Shell\Command\Clean">
         <param name="storeManager">
-            <instance type="Magento_Core_Model_StoreManager_Proxy" />
+            <instance type="Magento\Core\Model\StoreManager\Proxy" />
         </param>
     </type>
-    <type name="Magento_Log_Model_Visitor">
+    <type name="Magento\Log\Model\Visitor">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
         <param name="ignoredUserAgents">
             <value>
@@ -25,9 +25,9 @@
             </value>
         </param>
     </type>
-    <type name="Magento_Log_Model_Resource_Log">
+    <type name="Magento\Log\Model\Resource\Log">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
         <param name="ignores">
             <value>

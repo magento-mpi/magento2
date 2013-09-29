@@ -16,7 +16,9 @@
  * @package     Magento_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reports_Model_Resource_Wishlist_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Reports\Model\Resource\Wishlist;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Wishlist table name
@@ -31,14 +33,14 @@ class Magento_Reports_Model_Resource_Wishlist_Collection extends Magento_Core_Mo
      */
     protected function _construct()
     {
-        $this->_init('Magento_Wishlist_Model_Wishlist', 'Magento_Wishlist_Model_Resource_Wishlist');
+        $this->_init('Magento\Wishlist\Model\Wishlist', 'Magento\Wishlist\Model\Resource\Wishlist');
         $this->setWishlistTable($this->getTable('wishlist'));
     }
     /**
      * Set wishlist table name
      *
      * @param string $value
-     * @return Magento_Reports_Model_Resource_Wishlist_Collection
+     * @return \Magento\Reports\Model\Resource\Wishlist\Collection
      */
     public function setWishlistTable($value)
     {
@@ -63,8 +65,8 @@ class Magento_Reports_Model_Resource_Wishlist_Collection extends Magento_Core_Mo
      */
     public function getWishlistCustomerCount()
     {
-        /** @var $collection Magento_Customer_Model_Resource_Customer_Collection */
-        $collection = Mage::getResourceModel('Magento_Customer_Model_Resource_Customer_Collection');
+        /** @var $collection \Magento\Customer\Model\Resource\Customer\Collection */
+        $collection = \Mage::getResourceModel('Magento\Customer\Model\Resource\Customer\Collection');
         
         $customersSelect = $collection->getSelectCountSql();
 
@@ -77,7 +79,7 @@ class Magento_Reports_Model_Resource_Wishlist_Collection extends Magento_Core_Mo
             ->group('wt.wishlist_id');
         $count = $collection->count();
         $resultSelect = $this->getConnection()->select()
-            ->union(array($customersSelect, $count), Zend_Db_Select::SQL_UNION_ALL);
+            ->union(array($customersSelect, $count), \Zend_Db_Select::SQL_UNION_ALL);
         list($customers, $count) = $this->getConnection()->fetchCol($resultSelect);
 
         return array(($count*100)/$customers, $count);
@@ -90,8 +92,8 @@ class Magento_Reports_Model_Resource_Wishlist_Collection extends Magento_Core_Mo
      */
     public function getSharedCount()
     {
-        /** @var $collection Magento_Customer_Model_Resource_Customer_Collection */
-        $collection = Mage::getResourceModel('Magento_Customer_Model_Resource_Customer_Collection');
+        /** @var $collection \Magento\Customer\Model\Resource\Customer\Collection */
+        $collection = \Mage::getResourceModel('Magento\Customer\Model\Resource\Customer\Collection');
         $countSelect = $collection->getSelectCountSql();
         $countSelect->joinLeft(
                 array('wt' => $this->getWishlistTable()),

@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Adminhtml_Block_UrlrewriteTest extends PHPUnit_Framework_TestCase
+namespace Magento\Adminhtml\Block;
+
+class UrlrewriteTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @param array $modes
@@ -18,15 +20,15 @@ class Magento_Adminhtml_Block_UrlrewriteTest extends PHPUnit_Framework_TestCase
      */
     public function testGetCreateUrl(array $modes, $expectedUrl)
     {
-        /** @var $selectorBlock Magento_Adminhtml_Block_Urlrewrite_Selector */
+        /** @var $selectorBlock \Magento\Adminhtml\Block\Urlrewrite\Selector */
         $selectorBlock = $modes
-            ? $this->getMock('Magento_Adminhtml_Block_Urlrewrite_Selector', array('getModes'), array(), '', false)
+            ? $this->getMock('Magento\Adminhtml\Block\Urlrewrite\Selector', array('getModes'), array(), '', false)
             : false;
         if ($selectorBlock) {
             $selectorBlock->expects($this->once())->method('getModes')->with()->will($this->returnValue($modes));
         }
 
-        $testedBlock = $this->getMock('Magento_Adminhtml_Block_Urlrewrite', array('getUrl'), array(), '', false);
+        $testedBlock = $this->getMock('Magento\Adminhtml\Block\Urlrewrite', array('getUrl'), array(), '', false);
         $testedBlock->setSelectorBlock($selectorBlock);
         $testedBlock->expects($this->once())
             ->method('getUrl')

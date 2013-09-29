@@ -15,53 +15,55 @@
  * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reward_Block_Customer_Reward_History extends Magento_Core_Block_Template
+namespace Magento\Reward\Block\Customer\Reward;
+
+class History extends \Magento\Core\Block\Template
 {
     /**
      * History records collection
      *
-     * @var Magento_Reward_Model_Resource_Reward_History_Collection
+     * @var \Magento\Reward\Model\Resource\Reward\History\Collection
      */
     protected $_collection = null;
 
     /**
      * Reward data
      *
-     * @var Magento_Reward_Helper_Data
+     * @var \Magento\Reward\Helper\Data
      */
     protected $_rewardData = null;
 
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
 
     /**
-     * @var Magento_Reward_Model_Resource_Reward_History_CollectionFactory
+     * @var \Magento\Reward\Model\Resource\Reward\History\CollectionFactory
      */
     protected $_historyFactory;
 
     /**
-     * @param Magento_Reward_Helper_Data $rewardData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Customer_Model_Session $customerSession
-     * @param Magento_Reward_Model_Resource_Reward_History_CollectionFactory $historyFactory
+     * @param \Magento\Reward\Helper\Data $rewardData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Reward\Model\Resource\Reward\History\CollectionFactory $historyFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Reward_Helper_Data $rewardData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Customer_Model_Session $customerSession,
-        Magento_Reward_Model_Resource_Reward_History_CollectionFactory $historyFactory,
+        \Magento\Reward\Helper\Data $rewardData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Reward\Model\Resource\Reward\History\CollectionFactory $historyFactory,
         array $data = array()
     ) {
         $this->_rewardData = $rewardData;
@@ -74,7 +76,7 @@ class Magento_Reward_Block_Customer_Reward_History extends Magento_Core_Block_Te
     /**
      * Get history collection if needed
      *
-     * @return Magento_Reward_Model_Resource_Reward_History_Collection|false
+     * @return \Magento\Reward\Model\Resource\Reward\History\Collection|false
      */
     public function getHistory()
     {
@@ -87,10 +89,10 @@ class Magento_Reward_Block_Customer_Reward_History extends Magento_Core_Block_Te
     /**
      * History item points delta getter
      *
-     * @param Magento_Reward_Model_Reward_History $item
+     * @param \Magento\Reward\Model\Reward\History $item
      * @return string
      */
-    public function getPointsDelta(Magento_Reward_Model_Reward_History $item)
+    public function getPointsDelta(\Magento\Reward\Model\Reward\History $item)
     {
         return $this->_rewardData->formatPointsDelta($item->getPointsDelta());
     }
@@ -98,10 +100,10 @@ class Magento_Reward_Block_Customer_Reward_History extends Magento_Core_Block_Te
     /**
      * History item points balance getter
      *
-     * @param Magento_Reward_Model_Reward_History $item
+     * @param \Magento\Reward\Model\Reward\History $item
      * @return string
      */
-    public function getPointsBalance(Magento_Reward_Model_Reward_History $item)
+    public function getPointsBalance(\Magento\Reward\Model\Reward\History $item)
     {
         return $item->getPointsBalance();
     }
@@ -109,10 +111,10 @@ class Magento_Reward_Block_Customer_Reward_History extends Magento_Core_Block_Te
     /**
      * History item currency balance getter
      *
-     * @param Magento_Reward_Model_Reward_History $item
+     * @param \Magento\Reward\Model\Reward\History $item
      * @return string
      */
-    public function getCurrencyBalance(Magento_Reward_Model_Reward_History $item)
+    public function getCurrencyBalance(\Magento\Reward\Model\Reward\History $item)
     {
         return $this->_coreData->currency($item->getCurrencyAmount());
     }
@@ -120,10 +122,10 @@ class Magento_Reward_Block_Customer_Reward_History extends Magento_Core_Block_Te
     /**
      * History item reference message getter
      *
-     * @param Magento_Reward_Model_Reward_History $item
+     * @param \Magento\Reward\Model\Reward\History $item
      * @return string
      */
-    public function getMessage(Magento_Reward_Model_Reward_History $item)
+    public function getMessage(\Magento\Reward\Model\Reward\History $item)
     {
         return $item->getMessage();
     }
@@ -131,10 +133,10 @@ class Magento_Reward_Block_Customer_Reward_History extends Magento_Core_Block_Te
     /**
      * History item reference additional explanation getter
      *
-     * @param Magento_Reward_Model_Reward_History $item
+     * @param \Magento\Reward\Model\Reward\History $item
      * @return string
      */
-    public function getExplanation(Magento_Reward_Model_Reward_History $item)
+    public function getExplanation(\Magento\Reward\Model\Reward\History $item)
     {
         return ''; // TODO
     }
@@ -142,10 +144,10 @@ class Magento_Reward_Block_Customer_Reward_History extends Magento_Core_Block_Te
     /**
      * History item creation date getter
      *
-     * @param Magento_Reward_Model_Reward_History $item
+     * @param \Magento\Reward\Model\Reward\History $item
      * @return string
      */
-    public function getDate(Magento_Reward_Model_Reward_History $item)
+    public function getDate(\Magento\Reward\Model\Reward\History $item)
     {
         return $this->_coreData->formatDate($item->getCreatedAt(), 'short', true);
     }
@@ -153,10 +155,10 @@ class Magento_Reward_Block_Customer_Reward_History extends Magento_Core_Block_Te
     /**
      * History item expiration date getter
      *
-     * @param Magento_Reward_Model_Reward_History $item
+     * @param \Magento\Reward\Model\Reward\History $item
      * @return string
      */
-    public function getExpirationDate(Magento_Reward_Model_Reward_History $item)
+    public function getExpirationDate(\Magento\Reward\Model\Reward\History $item)
     {
         $expiresAt = $item->getExpiresAt();
         if ($expiresAt) {
@@ -168,7 +170,7 @@ class Magento_Reward_Block_Customer_Reward_History extends Magento_Core_Block_Te
     /**
      * Return reword points update history collection by customer and website
      *
-     * @return Magento_Reward_Model_Resource_Reward_History_Collection
+     * @return \Magento\Reward\Model\Resource\Reward\History\Collection
      */
     protected function _getCollection()
     {
@@ -189,12 +191,12 @@ class Magento_Reward_Block_Customer_Reward_History extends Magento_Core_Block_Te
     /**
      * Instantiate Pagination
      *
-     * @return Magento_Reward_Block_Customer_Reward_History
+     * @return \Magento\Reward\Block\Customer\Reward\History
      */
     protected function _prepareLayout()
     {
         if ($this->_isEnabled()) {
-            $pager = $this->getLayout()->createBlock('Magento_Page_Block_Html_Pager', 'reward.history.pager')
+            $pager = $this->getLayout()->createBlock('Magento\Page\Block\Html\Pager', 'reward.history.pager')
                 ->setCollection($this->_getCollection())->setIsOutputRequired(false)
             ;
             $this->setChild('pager', $pager);

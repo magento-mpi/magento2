@@ -15,7 +15,9 @@
  * @category   Magento
  * @package    Magento_Catalog
  */
-class Magento_Catalog_Block_Product_Price extends Magento_Core_Block_Template
+namespace Magento\Catalog\Block\Product;
+
+class Price extends \Magento\Core\Block\Template
 {
     protected $_priceDisplayType = null;
     protected $_idSuffix = '';
@@ -23,38 +25,38 @@ class Magento_Catalog_Block_Product_Price extends Magento_Core_Block_Template
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
     
     /**
      * Tax data
      *
-     * @var Magento_Tax_Helper_Data
+     * @var \Magento\Tax\Helper\Data
      */
     protected $_taxData = null;
 
     /**
      * Catalog data
      *
-     * @var Magento_Catalog_Helper_Data
+     * @var \Magento\Catalog\Helper\Data
      */
     protected $_catalogData = null;
 
     /**
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Tax_Helper_Data $taxData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Tax_Helper_Data $taxData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -66,7 +68,7 @@ class Magento_Catalog_Block_Product_Price extends Magento_Core_Block_Template
     /**
      * Retrieve product
      *
-     * @return Magento_Catalog_Model_Product
+     * @return \Magento\Catalog\Model\Product
      */
     public function getProduct()
     {
@@ -96,7 +98,7 @@ class Magento_Catalog_Block_Product_Price extends Magento_Core_Block_Template
     /**
      * Get tier prices (formatted)
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @return array
      */
     public function getTierPrices($product = null)
@@ -125,12 +127,12 @@ class Magento_Catalog_Block_Product_Price extends Magento_Core_Block_Template
                 if ($price['price'] < $productPrice) {
                     $price['savePercent'] = ceil(100 - ((100 / $productPrice) * $price['price']));
 
-                    $tierPrice = Mage::app()->getStore()->convertPrice(
+                    $tierPrice = \Mage::app()->getStore()->convertPrice(
                         $this->_taxData->getPrice($product, $price['website_price'])
                     );
-                    $price['formated_price'] = Mage::app()->getStore()->formatPrice($tierPrice);
-                    $price['formated_price_incl_tax'] = Mage::app()->getStore()->formatPrice(
-                        Mage::app()->getStore()->convertPrice(
+                    $price['formated_price'] = \Mage::app()->getStore()->formatPrice($tierPrice);
+                    $price['formated_price_incl_tax'] = \Mage::app()->getStore()->formatPrice(
+                        \Mage::app()->getStore()->convertPrice(
                             $this->_taxData->getPrice($product, $price['website_price'], true)
                         )
                     );
@@ -159,13 +161,13 @@ class Magento_Catalog_Block_Product_Price extends Magento_Core_Block_Template
     /**
      * Retrieve url for direct adding product to cart
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @param array $additional
      * @return string
      */
     public function getAddToCartUrl($product, $additional = array())
     {
-        return $this->helper('Magento_Checkout_Helper_Cart')->getAddUrl($product, $additional);
+        return $this->helper('Magento\Checkout\Helper\Cart')->getAddUrl($product, $additional);
     }
 
     /**
@@ -184,7 +186,7 @@ class Magento_Catalog_Block_Product_Price extends Magento_Core_Block_Template
     /**
      * Get Product Price valid JS string
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @return string
      */
     public function getRealPriceJs($product)

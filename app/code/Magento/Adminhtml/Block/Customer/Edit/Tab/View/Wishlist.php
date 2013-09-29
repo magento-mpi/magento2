@@ -15,36 +15,38 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Wishlist extends Magento_Adminhtml_Block_Widget_Grid
+namespace Magento\Adminhtml\Block\Customer\Edit\Tab\View;
+
+class Wishlist extends \Magento\Adminhtml\Block\Widget\Grid
 {
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @var Magento_Wishlist_Model_Resource_Item_CollectionFactory
+     * @var \Magento\Wishlist\Model\Resource\Item\CollectionFactory
      */
     protected $_collectionFactory;
 
     /**
-     * @param Magento_Wishlist_Model_Resource_Item_CollectionFactory $collectionFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Url $urlModel
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\Wishlist\Model\Resource\Item\CollectionFactory $collectionFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Core\Model\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
-        Magento_Wishlist_Model_Resource_Item_CollectionFactory $collectionFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Url $urlModel,
-        Magento_Core_Model_Registry $coreRegistry,
+        \Magento\Wishlist\Model\Resource\Item\CollectionFactory $collectionFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        \Magento\Core\Model\Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
@@ -70,7 +72,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Wishlist extends Magento_Ad
     /**
      * Prepare collection
      *
-     * @return Magento_Adminhtml_Block_Customer_Edit_Tab_View_Wishlist
+     * @return \Magento\Adminhtml\Block\Customer\Edit\Tab\View\Wishlist
      */
     protected function _prepareCollection()
     {
@@ -88,7 +90,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Wishlist extends Magento_Ad
     /**
      * Prepare columns
      *
-     * @return Magento_Adminhtml_Block_Customer_Edit_Tab_View_Wishlist
+     * @return \Magento\Adminhtml\Block\Customer\Edit\Tab\View\Wishlist
      */
     protected function _prepareColumns()
     {
@@ -102,7 +104,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Wishlist extends Magento_Ad
         $this->addColumn('product_name', array(
             'header'    => __('Product'),
             'index'     => 'product_name',
-            'renderer'  => 'Magento_Adminhtml_Block_Customer_Edit_Tab_View_Grid_Renderer_Item'
+            'renderer'  => 'Magento\Adminhtml\Block\Customer\Edit\Tab\View\Grid\Renderer\Item'
         ));
 
         if (!$this->_storeManager->isSingleStoreMode()) {
@@ -144,7 +146,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Wishlist extends Magento_Ad
     /**
      * Get row url
      *
-     * @param Magento_Wishlist_Model_Item $item
+     * @param \Magento\Wishlist\Model\Item $item
      * @return string
      */
     public function getRowUrl($row)

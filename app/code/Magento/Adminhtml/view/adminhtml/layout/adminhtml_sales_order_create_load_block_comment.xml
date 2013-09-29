@@ -9,6 +9,6 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <referenceContainer name="content">
-        <block class="Magento_Adminhtml_Block_Sales_Order_Create_Comment" template="sales/order/create/comment.phtml" name="comment"/>
+        <block class="Magento\Adminhtml\Block\Sales\Order\Create\Comment" template="sales/order/create/comment.phtml" name="comment"/>
     </referenceContainer>
 </layout>

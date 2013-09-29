@@ -16,7 +16,9 @@
  * @package    Magento_Sales
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Block_Order_Email_Items_Order_Grouped extends Magento_Sales_Block_Order_Email_Items_Order_Default
+namespace Magento\Sales\Block\Order\Email\Items\Order;
+
+class Grouped extends \Magento\Sales\Block\Order\Email\Items\Order\DefaultOrder
 {
     /**
      * Prepare item html

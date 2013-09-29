@@ -15,7 +15,9 @@
  * @package    Magento_Core
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Source_Urlrewrite_Options implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Core\Model\Source\Urlrewrite;
+
+class Options implements \Magento\Core\Model\Option\ArrayInterface
 {
     const TEMPORARY = 'R';
     const PERMANENT = 'RP';

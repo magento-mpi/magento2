@@ -15,7 +15,9 @@
  * @package    Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Customer_Block_Form_Login extends Magento_Core_Block_Template
+namespace Magento\Customer\Block\Form;
+
+class Login extends \Magento\Core\Block\Template
 {
     private $_username = -1;
 
@@ -32,7 +34,7 @@ class Magento_Customer_Block_Form_Login extends Magento_Core_Block_Template
      */
     public function getPostActionUrl()
     {
-        return $this->helper('Magento_Customer_Helper_Data')->getLoginPostUrl();
+        return $this->helper('Magento\Customer\Helper\Data')->getLoginPostUrl();
     }
 
     /**
@@ -44,7 +46,7 @@ class Magento_Customer_Block_Form_Login extends Magento_Core_Block_Template
     {
         $url = $this->getData('create_account_url');
         if (is_null($url)) {
-            $url = $this->helper('Magento_Customer_Helper_Data')->getRegisterUrl();
+            $url = $this->helper('Magento\Customer\Helper\Data')->getRegisterUrl();
         }
         return $url;
     }
@@ -56,7 +58,7 @@ class Magento_Customer_Block_Form_Login extends Magento_Core_Block_Template
      */
     public function getForgotPasswordUrl()
     {
-        return $this->helper('Magento_Customer_Helper_Data')->getForgotPasswordUrl();
+        return $this->helper('Magento\Customer\Helper\Data')->getForgotPasswordUrl();
     }
 
     /**
@@ -67,7 +69,7 @@ class Magento_Customer_Block_Form_Login extends Magento_Core_Block_Template
     public function getUsername()
     {
         if (-1 === $this->_username) {
-            $this->_username = Mage::getSingleton('Magento_Customer_Model_Session')->getUsername(true);
+            $this->_username = \Mage::getSingleton('Magento\Customer\Model\Session')->getUsername(true);
         }
         return $this->_username;
     }

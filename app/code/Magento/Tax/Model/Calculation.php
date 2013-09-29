@@ -13,7 +13,9 @@
  *
  * @author Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Tax_Model_Calculation extends Magento_Core_Model_Abstract
+namespace Magento\Tax\Model;
+
+class Calculation extends \Magento\Core\Model\AbstractModel
 {
     const CALC_TAX_BEFORE_DISCOUNT_ON_EXCL      = '0_0';
     const CALC_TAX_BEFORE_DISCOUNT_ON_INCL      = '0_1';
@@ -37,33 +39,33 @@ class Magento_Tax_Model_Calculation extends Magento_Core_Model_Abstract
     /**
      * Customer data
      *
-     * @var Magento_Customer_Helper_Data
+     * @var \Magento\Customer\Helper\Data
      */
     protected $_customerData = null;
 
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
-     * @param Magento_Customer_Helper_Data $customerData
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Tax_Model_Resource_Calculation $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Customer\Helper\Data $customerData
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Tax\Model\Resource\Calculation $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Customer_Helper_Data $customerData,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Tax_Model_Resource_Calculation $resource,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Customer\Helper\Data $customerData,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Tax\Model\Resource\Calculation $resource,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_customerData = $customerData;
@@ -73,16 +75,16 @@ class Magento_Tax_Model_Calculation extends Magento_Core_Model_Abstract
 
     protected function _construct()
     {
-        $this->_init('Magento_Tax_Model_Resource_Calculation');
+        $this->_init('Magento\Tax\Model\Resource\Calculation');
     }
 
     /**
      * Specify customer object which can be used for rate calculation
      *
-     * @param   Magento_Customer_Model_Customer $customer
-     * @return  Magento_Tax_Model_Calculation
+     * @param   \Magento\Customer\Model\Customer $customer
+     * @return  \Magento\Tax\Model\Calculation
      */
-    public function setCustomer(Magento_Customer_Model_Customer $customer)
+    public function setCustomer(\Magento\Customer\Model\Customer $customer)
     {
         $this->_customer = $customer;
         return $this;
@@ -92,7 +94,7 @@ class Magento_Tax_Model_Calculation extends Magento_Core_Model_Abstract
     {
         if ($this->_defaultCustomerTaxClass === null) {
             $defaultCustomerGroup = $this->_customerData->getDefaultCustomerGroupId($store);
-            $this->_defaultCustomerTaxClass = Mage::getModel('Magento_Customer_Model_Group')->getTaxClassId($defaultCustomerGroup);
+            $this->_defaultCustomerTaxClass = \Mage::getModel('Magento\Customer\Model\Group')->getTaxClassId($defaultCustomerGroup);
         }
         return $this->_defaultCustomerTaxClass;
     }
@@ -100,16 +102,16 @@ class Magento_Tax_Model_Calculation extends Magento_Core_Model_Abstract
     /**
      * Get customer object
      *
-     * @return  Magento_Customer_Model_Customer | false
+     * @return  \Magento\Customer\Model\Customer | false
      */
     public function getCustomer()
     {
         if ($this->_customer === null) {
-            $session = Mage::getSingleton('Magento_Customer_Model_Session');
+            $session = \Mage::getSingleton('Magento\Customer\Model\Session');
             if ($session->isLoggedIn()) {
                 $this->_customer = $session->getCustomer();
             } elseif ($session->getCustomerId()) {
-                $this->_customer = Mage::getModel('Magento_Customer_Model_Customer')->load($session->getCustomerId());
+                $this->_customer = \Mage::getModel('Magento\Customer\Model\Customer')->load($session->getCustomerId());
             } else {
                 $this->_customer = false;
             }
@@ -121,7 +123,7 @@ class Magento_Tax_Model_Calculation extends Magento_Core_Model_Abstract
      * Delete calculation settings by rule id
      *
      * @param   int $ruleId
-     * @return  Magento_Tax_Model_Calculation
+     * @return  \Magento\Tax\Model\Calculation
      */
     public function deleteByRuleId($ruleId)
     {
@@ -195,7 +197,7 @@ class Magento_Tax_Model_Calculation extends Magento_Core_Model_Abstract
     /**
      * Get calculation tax rate by specific request
      *
-     * @param   Magento_Object $request
+     * @param   \Magento\Object $request
      * @return  float
      */
     public function getRate($request)
@@ -242,8 +244,8 @@ class Magento_Tax_Model_Calculation extends Magento_Core_Model_Abstract
      * This rate can be used for conversion store price including tax to
      * store price excluding tax
      *
-     * @param Magento_Object $request
-     * @param null|string|bool|int|Magento_Core_Model_Store $store
+     * @param \Magento\Object $request
+     * @param null|string|bool|int|\Magento\Core\Model\Store $store
      * @return float
      */
     public function getStoreRate($request, $store=null)
@@ -256,15 +258,15 @@ class Magento_Tax_Model_Calculation extends Magento_Core_Model_Abstract
     /**
      * Get request object for getting tax rate based on store shipping original address
      *
-     * @param   null|string|bool|int|Magento_Core_Model_Store $store
-     * @return  Magento_Object
+     * @param   null|string|bool|int|\Magento\Core\Model\Store $store
+     * @return  \Magento\Object
      */
     public function getRateOriginRequest($store = null)
     {
-        $request = new Magento_Object();
-        $request->setCountryId($this->_coreStoreConfig->getConfig(Magento_Shipping_Model_Config::XML_PATH_ORIGIN_COUNTRY_ID, $store))
-            ->setRegionId($this->_coreStoreConfig->getConfig(Magento_Shipping_Model_Config::XML_PATH_ORIGIN_REGION_ID, $store))
-            ->setPostcode($this->_coreStoreConfig->getConfig(Magento_Shipping_Model_Config::XML_PATH_ORIGIN_POSTCODE, $store))
+        $request = new \Magento\Object();
+        $request->setCountryId($this->_coreStoreConfig->getConfig(\Magento\Shipping\Model\Config::XML_PATH_ORIGIN_COUNTRY_ID, $store))
+            ->setRegionId($this->_coreStoreConfig->getConfig(\Magento\Shipping\Model\Config::XML_PATH_ORIGIN_REGION_ID, $store))
+            ->setPostcode($this->_coreStoreConfig->getConfig(\Magento\Shipping\Model\Config::XML_PATH_ORIGIN_POSTCODE, $store))
             ->setCustomerClassId($this->getDefaultCustomerTaxClass($store))
             ->setStore($store);
         return $request;
@@ -279,11 +281,11 @@ class Magento_Tax_Model_Calculation extends Magento_Core_Model_Abstract
      *  customer_class_id (->getCustomerClassId())
      *  store (->getStore())
      *
-     * @param   null|bool|Magento_Object $shippingAddress
-     * @param   null|bool||Magento_Object $billingAddress
+     * @param   null|bool|\Magento\Object $shippingAddress
+     * @param   null|bool||\Magento\Object $billingAddress
      * @param   null|int $customerTaxClass
      * @param   null|int $store
-     * @return  Magento_Object
+     * @return  \Magento\Object
      */
     public function getRateRequest(
         $shippingAddress = null,
@@ -294,9 +296,9 @@ class Magento_Tax_Model_Calculation extends Magento_Core_Model_Abstract
         if ($shippingAddress === false && $billingAddress === false && $customerTaxClass === false) {
             return $this->getRateOriginRequest($store);
         }
-        $address    = new Magento_Object();
+        $address    = new \Magento\Object();
         $customer   = $this->getCustomer();
-        $basedOn    = $this->_coreStoreConfig->getConfig(Magento_Tax_Model_Config::CONFIG_XML_PATH_BASED_ON, $store);
+        $basedOn    = $this->_coreStoreConfig->getConfig(\Magento\Tax\Model\Config::CONFIG_XML_PATH_BASED_ON, $store);
 
         if (($shippingAddress === false && $basedOn == 'shipping')
             || ($billingAddress === false && $basedOn == 'billing')) {
@@ -337,11 +339,11 @@ class Magento_Tax_Model_Calculation extends Magento_Core_Model_Abstract
             case 'default':
                 $address
                     ->setCountryId($this->_coreStoreConfig->getConfig(
-                        Magento_Tax_Model_Config::CONFIG_XML_PATH_DEFAULT_COUNTRY,
+                        \Magento\Tax\Model\Config::CONFIG_XML_PATH_DEFAULT_COUNTRY,
                         $store))
-                    ->setRegionId($this->_coreStoreConfig->getConfig(Magento_Tax_Model_Config::CONFIG_XML_PATH_DEFAULT_REGION, $store))
+                    ->setRegionId($this->_coreStoreConfig->getConfig(\Magento\Tax\Model\Config::CONFIG_XML_PATH_DEFAULT_REGION, $store))
                     ->setPostcode($this->_coreStoreConfig->getConfig(
-                        Magento_Tax_Model_Config::CONFIG_XML_PATH_DEFAULT_POSTCODE,
+                        \Magento\Tax\Model\Config::CONFIG_XML_PATH_DEFAULT_POSTCODE,
                         $store));
                 break;
         }
@@ -352,7 +354,7 @@ class Magento_Tax_Model_Calculation extends Magento_Core_Model_Abstract
             $customerTaxClass = $this->getDefaultCustomerTaxClass($store);
         }
 
-        $request = new Magento_Object();
+        $request = new \Magento\Object();
         $request
             ->setCountryId($address->getCountryId())
             ->setRegionId($address->getRegionId())
@@ -370,8 +372,8 @@ class Magento_Tax_Model_Calculation extends Magento_Core_Model_Abstract
      * a) productClassId MUST be identical for both requests, because we intend to check selling SAME products to DIFFERENT locations
      * b) due to optimization productClassId can be array of ids, not only single id
      *
-     * @param   Magento_Object $first
-     * @param   Magento_Object $second
+     * @param   \Magento\Object $first
+     * @param   \Magento\Object $second
      * @return  bool
      */
     public function compareRequests($first, $second)
@@ -426,7 +428,7 @@ class Magento_Tax_Model_Calculation extends Magento_Core_Model_Abstract
     protected function _getRates($request, $fieldName, $type)
     {
         $result = array();
-        $classes = Mage::getModel('Magento_Tax_Model_Class')->getCollection()
+        $classes = \Mage::getModel('Magento\Tax\Model\ClassModel')->getCollection()
             ->addFieldToFilter('class_type', $type)
             ->load();
         foreach ($classes as $class) {
@@ -439,17 +441,17 @@ class Magento_Tax_Model_Calculation extends Magento_Core_Model_Abstract
 
     public function getRatesForAllProductTaxClasses($request)
     {
-        return $this->_getRates($request, 'product_class_id', Magento_Tax_Model_Class::TAX_CLASS_TYPE_PRODUCT);
+        return $this->_getRates($request, 'product_class_id', \Magento\Tax\Model\ClassModel::TAX_CLASS_TYPE_PRODUCT);
     }
     public function getRatesForAllCustomerTaxClasses($request)
     {
-        return $this->_getRates($request, 'customer_class_id', Magento_Tax_Model_Class::TAX_CLASS_TYPE_CUSTOMER);
+        return $this->_getRates($request, 'customer_class_id', \Magento\Tax\Model\ClassModel::TAX_CLASS_TYPE_CUSTOMER);
     }
 
     /**
      * Get information about tax rates applied to request
      *
-     * @param   Magento_Object $request
+     * @param   \Magento\Object $request
      * @return  array
      */
     public function getAppliedRates($request)
@@ -525,7 +527,7 @@ class Magento_Tax_Model_Calculation extends Magento_Core_Model_Abstract
      */
     public function round($price)
     {
-        return Mage::app()->getStore()->roundPrice($price);
+        return \Mage::app()->getStore()->roundPrice($price);
     }
 
     /**

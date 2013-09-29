@@ -8,38 +8,40 @@
  * @license     {license_link}
  */
 
+namespace Magento\Sales\Block\Recurring\Profile\View;
+
 /**
  * Recurring profile view item
  */
-class Magento_Sales_Block_Recurring_Profile_View_Item extends Magento_Sales_Block_Recurring_Profile_View
+class Item extends \Magento\Sales\Block\Recurring\Profile\View
 {
     /**
-     * @var Magento_Catalog_Model_Product_Option
+     * @var \Magento\Catalog\Model\Product\Option
      */
     protected $_option;
     /**
-     * @var Magento_Catalog_Model_Product
+     * @var \Magento\Catalog\Model\Product
      */
     protected $_product;
 
     /**
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Catalog_Model_Product_Option $option
-     * @param Magento_Catalog_Model_Product $product
-     * @param Magento_Core_Helper_Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Catalog\Model\Product\Option $option
+     * @param \Magento\Catalog\Model\Product $product
+     * @param \Magento\Core\Helper\Data $coreData
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_StoreManager $storeManager,
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Catalog_Model_Product_Option $option,
-        Magento_Catalog_Model_Product $product,
-        Magento_Core_Helper_Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Catalog\Model\Product\Option $option,
+        \Magento\Catalog\Model\Product $product,
+        \Magento\Core\Helper\Data $coreData,
         array $data = array()
     ) {
         $this->_option = $option;
@@ -90,7 +92,7 @@ class Magento_Sales_Block_Recurring_Profile_View_Item extends Magento_Sales_Bloc
 
             $group = $option->groupFactory($option->getType())
                 ->setOption($option)
-                ->setRequest(new Magento_Object($request))
+                ->setRequest(new \Magento\Object($request))
                 ->setProduct($this->_product)
                 ->setUseQuotePath(true)
                 ->setQuoteItemOption($this->_option)

@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Customer_Service_Customer
+namespace Magento\Customer\Service;
+
+class Customer
 {
     /**
      * @var callable
@@ -20,17 +22,17 @@ class Magento_Customer_Service_Customer
     protected $_afterSaveCallback = null;
 
     /**
-     * @var Magento_Customer_Helper_Data
+     * @var \Magento\Customer\Helper\Data
      */
     protected $_dataHelper = null;
 
     /**
-     * @var Magento_Customer_Model_CustomerFactory
+     * @var \Magento\Customer\Model\CustomerFactory
      */
     protected $_customerFactory = null;
 
     /**
-     * @var Magento_Customer_Model_AddressFactory
+     * @var \Magento\Customer\Model\AddressFactory
      */
     protected $_addressFactory = null;
 
@@ -48,15 +50,15 @@ class Magento_Customer_Service_Customer
     /**
      * Constructor
      *
-     * @param Magento_Customer_Helper_Data $helper
-     * @param Magento_Customer_Model_CustomerFactory $customerFactory
-     * @param Magento_Customer_Model_AddressFactory $addressFactory
+     * @param \Magento\Customer\Helper\Data $helper
+     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
+     * @param \Magento\Customer\Model\AddressFactory $addressFactory
      * @param bool $isAdminStore
      */
     public function __construct(
-        Magento_Customer_Helper_Data $helper,
-        Magento_Customer_Model_CustomerFactory $customerFactory,
-        Magento_Customer_Model_AddressFactory $addressFactory,
+        \Magento\Customer\Helper\Data $helper,
+        \Magento\Customer\Model\CustomerFactory $customerFactory,
+        \Magento\Customer\Model\AddressFactory $addressFactory,
         $isAdminStore = true
     ) {
         $this->_dataHelper = $helper;
@@ -69,7 +71,7 @@ class Magento_Customer_Service_Customer
      * Set is admin store flag.
      *
      * @param bool $isAdminStore
-     * @return Magento_Customer_Service_Customer
+     * @return \Magento\Customer\Service\Customer
      */
     public function setIsAdminStore($isAdminStore)
     {
@@ -81,7 +83,7 @@ class Magento_Customer_Service_Customer
      * Set flag if send remainder email
      *
      * @param bool $flag
-     * @return Magento_Customer_Service_Customer
+     * @return \Magento\Customer\Service\Customer
      */
     public function setSendRemainderEmail($flag)
     {
@@ -94,7 +96,7 @@ class Magento_Customer_Service_Customer
      * Set before save callback.
      *
      * @param callable $callback
-     * @return Magento_Customer_Service_Customer
+     * @return \Magento\Customer\Service\Customer
      */
     public function setBeforeSaveCallback($callback)
     {
@@ -106,7 +108,7 @@ class Magento_Customer_Service_Customer
      * Set after save callback.
      *
      * @param callable $callback
-     * @return Magento_Customer_Service_Customer
+     * @return \Magento\Customer\Service\Customer
      */
     public function setAfterSaveCallback($callback)
     {
@@ -119,7 +121,7 @@ class Magento_Customer_Service_Customer
      *
      * @param array $customerData
      * @param array|null $addressesData array of addresses
-     * @return Magento_Customer_Model_Customer
+     * @return \Magento\Customer\Model\Customer
      */
     public function create(array $customerData, array $addressesData = null)
     {
@@ -141,11 +143,11 @@ class Magento_Customer_Service_Customer
      * @param string|int $customerId
      * @param array $customerData
      * @param array|null $addressesData array of addresses
-     * @return Magento_Customer_Model_Customer
+     * @return \Magento\Customer\Model\Customer
      */
     public function update($customerId, array $customerData, array $addressesData = null)
     {
-        /** @var Magento_Customer_Model_Customer $customer */
+        /** @var \Magento\Customer\Model\Customer $customer */
         $customer = $this->_loadCustomerById($customerId);
 
         $this->_save($customer, $customerData, $addressesData);
@@ -159,10 +161,10 @@ class Magento_Customer_Service_Customer
     /**
      * Save customer entity. Perform supplementary business workflow actions
      *
-     * @param Magento_Customer_Model_Customer $customer
+     * @param \Magento\Customer\Model\Customer $customer
      * @param array $customerData
      * @param array|null $addressesData
-     * @return Magento_Customer_Service_Customer
+     * @return \Magento\Customer\Service\Customer
      */
     protected function _save($customer, array $customerData, array $addressesData = null)
     {
@@ -177,9 +179,9 @@ class Magento_Customer_Service_Customer
     }
 
     /**
-     * Sets each value from data to entity Magento_Object using setter method.
+     * Sets each value from data to entity \Magento\Object using setter method.
      *
-     * @param Magento_Object $entity
+     * @param \Magento\Object $entity
      * @param array $data
      */
     protected function _setDataUsingMethods($entity, array $data)
@@ -192,7 +194,7 @@ class Magento_Customer_Service_Customer
     /**
      * Trigger before save logic
      *
-     * @param Magento_Customer_Model_Customer $customer
+     * @param \Magento\Customer\Model\Customer $customer
      * @param array $customerData
      * @param array $addressesData
      */
@@ -209,7 +211,7 @@ class Magento_Customer_Service_Customer
     /**
      * Trigger before save logic
      *
-     * @param Magento_Customer_Model_Customer $customer
+     * @param \Magento\Customer\Model\Customer $customer
      * @param array $customerData
      * @param array $addressesData
      */
@@ -224,7 +226,7 @@ class Magento_Customer_Service_Customer
     /**
      * Set customer password
      *
-     * @param Magento_Customer_Model_Customer $customer
+     * @param \Magento\Customer\Model\Customer $customer
      * @param array $customerData
      */
     protected function _preparePasswordForSave($customer, array $customerData)
@@ -242,7 +244,7 @@ class Magento_Customer_Service_Customer
     /**
      * Get customer password
      *
-     * @param Magento_Customer_Model_Customer $customer
+     * @param \Magento\Customer\Model\Customer $customer
      * @param array $customerData
      * @return string|null
      */
@@ -262,9 +264,9 @@ class Magento_Customer_Service_Customer
     /**
      * Change customer password
      *
-     * @param Magento_Customer_Model_Customer $customer
+     * @param \Magento\Customer\Model\Customer $customer
      * @param array $customerData
-     * @return Magento_Customer_Service_Customer
+     * @return \Magento\Customer\Service\Customer
      */
     protected function _changePassword($customer, array $customerData)
     {
@@ -304,9 +306,9 @@ class Magento_Customer_Service_Customer
     /**
      * Send welcome email to customer
      *
-     * @param Magento_Customer_Model_Customer $customer
+     * @param \Magento\Customer\Model\Customer $customer
      * @param array $customerData
-     * @return Magento_Customer_Service_Customer
+     * @return \Magento\Customer\Service\Customer
      */
     protected function _sendWelcomeEmail($customer, array $customerData)
     {
@@ -332,15 +334,15 @@ class Magento_Customer_Service_Customer
      * Load customer by its ID
      *
      * @param int|string $customerId
-     * @return Magento_Customer_Model_Customer
-     * @throws Magento_Core_Exception
+     * @return \Magento\Customer\Model\Customer
+     * @throws \Magento\Core\Exception
      */
     protected function _loadCustomerById($customerId)
     {
         $customer = $this->_customerFactory->create();
         $customer->load($customerId);
         if (!$customer->getId()) {
-            throw new Magento_Core_Exception(__("The customer with the specified ID not found."));
+            throw new \Magento\Core\Exception(__("The customer with the specified ID not found."));
         }
 
         return $customer;
@@ -349,9 +351,9 @@ class Magento_Customer_Service_Customer
     /**
      * Save customer addresses.
      *
-     * @param Magento_Customer_Model_Customer $customer
+     * @param \Magento\Customer\Model\Customer $customer
      * @param array $addressesData
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     protected function _prepareCustomerAddressesForSave($customer, array $addressesData)
     {
@@ -367,7 +369,7 @@ class Magento_Customer_Service_Customer
             if (null !== $addressId) {
                 $address = $customer->getAddressItemById($addressId);
                 if (!$address || !$address->getId()) {
-                    throw new Magento_Core_Exception(
+                    throw new \Magento\Core\Exception(
                         __('The address with the specified ID not found.'));
                 }
             } else {
@@ -385,7 +387,7 @@ class Magento_Customer_Service_Customer
             $actualAddressesIds[] = $address->getId();
         }
 
-        /** @var Magento_Customer_Model_Address $address */
+        /** @var \Magento\Customer\Model\Address $address */
         foreach ($customer->getAddressesCollection() as $address) {
             if (!in_array($address->getId(), $actualAddressesIds)) {
                 $address->setData('_deleted', true);

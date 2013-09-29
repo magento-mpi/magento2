@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_FullPageCache_Model_Resource_Crawler extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\FullPageCache\Model\Resource;
+
+class Crawler extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Internal constructor

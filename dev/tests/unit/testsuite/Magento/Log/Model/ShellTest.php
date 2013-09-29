@@ -5,28 +5,30 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Log_Model_ShellTest extends PHPUnit_Framework_TestCase
+namespace Magento\Log\Model;
+
+class ShellTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_factoryMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_shellMock;
 
     /**
-     * @var Magento_Log_Model_Shell
+     * @var \Magento\Log\Model\Shell
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_factoryMock = $this->getMock('Magento_Log_Model_Shell_Command_Factory', array(), array(), '', false);
-        $filesystemMock = $this->getMock('Magento_Filesystem', array(), array(), '', false);
-        $this->_model = $this->getMock('Magento_Log_Model_Shell',
+        $this->_factoryMock = $this->getMock('Magento\Log\Model\Shell\Command\Factory', array(), array(), '', false);
+        $filesystemMock = $this->getMock('Magento\Filesystem', array(), array(), '', false);
+        $this->_model = $this->getMock('Magento\Log\Model\Shell',
             array('_applyPhpVariables'),
             array($this->_factoryMock, $filesystemMock, 'entryPoint.php')
         );
@@ -45,7 +47,7 @@ class Magento_Log_Model_ShellTest extends PHPUnit_Framework_TestCase
     {
         $this->expectOutputRegex('/clean command message/');
         $this->_model->setRawArgs(array('clean', '--days', 10));
-        $commandMock = $this->getMock('Magento_Log_Model_Shell_CommandInterface');
+        $commandMock = $this->getMock('Magento\Log\Model\Shell\CommandInterface');
         $this->_factoryMock->expects($this->once())
             ->method('createCleanCommand')
             ->with(10)
@@ -59,7 +61,7 @@ class Magento_Log_Model_ShellTest extends PHPUnit_Framework_TestCase
     {
         $this->expectOutputRegex('/status command message/');
         $this->_model->setRawArgs(array('status'));
-        $commandMock = $this->getMock('Magento_Log_Model_Shell_CommandInterface');
+        $commandMock = $this->getMock('Magento\Log\Model\Shell\CommandInterface');
         $this->_factoryMock->expects($this->once())
             ->method('createStatusCommand')
             ->will($this->returnValue($commandMock));

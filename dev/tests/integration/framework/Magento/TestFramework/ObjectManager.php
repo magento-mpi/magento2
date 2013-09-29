@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_TestFramework_ObjectManager extends Magento_Core_Model_ObjectManager
+namespace Magento\TestFramework;
+
+class ObjectManager extends \Magento\Core\Model\ObjectManager
 {
     /**
      * Classes with xml properties to explicitly call __destruct() due to https://bugs.php.net/bug.php?id=62468
@@ -15,14 +17,14 @@ class Magento_TestFramework_ObjectManager extends Magento_Core_Model_ObjectManag
      * @var array
      */
     protected $_classesToDestruct = array(
-        'Magento_Core_Model_Layout',
-        'Magento_Core_Model_Registry'
+        'Magento\Core\Model\Layout',
+        'Magento\Core\Model\Registry'
     );
 
     /**
      * Clear InstanceManager cache
      *
-     * @return Magento_TestFramework_ObjectManager
+     * @return \Magento\TestFramework\ObjectManager
      */
     public function clearCache()
     {
@@ -32,10 +34,10 @@ class Magento_TestFramework_ObjectManager extends Magento_Core_Model_ObjectManag
             }
         }
 
-        Magento_Core_Model_Config_Base::destroy();
-        $sharedInstances = array('Magento_ObjectManager' => $this, 'Magento_Core_Model_ObjectManager' => $this);
-        if (isset($this->_sharedInstances['Magento_Core_Model_Resource'])) {
-            $sharedInstances['Magento_Core_Model_Resource'] = $this->_sharedInstances['Magento_Core_Model_Resource'];
+        \Magento\Core\Model\Config\Base::destroy();
+        $sharedInstances = array('Magento\ObjectManager' => $this, 'Magento\Core\Model\ObjectManager' => $this);
+        if (isset($this->_sharedInstances['Magento\Core\Model\Resource'])) {
+            $sharedInstances['Magento\Core\Model\Resource'] = $this->_sharedInstances['Magento\Core\Model\Resource'];
         }
         $this->_sharedInstances = $sharedInstances;
         $this->_config->clean();
@@ -79,16 +81,16 @@ class Magento_TestFramework_ObjectManager extends Magento_Core_Model_ObjectManag
     /**
      * Set objectManager
      *
-     * @param Magento_ObjectManager $objectManager
-     * @return Magento_ObjectManager
+     * @param \Magento\ObjectManager $objectManager
+     * @return \Magento\ObjectManager
      */
-    public static function setInstance(Magento_ObjectManager $objectManager)
+    public static function setInstance(\Magento\ObjectManager $objectManager)
     {
         return self::$_instance = $objectManager;
     }
 
     /**
-     * @return Magento_ObjectManager_Factory|Magento_ObjectManager_Factory_Factory
+     * @return \Magento\ObjectManager\Factory|\Magento\ObjectManager\Factory\Factory
      */
     public function getFactory()
     {

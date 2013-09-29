@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Shipping_Block_Tracking_Ajax extends Magento_Core_Block_Template
+namespace Magento\Shipping\Block\Tracking;
+
+class Ajax extends \Magento\Core\Block\Template
 {
 
 }

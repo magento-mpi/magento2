@@ -11,34 +11,36 @@
 /**
  * Sales order shipment model
  *
- * @method Magento_Sales_Model_Resource_Order_Shipment _getResource()
- * @method Magento_Sales_Model_Resource_Order_Shipment getResource()
+ * @method \Magento\Sales\Model\Resource\Order\Shipment _getResource()
+ * @method \Magento\Sales\Model\Resource\Order\Shipment getResource()
  * @method int getStoreId()
- * @method Magento_Sales_Model_Order_Shipment setStoreId(int $value)
+ * @method \Magento\Sales\Model\Order\Shipment setStoreId(int $value)
  * @method float getTotalWeight()
- * @method Magento_Sales_Model_Order_Shipment setTotalWeight(float $value)
+ * @method \Magento\Sales\Model\Order\Shipment setTotalWeight(float $value)
  * @method float getTotalQty()
- * @method Magento_Sales_Model_Order_Shipment setTotalQty(float $value)
+ * @method \Magento\Sales\Model\Order\Shipment setTotalQty(float $value)
  * @method int getEmailSent()
- * @method Magento_Sales_Model_Order_Shipment setEmailSent(int $value)
+ * @method \Magento\Sales\Model\Order\Shipment setEmailSent(int $value)
  * @method int getOrderId()
- * @method Magento_Sales_Model_Order_Shipment setOrderId(int $value)
+ * @method \Magento\Sales\Model\Order\Shipment setOrderId(int $value)
  * @method int getCustomerId()
- * @method Magento_Sales_Model_Order_Shipment setCustomerId(int $value)
+ * @method \Magento\Sales\Model\Order\Shipment setCustomerId(int $value)
  * @method int getShippingAddressId()
- * @method Magento_Sales_Model_Order_Shipment setShippingAddressId(int $value)
+ * @method \Magento\Sales\Model\Order\Shipment setShippingAddressId(int $value)
  * @method int getBillingAddressId()
- * @method Magento_Sales_Model_Order_Shipment setBillingAddressId(int $value)
+ * @method \Magento\Sales\Model\Order\Shipment setBillingAddressId(int $value)
  * @method int getShipmentStatus()
- * @method Magento_Sales_Model_Order_Shipment setShipmentStatus(int $value)
+ * @method \Magento\Sales\Model\Order\Shipment setShipmentStatus(int $value)
  * @method string getIncrementId()
- * @method Magento_Sales_Model_Order_Shipment setIncrementId(string $value)
+ * @method \Magento\Sales\Model\Order\Shipment setIncrementId(string $value)
  * @method string getCreatedAt()
- * @method Magento_Sales_Model_Order_Shipment setCreatedAt(string $value)
+ * @method \Magento\Sales\Model\Order\Shipment setCreatedAt(string $value)
  * @method string getUpdatedAt()
- * @method Magento_Sales_Model_Order_Shipment setUpdatedAt(string $value)
+ * @method \Magento\Sales\Model\Order\Shipment setUpdatedAt(string $value)
  */
-class Magento_Sales_Model_Order_Shipment extends Magento_Sales_Model_Abstract
+namespace Magento\Sales\Model\Order;
+
+class Shipment extends \Magento\Sales\Model\AbstractModel
 {
     const STATUS_NEW    = 1;
 
@@ -75,95 +77,95 @@ class Magento_Sales_Model_Order_Shipment extends Magento_Sales_Model_Abstract
     /**
      * Sales data
      *
-     * @var Magento_Sales_Helper_Data
+     * @var \Magento\Sales\Helper\Data
      */
     protected $_salesData = null;
 
     /**
      * Payment data
      *
-     * @var Magento_Payment_Helper_Data
+     * @var \Magento\Payment\Helper\Data
      */
     protected $_paymentData = null;
 
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
-     * @var Magento_Sales_Model_OrderFactory
+     * @var \Magento\Sales\Model\OrderFactory
      */
     protected $_orderFactory;
 
     /**
-     * @var Magento_Sales_Model_Resource_Order_Shipment_Item_CollectionFactory
+     * @var \Magento\Sales\Model\Resource\Order\Shipment\Item\CollectionFactory
      */
     protected $_shipmentItemCollFactory;
 
     /**
-     * @var Magento_Sales_Model_Resource_Order_Shipment_Track_CollectionFactory
+     * @var \Magento\Sales\Model\Resource\Order\Shipment\Track\CollectionFactory
      */
     protected $_trackCollFactory;
 
     /**
-     * @var Magento_Sales_Model_Order_Shipment_CommentFactory
+     * @var \Magento\Sales\Model\Order\Shipment\CommentFactory
      */
     protected $_commentFactory;
 
     /**
-     * @var Magento_Sales_Model_Resource_Order_Shipment_Comment_CollectionFactory
+     * @var \Magento\Sales\Model\Resource\Order\Shipment\Comment\CollectionFactory
      */
     protected $_commentCollFactory;
 
     /**
-     * @var Magento_Core_Model_Email_Template_MailerFactory
+     * @var \Magento\Core\Model\Email\Template\MailerFactory
      */
     protected $_templateMailerFactory;
 
     /**
-     * @var Magento_Core_Model_Email_InfoFactory
+     * @var \Magento\Core\Model\Email\InfoFactory
      */
     protected $_emailInfoFactory;
 
     /**
-     * @param Magento_Payment_Helper_Data $paymentData
-     * @param Magento_Sales_Helper_Data $salesData
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_LocaleInterface $coreLocale
-     * @param Magento_Sales_Model_OrderFactory $orderFactory
-     * @param Magento_Sales_Model_Resource_Order_Shipment_Item_CollectionFactory $shipmentItemCollFactory
-     * @param Magento_Sales_Model_Resource_Order_Shipment_Track_CollectionFactory $trackCollFactory
-     * @param Magento_Sales_Model_Order_Shipment_CommentFactory $commentFactory
-     * @param Magento_Sales_Model_Resource_Order_Shipment_Comment_CollectionFactory $commentCollFactory
-     * @param Magento_Core_Model_Email_Template_MailerFactory $templateMailerFactory
-     * @param Magento_Core_Model_Email_InfoFactory $emailInfoFactory
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Payment\Helper\Data $paymentData
+     * @param \Magento\Sales\Helper\Data $salesData
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\LocaleInterface $coreLocale
+     * @param \Magento\Sales\Model\OrderFactory $orderFactory
+     * @param \Magento\Sales\Model\Resource\Order\Shipment\Item\CollectionFactory $shipmentItemCollFactory
+     * @param \Magento\Sales\Model\Resource\Order\Shipment\Track\CollectionFactory $trackCollFactory
+     * @param \Magento\Sales\Model\Order\Shipment\CommentFactory $commentFactory
+     * @param \Magento\Sales\Model\Resource\Order\Shipment\Comment\CollectionFactory $commentCollFactory
+     * @param \Magento\Core\Model\Email\Template\MailerFactory $templateMailerFactory
+     * @param \Magento\Core\Model\Email\InfoFactory $emailInfoFactory
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Magento_Payment_Helper_Data $paymentData,
-        Magento_Sales_Helper_Data $salesData,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_LocaleInterface $coreLocale,
-        Magento_Sales_Model_OrderFactory $orderFactory,
-        Magento_Sales_Model_Resource_Order_Shipment_Item_CollectionFactory $shipmentItemCollFactory,
-        Magento_Sales_Model_Resource_Order_Shipment_Track_CollectionFactory $trackCollFactory,
-        Magento_Sales_Model_Order_Shipment_CommentFactory $commentFactory,
-        Magento_Sales_Model_Resource_Order_Shipment_Comment_CollectionFactory $commentCollFactory,
-        Magento_Core_Model_Email_Template_MailerFactory $templateMailerFactory,
-        Magento_Core_Model_Email_InfoFactory $emailInfoFactory,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Payment\Helper\Data $paymentData,
+        \Magento\Sales\Helper\Data $salesData,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\LocaleInterface $coreLocale,
+        \Magento\Sales\Model\OrderFactory $orderFactory,
+        \Magento\Sales\Model\Resource\Order\Shipment\Item\CollectionFactory $shipmentItemCollFactory,
+        \Magento\Sales\Model\Resource\Order\Shipment\Track\CollectionFactory $trackCollFactory,
+        \Magento\Sales\Model\Order\Shipment\CommentFactory $commentFactory,
+        \Magento\Sales\Model\Resource\Order\Shipment\Comment\CollectionFactory $commentCollFactory,
+        \Magento\Core\Model\Email\Template\MailerFactory $templateMailerFactory,
+        \Magento\Core\Model\Email\InfoFactory $emailInfoFactory,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_paymentData = $paymentData;
@@ -184,14 +186,14 @@ class Magento_Sales_Model_Order_Shipment extends Magento_Sales_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('Magento_Sales_Model_Resource_Order_Shipment');
+        $this->_init('Magento\Sales\Model\Resource\Order\Shipment');
     }
 
     /**
      * Load shipment by increment id
      *
      * @param string $incrementId
-     * @return Magento_Sales_Model_Order_Shipment
+     * @return \Magento\Sales\Model\Order\Shipment
      */
     public function loadByIncrementId($incrementId)
     {
@@ -210,10 +212,10 @@ class Magento_Sales_Model_Order_Shipment extends Magento_Sales_Model_Abstract
     /**
      * Declare order for shipment
      *
-     * @param   Magento_Sales_Model_Order $order
-     * @return  Magento_Sales_Model_Order_Shipment
+     * @param   \Magento\Sales\Model\Order $order
+     * @return  \Magento\Sales\Model\Order\Shipment
      */
-    public function setOrder(Magento_Sales_Model_Order $order)
+    public function setOrder(\Magento\Sales\Model\Order $order)
     {
         $this->_order = $order;
         $this->setOrderId($order->getId())
@@ -235,11 +237,11 @@ class Magento_Sales_Model_Order_Shipment extends Magento_Sales_Model_Abstract
     /**
      * Retrieve the order the shipment for created for
      *
-     * @return Magento_Sales_Model_Order
+     * @return \Magento\Sales\Model\Order
      */
     public function getOrder()
     {
-        if (!$this->_order instanceof Magento_Sales_Model_Order) {
+        if (!$this->_order instanceof \Magento\Sales\Model\Order) {
             $this->_order = $this->_orderFactory->create()->load($this->getOrderId());
         }
         return $this->_order->setHistoryEntityName(self::HISTORY_ENTITY_NAME);
@@ -248,7 +250,7 @@ class Magento_Sales_Model_Order_Shipment extends Magento_Sales_Model_Abstract
     /**
      * Retrieve billing address
      *
-     * @return Magento_Sales_Model_Order_Address
+     * @return \Magento\Sales\Model\Order\Address
      */
     public function getBillingAddress()
     {
@@ -258,7 +260,7 @@ class Magento_Sales_Model_Order_Shipment extends Magento_Sales_Model_Abstract
     /**
      * Retrieve shipping address
      *
-     * @return Magento_Sales_Model_Order_Address
+     * @return \Magento\Sales\Model\Order\Address
      */
     public function getShippingAddress()
     {
@@ -271,12 +273,12 @@ class Magento_Sales_Model_Order_Shipment extends Magento_Sales_Model_Abstract
      * Apply to order, order items etc.
      *
      * @return $this
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     public function register()
     {
         if ($this->getId()) {
-            throw new Magento_Core_Exception(__('We cannot register an existing shipment'));
+            throw new \Magento\Core\Exception(__('We cannot register an existing shipment'));
         }
 
         $totalQty = 0;
@@ -325,7 +327,7 @@ class Magento_Sales_Model_Order_Shipment extends Magento_Sales_Model_Abstract
 
     /**
      * @param string|int $itemId
-     * @return bool|Magento_Sales_Model_Order_Shipment_Item
+     * @return bool|\Magento\Sales\Model\Order\Shipment\Item
      */
     public function getItemById($itemId)
     {
@@ -338,10 +340,10 @@ class Magento_Sales_Model_Order_Shipment extends Magento_Sales_Model_Abstract
     }
 
     /**
-     * @param Magento_Sales_Model_Order_Shipment_Item $item
+     * @param \Magento\Sales\Model\Order\Shipment\Item $item
      * @return $this
      */
-    public function addItem(Magento_Sales_Model_Order_Shipment_Item $item)
+    public function addItem(\Magento\Sales\Model\Order\Shipment\Item $item)
     {
         $item->setShipment($this)
             ->setParentId($this->getId())
@@ -356,7 +358,7 @@ class Magento_Sales_Model_Order_Shipment extends Magento_Sales_Model_Abstract
     /**
      * Retrieve tracks collection.
      *
-     * @return Magento_Sales_Model_Resource_Order_Shipment_Track_Collection
+     * @return \Magento\Sales\Model\Resource\Order\Shipment\Track\Collection
      */
     public function getTracksCollection()
     {
@@ -388,7 +390,7 @@ class Magento_Sales_Model_Order_Shipment extends Magento_Sales_Model_Abstract
 
     /**
      * @param string|int $trackId
-     * @return bool|Magento_Sales_Model_Order_Shipment_Track
+     * @return bool|\Magento\Sales\Model\Order\Shipment\Track
      */
     public function getTrackById($trackId)
     {
@@ -401,10 +403,10 @@ class Magento_Sales_Model_Order_Shipment extends Magento_Sales_Model_Abstract
     }
 
     /**
-     * @param Magento_Sales_Model_Order_Shipment_Track $track
+     * @param \Magento\Sales\Model\Order\Shipment\Track $track
      * @return $this
      */
-    public function addTrack(Magento_Sales_Model_Order_Shipment_Track $track)
+    public function addTrack(\Magento\Sales\Model\Order\Shipment\Track $track)
     {
         $track->setShipment($this)
             ->setParentId($this->getId())
@@ -416,7 +418,7 @@ class Magento_Sales_Model_Order_Shipment extends Magento_Sales_Model_Abstract
 
         /**
          * Track saving is implemented in _afterSave()
-         * This enforces Magento_Core_Model_Abstract::save() not to skip _afterSave()
+         * This enforces \Magento\Core\Model\AbstractModel::save() not to skip _afterSave()
          */
         $this->_hasDataChanges = true;
 
@@ -427,14 +429,14 @@ class Magento_Sales_Model_Order_Shipment extends Magento_Sales_Model_Abstract
      * Adds comment to shipment with additional possibility to send it to customer via email
      * and show it in customer account
      *
-     * @param Magento_Sales_Model_Order_Shipment_Comment $comment
+     * @param \Magento\Sales\Model\Order\Shipment\Comment $comment
      * @param bool $notify
      * @param bool $visibleOnFront
-     * @return Magento_Sales_Model_Order_Shipment
+     * @return \Magento\Sales\Model\Order\Shipment
      */
     public function addComment($comment, $notify = false, $visibleOnFront = false)
     {
-        if (!($comment instanceof Magento_Sales_Model_Order_Shipment_Comment)) {
+        if (!($comment instanceof \Magento\Sales\Model\Order\Shipment\Comment)) {
             $comment = $this->_commentFactory->create()
                 ->setComment($comment)
                 ->setIsCustomerNotified($notify)
@@ -454,7 +456,7 @@ class Magento_Sales_Model_Order_Shipment extends Magento_Sales_Model_Abstract
      * Retrieve comments collection.
      *
      * @param bool $reload
-     * @return Magento_Sales_Model_Resource_Order_Shipment_Comment_Collection
+     * @return \Magento\Sales\Model\Resource\Order\Shipment\Comment\Collection
      */
     public function getCommentsCollection($reload=false)
     {
@@ -483,7 +485,7 @@ class Magento_Sales_Model_Order_Shipment extends Magento_Sales_Model_Abstract
      *
      * @param boolean $notifyCustomer
      * @param string $comment
-     * @return Magento_Sales_Model_Order_Shipment
+     * @return \Magento\Sales\Model\Order\Shipment
      */
     public function sendEmail($notifyCustomer = true, $comment = '')
     {
@@ -512,7 +514,7 @@ class Magento_Sales_Model_Order_Shipment extends Magento_Sales_Model_Abstract
             $customerName = $order->getCustomerName();
         }
 
-        /** @var $mailer Magento_Core_Model_Email_Template_Mailer */
+        /** @var $mailer \Magento\Core\Model\Email\Template\Mailer */
         $mailer = $this->_templateMailerFactory->create();
         if ($notifyCustomer) {
             $emailInfo = $this->_emailInfoFactory->create();
@@ -560,7 +562,7 @@ class Magento_Sales_Model_Order_Shipment extends Magento_Sales_Model_Abstract
      *
      * @param boolean $notifyCustomer
      * @param string $comment
-     * @return Magento_Sales_Model_Order_Shipment
+     * @return \Magento\Sales\Model\Order\Shipment
      */
     public function sendUpdateEmail($notifyCustomer = true, $comment = '')
     {
@@ -641,13 +643,13 @@ class Magento_Sales_Model_Order_Shipment extends Magento_Sales_Model_Abstract
     /**
      * Before object save
      *
-     * @return Magento_Sales_Model_Order_Shipment
-     * @throws Magento_Core_Exception
+     * @return \Magento\Sales\Model\Order\Shipment
+     * @throws \Magento\Core\Exception
      */
     protected function _beforeSave()
     {
         if ((!$this->getId() || null !== $this->_items) && !count($this->getAllItems())) {
-            throw new Magento_Core_Exception(__('We cannot create an empty shipment.'));
+            throw new \Magento\Core\Exception(__('We cannot create an empty shipment.'));
         }
 
         if (!$this->getOrderId() && $this->getOrder()) {
@@ -662,7 +664,7 @@ class Magento_Sales_Model_Order_Shipment extends Magento_Sales_Model_Abstract
     }
 
     /**
-     * @return Magento_Core_Model_Abstract
+     * @return \Magento\Core\Model\AbstractModel
      */
     protected function _beforeDelete()
     {
@@ -673,7 +675,7 @@ class Magento_Sales_Model_Order_Shipment extends Magento_Sales_Model_Abstract
     /**
      * After object save manipulations
      *
-     * @return Magento_Sales_Model_Order_Shipment
+     * @return \Magento\Sales\Model\Order\Shipment
      */
     protected function _afterSave()
     {
@@ -701,7 +703,7 @@ class Magento_Sales_Model_Order_Shipment extends Magento_Sales_Model_Abstract
     /**
      * Retrieve store model instance
      *
-     * @return Magento_Core_Model_Store
+     * @return \Magento\Core\Model\Store
      */
     public function getStore()
     {
@@ -712,7 +714,7 @@ class Magento_Sales_Model_Order_Shipment extends Magento_Sales_Model_Abstract
      * Set shipping label
      *
      * @param string $label   label representation (image or pdf file)
-     * @return Magento_Sales_Model_Order_Shipment
+     * @return \Magento\Sales\Model\Order\Shipment
      */
     public function setShippingLabel($label)
     {

@@ -12,7 +12,9 @@
 /**
  * RMA Helper
  */
-class Magento_Rma_Helper_Eav extends Magento_Eav_Helper_Data
+namespace Magento\Rma\Helper;
+
+class Eav extends \Magento\Eav\Helper\Data
 {
     /**
      * complicated array of select-typed attribute values for all stores
@@ -22,35 +24,35 @@ class Magento_Rma_Helper_Eav extends Magento_Eav_Helper_Data
     protected $_attributeOptionValues = array();
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Eav_Model_Resource_Entity_Attribute_Option_CollectionFactory
+     * @var \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory
      */
     protected $_collectionFactory;
 
     /**
-     * @var Magento_Core_Model_Resource
+     * @var \Magento\Core\Model\Resource
      */
     protected $_resource;
 
     /**
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Eav_Model_Resource_Entity_Attribute_Option_CollectionFactory $collectionFactory
-     * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Eav_Model_Entity_Attribute_Config $attributeConfig
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $collectionFactory
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Eav\Model\Entity\Attribute\Config $attributeConfig
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      */
     public function __construct(
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Eav_Model_Resource_Entity_Attribute_Option_CollectionFactory $collectionFactory,
-        Magento_Core_Model_Resource $resource,
-        Magento_Core_Helper_Context $context,
-        Magento_Eav_Model_Entity_Attribute_Config $attributeConfig,
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $collectionFactory,
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Core\Helper\Context $context,
+        \Magento\Eav\Model\Entity\Attribute\Config $attributeConfig,
+        \Magento\Core\Model\Store\Config $coreStoreConfig
     ) {
         $this->_storeManager = $storeManager;
         $this->_collectionFactory = $collectionFactory;
@@ -120,7 +122,7 @@ class Magento_Rma_Helper_Eav extends Magento_Eav_Helper_Data
                 'validate_types'    => array(),
                 'validate_filters'  => array(),
                 'filter_types'      => array(),
-                'source_model'      => 'Magento_Eav_Model_Entity_Attribute_Source_Table',
+                'source_model'      => 'Magento\Eav\Model\Entity\Attribute\Source\Table',
                 'backend_type'      => 'int',
                 'default_value'     => false,
             ),
@@ -152,7 +154,7 @@ class Magento_Rma_Helper_Eav extends Magento_Eav_Helper_Data
      *
      * Uses internal protected method, which must use data from protected variable
      *
-     * @param null|int|Magento_Core_Model_Store $storeId
+     * @param null|int|\Magento\Core\Model\Store $storeId
      * @param bool $useDefaultValue
      * @return array
      */
@@ -174,7 +176,7 @@ class Magento_Rma_Helper_Eav extends Magento_Eav_Helper_Data
      * Uses internal protected method, which must use data from protected variable
      *
      * @param string $attributeCode
-     * @param null|int|Magento_Core_Model_Store $storeId
+     * @param null|int|\Magento\Core\Model\Store $storeId
      * @param bool $useDefaultValue
      * @return array
      */
@@ -193,7 +195,7 @@ class Magento_Rma_Helper_Eav extends Magento_Eav_Helper_Data
     /**
      * Get complicated array of select-typed attribute values depending by store
      *
-     * @param null|int|Magento_Core_Model_Store $storeId
+     * @param null|int|\Magento\Core\Model\Store $storeId
      * @param bool $useDefaultValue
      * @return array
      */
@@ -201,7 +203,7 @@ class Magento_Rma_Helper_Eav extends Magento_Eav_Helper_Data
     {
         if (is_null($storeId)) {
             $storeId = $this->_storeManager->getStore()->getId();
-        } elseif ($storeId instanceof Magento_Core_Model_Store) {
+        } elseif ($storeId instanceof \Magento\Core\Model\Store) {
             $storeId = $storeId->getId();
         }
 
@@ -229,10 +231,10 @@ class Magento_Rma_Helper_Eav extends Magento_Eav_Helper_Data
     /**
      * Retrieve additional style classes for text-based RMA attributes (represented by text input or textarea)
      *
-     * @param Magento_Object $attribute
+     * @param \Magento\Object $attribute
      * @return array
      */
-    public function getAdditionalTextElementClasses(Magento_Object $attribute)
+    public function getAdditionalTextElementClasses(\Magento\Object $attribute)
     {
         $additionalClasses = array();
 

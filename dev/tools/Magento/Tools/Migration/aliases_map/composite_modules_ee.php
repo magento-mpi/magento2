@@ -19,4 +19,4 @@ require_once realpath(dirname(dirname(dirname(dirname(__DIR__)))))
 require_once realpath(dirname(dirname(dirname(dirname(__DIR__)))))
     . '/app/code/Magento/Enterprise/Model/Resource/Setup/Migration.php';
 
-return Magento_Enterprise_Model_Resource_Setup_Migration::getCompositeModules();
+return \Magento\Enterprise\Model\Resource\Setup\Migration::getCompositeModules();

@@ -9,7 +9,9 @@
  */
 
 
-class Magento_Rule_Block_Rule extends Magento_Core_Block_Abstract
+namespace Magento\Rule\Block;
+
+class Rule extends \Magento\Core\Block\AbstractBlock
 {
 
 }

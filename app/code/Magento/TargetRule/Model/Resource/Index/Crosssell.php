@@ -16,14 +16,16 @@
  * @package     Magento_TargetRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_TargetRule_Model_Resource_Index_Crosssell extends Magento_TargetRule_Model_Resource_Index_Abstract
+namespace Magento\TargetRule\Model\Resource\Index;
+
+class Crosssell extends \Magento\TargetRule\Model\Resource\Index\AbstractIndex
 {
     /**
      * Product List Type identifier
      *
      * @var int
      */
-    protected $_listType     = Magento_TargetRule_Model_Rule::CROSS_SELLS;
+    protected $_listType     = \Magento\TargetRule\Model\Rule::CROSS_SELLS;
 
     /**
      * Initialize connection and define main table

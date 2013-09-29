@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Magento_Config_ScopeInterface
+namespace Magento\Config;
+
+interface ScopeInterface
 {
     /**
      * Get current configuration scope identifier

@@ -15,52 +15,54 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Helper_Catalog_Product_Composite extends Magento_Core_Helper_Abstract
+namespace Magento\Adminhtml\Helper\Catalog\Product;
+
+class Composite extends \Magento\Core\Helper\AbstractHelper
 {
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
     
      /**
       * Catalog product
       *
-      * @var Magento_Catalog_Helper_Product
+      * @var \Magento\Catalog\Helper\Product
       */
     protected $_catalogProduct = null;
 
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Catalog_Model_ProductFactory
+     * @var \Magento\Catalog\Model\ProductFactory
      */
     protected $_productFactory;
 
     /**
-     * @var Magento_Customer_Model_CustomerFactory
+     * @var \Magento\Customer\Model\CustomerFactory
      */
     protected $_customerFactory;
 
     /**
-     * @param Magento_Customer_Model_CustomerFactory $customerFactory
-     * @param Magento_Catalog_Model_ProductFactory $productFactory
-     * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Catalog_Helper_Product $catalogProduct
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Catalog\Helper\Product $catalogProduct
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
-        Magento_Customer_Model_CustomerFactory $customerFactory,
-        Magento_Catalog_Model_ProductFactory $productFactory,
-        Magento_Core_Model_StoreManager $storeManager,
-        Magento_Catalog_Helper_Product $catalogProduct,
-        Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Registry $coreRegistry
+        \Magento\Customer\Model\CustomerFactory $customerFactory,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Catalog\Helper\Product $catalogProduct,
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_customerFactory = $customerFactory;
         $this->_productFactory = $productFactory;
@@ -73,8 +75,8 @@ class Magento_Adminhtml_Helper_Catalog_Product_Composite extends Magento_Core_He
     /**
      * Init layout of product configuration update result
      *
-     * @param Magento_Adminhtml_Controller_Action $controller
-     * @return Magento_Adminhtml_Helper_Catalog_Product_Composite
+     * @param \Magento\Adminhtml\Controller\Action $controller
+     * @return \Magento\Adminhtml\Helper\Catalog\Product\Composite
      */
     protected function _initUpdateResultLayout($controller)
     {
@@ -88,11 +90,11 @@ class Magento_Adminhtml_Helper_Catalog_Product_Composite extends Magento_Core_He
      * Prepares and render result of composite product configuration update for a case
      * when single configuration submitted
      *
-     * @param Magento_Adminhtml_Controller_Action $controller
-     * @param Magento_Object $updateResult
-     * @return Magento_Adminhtml_Helper_Catalog_Product_Composite
+     * @param \Magento\Adminhtml\Controller\Action $controller
+     * @param \Magento\Object $updateResult
+     * @return \Magento\Adminhtml\Helper\Catalog\Product\Composite
      */
-    public function renderUpdateResult($controller, Magento_Object $updateResult)
+    public function renderUpdateResult($controller, \Magento\Object $updateResult)
     {
         $this->_coreRegistry->register('composite_update_result', $updateResult);
 
@@ -106,10 +108,10 @@ class Magento_Adminhtml_Helper_Catalog_Product_Composite extends Magento_Core_He
       * $isOk - true or false, whether action was completed nicely or with some error
       * If $isOk is FALSE (some error during configuration), so $productType must be null
       *
-      * @param Magento_Adminhtml_Controller_Action $controller
+      * @param \Magento\Adminhtml\Controller\Action $controller
       * @param bool $isOk
       * @param string $productType
-      * @return Magento_Adminhtml_Helper_Catalog_Product_Composite
+      * @return \Magento\Adminhtml\Helper\Catalog\Product\Composite
       */
     protected function _initConfigureResultLayout($controller, $isOk, $productType)
     {
@@ -131,15 +133,15 @@ class Magento_Adminhtml_Helper_Catalog_Product_Composite extends Magento_Core_He
      *  - 'ok' = true, and 'product_id', 'buy_request', 'current_store_id', 'current_customer' or 'current_customer_id'
      *  - 'error' = true, and 'message' to show
      *
-     * @param Magento_Adminhtml_Controller_Action $controller
-     * @param Magento_Object $configureResult
-     * @return Magento_Adminhtml_Helper_Catalog_Product_Composite
+     * @param \Magento\Adminhtml\Controller\Action $controller
+     * @param \Magento\Object $configureResult
+     * @return \Magento\Adminhtml\Helper\Catalog\Product\Composite
      */
-    public function renderConfigureResult($controller, Magento_Object $configureResult)
+    public function renderConfigureResult($controller, \Magento\Object $configureResult)
     {
         try {
             if (!$configureResult->getOk()) {
-                throw new Magento_Core_Exception($configureResult->getMessage());
+                throw new \Magento\Core\Exception($configureResult->getMessage());
             };
 
             $currentStoreId = (int) $configureResult->getCurrentStoreId();
@@ -151,7 +153,7 @@ class Magento_Adminhtml_Helper_Catalog_Product_Composite extends Magento_Core_He
                 ->setStoreId($currentStoreId)
                 ->load($configureResult->getProductId());
             if (!$product->getId()) {
-                throw new Magento_Core_Exception(__('The product is not loaded.'));
+                throw new \Magento\Core\Exception(__('The product is not loaded.'));
             }
             $this->_coreRegistry->register('current_product', $product);
             $this->_coreRegistry->register('product', $product);
@@ -176,7 +178,7 @@ class Magento_Adminhtml_Helper_Catalog_Product_Composite extends Magento_Core_He
 
             $isOk = true;
             $productType = $product->getTypeId();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $isOk = false;
             $productType = null;
             $this->_coreRegistry->register('composite_configure_result_error_message', $e->getMessage());

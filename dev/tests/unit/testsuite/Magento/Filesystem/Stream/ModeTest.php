@@ -1,13 +1,15 @@
 <?php
 /**
- * Unit Test for Magento_Filesystem_Stream_Mode
+ * Unit Test for \Magento\Filesystem\Stream\Mode
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Filesystem_Stream_ModeTest extends PHPUnit_Framework_TestCase
+namespace Magento\Filesystem\Stream;
+
+class ModeTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider modesDataProvider
@@ -18,7 +20,7 @@ class Magento_Filesystem_Stream_ModeTest extends PHPUnit_Framework_TestCase
      */
     public function testConstructor($mode, $base, $hasPlus, $flag)
     {
-        $streamMode = new Magento_Filesystem_Stream_Mode($mode);
+        $streamMode = new \Magento\Filesystem\Stream\Mode($mode);
         $this->assertAttributeEquals($base, '_base', $streamMode);
         $this->assertAttributeEquals($hasPlus, '_plus', $streamMode);
         $this->assertAttributeEquals($flag, '_flag', $streamMode);
@@ -60,7 +62,7 @@ class Magento_Filesystem_Stream_ModeTest extends PHPUnit_Framework_TestCase
      */
     public function testAllowRead($mode)
     {
-        $streamMode = new Magento_Filesystem_Stream_Mode($mode);
+        $streamMode = new \Magento\Filesystem\Stream\Mode($mode);
         $this->assertTrue($streamMode->isReadAllowed());
     }
 
@@ -78,7 +80,7 @@ class Magento_Filesystem_Stream_ModeTest extends PHPUnit_Framework_TestCase
      */
     public function testAllowsWrite($mode)
     {
-        $streamMode = new Magento_Filesystem_Stream_Mode($mode);
+        $streamMode = new \Magento\Filesystem\Stream\Mode($mode);
         $this->assertTrue($streamMode->isWriteAllowed());
     }
 
@@ -101,7 +103,7 @@ class Magento_Filesystem_Stream_ModeTest extends PHPUnit_Framework_TestCase
      */
     public function testAllowsExistingFileOpening($mode)
     {
-        $streamMode = new Magento_Filesystem_Stream_Mode($mode);
+        $streamMode = new \Magento\Filesystem\Stream\Mode($mode);
         $this->assertTrue($streamMode->isExistingFileOpenAllowed());
     }
 
@@ -128,7 +130,7 @@ class Magento_Filesystem_Stream_ModeTest extends PHPUnit_Framework_TestCase
      */
     public function testAllowsNewFileOpening($mode)
     {
-        $streamMode = new Magento_Filesystem_Stream_Mode($mode);
+        $streamMode = new \Magento\Filesystem\Stream\Mode($mode);
         $this->assertTrue($streamMode->isNewFileOpenAllowed());
     }
 
@@ -154,7 +156,7 @@ class Magento_Filesystem_Stream_ModeTest extends PHPUnit_Framework_TestCase
      */
     public function testImpliesExistingContentDeletion($mode)
     {
-        $streamMode = new Magento_Filesystem_Stream_Mode($mode);
+        $streamMode = new \Magento\Filesystem\Stream\Mode($mode);
         $this->assertTrue($streamMode->isExistingContentDeletionImplied());
     }
 
@@ -175,7 +177,7 @@ class Magento_Filesystem_Stream_ModeTest extends PHPUnit_Framework_TestCase
      */
     public function testImpliesPositioningCursorAtTheBeginning($mode)
     {
-        $streamMode = new Magento_Filesystem_Stream_Mode($mode);
+        $streamMode = new \Magento\Filesystem\Stream\Mode($mode);
         $this->assertTrue($streamMode->isPositioningCursorAtTheBeginningImplied());
     }
 
@@ -201,7 +203,7 @@ class Magento_Filesystem_Stream_ModeTest extends PHPUnit_Framework_TestCase
      */
     public function testImpliesPositioningCursorAtTheEnd($mode)
     {
-        $streamMode = new Magento_Filesystem_Stream_Mode($mode);
+        $streamMode = new \Magento\Filesystem\Stream\Mode($mode);
         $this->assertTrue($streamMode->isPositioningCursorAtTheEndImplied());
     }
 
@@ -222,7 +224,7 @@ class Magento_Filesystem_Stream_ModeTest extends PHPUnit_Framework_TestCase
      */
     public function testIsBinary($mode)
     {
-        $streamMode = new Magento_Filesystem_Stream_Mode($mode);
+        $streamMode = new \Magento\Filesystem\Stream\Mode($mode);
         $this->assertTrue($streamMode->isBinary());
     }
 

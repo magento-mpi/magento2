@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Sales_Model_QuoteTest extends PHPUnit_Framework_TestCase
+namespace Magento\Sales\Model;
+
+class QuoteTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @magentoDataFixture Magento/Catalog/_files/product_virtual.php
@@ -17,12 +19,12 @@ class Magento_Sales_Model_QuoteTest extends PHPUnit_Framework_TestCase
      */
     public function testCollectTotalsWithVirtual()
     {
-        $quote = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Sales_Model_Quote');
+        $quote = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Sales\Model\Quote');
         $quote->load('test01', 'reserved_order_id');
 
-        $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Product');
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $product->load(21);
         $quote->addProduct($product);
         $quote->collectTotals();

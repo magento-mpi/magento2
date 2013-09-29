@@ -9,29 +9,31 @@
  * @license     {license_link}
  */
 
-class Magento_Backend_Block_Widget_Grid_Column_MultistoreTest extends PHPUnit_Framework_TestCase
+namespace Magento\Backend\Block\Widget\Grid\Column;
+
+class MultistoreTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Backend_Block_Widget_Grid_Column_Multistore
+     * @var \Magento\Backend\Block\Widget\Grid\Column\Multistore
      */
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_storeManagerMock;
 
     protected function setUp()
     {
-        $this->_storeManagerMock = $this->getMock('Magento_Core_Model_StoreManager', array(), array(), '', false);
+        $this->_storeManagerMock = $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false);
 
         $arguments = array(
             'storeManager' => $this->_storeManagerMock,
-            'urlBuilder' => $this->getMock('Magento_Backend_Model_Url', array(), array(), '', false)
+            'urlBuilder' => $this->getMock('Magento\Backend\Model\Url', array(), array(), '', false)
         );
 
-        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_model = $objectManagerHelper->getObject('Magento_Backend_Block_Widget_Grid_Column_Multistore',
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $this->_model = $objectManagerHelper->getObject('Magento\Backend\Block\Widget\Grid\Column\Multistore',
             $arguments);
     }
 

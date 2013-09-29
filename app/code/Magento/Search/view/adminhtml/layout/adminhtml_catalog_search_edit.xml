@@ -10,8 +10,8 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <update handle="adminhtml_catalog_search_block"/>
     <referenceContainer name="content">
-        <block class="Magento_Search_Block_Adminhtml_Search_Edit" name="related_grid_edit"/>
-        <block class="Magento_Adminhtml_Block_Widget_Grid_Serializer" name="related_grid_serializer">
+        <block class="Magento\Search\Block\Adminhtml\Search\Edit" name="related_grid_edit"/>
+        <block class="Magento\Adminhtml\Block\Widget\Grid\Serializer" name="related_grid_serializer">
             <arguments>
                 <argument name="grid_block" xsi:type="string">search.edit.grid</argument>
                 <argument name="callback" xsi:type="string">getSelectedQueries</argument>

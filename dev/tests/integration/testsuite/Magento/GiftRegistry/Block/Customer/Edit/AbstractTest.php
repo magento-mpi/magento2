@@ -10,31 +10,33 @@
  */
 
 /**
- * Test class for Magento_GiftRegistry_Block_Customer_Edit_Abstract
+ * Test class for \Magento\GiftRegistry\Block\Customer\Edit\AbstractEdit
  */
-class Magento_GiftRegistry_Block_Customer_Edit_AbstractTest
-    extends PHPUnit_Framework_TestCase
+namespace Magento\GiftRegistry\Block\Customer\Edit;
+
+class AbstractTest
+    extends \PHPUnit_Framework_TestCase
 {
     /**
      * Stub class name
      */
-    const STUB_CLASS = 'Magento_GiftRegistry_Block_Customer_Edit_Abstract_Stub';
+    const STUB_CLASS = 'Magento_GiftRegistry_Block_Customer_Edit_AbstractEdit_Stub';
 
     public function testGetCalendarDateHtml()
     {
         $this->getMockForAbstractClass(
-            'Magento_GiftRegistry_Block_Customer_Edit_Abstract', array(), self::STUB_CLASS, false
+            'Magento\GiftRegistry\Block\Customer\Edit\AbstractEdit', array(), self::STUB_CLASS, false
         );
-        $block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
+        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
             ->createBlock(self::STUB_CLASS);
 
         $value = null;
-        $formatType = Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM;
+        $formatType = \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM;
 
         $html = $block->getCalendarDateHtml('date_name', 'date_id', $value, $formatType);
 
-        $dateFormat = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Core_Model_LocaleInterface')->getDateFormat($formatType);
+        $dateFormat = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Core\Model\LocaleInterface')->getDateFormat($formatType);
         $value = $block->formatDate($value, $formatType);
 
         $this->assertContains('dateFormat: "' . $dateFormat . '",', $html);

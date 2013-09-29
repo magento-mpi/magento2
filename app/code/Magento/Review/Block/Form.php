@@ -15,60 +15,62 @@
  * @package    Magento_Review
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Review_Block_Form extends Magento_Core_Block_Template
+namespace Magento\Review\Block;
+
+class Form extends \Magento\Core\Block\Template
 {
     /**
      * Review data
      *
-     * @var Magento_Review_Helper_Data
+     * @var \Magento\Review\Helper\Data
      */
     protected $_reviewData = null;
 
     /**
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
 
     /**
-     * @var Magento_Catalog_Model_ProductFactory
+     * @var \Magento\Catalog\Model\ProductFactory
      */
     protected $_productFactory;
 
     /**
-     * @var Magento_Rating_Model_RatingFactory
+     * @var \Magento\Rating\Model\RatingFactory
      */
     protected $_ratingFactory;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Review_Model_Session
+     * @var \Magento\Review\Model\Session
      */
     protected $_reviewSession;
 
     /**
-     * @param Magento_Review_Helper_Data $reviewData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Customer_Model_Session $customerSession
-     * @param Magento_Catalog_Model_ProductFactory $productFactory
-     * @param Magento_Rating_Model_RatingFactory $ratingFactory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param \Magento\Review\Helper\Data $reviewData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Rating\Model\RatingFactory $ratingFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
-        Magento_Customer_Model_Session $customerSession,
-        Magento_Core_Model_Session_Generic $reviewSession,
-        Magento_Review_Helper_Data $reviewData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Customer_Model_Session $customerSession,
-        Magento_Catalog_Model_ProductFactory $productFactory,
-        Magento_Rating_Model_RatingFactory $ratingFactory,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Core\Model\Session\Generic $reviewSession,
+        \Magento\Review\Helper\Data $reviewData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Rating\Model\RatingFactory $ratingFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         $this->_customerSession = $customerSession;
@@ -79,7 +81,7 @@ class Magento_Review_Block_Form extends Magento_Core_Block_Template
         $this->_ratingFactory = $ratingFactory;
         $this->_storeManager = $storeManager;
         /** @todo Should be fixed in scope of MAGETWO-14639 */
-        $this->_reviewSession = Magento_Core_Model_ObjectManager::getInstance()->get('Magento_Review_Model_Session');
+        $this->_reviewSession = \Magento\Core\Model\ObjectManager::getInstance()->get('Magento\Review\Model\Session');
         parent::__construct($coreData, $context, $data);
     }
 
@@ -88,7 +90,7 @@ class Magento_Review_Block_Form extends Magento_Core_Block_Template
         parent::_construct();
 
         $data = $this->_reviewSession->getFormData(true);
-        $data = new Magento_Object((array)$data);
+        $data = new \Magento\Object((array)$data);
 
         // add logged in customer name as nickname
         if (!$data->getNickname()) {
@@ -107,7 +109,7 @@ class Magento_Review_Block_Form extends Magento_Core_Block_Template
             );
             $this->setLoginLink($this->getUrl(
                     'customer/account/login/',
-                    array(Magento_Customer_Helper_Data::REFERER_QUERY_PARAM_NAME => $queryParam)
+                    array(\Magento\Customer\Helper\Data::REFERER_QUERY_PARAM_NAME => $queryParam)
                 )
             );
         }

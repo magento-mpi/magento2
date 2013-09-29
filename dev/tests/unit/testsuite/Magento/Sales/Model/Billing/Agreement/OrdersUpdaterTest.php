@@ -9,32 +9,34 @@
  * @license     {license_link}
  */
 
-class Magento_Sales_Model_Billing_Agreement_OrdersUpdaterTest extends PHPUnit_Framework_TestCase
+namespace Magento\Sales\Model\Billing\Agreement;
+
+class OrdersUpdaterTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Sales_Model_Billing_Agreement_OrdersUpdater
+     * @var \Magento\Sales\Model\Billing\Agreement\OrdersUpdater
      */
     protected $_object;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_registryMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_argumentMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_agreementMock;
 
     protected function setUp()
     {
         $this->_argumentMock = $this->getMock(
-            'Magento_Sales_Model_Resource_Order_Grid_Collection',
+            'Magento\Sales\Model\Resource\Order\Grid\Collection',
             array(),
             array(),
             '',
@@ -42,7 +44,7 @@ class Magento_Sales_Model_Billing_Agreement_OrdersUpdaterTest extends PHPUnit_Fr
         );
 
         $this->_agreementMock = $this->getMock(
-            'Magento_Sales_Model_Billing_Agreement',
+            'Magento\Sales\Model\Billing\Agreement',
             array('getId'),
             array(),
             '',
@@ -50,18 +52,18 @@ class Magento_Sales_Model_Billing_Agreement_OrdersUpdaterTest extends PHPUnit_Fr
         );
 
         $this->_registryMock = $this->getMock(
-            'Magento_Core_Model_Registry',
+            'Magento\Core\Model\Registry',
             array(),
             array(),
             '',
             false
         );
 
-        $this->_object = new Magento_Sales_Model_Billing_Agreement_OrdersUpdater($this->_registryMock);
+        $this->_object = new \Magento\Sales\Model\Billing\Agreement\OrdersUpdater($this->_registryMock);
     }
 
     /**
-     * @covers Magento_Sales_Model_Billing_Agreement_OrdersUpdater::update
+     * @covers \Magento\Sales\Model\Billing\Agreement\OrdersUpdater::update
      */
     public function testUpdate()
     {
@@ -80,8 +82,8 @@ class Magento_Sales_Model_Billing_Agreement_OrdersUpdaterTest extends PHPUnit_Fr
     }
 
     /**
-     * @covers Magento_Sales_Model_Billing_Agreement_OrdersUpdater::update
-     * @expectedException DomainException
+     * @covers \Magento\Sales\Model\Billing\Agreement\OrdersUpdater::update
+     * @expectedException \DomainException
      */
     public function testUpdateWhenBillingAgreementIsNotSet()
     {

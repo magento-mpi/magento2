@@ -6,17 +6,21 @@
  *
  * @copyright   {copyright}
  * @license     {license_link}
+ */
+namespace Magento\Core\Model;
+
+/**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Magento_Core_Model_ObjectManager extends Magento_ObjectManager_ObjectManager
+class ObjectManager extends \Magento\ObjectManager\ObjectManager
 {
     /**
-     * @var Magento_Core_Model_ObjectManager
+     * @var \Magento\Core\Model\ObjectManager
      */
     protected static $_instance;
 
     /**
-     * @var Magento_ObjectManager_Relations
+     * @var \Magento\ObjectManager\Relations
      */
     protected $_compiledRelations;
 
@@ -26,13 +30,13 @@ class Magento_Core_Model_ObjectManager extends Magento_ObjectManager_ObjectManag
      * Temporary solution for removing Mage God Object, removed when Serialization problem has resolved
      *
      * @deprecated
-     * @return Magento_ObjectManager
-     * @throws RuntimeException
+     * @return \Magento\ObjectManager
+     * @throws \RuntimeException
      */
     public static function getInstance()
     {
-        if (!self::$_instance instanceof Magento_ObjectManager) {
-            throw new RuntimeException('ObjectManager isn\'t initialized');
+        if (!self::$_instance instanceof \Magento\ObjectManager) {
+            throw new \RuntimeException('ObjectManager isn\'t initialized');
         }
         return self::$_instance;
     }
@@ -40,120 +44,120 @@ class Magento_Core_Model_ObjectManager extends Magento_ObjectManager_ObjectManag
     /**
      * Set object manager instance
      *
-     * @param Magento_ObjectManager $objectManager
-     * @throws LogicException
+     * @param \Magento\ObjectManager $objectManager
+     * @throws \LogicException
      */
-    public static function setInstance(Magento_ObjectManager $objectManager)
+    public static function setInstance(\Magento\ObjectManager $objectManager)
     {
         self::$_instance = $objectManager;
     }
 
     /**
-     * @param Magento_Core_Model_Config_Primary $primaryConfig
-     * @param Magento_ObjectManager_Config $config
+     * @param \Magento\Core\Model\Config\Primary $primaryConfig
+     * @param \Magento\ObjectManager\Config $config
      * @param array $sharedInstances
-     * @param Magento_Core_Model_ObjectManager_ConfigLoader_Primary $primaryLoader
-     * @throws Magento_BootstrapException
+     * @param \Magento\Core\Model\ObjectManager\ConfigLoader\Primary $primaryLoader
+     * @throws \Magento\BootstrapException
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     public function __construct(
-        Magento_Core_Model_Config_Primary $primaryConfig,
-        Magento_ObjectManager_Config $config = null,
+        \Magento\Core\Model\Config\Primary $primaryConfig,
+        \Magento\ObjectManager\Config $config = null,
         $sharedInstances = array(),
-        Magento_Core_Model_ObjectManager_ConfigLoader_Primary $primaryLoader = null
+        \Magento\Core\Model\ObjectManager\ConfigLoader\Primary $primaryLoader = null
     ) {
-        $definitionFactory = new Magento_Core_Model_ObjectManager_DefinitionFactory($primaryConfig);
+        $definitionFactory = new \Magento\Core\Model\ObjectManager\DefinitionFactory($primaryConfig);
         $definitions = $definitionFactory->createClassDefinition($primaryConfig);
         $relations = $definitionFactory->createRelations();
-        $config = $config ?: new Magento_ObjectManager_Config_Config(
+        $config = $config ?: new \Magento\ObjectManager\Config\Config(
             $relations,
             $definitions
         );
 
-        $localConfig = new Magento_Core_Model_Config_Local(new Magento_Core_Model_Config_Loader_Local(
-            $primaryConfig->getDirectories()->getDir(Magento_Core_Model_Dir::CONFIG),
-            $primaryConfig->getParam(Magento_Core_Model_App::PARAM_CUSTOM_LOCAL_CONFIG),
-            $primaryConfig->getParam(Magento_Core_Model_App::PARAM_CUSTOM_LOCAL_FILE)
+        $localConfig = new \Magento\Core\Model\Config\Local(new \Magento\Core\Model\Config\Loader\Local(
+            $primaryConfig->getDirectories()->getDir(\Magento\Core\Model\Dir::CONFIG),
+            $primaryConfig->getParam(\Magento\Core\Model\App::PARAM_CUSTOM_LOCAL_CONFIG),
+            $primaryConfig->getParam(\Magento\Core\Model\App::PARAM_CUSTOM_LOCAL_FILE)
         ));
-        $appMode = $primaryConfig->getParam(Magento_Core_Model_App::PARAM_MODE, Magento_Core_Model_App_State::MODE_DEFAULT);
-        $factory = new Magento_ObjectManager_Factory_Factory($config, $this, $definitions, array_replace(
+        $appMode = $primaryConfig->getParam(\Magento\Core\Model\App::PARAM_MODE, \Magento\Core\Model\App\State::MODE_DEFAULT);
+        $factory = new \Magento\ObjectManager\Factory\Factory($config, $this, $definitions, array_replace(
             $localConfig->getParams(),
             $primaryConfig->getParams()
         ));
 
-        $sharedInstances['Magento_Core_Model_Config_Local'] = $localConfig;
-        $sharedInstances['Magento_Core_Model_Config_Primary'] = $primaryConfig;
-        $sharedInstances['Magento_Core_Model_Dir'] = $primaryConfig->getDirectories();
-        $sharedInstances['Magento_Core_Model_ObjectManager'] = $this;
+        $sharedInstances['Magento\Core\Model\Config\Local'] = $localConfig;
+        $sharedInstances['Magento\Core\Model\Config\Primary'] = $primaryConfig;
+        $sharedInstances['Magento\Core\Model\Dir'] = $primaryConfig->getDirectories();
+        $sharedInstances['Magento\Core\Model\ObjectManager'] = $this;
 
         parent::__construct($factory, $config, $sharedInstances);
         $primaryConfig->configure($this);
         self::setInstance($this);
 
-        Magento_Profiler::start('global_primary');
-        $primaryLoader = $primaryLoader ?: new Magento_Core_Model_ObjectManager_ConfigLoader_Primary(
+        \Magento\Profiler::start('global_primary');
+        $primaryLoader = $primaryLoader ?: new \Magento\Core\Model\ObjectManager\ConfigLoader\Primary(
             $primaryConfig->getDirectories(),
             $appMode
         );
         try {
             $configData = $primaryLoader->load();
-        } catch (Exception $e) {
-            throw new Magento_BootstrapException($e->getMessage());
+        } catch (\Exception $e) {
+            throw new \Magento\BootstrapException($e->getMessage());
         }
 
         if ($configData) {
             $this->configure($configData);
         }
 
-        if ($definitions instanceof Magento_ObjectManager_Definition_Compiled) {
+        if ($definitions instanceof \Magento\ObjectManager\Definition\Compiled) {
             $interceptorGenerator = null;
         } else {
-            $autoloader = new Magento_Autoload_IncludePath();
-            $interceptorGenerator = new Magento_Interception_CodeGenerator_CodeGenerator(new Magento_Code_Generator(
+            $autoloader = new \Magento\Autoload\IncludePath();
+            $interceptorGenerator = new \Magento\Interception\CodeGenerator\CodeGenerator(new \Magento\Code\Generator(
                 null,
                 $autoloader,
-                new Magento_Code_Generator_Io(
-                    new Magento_Io_File(),
+                new \Magento\Code\Generator\Io(
+                    new \Magento\Io\File(),
                     $autoloader,
-                    $primaryConfig->getDirectories()->getDir(Magento_Core_Model_Dir::GENERATION)
+                    $primaryConfig->getDirectories()->getDir(\Magento\Core\Model\Dir::GENERATION)
                 )
             ));
         }
 
-        Magento_Profiler::stop('global_primary');
-        $verification = $this->get('Magento_Core_Model_Dir_Verification');
+        \Magento\Profiler::stop('global_primary');
+        $verification = $this->get('Magento\Core\Model\Dir\Verification');
         $verification->createAndVerifyDirectories();
 
-        $interceptionConfig = $this->create('Magento_Interception_Config_Config', array(
+        $interceptionConfig = $this->create('Magento\Interception\Config\Config', array(
             'relations' => $definitionFactory->createRelations(),
             'omConfig' => $this->_config,
             'codeGenerator' => $interceptorGenerator,
-            'classDefinitions' => $definitions instanceof Magento_ObjectManager_Definition_Compiled
+            'classDefinitions' => $definitions instanceof \Magento\ObjectManager\Definition\Compiled
                 ? $definitions
                 : null,
             'cacheId' => 'interception',
         ));
 
-        $pluginList = $this->create('Magento_Interception_PluginList_PluginList', array(
+        $pluginList = $this->create('Magento\Interception\PluginList\PluginList', array(
             'relations' => $definitionFactory->createRelations(),
             'definitions' => $definitionFactory->createPluginDefinition(),
             'omConfig' => $this->_config,
-            'classDefinitions' => $definitions instanceof Magento_ObjectManager_Definition_Compiled
+            'classDefinitions' => $definitions instanceof \Magento\ObjectManager\Definition\Compiled
                 ? $definitions
                 : null,
             'scopePriorityScheme' => array('global'),
             'cacheId' => 'pluginlist',
         ));
-        $this->_sharedInstances['Magento_Interception_PluginList_PluginList'] = $pluginList;
-        $this->_factory = $this->create('Magento_Interception_FactoryDecorator', array(
+        $this->_sharedInstances['Magento\Interception\PluginList\PluginList'] = $pluginList;
+        $this->_factory = $this->create('Magento\Interception\FactoryDecorator', array(
             'factory' => $this->_factory,
             'config' => $interceptionConfig,
             'pluginList' => $pluginList
         ));
-        $this->_config->setCache($this->get('Magento_Core_Model_ObjectManager_ConfigCache'));
-        $this->configure($this->get('Magento_Core_Model_ObjectManager_ConfigLoader')->load('global'));
-        $this->get('Magento_Core_Model_Resource')->setConfig($this->get('Magento_Core_Model_Config_Resource'));
+        $this->_config->setCache($this->get('Magento\Core\Model\ObjectManager\ConfigCache'));
+        $this->configure($this->get('Magento\Core\Model\ObjectManager\ConfigLoader')->load('global'));
+        $this->get('Magento\Core\Model\Resource')->setConfig($this->get('Magento\Core\Model\Config\Resource'));
 
         self::setInstance($this);
     }

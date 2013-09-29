@@ -12,7 +12,7 @@
 
 define('RELATIVE_APP_ROOT', '../../..');
 require __DIR__ . '/../../../app/autoload.php';
-Magento_Autoload_IncludePath::addIncludePath(realpath(RELATIVE_APP_ROOT . '/lib'));
+\Magento\Autoload\IncludePath::addIncludePath(realpath(RELATIVE_APP_ROOT . '/lib'));
 
 $userConfig = normalize('jsTestDriver.php');
 $defaultConfig = normalize('jsTestDriver.php.dist');
@@ -118,7 +118,7 @@ if (count($serveFiles) > 0) {
 fclose($fh);
 
 $testOutput = __DIR__ . '/test-output';
-Magento_Io_File::rmdirRecursive($testOutput);
+\Magento\Io\File::rmdirRecursive($testOutput);
 mkdir($testOutput);
 
 $command

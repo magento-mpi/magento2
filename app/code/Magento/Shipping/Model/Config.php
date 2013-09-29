@@ -9,7 +9,9 @@
  */
 
 
-class Magento_Shipping_Model_Config extends Magento_Object
+namespace Magento\Shipping\Model;
+
+class Config extends \Magento\Object
 {
     /**
      * Shipping origin settings
@@ -22,27 +24,27 @@ class Magento_Shipping_Model_Config extends Magento_Object
     protected static $_carriers;
 
     /**
-     * @var Magento_Core_Model_Logger
+     * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
 
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
     
     /**
      * Constructor
      *
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Logger $logger,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
         array $data = array()
     ) {
         $this->_logger = $logger;
@@ -95,7 +97,7 @@ class Magento_Shipping_Model_Config extends Magento_Object
      *
      * @param   string $carrierCode
      * @param   mixed $store
-     * @return  Magento_Usa_Model_Shipping_Carrier_Abstract
+     * @return  \Magento\Usa\Model\Shipping\Carrier\AbstractCarrier
      */
     public function getCarrierInstance($carrierCode, $store = null)
     {
@@ -112,7 +114,7 @@ class Magento_Shipping_Model_Config extends Magento_Object
      * @param string $code
      * @param array $config
      * @param mixed $store
-     * @return Magento_Shipping_Model_Carrier_Abstract
+     * @return \Magento\Shipping\Model\Carrier\AbstractCarrier
      */
     protected function _getCarrier($code, $config, $store = null)
     {
@@ -126,8 +128,8 @@ class Magento_Shipping_Model_Config extends Magento_Object
          * Related with module uninstall process
          */
         try {
-            $carrier = Mage::getModel($modelName);
-        } catch (Exception $e) {
+            $carrier = \Mage::getModel($modelName);
+        } catch (\Exception $e) {
             $this->_logger->logException($e);
             return false;
         }

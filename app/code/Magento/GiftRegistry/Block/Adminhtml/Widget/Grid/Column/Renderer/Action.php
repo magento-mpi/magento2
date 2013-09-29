@@ -11,18 +11,20 @@
 /**
  * Column renderer for gift registry items grid action column
  */
-class Magento_GiftRegistry_Block_Adminhtml_Widget_Grid_Column_Renderer_Action
-    extends Magento_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
+namespace Magento\GiftRegistry\Block\Adminhtml\Widget\Grid\Column\Renderer;
+
+class Action
+    extends \Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**
      * Render gift registry item action as select html element
      *
-     * @param  Magento_Object $row
+     * @param  \Magento\Object $row
      * @return string
      */
-    protected function _getValue(Magento_Object $row)
+    protected function _getValue(\Magento\Object $row)
     {
-        $select = $this->getLayout()->createBlock('Magento_Core_Block_Html_Select')
+        $select = $this->getLayout()->createBlock('Magento\Core\Block\Html\Select')
             ->setId($this->getColumn()->getId())
             ->setName('items[' . $row->getItemId() . '][action]')
             ->setOptions($this->getColumn()->getOptions());

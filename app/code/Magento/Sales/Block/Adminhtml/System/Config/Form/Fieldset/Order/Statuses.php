@@ -8,16 +8,18 @@
  * @license     {license_link}
  */
 
-class Magento_Sales_Block_Adminhtml_System_Config_Form_Fieldset_Order_Statuses
-    extends Magento_Backend_Block_System_Config_Form_Fieldset
+namespace Magento\Sales\Block\Adminhtml\System\Config\Form\Fieldset\Order;
+
+class Statuses
+    extends \Magento\Backend\Block\System\Config\Form\Fieldset
 {
     /**
-     * @var Magento_Object
+     * @var \Magento\Object
      */
     protected $_dummyElement;
 
     /**
-     * @var Magento_Backend_Block_System_Config_Form_Field
+     * @var \Magento\Backend\Block\System\Config\Form\Field
      */
     protected $_fieldRenderer;
 
@@ -27,18 +29,18 @@ class Magento_Sales_Block_Adminhtml_System_Config_Form_Fieldset_Order_Statuses
     protected $_values;
 
     /**
-     * @var Magento_Sales_Model_Resource_Order_Status_CollectionFactory
+     * @var \Magento\Sales\Model\Resource\Order\Status\CollectionFactory
      */
     protected $_orderStatusCollection;
 
     /**
-     * @param Magento_Backend_Block_Context $context
-     * @param Magento_Sales_Model_Resource_Order_Status_CollectionFactory $orderStatusCollection
+     * @param \Magento\Backend\Block\Context $context
+     * @param \Magento\Sales\Model\Resource\Order\Status\CollectionFactory $orderStatusCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Block_Context $context,
-        Magento_Sales_Model_Resource_Order_Status_CollectionFactory $orderStatusCollection,
+        \Magento\Backend\Block\Context $context,
+        \Magento\Sales\Model\Resource\Order\Status\CollectionFactory $orderStatusCollection,
         array $data = array()
     ) {
         $this->_orderStatusCollection = $orderStatusCollection;
@@ -46,10 +48,10 @@ class Magento_Sales_Block_Adminhtml_System_Config_Form_Fieldset_Order_Statuses
     }
 
     /**
-     * @param Magento_Data_Form_Element_Abstract $element
+     * @param \Magento\Data\Form\Element\AbstractElement $element
      * @return string
      */
-    public function render(Magento_Data_Form_Element_Abstract $element)
+    public function render(\Magento\Data\Form\Element\AbstractElement $element)
     {
         $html = '';
 
@@ -62,30 +64,30 @@ class Magento_Sales_Block_Adminhtml_System_Config_Form_Fieldset_Order_Statuses
     }
 
     /**
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     protected function _getDummyElement()
     {
         if (empty($this->_dummyElement)) {
-            $this->_dummyElement = new Magento_Object(array('showInDefault' => 1, 'showInWebsite' => 1));
+            $this->_dummyElement = new \Magento\Object(array('showInDefault' => 1, 'showInWebsite' => 1));
         }
         return $this->_dummyElement;
     }
 
     /**
-     * @return Magento_Backend_Block_System_Config_Form_Field
+     * @return \Magento\Backend\Block\System\Config\Form\Field
      */
     protected function _getFieldRenderer()
     {
         if (empty($this->_fieldRenderer)) {
             $this->_fieldRenderer = $this->getLayout()
-                ->getBlockSingleton('Magento_Backend_Block_System_Config_Form_Field');
+                ->getBlockSingleton('Magento\Backend\Block\System\Config\Form\Field');
         }
         return $this->_fieldRenderer;
     }
 
     /**
-     * @param Magento_Data_Form_Element_Fieldset $fieldset
+     * @param \Magento\Data\Form\Element\Fieldset $fieldset
      * @param string $id
      * @param string $status
      * @return string

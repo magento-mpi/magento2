@@ -17,20 +17,22 @@
  * @package    Magento_Sales
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Quote_Address_Total_Msrp extends Magento_Sales_Model_Quote_Address_Total_Abstract
+namespace Magento\Sales\Model\Quote\Address\Total;
+
+class Msrp extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
 {
     /**
      * Catalog data
      *
-     * @var Magento_Catalog_Helper_Data
+     * @var \Magento\Catalog\Helper\Data
      */
     protected $_catalogData = null;
 
     /**
-     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param \Magento\Catalog\Helper\Data $catalogData
      */
     public function __construct(
-        Magento_Catalog_Helper_Data $catalogData
+        \Magento\Catalog\Helper\Data $catalogData
     ) {
         $this->_catalogData = $catalogData;
     }
@@ -38,10 +40,10 @@ class Magento_Sales_Model_Quote_Address_Total_Msrp extends Magento_Sales_Model_Q
     /**
      * Collect information about MSRP price enabled
      *
-     * @param   Magento_Sales_Model_Quote_Address $address
-     * @return  Magento_Sales_Model_Quote_Address_Total_Msrp
+     * @param   \Magento\Sales\Model\Quote\Address $address
+     * @return  \Magento\Sales\Model\Quote\Address\Total\Msrp
      */
-    public function collect(Magento_Sales_Model_Quote_Address $address)
+    public function collect(\Magento\Sales\Model\Quote\Address $address)
     {
         parent::collect($address);
 
@@ -54,7 +56,7 @@ class Magento_Sales_Model_Quote_Address_Total_Msrp extends Magento_Sales_Model_Q
         foreach ($items as $item) {
             if (!$item->getParentItemId() && $this->_catalogData->canApplyMsrp(
                 $item->getProductId(),
-                Magento_Catalog_Model_Product_Attribute_Source_Msrp_Type::TYPE_BEFORE_ORDER_CONFIRM,
+                \Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type::TYPE_BEFORE_ORDER_CONFIRM,
                 true
             )) {
                 $canApplyMsrp = true;

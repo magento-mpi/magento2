@@ -15,7 +15,9 @@
  * @package    Magento_VersionsCms
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_VersionsCms_Block_Adminhtml_Scope_Switcher extends Magento_Backend_Block_System_Config_Switcher
+namespace Magento\VersionsCms\Block\Adminhtml\Scope;
+
+class Switcher extends \Magento\Backend\Block\System\Config\Switcher
 {
     /**
      * Scope switcher options
@@ -62,6 +64,6 @@ class Magento_VersionsCms_Block_Adminhtml_Scope_Switcher extends Magento_Backend
      */
     protected function _toHtml()
     {
-        return Mage::app()->isSingleStoreMode() == false ? parent::_toHtml() : '';
+        return \Mage::app()->isSingleStoreMode() == false ? parent::_toHtml() : '';
     }
 }

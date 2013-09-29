@@ -15,22 +15,24 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Controller_Catalog_Category_Widget extends Magento_Adminhtml_Controller_Action
+namespace Magento\Adminhtml\Controller\Catalog\Category;
+
+class Widget extends \Magento\Adminhtml\Controller\Action
 {
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Backend_Controller_Context $context
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
-        Magento_Backend_Controller_Context $context,
-        Magento_Core_Model_Registry $coreRegistry
+        \Magento\Backend\Controller\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
@@ -54,7 +56,7 @@ class Magento_Adminhtml_Controller_Catalog_Category_Widget extends Magento_Admin
         $categoryId = (int)$this->getRequest()->getPost('id');
         if ($categoryId) {
 
-            $category = $this->_objectManager->create('Magento_Catalog_Model_Category')->load($categoryId);
+            $category = $this->_objectManager->create('Magento\Catalog\Model\Category')->load($categoryId);
             if ($category->getId()) {
                 $this->_coreRegistry->register('category', $category);
                 $this->_coreRegistry->register('current_category', $category);
@@ -67,7 +69,7 @@ class Magento_Adminhtml_Controller_Catalog_Category_Widget extends Magento_Admin
 
     protected function _getCategoryTreeBlock()
     {
-        return $this->getLayout()->createBlock('Magento_Adminhtml_Block_Catalog_Category_Widget_Chooser', '', array(
+        return $this->getLayout()->createBlock('Magento\Adminhtml\Block\Catalog\Category\Widget\Chooser', '', array(
             'data' => array(
                 'id' => $this->getRequest()->getParam('uniq_id'),
                 'use_massaction' => $this->getRequest()->getParam('use_massaction', false)

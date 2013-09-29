@@ -15,7 +15,9 @@
  * @package    Magento_Data
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Data_Tree_Node_Collection implements ArrayAccess, IteratorAggregate
+namespace Magento\Data\Tree\Node;
+
+class Collection implements \ArrayAccess, \IteratorAggregate
 {
     private $_nodes;
     private $_container;
@@ -32,15 +34,15 @@ class Magento_Data_Tree_Node_Collection implements ArrayAccess, IteratorAggregat
     }
     
     /**
-    * Implementation of IteratorAggregate::getIterator()
+    * Implementation of \IteratorAggregate::getIterator()
     */
     public function getIterator()
     {
-        return new ArrayIterator($this->_nodes);
+        return new \ArrayIterator($this->_nodes);
     }
 
     /**
-    * Implementation of ArrayAccess:offsetSet()
+    * Implementation of \ArrayAccess:offsetSet()
     */
     public function offsetSet($key, $value)
     {
@@ -48,7 +50,7 @@ class Magento_Data_Tree_Node_Collection implements ArrayAccess, IteratorAggregat
     }
     
     /**
-    * Implementation of ArrayAccess:offsetGet()
+    * Implementation of \ArrayAccess:offsetGet()
     */
     public function offsetGet($key)
     {
@@ -56,7 +58,7 @@ class Magento_Data_Tree_Node_Collection implements ArrayAccess, IteratorAggregat
     }
     
     /**
-    * Implementation of ArrayAccess:offsetUnset()
+    * Implementation of \ArrayAccess:offsetUnset()
     */
     public function offsetUnset($key)
     {
@@ -64,7 +66,7 @@ class Magento_Data_Tree_Node_Collection implements ArrayAccess, IteratorAggregat
     }
     
     /**
-    * Implementation of ArrayAccess:offsetExists()
+    * Implementation of \ArrayAccess:offsetExists()
     */
     public function offsetExists($key)
     {
@@ -74,12 +76,12 @@ class Magento_Data_Tree_Node_Collection implements ArrayAccess, IteratorAggregat
     /**
     * Adds a node to this node
     */
-    public function add(Magento_Data_Tree_Node $node)
+    public function add(\Magento\Data\Tree\Node $node)
     {
         $node->setParent($this->_container);
 
         // Set the Tree for the node
-        if ($this->_container->getTree() instanceof Magento_Data_Tree) {
+        if ($this->_container->getTree() instanceof \Magento\Data\Tree) {
             $node->setTree($this->_container->getTree());
         }
 

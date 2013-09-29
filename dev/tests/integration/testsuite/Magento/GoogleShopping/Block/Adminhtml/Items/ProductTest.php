@@ -9,23 +9,25 @@
  * @license     {license_link}
  */
 
+namespace Magento\GoogleShopping\Block\Adminhtml\Items;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_GoogleShopping_Block_Adminhtml_Items_ProductTest extends PHPUnit_Framework_TestCase
+class ProductTest extends \PHPUnit_Framework_TestCase
 {
     public function testBeforeToHtml()
     {
         $this->markTestIncomplete('Magento_GoogleShopping is not implemented yet');
 
-        $block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
-            ->createBlock('Magento_GoogleShopping_Block_Adminhtml_Items_Product');
-        $filter = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
-            ->createBlock('Magento_Core_Block_Text');
-        $search = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
-            ->createBlock('Magento_Core_Block_Text');
+        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            ->createBlock('Magento\GoogleShopping\Block\Adminhtml\Items\Product');
+        $filter = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            ->createBlock('Magento\Core\Block\Text');
+        $search = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            ->createBlock('Magento\Core\Block\Text');
 
-        $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout');
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout');
         $layout->addBlock($block, 'product');
         $layout->addBlock($filter, 'reset_filter_button', 'product');
         $layout->addBlock($search, 'search_button', 'product');

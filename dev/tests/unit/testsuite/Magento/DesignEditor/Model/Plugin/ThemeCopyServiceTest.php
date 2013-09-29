@@ -5,23 +5,25 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_DesignEditor_Model_Plugin_ThemeCopyServiceTest extends PHPUnit_Framework_TestCase
+namespace Magento\DesignEditor\Model\Plugin;
+
+class ThemeCopyServiceTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_DesignEditor_Model_Plugin_ThemeCopyService
+     * @var \Magento\DesignEditor\Model\Plugin\ThemeCopyService
      */
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_factoryMock;
 
     protected function setUp()
     {
-        $this->_factoryMock = $this->getMock('Magento_DesignEditor_Model_Theme_ChangeFactory',
+        $this->_factoryMock = $this->getMock('Magento\DesignEditor\Model\Theme\ChangeFactory',
             array('create'), array(), '', false);
-        $this->_model = new Magento_DesignEditor_Model_Plugin_ThemeCopyService($this->_factoryMock);
+        $this->_model = new \Magento\DesignEditor\Model\Plugin\ThemeCopyService($this->_factoryMock);
     }
 
     public function testAroundCopySavesChangeTimeIfSourceThemeHasBeenAlreadyChanged()
@@ -30,19 +32,19 @@ class Magento_DesignEditor_Model_Plugin_ThemeCopyServiceTest extends PHPUnit_Fra
         $sourceChangeTime = '21:00:00';
         $targetThemeId = 2;
 
-        $sourceThemeMock = $this->getMock('Magento_Core_Model_Theme', array(), array(), '', false);
+        $sourceThemeMock = $this->getMock('Magento\Core\Model\Theme', array(), array(), '', false);
         $sourceThemeMock->expects($this->any())
             ->method('getId')
             ->will($this->returnValue($sourceThemeId));
 
-        $targetThemeMock = $this->getMock('Magento_Core_Model_Theme', array(), array(), '', false);
+        $targetThemeMock = $this->getMock('Magento\Core\Model\Theme', array(), array(), '', false);
         $targetThemeMock->expects($this->any())
             ->method('getId')
             ->will($this->returnValue($targetThemeId));
 
-        $sourceChangeMock = $this->getMock('Magento_DesignEditor_Model_Theme_Change',
+        $sourceChangeMock = $this->getMock('Magento\DesignEditor\Model\Theme\Change',
             array('getId', 'getChangeTime', 'loadByThemeId'), array(), '', false);
-        $targetChangeMock = $this->getMock('Magento_DesignEditor_Model_Theme_Change',
+        $targetChangeMock = $this->getMock('Magento\DesignEditor\Model\Theme\Change',
             array('setThemeId', 'setChangeTime', 'loadByThemeId', 'save'), array(), '', false);
         $this->_factoryMock->expects($this->at(0))
             ->method('create')
@@ -74,7 +76,7 @@ class Magento_DesignEditor_Model_Plugin_ThemeCopyServiceTest extends PHPUnit_Fra
             ->method('save');
 
         $methodArguments = array($sourceThemeMock, $targetThemeMock);
-        $invocationChainMock = $this->getMock('Magento_Code_Plugin_InvocationChain', array(), array(), '', false);
+        $invocationChainMock = $this->getMock('Magento\Code\Plugin\InvocationChain', array(), array(), '', false);
         $invocationChainMock->expects($this->once())
             ->method('proceed')
             ->with($methodArguments);

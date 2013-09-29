@@ -11,8 +11,10 @@
 /**
  * Placeholder container for catalog product lists
  */
-class Magento_FullPageCache_Model_Container_CatalogProductList
-    extends Magento_FullPageCache_Model_Container_Advanced_Quote
+namespace Magento\FullPageCache\Model\Container;
+
+class CatalogProductList
+    extends \Magento\FullPageCache\Model\Container\Advanced\Quote
 {
     /**
      * Render block that was not cached
@@ -23,8 +25,8 @@ class Magento_FullPageCache_Model_Container_CatalogProductList
     {
         $productId = $this->_getProductId();
         if ($productId && !$this->_coreRegistry->registry('product')) {
-            $product = Mage::getModel('Magento_Catalog_Model_Product')
-                ->setStoreId(Mage::app()->getStore()->getId())
+            $product = \Mage::getModel('Magento\Catalog\Model\Product')
+                ->setStoreId(\Mage::app()->getStore()->getId())
                 ->load($productId);
             if ($product) {
                 $this->_coreRegistry->register('product', $product);

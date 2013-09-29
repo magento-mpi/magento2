@@ -9,10 +9,12 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Config_ElementTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Config;
+
+class ElementTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Config_Element
+     * @var \Magento\Core\Model\Config\Element
      */
     protected $_model;
 
@@ -31,10 +33,10 @@ class Magento_Core_Model_Config_ElementTest extends PHPUnit_Framework_TestCase
         <empty_text></empty_text>
     </is_test>
     <class_test>
-        <class>Magento_Catalog_Model_Observer</class>
+        <class>Magento\Catalog\Model\Observer</class>
     </class_test>
     <model_test>
-        <model>Magento_Catalog_Model_Observer</model>
+        <model>Magento\Catalog\Model\Observer</model>
     </model_test>
     <no_classname_test>
         <none/>
@@ -45,7 +47,7 @@ XML;
          * @TODO: Need to use ObjectManager instead 'new'.
          * On this moment we have next bug MAGETWO-4274 which blocker for this key.
          */
-        $this->_model = new Magento_Core_Model_Config_Element($xml);
+        $this->_model = new \Magento\Core\Model\Config\Element($xml);
     }
 
     public function testIs()
@@ -61,8 +63,8 @@ XML;
 
     public function testGetClassName()
     {
-        $this->assertEquals('Magento_Catalog_Model_Observer', $this->_model->class_test->getClassName());
-        $this->assertEquals('Magento_Catalog_Model_Observer', $this->_model->model_test->getClassName());
+        $this->assertEquals('Magento\Catalog\Model\Observer', $this->_model->class_test->getClassName());
+        $this->assertEquals('Magento\Catalog\Model\Observer', $this->_model->model_test->getClassName());
         $this->assertFalse($this->_model->no_classname_test->getClassName());
     }
 }

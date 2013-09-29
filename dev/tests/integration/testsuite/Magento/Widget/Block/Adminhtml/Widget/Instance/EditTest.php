@@ -9,10 +9,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\Widget\Block\Adminhtml\Widget\Instance;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Widget_Block_Adminhtml_Widget_Instance_EditTest extends PHPUnit_Framework_TestCase
+class EditTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @magentoAppIsolation enabled
@@ -20,27 +22,27 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_EditTest extends PHPUnit_Fr
      */
     public function testConstruct()
     {
-        $type = 'Magento_Catalog_Block_Product_Widget_New';
-        $theme = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Core_Model_View_DesignInterface')
+        $type = 'Magento\Catalog\Block\Product\Widget\NewWidget';
+        $theme = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Core\Model\View\DesignInterface')
             ->setDefaultDesignTheme()
             ->getDesignTheme();
 
-        /** @var $widgetInstance Magento_Widget_Model_Widget_Instance */
-        $widgetInstance = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Widget_Model_Widget_Instance');
+        /** @var $widgetInstance \Magento\Widget\Model\Widget\Instance */
+        $widgetInstance = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Widget\Model\Widget\Instance');
         $widgetInstance
             ->setType($type)
             ->setThemeId($theme->getId())
             ->save();
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $objectManager->get('Magento_Core_Model_Registry')->register('current_widget_instance', $widgetInstance);
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $objectManager->get('Magento\Core\Model\Registry')->register('current_widget_instance', $widgetInstance);
 
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Controller_Request_Http')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Controller\Request\Http')
             ->setParam('instance_id', $widgetInstance->getId());
-        $block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
-            ->createBlock('Magento_Widget_Block_Adminhtml_Widget_Instance_Edit', 'widget');
+        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            ->createBlock('Magento\Widget\Block\Adminhtml\Widget\Instance\Edit', 'widget');
         $this->assertArrayHasKey('widget-delete_button', $block->getLayout()->getAllBlocks());
     }
 }

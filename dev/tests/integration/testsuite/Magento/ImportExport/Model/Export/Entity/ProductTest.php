@@ -9,10 +9,12 @@
  * @license     {license_link}
  */
 
-class Magento_ImportExport_Model_Export_Entity_ProductTest extends PHPUnit_Framework_TestCase
+namespace Magento\ImportExport\Model\Export\Entity;
+
+class ProductTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_ImportExport_Model_Export_Entity_Product
+     * @var \Magento\ImportExport\Model\Export\Entity\Product
      */
     protected $_model;
 
@@ -48,8 +50,8 @@ class Magento_ImportExport_Model_Export_Entity_ProductTest extends PHPUnit_Frame
     {
         parent::setUp();
 
-        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_ImportExport_Model_Export_Entity_Product');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\ImportExport\Model\Export\Entity\Product');
     }
 
     /**
@@ -57,21 +59,21 @@ class Magento_ImportExport_Model_Export_Entity_ProductTest extends PHPUnit_Frame
      */
     public function testExport()
     {
-        $this->_model->setWriter(Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_ImportExport_Model_Export_Adapter_Csv'));
+        $this->_model->setWriter(\Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\ImportExport\Model\Export\Adapter\Csv'));
         $this->assertNotEmpty($this->_model->export());
     }
 
     /**
      * Verify that all stock item attribute values are exported (aren't equal to empty string)
      *
-     * @covers Magento_ImportExport_Model_Export_Entity_Product::export
+     * @covers \Magento\ImportExport\Model\Export\Entity\Product::export
      * @magentoDataFixture Magento/ImportExport/_files/product.php
      */
     public function testExportStockItemAttributesAreFilled()
     {
         $writerMock = $this->getMockForAbstractClass(
-            'Magento_ImportExport_Model_Export_Adapter_Abstract',
+            'Magento\ImportExport\Model\Export\Adapter\AbstractAdapter',
             array(),
             '',
             true,

@@ -5,21 +5,23 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Catalog_Model_ProductTypes_Config_Converter implements Magento_Config_ConverterInterface
+namespace Magento\Catalog\Model\ProductTypes\Config;
+
+class Converter implements \Magento\Config\ConverterInterface
 {
     /**
      * Convert dom node tree to array
      *
-     * @param DOMDocument $source
+     * @param \DOMDocument $source
      * @return array
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      *
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function convert($source)
     {
         $output = array();
-        $xpath = new DOMXPath($source);
+        $xpath = new \DOMXPath($source);
         $types = $xpath->evaluate('/config/type');
         /** @var $typeNode DOMNode */
         foreach ($types as $typeNode) {
@@ -85,7 +87,7 @@ class Magento_Catalog_Model_ProductTypes_Config_Converter implements Magento_Con
      * @param mixed $default
      * @return null|string
      */
-    protected function _getAttributeValue(DOMNode $input, $attributeName, $default = null)
+    protected function _getAttributeValue(\DOMNode $input, $attributeName, $default = null)
     {
         $node = $input->attributes->getNamedItem($attributeName);
         return $node ? $node->nodeValue : $default;

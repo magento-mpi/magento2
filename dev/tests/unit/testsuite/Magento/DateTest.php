@@ -10,25 +10,27 @@
  */
 
 /**
- * Magento_Date test case
+ * \Magento\Date test case
  */
-class Magento_DateTest extends PHPUnit_Framework_TestCase
+namespace Magento;
+
+class DateTest extends \PHPUnit_Framework_TestCase
 {
     public function testToTimestamp()
     {
-        $date = new Zend_Date();
-        $this->assertEquals($date->getTimestamp(), Magento_Date::toTimestamp($date));
+        $date = new \Zend_Date();
+        $this->assertEquals($date->getTimestamp(), \Magento\Date::toTimestamp($date));
 
-        $this->assertEquals(time(), Magento_Date::toTimestamp(true));
+        $this->assertEquals(time(), \Magento\Date::toTimestamp(true));
 
         $date = '2012-07-19 16:52';
-        $this->assertEquals(strtotime($date), Magento_Date::toTimestamp($date));
+        $this->assertEquals(strtotime($date), \Magento\Date::toTimestamp($date));
     }
 
     public function testNow()
     {
-        $this->assertEquals(date(Magento_Date::DATE_PHP_FORMAT), Magento_Date::now(true));
-        $this->assertEquals(date(Magento_Date::DATETIME_PHP_FORMAT), Magento_Date::now(false));
+        $this->assertEquals(date(\Magento\Date::DATE_PHP_FORMAT), \Magento\Date::now(true));
+        $this->assertEquals(date(\Magento\Date::DATETIME_PHP_FORMAT), \Magento\Date::now(false));
     }
 
     /**
@@ -39,7 +41,7 @@ class Magento_DateTest extends PHPUnit_Framework_TestCase
      */
     public function testFormatDate($date, $includeTime, $expectedFormat, $expectedResult = null)
     {
-        $actual = Magento_Date::formatDate($date, $includeTime);
+        $actual = \Magento\Date::formatDate($date, $includeTime);
         if ($expectedFormat != '') {
             $expectedResult = date($expectedFormat);
         } else {
@@ -57,7 +59,7 @@ class Magento_DateTest extends PHPUnit_Framework_TestCase
     {
         // Take care when calling date here as it can be called much earlier than when testFormatDate
         // executes thus causing a discrepancy in the actual vs expected time. See MAGETWO-10296
-        $date = new Zend_Date();
+        $date = new \Zend_Date();
         return array(
             'null' => array(null, false, ''),
             'null including Time' => array(null, true, ''),

@@ -11,36 +11,38 @@
 /**
  * Wishlist item management column (copy, move, etc.)
  */
-class Magento_MultipleWishlist_Block_Customer_Wishlist_Item_Column_Management
-    extends Magento_Wishlist_Block_Customer_Wishlist_Item_Column
+namespace Magento\MultipleWishlist\Block\Customer\Wishlist\Item\Column;
+
+class Management
+    extends \Magento\Wishlist\Block\Customer\Wishlist\Item\Column
 {
     /**
      * Customer session
      *
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_Wishlist_Helper_Data $wishlistData
-     * @param Magento_Tax_Helper_Data $taxData
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Customer_Model_Session $customerSession
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Wishlist\Helper\Data $wishlistData
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Customer\Model\Session $customerSession
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_Wishlist_Helper_Data $wishlistData,
-        Magento_Tax_Helper_Data $taxData,
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Customer_Model_Session $customerSession,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Wishlist\Helper\Data $wishlistData,
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Customer\Model\Session $customerSession,
         array $data = array()
     ) {
         $this->_customerSession = $customerSession;
@@ -60,7 +62,7 @@ class Magento_MultipleWishlist_Block_Customer_Wishlist_Item_Column_Management
     /**
      * Retrieve current customer wishlist collection
      *
-     * @return Magento_Wishlist_Model_Resource_Wishlist_Collection
+     * @return \Magento\Wishlist\Model\Resource\Wishlist\Collection
      */
     public function getWishlists()
     {
@@ -70,7 +72,7 @@ class Magento_MultipleWishlist_Block_Customer_Wishlist_Item_Column_Management
     /**
      * Retrieve default wishlist for current customer
      *
-     * @return Magento_Wishlist_Model_Wishlist
+     * @return \Magento\Wishlist\Model\Wishlist
      */
     public function getDefaultWishlist()
     {
@@ -80,7 +82,7 @@ class Magento_MultipleWishlist_Block_Customer_Wishlist_Item_Column_Management
     /**
      * Retrieve current wishlist
      *
-     * @return Magento_Wishlist_Model_Wishlist
+     * @return \Magento\Wishlist\Model\Wishlist
      */
     public function getCurrentWishlist()
     {
@@ -90,10 +92,10 @@ class Magento_MultipleWishlist_Block_Customer_Wishlist_Item_Column_Management
     /**
      * Check whether user multiple wishlist limit reached
      *
-     * @param Magento_Wishlist_Model_Resource_Wishlist_Collection $wishlists
+     * @param \Magento\Wishlist\Model\Resource\Wishlist\Collection $wishlists
      * @return bool
      */
-    public function canCreateWishlists(Magento_Wishlist_Model_Resource_Wishlist_Collection $wishlists)
+    public function canCreateWishlists(\Magento\Wishlist\Model\Resource\Wishlist\Collection $wishlists)
     {
         $customerId = $this->_customerSession->getCustomerId();
         return !$this->_wishlistData->isWishlistLimitReached($wishlists) && $customerId;

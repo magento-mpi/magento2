@@ -8,30 +8,32 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model;
+
+class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Config
+     * @var \Magento\Core\Model\Config
      */
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_configScopeMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_objectManagerMock;
 
     /**
-     * @var Magento_Core_Model_ModuleListInterface
+     * @var \Magento\Core\Model\ModuleListInterface
      */
     protected $_moduleListMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_sectionPoolMock;
 
@@ -57,16 +59,16 @@ class Magento_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
             'frontName' => 'backend'
         ));
 
-        $configBase = new Magento_Core_Model_Config_Base($xml);
-        $this->_objectManagerMock = $this->getMock('Magento_Core_Model_ObjectManager', array(), array(), '', false);
-        $configStorageMock = $this->getMock('Magento_Core_Model_Config_StorageInterface');
+        $configBase = new \Magento\Core\Model\Config\Base($xml);
+        $this->_objectManagerMock = $this->getMock('Magento\Core\Model\ObjectManager', array(), array(), '', false);
+        $configStorageMock = $this->getMock('Magento\Core\Model\Config\StorageInterface');
         $configStorageMock->expects($this->any())->method('getConfiguration')->will($this->returnValue($configBase));
-        $modulesReaderMock = $this->getMock('Magento_Core_Model_Config_Modules_Reader', array(), array(), '', false);
-        $this->_configScopeMock = $this->getMock('Magento_Config_ScopeInterface');
-        $this->_moduleListMock = $this->getMock('Magento_Core_Model_ModuleListInterface');
-        $this->_sectionPoolMock = $this->getMock('Magento_Core_Model_Config_SectionPool', array(), array(), '', false);
+        $modulesReaderMock = $this->getMock('Magento\Core\Model\Config\Modules\Reader', array(), array(), '', false);
+        $this->_configScopeMock = $this->getMock('Magento\Config\ScopeInterface');
+        $this->_moduleListMock = $this->getMock('Magento\Core\Model\ModuleListInterface');
+        $this->_sectionPoolMock = $this->getMock('Magento\Core\Model\Config\SectionPool', array(), array(), '', false);
 
-        $this->_model = new Magento_Core_Model_Config(
+        $this->_model = new \Magento\Core\Model\Config(
             $this->_objectManagerMock,
             $configStorageMock,
             $modulesReaderMock,
@@ -87,7 +89,7 @@ class Magento_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
     public function testGetNode()
     {
         $this->assertInstanceOf(
-            'Magento_Core_Model_Config_Element',
+            'Magento\Core\Model\Config\Element',
             $this->_model->getNode('default/first/custom/node')
         );
     }
@@ -98,7 +100,7 @@ class Magento_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
         $scopeCode = null;
         $value = 'test';
         $path = 'test/path';
-        $sectionMock = $this->getMock('Magento_Core_Model_Config_Data', array(), array(), '', false);
+        $sectionMock = $this->getMock('Magento\Core\Model\Config\Data', array(), array(), '', false);
         $this->_sectionPoolMock->expects($this->once())
             ->method('getSection')
             ->with($scope, $scopeCode)
@@ -114,7 +116,7 @@ class Magento_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
         $path = 'test/path';
         $scope = 'default';
         $scopeCode = null;
-        $sectionMock = $this->getMock('Magento_Core_Model_Config_Data', array(), array(), '', false);
+        $sectionMock = $this->getMock('Magento\Core\Model\Config\Data', array(), array(), '', false);
         $this->_sectionPoolMock->expects($this->once())->method('getSection')->with($scope, $scopeCode)
             ->will($this->returnValue($sectionMock));
         $sectionMock->expects($this->once())

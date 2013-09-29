@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Install_Model_Installer_ConfigTest extends PHPUnit_Framework_TestCase
+namespace Magento\Install\Model\Installer;
+
+class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var string
@@ -17,7 +19,7 @@ class Magento_Install_Model_Installer_ConfigTest extends PHPUnit_Framework_TestC
     protected static $_tmpConfigFile = '';
 
     /**
-     * @var Magento_Install_Model_Installer_Config
+     * @var \Magento\Install\Model\Installer\Config
      */
     protected $_model;
 
@@ -35,10 +37,10 @@ class Magento_Install_Model_Installer_ConfigTest extends PHPUnit_Framework_TestC
 
     protected function setUp()
     {
-        $this->_model = new Magento_Install_Model_Installer_Config(
-            $this->getMock('Magento_Core_Controller_Request_Http', array(), array(), '', false),
-            new Magento_Core_Model_Dir(__DIR__, array(), array(Magento_Core_Model_Dir::CONFIG => TESTS_TEMP_DIR)),
-            new Magento_Filesystem(new Magento_Filesystem_Adapter_Local())
+        $this->_model = new \Magento\Install\Model\Installer\Config(
+            $this->getMock('Magento\Core\Controller\Request\Http', array(), array(), '', false),
+            new \Magento\Core\Model\Dir(__DIR__, array(), array(\Magento\Core\Model\Dir::CONFIG => TESTS_TEMP_DIR)),
+            new \Magento\Filesystem(new \Magento\Filesystem\Adapter\Local())
         );
     }
 
@@ -49,7 +51,7 @@ class Magento_Install_Model_Installer_ConfigTest extends PHPUnit_Framework_TestC
 
     public function testReplaceTmpInstallDate()
     {
-        $datePlaceholder = Magento_Install_Model_Installer_Config::TMP_INSTALL_DATE_VALUE;
+        $datePlaceholder = \Magento\Install\Model\Installer\Config::TMP_INSTALL_DATE_VALUE;
         $fixtureConfigData = "<date>$datePlaceholder</date>";
         $expectedConfigData = '<date>Sat, 19 Jan 2013 18:50:39 -0800</date>';
 
@@ -62,7 +64,7 @@ class Magento_Install_Model_Installer_ConfigTest extends PHPUnit_Framework_TestC
 
     public function testReplaceTmpEncryptKey()
     {
-        $keyPlaceholder = Magento_Install_Model_Installer_Config::TMP_ENCRYPT_KEY_VALUE;
+        $keyPlaceholder = \Magento\Install\Model\Installer\Config::TMP_ENCRYPT_KEY_VALUE;
         $fixtureConfigData = "<key>$keyPlaceholder</key>";
         $expectedConfigData = '<key>3c7cf2e909fd5e2268a6e1539ae3c835</key>';
 

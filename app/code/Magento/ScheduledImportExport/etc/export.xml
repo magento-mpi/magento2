@@ -8,5 +8,5 @@
  */
 -->
 <config>
-    <entity name="customer_finance" label="Customer Finances" model="Magento_ScheduledImportExport_Model_Export_Entity_Customer_Finance" />
+    <entity name="customer_finance" label="Customer Finances" model="Magento\ScheduledImportExport\Model\Export\Entity\Customer\Finance" />
 </config>

@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Boolean extends Magento_Data_Form_Element_Select
+namespace Magento\Adminhtml\Block\Catalog\Product\Helper\Form;
+
+class Boolean extends \Magento\Data\Form\Element\Select
 {
     protected function _construct()
     {

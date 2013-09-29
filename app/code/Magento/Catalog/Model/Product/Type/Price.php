@@ -15,7 +15,9 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Product_Type_Price
+namespace Magento\Catalog\Model\Product\Type;
+
+class Price
 {
     const CACHE_TAG = 'PRODUCT_PRICE';
 
@@ -24,15 +26,15 @@ class Magento_Catalog_Model_Product_Type_Price
     /**
      * Core event manager proxy
      *
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventManager = null;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param \Magento\Core\Model\Event\Manager $eventManager
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager
+        \Magento\Core\Model\Event\Manager $eventManager
     ) {
         $this->_eventManager = $eventManager;
     }
@@ -50,7 +52,7 @@ class Magento_Catalog_Model_Product_Type_Price
     /**
      * Get base price with apply Group, Tier, Special prises
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @param float|null $qty
      *
      * @return float
@@ -68,7 +70,7 @@ class Magento_Catalog_Model_Product_Type_Price
      * Retrieve product final price
      *
      * @param float|null $qty
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @return float
      */
     public function getFinalPrice($qty = null, $product)
@@ -98,7 +100,7 @@ class Magento_Catalog_Model_Product_Type_Price
     /**
      * Apply group price for product
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @param float $finalPrice
      * @return float
      */
@@ -114,7 +116,7 @@ class Magento_Catalog_Model_Product_Type_Price
     /**
      * Get product group price
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @return float
      */
     public function getGroupPrice($product)
@@ -150,7 +152,7 @@ class Magento_Catalog_Model_Product_Type_Price
     /**
      * Apply tier price for product if not return price that was before
      *
-     * @param   Magento_Catalog_Model_Product $product
+     * @param   \Magento\Catalog\Model\Product $product
      * @param   float $qty
      * @param   float $finalPrice
      * @return  float
@@ -172,12 +174,12 @@ class Magento_Catalog_Model_Product_Type_Price
      * Get product tier price by qty
      *
      * @param   float $qty
-     * @param   Magento_Catalog_Model_Product $product
+     * @param   \Magento\Catalog\Model\Product $product
      * @return  float
      */
     public function getTierPrice($qty = null, $product)
     {
-        $allGroups = Magento_Customer_Model_Group::CUST_GROUP_ALL;
+        $allGroups = \Magento\Customer\Model\Group::CUST_GROUP_ALL;
         $prices = $product->getData('tier_price');
 
         if (is_null($prices)) {
@@ -257,13 +259,13 @@ class Magento_Catalog_Model_Product_Type_Price
         if ($product->getCustomerGroupId()) {
             return $product->getCustomerGroupId();
         }
-        return Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerGroupId();
+        return \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerGroupId();
     }
 
     /**
      * Apply special price for product if not return price that was before
      *
-     * @param   Magento_Catalog_Model_Product $product
+     * @param   \Magento\Catalog\Model\Product $product
      * @param   float $finalPrice
      * @return  float
      */
@@ -277,7 +279,7 @@ class Magento_Catalog_Model_Product_Type_Price
     /**
      * Count how many tier prices we have for the product
      *
-     * @param   Magento_Catalog_Model_Product $product
+     * @param   \Magento\Catalog\Model\Product $product
      * @return  int
      */
     public function getTierPriceCount($product)
@@ -290,7 +292,7 @@ class Magento_Catalog_Model_Product_Type_Price
      * Get formatted by currency tier price
      *
      * @param   float $qty
-     * @param   Magento_Catalog_Model_Product $product
+     * @param   \Magento\Catalog\Model\Product $product
      * @return  array || float
      */
     public function getFormatedTierPrice($qty=null, $product)
@@ -298,13 +300,13 @@ class Magento_Catalog_Model_Product_Type_Price
         $price = $product->getTierPrice($qty);
         if (is_array($price)) {
             foreach ($price as $index => $value) {
-                $price[$index]['formated_price'] = Mage::app()->getStore()->convertPrice(
+                $price[$index]['formated_price'] = \Mage::app()->getStore()->convertPrice(
                         $price[$index]['website_price'], true
                 );
             }
         }
         else {
-            $price = Mage::app()->getStore()->formatPrice($price);
+            $price = \Mage::app()->getStore()->formatPrice($price);
         }
 
         return $price;
@@ -313,18 +315,18 @@ class Magento_Catalog_Model_Product_Type_Price
     /**
      * Get formatted by currency product price
      *
-     * @param   Magento_Catalog_Model_Product $product
+     * @param   \Magento\Catalog\Model\Product $product
      * @return  array || float
      */
     public function getFormatedPrice($product)
     {
-        return Mage::app()->getStore()->formatPrice($product->getFinalPrice());
+        return \Mage::app()->getStore()->formatPrice($product->getFinalPrice());
     }
 
     /**
      * Apply options price
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @param int $qty
      * @param float $finalPrice
      * @return float
@@ -364,24 +366,24 @@ class Magento_Catalog_Model_Product_Type_Price
     public static function calculatePrice($basePrice, $specialPrice, $specialPriceFrom, $specialPriceTo,
             $rulePrice = false, $wId = null, $gId = null, $productId = null)
     {
-        Magento_Profiler::start('__PRODUCT_CALCULATE_PRICE__');
-        if ($wId instanceof Magento_Core_Model_Store) {
+        \Magento\Profiler::start('__PRODUCT_CALCULATE_PRICE__');
+        if ($wId instanceof \Magento\Core\Model\Store) {
             $sId = $wId->getId();
             $wId = $wId->getWebsiteId();
         } else {
-            $sId = Mage::app()->getWebsite($wId)->getDefaultGroup()->getDefaultStoreId();
+            $sId = \Mage::app()->getWebsite($wId)->getDefaultGroup()->getDefaultStoreId();
         }
 
         $finalPrice = $basePrice;
-        if ($gId instanceof Magento_Customer_Model_Group) {
+        if ($gId instanceof \Magento\Customer\Model\Group) {
             $gId = $gId->getId();
         }
 
         $finalPrice = self::calculateSpecialPrice($finalPrice, $specialPrice, $specialPriceFrom, $specialPriceTo, $sId);
 
         if ($rulePrice === false) {
-            $storeTimestamp = Mage::app()->getLocale()->storeTimeStamp($sId);
-            $rulePrice = Mage::getResourceModel('Magento_CatalogRule_Model_Resource_Rule')
+            $storeTimestamp = \Mage::app()->getLocale()->storeTimeStamp($sId);
+            $rulePrice = \Mage::getResourceModel('Magento\CatalogRule\Model\Resource\Rule')
                 ->getRulePrice($storeTimestamp, $wId, $gId, $productId);
         }
 
@@ -390,7 +392,7 @@ class Magento_Catalog_Model_Product_Type_Price
         }
 
         $finalPrice = max($finalPrice, 0);
-        Magento_Profiler::stop('__PRODUCT_CALCULATE_PRICE__');
+        \Magento\Profiler::stop('__PRODUCT_CALCULATE_PRICE__');
         return $finalPrice;
     }
 
@@ -408,7 +410,7 @@ class Magento_Catalog_Model_Product_Type_Price
             $store = null)
     {
         if (!is_null($specialPrice) && $specialPrice != false) {
-            if (Mage::app()->getLocale()->isStoreDateInInterval($store, $specialPriceFrom, $specialPriceTo)) {
+            if (\Mage::app()->getLocale()->isStoreDateInInterval($store, $specialPriceFrom, $specialPriceTo)) {
                 $finalPrice     = min($finalPrice, $specialPrice);
             }
         }

@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Customer_Model_Address_Config_XsdTest extends PHPUnit_Framework_TestCase
+namespace Magento\Customer\Model\Address\Config;
+
+class XsdTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var string
@@ -27,7 +29,7 @@ class Magento_Customer_Model_Address_Config_XsdTest extends PHPUnit_Framework_Te
      */
     public function testExemplarXml($fixtureXml, array $expectedErrors)
     {
-        $dom = new Magento_Config_Dom($fixtureXml, array(), null, '%message%');
+        $dom = new \Magento\Config\Dom($fixtureXml, array(), null, '%message%');
         $actualResult = $dom->validate($this->_schemaFile, $actualErrors);
         $this->assertEquals(empty($expectedErrors), $actualResult);
         $this->assertEquals($expectedErrors, $actualErrors);

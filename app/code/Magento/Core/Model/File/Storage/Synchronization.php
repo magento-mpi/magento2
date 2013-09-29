@@ -5,29 +5,31 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Core_Model_File_Storage_Synchronization
+namespace Magento\Core\Model\File\Storage;
+
+class Synchronization
 {
     /**
      * Database storage factory
      *
-     * @var Magento_Core_Model_File_Storage_DatabaseFactory
+     * @var \Magento\Core\Model\File\Storage\DatabaseFactory
      */
     protected $_storageFactory;
 
     /**
      * File stream handler
      *
-     * @var Magento_Io_File
+     * @var \Magento\Io\File
      */
     protected $_streamFactory;
 
     /**
-     * @param Magento_Core_Model_File_Storage_DatabaseFactory $storageFactory
-     * @param Magento_Filesystem_Stream_LocalFactory $streamFactory
+     * @param \Magento\Core\Model\File\Storage\DatabaseFactory $storageFactory
+     * @param \Magento\Filesystem\Stream\LocalFactory $streamFactory
      */
     public function __construct(
-        Magento_Core_Model_File_Storage_DatabaseFactory $storageFactory,
-        Magento_Filesystem_Stream_LocalFactory $streamFactory
+        \Magento\Core\Model\File\Storage\DatabaseFactory $storageFactory,
+        \Magento\Filesystem\Stream\LocalFactory $streamFactory
     ) {
         $this->_storageFactory = $storageFactory;
         $this->_streamFactory = $streamFactory;
@@ -38,23 +40,23 @@ class Magento_Core_Model_File_Storage_Synchronization
      *
      * @param string $relativeFileName
      * @param string $filePath
-     * @throws LogicException
+     * @throws \LogicException
      */
     public function synchronize($relativeFileName, $filePath)
     {
-        /** @var $storage Magento_Core_Model_File_Storage_Database */
+        /** @var $storage \Magento\Core\Model\File\Storage\Database */
         $storage = $this->_storageFactory->create();
         try {
             $storage->loadByFilename($relativeFileName);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
         }
         if ($storage->getId()) {
             $directory = dirname($filePath);
             if (!is_dir($directory) && !mkdir($directory, 0777, true)) {
-                throw new LogicException('Could not create directory');
+                throw new \LogicException('Could not create directory');
             }
 
-            /** @var Magento_Filesystem_StreamInterface $stream */
+            /** @var \Magento\Filesystem\StreamInterface $stream */
             $stream = $this->_streamFactory->create(array('path' => $filePath));
             try{
                 $stream->open('w');
@@ -62,7 +64,7 @@ class Magento_Core_Model_File_Storage_Synchronization
                 $stream->write($storage->getContent());
                 $stream->unlock();
                 $stream->close();
-            } catch (Magento_Filesystem_Exception $e) {
+            } catch (\Magento\Filesystem\FilesystemException $e) {
                 $stream->close();
             }
         }

@@ -15,7 +15,9 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Helper_Category_Flat extends Magento_Catalog_Helper_Flat_Abstract
+namespace Magento\Catalog\Helper\Category;
+
+class Flat extends \Magento\Catalog\Helper\Flat\AbstractFlat
 {
     /**
      * Catalog Category Flat Is Enabled Config
@@ -37,24 +39,24 @@ class Magento_Catalog_Helper_Category_Flat extends Magento_Catalog_Helper_Flat_A
     /**
      * Store catalog Category Flat index process instance
      *
-     * @var Magento_Index_Model_Process|null
+     * @var \Magento\Index\Model\Process|null
      */
     protected $_process = null;
 
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      */
     public function __construct(
-        Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\Store\Config $coreStoreConfig
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($context);
@@ -79,13 +81,13 @@ class Magento_Catalog_Helper_Category_Flat extends Magento_Catalog_Helper_Flat_A
      */
     public function isBuilt()
     {
-        return Mage::getResourceSingleton('Magento_Catalog_Model_Resource_Category_Flat')->isBuilt();
+        return \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Category\Flat')->isBuilt();
     }
 
     /**
      * Check if Catalog Category Flat Data has been initialized
      *
-     * @deprecated after 1.7.0.0 use Magento_Catalog_Helper_Category_Flat::isBuilt() instead
+     * @deprecated after 1.7.0.0 use \Magento\Catalog\Helper\Category\Flat::isBuilt() instead
      *
      * @return bool
      */

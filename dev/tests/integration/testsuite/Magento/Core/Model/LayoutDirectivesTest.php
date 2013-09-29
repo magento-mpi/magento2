@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_LayoutDirectivesTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model;
+
+class LayoutDirectivesTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Test scheduled operations in the rendering of elements
@@ -40,12 +42,12 @@ class Magento_Core_Model_LayoutDirectivesTest extends PHPUnit_Framework_TestCase
     public function testGetBlockUnscheduled()
     {
         $layout = $this->_getLayoutModel('get_block.xml');
-        $this->assertInstanceOf('Magento_Core_Block_Text', $layout->getBlock('block1'));
-        $this->assertInstanceOf('Magento_Core_Block_Text', $layout->getBlock('block2'));
+        $this->assertInstanceOf('Magento\Core\Block\Text', $layout->getBlock('block1'));
+        $this->assertInstanceOf('Magento\Core\Block\Text', $layout->getBlock('block2'));
     }
 
     /**
-     * @expectedException Magento_Exception
+     * @expectedException \Magento\Exception
      */
     public function testGetBlockUnscheduledException()
     {
@@ -76,8 +78,8 @@ class Magento_Core_Model_LayoutDirectivesTest extends PHPUnit_Framework_TestCase
     public function testLayoutObjectArgumentsDirective()
     {
         $layout = $this->_getLayoutModel('arguments_object_type.xml');
-        $this->assertInstanceOf('Magento_Data_Collection_Db', $layout->getBlock('block_with_object_args')->getOne());
-        $this->assertInstanceOf('Magento_Data_Collection_Db',
+        $this->assertInstanceOf('Magento\Data\Collection\Db', $layout->getBlock('block_with_object_args')->getOne());
+        $this->assertInstanceOf('Magento\Data\Collection\Db',
             $layout->getBlock('block_with_object_args')->getTwo()
         );
         $this->assertEquals(3, $layout->getBlock('block_with_object_args')->getThree());
@@ -104,7 +106,7 @@ class Magento_Core_Model_LayoutDirectivesTest extends PHPUnit_Framework_TestCase
         $expectedSimpleData = 2;
 
         $dataSource = $layout->getBlock('block_with_object_updater_args')->getOne();
-        $this->assertInstanceOf('Magento_Data_Collection', $dataSource);
+        $this->assertInstanceOf('Magento\Data\Collection', $dataSource);
         $this->assertEquals($expectedObjectData, $dataSource->getUpdaterCall());
         $this->assertEquals($expectedSimpleData, $layout->getBlock('block_with_object_updater_args')->getTwo());
     }
@@ -171,7 +173,7 @@ class Magento_Core_Model_LayoutDirectivesTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Magento_Exception
+     * @expectedException \Magento\Exception
      */
     public function testMoveBroken()
     {
@@ -179,7 +181,7 @@ class Magento_Core_Model_LayoutDirectivesTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Magento_Exception
+     * @expectedException \Magento\Exception
      */
     public function testMoveAliasBroken()
     {
@@ -187,7 +189,7 @@ class Magento_Core_Model_LayoutDirectivesTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Magento_Exception
+     * @expectedException \Magento\Exception
      */
     public function testRemoveBroken()
     {
@@ -223,16 +225,16 @@ class Magento_Core_Model_LayoutDirectivesTest extends PHPUnit_Framework_TestCase
      * Prepare a layout model with pre-loaded fixture of an update XML
      *
      * @param string $fixtureFile
-     * @return Magento_Core_Model_Layout
+     * @return \Magento\Core\Model\Layout
      */
     protected function _getLayoutModel($fixtureFile)
     {
-        /** @var $layout Magento_Core_Model_Layout */
-        $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout');
-        /** @var $xml Magento_Core_Model_Layout_Element */
+        /** @var $layout \Magento\Core\Model\Layout */
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout');
+        /** @var $xml \Magento\Core\Model\Layout\Element */
         $xml = simplexml_load_file(
             __DIR__ . "/_files/layout_directives_test/{$fixtureFile}",
-            'Magento_Core_Model_Layout_Element'
+            'Magento\Core\Model\Layout\Element'
         );
         $layout->loadString($xml->asXml());
         $layout->generateElements();
@@ -246,8 +248,8 @@ class Magento_Core_Model_LayoutDirectivesTest extends PHPUnit_Framework_TestCase
     {
         $layout = $this->_getLayoutModel('ifconfig.xml');
         $this->assertFalse($layout->getBlock('block1'));
-        $this->assertInstanceOf('Magento_Core_Block', $layout->getBlock('block2'));
-        $this->assertInstanceOf('Magento_Core_Block', $layout->getBlock('block3'));
+        $this->assertInstanceOf('Magento\Core\Block', $layout->getBlock('block2'));
+        $this->assertInstanceOf('Magento\Core\Block', $layout->getBlock('block3'));
         $this->assertFalse($layout->getBlock('block4'));
     }
 }

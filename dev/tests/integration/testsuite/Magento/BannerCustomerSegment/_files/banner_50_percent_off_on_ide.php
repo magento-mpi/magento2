@@ -9,22 +9,22 @@
 require __DIR__ . '/../../../Magento/SalesRule/_files/cart_rule_50_percent_off.php';
 require __DIR__ . '/../../../Magento/CustomerSegment/_files/segment_developers.php';
 
-/** @var Magento_SalesRule_Model_Rule $rule */
-$rule = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_SalesRule_Model_Rule');
+/** @var \Magento\SalesRule\Model\Rule $rule */
+$rule = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\SalesRule\Model\Rule');
 $rule->load('50% Off on Large Orders', 'name');
 
-/** @var $segment Magento_CustomerSegment_Model_Segment */
-$segment = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_CustomerSegment_Model_Segment');
+/** @var $segment \Magento\CustomerSegment\Model\Segment */
+$segment = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\CustomerSegment\Model\Segment');
 $segment->load('Developers', 'name');
 
-/** @var Magento_Banner_Model_Banner $banner */
-$banner = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Banner_Model_Banner');
+/** @var \Magento\Banner\Model\Banner $banner */
+$banner = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Banner\Model\Banner');
 $banner->setData(array(
     'name' => 'Get 50% Off on Development IDEs',
-    'is_enabled' => Magento_Banner_Model_Banner::STATUS_ENABLED,
+    'is_enabled' => \Magento\Banner\Model\Banner::STATUS_ENABLED,
     'types' => array()/*Any Banner Type*/,
     'store_contents' => array('<img src="http://example.com/banner_50_percent_off_on_ide.png" />'),
     'banner_sales_rules' => array($rule->getId()),

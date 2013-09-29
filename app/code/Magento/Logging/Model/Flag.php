@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Logging_Model_Flag extends Magento_Core_Model_Flag
+namespace Magento\Logging\Model;
+
+class Flag extends \Magento\Core\Model\Flag
 {
     protected $_flagCode = 'log_rotation';
 

@@ -9,7 +9,9 @@
  */
 
 
-class Magento_CatalogRule_Model_Rule_Action_Product extends Magento_Rule_Model_Action_Abstract
+namespace Magento\CatalogRule\Model\Rule\Action;
+
+class Product extends \Magento\Rule\Model\Action\AbstractAction
 {
     public function loadAttributeOptions()
     {

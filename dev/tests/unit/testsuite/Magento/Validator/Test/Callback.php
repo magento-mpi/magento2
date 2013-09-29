@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Validator
+ * @package     \Magento\Validator
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -12,7 +12,9 @@
 /**
  * Class with callback for testing callbacks
  */
-class Magento_Validator_Test_Callback
+namespace Magento\Validator\Test;
+
+class Callback
 {
     const ID = 3;
 

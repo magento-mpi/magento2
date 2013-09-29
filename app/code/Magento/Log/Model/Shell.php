@@ -15,21 +15,23 @@
  * @package     Magento_Log
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Log_Model_Shell extends Magento_Core_Model_ShellAbstract
+namespace Magento\Log\Model;
+
+class Shell extends \Magento\Core\Model\AbstractShell
 {
     /**
-     * @var Magento_Log_Model_Shell_Command_Factory
+     * @var \Magento\Log\Model\Shell\Command\Factory
      */
     protected $_commandFactory;
 
     /**
-     * @param Magento_Log_Model_Shell_Command_Factory $commandFactory
-     * @param Magento_Filesystem $filesystem
+     * @param \Magento\Log\Model\Shell\Command\Factory $commandFactory
+     * @param \Magento\Filesystem $filesystem
      * @param $entryPoint
      */
     public function __construct(
-        Magento_Log_Model_Shell_Command_Factory $commandFactory,
-        Magento_Filesystem $filesystem,
+        \Magento\Log\Model\Shell\Command\Factory $commandFactory,
+        \Magento\Filesystem $filesystem,
         $entryPoint
     ) {
         parent::__construct($filesystem, $entryPoint);
@@ -39,7 +41,7 @@ class Magento_Log_Model_Shell extends Magento_Core_Model_ShellAbstract
     /**
      * Runs script
      *
-     * @return Magento_Log_Model_Shell
+     * @return \Magento\Log\Model\Shell
      */
     public function run()
     {

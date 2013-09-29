@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Dashboard_Sales extends Magento_Adminhtml_Block_Dashboard_Bar
+namespace Magento\Adminhtml\Block\Dashboard;
+
+class Sales extends \Magento\Adminhtml\Block\Dashboard\Bar
 {
     protected $_template = 'dashboard/salebar.phtml';
 

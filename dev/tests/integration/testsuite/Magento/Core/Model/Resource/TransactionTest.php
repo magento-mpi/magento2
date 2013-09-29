@@ -9,23 +9,25 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Resource_TransactionTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Resource;
+
+class TransactionTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Resource_Transaction
+     * @var \Magento\Core\Model\Resource\Transaction
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_Resource_Transaction');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Resource\Transaction');
     }
 
     public function testSaveDelete()
     {
-        $first  = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_Store_Group');
+        $first  = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Store\Group');
         $first->setData(
             array(
                 'website_id'        => 1,
@@ -34,8 +36,8 @@ class Magento_Core_Model_Resource_TransactionTest extends PHPUnit_Framework_Test
                 'default_store_id'  => 1
             )
         );
-        $second  = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_Store_Group');
+        $second  = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Store\Group');
         $second->setData(
             array(
                 'website_id'        => 1,
@@ -53,12 +55,12 @@ class Magento_Core_Model_Resource_TransactionTest extends PHPUnit_Framework_Test
         $this->assertNotEmpty($first->getId());
         $this->assertNotEmpty($second->getId());
 
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
-            ->getStore()->setId(Magento_Core_Model_AppInterface::ADMIN_STORE_ID);
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
+            ->getStore()->setId(\Magento\Core\Model\AppInterface::ADMIN_STORE_ID);
         $this->_model->delete();
 
-        $test  = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_Store_Group');
+        $test  = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Store\Group');
         $test->load($first->getId());
         $this->assertEmpty($test->getId());
     }

@@ -15,10 +15,14 @@
  * @category    Magento
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
+ */
+namespace Magento\Catalog\Model\Resource\Product\Compare\Item;
+
+/**
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Magento_Catalog_Model_Resource_Product_Compare_Item_Collection
-    extends Magento_Catalog_Model_Resource_Product_Collection
+class Collection
+    extends \Magento\Catalog\Model\Resource\Product\Collection
 {
     /**
      * Customer Filter
@@ -44,29 +48,29 @@ class Magento_Catalog_Model_Resource_Product_Compare_Item_Collection
     /**
      * Catalog product compare
      *
-     * @var Magento_Catalog_Helper_Product_Compare
+     * @var \Magento\Catalog\Helper\Product\Compare
      */
     protected $_catalogProductCompare = null;
 
     /**
-     * @param Magento_Catalog_Helper_Product_Compare $catalogProductCompare
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Catalog_Helper_Product_Flat $catalogProductFlat
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_EntityFactory $entityFactory
+     * @param \Magento\Catalog\Helper\Product\Compare $catalogProductCompare
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Catalog\Helper\Product\Flat $catalogProductFlat
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
      */
     public function __construct(
-        Magento_Catalog_Helper_Product_Compare $catalogProductCompare,
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Catalog_Helper_Product_Flat $catalogProductFlat,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Logger $logger,
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_EntityFactory $entityFactory
+        \Magento\Catalog\Helper\Product\Compare $catalogProductCompare,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Catalog\Helper\Product\Flat $catalogProductFlat,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\EntityFactory $entityFactory
     ) {
         $this->_catalogProductCompare = $catalogProductCompare;
         parent::__construct(
@@ -79,7 +83,7 @@ class Magento_Catalog_Model_Resource_Product_Compare_Item_Collection
      */
     protected function _construct()
     {
-        $this->_init('Magento_Catalog_Model_Product_Compare_Item', 'Magento_Catalog_Model_Resource_Product');
+        $this->_init('Magento\Catalog\Model\Product\Compare\Item', 'Magento\Catalog\Model\Resource\Product');
         $this->_initTables();
     }
 
@@ -87,7 +91,7 @@ class Magento_Catalog_Model_Resource_Product_Compare_Item_Collection
      * Set customer filter to collection
      *
      * @param int $customerId
-     * @return Magento_Catalog_Model_Resource_Product_Compare_Item_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Compare\Item\Collection
      */
     public function setCustomerId($customerId)
     {
@@ -100,7 +104,7 @@ class Magento_Catalog_Model_Resource_Product_Compare_Item_Collection
      * Set visitor filter to collection
      *
      * @param int $visitorId
-     * @return Magento_Catalog_Model_Resource_Product_Compare_Item_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Compare\Item\Collection
      */
     public function setVisitorId($visitorId)
     {
@@ -150,7 +154,7 @@ class Magento_Catalog_Model_Resource_Product_Compare_Item_Collection
     /**
      * Add join to select
      *
-     * @return Magento_Catalog_Model_Resource_Product_Compare_Item_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Compare\Item\Collection
      */
     public function _addJoinToSelect()
     {
@@ -192,7 +196,7 @@ class Magento_Catalog_Model_Resource_Product_Compare_Item_Collection
         }
 
         // prepare website filter
-        $websiteId    = (int)Mage::app()->getStore($this->getStoreId())->getWebsiteId();
+        $websiteId    = (int)\Mage::app()->getStore($this->getStoreId())->getWebsiteId();
         $websiteConds = array(
             'website.product_id = entity.entity_id',
             $this->getConnection()->quoteInto('website.website_id = ?', $websiteId)
@@ -259,11 +263,11 @@ class Magento_Catalog_Model_Resource_Product_Compare_Item_Collection
                     ->where('main_table.attribute_id IN(?)', $attributeIds);
                 $attributesData = $this->getConnection()->fetchAll($select);
                 if ($attributesData) {
-                    $entityType = Magento_Catalog_Model_Product::ENTITY;
-                    Mage::getSingleton('Magento_Eav_Model_Config')
+                    $entityType = \Magento\Catalog\Model\Product::ENTITY;
+                    \Mage::getSingleton('Magento\Eav\Model\Config')
                         ->importAttributesData($entityType, $attributesData);
                     foreach ($attributesData as $data) {
-                        $attribute = Mage::getSingleton('Magento_Eav_Model_Config')
+                        $attribute = \Mage::getSingleton('Magento\Eav\Model\Config')
                             ->getAttribute($entityType, $data['attribute_code']);
                         $this->_comparableAttributes[$attribute->getAttributeCode()] = $attribute;
                     }
@@ -277,7 +281,7 @@ class Magento_Catalog_Model_Resource_Product_Compare_Item_Collection
     /**
      * Load Comparable attributes
      *
-     * @return Magento_Catalog_Model_Resource_Product_Compare_Item_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Compare\Item\Collection
      */
     public function loadComparableAttributes()
     {
@@ -294,11 +298,11 @@ class Magento_Catalog_Model_Resource_Product_Compare_Item_Collection
     /**
      * Use product as collection item
      *
-     * @return Magento_Catalog_Model_Resource_Product_Compare_Item_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Compare\Item\Collection
      */
     public function useProductItem()
     {
-        $this->setObject('Magento_Catalog_Model_Product');
+        $this->setObject('Magento\Catalog\Model\Product');
 
         $this->setFlag('url_data_object', true);
         $this->setFlag('do_not_use_category_id', true);
@@ -324,11 +328,11 @@ class Magento_Catalog_Model_Resource_Product_Compare_Item_Collection
     /**
      * Clear compare items by condition
      *
-     * @return Magento_Catalog_Model_Resource_Product_Compare_Item_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Compare\Item\Collection
      */
     public function clear()
     {
-        Mage::getResourceSingleton('Magento_Catalog_Model_Resource_Product_Compare_Item')
+        \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Product\Compare\Item')
             ->clearItems($this->getVisitorId(), $this->getCustomerId());
         $this->_eventManager->dispatch('catalog_product_compare_item_collection_clear');
 

@@ -16,7 +16,9 @@
  * @package     Magento_SalesRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_SalesRule_Model_Resource_Report_Collection extends Magento_Sales_Model_Resource_Report_Collection_Abstract
+namespace Magento\SalesRule\Model\Resource\Report;
+
+class Collection extends \Magento\Sales\Model\Resource\Report\Collection\AbstractCollection
 {
     /**
      * Period format for report (day, month, year)
@@ -47,20 +49,20 @@ class Magento_SalesRule_Model_Resource_Report_Collection extends Magento_Sales_M
     protected $_rulesIdsFilter;
 
     /**
-     * @param Magento_SalesRule_Model_Resource_Report_RuleFactory $ruleFactory
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_EntityFactory $entityFactory
-     * @param Magento_Sales_Model_Resource_Report $resource
+     * @param \Magento\SalesRule\Model\Resource\Report\RuleFactory $ruleFactory
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Sales\Model\Resource\Report $resource
      */
     public function __construct(
-        Magento_SalesRule_Model_Resource_Report_RuleFactory $ruleFactory,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Logger $logger,
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_EntityFactory $entityFactory,
-        Magento_Sales_Model_Resource_Report $resource
+        \Magento\SalesRule\Model\Resource\Report\RuleFactory $ruleFactory,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Sales\Model\Resource\Report $resource
     ) {
         $this->_ruleFactory = $ruleFactory;
         $resource->init($this->_aggregationTable);
@@ -79,7 +81,7 @@ class Magento_SalesRule_Model_Resource_Report_Collection extends Magento_Sales_M
             $this->_periodFormat = $adapter->getDateFormatSql('period', '%Y-%m');
         } elseif ('year' == $this->_period) {
             $this->_periodFormat =
-                $adapter->getDateExtractSql('period', Magento_DB_Adapter_Interface::INTERVAL_YEAR);
+                $adapter->getDateExtractSql('period', \Magento\DB\Adapter\AdapterInterface::INTERVAL_YEAR);
         } else {
             $this->_periodFormat = $adapter->getDateFormatSql('period', '%Y-%m-%d');
         }
@@ -115,7 +117,7 @@ class Magento_SalesRule_Model_Resource_Report_Collection extends Magento_Sales_M
     /**
      * Add selected data
      *
-     * @return Magento_SalesRule_Model_Resource_Report_Collection
+     * @return \Magento\SalesRule\Model\Resource\Report\Collection
      */
     protected function _initSelect()
     {
@@ -136,7 +138,7 @@ class Magento_SalesRule_Model_Resource_Report_Collection extends Magento_Sales_M
      * Add filtering by rules ids
      *
      * @param array $rulesList
-     * @return Magento_SalesRule_Model_Resource_Report_Collection
+     * @return \Magento\SalesRule\Model\Resource\Report\Collection
      */
     public function addRuleFilter($rulesList)
     {
@@ -147,7 +149,7 @@ class Magento_SalesRule_Model_Resource_Report_Collection extends Magento_Sales_M
     /**
      * Apply filtering by rules ids
      *
-     * @return Magento_SalesRule_Model_Resource_Report_Collection
+     * @return \Magento\SalesRule\Model\Resource\Report\Collection
      */
     protected function _applyRulesFilter()
     {
@@ -175,7 +177,7 @@ class Magento_SalesRule_Model_Resource_Report_Collection extends Magento_Sales_M
     /**
      * Apply collection custom filter
      *
-     * @return Magento_Sales_Model_Resource_Report_Collection_Abstract
+     * @return \Magento\Sales\Model\Resource\Report\Collection\AbstractCollection
      */
     protected function _applyCustomFilter()
     {

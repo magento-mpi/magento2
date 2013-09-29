@@ -11,39 +11,41 @@
 /**
  * Review form block
  */
-class Magento_Rss_Block_Order_Status extends Magento_Core_Block_Template
+namespace Magento\Rss\Block\Order;
+
+class Status extends \Magento\Core\Block\Template
 {
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry;
 
     /**
-     * @var Magento_Rss_Model_RssFactory
+     * @var \Magento\Rss\Model\RssFactory
      */
     protected $_rssFactory;
 
     /**
-     * @var Magento_Rss_Model_Resource_OrderFactory
+     * @var \Magento\Rss\Model\Resource\OrderFactory
      */
     protected $_orderFactory;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Rss_Model_RssFactory $rssFactory
-     * @param Magento_Rss_Model_Resource_OrderFactory $orderFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Rss\Model\RssFactory $rssFactory
+     * @param \Magento\Rss\Model\Resource\OrderFactory $orderFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Rss_Model_RssFactory $rssFactory,
-        Magento_Rss_Model_Resource_OrderFactory $orderFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Rss\Model\RssFactory $rssFactory,
+        \Magento\Rss\Model\Resource\OrderFactory $orderFactory,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -63,7 +65,7 @@ class Magento_Rss_Block_Order_Status extends Magento_Core_Block_Template
 
     protected function _toHtml()
     {
-        /** @var $rssObj Magento_Rss_Model_Rss */
+        /** @var $rssObj \Magento\Rss\Model\Rss */
         $rssObj = $this->_rssFactory->create();
         $order = $this->_coreRegistry->registry('current_order');
         if (!$order) {
@@ -77,7 +79,7 @@ class Magento_Rss_Block_Order_Status extends Magento_Core_Block_Template
             'link'        => $newUrl,
             'charset'     => 'UTF-8',
         ));
-        /** @var $resourceModel Magento_Rss_Model_Resource_Order */
+        /** @var $resourceModel \Magento\Rss\Model\Resource\Order */
         $resourceModel = $this->_orderFactory->create();
         $results = $resourceModel->getAllCommentCollection($order->getId());
         if ($results) {

@@ -15,27 +15,29 @@
  * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GoogleShopping_Model_AttributeFactory
+namespace Magento\GoogleShopping\Model;
+
+class AttributeFactory
 {
     /**
      * Object manager
      *
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
      * GoogleShopping data
      *
-     * @var Magento_GoogleShopping_Helper_Data
+     * @var \Magento\GoogleShopping\Helper\Data
      */
     protected $_gsData;
 
     /**
-     * @param Magento_ObjectManager $objectManager
-     * @param Magento_GoogleShopping_Helper_Data $gsData
+     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\GoogleShopping\Helper\Data $gsData
      */
-    public function __construct(Magento_ObjectManager $objectManager, Magento_GoogleShopping_Helper_Data $gsData)
+    public function __construct(\Magento\ObjectManager $objectManager, \Magento\GoogleShopping\Helper\Data $gsData)
     {
         $this->_objectManager = $objectManager;
         $this->_gsData = $gsData;
@@ -45,19 +47,21 @@ class Magento_GoogleShopping_Model_AttributeFactory
      * Create attribute model
      *
      * @param string $name
-     * @return Magento_GoogleShopping_Model_Attribute_Default
+     * @return \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
      */
     public function createAttribute($name)
     {
-        $modelName = 'Magento_GoogleShopping_Model_Attribute_' . uc_words($this->_gsData->normalizeName($name));
+        $modelName = 'Magento\GoogleShopping\Model\Attribute\\' . uc_words($this->_gsData->normalizeName($name));
         try {
-            /** @var Magento_GoogleShopping_Model_Attribute_Default $attributeModel */
+            /** @var \Magento\GoogleShopping\Model\Attribute\DefaultAttribute $attributeModel */
             $attributeModel = $this->_objectManager->create($modelName);
             if (!$attributeModel) {
-                $attributeModel = $this->_objectManager->create('Magento_GoogleShopping_Model_Attribute_Default');
+                $attributeModel = $this->_objectManager
+                    ->create('Magento\GoogleShopping\Model\Attribute\DefaultAttribute');
             }
-        } catch (Exception $e) {
-            $attributeModel = $this->_objectManager->create('Magento_GoogleShopping_Model_Attribute_Default');
+        } catch (\Exception $e) {
+            $attributeModel = $this->_objectManager
+                ->create('Magento\GoogleShopping\Model\Attribute\DefaultAttribute');
         }
 
         $attributeModel->setName($name);
@@ -67,10 +71,10 @@ class Magento_GoogleShopping_Model_AttributeFactory
     /**
      * Create attribute model
      *
-     * @return Magento_GoogleShopping_Model_Attribute
+     * @return \Magento\GoogleShopping\Model\Attribute
      */
     public function create()
     {
-        return $this->_objectManager->create('Magento_GoogleShopping_Model_Attribute');
+        return $this->_objectManager->create('Magento\GoogleShopping\Model\Attribute');
     }
 }

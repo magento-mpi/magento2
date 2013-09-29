@@ -15,7 +15,9 @@
  * @package     Magento_CustomerCustomAttributes
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Attribute extends Magento_Adminhtml_Block_Widget_Grid_Container
+namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer;
+
+class Attribute extends \Magento\Adminhtml\Block\Widget\Grid\Container
 {
     /**
      * Define controller, block and labels

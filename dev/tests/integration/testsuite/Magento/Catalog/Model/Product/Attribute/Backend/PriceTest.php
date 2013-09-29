@@ -9,24 +9,26 @@
  * @license     {license_link}
  */
 
+namespace Magento\Catalog\Model\Product\Attribute\Backend;
+
 /**
- * Test class for Magento_Catalog_Model_Product_Attribute_Backend_Price.
+ * Test class for \Magento\Catalog\Model\Product\Attribute\Backend\Price.
  *
  * @magentoDataFixture Magento/Catalog/_files/product_simple.php
  */
-class Magento_Catalog_Model_Product_Attribute_Backend_PriceTest extends PHPUnit_Framework_TestCase
+class PriceTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Catalog_Model_Product_Attribute_Backend_Price
+     * @var \Magento\Catalog\Model\Product\Attribute\Backend\Price
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Product_Attribute_Backend_Price');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product\Attribute\Backend\Price');
         $this->_model->setAttribute(
-            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Eav_Model_Config')
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Eav\Model\Config')
                 ->getAttribute('catalog_product', 'price')
         );
     }
@@ -35,12 +37,12 @@ class Magento_Catalog_Model_Product_Attribute_Backend_PriceTest extends PHPUnit_
     {
         /* validate result of setAttribute */
         $this->assertEquals(
-            Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
+            \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_GLOBAL,
             $this->_model->getAttribute()->getIsGlobal()
         );
         $this->_model->setScope($this->_model->getAttribute());
         $this->assertEquals(
-            Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
+            \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_GLOBAL,
             $this->_model->getAttribute()->getIsGlobal()
         );
     }
@@ -52,7 +54,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_PriceTest extends PHPUnit_
     {
         $this->_model->setScope($this->_model->getAttribute());
         $this->assertEquals(
-            Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_WEBSITE,
+            \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_WEBSITE,
             $this->_model->getAttribute()->getIsGlobal()
         );
     }
@@ -63,9 +65,9 @@ class Magento_Catalog_Model_Product_Attribute_Backend_PriceTest extends PHPUnit_
      */
     public function testAfterSave()
     {
-        /** @var $product Magento_Catalog_Model_Product */
-        $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Product');
+        /** @var $product \Magento\Catalog\Model\Product */
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $product->load(1);
         $product->setOrigData();
         $product->setPrice(9.99);
@@ -79,8 +81,8 @@ class Magento_Catalog_Model_Product_Attribute_Backend_PriceTest extends PHPUnit_
             $product->getResource()->getAttributeRawValue(
                 $product->getId(),
                 $this->_model->getAttribute()->getId(),
-                Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-                    ->get('Magento_Core_Model_StoreManagerInterface')->getStore()->getId()
+                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                    ->get('Magento\Core\Model\StoreManagerInterface')->getStore()->getId()
             )
         );
     }

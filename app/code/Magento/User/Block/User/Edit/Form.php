@@ -13,15 +13,19 @@
  *
  * @category   Magento
  * @package    Magento_User
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @author     Magento Core Team <core@magentocommerce.com>
  *
+ */
+namespace Magento\User\Block\User\Edit;
+
+/**
  * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
-class Magento_User_Block_User_Edit_Form extends Magento_Backend_Block_Widget_Form_Generic
+class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     protected function _prepareForm()
     {
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create(array(
             'attributes' => array(
                 'id' => 'edit_form',

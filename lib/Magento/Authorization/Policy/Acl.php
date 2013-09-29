@@ -8,17 +8,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Authorization_Policy_Acl implements Magento_Authorization_Policy
+namespace Magento\Authorization\Policy;
+
+class Acl implements \Magento\Authorization\Policy
 {
     /**
-     * @var Magento_Acl_Builder
+     * @var \Magento\Acl\Builder
      */
     protected $_aclBuilder;
 
     /**
-     * @param Magento_Acl_Builder $aclBuilder
+     * @param \Magento\Acl\Builder $aclBuilder
      */
-    public function __construct(Magento_Acl_Builder $aclBuilder)
+    public function __construct(\Magento\Acl\Builder $aclBuilder)
     {
         $this->_aclBuilder = $aclBuilder;
     }
@@ -35,12 +37,12 @@ class Magento_Authorization_Policy_Acl implements Magento_Authorization_Policy
     {
         try {
             return $this->_aclBuilder->getAcl()->isAllowed($roleId, $resourceId, $privilege);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             try {
                 if (!$this->_aclBuilder->getAcl()->has($resourceId)) {
                     return $this->_aclBuilder->getAcl()->isAllowed($roleId, null, $privilege);
                 }
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
             }
         }
         return false;

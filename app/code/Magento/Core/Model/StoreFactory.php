@@ -8,17 +8,19 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_StoreFactory
+namespace Magento\Core\Model;
+
+class StoreFactory
 {
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
@@ -27,10 +29,10 @@ class Magento_Core_Model_StoreFactory
      * Create store instance
      *
      * @param array $arguments
-     * @return Magento_Core_Model_Store
+     * @return \Magento\Core\Model\Store
      */
     public function create(array $arguments = array())
     {
-        return $this->_objectManager->create('Magento_Core_Model_Store', $arguments);
+        return $this->_objectManager->create('Magento\Core\Model\Store', $arguments);
     }
 }

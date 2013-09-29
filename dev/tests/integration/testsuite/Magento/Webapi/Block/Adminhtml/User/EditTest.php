@@ -1,6 +1,6 @@
 <?php
 /**
- * Test for Magento_Webapi_Block_Adminhtml_User_Edit block.
+ * Test for \Magento\Webapi\Block\Adminhtml\User\Edit block.
  *
  * {license_notice}
  *
@@ -8,23 +8,25 @@
  * @license     {license_link}
  */
 
+namespace Magento\Webapi\Block\Adminhtml\User;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Webapi_Block_Adminhtml_User_EditTest extends PHPUnit_Framework_TestCase
+class EditTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_TestFramework_ObjectManager
+     * @var \Magento\TestFramework\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @var Magento_Core_Model_Layout
+     * @var \Magento\Core\Model\Layout
      */
     protected $_layout;
 
     /**
-     * @var Magento_Webapi_Block_Adminhtml_User_Edit
+     * @var \Magento\Webapi\Block\Adminhtml\User\Edit
      */
     protected $_block;
 
@@ -35,9 +37,9 @@ class Magento_Webapi_Block_Adminhtml_User_EditTest extends PHPUnit_Framework_Tes
     {
         parent::setUp();
 
-        $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $this->_layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout');
-        $this->_block = $this->_layout->createBlock('Magento_Webapi_Block_Adminhtml_User_Edit');
+        $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $this->_layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout');
+        $this->_block = $this->_layout->createBlock('Magento\Webapi\Block\Adminhtml\User\Edit');
     }
 
     /**
@@ -46,7 +48,7 @@ class Magento_Webapi_Block_Adminhtml_User_EditTest extends PHPUnit_Framework_Tes
     public function testBeforeToHtml()
     {
         // TODO: Move to unit tests after MAGETWO-4015 complete.
-        $apiUser = new Magento_Object();
+        $apiUser = new \Magento\Object();
         $this->_block->setApiUser($apiUser);
         $this->_block->toHtml();
         $this->assertSame($apiUser, $this->_block->getChildBlock('form')->getApiUser());

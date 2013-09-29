@@ -11,7 +11,9 @@
 /**
  * RMA Item model
  */
-class Magento_Rma_Model_Attribute extends Magento_Eav_Model_Entity_Attribute
+namespace Magento\Rma\Model;
+
+class Attribute extends \Magento\Eav\Model\Entity\Attribute
 {
     /**
      * Name of the module
@@ -35,38 +37,38 @@ class Magento_Rma_Model_Attribute extends Magento_Eav_Model_Entity_Attribute
     /**
      * Active Website instance
      *
-     * @var Magento_Core_Model_Website
+     * @var \Magento\Core\Model\Website
      */
     protected $_website;
 
     /**
-     * @var Magento_Eav_Model_Config
+     * @var \Magento\Eav\Model\Config
      */
     protected $_eavConfig;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_Eav_Model_Config $eavConfig
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Eav_Model_Config $eavConfig,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_eavConfig = $eavConfig;
@@ -77,8 +79,8 @@ class Magento_Rma_Model_Attribute extends Magento_Eav_Model_Entity_Attribute
     /**
      * Set active website instance
      *
-     * @param Magento_Core_Model_Website|int $website
-     * @return Magento_Rma_Model_Attribute
+     * @param \Magento\Core\Model\Website|int $website
+     * @return \Magento\Rma\Model\Attribute
      */
     public function setWebsite($website)
     {
@@ -89,7 +91,7 @@ class Magento_Rma_Model_Attribute extends Magento_Eav_Model_Entity_Attribute
     /**
      * Return active website instance
      *
-     * @return Magento_Core_Model_Website
+     * @return \Magento\Core\Model\Website
      */
     public function getWebsite()
     {
@@ -105,13 +107,13 @@ class Magento_Rma_Model_Attribute extends Magento_Eav_Model_Entity_Attribute
      */
     protected function _construct()
     {
-        $this->_init('Magento_Rma_Model_Resource_Item_Attribute');
+        $this->_init('Magento\Rma\Model\Resource\Item\Attribute');
     }
 
     /**
      * Processing object after save data
      *
-     * @return Magento_Rma_Model_Attribute
+     * @return \Magento\Rma\Model\Attribute
      */
     protected function _afterSave()
     {
@@ -157,7 +159,7 @@ class Magento_Rma_Model_Attribute extends Magento_Eav_Model_Entity_Attribute
      * Set validate rules
      *
      * @param array|string $rules
-     * @return Magento_Rma_Model_Attribute
+     * @return \Magento\Rma\Model\Attribute
      */
     public function setValidateRules($rules)
     {

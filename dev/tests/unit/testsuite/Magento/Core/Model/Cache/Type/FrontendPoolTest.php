@@ -5,42 +5,44 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Cache_Type_FrontendPoolTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Cache\Type;
+
+class FrontendPoolTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Cache_Type_FrontendPool
+     * @var \Magento\Core\Model\Cache\Type\FrontendPool
      */
     protected $_model;
 
     /**
-     * @var Magento_ObjectManager|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\ObjectManager|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_objectManager;
 
     /**
-     * @var Magento_Core_Model_Cache_Frontend_Pool|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Model\Cache\Frontend\Pool|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_cachePool;
 
     protected function setUp()
     {
-        $this->_objectManager = $this->getMock('Magento_ObjectManager', array(), array(), '', false);
-        $this->_cachePool = $this->getMock('Magento_Core_Model_Cache_Frontend_Pool', array(), array(), '', false);
-        $this->_model = new Magento_Core_Model_Cache_Type_FrontendPool($this->_objectManager, $this->_cachePool);
+        $this->_objectManager = $this->getMock('Magento\ObjectManager', array(), array(), '', false);
+        $this->_cachePool = $this->getMock('Magento\Core\Model\Cache\Frontend\Pool', array(), array(), '', false);
+        $this->_model = new \Magento\Core\Model\Cache\Type\FrontendPool($this->_objectManager, $this->_cachePool);
     }
 
     public function testGet()
     {
-        $instanceMock = $this->getMock('Magento_Cache_FrontendInterface');
+        $instanceMock = $this->getMock('Magento\Cache\FrontendInterface');
         $this->_cachePool->expects($this->once())
             ->method('get')
             ->with('cache_type')
             ->will($this->returnValue($instanceMock));
 
-        $accessMock = $this->getMock('Magento_Core_Model_Cache_Type_AccessProxy', array(), array(), '', false);
+        $accessMock = $this->getMock('Magento\Core\Model\Cache\Type\AccessProxy', array(), array(), '', false);
         $this->_objectManager->expects($this->once())
             ->method('create')
-            ->with('Magento_Core_Model_Cache_Type_AccessProxy',
+            ->with('Magento\Core\Model\Cache\Type\AccessProxy',
                 array('frontend' => $instanceMock, 'identifier' => 'cache_type'))
             ->will($this->returnValue($accessMock));
 
@@ -58,14 +60,14 @@ class Magento_Core_Model_Cache_Type_FrontendPoolTest extends PHPUnit_Framework_T
          * Setup cache pool to have knowledge only about default cache instance. Also check appropriate sequence
          * of calls.
          */
-        $defaultInstance = $this->getMock('Magento_Cache_FrontendInterface');
+        $defaultInstance = $this->getMock('Magento\Cache\FrontendInterface');
         $this->_cachePool->expects($this->at(0))
             ->method('get')
             ->with('cache_type')
             ->will($this->returnValue(null));
         $this->_cachePool->expects($this->at(1))
             ->method('get')
-            ->with(Magento_Core_Model_Cache_Frontend_Pool::DEFAULT_FRONTEND_ID)
+            ->with(\Magento\Core\Model\Cache\Frontend\Pool::DEFAULT_FRONTEND_ID)
             ->will($this->returnValue($defaultInstance));
 
         $this->_cachePool->expects($this->at(2))
@@ -74,7 +76,7 @@ class Magento_Core_Model_Cache_Type_FrontendPoolTest extends PHPUnit_Framework_T
             ->will($this->returnValue(null));
         $this->_cachePool->expects($this->at(3))
             ->method('get')
-            ->with(Magento_Core_Model_Cache_Frontend_Pool::DEFAULT_FRONTEND_ID)
+            ->with(\Magento\Core\Model\Cache\Frontend\Pool::DEFAULT_FRONTEND_ID)
             ->will($this->returnValue($defaultInstance));
 
         /**
@@ -82,17 +84,17 @@ class Magento_Core_Model_Cache_Type_FrontendPoolTest extends PHPUnit_Framework_T
          */
         $this->_objectManager->expects($this->at(0))
             ->method('create')
-            ->with('Magento_Core_Model_Cache_Type_AccessProxy',
+            ->with('Magento\Core\Model\Cache\Type\AccessProxy',
                 array('frontend' => $defaultInstance, 'identifier' => 'cache_type'))
             ->will($this->returnValue(
-                $this->getMock('Magento_Core_Model_Cache_Type_AccessProxy', array(), array(), '', false)
+                $this->getMock('Magento\Core\Model\Cache\Type\AccessProxy', array(), array(), '', false)
         ));
         $this->_objectManager->expects($this->at(1))
             ->method('create')
-            ->with('Magento_Core_Model_Cache_Type_AccessProxy',
+            ->with('Magento\Core\Model\Cache\Type\AccessProxy',
                 array('frontend' => $defaultInstance, 'identifier' => 'another_cache_type'))
             ->will($this->returnValue(
-                $this->getMock('Magento_Core_Model_Cache_Type_AccessProxy', array(), array(), '', false)
+                $this->getMock('Magento\Core\Model\Cache\Type\AccessProxy', array(), array(), '', false)
         ));
 
         $cacheInstance = $this->_model->get('cache_type');

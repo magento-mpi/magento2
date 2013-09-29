@@ -16,7 +16,9 @@
  * @package    Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Customer_Block_Newsletter extends Magento_Customer_Block_Account_Dashboard // Magento_Core_Block_Template
+namespace Magento\Customer\Block;
+
+class Newsletter extends \Magento\Customer\Block\Account\Dashboard // \Magento\Core\Block\Template
 {
 
     protected $_template = 'form/newsletter.phtml';

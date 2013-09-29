@@ -16,11 +16,13 @@
  * @package     Magento_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backend_Model_Widget_Grid_Row_UrlGenerator
-    implements Magento_Backend_Model_Widget_Grid_Row_GeneratorInterface
+namespace Magento\Backend\Model\Widget\Grid\Row;
+
+class UrlGenerator
+    implements \Magento\Backend\Model\Widget\Grid\Row\GeneratorInterface
 {
     /**
-     * @var Magento_Backend_Model_Url
+     * @var \Magento\Backend\Model\Url
      */
     protected $_urlModel;
 
@@ -42,10 +44,10 @@ class Magento_Backend_Model_Widget_Grid_Row_UrlGenerator
     public function __construct(array $args = array())
     {
         if (!isset($args['path'])) {
-            throw new InvalidArgumentException('Not all required parameters passed');
+            throw new \InvalidArgumentException('Not all required parameters passed');
         }
         $this->_urlModel = isset($args['urlModel']) ?
-            $args['urlModel'] : Mage::getSingleton('Magento_Backend_Model_Url');
+            $args['urlModel'] : \Mage::getSingleton('Magento\Backend\Model\Url');
         $this->_path = (string) $args['path'];
         if (isset($args['params'])) {
             $this->_params = (array) $args['params'];
@@ -57,7 +59,7 @@ class Magento_Backend_Model_Widget_Grid_Row_UrlGenerator
 
     /**
      * Create url for passed item using passed url model
-     * @param Magento_Object $item
+     * @param \Magento\Object $item
      * @return string
      */
     public function getUrl($item)

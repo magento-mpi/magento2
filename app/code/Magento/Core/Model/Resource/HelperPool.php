@@ -11,10 +11,12 @@
 /**
  * Resource helper pool
  */
-class Magento_Core_Model_Resource_HelperPool
+namespace Magento\Core\Model\Resource;
+
+class HelperPool
 {
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
@@ -25,10 +27,10 @@ class Magento_Core_Model_Resource_HelperPool
     protected $_resourceHelpers = array();
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
     public function __construct(
-        Magento_ObjectManager $objectManager
+        \Magento\ObjectManager $objectManager
     ) {
         $this->_objectManager = $objectManager;
     }
@@ -37,12 +39,13 @@ class Magento_Core_Model_Resource_HelperPool
      * Get resource helper singleton
      *
      * @param string $moduleName
-     * @throws InvalidArgumentException
-     * @return Magento_Core_Model_Resource_Helper_Abstract
+     * @throws \InvalidArgumentException
+     * @return \Magento\Core\Model\Resource\Helper\AbstractHelper
      */
     public function get($moduleName)
     {
-        $helperClassName = $moduleName . '_Model_Resource_Helper';
+        $module = str_replace('_', \Magento\Autoload\IncludePath::NS_SEPARATOR, $moduleName);
+        $helperClassName = $module . '\Model\Resource\Helper';
         $connection = strtolower($moduleName);
         if (substr($moduleName, 0, 8) == 'Magento_') {
             $connection = substr($connection, 8);
@@ -50,9 +53,9 @@ class Magento_Core_Model_Resource_HelperPool
 
         if (!isset($this->_resourceHelpers[$connection])) {
             $helper = $this->_objectManager->create($helperClassName, array('modulePrefix' => $connection));
-            if (false === ($helper instanceof Magento_Core_Model_Resource_Helper_Abstract)) {
-                throw new InvalidArgumentException(
-                    $helperClassName . ' doesn\'t extend Magento_Core_Model_Resource_Helper_Abstract'
+            if (false === ($helper instanceof \Magento\Core\Model\Resource\Helper\AbstractHelper)) {
+                throw new \InvalidArgumentException(
+                    $helperClassName . ' doesn\'t extend \Magento\Core\Model\Resource\Helper\AbstractHelper'
                 );
             }
             $this->_resourceHelpers[$connection] = $helper;

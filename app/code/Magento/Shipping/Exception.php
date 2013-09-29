@@ -9,7 +9,9 @@
  */
 
 
-class Magento_Shipping_Exception extends Zend_Exception 
+namespace Magento\Shipping;
+
+class Exception extends \Zend_Exception
 {
     
 }

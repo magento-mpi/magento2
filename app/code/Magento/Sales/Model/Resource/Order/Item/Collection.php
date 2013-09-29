@@ -16,7 +16,9 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Resource_Order_Item_Collection extends Magento_Sales_Model_Resource_Order_Collection_Abstract
+namespace Magento\Sales\Model\Resource\Order\Item;
+
+class Collection extends \Magento\Sales\Model\Resource\Order\Collection\AbstractCollection
 {
     /**
      * Event prefix
@@ -45,13 +47,13 @@ class Magento_Sales_Model_Resource_Order_Item_Collection extends Magento_Sales_M
      */
     protected function _construct()
     {
-        $this->_init('Magento_Sales_Model_Order_Item', 'Magento_Sales_Model_Resource_Order_Item');
+        $this->_init('Magento\Sales\Model\Order\Item', 'Magento\Sales\Model\Resource\Order\Item');
     }
 
     /**
      * Assign parent items on after collection load
      *
-     * @return Magento_Sales_Model_Resource_Order_Item_Collection
+     * @return \Magento\Sales\Model\Resource\Order\Item\Collection
      */
     protected function _afterLoad()
     {
@@ -70,7 +72,7 @@ class Magento_Sales_Model_Resource_Order_Item_Collection extends Magento_Sales_M
     /**
      * Set random items order
      *
-     * @return Magento_Sales_Model_Resource_Order_Item_Collection
+     * @return \Magento\Sales\Model\Resource\Order\Item\Collection
      */
     public function setRandomOrder()
     {
@@ -82,13 +84,13 @@ class Magento_Sales_Model_Resource_Order_Item_Collection extends Magento_Sales_M
      * Set filter by item id
      *
      * @param mixed $item
-     * @return Magento_Sales_Model_Resource_Order_Item_Collection
+     * @return \Magento\Sales\Model\Resource\Order\Item\Collection
      */
     public function addIdFilter($item)
     {
         if (is_array($item)) {
             $this->addFieldToFilter('item_id', array('in'=>$item));
-        } elseif ($item instanceof Magento_Sales_Model_Order_Item) {
+        } elseif ($item instanceof \Magento\Sales\Model\Order\Item) {
             $this->addFieldToFilter('item_id', $item->getId());
         } else {
             $this->addFieldToFilter('item_id', $item);
@@ -100,7 +102,7 @@ class Magento_Sales_Model_Resource_Order_Item_Collection extends Magento_Sales_M
      * Filter collection by specified product types
      *
      * @param array $typeIds
-     * @return Magento_Sales_Model_Resource_Order_Item_Collection
+     * @return \Magento\Sales\Model\Resource\Order\Item\Collection
      */
     public function filterByTypes($typeIds)
     {
@@ -112,7 +114,7 @@ class Magento_Sales_Model_Resource_Order_Item_Collection extends Magento_Sales_M
      * Filter collection by parent_item_id
      *
      * @param int $parentId
-     * @return Magento_Sales_Model_Resource_Order_Item_Collection
+     * @return \Magento\Sales\Model\Resource\Order\Item\Collection
      */
     public function filterByParent($parentId = null)
     {

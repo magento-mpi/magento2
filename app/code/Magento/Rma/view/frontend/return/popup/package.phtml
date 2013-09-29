@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 ?>
-<?php /** @var $this Magento_Rma_Block_Return_Tracking_Package */ ?>
+<?php /** @var $this \Magento\Rma\Block\Returns\Tracking\Package */ ?>
 <?php  $_results = $this->getPackageInfo() ?>
 <div class="page-title title-buttons">
     <h1><?php echo __('Packages'); ?></h1>
@@ -18,8 +18,8 @@
 <div class="packed-content">
 <?php foreach ($this->getPackages() as $packageId => $package): ?>
     <div class="package">
-        <?php $package = new Magento_Object($package) ?>
-        <?php $params = new Magento_Object($package->getParams()) ?>
+        <?php $package = new \Magento\Object($package) ?>
+        <?php $params = new \Magento\Object($package->getParams()) ?>
         <h4><?php echo __('Package') . ' ' . $packageId ?></h4>
         <div class="package-info">
             <table class="tracking-table-popup data-table">
@@ -34,19 +34,19 @@
                         <th class="label"><?php echo __('Type') ?></th>
                         <td class="value"><?php echo $this->getContainerTypeByCode($params->getContainer()) ?></td>
                         <th class="label"><?php echo __('Length') ?></th>
-                        <td class="value"><?php echo $params->getLength() .' '. $this->helper('Magento_Usa_Helper_Data')->getMeasureDimensionName($params->getDimensionUnits()) ?></td>
+                        <td class="value"><?php echo $params->getLength() .' '. $this->helper('Magento\Usa\Helper\Data')->getMeasureDimensionName($params->getDimensionUnits()) ?></td>
                     </tr>
                     <tr>
                         <th class="label"><?php echo __('Total Weight') ?></th>
-                        <td class="value"><?php echo $params->getWeight() .' '. $this->helper('Magento_Usa_Helper_Data')->getMeasureWeightName($params->getWeightUnits()) ?></td>
+                        <td class="value"><?php echo $params->getWeight() .' '. $this->helper('Magento\Usa\Helper\Data')->getMeasureWeightName($params->getWeightUnits()) ?></td>
                         <th class="label"><?php echo __('Width') ?></th>
-                        <td class="value"><?php echo $params->getWidth() .' '. $this->helper('Magento_Usa_Helper_Data')->getMeasureDimensionName($params->getDimensionUnits()) ?></td>
+                        <td class="value"><?php echo $params->getWidth() .' '. $this->helper('Magento\Usa\Helper\Data')->getMeasureDimensionName($params->getDimensionUnits()) ?></td>
                     </tr>
                     <tr>
                         <th>&nbsp;</th>
                         <td>&nbsp;</td>
                         <th class="label"><?php echo __('Height') ?></th>
-                        <td class="value"><?php echo $params->getHeight() .' '. $this->helper('Magento_Usa_Helper_Data')->getMeasureDimensionName($params->getDimensionUnits()) ?></td>
+                        <td class="value"><?php echo $params->getHeight() .' '. $this->helper('Magento\Usa\Helper\Data')->getMeasureDimensionName($params->getDimensionUnits()) ?></td>
                     </tr>
                 </tbody>
             </table>
@@ -71,7 +71,7 @@
 
                     <tbody id="">
                     <?php foreach($package->getItems() as $itemId => $item) : ?>
-                        <?php $item = new Magento_Object($item) ?>
+                        <?php $item = new \Magento\Object($item) ?>
                         <tr title="#" id="" class="">
                             <td class="name label">
                                 <?php echo $item->getName(); ?>

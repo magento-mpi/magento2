@@ -5,31 +5,33 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Log_Model_Shell_Command_StatusTest extends PHPUnit_Framework_TestCase
+namespace Magento\Log\Model\Shell\Command;
+
+class StatusTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_factoryMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_shellMock;
 
     /**
-     * @var Magento_Log_Model_Shell_Command_Status
+     * @var \Magento\Log\Model\Shell\Command\Status
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_factoryMock = $this->getMock('Magento_Log_Model_Resource_ShellFactory',
+        $this->_factoryMock = $this->getMock('Magento\Log\Model\Resource\ShellFactory',
             array('create'), array(), '', false
         );
-        $this->_shellMock = $this->getMock('Magento_Log_Model_Resource_Shell', array(), array(), '', false);
+        $this->_shellMock = $this->getMock('Magento\Log\Model\Resource\Shell', array(), array(), '', false);
         $this->_factoryMock->expects($this->once())->method('create')->will($this->returnValue($this->_shellMock));
-        $this->_model = new Magento_Log_Model_Shell_Command_Status($this->_factoryMock);
+        $this->_model = new \Magento\Log\Model\Shell\Command\Status($this->_factoryMock);
     }
 
     public function testExecuteWithoutDataTotalAndHeadLinesFormatting()

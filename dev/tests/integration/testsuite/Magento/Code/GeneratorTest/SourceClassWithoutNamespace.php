@@ -9,10 +9,12 @@
  * @license     {license_link}
  */
 
-use Zend\Code\Generator\ClassGenerator;
+namespace Magento\Code\GeneratorTest;
 
-class Magento_Code_GeneratorTest_SourceClassWithoutNamespace
-    extends Magento_Code_GeneratorTest_ParentClassWithoutNamespace
+use \Zend\Code\Generator\ClassGenerator;
+
+class SourceClassWithoutNamespace
+    extends \Magento\Code\GeneratorTest\ParentClassWithoutNamespace
 {
     /**
      * Public child constructor

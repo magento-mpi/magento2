@@ -15,7 +15,9 @@
  * @package    Magento_Customer
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Customer_Model_Config_Backend_Show_Customer extends Magento_Core_Model_Config_Value
+namespace Magento\Customer\Model\Config\Backend\Show;
+
+class Customer extends \Magento\Core\Model\Config\Value
 {
     /**
      * Retrieve attribute code
@@ -35,14 +37,14 @@ class Magento_Customer_Model_Config_Backend_Show_Customer extends Magento_Core_M
     protected function _getAttributeObjects()
     {
         return array(
-            Mage::getSingleton('Magento_Eav_Model_Config')->getAttribute('customer', $this->_getAttributeCode())
+            \Mage::getSingleton('Magento\Eav\Model\Config')->getAttribute('customer', $this->_getAttributeCode())
         );
     }
 
     /**
      * Actions after save
      *
-     * @return Magento_Customer_Model_Config_Backend_Show_Customer
+     * @return \Magento\Customer\Model\Config\Backend\Show\Customer
      */
     protected function _afterSave()
     {
@@ -63,7 +65,7 @@ class Magento_Customer_Model_Config_Backend_Show_Customer extends Magento_Core_M
         }
 
         if ($this->getScope() == 'websites') {
-            $website = Mage::app()->getWebsite($this->getWebsiteCode());
+            $website = \Mage::app()->getWebsite($this->getWebsiteCode());
             $dataFieldPrefix = 'scope_';
         } else {
             $website = null;
@@ -86,14 +88,14 @@ class Magento_Customer_Model_Config_Backend_Show_Customer extends Magento_Core_M
     /**
      * Processing object after delete data
      *
-     * @return Magento_Core_Model_Abstract
+     * @return \Magento\Core\Model\AbstractModel
      */
     protected function _afterDelete()
     {
         $result = parent::_afterDelete();
 
         if ($this->getScope() == 'websites') {
-            $website = Mage::app()->getWebsite($this->getWebsiteCode());
+            $website = \Mage::app()->getWebsite($this->getWebsiteCode());
             foreach ($this->_getAttributeObjects() as $attributeObject) {
                 $attributeObject->setWebsite($website);
                 $attributeObject->load($attributeObject->getId());

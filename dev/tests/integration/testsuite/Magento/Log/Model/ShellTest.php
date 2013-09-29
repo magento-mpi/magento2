@@ -9,24 +9,26 @@
  * @license     {license_link}
  */
 
-class Magento_Log_Model_ShellTest extends PHPUnit_Framework_TestCase
+namespace Magento\Log\Model;
+
+class ShellTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Returns prepared model
      *
      * @param string $entryPoint
-     * @return Magento_Log_Model_Shell
+     * @return \Magento\Log\Model\Shell
      */
     protected function _getModel($entryPoint = 'fake.php')
     {
-        return Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Log_Model_Shell', array('entryPoint' => $entryPoint));
+        return \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Log\Model\Shell', array('entryPoint' => $entryPoint));
     }
 
     /**
      * Returns result of running model - can be real model or mocked one
      *
-     * @param Magento_Log_Model_Shell $model Can be mock
+     * @param \Magento\Log\Model\Shell $model Can be mock
      * @return string
      */
     protected function _run($model)

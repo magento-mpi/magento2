@@ -9,17 +9,17 @@
  * @license     {license_link}
  */
 
-$product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Catalog_Model_Product');
-$product->setTypeId(Magento_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE)
+$product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Catalog\Model\Product');
+$product->setTypeId(\Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE)
     ->setId(1)
     ->setAttributeSetId(4)
     ->setWebsiteIds(array(1))
     ->setName('Downloadable Product')
     ->setSku('downloadable-product')
     ->setPrice(10)
-    ->setVisibility(Magento_Catalog_Model_Product_Visibility::VISIBILITY_BOTH)
-    ->setStatus(Magento_Catalog_Model_Product_Status::STATUS_ENABLED)
+    ->setVisibility(\Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH)
+    ->setStatus(\Magento\Catalog\Model\Product\Status::STATUS_ENABLED)
     ->setDownloadableData(array(
         'link' => array(array(
             'link_id'        => 0,
@@ -27,7 +27,7 @@ $product->setTypeId(Magento_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE)
             'sort_order'     => '0',
             'title'          => 'Downloadable Product Link',
             'sample'         => array(
-                'type'       => Magento_Downloadable_Helper_Download::LINK_TYPE_FILE,
+                'type'       => \Magento\Downloadable\Helper\Download::LINK_TYPE_FILE,
                 'url'        => null,
                 'file'       => json_encode(array(array(
                     'file'   => '/n/d/jellyfish_1_3.jpg',
@@ -42,8 +42,8 @@ $product->setTypeId(Magento_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE)
                 'size'   => 56644,
                 'status' => 0,
             ))),
-            'type'                => Magento_Downloadable_Helper_Download::LINK_TYPE_FILE,
-            'is_shareable'        => Magento_Downloadable_Model_Link::LINK_SHAREABLE_CONFIG,
+            'type'                => \Magento\Downloadable\Helper\Download::LINK_TYPE_FILE,
+            'is_shareable'        => \Magento\Downloadable\Model\Link::LINK_SHAREABLE_CONFIG,
             'link_url'            => null,
             'is_delete'           => 0,
             'number_of_downloads' => 15,
@@ -53,7 +53,7 @@ $product->setTypeId(Magento_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE)
             'is_delete'  => 0,
             'sample_id'  => 0,
             'title'      => 'Downloadable Product Sample Title',
-            'type'       => Magento_Downloadable_Helper_Download::LINK_TYPE_FILE,
+            'type'       => \Magento\Downloadable\Helper\Download::LINK_TYPE_FILE,
             'file'       => json_encode(array(array(
                 'file'   => '/f/u/jellyfish_1_4.jpg',
                 'name'   => 'jellyfish_1_4.jpg',

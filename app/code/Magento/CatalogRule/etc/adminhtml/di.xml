@@ -8,7 +8,7 @@
  */
 -->
 <config>
-    <type name="Magento_CatalogRule_Model_Rule">
+    <type name="Magento\CatalogRule\Model\Rule">
         <param name="relatedCacheTypes">
             <value>
                 <blockCache>block_html</blockCache>

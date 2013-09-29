@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Magento_WebsiteRestriction_Model_ConfigInterface
+namespace Magento\WebsiteRestriction\Model;
+
+interface ConfigInterface
 {
     /**
      * Get generic actions list
@@ -26,7 +28,7 @@ interface Magento_WebsiteRestriction_Model_ConfigInterface
     /**
      * Define if restriction is active
      *
-     * @param Magento_Core_Model_Store|string|int $store
+     * @param \Magento\Core\Model\Store|string|int $store
      * @return bool
      */
     public function isRestrictionEnabled($store = null);

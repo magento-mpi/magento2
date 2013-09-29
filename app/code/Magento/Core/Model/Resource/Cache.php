@@ -16,7 +16,9 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Resource_Cache extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Core\Model\Resource;
+
+class Cache extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Define main table
@@ -52,8 +54,8 @@ class Magento_Core_Model_Resource_Cache extends Magento_Core_Model_Resource_Db_A
      * Save all options to option table
      *
      * @param array $options
-     * @return Magento_Core_Model_Resource_Cache
-     * @throws Exception
+     * @return \Magento\Core\Model\Resource\Cache
+     * @throws \Exception
      */
     public function saveAllOptions($options)
     {
@@ -73,7 +75,7 @@ class Magento_Core_Model_Resource_Cache extends Magento_Core_Model_Resource_Db_A
             if ($data) {
                 $this->_getWriteAdapter()->insertArray($this->getMainTable(), array('code', 'value'), $data);
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $adapter->rollback();
             throw $e;
         }

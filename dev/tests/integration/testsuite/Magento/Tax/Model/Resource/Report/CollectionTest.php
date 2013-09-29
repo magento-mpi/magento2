@@ -6,17 +6,19 @@
  * @license     {license_link}
  */
 
-class Magento_Tax_Model_Resource_Report_CollectionTest extends PHPUnit_Framework_TestCase
+namespace Magento\Tax\Model\Resource\Report;
+
+class CollectionTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Tax_Model_Resource_Report_Collection
+     * @var \Magento\Tax\Model\Resource\Report\Collection
      */
     private $_collection;
 
     protected function setUp()
     {
-        $this->_collection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Tax_Model_Resource_Report_Collection');
+        $this->_collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Tax\Model\Resource\Report\Collection');
         $this->_collection
             ->setPeriod('day')
             ->setDateRange(null, null)
@@ -39,7 +41,7 @@ class Magento_Tax_Model_Resource_Report_CollectionTest extends PHPUnit_Framework
             ),
         );
         $actualResult = array();
-        /** @var Magento_Adminhtml_Model_Report_Item $reportItem */
+        /** @var \Magento\Adminhtml\Model\Report\Item $reportItem */
         foreach ($this->_collection->getItems() as $reportItem) {
             $actualResult[] = array_intersect_key($reportItem->getData(), $expectedResult[0]);
         }

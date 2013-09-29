@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Test_Integrity_Magento_Payment_Model_ConfigTest extends Integrity_ConfigAbstract
+namespace Magento\Test\Integrity\Magento\Payment\Model;
+
+class ConfigTest extends \Magento\TestFramework\Integrity\ConfigAbstract
 {
 
     public function testSchemaUsingInvalidXml()

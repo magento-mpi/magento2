@@ -11,11 +11,13 @@
 /**
  * VDE buttons block
  *
- * @method Magento_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons setVirtualThemeId(int $id)
+ * @method \Magento\DesignEditor\Block\Adminhtml\Editor\Toolbar\Buttons setVirtualThemeId(int $id)
  * @method int getVirtualThemeId()
  */
-class Magento_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons
-    extends Magento_DesignEditor_Block_Adminhtml_Editor_Toolbar_BlockAbstract
+namespace Magento\DesignEditor\Block\Adminhtml\Editor\Toolbar;
+
+class Buttons
+    extends \Magento\DesignEditor\Block\Adminhtml\Editor\Toolbar\BlockAbstract
 {
     /**
      * Current theme used for preview
@@ -38,7 +40,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons
      * Get current theme id
      *
      * @param int $themeId
-     * @return Magento_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons
+     * @return \Magento\DesignEditor\Block\Adminhtml\Editor\Toolbar\Buttons
      */
     public function setThemeId($themeId)
     {
@@ -54,6 +56,6 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons
      */
     public function getHomeLink()
     {
-        return $this->helper('Magento_Backend_Helper_Data')->getHomePageUrl();
+        return $this->helper('Magento\Backend\Helper\Data')->getHomePageUrl();
     }
 }

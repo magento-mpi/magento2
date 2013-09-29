@@ -8,25 +8,25 @@
  */
 -->
 <config>
-    <type name="Magento_GoogleCheckout_Model_Api_Xml_Callback">
+    <type name="Magento\GoogleCheckout\Model\Api\Xml\Callback">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
-    <type name="Magento_GoogleCheckout_Model_Api">
+    <type name="Magento\GoogleCheckout\Model\Api">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
-    <type name="Magento_GoogleCheckout_Model_Api_Xml_Checkout">
+    <type name="Magento\GoogleCheckout\Model\Api\Xml\Checkout">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
-    <type name="Magento_Core_Model_Db_Updater">
+    <type name="Magento\Core\Model\Db\Updater">
         <param name="resourceList">
             <value>
-                <googlecheckout_setup>Magento_Catalog_Model_Resource_Setup</googlecheckout_setup>
+                <googlecheckout_setup>Magento\Catalog\Model\Resource\Setup</googlecheckout_setup>
             </value>
         </param>
     </type>

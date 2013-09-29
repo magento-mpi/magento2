@@ -10,11 +10,11 @@
 ?>
 <?php
 /**
- * @see Magento_Adminhtml_Block_Catalog_Form_Renderer_Fieldset_Element
+ * @see \Magento\Adminhtml\Block\Catalog\Form\Renderer\Fieldset\Element
  */
 ?>
 <?php
-/* @var $this Magento_Backend_Block_Widget_Form_Renderer_Fieldset_Element */
+/* @var $this \Magento\Backend\Block\Widget\Form\Renderer\Fieldset\Element */
 $element = $this->getElement();
 $note = $element->getNote() ? '<div class="note">' . $element->getNote() . '</div>' : '';
 $elementBeforeLabel = $element->getExtType() == 'checkbox' || $element->getExtType() == 'radio';
@@ -42,7 +42,7 @@ $fieldAttributes = $fieldId . ' class="' . $fieldClass . '" '
         <?php echo $element->getElementHtml() ?>
     <?php else: ?>
     <div<?php echo $fieldAttributes ?> data-element-id="<?php echo $element->getHtmlId() ?>"
-        data-apply-to="<?php echo $this->escapeHtml($this->helper('Magento_Core_Helper_Data')->jsonEncode(
+        data-apply-to="<?php echo $this->escapeHtml($this->helper('Magento\Core\Helper\Data')->jsonEncode(
             $element->hasEntityAttribute() ? $element->getEntityAttribute()->getApplyTo() : array()
         ))?>"
         >

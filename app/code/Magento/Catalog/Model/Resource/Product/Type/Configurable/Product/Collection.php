@@ -16,8 +16,10 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Resource_Product_Type_Configurable_Product_Collection
-    extends Magento_Catalog_Model_Resource_Product_Collection
+namespace Magento\Catalog\Model\Resource\Product\Type\Configurable\Product;
+
+class Collection
+    extends \Magento\Catalog\Model\Resource\Product\Collection
 {
     /**
      * Link table name
@@ -37,7 +39,7 @@ class Magento_Catalog_Model_Resource_Product_Type_Configurable_Product_Collectio
 
     /**
      * Init select
-     * @return Magento_Catalog_Model_Resource_Product_Type_Configurable_Product_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Type\Configurable\Product\Collection
      */
     protected function _initSelect()
     {
@@ -53,8 +55,8 @@ class Magento_Catalog_Model_Resource_Product_Type_Configurable_Product_Collectio
     /**
      * Set Product filter to result
      *
-     * @param Magento_Catalog_Model_Product $product
-     * @return Magento_Catalog_Model_Resource_Product_Type_Configurable_Product_Collection
+     * @param \Magento\Catalog\Model\Product $product
+     * @return \Magento\Catalog\Model\Resource\Product\Type\Configurable\Product\Collection
      */
     public function setProductFilter($product)
     {

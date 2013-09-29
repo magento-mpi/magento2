@@ -13,7 +13,9 @@
  * @package    Magento_Paypal
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Paypal_Controller_Payflow extends Magento_Core_Controller_Front_Action
+namespace Magento\Paypal\Controller;
+
+class Payflow extends \Magento\Core\Controller\Front\Action
 {
     /**
      * When a customer cancel payment from payflow gateway.
@@ -35,14 +37,14 @@ class Magento_Paypal_Controller_Payflow extends Magento_Core_Controller_Front_Ac
         $this->loadLayout(false);
         $redirectBlock = $this->getLayout()->getBlock('payflow.link.iframe');
 
-        $session = $this->_objectManager->get('Magento_Checkout_Model_Session');
+        $session = $this->_objectManager->get('Magento\Checkout\Model\Session');
         if ($session->getLastRealOrderId()) {
-            $order = $this->_objectManager->create('Magento_Sales_Model_Order')->loadByIncrementId($session->getLastRealOrderId());
+            $order = $this->_objectManager->create('Magento\Sales\Model\Order')->loadByIncrementId($session->getLastRealOrderId());
 
             if ($order && $order->getIncrementId() == $session->getLastRealOrderId()) {
                 $allowedOrderStates = array(
-                    Magento_Sales_Model_Order::STATE_PROCESSING,
-                    Magento_Sales_Model_Order::STATE_COMPLETE
+                    \Magento\Sales\Model\Order::STATE_PROCESSING,
+                    \Magento\Sales\Model\Order::STATE_COMPLETE
                 );
                 if (in_array($order->getState(), $allowedOrderStates)) {
                     $session->unsLastRealOrderId();
@@ -73,12 +75,12 @@ class Magento_Paypal_Controller_Payflow extends Magento_Core_Controller_Front_Ac
     {
         $data = $this->getRequest()->getPost();
         if (isset($data['INVNUM'])) {
-            /** @var $paymentModel Magento_Paypal_Model_Payflowlink */
-            $paymentModel = Mage::getModel('Magento_Paypal_Model_Payflowlink');
+            /** @var $paymentModel \Magento\Paypal\Model\Payflowlink */
+            $paymentModel = \Mage::getModel('Magento\Paypal\Model\Payflowlink');
             try {
                 $paymentModel->process($data);
-            } catch (Exception $e) {
-                $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+            } catch (\Exception $e) {
+                $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
             }
         }
     }
@@ -92,7 +94,7 @@ class Magento_Paypal_Controller_Payflow extends Magento_Core_Controller_Front_Ac
     protected function _cancelPayment($errorMsg = '')
     {
         $gotoSection = false;
-        $helper = $this->_objectManager->get('Magento_Paypal_Helper_Checkout');
+        $helper = $this->_objectManager->get('Magento\Paypal\Helper\Checkout');
         $helper->cancelCurrentOrder($errorMsg);
         if ($helper->restoreQuote()) {
             //Redirect to payment step

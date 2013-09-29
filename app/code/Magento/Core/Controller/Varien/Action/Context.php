@@ -7,35 +7,37 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Controller_Varien_Action_Context implements Magento_ObjectManager_ContextInterface
+namespace Magento\Core\Controller\Varien\Action;
+
+class Context implements \Magento\ObjectManager\ContextInterface
 {
     /**
-     * @var Magento_Core_Controller_Request_Http
+     * @var \Magento\Core\Controller\Request\Http
      */
     protected $_request;
 
     /**
-     * @var Magento_Core_Controller_Response_Http
+     * @var \Magento\Core\Controller\Response\Http
      */
     protected $_response;
 
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @var Magento_Core_Controller_Varien_Front
+     * @var \Magento\Core\Controller\Varien\Front
      */
     protected $_frontController = null;
 
     /**
-     * @var Magento_Core_Model_Layout
+     * @var \Magento\Core\Model\Layout
      */
     protected $_layout;
 
     /**
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventManager;
 
@@ -47,28 +49,28 @@ class Magento_Core_Controller_Varien_Action_Context implements Magento_ObjectMan
     protected $_isRenderInherited;
 
     /**
-     * @var Magento_Core_Model_Logger
+     * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
 
     /**
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Core_Controller_Request_Http $request
-     * @param Magento_Core_Controller_Response_Http $response
-     * @param Magento_ObjectManager $objectManager
-     * @param Magento_Core_Controller_Varien_Front $frontController
-     * @param Magento_Core_Model_Layout $layout
-     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Core\Controller\Request\Http $request
+     * @param \Magento\Core\Controller\Response\Http $response
+     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Core\Controller\Varien\Front $frontController
+     * @param \Magento\Core\Model\Layout $layout
+     * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param boolean $isRenderInherited
      */
     public function __construct(
-        Magento_Core_Model_Logger $logger,
-        Magento_Core_Controller_Request_Http $request,
-        Magento_Core_Controller_Response_Http $response,
-        Magento_ObjectManager $objectManager,
-        Magento_Core_Controller_Varien_Front $frontController,
-        Magento_Core_Model_Layout $layout,
-        Magento_Core_Model_Event_Manager $eventManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Core\Controller\Request\Http $request,
+        \Magento\Core\Controller\Response\Http $response,
+        \Magento\ObjectManager $objectManager,
+        \Magento\Core\Controller\Varien\Front $frontController,
+        \Magento\Core\Model\Layout $layout,
+        \Magento\Core\Model\Event\Manager $eventManager,
         $isRenderInherited
     ) {
         $this->_request           = $request;
@@ -100,7 +102,7 @@ class Magento_Core_Controller_Varien_Action_Context implements Magento_ObjectMan
     }
 
     /**
-     * @return \Magento_Core_Model_Layout
+     * @return \Magento\Core\Model\Layout
      */
     public function getLayout()
     {
@@ -140,7 +142,7 @@ class Magento_Core_Controller_Varien_Action_Context implements Magento_ObjectMan
     }
 
     /**
-     * @return Magento_Core_Model_Logger
+     * @return \Magento\Core\Model\Logger
      */
     public function getLogger()
     {

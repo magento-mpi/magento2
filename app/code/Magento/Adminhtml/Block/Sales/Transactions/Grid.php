@@ -15,52 +15,54 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Sales_Transactions_Grid extends Magento_Adminhtml_Block_Widget_Grid
+namespace Magento\Adminhtml\Block\Sales\Transactions;
+
+class Grid extends \Magento\Adminhtml\Block\Widget\Grid
 {
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
     
     /**
      * Payment data
      *
-     * @var Magento_Payment_Helper_Data
+     * @var \Magento\Payment\Helper\Data
      */
     protected $_paymentData = null;
 
     /**
-     * @var Magento_Sales_Model_Order_Payment_Transaction
+     * @var \Magento\Sales\Model\Order\Payment\Transaction
      */
     protected $_transaction;
 
     /**
-     * @var Magento_Sales_Model_Resource_Order_Payment_Transaction_CollectionFactory
+     * @var \Magento\Sales\Model\Resource\Order\Payment\Transaction\CollectionFactory
      */
     protected $_collectionFactory;
 
     /**
-     * @param Magento_Sales_Model_Order_Payment_Transaction $transaction
-     * @param Magento_Sales_Model_Resource_Order_Payment_Transaction_CollectionFactory $collectionFactory
-     * @param Magento_Payment_Helper_Data $paymentData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Url $urlModel
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\Sales\Model\Order\Payment\Transaction $transaction
+     * @param \Magento\Sales\Model\Resource\Order\Payment\Transaction\CollectionFactory $collectionFactory
+     * @param \Magento\Payment\Helper\Data $paymentData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Core\Model\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
-        Magento_Sales_Model_Order_Payment_Transaction $transaction,
-        Magento_Sales_Model_Resource_Order_Payment_Transaction_CollectionFactory $collectionFactory,
-        Magento_Payment_Helper_Data $paymentData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Url $urlModel,
-        Magento_Core_Model_Registry $coreRegistry,
+        \Magento\Sales\Model\Order\Payment\Transaction $transaction,
+        \Magento\Sales\Model\Resource\Order\Payment\Transaction\CollectionFactory $collectionFactory,
+        \Magento\Payment\Helper\Data $paymentData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        \Magento\Core\Model\Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
@@ -87,7 +89,7 @@ class Magento_Adminhtml_Block_Sales_Transactions_Grid extends Magento_Adminhtml_
     /**
      * Prepare collection for grid
      *
-     * @return Magento_Adminhtml_Block_Widget_Grid
+     * @return \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _prepareCollection()
     {
@@ -108,7 +110,7 @@ class Magento_Adminhtml_Block_Sales_Transactions_Grid extends Magento_Adminhtml_
     /**
      * Add columns to grid
      *
-     * @return Magento_Adminhtml_Block_Widget_Grid
+     * @return \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _prepareColumns()
     {

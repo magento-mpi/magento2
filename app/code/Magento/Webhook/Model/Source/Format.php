@@ -9,7 +9,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_Source_Format implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Webhook\Model\Source;
+
+class Format implements \Magento\Core\Model\Option\ArrayInterface
 {
     /** @var string[] $_formats */
     private $_formats;

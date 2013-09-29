@@ -13,12 +13,14 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backend_Model_Config_Source_Locale_Currency implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Backend\Model\Config\Source\Locale;
+
+class Currency implements \Magento\Core\Model\Option\ArrayInterface
 {
     protected $_option;
     
     public function toOptionArray()
     {
-        return Mage::app()->getLocale()->getOptionCurrencies();
+        return \Mage::app()->getLocale()->getOptionCurrencies();
     }
 }

@@ -7,37 +7,39 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Log_Model_Resource_Visitor_Online_Grid_Collection extends Magento_Log_Model_Resource_Visitor_Online_Collection
+namespace Magento\Log\Model\Resource\Visitor\Online\Grid;
+
+class Collection extends \Magento\Log\Model\Resource\Visitor\Online\Collection
 {
     /**
-     * @var Magento_Log_Model_Visitor_OnlineFactory
+     * @var \Magento\Log\Model\Visitor\OnlineFactory
      */
     protected $_onlineFactory;
 
     /**
-     * @param Magento_Log_Model_Visitor_OnlineFactory $onlineFactory
-     * @param Magento_Customer_Model_CustomerFactory $customerFactory
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_EntityFactory $entityFactory
-     * @param Magento_Core_Model_Resource_Db_Abstract $resource
+     * @param \Magento\Log\Model\Visitor\OnlineFactory $onlineFactory
+     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
-        Magento_Log_Model_Visitor_OnlineFactory $onlineFactory,
-        Magento_Customer_Model_CustomerFactory $customerFactory,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Logger $logger,
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_EntityFactory $entityFactory,
-        Magento_Core_Model_Resource_Db_Abstract $resource = null
+        \Magento\Log\Model\Visitor\OnlineFactory $onlineFactory,
+        \Magento\Customer\Model\CustomerFactory $customerFactory,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
     ) {
         $this->_onlineFactory = $onlineFactory;
         parent::__construct($customerFactory, $eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
     }
 
     /**
-     * @return Magento_Log_Model_Resource_Visitor_Online_Grid_Collection
+     * @return \Magento\Log\Model\Resource\Visitor\Online\Grid\Collection
      */
     protected function _initSelect()
     {

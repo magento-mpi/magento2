@@ -9,7 +9,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Block_Adminhtml_Registration_Create_Form_Container extends Magento_Backend_Block_Template
+namespace Magento\Webhook\Block\Adminhtml\Registration\Create\Form;
+
+class Container extends \Magento\Backend\Block\Template
 {
     /** Key used to store subscription data into the registry */
     const REGISTRY_KEY_CURRENT_SUBSCRIPTION = 'current_subscription';
@@ -22,15 +24,15 @@ class Magento_Webhook_Block_Adminhtml_Registration_Create_Form_Container extends
     protected $_subscriptionData;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         parent::__construct($coreData, $context, $data);

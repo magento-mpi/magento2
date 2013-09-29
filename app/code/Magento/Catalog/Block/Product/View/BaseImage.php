@@ -8,6 +8,8 @@
  * @license     {license_link}
  */
 
+namespace Magento\Catalog\Block\Product\View;
+
 /**
  * Simple product data view
  *
@@ -15,6 +17,6 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Block_Product_View_BaseImage extends Magento_Catalog_Block_Product_View_Abstract
+class BaseImage extends \Magento\Catalog\Block\Product\View\AbstractView
 {
 }

@@ -12,41 +12,43 @@
  * Adminhtml system template edit form
  */
 
-class Magento_Adminhtml_Block_System_Email_Template_Edit_Form extends Magento_Backend_Block_Widget_Form_Generic
+namespace Magento\Adminhtml\Block\System\Email\Template\Edit;
+
+class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
-     * @var Magento_Backend_Model_Session
+     * @var \Magento\Backend\Model\Session
      */
     protected $_backendSession;
 
     /**
-     * @var Magento_Core_Model_Source_Email_Variables
+     * @var \Magento\Core\Model\Source\Email\Variables
      */
     protected $_variables;
 
     /**
-     * @var Magento_Core_Model_VariableFactory
+     * @var \Magento\Core\Model\VariableFactory
      */
     protected $_variableFactory;
 
     /**
-     * @param Magento_Core_Model_VariableFactory $variableFactory
-     * @param Magento_Core_Model_Source_Email_Variables $variables
-     * @param Magento_Backend_Model_Session $backendSession
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
+     * @param \Magento\Core\Model\VariableFactory $variableFactory
+     * @param \Magento\Core\Model\Source\Email\Variables $variables
+     * @param \Magento\Backend\Model\Session $backendSession
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_VariableFactory $variableFactory,
-        Magento_Core_Model_Source_Email_Variables $variables,
-        Magento_Backend_Model_Session $backendSession,
-        Magento_Core_Model_Registry $registry,
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
+        \Magento\Core\Model\VariableFactory $variableFactory,
+        \Magento\Core\Model\Source\Email\Variables $variables,
+        \Magento\Backend\Model\Session $backendSession,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_variableFactory = $variableFactory;
@@ -59,35 +61,35 @@ class Magento_Adminhtml_Block_System_Email_Template_Edit_Form extends Magento_Ba
      * Prepare layout.
      * Add files to use dialog windows
      *
-     * @return Magento_Adminhtml_Block_System_Email_Template_Edit_Form
+     * @return \Magento\Adminhtml\Block\System\Email\Template\Edit\Form
      */
     protected function _prepareLayout()
     {
         if ($head = $this->getLayout()->getBlock('head')) {
             $head->addChild(
                 'prototype-window-js',
-                'Magento_Page_Block_Html_Head_Script',
+                'Magento\Page\Block\Html\Head\Script',
                 array(
                     'file' => 'prototype/window.js'
                 )
             );
             $head->addChild(
                 'prototype-windows-themes-default-css',
-                'Magento_Page_Block_Html_Head_Css',
+                'Magento\Page\Block\Html\Head\Css',
                 array(
                     'file' => 'prototype/windows/themes/default.css'
                 )
             );
             $head->addChild(
                 'magento-core-prototype-magento-css',
-                'Magento_Page_Block_Html_Head_Css',
+                'Magento\Page\Block\Html\Head\Css',
                 array(
                     'file' => 'Magento_Core::prototype/magento.css'
                 )
             );
             $head->addChild(
                 'magento-adminhtml-variables-js',
-                'Magento_Page_Block_Html_Head_Script',
+                'Magento\Page\Block\Html\Head\Script',
                 array(
                     'file' => 'Magento_Adminhtml::variables.js'
                 )
@@ -99,11 +101,11 @@ class Magento_Adminhtml_Block_System_Email_Template_Edit_Form extends Magento_Ba
     /**
      * Add fields to form and create template info form
      *
-     * @return Magento_Adminhtml_Block_Widget_Form
+     * @return \Magento\Adminhtml\Block\Widget\Form
      */
     protected function _prepareForm()
     {
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
 
         $fieldset = $form->addFieldset('base_fieldset', array(
@@ -155,7 +157,7 @@ class Magento_Adminhtml_Block_System_Email_Template_Edit_Form extends Magento_Ba
 
         $fieldset->addField('variables', 'hidden', array(
             'name' => 'variables',
-            'value' => Zend_Json::encode($this->getVariables())
+            'value' => \Zend_Json::encode($this->getVariables())
         ));
 
         $fieldset->addField('template_variables', 'hidden', array(
@@ -163,7 +165,7 @@ class Magento_Adminhtml_Block_System_Email_Template_Edit_Form extends Magento_Ba
         ));
 
         $insertVariableButton = $this->getLayout()
-            ->createBlock('Magento_Adminhtml_Block_Widget_Button', '', array('data' => array(
+            ->createBlock('Magento\Adminhtml\Block\Widget\Button', '', array('data' => array(
                 'type' => 'button',
                 'label' => __('Insert Variable...'),
                 'onclick' => 'templateControl.openVariableChooser();return false;'
@@ -206,7 +208,7 @@ class Magento_Adminhtml_Block_System_Email_Template_Edit_Form extends Magento_Ba
     /**
      * Return current email template model
      *
-     * @return Magento_Core_Model_Email_Template
+     * @return \Magento\Core\Model\Email\Template
      */
     public function getEmailTemplate()
     {
@@ -226,7 +228,7 @@ class Magento_Adminhtml_Block_System_Email_Template_Edit_Form extends Magento_Ba
         if ($customVariables) {
             $variables[] = $customVariables;
         }
-        /* @var $template Magento_Core_Model_Email_Template */
+        /* @var $template \Magento\Core\Model\Email\Template */
         $template = $this->_coreRegistry->registry('current_email_template');
         if ($template->getId() && $templateVariables = $template->getVariablesOptionArray(true)) {
             $variables[] = $templateVariables;

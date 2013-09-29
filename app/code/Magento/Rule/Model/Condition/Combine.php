@@ -9,7 +9,9 @@
  */
 
 
-class Magento_Rule_Model_Condition_Combine extends Magento_Rule_Model_Condition_Abstract
+namespace Magento\Rule\Model\Condition;
+
+class Combine extends \Magento\Rule\Model\Condition\AbstractCondition
 {
     /**
      * Store all used condition models
@@ -19,26 +21,26 @@ class Magento_Rule_Model_Condition_Combine extends Magento_Rule_Model_Condition_
     static protected $_conditionModels = array();
 
     /**
-     * @var Magento_Rule_Model_ConditionFactory
+     * @var \Magento\Rule\Model\ConditionFactory
      */
     protected $_conditionFactory;
 
     /**
-     * @var Magento_Core_Model_Logger
+     * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
 
     /**
-     * @param Magento_Rule_Model_Condition_Context $context
+     * @param \Magento\Rule\Model\Condition\Context $context
      * @param array $data
      */
-    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
+    public function __construct(\Magento\Rule\Model\Condition\Context $context, array $data = array())
     {
         $this->_conditionFactory = $context->getConditionFactory();
         $this->_logger = $context->getLogger();
 
         parent::__construct($context, $data);
-        $this->setType('Magento_Rule_Model_Condition_Combine')
+        $this->setType('Magento\Rule\Model\Condition\Combine')
             ->setAggregator('all')
             ->setValue(true)
             ->setConditions(array())
@@ -62,7 +64,7 @@ class Magento_Rule_Model_Condition_Combine extends Magento_Rule_Model_Condition_
      * It's made by performance reasons to avoid initialization of same models each time when rules are being processed.
      *
      * @param  string $modelClass
-     * @return Magento_Rule_Model_Condition_Abstract|bool
+     * @return \Magento\Rule\Model\Condition\AbstractCondition|bool
      */
     protected function _getNewConditionModelInstance($modelClass)
     {
@@ -134,7 +136,7 @@ class Magento_Rule_Model_Condition_Combine extends Magento_Rule_Model_Condition_
             'values' => $this->getAggregatorSelectOptions(),
             'value' => $this->getAggregator(),
             'value_name' => $this->getAggregatorName(),
-        ))->setRenderer($this->_layout->getBlockSingleton('Magento_Rule_Block_Editable'));
+        ))->setRenderer($this->_layout->getBlockSingleton('Magento\Rule\Block\Editable'));
     }
     /* end aggregator methods */
 
@@ -247,7 +249,7 @@ class Magento_Rule_Model_Condition_Combine extends Magento_Rule_Model_Condition_
                         $this->addCondition($cond);
                         $cond->loadArray($condArr, $key);
                     }
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     $this->_logger->logException($e);
                 }
             }
@@ -291,7 +293,7 @@ class Magento_Rule_Model_Condition_Combine extends Magento_Rule_Model_Condition_
             'name' => 'rule[' . $this->getPrefix() . '][' . $this->getId() . '][new_child]',
             'values' => $this->getNewChildSelectOptions(),
             'value_name' => $this->getNewChildName(),
-        ))->setRenderer($this->_layout->getBlockSingleton('Magento_Rule_Block_Newchild'));
+        ))->setRenderer($this->_layout->getBlockSingleton('Magento\Rule\Block\Newchild'));
     }
 
     /**
@@ -333,10 +335,10 @@ class Magento_Rule_Model_Condition_Combine extends Magento_Rule_Model_Condition_
     }
 
     /**
-     * @param Magento_Object $object
+     * @param \Magento\Object $object
      * @return bool
      */
-    public function validate(Magento_Object $object)
+    public function validate(\Magento\Object $object)
     {
         if (!$this->getConditions()) {
             return true;
@@ -358,7 +360,7 @@ class Magento_Rule_Model_Condition_Combine extends Magento_Rule_Model_Condition_
     }
 
     /**
-     * @param Magento_Data_Form $form
+     * @param \Magento\Data\Form $form
      * @return $this
      */
     public function setJsFormObject($form)
@@ -385,7 +387,7 @@ class Magento_Rule_Model_Condition_Combine extends Magento_Rule_Model_Condition_
      * Set conditions, if current prefix is undefined use 'conditions' key
      *
      * @param array $conditions
-     * @return Magento_Rule_Model_Condition_Combine
+     * @return \Magento\Rule\Model\Condition\Combine
      */
     public function setConditions($conditions)
     {

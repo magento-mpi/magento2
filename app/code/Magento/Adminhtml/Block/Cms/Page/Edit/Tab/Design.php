@@ -6,39 +6,42 @@
  * @package     Magento_Adminhtml
  * @copyright   {copyright}
  * @license     {license_link}
- *
+ */
+namespace Magento\Adminhtml\Block\Cms\Page\Edit\Tab;
+
+/**
  * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
-class Magento_Adminhtml_Block_Cms_Page_Edit_Tab_Design
-    extends Magento_Backend_Block_Widget_Form_Generic
-    implements Magento_Backend_Block_Widget_Tab_Interface
+class Design
+    extends \Magento\Backend\Block\Widget\Form\Generic
+    implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
-     * @var Magento_Core_Model_Theme_LabelFactory
+     * @var \Magento\Core\Model\Theme\LabelFactory
      */
     protected $_labelFactory;
 
     /**
-     * @var Magento_Page_Model_Source_Layout
+     * @var \Magento\Page\Model\Source\Layout
      */
     protected $_pageLayout;
 
     /**
-     * @param Magento_Page_Model_Source_Layout $pageLayout
-     * @param Magento_Core_Model_Theme_LabelFactory $labelFactory
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
+     * @param \Magento\Page\Model\Source\Layout $pageLayout
+     * @param \Magento\Core\Model\Theme\LabelFactory $labelFactory
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Page_Model_Source_Layout $pageLayout,
-        Magento_Core_Model_Theme_LabelFactory $labelFactory,
-        Magento_Core_Model_Registry $registry,
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
+        \Magento\Page\Model\Source\Layout $pageLayout,
+        \Magento\Core\Model\Theme\LabelFactory $labelFactory,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_labelFactory = $labelFactory;
@@ -58,7 +61,7 @@ class Magento_Adminhtml_Block_Cms_Page_Edit_Tab_Design
     /**
      * Initialise form fields
      *
-     * @return Magento_Adminhtml_Block_Cms_Page_Edit_Tab_Design
+     * @return \Magento\Adminhtml\Block\Cms\Page\Edit\Tab\Design
      */
     protected function _prepareForm()
     {
@@ -67,7 +70,7 @@ class Magento_Adminhtml_Block_Cms_Page_Edit_Tab_Design
          */
         $isElementDisabled = !$this->_isAllowedAction('Magento_Cms::save');
 
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form   = $this->_formFactory->create(array(
             'attributes' => array(
                 'html_id_prefix' => 'page_',
@@ -106,7 +109,7 @@ class Magento_Adminhtml_Block_Cms_Page_Edit_Tab_Design
             'disabled'  => $isElementDisabled
         ));
 
-        $dateFormat = $this->_locale->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
+        $dateFormat = $this->_locale->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
 
         $designFieldset->addField('custom_theme_from', 'date', array(
             'name'      => 'custom_theme_from',

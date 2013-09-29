@@ -15,30 +15,32 @@
  * @package    Magento_Downloadable
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Downloadable_Block_Checkout_Success extends Magento_Checkout_Block_Onepage_Success
+namespace Magento\Downloadable\Block\Checkout;
+
+class Success extends \Magento\Checkout\Block\Onepage\Success
 {
     /**
-     * @var Magento_Checkout_Model_Session
+     * @var \Magento\Checkout\Model\Session
      */
     protected $_checkoutSession;
 
     /**
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Checkout_Model_Session $checkoutSession
-     * @param Magento_Customer_Model_Session $customerSession
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \Magento\Customer\Model\Session $customerSession
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Checkout_Model_Session $checkoutSession,
-        Magento_Customer_Model_Session $customerSession,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Customer\Model\Session $customerSession,
         array $data = array()
     ) {
         $this->_checkoutSession = $checkoutSession;

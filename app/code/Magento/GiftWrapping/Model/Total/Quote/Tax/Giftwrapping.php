@@ -9,20 +9,22 @@
 /**
  * GiftWrapping tax total calculator for quote
  */
-class Magento_GiftWrapping_Model_Total_Quote_Tax_Giftwrapping extends Magento_Sales_Model_Quote_Address_Total_Abstract
+namespace Magento\GiftWrapping\Model\Total\Quote\Tax;
+
+class Giftwrapping extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
 {
     /**
-     * @var Magento_Sales_Model_Quote
+     * @var \Magento\Sales\Model\Quote
      */
     protected $_quote;
 
     /**
-     * @var Magento_Sales_Model_Quote|Magento_Sales_Model_Quote_Address
+     * @var \Magento\Sales\Model\Quote|\Magento\Sales\Model\Quote\Address
      */
     protected $_quoteEntity;
 
     /**
-     * @var Magento_Tax_Model_Calculation
+     * @var \Magento\Tax\Model\Calculation
      */
     protected $_taxCalculationModel;
 
@@ -39,17 +41,17 @@ class Magento_GiftWrapping_Model_Total_Quote_Tax_Giftwrapping extends Magento_Sa
     /**
      * Gift wrapping data
      *
-     * @var Magento_GiftWrapping_Helper_Data
+     * @var \Magento\GiftWrapping\Helper\Data
      */
     protected $_giftWrappingData = null;
 
     /**
-     * @param Magento_GiftWrapping_Helper_Data $giftWrappingData
-     * @param Magento_Tax_Model_Calculation $taxCalculation
+     * @param \Magento\GiftWrapping\Helper\Data $giftWrappingData
+     * @param \Magento\Tax\Model\Calculation $taxCalculation
      */
     public function __construct(
-        Magento_GiftWrapping_Helper_Data $giftWrappingData,
-        Magento_Tax_Model_Calculation $taxCalculation
+        \Magento\GiftWrapping\Helper\Data $giftWrappingData,
+        \Magento\Tax\Model\Calculation $taxCalculation
     ) {
         $this->_giftWrappingData = $giftWrappingData;
         $this->_taxCalculationModel = $taxCalculation;
@@ -59,12 +61,12 @@ class Magento_GiftWrapping_Model_Total_Quote_Tax_Giftwrapping extends Magento_Sa
     /**
      * Collect applied tax rates information on address level
      *
-     * @param Magento_Sales_Model_Quote_Address $address
+     * @param \Magento\Sales\Model\Quote\Address $address
      * @param array $applied
      * @param float $amount
      * @param float $baseAmount
      * @param float $rate
-     * @return Magento_GiftWrapping_Model_Total_Quote_Tax_Giftwrapping
+     * @return \Magento\GiftWrapping\Model\Total\Quote\Tax\Giftwrapping
      */
     protected function _saveAppliedTaxes($address, $applied, $amount, $baseAmount, $rate)
     {
@@ -111,13 +113,13 @@ class Magento_GiftWrapping_Model_Total_Quote_Tax_Giftwrapping extends Magento_Sa
     /**
      * Collect gift wrapping tax totals
      *
-     * @param   Magento_Sales_Model_Quote_Address $address
-     * @return  Magento_GiftWrapping_Model_Total_Quote_Tax_Giftwrapping
+     * @param   \Magento\Sales\Model\Quote\Address $address
+     * @return  \Magento\GiftWrapping\Model\Total\Quote\Tax\Giftwrapping
      */
-    public function collect(Magento_Sales_Model_Quote_Address $address)
+    public function collect(\Magento\Sales\Model\Quote\Address $address)
     {
         parent::collect($address);
-        if ($address->getAddressType() != Magento_Sales_Model_Quote_Address::TYPE_SHIPPING) {
+        if ($address->getAddressType() != \Magento\Sales\Model\Quote\Address::TYPE_SHIPPING) {
             return $this;
         }
 
@@ -174,8 +176,8 @@ class Magento_GiftWrapping_Model_Total_Quote_Tax_Giftwrapping extends Magento_Sa
     /**
      * Collect wrapping tax total for items
      *
-     * @param   Magento_Sales_Model_Quote_Address $address
-     * @return  Magento_GiftWrapping_Model_Total_Quote_Tax_Giftwrapping
+     * @param   \Magento\Sales\Model\Quote\Address $address
+     * @return  \Magento\GiftWrapping\Model\Total\Quote\Tax\Giftwrapping
      */
     protected function _collectWrappingForItems($address)
     {
@@ -203,8 +205,8 @@ class Magento_GiftWrapping_Model_Total_Quote_Tax_Giftwrapping extends Magento_Sa
     /**
      * Collect wrapping tax total for quote
      *
-     * @param   Magento_Sales_Model_Quote_Address $address
-     * @return  Magento_GiftWrapping_Model_Total_Quote_Tax_Giftwrapping
+     * @param   \Magento\Sales\Model\Quote\Address $address
+     * @return  \Magento\GiftWrapping\Model\Total\Quote\Tax\Giftwrapping
      */
     protected function _collectWrappingForQuote($address)
     {
@@ -222,8 +224,8 @@ class Magento_GiftWrapping_Model_Total_Quote_Tax_Giftwrapping extends Magento_Sa
     /**
      * Collect printed card tax total for quote
      *
-     * @param   Magento_Sales_Model_Quote_Address $address
-     * @return  Magento_GiftWrapping_Model_Total_Quote_Tax_Giftwrapping
+     * @param   \Magento\Sales\Model\Quote\Address $address
+     * @return  \Magento\GiftWrapping\Model\Total\Quote\Tax\Giftwrapping
      */
     protected function _collectPrintedCard($address)
     {
@@ -241,8 +243,8 @@ class Magento_GiftWrapping_Model_Total_Quote_Tax_Giftwrapping extends Magento_Sa
     /**
      * Init gift wrapping and printed card tax rate for address
      *
-     * @param   Magento_Sales_Model_Quote_Address $address
-     * @return  Magento_GiftWrapping_Model_Total_Quote_Tax_Giftwrapping
+     * @param   \Magento\Sales\Model\Quote\Address $address
+     * @return  \Magento\GiftWrapping\Model\Total\Quote\Tax\Giftwrapping
      */
     protected function _initRate($address)
     {
@@ -274,10 +276,10 @@ class Magento_GiftWrapping_Model_Total_Quote_Tax_Giftwrapping extends Magento_Sa
     /**
      * Assign wrapping tax totals and labels to address object
      *
-     * @param   Magento_Sales_Model_Quote_Address $address
-     * @return  Magento_GiftWrapping_Model_Total_Quote_Tax_Giftwrapping
+     * @param   \Magento\Sales\Model\Quote\Address $address
+     * @return  \Magento\GiftWrapping\Model\Total\Quote\Tax\Giftwrapping
      */
-    public function fetch(Magento_Sales_Model_Quote_Address $address)
+    public function fetch(\Magento\Sales\Model\Quote\Address $address)
     {
         $address->addTotal(array(
             'code' => 'giftwrapping',

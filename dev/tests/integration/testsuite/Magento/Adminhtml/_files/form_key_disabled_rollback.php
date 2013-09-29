@@ -9,4 +9,4 @@
  * @license     {license_link}
  */
 
-Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Backend_Model_Url')->turnOnSecretKey();
+\Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Backend\Model\Url')->turnOnSecretKey();

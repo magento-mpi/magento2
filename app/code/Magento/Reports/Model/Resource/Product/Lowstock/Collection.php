@@ -16,12 +16,14 @@
  * @package     Magento_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reports_Model_Resource_Product_Lowstock_Collection extends Magento_Reports_Model_Resource_Product_Collection
+namespace Magento\Reports\Model\Resource\Product\Lowstock;
+
+class Collection extends \Magento\Reports\Model\Resource\Product\Collection
 {
     /**
      * CatalogInventory Stock Item Resource instance
      *
-     * @var Magento_CatalogInventory_Model_Resource_Stock_Item
+     * @var \Magento\CatalogInventory\Model\Resource\Stock\Item
      */
     protected $_inventoryItemResource      = null;
 
@@ -42,31 +44,31 @@ class Magento_Reports_Model_Resource_Product_Lowstock_Collection extends Magento
     /**
      * Catalog inventory data
      *
-     * @var Magento_CatalogInventory_Helper_Data
+     * @var \Magento\CatalogInventory\Helper\Data
      */
     protected $_inventoryData = null;
 
     /**
-     * @param Magento_CatalogInventory_Helper_Data $catalogInventoryData
-     * @param Magento_Catalog_Helper_Product_Flat $catalogProductFlat
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_EntityFactory $entityFactory
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Catalog_Model_Resource_Product $product
+     * @param \Magento\CatalogInventory\Helper\Data $catalogInventoryData
+     * @param \Magento\Catalog\Helper\Product\Flat $catalogProductFlat
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Catalog\Model\Resource\Product $product
      */
     public function __construct(
-        Magento_CatalogInventory_Helper_Data $catalogInventoryData,
-        Magento_Catalog_Helper_Product_Flat $catalogProductFlat,
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Logger $logger,
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_EntityFactory $entityFactory,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Catalog_Model_Resource_Product $product
+        \Magento\CatalogInventory\Helper\Data $catalogInventoryData,
+        \Magento\Catalog\Helper\Product\Flat $catalogProductFlat,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Catalog\Model\Resource\Product $product
     ) {
         $this->_inventoryData = $catalogInventoryData;
         parent::__construct(
@@ -78,13 +80,13 @@ class Magento_Reports_Model_Resource_Product_Lowstock_Collection extends Magento
     /**
      * Retrieve CatalogInventory Stock Item Resource instance
      *
-     * @return Magento_CatalogInventory_Model_Resource_Stock_Item
+     * @return \Magento\CatalogInventory\Model\Resource\Stock\Item
      */
     protected function _getInventoryItemResource()
     {
         if ($this->_inventoryItemResource === null) {
-            $this->_inventoryItemResource = Mage::getResourceSingleton(
-                    'Magento_CatalogInventory_Model_Resource_Stock_Item'
+            $this->_inventoryItemResource = \Mage::getResourceSingleton(
+                    'Magento\CatalogInventory\Model\Resource\Stock\Item'
                 );
         }
         return $this->_inventoryItemResource;
@@ -125,7 +127,7 @@ class Magento_Reports_Model_Resource_Product_Lowstock_Collection extends Magento
      *
      * @param string $field
      * @param string $alias
-     * @return Magento_Reports_Model_Resource_Product_Lowstock_Collection
+     * @return \Magento\Reports\Model\Resource\Product\Lowstock\Collection
      */
     protected function _addInventoryItemFieldToSelect($field, $alias = null)
     {
@@ -199,12 +201,12 @@ class Magento_Reports_Model_Resource_Product_Lowstock_Collection extends Magento
      * Add filter by product type(s)
      *
      * @param array|string $typeFilter
-     * @return Magento_Reports_Model_Resource_Product_Lowstock_Collection
+     * @return \Magento\Reports\Model\Resource\Product\Lowstock\Collection
      */
     public function filterByProductType($typeFilter)
     {
         if (!is_string($typeFilter) && !is_array($typeFilter)) {
-            Mage::throwException(
+            \Mage::throwException(
                 __('The product type filter specified is incorrect.')
             );
         }
@@ -216,7 +218,7 @@ class Magento_Reports_Model_Resource_Product_Lowstock_Collection extends Magento
      * Add filter by product types from config
      * Only types witch has QTY parameter
      *
-     * @return Magento_Reports_Model_Resource_Product_Lowstock_Collection
+     * @return \Magento\Reports\Model\Resource\Product\Lowstock\Collection
      */
     public function filterByIsQtyProductTypes()
     {
@@ -230,14 +232,14 @@ class Magento_Reports_Model_Resource_Product_Lowstock_Collection extends Magento
      * Add Use Manage Stock Condition to collection
      *
      * @param int|null $storeId
-     * @return Magento_Reports_Model_Resource_Product_Lowstock_Collection
+     * @return \Magento\Reports\Model\Resource\Product\Lowstock\Collection
      */
     public function useManageStockFilter($storeId = null)
     {
         $this->joinInventoryItem();
         $manageStockExpr = $this->getConnection()->getCheckSql(
             $this->_getInventoryItemField('use_config_manage_stock') . ' = 1',
-            (int) $this->_coreStoreConfig->getConfig(Magento_CatalogInventory_Model_Stock_Item::XML_PATH_MANAGE_STOCK, $storeId),
+            (int) $this->_coreStoreConfig->getConfig(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_MANAGE_STOCK, $storeId),
             $this->_getInventoryItemField('manage_stock')
         );
         $this->getSelect()->where($manageStockExpr . ' = ?', 1);
@@ -248,14 +250,14 @@ class Magento_Reports_Model_Resource_Product_Lowstock_Collection extends Magento
      * Add Notify Stock Qty Condition to collection
      *
      * @param int $storeId
-     * @return Magento_Reports_Model_Resource_Product_Lowstock_Collection
+     * @return \Magento\Reports\Model\Resource\Product\Lowstock\Collection
      */
     public function useNotifyStockQtyFilter($storeId = null)
     {
         $this->joinInventoryItem(array('qty'));
         $notifyStockExpr = $this->getConnection()->getCheckSql(
             $this->_getInventoryItemField('use_config_notify_stock_qty') . ' = 1',
-            (int)$this->_coreStoreConfig->getConfig(Magento_CatalogInventory_Model_Stock_Item::XML_PATH_NOTIFY_STOCK_QTY, $storeId),
+            (int)$this->_coreStoreConfig->getConfig(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_NOTIFY_STOCK_QTY, $storeId),
             $this->_getInventoryItemField('notify_stock_qty')
         );
         $this->getSelect()->where('qty < ?', $notifyStockExpr);

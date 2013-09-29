@@ -8,39 +8,39 @@
  */
 -->
 <config>
-    <type name="Magento_User_Model_User" shared="false">
+    <type name="Magento\User\Model\User" shared="false">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
-    <type name="Magento_User_Model_Role" shared="false" />
-    <type name="Magento_User_Model_Resource_Rules">
+    <type name="Magento\User\Model\Role" shared="false" />
+    <type name="Magento\User\Model\Resource\Rules">
         <param name="rootResource">
-            <instance type="Magento_Core_Model_Acl_RootResource_Proxy" />
+            <instance type="Magento\Core\Model\Acl\RootResource\Proxy" />
         </param>
         <param name="aclCache">
-            <instance type="Magento_Core_Model_Acl_Cache_Proxy" />
+            <instance type="Magento\Core\Model\Acl\Cache\Proxy" />
         </param>
     </type>
-    <type name="Magento_User_Model_Resource_User">
+    <type name="Magento\User\Model\Resource\User">
         <param name="aclCache">
-            <instance type="Magento_Core_Model_Acl_Cache_Proxy" />
+            <instance type="Magento\Core\Model\Acl\Cache\Proxy" />
         </param>
     </type>
-    <type name="Magento_Core_Model_Config">
+    <type name="Magento\Core\Model\Config">
         <param name="areas">
             <value>
                 <adminhtml>
-                    <auth_credential_storage>Magento_User_Model_User</auth_credential_storage>
+                    <auth_credential_storage>Magento\User\Model\User</auth_credential_storage>
                 </adminhtml>
             </value>
         </param>
     </type>
-    <preference for="Magento_Backend_Model_Auth_Credential_StorageInterface" type="Magento_User_Model_User" />
-    <type name="Magento_Core_Model_Db_Updater">
+    <preference for="Magento\Backend\Model\Auth\Credential\StorageInterface" type="Magento\User\Model\User" />
+    <type name="Magento\Core\Model\Db\Updater">
         <param name="resourceList">
             <value>
-                <user_setup>Magento_User_Model_Resource_Setup</user_setup>
+                <user_setup>Magento\User\Model\Resource\Setup</user_setup>
             </value>
         </param>
     </type>

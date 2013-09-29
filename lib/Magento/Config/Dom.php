@@ -12,7 +12,9 @@
 /**
  * Magento configuration XML DOM utility
  */
-class Magento_Config_Dom
+namespace Magento\Config;
+
+class Dom
 {
     /**
      * Prefix which will be used for root namespace
@@ -20,14 +22,14 @@ class Magento_Config_Dom
     const ROOT_NAMESPACE_PREFIX = 'x';
 
     /**
-     * Format of items in errors array to be used by default. Available placeholders - fields of LibXMLError.
+     * Format of items in errors array to be used by default. Available placeholders - fields of \LibXMLError.
      */
     const ERROR_FORMAT_DEFAULT = "%message%\nLine: %line%\n";
 
     /**
      * Dom document
      *
-     * @var DOMDocument
+     * @var \DOMDocument
      */
     protected $_dom;
 
@@ -69,7 +71,7 @@ class Magento_Config_Dom
      * @param array $idAttributes
      * @param string $schemaFile
      * @param string $errorFormat
-     * @throws Magento_Config_Dom_ValidationException
+     * @throws \Magento\Config\Dom\ValidationException
      */
     public function __construct(
         $xml, array $idAttributes = array(), $schemaFile = null, $errorFormat = self::ERROR_FORMAT_DEFAULT
@@ -86,7 +88,7 @@ class Magento_Config_Dom
      *
      * @param string $xml
      * @return void
-     * @throws Magento_Config_Dom_ValidationException
+     * @throws \Magento\Config\Dom\ValidationException
      */
     public function merge($xml)
     {
@@ -95,17 +97,17 @@ class Magento_Config_Dom
     }
 
     /**
-     * Recursive merging of the DOMElement into the original document
+     * Recursive merging of the \DOMElement into the original document
      *
      * Algorithm:
      * 1. Find the same node in original document
      * 2. Extend and override original document node attributes and scalar value if found
      * 3. Append new node if original document doesn't have the same node
      *
-     * @param DOMElement $node
+     * @param \DOMElement $node
      * @param string $parentPath path to parent node
      */
-    protected function _mergeNode(DOMElement $node, $parentPath)
+    protected function _mergeNode(\DOMElement $node, $parentPath)
     {
         $path = $this->_getNodePathByParent($node, $parentPath);
 
@@ -125,7 +127,7 @@ class Magento_Config_Dom
                 }
             } else { /* recursive merge for all child nodes */
                 foreach ($node->childNodes as $childNode) {
-                    if ($childNode instanceof DOMElement) {
+                    if ($childNode instanceof \DOMElement) {
                         $this->_mergeNode($childNode, $path);
                     }
                 }
@@ -146,7 +148,7 @@ class Magento_Config_Dom
      */
     protected function _isTextNode($node)
     {
-        return $node->childNodes->length == 1 && $node->childNodes->item(0) instanceof DOMText;
+        return $node->childNodes->length == 1 && $node->childNodes->item(0) instanceof \DOMText;
     }
 
     /**
@@ -166,11 +168,11 @@ class Magento_Config_Dom
     /**
      * Identify node path based on parent path and node attributes
      *
-     * @param DOMElement $node
+     * @param \DOMElement $node
      * @param string $parentPath
      * @return string
      */
-    protected function _getNodePathByParent(DOMElement $node, $parentPath)
+    protected function _getNodePathByParent(\DOMElement $node, $parentPath)
     {
         $prefix = is_null($this->_rootNamespace) ? '' : self::ROOT_NAMESPACE_PREFIX . ':';
         $path = $parentPath . '/' . $prefix . $node->tagName;
@@ -198,19 +200,19 @@ class Magento_Config_Dom
      * Getter for node by path
      *
      * @param string $nodePath
-     * @throws Magento_Exception an exception is possible if original document contains multiple nodes for identifier
-     * @return DOMElement | null
+     * @throws \Magento\Exception an exception is possible if original document contains multiple nodes for identifier
+     * @return \DOMElement | null
      */
     protected function _getMatchedNode($nodePath)
     {
-        $xPath  = new DOMXPath($this->_dom);
+        $xPath  = new \DOMXPath($this->_dom);
         if ($this->_rootNamespace) {
             $xPath->registerNamespace(self::ROOT_NAMESPACE_PREFIX, $this->_rootNamespace);
         }
         $matchedNodes = $xPath->query($nodePath);
         $node = null;
         if ($matchedNodes->length > 1) {
-            throw new Magento_Exception("More than one node matching the query: {$nodePath}");
+            throw new \Magento\Exception("More than one node matching the query: {$nodePath}");
         } elseif ($matchedNodes->length == 1) {
             $node = $matchedNodes->item(0);
         }
@@ -220,14 +222,14 @@ class Magento_Config_Dom
     /**
      * Validate dom document
      *
-     * @param DOMDocument $dom
+     * @param \DOMDocument $dom
      * @param string $schemaFileName
      * @param string $errorFormat
      * @return array of errors
-     * @throws Exception
+     * @throws \Exception
      */
     public static function validateDomDocument(
-        DOMDocument $dom, $schemaFileName, $errorFormat = self::ERROR_FORMAT_DEFAULT
+        \DOMDocument $dom, $schemaFileName, $errorFormat = self::ERROR_FORMAT_DEFAULT
     ) {
         libxml_use_internal_errors(true);
         try {
@@ -243,7 +245,7 @@ class Magento_Config_Dom
                     $errors[] = 'Unknown validation error';
                 }
             }
-        } catch (Exception $exception) {
+        } catch (\Exception $exception) {
             libxml_use_internal_errors(false);
             throw $exception;
         }
@@ -252,14 +254,14 @@ class Magento_Config_Dom
     }
 
     /**
-     * Render error message string by replacing placeholders '%field%' with properties of LibXMLError
+     * Render error message string by replacing placeholders '%field%' with properties of \LibXMLError
      *
-     * @param LibXMLError $errorInfo
+     * @param \LibXMLError $errorInfo
      * @param string $format
      * @return string
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
-    private static function _renderErrorMessage(LibXMLError $errorInfo, $format)
+    private static function _renderErrorMessage(\LibXMLError $errorInfo, $format)
     {
         $result = $format;
         foreach ($errorInfo as $field => $value) {
@@ -268,7 +270,7 @@ class Magento_Config_Dom
             $result = str_replace($placeholder, $value, $result);
         }
         if (strpos($result, '%') !== false) {
-            throw new InvalidArgumentException("Error format '$format' contains unsupported placeholders.");
+            throw new \InvalidArgumentException("Error format '$format' contains unsupported placeholders.");
         }
         return $result;
     }
@@ -276,7 +278,7 @@ class Magento_Config_Dom
     /**
      * DOM document getter
      *
-     * @return DOMDocument
+     * @return \DOMDocument
      */
     public function getDom()
     {
@@ -287,17 +289,17 @@ class Magento_Config_Dom
      * Create DOM document based on $xml parameter
      *
      * @param string $xml
-     * @return DOMDocument
-     * @throws Magento_Config_Dom_ValidationException
+     * @return \DOMDocument
+     * @throws \Magento\Config\Dom\ValidationException
      */
     protected function _initDom($xml)
     {
-        $dom = new DOMDocument();
+        $dom = new \DOMDocument();
         $dom->loadXML($xml);
         if ($this->_schemaFile) {
             $errors = self::validateDomDocument($dom, $this->_schemaFile, $this->_errorFormat);
             if (count($errors)) {
-                throw new Magento_Config_Dom_ValidationException(implode("\n", $errors));
+                throw new \Magento\Config\Dom\ValidationException(implode("\n", $errors));
             }
         }
         return $dom;
@@ -320,7 +322,7 @@ class Magento_Config_Dom
      * Set schema file
      *
      * @param string $schemaFile
-     * @return Magento_Config_Dom
+     * @return \Magento\Config\Dom
      */
     public function setSchemaFile($schemaFile)
     {

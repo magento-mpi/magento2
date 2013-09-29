@@ -11,12 +11,14 @@
 /**
  * Check Config Reader and Converter to receive the right array of data
  *
- * Class Magento_GiftRegistry_Model_Config_ConverterTest
+ * Class \Magento\GiftRegistry\Model\Config\ConverterTest
  */
-class Magento_GiftRegistry_Model_Config_ConverterTest extends PHPUnit_Framework_TestCase
+namespace Magento\GiftRegistry\Model\Config;
+
+class ConverterTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_GiftRegistry_Model_Config_Converter
+     * @var \Magento\GiftRegistry\Model\Config\Converter
      */
     protected $_model;
 
@@ -26,7 +28,7 @@ class Magento_GiftRegistry_Model_Config_ConverterTest extends PHPUnit_Framework_
     protected $_filePath;
 
     /**
-     * @var DOMDocument
+     * @var \DOMDocument
      */
     protected $_source;
 
@@ -36,8 +38,8 @@ class Magento_GiftRegistry_Model_Config_ConverterTest extends PHPUnit_Framework_
     protected function setUp()
     {
         $this->_filePath = __DIR__ . '/../_files/';
-        $this->_source = new DOMDocument();
-        $this->_model = new Magento_GiftRegistry_Model_Config_Converter();
+        $this->_source = new \DOMDocument();
+        $this->_model = new \Magento\GiftRegistry\Model\Config\Converter();
     }
 
     /**
@@ -54,7 +56,7 @@ class Magento_GiftRegistry_Model_Config_ConverterTest extends PHPUnit_Framework_
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @param string $invalidConfFileName
      * @dataProvider invalidConfigFilesDataProvider
      */

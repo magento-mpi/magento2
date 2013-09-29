@@ -8,8 +8,10 @@
  * @license     {license_link}
  */
 
-class Magento_Catalog_Block_Product_Grouped_AssociatedProducts
-    extends Magento_Backend_Block_Catalog_Product_Tab_Container
+namespace Magento\Catalog\Block\Product\Grouped;
+
+class AssociatedProducts
+    extends \Magento\Backend\Block\Catalog\Product\Tab\Container
 {
     protected function _construct()
     {

@@ -16,9 +16,11 @@
  * @package     Magento_Pbridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Pbridge_Block_Adminhtml_Customer_Edit_Tab_Payment_Profile
-    extends Magento_Pbridge_Block_Iframe_Abstract
-    implements Magento_Backend_Block_Widget_Tab_Interface
+namespace Magento\Pbridge\Block\Adminhtml\Customer\Edit\Tab\Payment;
+
+class Profile
+    extends \Magento\Pbridge\Block\Iframe\AbstractIframe
+    implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
 {
     /**
      * Block template
@@ -46,17 +48,17 @@ class Magento_Pbridge_Block_Adminhtml_Customer_Edit_Tab_Payment_Profile
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Pbridge_Helper_Data $pbridgeData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Pbridge\Helper\Data $pbridgeData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Registry $registry,
-        Magento_Pbridge_Helper_Data $pbridgeData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Pbridge\Helper\Data $pbridgeData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -146,11 +148,11 @@ class Magento_Pbridge_Block_Adminhtml_Customer_Edit_Tab_Payment_Profile
     /**
      * Get current customer object
      *
-     * @return null|Magento_Customer_Model_Customer
+     * @return null|\Magento\Customer\Model\Customer
      */
     protected function _getCurrentCustomer()
     {
-        if ($this->_coreRegistry->registry('current_customer') instanceof Magento_Customer_Model_Customer) {
+        if ($this->_coreRegistry->registry('current_customer') instanceof \Magento\Customer\Model\Customer) {
             return $this->_coreRegistry->registry('current_customer');
         }
 
@@ -160,7 +162,7 @@ class Magento_Pbridge_Block_Adminhtml_Customer_Edit_Tab_Payment_Profile
     /**
      * Return store for current context
      *
-     * @return Magento_Core_Model_Store
+     * @return \Magento\Core\Model\Store
      */
     protected function _getCurrentStore()
     {

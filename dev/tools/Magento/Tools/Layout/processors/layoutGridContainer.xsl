@@ -31,7 +31,7 @@
             <xsl:when test="@name=$conflictNames/@value">
                 <xsl:element name="block">
                         <xsl:attribute name="class">
-                            <xsl:value-of select="'Magento_Backend_Block_Widget_Grid_Container'"/>
+                            <xsl:value-of select="'Magento\Backend\Block\Widget\Grid\Container'"/>
                         </xsl:attribute>
                         <xsl:attribute name="name">
                             <xsl:value-of select="@name"/>

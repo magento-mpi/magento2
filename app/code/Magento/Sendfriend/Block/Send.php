@@ -16,41 +16,43 @@
  * @package     Magento_Sendfriend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sendfriend_Block_Send extends Magento_Core_Block_Template
+namespace Magento\Sendfriend\Block;
+
+class Send extends \Magento\Core\Block\Template
 {
     /**
      * Sendfriend data
      *
-     * @var Magento_Sendfriend_Helper_Data
+     * @var \Magento\Sendfriend\Helper\Data
      */
     protected $_sendfriendData = null;
 
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
 
     /**
-     * @param Magento_Customer_Model_Session $customerSession
-     * @param Magento_Sendfriend_Helper_Data $sendfriendData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Sendfriend\Helper\Data $sendfriendData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Customer_Model_Session $customerSession,
-        Magento_Sendfriend_Helper_Data $sendfriendData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Sendfriend\Helper\Data $sendfriendData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_customerSession = $customerSession;
@@ -71,7 +73,7 @@ class Magento_Sendfriend_Block_Send extends Magento_Core_Block_Template
             return trim($name);
         }
 
-        /* @var $session Magento_Customer_Model_Session */
+        /* @var $session \Magento\Customer\Model\Session */
         $session = $this->_customerSession;
 
         if ($session->isLoggedIn()) {
@@ -93,7 +95,7 @@ class Magento_Sendfriend_Block_Send extends Magento_Core_Block_Template
             return trim($email);
         }
 
-        /* @var $session Magento_Customer_Model_Session */
+        /* @var $session \Magento\Customer\Model\Session */
         $session = $this->_customerSession;
 
         if ($session->isLoggedIn()) {
@@ -114,15 +116,15 @@ class Magento_Sendfriend_Block_Send extends Magento_Core_Block_Template
     }
 
     /**
-     * Retrieve Form data or empty Magento_Object
+     * Retrieve Form data or empty \Magento\Object
      *
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function getFormData()
     {
         $data = $this->getData('form_data');
-        if (!$data instanceof Magento_Object) {
-            $data = new Magento_Object();
+        if (!$data instanceof \Magento\Object) {
+            $data = new \Magento\Object();
             $this->setData('form_data', $data);
         }
 
@@ -133,12 +135,12 @@ class Magento_Sendfriend_Block_Send extends Magento_Core_Block_Template
      * Set Form data array
      *
      * @param array $data
-     * @return Magento_Sendfriend_Block_Send
+     * @return \Magento\Sendfriend\Block\Send
      */
     public function setFormData($data)
     {
         if (is_array($data)) {
-            $this->setData('form_data', new Magento_Object($data));
+            $this->setData('form_data', new \Magento\Object($data));
         }
 
         return $this;
@@ -190,7 +192,7 @@ class Magento_Sendfriend_Block_Send extends Magento_Core_Block_Template
     /**
      * Return send friend model
      *
-     * @return Magento_Sendfriend_Model_Sendfriend
+     * @return \Magento\Sendfriend\Model\Sendfriend
      */
     protected function _getSendfriendModel()
     {

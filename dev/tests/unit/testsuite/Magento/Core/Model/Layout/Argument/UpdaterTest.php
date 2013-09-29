@@ -10,33 +10,35 @@
  */
 
 /**
- * Test class for Magento_Core_Model_Layout_Argument_Updater
+ * Test class for \Magento\Core\Model\Layout\Argument\Updater
  */
-class Magento_Core_Model_Layout_Argument_UpdaterTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Layout\Argument;
+
+class UpdaterTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Layout_Argument_Updater
+     * @var \Magento\Core\Model\Layout\Argument\Updater
      */
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_objectManagerMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_argUpdaterMock;
 
     protected function setUp()
     {
-        $this->_objectManagerMock = $this->getMock('Magento_ObjectManager');
-        $this->_argUpdaterMock = $this->getMock('Magento_Core_Model_Layout_Argument_UpdaterInterface', array(), array(),
+        $this->_objectManagerMock = $this->getMock('Magento\ObjectManager');
+        $this->_argUpdaterMock = $this->getMock('Magento\Core\Model\Layout\Argument\UpdaterInterface', array(), array(),
             '', false
         );
 
-        $this->_model = new Magento_Core_Model_Layout_Argument_Updater($this->_objectManagerMock);
+        $this->_model = new \Magento\Core\Model\Layout\Argument\Updater($this->_objectManagerMock);
     }
 
     protected function tearDown()
@@ -65,14 +67,14 @@ class Magento_Core_Model_Layout_Argument_UpdaterTest extends PHPUnit_Framework_T
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testApplyUpdatersWithInvalidUpdaters()
     {
         $this->_objectManagerMock->expects($this->once())
             ->method('create')
             ->with('Dummy_Updater_1')
-            ->will($this->returnValue(new StdClass()));
+            ->will($this->returnValue(new \StdClass()));
         $updaters = array('Dummy_Updater_1', 'Dummy_Updater_2');
 
         $this->_model->applyUpdaters(1, $updaters);

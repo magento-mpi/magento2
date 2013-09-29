@@ -1,36 +1,38 @@
 <?php
 /**
- * Test class for Magento_Webapi_Model_Acl_Role_InRoleUserUpdater.
+ * Test class for \Magento\Webapi\Model\Acl\Role\InRoleUserUpdater.
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Model_Acl_Role_InRoleUserUpdaterTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webapi\Model\Acl\Role;
+
+class InRoleUserUpdaterTest extends \PHPUnit_Framework_TestCase
 {
     public function testUpdate()
     {
         $roleId = 5;
         $expectedValues = array(7, 8, 9);
 
-        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
 
-        $request = $this->getMockBuilder('Magento_Core_Controller_Request_Http')
+        $request = $this->getMockBuilder('Magento\Core\Controller\Request\Http')
             ->disableOriginalConstructor()
             ->getMock();
         $request->expects($this->any())->method('getParam')->will($this->returnValueMap(array(
             array('role_id', null, $roleId)
         )));
 
-        $userResource = $this->getMockBuilder('Magento_Webapi_Model_Resource_Acl_User')
+        $userResource = $this->getMockBuilder('Magento\Webapi\Model\Resource\Acl\User')
             ->disableOriginalConstructor()
             ->getMock();
         $userResource->expects($this->once())->method('getRoleUsers')
             ->with($roleId)->will($this->returnValue($expectedValues));
 
-        /** @var Magento_Webapi_Model_Acl_Role_InRoleUserUpdater $model */
-        $model = $helper->getObject('Magento_Webapi_Model_Acl_Role_InRoleUserUpdater', array(
+        /** @var \Magento\Webapi\Model\Acl\Role\InRoleUserUpdater $model */
+        $model = $helper->getObject('Magento\Webapi\Model\Acl\Role\InRoleUserUpdater', array(
             'request' => $request,
             'userResource' => $userResource
         ));

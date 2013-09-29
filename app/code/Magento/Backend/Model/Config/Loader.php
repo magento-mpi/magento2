@@ -11,19 +11,21 @@
 /**
  * System configuration loader
  */
-class Magento_Backend_Model_Config_Loader
+namespace Magento\Backend\Model\Config;
+
+class Loader
 {
     /**
      * Config data factory
      *
-     * @var Magento_Core_Model_Config_ValueFactory
+     * @var \Magento\Core\Model\Config\ValueFactory
      */
     protected $_configValueFactory;
 
     /**
-     * @param Magento_Core_Model_Config_ValueFactory $configValueFactory
+     * @param \Magento\Core\Model\Config\ValueFactory $configValueFactory
      */
-    public function __construct(Magento_Core_Model_Config_ValueFactory $configValueFactory)
+    public function __construct(\Magento\Core\Model\Config\ValueFactory $configValueFactory)
     {
         $this->_configValueFactory = $configValueFactory;
     }

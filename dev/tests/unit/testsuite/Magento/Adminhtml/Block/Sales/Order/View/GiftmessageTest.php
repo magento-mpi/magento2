@@ -9,17 +9,19 @@
  * @license     {license_link}
  */
 
-class Magento_Adminhtml_Block_Sales_Order_View_GiftmessageTest extends PHPUnit_Framework_TestCase
+namespace Magento\Adminhtml\Block\Sales\Order\View;
+
+class GiftmessageTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetSaveButtonHtml()
     {
-        $item = new Magento_Object;
+        $item = new \Magento\Object;
         $expectedHtml = 'some_value';
 
-        /** @var $block Magento_Adminhtml_Block_Sales_Order_View_Giftmessage */
-        $block = $this->getMock('Magento_Adminhtml_Block_Sales_Order_View_Giftmessage',
+        /** @var $block \Magento\Adminhtml\Block\Sales\Order\View\Giftmessage */
+        $block = $this->getMock('Magento\Adminhtml\Block\Sales\Order\View\Giftmessage',
             array('getChildBlock', 'getChildHtml'), array(), '', false);
-        $block->setEntity(new Magento_Object);
+        $block->setEntity(new \Magento\Object);
         $block->expects($this->once())
             ->method('getChildBlock')
             ->with('save_button')

@@ -9,32 +9,34 @@
 /**
  * Logging event resource model
  */
-class Magento_Logging_Model_Resource_Event extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Logging\Model\Resource;
+
+class Event extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
-     * @var Magento_Filesystem
+     * @var \Magento\Filesystem
      */
     protected $_filesystem;
 
     /**
      * Archive factory
      *
-     * @var Magento_Logging_Model_ArchiveFactory
+     * @var \Magento\Logging\Model\ArchiveFactory
      */
     protected $_archiveFactory;
 
     /**
      * Class constructor
      *
-     * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Filesystem $filesystem
-     * @param Magento_Logging_Model_ArchiveFactory $archiveFactory
-     * @throws InvalidArgumentException
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\Logging\Model\ArchiveFactory $archiveFactory
+     * @throws \InvalidArgumentException
      */
     public function __construct(
-        Magento_Core_Model_Resource $resource,
-        Magento_Filesystem $filesystem,
-        Magento_Logging_Model_ArchiveFactory $archiveFactory
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Filesystem $filesystem,
+        \Magento\Logging\Model\ArchiveFactory $archiveFactory
     ) {
         parent::__construct($resource);
         $this->_filesystem = $filesystem;
@@ -53,10 +55,10 @@ class Magento_Logging_Model_Resource_Event extends Magento_Core_Model_Resource_D
     /**
      * Convert data before save ip
      *
-     * @param Magento_Core_Model_Abstract $event
-     * @return $this|\Magento_Core_Model_Resource_Db_Abstract
+     * @param \Magento\Core\Model\AbstractModel $event
+     * @return $this|\Magento\Core\Model\Resource\Db\AbstractDb
      */
-    protected function _beforeSave(Magento_Core_Model_Abstract $event)
+    protected function _beforeSave(\Magento\Core\Model\AbstractModel $event)
     {
         $event->setData('ip', ip2long($event->getIp()));
         $event->setTime($this->formatDate($event->getTime()));
@@ -84,11 +86,11 @@ class Magento_Logging_Model_Resource_Event extends Magento_Core_Model_Resource_D
         $latestLogEntry = $readAdapter->fetchOne($select);
         if ($latestLogEntry) {
             // make sure folder for dump file will exist
-            /** @var Magento_Logging_Model_Archive $archive */
+            /** @var \Magento\Logging\Model\Archive $archive */
             $archive = $this->_archiveFactory->create();
             $archive->createNew();
 
-            $expr = new Zend_Db_Expr('INET_NTOA(' . $this->_getReadAdapter()->quoteIdentifier('ip') . ')');
+            $expr = new \Zend_Db_Expr('INET_NTOA(' . $this->_getReadAdapter()->quoteIdentifier('ip') . ')');
             $select = $readAdapter->select()
                 ->from($this->getMainTable())
                 ->where('log_id <= ?', $latestLogEntry)

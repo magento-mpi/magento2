@@ -8,12 +8,12 @@
  * @license     {license_link}
  */
 
-/* @var $installer Magento_Core_Model_Resource_Setup */
+/* @var $installer \Magento\Core\Model\Resource\Setup */
 $installer = $this;
 
 $tableName = $installer->getTable('catalogrule');
 $columnOptions = array(
-    'TYPE'      => Magento_DB_Ddl_Table::TYPE_SMALLINT,
+    'TYPE'      => \Magento\DB\Ddl\Table::TYPE_SMALLINT,
     'UNSIGNED'  => true,
     'NULLABLE'  => false,
     'DEFAULT'   => 0,
@@ -22,14 +22,14 @@ $columnOptions = array(
 $installer->getConnection()->addColumn($tableName, 'sub_is_enable', $columnOptions);
 
 $columnOptions = array(
-    'TYPE'      => Magento_DB_Ddl_Table::TYPE_TEXT,
+    'TYPE'      => \Magento\DB\Ddl\Table::TYPE_TEXT,
     'LENGTH'    => 32,
     'COMMENT'   => 'Simple Action For Subitems',
 );
 $installer->getConnection()->addColumn($tableName, 'sub_simple_action', $columnOptions);
 
 $columnOptions = array(
-    'TYPE'      => Magento_DB_Ddl_Table::TYPE_DECIMAL,
+    'TYPE'      => \Magento\DB\Ddl\Table::TYPE_DECIMAL,
     'SCALE'     => 4,
     'PRECISION' => 12,
     'NULLABLE'  => false,

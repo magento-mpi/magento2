@@ -9,15 +9,15 @@
  */
 
 /**
- * @see Magento_Authorizenet_Block_Directpost_Form
+ * @see \Magento\Authorizenet\Block\Directpost\Form
  */
 ?>
 <?php
 $_form = $this;
 $_code = $_form->getMethodCode();
 $_method = $_form->getMethod();
-$_controller = $this->helper('Magento_Authorizenet_Helper_Data')->getControllerName();
-$_orderUrl = $this->helper('Magento_Authorizenet_Helper_Data')->getPlaceOrderFrontUrl();
+$_controller = $this->helper('Magento\Authorizenet\Helper\Data')->getControllerName();
+$_orderUrl = $this->helper('Magento\Authorizenet\Helper\Data')->getPlaceOrderFrontUrl();
 ?>
 <div class="buttons-set">
 <!-- IFRAME for request to Authorize.net -->

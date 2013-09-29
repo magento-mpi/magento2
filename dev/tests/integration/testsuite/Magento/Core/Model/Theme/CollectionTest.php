@@ -12,17 +12,19 @@
 /**
  * Test for filesystem themes collection
  */
-class Magento_Core_Model_Theme_CollectionTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Theme;
+
+class CollectionTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Theme_Collection
+     * @var \Magento\Core\Model\Theme\Collection
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_Theme_Collection');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Theme\Collection');
         $this->_model->setBaseDir(dirname(__DIR__) . DIRECTORY_SEPARATOR . '_files'. DIRECTORY_SEPARATOR . 'design');
     }
 
@@ -68,7 +70,7 @@ class Magento_Core_Model_Theme_CollectionTest extends PHPUnit_Framework_TestCase
                     'theme_path'           => 'magento_default',
                     'code'                 => 'magento_default',
                     'preview_image'        => null,
-                    'type'                 => Magento_Core_Model_Theme::TYPE_PHYSICAL
+                    'type'                 => \Magento\Core\Model\Theme::TYPE_PHYSICAL
                 )
             )
         );
@@ -78,12 +80,12 @@ class Magento_Core_Model_Theme_CollectionTest extends PHPUnit_Framework_TestCase
      * Test is theme present in file system
      *
      * @magentoAppIsolation enabled
-     * @covers Magento_Core_Model_Theme_Collection::hasTheme
+     * @covers \Magento\Core\Model\Theme\Collection::hasTheme
      */
     public function testHasThemeInCollection()
     {
-        /** @var $themeModel Magento_Core_Model_Theme */
-        $themeModel = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_Core_Model_Theme');
+        /** @var $themeModel \Magento\Core\Model\Theme */
+        $themeModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Core\Model\Theme');
         $themeModel->setData(array(
             'area'                 => 'space_area',
             'theme_title'          => 'Space theme',
@@ -92,7 +94,7 @@ class Magento_Core_Model_Theme_CollectionTest extends PHPUnit_Framework_TestCase
             'is_featured'          => false,
             'theme_path'           => 'default_space',
             'preview_image'        => 'images/preview.png',
-            'type'                 => Magento_Core_Model_Theme::TYPE_PHYSICAL
+            'type'                 => \Magento\Core\Model\Theme::TYPE_PHYSICAL
         ));
 
         $this->_model->addDefaultPattern('*');

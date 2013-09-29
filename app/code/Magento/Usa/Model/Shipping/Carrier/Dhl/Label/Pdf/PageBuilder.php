@@ -15,7 +15,9 @@
  * @package  Magento_Usa
  * @author   Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
+namespace Magento\Usa\Model\Shipping\Carrier\Dhl\Label\Pdf;
+
+class PageBuilder
 {
     /**
      * X coordinate of a block
@@ -30,29 +32,29 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
     /**
      * Pdf Page Instance
      *
-     * @var Zend_Pdf_Page
+     * @var \Zend_Pdf_Page
      */
     protected $_page;
 
     /**
-     * @var Magento_Core_Model_View_FileSystem
+     * @var \Magento\Core\Model\View\FileSystem
      */
     protected $_viewFileSystem;
 
     /**
      * Create font instances
      */
-    public function __construct(Magento_Core_Model_View_FileSystem $viewFileSystem)
+    public function __construct(\Magento\Core\Model\View\FileSystem $viewFileSystem)
     {
         $this->_viewFileSystem = $viewFileSystem;
-        $this->_fontNormal = Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA);
-        $this->_fontBold = Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA_BOLD);
+        $this->_fontNormal = \Zend_Pdf_Font::fontWithName(\Zend_Pdf_Font::FONT_HELVETICA);
+        $this->_fontBold = \Zend_Pdf_Font::fontWithName(\Zend_Pdf_Font::FONT_HELVETICA_BOLD);
     }
 
     /**
      * Get Page
      *
-     * @return Zend_Pdf_Page
+     * @return \Zend_Pdf_Page
      */
     public function getPage()
     {
@@ -62,10 +64,10 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
     /**
      * Set Page
      *
-     * @param Zend_Pdf_Page $page
-     * @return Magento_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
+     * @param \Zend_Pdf_Page $page
+     * @return \Magento\Usa\Model\Shipping\Carrier\Dhl\Label\Pdf\PageBuilder
      */
-    public function setPage(Zend_Pdf_Page $page)
+    public function setPage(\Zend_Pdf_Page $page)
     {
         $this->_page = $page;
         return $this;
@@ -96,14 +98,14 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
     /**
      * Add Border
      *
-     * @return Magento_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_Page
+     * @return \Magento\Usa\Model\Shipping\Carrier\Dhl\Label\Pdf\Page
      */
     public function addBorder()
     {
         $x = $this->_x(0);
         $y = $this->_y(0);
 
-        $image = new Zend_Pdf_Resource_Image_Jpeg(
+        $image = new \Zend_Pdf_Resource_Image_Jpeg(
             $this->_viewFileSystem->getViewFile('Magento_Usa::dhl/logo.jpg', array('theme' => false))
         );
         $this->_page->drawImage($image, $x + 191, $this->_y(27), $x + 287, $this->_y(1));
@@ -152,15 +154,15 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
      * Add Product Name
      *
      * @param string $name
-     * @return Magento_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
-     * @throws InvalidArgumentException
+     * @return \Magento\Usa\Model\Shipping\Carrier\Dhl\Label\Pdf\PageBuilder
+     * @throws \InvalidArgumentException
      */
     public function addProductName($name)
     {
         $this->_page->saveGS();
         $this->_page->setFont($this->_fontBold, 9);
         if (!strlen($name)) {
-            throw new InvalidArgumentException(__('Product name is missing'));
+            throw new \InvalidArgumentException(__('Product name is missing'));
         }
         $this->_page->drawText($name, $this->_x(8), $this->_y(12));
         $this->_page->restoreGS();
@@ -171,8 +173,8 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
      * Add Product Content Code
      *
      * @param string $code
-     * @return Magento_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
-     * @throws InvalidArgumentException
+     * @return \Magento\Usa\Model\Shipping\Carrier\Dhl\Label\Pdf\PageBuilder
+     * @throws \InvalidArgumentException
      */
     public function addProductContentCode($code)
     {
@@ -183,7 +185,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
             'DOM' => 0
         );
         if (!key_exists($code, $codes)) {
-            throw new InvalidArgumentException(__('Product content code is invalid'));
+            throw new \InvalidArgumentException(__('Product content code is invalid'));
         }
         $font = null;
         if ($codes[$code]) {
@@ -192,9 +194,9 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
                 $this->_y(0),
                 $this->_x(190),
                 $this->_y(28),
-                Zend_Pdf_Page::SHAPE_DRAW_FILL
+                \Zend_Pdf_Page::SHAPE_DRAW_FILL
             );
-            $this->_page->setFillColor(new Zend_Pdf_Color_Html("#ffffff"));
+            $this->_page->setFillColor(new \Zend_Pdf_Color_Html("#ffffff"));
             $font = $this->_fontBold;
         } else {
             $font = $this->_fontNormal;
@@ -209,7 +211,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
      * Add Unit Id
      *
      * @param int $id
-     * @return Magento_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_Page
+     * @return \Magento\Usa\Model\Shipping\Carrier\Dhl\Label\Pdf\Page
      */
     public function addUnitId($id)
     {
@@ -225,7 +227,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
      * Add Reference Data
      *
      * @param $data
-     * @return Magento_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_Page
+     * @return \Magento\Usa\Model\Shipping\Carrier\Dhl\Label\Pdf\Page
      */
     public function addReferenceData($data)
     {
@@ -240,11 +242,11 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
     /**
      * Add Sender Info
      *
-     * @param SimpleXMLElement $sender
-     * @return Magento_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
-     * @throws InvalidArgumentException
+     * @param \SimpleXMLElement $sender
+     * @return \Magento\Usa\Model\Shipping\Carrier\Dhl\Label\Pdf\PageBuilder
+     * @throws \InvalidArgumentException
      */
-    public function addSenderInfo(SimpleXMLElement $sender)
+    public function addSenderInfo(\SimpleXMLElement $sender)
     {
         $this->_page->saveGS();
         $this->_page->setFont($this->_fontNormal, 6);
@@ -253,7 +255,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
             (string)$sender->Contact->PersonName))
         );
         if (!$contactName) {
-            throw new InvalidArgumentException(__('Sender contact name is missing'));
+            throw new \InvalidArgumentException(__('Sender contact name is missing'));
         }
         $this->_page->drawText($contactName, $this->_x(25), $this->_y(36));
 
@@ -266,14 +268,14 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
         $divisionCode = (string)(strlen($sender->DivisionCode) ? $sender->DivisionCode . ' ' : null);
         $cityInfo = implode(' ', array_filter(array($sender->City, $divisionCode, $sender->PostalCode)));
         if (!strlen($cityInfo)) {
-            throw new InvalidArgumentException(__('Sender city info is missing'));
+            throw new \InvalidArgumentException(__('Sender city info is missing'));
         }
         $this->_page->drawText($cityInfo, $this->_x(25), $pageY);
 
         $this->_page->setFont($this->_fontBold, 6);
         $countryInfo = (string)(($sender->CountryName) ? $sender->CountryName : $sender->CountryCode);
         if (!strlen($countryInfo)) {
-            throw new InvalidArgumentException(__('Sender country info is missing'));
+            throw new \InvalidArgumentException(__('Sender country info is missing'));
         }
         $this->_page->drawText($countryInfo, $this->_x(25), $pageY - $this->_page->getFontSize());
 
@@ -284,11 +286,11 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
     /**
      * Draw Sender Address
      *
-     * @param SimpleXMLElement $addressLines
+     * @param \SimpleXMLElement $addressLines
      * @param string $phoneNumber
      * @return float
      */
-    protected function _drawSenderAddress(SimpleXMLElement $addressLines, $phoneNumber)
+    protected function _drawSenderAddress(\SimpleXMLElement $addressLines, $phoneNumber)
     {
         $lines = array();
         foreach ($addressLines as $line) {
@@ -315,13 +317,13 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
      * Add Origin Info
      *
      * @param string $serviceAreaCode
-     * @return Magento_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
-     * @throws InvalidArgumentException
+     * @return \Magento\Usa\Model\Shipping\Carrier\Dhl\Label\Pdf\PageBuilder
+     * @throws \InvalidArgumentException
      */
     public function addOriginInfo($serviceAreaCode)
     {
         if (strlen(!$serviceAreaCode)) {
-            throw new InvalidArgumentException(__('Origin serviceAreaCode is missing'));
+            throw new \InvalidArgumentException(__('Origin serviceAreaCode is missing'));
         }
         $this->_page->saveGS();
         $this->_page->setFont($this->_fontNormal, 6);
@@ -336,10 +338,10 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
     /**
      * Add Receive Info
      *
-     * @param SimpleXMLElement $consignee
-     * @return Magento_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
+     * @param \SimpleXMLElement $consignee
+     * @return \Magento\Usa\Model\Shipping\Carrier\Dhl\Label\Pdf\PageBuilder
      */
-    public function addReceiveInfo(SimpleXMLElement $consignee)
+    public function addReceiveInfo(\SimpleXMLElement $consignee)
     {
         $this->_page->saveGS();
 
@@ -359,13 +361,13 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
         $this->_page->drawText('Contact:', $this->_x(260), $this->_y(90));
 
         $y = $this->_page->drawLines(array($consignee->Contact->PersonName), $this->_x(283), $this->_y(98), 25,
-            Magento_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_Page::ALIGN_RIGHT
+            \Magento\Usa\Model\Shipping\Carrier\Dhl\Label\Pdf\Page::ALIGN_RIGHT
         );
         $phoneNumber = implode(' ', array_filter(array($consignee->Contact->PhoneNumber,
             $consignee->Contact->PhoneExtension))
         );
         $this->_page->drawText($phoneNumber, $this->_x(283), $y, null,
-            Magento_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_Page::ALIGN_RIGHT
+            \Magento\Usa\Model\Shipping\Carrier\Dhl\Label\Pdf\Page::ALIGN_RIGHT
         );
 
         $this->_page->restoreGS();
@@ -378,8 +380,8 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
      * @param string $countryCode
      * @param string $serviceAreaCode
      * @param string $facilityCode
-     * @return Magento_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
-     * @throws InvalidArgumentException
+     * @return \Magento\Usa\Model\Shipping\Carrier\Dhl\Label\Pdf\PageBuilder
+     * @throws \InvalidArgumentException
      */
     public function addDestinationFacilityCode($countryCode, $serviceAreaCode, $facilityCode)
     {
@@ -388,10 +390,10 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
         $code = implode('-', array_filter(array($countryCode, $serviceAreaCode, $facilityCode)));
 
         if (!strlen($code)) {
-            throw new InvalidArgumentException(__('Destination facility code is empty'));
+            throw new \InvalidArgumentException(__('Destination facility code is empty'));
         }
         $this->_page->drawText($code, $this->_x(144), $this->_y(186), null,
-            Magento_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_Page::ALIGN_CENTER
+            \Magento\Usa\Model\Shipping\Carrier\Dhl\Label\Pdf\Page::ALIGN_CENTER
         );
 
         $this->_page->restoreGS();
@@ -401,13 +403,13 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
     /**
      * Add Service Features Codes
      *
-     * @return Magento_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
+     * @return \Magento\Usa\Model\Shipping\Carrier\Dhl\Label\Pdf\PageBuilder
      */
     public function addServiceFeaturesCodes()
     {
         $this->_page->saveGS();
         $this->_page->drawRectangle($this->_x(0), $this->_y(195), $this->_x(218), $this->_y(217),
-            Zend_Pdf_Page::SHAPE_DRAW_FILL
+            \Zend_Pdf_Page::SHAPE_DRAW_FILL
         );
         $this->_page->restoreGS();
         return $this;
@@ -416,7 +418,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
     /**
      * Add Delivery Date Code
      *
-     * @return Magento_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
+     * @return \Magento\Usa\Model\Shipping\Carrier\Dhl\Label\Pdf\PageBuilder
      */
     public function addDeliveryDateCode()
     {
@@ -435,9 +437,9 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
     /**
      * Add Shipment Information
      *
-     * @param Magento_Sales_Model_Order_Shipment $data
-     * @return Magento_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_Page
-     * @throws InvalidArgumentException
+     * @param \Magento\Sales\Model\Order\Shipment $data
+     * @return \Magento\Usa\Model\Shipping\Carrier\Dhl\Label\Pdf\Page
+     * @throws \InvalidArgumentException
      */
     public function addShipmentInformation($data)
     {
@@ -446,7 +448,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
 
         $refCode = $data->getOrder()->getIncrementId();
         if (!$refCode) {
-            throw new InvalidArgumentException(__('Reference code is missing'));
+            throw new \InvalidArgumentException(__('Reference code is missing'));
         }
         $this->_page->drawText('Ref Code: ' . __('Order #%1', $refCode), $this->_x(8),
             $this->_y(224)
@@ -458,7 +460,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
     /**
      * Add Date Info
      * @param string $date
-     * @return Magento_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
+     * @return \Magento\Usa\Model\Shipping\Carrier\Dhl\Label\Pdf\PageBuilder
      */
     public function addDateInfo($date)
     {
@@ -477,8 +479,8 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
      *
      * @param string $weight
      * @param string $unit
-     * @return Magento_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
-     * @throws InvalidArgumentException
+     * @return \Magento\Usa\Model\Shipping\Carrier\Dhl\Label\Pdf\PageBuilder
+     * @throws \InvalidArgumentException
      */
     public function addWeightInfo($weight, $unit)
     {
@@ -486,7 +488,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
 
         $units = array("K" => 'kg', "L" => 'lb');
         if (!isset($units[$unit])) {
-            throw new InvalidArgumentException(__('Weight unit is invalid'));
+            throw new \InvalidArgumentException(__('Weight unit is invalid'));
         }
         $unit = $units[$unit];
 
@@ -503,15 +505,15 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
      * Add Content: Shipment Description
      *
      * @param array $package
-     * @return Magento_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
-     * @throws InvalidArgumentException
+     * @return \Magento\Usa\Model\Shipping\Carrier\Dhl\Label\Pdf\PageBuilder
+     * @throws \InvalidArgumentException
      */
     public function addContentInfo($package)
     {
         $this->_page->saveGS();
         $this->_page->setFont($this->_fontNormal, 6);
         if (empty($package)) {
-            throw new InvalidArgumentException(__('Package content is missing'));
+            throw new \InvalidArgumentException(__('Package content is missing'));
         }
 
         $x = 225;
@@ -534,17 +536,17 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
      *
      * @param string $number
      * @param string $barCode
-     * @return Magento_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
-     * @throws InvalidArgumentException
+     * @return \Magento\Usa\Model\Shipping\Carrier\Dhl\Label\Pdf\PageBuilder
+     * @throws \InvalidArgumentException
      */
     public function addWaybillBarcode($number, $barCode)
     {
         $this->_page->saveGS();
 
         if(!strlen($number) || !strlen($barCode)) {
-            throw new InvalidArgumentException(__('Waybill barcode information is missing'));
+            throw new \InvalidArgumentException(__('Waybill barcode information is missing'));
         }
-        $image = new Zend_Pdf_Resource_Image_Png("data://image/png;base64," . $barCode);
+        $image = new \Zend_Pdf_Resource_Image_Png("data://image/png;base64," . $barCode);
         $this->_page->drawImage($image, $this->_x(0), $this->_y(296), $this->_x(232), $this->_y(375));
 
         $this->_page->setFont($this->_fontNormal, 9);
@@ -561,18 +563,18 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
      * @param string $routingCode
      * @param string $id
      * @param string $barCode
-     * @return Magento_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
-     * @throws InvalidArgumentException
+     * @return \Magento\Usa\Model\Shipping\Carrier\Dhl\Label\Pdf\PageBuilder
+     * @throws \InvalidArgumentException
      */
     public function addRoutingBarcode($routingCode, $id, $barCode)
     {
         $this->_page->saveGS();
 
         if(!$barCode) {
-            throw new InvalidArgumentException(__('Routing barcode is missing'));
+            throw new \InvalidArgumentException(__('Routing barcode is missing'));
         }
 
-        $image = new Zend_Pdf_Resource_Image_Png("data://image/png;base64," . $barCode);
+        $image = new \Zend_Pdf_Resource_Image_Png("data://image/png;base64," . $barCode);
         $this->_page->drawImage($image, $this->_x(0), $this->_y(386), $this->_x(232), $this->_y(465));
 
         $this->_page->setFont($this->_fontNormal, 9);
@@ -589,24 +591,24 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
      * @param string $dataIdentifier
      * @param string $licensePlate
      * @param string $barCode
-     * @return Magento_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
-     * @throws InvalidArgumentException
+     * @return \Magento\Usa\Model\Shipping\Carrier\Dhl\Label\Pdf\PageBuilder
+     * @throws \InvalidArgumentException
      */
     public function addPieceIdBarcode($dataIdentifier, $licensePlate, $barCode)
     {
         $this->_page->saveGS();
 
         if (!strlen($barCode)) {
-            throw new InvalidArgumentException(__('Piece Id barcode is missing'));
+            throw new \InvalidArgumentException(__('Piece Id barcode is missing'));
         }
 
-        $image = new Zend_Pdf_Resource_Image_Png('data://image/png;base64,' . $barCode);
+        $image = new \Zend_Pdf_Resource_Image_Png('data://image/png;base64,' . $barCode);
         $this->_page->drawImage($image, $this->_x(29), $this->_y(476), $this->_x(261), $this->_y(555));
 
         $this->_page->setFont($this->_fontNormal, 9);
         $routingText = '(' . $dataIdentifier . ')' . $licensePlate;
         $this->_page->drawText($routingText, $this->_x(144), $this->_y(563), '',
-            Magento_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_Page::ALIGN_CENTER
+            \Magento\Usa\Model\Shipping\Carrier\Dhl\Label\Pdf\Page::ALIGN_CENTER
         );
 
         $this->_page->restoreGS();
@@ -618,15 +620,15 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
      *
      * @param int $pieceNumber
      * @param int $piecesTotal
-     * @return Magento_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
-     * @throws InvalidArgumentException
+     * @return \Magento\Usa\Model\Shipping\Carrier\Dhl\Label\Pdf\PageBuilder
+     * @throws \InvalidArgumentException
      */
     public function addPieceNumber($pieceNumber, $piecesTotal)
     {
         $this->_page->saveGS();
 
         if (!$pieceNumber || !$piecesTotal) {
-            throw new InvalidArgumentException(__('Piece number information is missing'));
+            throw new \InvalidArgumentException(__('Piece number information is missing'));
         }
 
         $this->_page->setFont($this->_fontNormal, 6);

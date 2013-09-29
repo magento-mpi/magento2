@@ -11,101 +11,103 @@
 /**
  * Enterprise search model observer
  */
-class Magento_Search_Model_Observer
+namespace Magento\Search\Model;
+
+class Observer
 {
     /**
      * Index indexer
      *
-     * @var Magento_Index_Model_Indexer
+     * @var \Magento\Index\Model\Indexer
      */
     protected $_indexer;
 
     /**
      * Search catalog layer
      *
-     * @var Magento_Search_Model_Catalog_Layer
+     * @var \Magento\Search\Model\Catalog\Layer
      */
     protected $_searchCatalogLayer = null;
 
     /**
      * Search search layer
      *
-     * @var Magento_Search_Model_Search_Layer
+     * @var \Magento\Search\Model\Search\Layer
      */
     protected $_searchSearchLayer = null;
 
     /**
      * Search recommendations factory
      *
-     * @var Magento_Search_Model_Resource_RecommendationsFactory
+     * @var \Magento\Search\Model\Resource\RecommendationsFactory
      */
     protected $_searchRecommendationsFactory = null;
 
     /**
      * Eav entity attribute option coll factory
      *
-     * @var Magento_Eav_Model_Resource_Entity_Attribute_Option_CollectionFactory
+     * @var \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory
      */
     protected $_eavEntityAttributeOptionCollFactory = null;
 
     /**
      * Search data
      *
-     * @var Magento_Search_Helper_Data
+     * @var \Magento\Search\Helper\Data
      */
     protected $_searchData = null;
 
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @var Magento_CatalogSearch_Model_Resource_EngineProvider
+     * @var \Magento\CatalogSearch\Model\Resource\EngineProvider
      */
     protected $_engineProvider = null;
 
     /**
      * Source weight
      *
-     * @var Magento_Search_Model_Source_Weight
+     * @var \Magento\Search\Model\Source\Weight
      */
     protected $_sourceWeight;
 
     /**
      * Request
      *
-     * @var Magento_Core_Controller_Request_Http
+     * @var \Magento\Core\Controller\Request\Http
      */
     protected $_request;
 
     /**
      * Construct
      *
-     * @param Magento_Eav_Model_Resource_Entity_Attribute_Option_CollectionFactory $eavEntityAttributeOptionCollFactory
-     * @param Magento_Search_Model_Resource_RecommendationsFactory $searchRecommendationsFactory
-     * @param Magento_Search_Model_Search_Layer $searchSearchLayer
-     * @param Magento_Search_Model_Catalog_Layer $searchCatalogLayer
-     * @param Magento_Index_Model_Indexer $indexer
-     * @param Magento_CatalogSearch_Model_Resource_EngineProvider $engineProvider
-     * @param Magento_Search_Helper_Data $searchData
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_Search_Model_Source_Weight $sourceWeight
-     * @param Magento_Core_Controller_Request_Http $request
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $eavEntityAttributeOptionCollFactory
+     * @param \Magento\Search\Model\Resource\RecommendationsFactory $searchRecommendationsFactory
+     * @param \Magento\Search\Model\Search\Layer $searchSearchLayer
+     * @param \Magento\Search\Model\Catalog\Layer $searchCatalogLayer
+     * @param \Magento\Index\Model\Indexer $indexer
+     * @param \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider
+     * @param \Magento\Search\Helper\Data $searchData
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Search\Model\Source\Weight $sourceWeight
+     * @param \Magento\Core\Controller\Request\Http $request
      */
     public function __construct(
-        Magento_Eav_Model_Resource_Entity_Attribute_Option_CollectionFactory $eavEntityAttributeOptionCollFactory,
-        Magento_Search_Model_Resource_RecommendationsFactory $searchRecommendationsFactory,
-        Magento_Search_Model_Search_Layer $searchSearchLayer,
-        Magento_Search_Model_Catalog_Layer $searchCatalogLayer,
-        Magento_Index_Model_Indexer $indexer,
-        Magento_CatalogSearch_Model_Resource_EngineProvider $engineProvider,
-        Magento_Search_Helper_Data $searchData,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_Search_Model_Source_Weight $sourceWeight,
-        Magento_Core_Controller_Request_Http $request
+        \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $eavEntityAttributeOptionCollFactory,
+        \Magento\Search\Model\Resource\RecommendationsFactory $searchRecommendationsFactory,
+        \Magento\Search\Model\Search\Layer $searchSearchLayer,
+        \Magento\Search\Model\Catalog\Layer $searchCatalogLayer,
+        \Magento\Index\Model\Indexer $indexer,
+        \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider,
+        \Magento\Search\Helper\Data $searchData,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Search\Model\Source\Weight $sourceWeight,
+        \Magento\Core\Controller\Request\Http $request
     ) {
         $this->_eavEntityAttributeOptionCollFactory = $eavEntityAttributeOptionCollFactory;
         $this->_searchRecommendationsFactory = $searchRecommendationsFactory;
@@ -121,11 +123,11 @@ class Magento_Search_Model_Observer
 
     /**
      * Add search weight field to attribute edit form (only for quick search)
-     * @see Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main
+     * @see \Magento\Adminhtml\Block\Catalog\Product\Attribute\Edit\Tab\Main
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
-    public function eavAttributeEditFormInit(Magento_Event_Observer $observer)
+    public function eavAttributeEditFormInit(\Magento\Event\Observer $observer)
     {
         if (!$this->_searchData->isThirdPartyEngineAvailable()) {
             return;
@@ -153,9 +155,9 @@ class Magento_Search_Model_Observer
     /**
      * Save search query relations after save search query
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
-    public function searchQueryEditFormAfterSave(Magento_Event_Observer $observer)
+    public function searchQueryEditFormAfterSave(\Magento\Event\Observer $observer)
     {
         $searchQuryModel = $observer->getEvent()->getDataObject();
         $queryId         = $searchQuryModel->getId();
@@ -176,9 +178,9 @@ class Magento_Search_Model_Observer
      * because there are all combinations of customer groups and websites per price stored at search engine index
      * and there will be no document's price field for customers that belong to new group or data will be not actual.
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
-    public function customerGroupSaveAfter(Magento_Event_Observer $observer)
+    public function customerGroupSaveAfter(\Magento\Event\Observer $observer)
     {
         if (!$this->_searchData->isThirdPartyEngineAvailable()) {
             return;
@@ -187,16 +189,16 @@ class Magento_Search_Model_Observer
         $object = $observer->getEvent()->getDataObject();
         if ($object->isObjectNew() || $object->getTaxClassId() != $object->getOrigData('tax_class_id')) {
             $this->_indexer->getProcessByCode('catalogsearch_fulltext')
-                ->changeStatus(Magento_Index_Model_Process::STATUS_REQUIRE_REINDEX);
+                ->changeStatus(\Magento\Index\Model\Process::STATUS_REQUIRE_REINDEX);
         }
     }
 
     /**
      * Store searchable attributes at adapter to avoid new collection load there
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
-    public function storeSearchableAttributes(Magento_Event_Observer $observer)
+    public function storeSearchableAttributes(\Magento\Event\Observer $observer)
     {
         $engine     = $observer->getEvent()->getEngine();
         $attributes = $observer->getEvent()->getAttributes();
@@ -211,7 +213,7 @@ class Magento_Search_Model_Observer
 
             $optionCollection = $this->_eavEntityAttributeOptionCollFactory->create()
                 ->setAttributeFilter($attribute->getAttributeId())
-                ->setPositionOrder(Magento_DB_Select::SQL_ASC, true)
+                ->setPositionOrder(\Magento\DB\Select::SQL_ASC, true)
                 ->load();
 
             $optionsOrder = array();
@@ -230,9 +232,9 @@ class Magento_Search_Model_Observer
      * Save store ids for website or store group before deleting
      * because lazy load for this property is used and this info is unavailable after deletion
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
-    public function saveStoreIdsBeforeScopeDelete(Magento_Event_Observer $observer)
+    public function saveStoreIdsBeforeScopeDelete(\Magento\Event\Observer $observer)
     {
         $object = $observer->getEvent()->getDataObject();
         $object->getStoreIds();
@@ -241,20 +243,20 @@ class Magento_Search_Model_Observer
     /**
      * Clear index data for deleted stores
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
-    public function clearIndexForStores(Magento_Event_Observer $observer)
+    public function clearIndexForStores(\Magento\Event\Observer $observer)
     {
         if (!$this->_searchData->isThirdPartyEngineAvailable()) {
             return;
         }
 
         $object = $observer->getEvent()->getDataObject();
-        if ($object instanceof Magento_Core_Model_Website
-            || $object instanceof Magento_Core_Model_Store_Group
+        if ($object instanceof \Magento\Core\Model\Website
+            || $object instanceof \Magento\Core\Model\Store\Group
         ) {
             $storeIds = $object->getStoreIds();
-        } elseif ($object instanceof Magento_Core_Model_Store) {
+        } elseif ($object instanceof \Magento\Core\Model\Store) {
             $storeIds = $object->getId();
         } else {
             $storeIds = array();
@@ -268,9 +270,9 @@ class Magento_Search_Model_Observer
     /**
      * Reset search engine if it is enabled for catalog navigation
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
-    public function resetCurrentCatalogLayer(Magento_Event_Observer $observer)
+    public function resetCurrentCatalogLayer(\Magento\Event\Observer $observer)
     {
         if ($this->_searchData->getIsEngineAvailableForNavigation()) {
             $this->_coreRegistry->register('current_layer', $this->_searchCatalogLayer);
@@ -280,9 +282,9 @@ class Magento_Search_Model_Observer
     /**
      * Reset search engine if it is enabled for search navigation
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
-    public function resetCurrentSearchLayer(Magento_Event_Observer $observer)
+    public function resetCurrentSearchLayer(\Magento\Event\Observer $observer)
     {
         if ($this->_searchData->getIsEngineAvailableForNavigation(false)) {
             $this->_coreRegistry->register('current_layer', $this->_searchSearchLayer);
@@ -292,15 +294,15 @@ class Magento_Search_Model_Observer
     /**
      * Reindex data after price reindex
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
-    public function runFulltextReindexAfterPriceReindex(Magento_Event_Observer $observer)
+    public function runFulltextReindexAfterPriceReindex(\Magento\Event\Observer $observer)
     {
         if (!$this->_searchData->isThirdPartyEngineAvailable()) {
             return;
         }
 
-        /* @var Magento_Search_Model_Indexer_Indexer $indexer */
+        /* @var \Magento\Search\Model\Indexer\Indexer $indexer */
         $indexer = $this->_indexer->getProcessByCode('catalogsearch_fulltext');
         if (empty($indexer)) {
             return;
@@ -309,7 +311,7 @@ class Magento_Search_Model_Observer
         if ('process' == strtolower($this->_request->getControllerName())) {
             $indexer->reindexAll();
         } else {
-            $indexer->changeStatus(Magento_Index_Model_Process::STATUS_REQUIRE_REINDEX);
+            $indexer->changeStatus(\Magento\Index\Model\Process::STATUS_REQUIRE_REINDEX);
         }
     }
 }

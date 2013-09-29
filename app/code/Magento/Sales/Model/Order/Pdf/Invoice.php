@@ -11,48 +11,50 @@
 /**
  * Sales Order Invoice PDF model
  */
-class Magento_Sales_Model_Order_Pdf_Invoice extends Magento_Sales_Model_Order_Pdf_Abstract
+namespace Magento\Sales\Model\Order\Pdf;
+
+class Invoice extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
 {
     /**
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_Payment_Helper_Data $paymentData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Helper_String $coreString
-     * @param Magento_Core_Model_Store_ConfigInterface $coreStoreConfig
-     * @param Magento_Core_Model_Translate $translate
-     * @param Magento_Core_Model_Dir $coreDir
-     * @param Magento_Shipping_Model_Config $shippingConfig
-     * @param Magento_Sales_Model_Order_Pdf_Config $pdfConfig
-     * @param Magento_Sales_Model_Order_Pdf_Total_Factory $pdfTotalFactory
-     * @param Magento_Sales_Model_Order_Pdf_ItemsFactory $pdfItemsFactory
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param \Magento\Payment\Helper\Data $paymentData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Helper\String $coreString
+     * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
+     * @param \Magento\Core\Model\Translate $translate
+     * @param \Magento\Core\Model\Dir $coreDir
+     * @param \Magento\Shipping\Model\Config $shippingConfig
+     * @param \Magento\Sales\Model\Order\Pdf\Config $pdfConfig
+     * @param \Magento\Sales\Model\Order\Pdf\Total\Factory $pdfTotalFactory
+     * @param \Magento\Sales\Model\Order\Pdf\ItemsFactory $pdfItemsFactory
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Magento_Payment_Helper_Data $paymentData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Helper_String $coreString,
-        Magento_Core_Model_Store_ConfigInterface $coreStoreConfig,
-        Magento_Core_Model_Translate $translate,
-        Magento_Core_Model_Dir $coreDir,
-        Magento_Shipping_Model_Config $shippingConfig,
-        Magento_Sales_Model_Order_Pdf_Config $pdfConfig,
-        Magento_Sales_Model_Order_Pdf_Total_Factory $pdfTotalFactory,
-        Magento_Sales_Model_Order_Pdf_ItemsFactory $pdfItemsFactory,
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
+        \Magento\Payment\Helper\Data $paymentData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Helper\String $coreString,
+        \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
+        \Magento\Core\Model\Translate $translate,
+        \Magento\Core\Model\Dir $coreDir,
+        \Magento\Shipping\Model\Config $shippingConfig,
+        \Magento\Sales\Model\Order\Pdf\Config $pdfConfig,
+        \Magento\Sales\Model\Order\Pdf\Total\Factory $pdfTotalFactory,
+        \Magento\Sales\Model\Order\Pdf\ItemsFactory $pdfItemsFactory,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         $this->_locale = $locale;
@@ -75,19 +77,19 @@ class Magento_Sales_Model_Order_Pdf_Invoice extends Magento_Sales_Model_Order_Pd
     /**
      * Draw header for item table
      *
-     * @param Zend_Pdf_Page $page
+     * @param \Zend_Pdf_Page $page
      * @return void
      */
-    protected function _drawHeader(Zend_Pdf_Page $page)
+    protected function _drawHeader(\Zend_Pdf_Page $page)
     {
         /* Add table head */
         $this->_setFontRegular($page, 10);
-        $page->setFillColor(new Zend_Pdf_Color_RGB(0.93, 0.92, 0.92));
-        $page->setLineColor(new Zend_Pdf_Color_GrayScale(0.5));
+        $page->setFillColor(new \Zend_Pdf_Color_RGB(0.93, 0.92, 0.92));
+        $page->setLineColor(new \Zend_Pdf_Color_GrayScale(0.5));
         $page->setLineWidth(0.5);
         $page->drawRectangle(25, $this->y, 570, $this->y -15);
         $this->y -= 10;
-        $page->setFillColor(new Zend_Pdf_Color_RGB(0, 0, 0));
+        $page->setFillColor(new \Zend_Pdf_Color_RGB(0, 0, 0));
 
         //columns headers
         $lines[0][] = array(
@@ -131,7 +133,7 @@ class Magento_Sales_Model_Order_Pdf_Invoice extends Magento_Sales_Model_Order_Pd
         );
 
         $this->drawLineBlocks($page, array($lineBlock), array('table_header' => true));
-        $page->setFillColor(new Zend_Pdf_Color_GrayScale(0));
+        $page->setFillColor(new \Zend_Pdf_Color_GrayScale(0));
         $this->y -= 20;
     }
 
@@ -139,16 +141,16 @@ class Magento_Sales_Model_Order_Pdf_Invoice extends Magento_Sales_Model_Order_Pd
      * Return PDF document
      *
      * @param  array $invoices
-     * @return Zend_Pdf
+     * @return \Zend_Pdf
      */
     public function getPdf($invoices = array())
     {
         $this->_beforeGetPdf();
         $this->_initRenderer('invoice');
 
-        $pdf = new Zend_Pdf();
+        $pdf = new \Zend_Pdf();
         $this->_setPdf($pdf);
-        $style = new Zend_Pdf_Style();
+        $style = new \Zend_Pdf_Style();
         $this->_setFontBold($style, 10);
 
         foreach ($invoices as $invoice) {
@@ -197,12 +199,12 @@ class Magento_Sales_Model_Order_Pdf_Invoice extends Magento_Sales_Model_Order_Pd
      * Create new page and assign to PDF object
      *
      * @param  array $settings
-     * @return Zend_Pdf_Page
+     * @return \Zend_Pdf_Page
      */
     public function newPage(array $settings = array())
     {
         /* Add new table head */
-        $page = $this->_getPdf()->newPage(Zend_Pdf_Page::SIZE_A4);
+        $page = $this->_getPdf()->newPage(\Zend_Pdf_Page::SIZE_A4);
         $this->_getPdf()->pages[] = $page;
         $this->y = 800;
         if (!empty($settings['table_header'])) {

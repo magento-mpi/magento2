@@ -14,45 +14,49 @@
  * @category   Magento
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
+ */
+namespace Magento\Adminhtml\Block\Customer\Edit\Tab;
+
+/**
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Magento_Adminhtml_Block_Customer_Edit_Tab_Cart extends Magento_Adminhtml_Block_Widget_Grid
+class Cart extends \Magento\Adminhtml\Block\Widget\Grid
 {
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @var Magento_Data_CollectionFactory
+     * @var \Magento\Data\CollectionFactory
      */
     protected $_dataCollectionFactory;
 
     /**
-     * @var Magento_Sales_Model_QuoteFactory
+     * @var \Magento\Sales\Model\QuoteFactory
      */
     protected $_quoteFactory;
 
     /**
-     * @param Magento_Sales_Model_QuoteFactory $quoteFactory
-     * @param Magento_Data_CollectionFactory $dataCollectionFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Url $urlModel
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
+     * @param \Magento\Data\CollectionFactory $dataCollectionFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Core\Model\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
-        Magento_Sales_Model_QuoteFactory $quoteFactory,
-        Magento_Data_CollectionFactory $dataCollectionFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Url $urlModel,
-        Magento_Core_Model_Registry $coreRegistry,
+        \Magento\Sales\Model\QuoteFactory $quoteFactory,
+        \Magento\Data\CollectionFactory $dataCollectionFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        \Magento\Core\Model\Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_dataCollectionFactory = $dataCollectionFactory;
@@ -103,7 +107,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Cart extends Magento_Adminhtml_B
     }
 
     /**
-     * @return Magento_Backend_Block_Widget_Grid_Extended
+     * @return \Magento\Backend\Block\Widget\Grid\Extended
      */
     protected function _prepareColumns()
     {
@@ -116,7 +120,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Cart extends Magento_Adminhtml_B
         $this->addColumn('name', array(
             'header'    => __('Product'),
             'index'     => 'name',
-            'renderer'  => 'Magento_Adminhtml_Block_Customer_Edit_Tab_View_Grid_Renderer_Item'
+            'renderer'  => 'Magento\Adminhtml\Block\Customer\Edit\Tab\View\Grid\Renderer\Item'
         ));
 
         $this->addColumn('sku', array(
@@ -136,20 +140,20 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Cart extends Magento_Adminhtml_B
             'header'        => __('Price'),
             'index'         => 'price',
             'type'          => 'currency',
-            'currency_code' => (string) $this->_storeConfig->getConfig(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
+            'currency_code' => (string) $this->_storeConfig->getConfig(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE),
         ));
 
         $this->addColumn('total', array(
             'header'        => __('Total'),
             'index'         => 'row_total',
             'type'          => 'currency',
-            'currency_code' => (string) $this->_storeConfig->getConfig(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
+            'currency_code' => (string) $this->_storeConfig->getConfig(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE),
         ));
 
         $this->addColumn('action', array(
             'header'    => __('Action'),
             'index'     => 'quote_item_id',
-            'renderer'  => 'Magento_Adminhtml_Block_Customer_Grid_Renderer_Multiaction',
+            'renderer'  => 'Magento\Adminhtml\Block\Customer\Grid\Renderer\Multiaction',
             'filter'    => false,
             'sortable'  => false,
             'actions'   => array(
@@ -173,7 +177,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Cart extends Magento_Adminhtml_B
     /**
      * Gets customer assigned to this block
      *
-     * @return Magento_Customer_Model_Customer
+     * @return \Magento\Customer\Model\Customer
      */
     public function getCustomer()
     {

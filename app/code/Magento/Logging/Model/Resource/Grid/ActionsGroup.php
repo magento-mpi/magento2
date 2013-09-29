@@ -8,17 +8,19 @@
  * @license     {license_link}
  */
 
-class Magento_Logging_Model_Resource_Grid_ActionsGroup implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Logging\Model\Resource\Grid;
+
+class ActionsGroup implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
-     * @var Magento_Logging_Model_Config
+     * @var \Magento\Logging\Model\Config
      */
     protected $_config;
 
     /**
-     * @param Magento_Logging_Model_Config $config
+     * @param \Magento\Logging\Model\Config $config
      */
-    public function __construct(Magento_Logging_Model_Config $config)
+    public function __construct(\Magento\Logging\Model\Config $config)
     {
         $this->_config = $config;
     }

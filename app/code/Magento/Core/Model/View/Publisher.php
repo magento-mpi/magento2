@@ -11,7 +11,9 @@
 /**
  * Handles file publication
  */
-class Magento_Core_Model_View_Publisher implements Magento_Core_Model_View_PublicFilesManagerInterface
+namespace Magento\Core\Model\View;
+
+class Publisher implements \Magento\Core\Model\View\PublicFilesManagerInterface
 {
     /**#@+
      * Extensions group for static files
@@ -37,29 +39,29 @@ class Magento_Core_Model_View_Publisher implements Magento_Core_Model_View_Publi
     /**#@-*/
 
     /**
-     * @var Magento_Filesystem
+     * @var \Magento\Filesystem
      */
     protected $_filesystem;
 
     /**
      * Helper to process css content
      *
-     * @var Magento_Core_Helper_Css
+     * @var \Magento\Core\Helper\Css
      */
     protected $_cssHelper;
 
     /**
-     * @var Magento_Core_Model_View_Service
+     * @var \Magento\Core\Model\View\Service
      */
     protected $_viewService;
 
     /**
-     * @var Magento_Core_Model_View_FileSystem
+     * @var \Magento\Core\Model\View\FileSystem
      */
     protected $_viewFileSystem;
 
     /**
-     * @var Magento_Core_Model_Logger
+     * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
 
@@ -73,19 +75,19 @@ class Magento_Core_Model_View_Publisher implements Magento_Core_Model_View_Publi
     /**
      * View files publisher model
      *
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Filesystem $filesystem
-     * @param Magento_Core_Helper_Css $cssHelper
-     * @param Magento_Core_Model_View_Service $viewService
-     * @param Magento_Core_Model_View_FileSystem $viewFileSystem
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\Core\Helper\Css $cssHelper
+     * @param \Magento\Core\Model\View\Service $viewService
+     * @param \Magento\Core\Model\View\FileSystem $viewFileSystem
      * @param bool $allowFilesDuplication
      */
     public function __construct(
-        Magento_Core_Model_Logger $logger,
-        Magento_Filesystem $filesystem,
-        Magento_Core_Helper_Css $cssHelper,
-        Magento_Core_Model_View_Service $viewService,
-        Magento_Core_Model_View_FileSystem $viewFileSystem,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Filesystem $filesystem,
+        \Magento\Core\Helper\Css $cssHelper,
+        \Magento\Core\Model\View\Service $viewService,
+        \Magento\Core\Model\View\FileSystem $viewFileSystem,
         $allowFilesDuplication
     ) {
         $this->_filesystem = $filesystem;
@@ -127,18 +129,18 @@ class Magento_Core_Model_View_Publisher implements Magento_Core_Model_View_Publi
      * @param  string $filePath
      * @param  array $params
      * @return string
-     * @throws Magento_Exception
+     * @throws \Magento\Exception
      */
     protected function _getPublishedFilePath($filePath, $params)
     {
         if (!$this->_viewService->isViewFileOperationAllowed()) {
-            throw new Magento_Exception('Filesystem operations are not permitted for view files');
+            throw new \Magento\Exception('Filesystem operations are not permitted for view files');
         }
 
         $sourcePath = $this->_viewFileSystem->getViewFile($filePath, $params);
 
         if (!$this->_filesystem->has($sourcePath)) {
-            throw new Magento_Exception("Unable to locate theme file '{$sourcePath}'.");
+            throw new \Magento\Exception("Unable to locate theme file '{$sourcePath}'.");
         }
         if (!$this->_needToProcessFile($sourcePath)) {
             return $sourcePath;
@@ -218,7 +220,7 @@ class Magento_Core_Model_View_Publisher implements Magento_Core_Model_View_Publi
      */
     protected function _needToProcessFile($filePath)
     {
-        $jsPath = Mage::getBaseDir(Magento_Core_Model_Dir::PUB_LIB) . DS;
+        $jsPath = \Mage::getBaseDir(\Magento\Core\Model\Dir::PUB_LIB) . DS;
         if (strncmp($filePath, $jsPath, strlen($jsPath)) === 0) {
             return false;
         }
@@ -237,7 +239,7 @@ class Magento_Core_Model_View_Publisher implements Magento_Core_Model_View_Publi
             return true;
         }
 
-        return ($this->_viewService->getAppMode() == Magento_Core_Model_App_State::MODE_DEVELOPER)
+        return ($this->_viewService->getAppMode() == \Magento\Core\Model\App\State::MODE_DEVELOPER)
             && $this->_getExtension($filePath) == self::CONTENT_TYPE_CSS;
     }
 
@@ -262,7 +264,7 @@ class Magento_Core_Model_View_Publisher implements Magento_Core_Model_View_Publi
      */
     protected function _buildPublicViewRedundantFilename($file, array $params)
     {
-        /** @var $theme Magento_Core_Model_Theme */
+        /** @var $theme \Magento\Core\Model\Theme */
         $theme = $params['themeModel'];
         if ($theme->getThemePath()) {
             $designPath = str_replace('/', DS, $theme->getThemePath());
@@ -287,14 +289,14 @@ class Magento_Core_Model_View_Publisher implements Magento_Core_Model_View_Publi
      */
     protected function _buildPublicViewSufficientFilename($filename, array $params)
     {
-        $designDir = Mage::getBaseDir(Magento_Core_Model_Dir::THEMES) . DS;
+        $designDir = \Mage::getBaseDir(\Magento\Core\Model\Dir::THEMES) . DS;
         if (0 === strpos($filename, $designDir)) {
             // theme file
             $publicFile = substr($filename, strlen($designDir));
         } else {
             // modular file
             $module = $params['module'];
-            $moduleDir = Mage::getModuleDir('theme', $module) . DS;
+            $moduleDir = \Mage::getModuleDir('theme', $module) . DS;
             $publicFile = substr($filename, strlen($moduleDir));
             $publicFile = self::PUBLIC_MODULE_DIR . DS . $module . DS . $publicFile;
         }
@@ -322,7 +324,7 @@ class Magento_Core_Model_View_Publisher implements Magento_Core_Model_View_Publi
         };
         try {
             $content = $this->_cssHelper->replaceCssRelativeUrls($content, $sourcePath, $publicPath, $callback);
-        } catch (Magento_Exception $e) {
+        } catch (\Magento\Exception $e) {
             $this->_logger->logException($e);
         }
         return $content;
@@ -350,11 +352,11 @@ class Magento_Core_Model_View_Publisher implements Magento_Core_Model_View_Publi
      */
     protected function _getRelatedViewFile($fileId, $parentFilePath, $parentFileName, &$params)
     {
-        if (strpos($fileId, Magento_Core_Model_View_Service::SCOPE_SEPARATOR)) {
+        if (strpos($fileId, \Magento\Core\Model\View\Service::SCOPE_SEPARATOR)) {
             $filePath = $this->_viewService->extractScope($fileId, $params);
         } else {
             /* Check if module file overridden on theme level based on _module property and file path */
-            if ($params['module'] && strpos($parentFilePath, Mage::getBaseDir(Magento_Core_Model_Dir::THEMES)) === 0) {
+            if ($params['module'] && strpos($parentFilePath, \Mage::getBaseDir(\Magento\Core\Model\Dir::THEMES)) === 0) {
                 /* Add module directory to relative URL */
                 $filePath = dirname($params['module'] . '/' . $parentFileName)
                     . '/' . $fileId;

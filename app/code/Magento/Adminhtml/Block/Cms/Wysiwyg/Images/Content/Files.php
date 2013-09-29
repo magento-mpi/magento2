@@ -15,37 +15,39 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Cms_Wysiwyg_Images_Content_Files extends Magento_Adminhtml_Block_Template
+namespace Magento\Adminhtml\Block\Cms\Wysiwyg\Images\Content;
+
+class Files extends \Magento\Adminhtml\Block\Template
 {
     /**
      * Files collection object
      *
-     * @var Magento_Data_Collection_Filesystem
+     * @var \Magento\Data\Collection\Filesystem
      */
     protected $_filesCollection;
 
     /**
-     * @var Magento_Cms_Model_Wysiwyg_Images_Storage
+     * @var \Magento\Cms\Model\Wysiwyg\Images\Storage
      */
     protected $_imageStorage;
 
     /**
-     * @var Magento_Cms_Helper_Wysiwyg_Images
+     * @var \Magento\Cms\Helper\Wysiwyg\Images
      */
     protected $_imageHelper;
 
     /**
-     * @param Magento_Cms_Model_Wysiwyg_Images_Storage $imageStorage
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Cms_Helper_Wysiwyg_Images $imageHelper
+     * @param \Magento\Cms\Model\Wysiwyg\Images\Storage $imageStorage
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Cms\Helper\Wysiwyg\Images $imageHelper
      * @param array $data
      */
     public function __construct(
-        Magento_Cms_Model_Wysiwyg_Images_Storage $imageStorage,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Cms_Helper_Wysiwyg_Images $imageHelper,
+        \Magento\Cms\Model\Wysiwyg\Images\Storage $imageStorage,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Cms\Helper\Wysiwyg\Images $imageHelper,
         array $data = array()
     ) {
         $this->_imageHelper = $imageHelper;
@@ -56,7 +58,7 @@ class Magento_Adminhtml_Block_Cms_Wysiwyg_Images_Content_Files extends Magento_A
     /**
      * Prepared Files collection for current directory
      *
-     * @return Magento_Data_Collection_Filesystem
+     * @return \Magento\Data\Collection\Filesystem
      */
     public function getFiles()
     {
@@ -82,10 +84,10 @@ class Magento_Adminhtml_Block_Cms_Wysiwyg_Images_Content_Files extends Magento_A
     /**
      * File idetifier getter
      *
-     * @param  Magento_Object $file
+     * @param  \Magento\Object $file
      * @return string
      */
-    public function getFileId(Magento_Object $file)
+    public function getFileId(\Magento\Object $file)
     {
         return $file->getId();
     }
@@ -93,10 +95,10 @@ class Magento_Adminhtml_Block_Cms_Wysiwyg_Images_Content_Files extends Magento_A
     /**
      * File thumb URL getter
      *
-     * @param  Magento_Object $file
+     * @param  \Magento\Object $file
      * @return string
      */
-    public function getFileThumbUrl(Magento_Object $file)
+    public function getFileThumbUrl(\Magento\Object $file)
     {
         return $file->getThumbUrl();
     }
@@ -104,10 +106,10 @@ class Magento_Adminhtml_Block_Cms_Wysiwyg_Images_Content_Files extends Magento_A
     /**
      * File name URL getter
      *
-     * @param  Magento_Object $file
+     * @param  \Magento\Object $file
      * @return string
      */
-    public function getFileName(Magento_Object $file)
+    public function getFileName(\Magento\Object $file)
     {
         return $file->getName();
     }
@@ -115,10 +117,10 @@ class Magento_Adminhtml_Block_Cms_Wysiwyg_Images_Content_Files extends Magento_A
     /**
      * Image file width getter
      *
-     * @param  Magento_Object $file
+     * @param  \Magento\Object $file
      * @return string
      */
-    public function getFileWidth(Magento_Object $file)
+    public function getFileWidth(\Magento\Object $file)
     {
         return $file->getWidth();
     }
@@ -126,10 +128,10 @@ class Magento_Adminhtml_Block_Cms_Wysiwyg_Images_Content_Files extends Magento_A
     /**
      * Image file height getter
      *
-     * @param  Magento_Object $file
+     * @param  \Magento\Object $file
      * @return string
      */
-    public function getFileHeight(Magento_Object $file)
+    public function getFileHeight(\Magento\Object $file)
     {
         return $file->getHeight();
     }
@@ -137,10 +139,10 @@ class Magento_Adminhtml_Block_Cms_Wysiwyg_Images_Content_Files extends Magento_A
     /**
      * File short name getter
      *
-     * @param  Magento_Object $file
+     * @param  \Magento\Object $file
      * @return string
      */
-    public function getFileShortName(Magento_Object $file)
+    public function getFileShortName(\Magento\Object $file)
     {
         return $file->getShortName();
     }

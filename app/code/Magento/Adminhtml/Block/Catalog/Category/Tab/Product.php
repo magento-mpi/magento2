@@ -15,36 +15,38 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Category_Tab_Product extends Magento_Backend_Block_Widget_Grid_Extended
+namespace Magento\Adminhtml\Block\Catalog\Category\Tab;
+
+class Product extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @var Magento_Catalog_Model_ProductFactory
+     * @var \Magento\Catalog\Model\ProductFactory
      */
     protected $_productFactory;
 
     /**
-     * @param Magento_Catalog_Model_ProductFactory $productFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Url $urlModel
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Core\Model\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
-        Magento_Catalog_Model_ProductFactory $productFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Url $urlModel,
-        Magento_Core_Model_Registry $coreRegistry,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        \Magento\Core\Model\Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_productFactory = $productFactory;
@@ -146,7 +148,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tab_Product extends Magento_Backe
             'header'    => __('Price'),
             'type'  => 'currency',
             'width'     => '1',
-            'currency_code' => (string) $this->_storeConfig->getConfig(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
+            'currency_code' => (string) $this->_storeConfig->getConfig(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE),
             'index'     => 'price'
         ));
         $this->addColumn('position', array(
@@ -155,7 +157,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tab_Product extends Magento_Backe
             'type'      => 'number',
             'index'     => 'position',
             'editable'  => !$this->getCategory()->getProductsReadonly()
-            //'renderer'  => 'Magento_Adminhtml_Block_Widget_Grid_Column_Renderer_Input'
+            //'renderer'  => 'Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\Input'
         ));
 
         return parent::_prepareColumns();

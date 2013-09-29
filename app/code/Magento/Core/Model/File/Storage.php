@@ -16,7 +16,9 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_File_Storage extends Magento_Core_Model_Abstract
+namespace Magento\Core\Model\File;
+
+class Storage extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Storage systems ids
@@ -43,41 +45,41 @@ class Magento_Core_Model_File_Storage extends Magento_Core_Model_Abstract
     /**
      * Core file storage
      *
-     * @var Magento_Core_Helper_File_Storage
+     * @var \Magento\Core\Helper\File\Storage
      */
     protected $_coreFileStorage = null;
 
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
-     * @var Magento_Core_Model_Config
+     * @var \Magento\Core\Model\Config
      */
     protected $_coreConfig;
 
     /**
-     * @param Magento_Core_Helper_File_Storage $coreFileStorage
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_Config $coreConfig
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param \Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Core\Helper\File\Storage $coreFileStorage
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \\Magento\Data\Collection\Db $resourceCollection
      * $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_File_Storage $coreFileStorage,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_Config $coreConfig,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Core\Helper\File\Storage $coreFileStorage,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\Config $coreConfig,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_coreFileStorage = $coreFileStorage;
@@ -89,12 +91,12 @@ class Magento_Core_Model_File_Storage extends Magento_Core_Model_Abstract
     /**
      * Show if there were errors while synchronize process
      *
-     * @param  Magento_Core_Model_Abstract $sourceModel
-     * @param  Magento_Core_Model_Abstract $destinationModel
+     * @param  \Magento\Core\Model\AbstractModel $sourceModel
+     * @param  \Magento\Core\Model\AbstractModel $destinationModel
      * @return bool
      */
-    protected function _synchronizeHasErrors(Magento_Core_Model_Abstract $sourceModel,
-        Magento_Core_Model_Abstract $destinationModel
+    protected function _synchronizeHasErrors(\Magento\Core\Model\AbstractModel $sourceModel,
+        \Magento\Core\Model\AbstractModel $destinationModel
     ) {
         if (!$sourceModel || !$destinationModel) {
             return true;
@@ -106,11 +108,11 @@ class Magento_Core_Model_File_Storage extends Magento_Core_Model_Abstract
     /**
      * Return synchronize process status flag
      *
-     * @return Magento_Core_Model_File_Storage_Flag
+     * @return \Magento\Core\Model\File\Storage\Flag
      */
     public function getSyncFlag()
     {
-        return Mage::getSingleton('Magento_Core_Model_File_Storage_Flag')->loadSelf();
+        return \Mage::getSingleton('Magento\Core\Model\File\Storage\Flag')->loadSelf();
     }
 
     /**
@@ -124,7 +126,7 @@ class Magento_Core_Model_File_Storage extends Magento_Core_Model_Abstract
      *
      * @param  int|null $storage
      * @param  array $params
-     * @return Magento_Core_Model_Abstract|bool
+     * @return \Magento\Core\Model\AbstractModel|bool
      */
     public function getStorageModel($storage = null, $params = array())
     {
@@ -134,12 +136,12 @@ class Magento_Core_Model_File_Storage extends Magento_Core_Model_Abstract
 
         switch ($storage) {
             case self::STORAGE_MEDIA_FILE_SYSTEM:
-                $model = Mage::getModel('Magento_Core_Model_File_Storage_File');
+                $model = \Mage::getModel('Magento\Core\Model\File\Storage\File');
                 break;
             case self::STORAGE_MEDIA_DATABASE:
                 $connection = (isset($params['connection'])) ? $params['connection'] : null;
                 $arguments = array('connection' => $connection);
-                $model = Mage::getModel('Magento_Core_Model_File_Storage_Database',
+                $model = \Mage::getModel('Magento\Core\Model\File\Storage\Database',
                     array('connectionName' => $arguments));
                 break;
             default:
@@ -161,7 +163,7 @@ class Magento_Core_Model_File_Storage extends Magento_Core_Model_Abstract
      * )
      *
      * @param  array $storage
-     * @return Magento_Core_Model_File_Storage
+     * @return \Magento\Core\Model\File\Storage
      */
     public function synchronize($storage)
     {
@@ -250,7 +252,7 @@ class Magento_Core_Model_File_Storage extends Magento_Core_Model_Abstract
     public function getScriptConfig()
     {
         $config = array();
-        $config['media_directory'] = Mage::getBaseDir('media');
+        $config['media_directory'] = \Mage::getBaseDir('media');
 
         $allowedResources = $this->_coreConfig->getValue(self::XML_PATH_MEDIA_RESOURCE_WHITELIST, 'default');
         foreach ($allowedResources as $allowedResource) {

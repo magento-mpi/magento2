@@ -8,36 +8,38 @@
  * @license     {license_link}
  */
 
-class Magento_Weee_Model_Attribute_Backend_Weee_Tax extends Magento_Catalog_Model_Product_Attribute_Backend_Price
+namespace Magento\Weee\Model\Attribute\Backend\Weee;
+
+class Tax extends \Magento\Catalog\Model\Product\Attribute\Backend\Price
 {
     /**
-     * @var Magento_Weee_Model_Resource_Attribute_Backend_Weee_Tax
+     * @var \Magento\Weee\Model\Resource\Attribute\Backend\Weee\Tax
      */
     protected $_attributeTax;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Directory_Helper_Data
+     * @var \Magento\Directory\Helper\Data
      */
     protected $_directoryHelper;
 
     /**
-     * @param Magento_Directory_Helper_Data $directoryHelper
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Weee_Model_Resource_Attribute_Backend_Weee_Tax $attributeTax
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Core_Model_Logger $logger
+     * @param \Magento\Directory\Helper\Data $directoryHelper
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Weee\Model\Resource\Attribute\Backend\Weee\Tax $attributeTax
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Model\Logger $logger
      */
     public function __construct(
-        Magento_Directory_Helper_Data $directoryHelper,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Weee_Model_Resource_Attribute_Backend_Weee_Tax $attributeTax,
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Core_Model_Logger $logger
+        \Magento\Directory\Helper\Data $directoryHelper,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Weee\Model\Resource\Attribute\Backend\Weee\Tax $attributeTax,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Model\Logger $logger
     ) {
         $this->_directoryHelper = $directoryHelper;
         $this->_storeManager = $storeManager;
@@ -47,13 +49,13 @@ class Magento_Weee_Model_Attribute_Backend_Weee_Tax extends Magento_Catalog_Mode
 
     public static function getBackendModelName()
     {
-        return 'Magento_Weee_Model_Attribute_Backend_Weee_Tax';
+        return 'Magento\Weee\Model\Attribute\Backend\Weee\Tax';
     }
 
     /**
      * Validate data
      *
-     * @param   Magento_Catalog_Model_Product $object
+     * @param   \Magento\Catalog\Model\Product $object
      * @return  this
      */
     public function validate($object)
@@ -73,7 +75,7 @@ class Magento_Weee_Model_Attribute_Backend_Weee_Tax extends Magento_Catalog_Mode
             $key1 = implode('-', array($tax['website_id'], $tax['country'], $state));
 
             if (!empty($dup[$key1])) {
-                throw new Magento_Core_Exception(
+                throw new \Magento\Core\Exception(
                     __('We found a duplicate website, country, and state tax.')
                 );
             }
@@ -85,8 +87,8 @@ class Magento_Weee_Model_Attribute_Backend_Weee_Tax extends Magento_Catalog_Mode
     /**
      * Assign WEEE taxes to product data
      *
-     * @param   Magento_Catalog_Model_Product $object
-     * @return  Magento_Catalog_Model_Product_Attribute_Backend_Weee
+     * @param   \Magento\Catalog\Model\Product $object
+     * @return  \Magento\Catalog\Model\Product\Attribute\Backend\Weee
      */
     public function afterLoad($object)
     {

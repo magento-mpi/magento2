@@ -9,9 +9,9 @@
  * @license     {license_link}
  */
 
-/** @var $product Magento_Catalog_Model_Product */
-$product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Catalog_Model_Product');
+/** @var $product \Magento\Catalog\Model\Product */
+$product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Catalog\Model\Product');
 $product->setTypeId('simple')
     ->setId(1)
     ->setAttributeSetId(4)
@@ -24,15 +24,15 @@ $product->setTypeId('simple')
     ->setMetaKeyword('meta keyword')
     ->setMetaDescription('meta description')
 
-    ->setVisibility(Magento_Catalog_Model_Product_Visibility::VISIBILITY_BOTH)
-    ->setStatus(Magento_Catalog_Model_Product_Status::STATUS_ENABLED)
+    ->setVisibility(\Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH)
+    ->setStatus(\Magento\Catalog\Model\Product\Status::STATUS_ENABLED)
 
     ->setStockData(array(
         'use_config_manage_stock' => 0,
     ))
     ->save();
 
-$customDesignProduct = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Catalog_Model_Product', array('data' => $product->getData()));
+$customDesignProduct = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Catalog\Model\Product', array('data' => $product->getData()));
 $customDesignProduct->setId(2)->setCustomDesign('magento_blank')
     ->save();

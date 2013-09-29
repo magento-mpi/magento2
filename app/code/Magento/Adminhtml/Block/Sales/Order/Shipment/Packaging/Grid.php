@@ -15,7 +15,9 @@
  * @package     Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Sales_Order_Shipment_Packaging_Grid extends Magento_Adminhtml_Block_Template
+namespace Magento\Adminhtml\Block\Sales\Order\Shipment\Packaging;
+
+class Grid extends \Magento\Adminhtml\Block\Template
 {
 
     protected $_template = 'sales/order/shipment/packaging/grid.phtml';
@@ -23,27 +25,27 @@ class Magento_Adminhtml_Block_Sales_Order_Shipment_Packaging_Grid extends Magent
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @var Magento_Sales_Model_Order_Shipment_ItemFactory
+     * @var \Magento\Sales\Model\Order\Shipment\ItemFactory
      */
     protected $_shipmentItemFactory;
 
     /**
-     * @param Magento_Sales_Model_Order_Shipment_ItemFactory $shipmentItemFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Sales\Model\Order\Shipment\ItemFactory $shipmentItemFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Sales_Model_Order_Shipment_ItemFactory $shipmentItemFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Sales\Model\Order\Shipment\ItemFactory $shipmentItemFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_shipmentItemFactory = $shipmentItemFactory;
@@ -70,7 +72,7 @@ class Magento_Adminhtml_Block_Sales_Order_Shipment_Packaging_Grid extends Magent
     /**
      * Retrieve shipment model instance
      *
-     * @return Magento_Sales_Model_Order_Shipment
+     * @return \Magento\Sales\Model\Order\Shipment
      */
     public function getShipment()
     {
@@ -88,7 +90,7 @@ class Magento_Adminhtml_Block_Sales_Order_Shipment_Packaging_Grid extends Magent
         $order = $this->getShipment()->getOrder();
         $address = $order->getShippingAddress();
         $shipperAddressCountryCode = $this->_storeConfig->getConfig(
-            Magento_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID,
+            \Magento\Shipping\Model\Shipping::XML_PATH_STORE_COUNTRY_ID,
             $storeId
         );
         $recipientAddressCountryCode = $address->getCountryId();

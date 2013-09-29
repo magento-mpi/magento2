@@ -12,24 +12,26 @@
 /**
  * Tax Rate Title Model
  *
- * @method Magento_Tax_Model_Resource_Calculation_Rate_Title _getResource()
- * @method Magento_Tax_Model_Resource_Calculation_Rate_Title getResource()
+ * @method \Magento\Tax\Model\Resource\Calculation\Rate\Title _getResource()
+ * @method \Magento\Tax\Model\Resource\Calculation\Rate\Title getResource()
  * @method int getTaxCalculationRateId()
- * @method Magento_Tax_Model_Calculation_Rate_Title setTaxCalculationRateId(int $value)
+ * @method \Magento\Tax\Model\Calculation\Rate\Title setTaxCalculationRateId(int $value)
  * @method int getStoreId()
- * @method Magento_Tax_Model_Calculation_Rate_Title setStoreId(int $value)
+ * @method \Magento\Tax\Model\Calculation\Rate\Title setStoreId(int $value)
  * @method string getValue()
- * @method Magento_Tax_Model_Calculation_Rate_Title setValue(string $value)
+ * @method \Magento\Tax\Model\Calculation\Rate\Title setValue(string $value)
  *
  * @category    Magento
  * @package     Magento_Tax
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Tax_Model_Calculation_Rate_Title extends Magento_Core_Model_Abstract
+namespace Magento\Tax\Model\Calculation\Rate;
+
+class Title extends \Magento\Core\Model\AbstractModel
 {
     protected function _construct()
     {
-        $this->_init('Magento_Tax_Model_Resource_Calculation_Rate_Title');
+        $this->_init('Magento\Tax\Model\Resource\Calculation\Rate\Title');
     }
 
     public function deleteByRateId($rateId)

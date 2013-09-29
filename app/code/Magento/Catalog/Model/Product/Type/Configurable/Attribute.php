@@ -12,23 +12,25 @@
 /**
  * Catalog Configurable Product Attribute Model
  *
- * @method Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute _getResource()
- * @method Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute getResource()
+ * @method \Magento\Catalog\Model\Resource\Product\Type\Configurable\Attribute _getResource()
+ * @method \Magento\Catalog\Model\Resource\Product\Type\Configurable\Attribute getResource()
  * @method int getProductId()
- * @method Magento_Catalog_Model_Product_Type_Configurable_Attribute setProductId(int $value)
+ * @method \Magento\Catalog\Model\Product\Type\Configurable\Attribute setProductId(int $value)
  * @method int getAttributeId()
- * @method Magento_Catalog_Model_Product_Type_Configurable_Attribute setAttributeId(int $value)
+ * @method \Magento\Catalog\Model\Product\Type\Configurable\Attribute setAttributeId(int $value)
  * @method int getPosition()
- * @method Magento_Catalog_Model_Product_Type_Configurable_Attribute setPosition(int $value)
+ * @method \Magento\Catalog\Model\Product\Type\Configurable\Attribute setPosition(int $value)
  *
- * @method Magento_Catalog_Model_Product_Type_Configurable_Attribute setProductAttribute(Magento_Eav_Model_Entity_Attribute_Abstract $value)
- * @method Magento_Eav_Model_Entity_Attribute_Abstract getProductAttribute()
+ * @method \Magento\Catalog\Model\Product\Type\Configurable\Attribute setProductAttribute(\Magento\Eav\Model\Entity\Attribute\AbstractAttribute $value)
+ * @method \Magento\Eav\Model\Entity\Attribute\AbstractAttribute getProductAttribute()
  *
  * @category    Magento
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Product_Type_Configurable_Attribute extends Magento_Core_Model_Abstract
+namespace Magento\Catalog\Model\Product\Type\Configurable;
+
+class Attribute extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Initialize resource model
@@ -36,14 +38,14 @@ class Magento_Catalog_Model_Product_Type_Configurable_Attribute extends Magento_
      */
     protected function _construct()
     {
-        $this->_init('Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute');
+        $this->_init('Magento\Catalog\Model\Resource\Product\Type\Configurable\Attribute');
     }
 
     /**
      * Add price data to attribute
      *
      * @param array $priceData
-     * @return Magento_Catalog_Model_Product_Type_Configurable_Attribute
+     * @return \Magento\Catalog\Model\Product\Type\Configurable\Attribute
      */
     public function addPrice($priceData)
     {
@@ -75,7 +77,7 @@ class Magento_Catalog_Model_Product_Type_Configurable_Attribute extends Magento_
     /**
      * After save process
      *
-     * @return Magento_Catalog_Model_Product_Type_Configurable_Attribute
+     * @return \Magento\Catalog\Model\Product\Type\Configurable\Attribute
      */
     protected function _afterSave()
     {
@@ -88,8 +90,8 @@ class Magento_Catalog_Model_Product_Type_Configurable_Attribute extends Magento_
     /**
      * Load counfigurable attribute by product and product's attribute
      *
-     * @param Magento_Catalog_Model_Product $product
-     * @param Magento_Eav_Model_Attribute  $attribute
+     * @param \Magento\Catalog\Model\Product $product
+     * @param \Magento\Eav\Model\Attribute  $attribute
      */
     public function loadByProductAndAttribute($product, $attribute)
     {
@@ -102,7 +104,7 @@ class Magento_Catalog_Model_Product_Type_Configurable_Attribute extends Magento_
     /**
      * Delete configurable attributes by product id
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      */
     public function deleteByProduct($product)
     {

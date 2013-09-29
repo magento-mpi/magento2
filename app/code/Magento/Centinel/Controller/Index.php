@@ -12,22 +12,24 @@
  * Centinel Authenticate Controller
  *
  */
-class Magento_Centinel_Controller_Index extends Magento_Core_Controller_Front_Action
+namespace Magento\Centinel\Controller;
+
+class Index extends \Magento\Core\Controller\Front\Action
 {
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Core_Controller_Varien_Action_Context $context
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
-        Magento_Core_Controller_Varien_Action_Context $context,
-        Magento_Core_Model_Registry $coreRegistry
+        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
@@ -57,14 +59,14 @@ class Magento_Centinel_Controller_Index extends Magento_Core_Controller_Front_Ac
             if ($validator) {
                 $request = $this->getRequest();
 
-                $data = new Magento_Object();
+                $data = new \Magento\Object();
                 $data->setTransactionId($request->getParam('MD'));
                 $data->setPaResPayload($request->getParam('PaRes'));
 
                 $validator->authenticate($data);
                 $this->_coreRegistry->register('current_centinel_validator', $validator);
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_coreRegistry->register('current_centinel_validator', false);
         }
         $this->loadLayout()->renderLayout();
@@ -73,17 +75,17 @@ class Magento_Centinel_Controller_Index extends Magento_Core_Controller_Front_Ac
     /**
      * Return payment model
      *
-     * @return Magento_Sales_Model_Quote_Payment
+     * @return \Magento\Sales\Model\Quote\Payment
      */
     private function _getPayment()
     {
-        return $this->_objectManager->get('Magento_Checkout_Model_Session')->getQuote()->getPayment();
+        return $this->_objectManager->get('Magento\Checkout\Model\Session')->getQuote()->getPayment();
     }
 
     /**
      * Return Centinel validation model
      *
-     * @return Magento_Centinel_Model_Service
+     * @return \Magento\Centinel\Model\Service
      */
     private function _getValidator()
     {

@@ -11,7 +11,9 @@
 /**
  * FileSystem Interface
  */
-interface Magento_Core_Model_View_PublicFilesManagerInterface
+namespace Magento\Core\Model\View;
+
+interface PublicFilesManagerInterface
 {
     /**
      * Get public file path

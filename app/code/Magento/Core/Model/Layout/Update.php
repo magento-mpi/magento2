@@ -15,28 +15,30 @@
  * @method int getLayoutLinkId() getLayoutLinkId()
  * @method string getUpdatedAt() getUpdatedAt()
  * @method string getXml() getXml()
- * @method Magento_Core_Model_Layout_Update setIsTemporary() setIsTemporary(int $isTemporary)
- * @method Magento_Core_Model_Layout_Update setHandle() setHandle(string $handle)
- * @method Magento_Core_Model_Layout_Update setXml() setXml(string $xml)
- * @method Magento_Core_Model_Layout_Update setStoreId() setStoreId(int $storeId)
- * @method Magento_Core_Model_Layout_Update setThemeId() setThemeId(int $themeId)
- * @method Magento_Core_Model_Layout_Update setUpdatedAt() setUpdatedAt(string $updateDateTime)
- * @method Magento_Core_Model_Resource_Layout_Update_Collection getCollection()
+ * @method \Magento\Core\Model\Layout\Update setIsTemporary() setIsTemporary(int $isTemporary)
+ * @method \Magento\Core\Model\Layout\Update setHandle() setHandle(string $handle)
+ * @method \Magento\Core\Model\Layout\Update setXml() setXml(string $xml)
+ * @method \Magento\Core\Model\Layout\Update setStoreId() setStoreId(int $storeId)
+ * @method \Magento\Core\Model\Layout\Update setThemeId() setThemeId(int $themeId)
+ * @method \Magento\Core\Model\Layout\Update setUpdatedAt() setUpdatedAt(string $updateDateTime)
+ * @method \Magento\Core\Model\Resource\Layout\Update\Collection getCollection()
  */
-class Magento_Core_Model_Layout_Update extends Magento_Core_Model_Abstract
+namespace Magento\Core\Model\Layout;
+
+class Update extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Layout Update model initialization
      */
     protected function _construct()
     {
-        $this->_init('Magento_Core_Model_Resource_Layout_Update');
+        $this->_init('Magento\Core\Model\Resource\Layout\Update');
     }
 
     /**
      * Set current updated date
      *
-     * @return Magento_Core_Model_Abstract
+     * @return \Magento\Core\Model\AbstractModel
      */
     protected function _beforeSave()
     {

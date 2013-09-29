@@ -7,8 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Controller_Rest_Response_Renderer_Xml implements
-    Magento_Webapi_Controller_Rest_Response_RendererInterface
+namespace Magento\Webapi\Controller\Rest\Response\Renderer;
+
+class Xml implements
+    \Magento\Webapi\Controller\Rest\Response\RendererInterface
 {
     /**
      * Renderer mime type.
@@ -25,15 +27,15 @@ class Magento_Webapi_Controller_Rest_Response_Renderer_Xml implements
      */
     const DEFAULT_ENTITY_ITEM_NAME = 'item';
 
-    /** @var Magento_Xml_Generator */
+    /** @var \Magento\Xml\Generator */
     protected $_xmlGenerator;
 
     /**
      * Initialize dependencies.
      *
-     * @param Magento_Xml_Generator $xmlGenerator
+     * @param \Magento\Xml\Generator $xmlGenerator
      */
-    public function __construct(Magento_Xml_Generator $xmlGenerator)
+    public function __construct(\Magento\Xml\Generator $xmlGenerator)
     {
         $this->_xmlGenerator = $xmlGenerator;
     }
@@ -51,7 +53,7 @@ class Magento_Webapi_Controller_Rest_Response_Renderer_Xml implements
     /**
      * Format object|array to valid XML.
      *
-     * @param array|Magento_Object $data
+     * @param array|\Magento\Object $data
      * @return string
      */
     public function render($data)
@@ -68,10 +70,10 @@ class Magento_Webapi_Controller_Rest_Response_Renderer_Xml implements
      *
      * This method is recursive.
      *
-     * @param array|Magento_Object $data
+     * @param array|\Magento\Object $data
      * @param bool $isRoot
      * @return array
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     protected function _formatData($data, $isRoot = false)
     {
@@ -79,7 +81,7 @@ class Magento_Webapi_Controller_Rest_Response_Renderer_Xml implements
             if ($isRoot) {
                 $data = array($data);
             }
-        } elseif ($data instanceof Magento_Object) {
+        } elseif ($data instanceof \Magento\Object) {
             $data = $data->toArray();
         } else {
             $data = (array)$data;

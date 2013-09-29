@@ -16,15 +16,17 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Resource_Attribute extends Magento_Eav_Model_Resource_Entity_Attribute
+namespace Magento\Catalog\Model\Resource;
+
+class Attribute extends \Magento\Eav\Model\Resource\Entity\Attribute
 {
     /**
      * Perform actions before object save
      *
-     * @param Magento_Core_Model_Abstract $object
-     * @return Magento_Catalog_Model_Resource_Attribute
+     * @param \Magento\Core\Model\AbstractModel $object
+     * @return \Magento\Catalog\Model\Resource\Attribute
      */
-    protected function _beforeSave(Magento_Core_Model_Abstract $object)
+    protected function _beforeSave(\Magento\Core\Model\AbstractModel $object)
     {
         $applyTo = $object->getApplyTo();
         if (is_array($applyTo)) {
@@ -36,10 +38,10 @@ class Magento_Catalog_Model_Resource_Attribute extends Magento_Eav_Model_Resourc
     /**
      * Perform actions after object save
      *
-     * @param  Magento_Core_Model_Abstract $object
-     * @return Magento_Catalog_Model_Resource_Attribute
+     * @param  \Magento\Core\Model\AbstractModel $object
+     * @return \Magento\Catalog\Model\Resource\Attribute
      */
-    protected function _afterSave(Magento_Core_Model_Abstract $object)
+    protected function _afterSave(\Magento\Core\Model\AbstractModel $object)
     {
         $this->_clearUselessAttributeValues($object);
         return parent::_afterSave($object);
@@ -48,18 +50,18 @@ class Magento_Catalog_Model_Resource_Attribute extends Magento_Eav_Model_Resourc
     /**
      * Clear useless attribute values
      *
-     * @param  Magento_Core_Model_Abstract $object
-     * @return Magento_Catalog_Model_Resource_Attribute
+     * @param  \Magento\Core\Model\AbstractModel $object
+     * @return \Magento\Catalog\Model\Resource\Attribute
      */
-    protected function _clearUselessAttributeValues(Magento_Core_Model_Abstract $object)
+    protected function _clearUselessAttributeValues(\Magento\Core\Model\AbstractModel $object)
     {
         $origData = $object->getOrigData();
 
         if ($object->isScopeGlobal()
             && isset($origData['is_global'])
-            && Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL != $origData['is_global']
+            && \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_GLOBAL != $origData['is_global']
         ) {
-            $attributeStoreIds = array_keys(Mage::app()->getStores());
+            $attributeStoreIds = array_keys(\Mage::app()->getStores());
             if (!empty($attributeStoreIds)) {
                 $delCondition = array(
                     'entity_type_id=?' => $object->getEntityTypeId(),
@@ -76,10 +78,10 @@ class Magento_Catalog_Model_Resource_Attribute extends Magento_Eav_Model_Resourc
     /**
      * Delete entity
      *
-     * @param Magento_Core_Model_Abstract $object
-     * @return Magento_Catalog_Model_Resource_Attribute
+     * @param \Magento\Core\Model\AbstractModel $object
+     * @return \Magento\Catalog\Model\Resource\Attribute
      */
-    public function deleteEntity(Magento_Core_Model_Abstract $object)
+    public function deleteEntity(\Magento\Core\Model\AbstractModel $object)
     {
         if (!$object->getEntityAttributeId()) {
             return $this;
@@ -91,11 +93,11 @@ class Magento_Catalog_Model_Resource_Attribute extends Magento_Eav_Model_Resourc
         $result = $this->_getReadAdapter()->fetchRow($select);
 
         if ($result) {
-            $attribute = Mage::getSingleton('Magento_Eav_Model_Config')
-                ->getAttribute(Magento_Catalog_Model_Product::ENTITY, $result['attribute_id']);
+            $attribute = \Mage::getSingleton('Magento\Eav\Model\Config')
+                ->getAttribute(\Magento\Catalog\Model\Product::ENTITY, $result['attribute_id']);
 
             if ($this->isUsedBySuperProducts($attribute, $result['attribute_set_id'])) {
-                Mage::throwException(__("Attribute '%1' used in configurable products", $attribute->getAttributeCode()));
+                \Mage::throwException(__("Attribute '%1' used in configurable products", $attribute->getAttributeCode()));
             }
             $backendTable = $attribute->getBackend()->getTable();
             if ($backendTable) {
@@ -121,11 +123,11 @@ class Magento_Catalog_Model_Resource_Attribute extends Magento_Eav_Model_Resourc
     /**
      * Defines is Attribute used by super products
      *
-     * @param Magento_Core_Model_Abstract $object
+     * @param \Magento\Core\Model\AbstractModel $object
      * @param int $attributeSet
      * @return int
      */
-    public function isUsedBySuperProducts(Magento_Core_Model_Abstract $object, $attributeSet = null)
+    public function isUsedBySuperProducts(\Magento\Core\Model\AbstractModel $object, $attributeSet = null)
     {
         $adapter      = $this->_getReadAdapter();
         $attrTable    = $this->getTable('catalog_product_super_attribute');

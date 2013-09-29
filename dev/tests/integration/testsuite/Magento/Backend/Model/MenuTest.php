@@ -9,37 +9,39 @@
  * @license     {license_link}
  */
 
+namespace Magento\Backend\Model;
+
 /**
- * Test class for Magento_Backend_Model_Auth.
+ * Test class for \Magento\Backend\Model\Auth.
  *
  * @magentoAppArea adminhtml
  */
-class Magento_Backend_Model_MenuTest extends PHPUnit_Framework_TestCase
+class MenuTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Backend_Model_Menu
+     * @var \Magento\Backend\Model\Menu
      */
     protected $_model;
 
     protected function setUp()
     {
         parent::setUp();
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App')
-            ->loadArea(Magento_Core_Model_App_Area::AREA_ADMINHTML);
-        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Backend_Model_Auth');
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Config_Scope')
-            ->setCurrentScope(Magento_Core_Model_App_Area::AREA_ADMINHTML);
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
+            ->loadArea(\Magento\Core\Model\App\Area::AREA_ADMINHTML);
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Backend\Model\Auth');
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Config\Scope')
+            ->setCurrentScope(\Magento\Core\Model\App\Area::AREA_ADMINHTML);
     }
 
     public function testMenuItemManipulation()
     {
-        /* @var $menu Magento_Backend_Model_Menu */
-        $menu = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Backend_Model_Menu_Config')
+        /* @var $menu \Magento\Backend\Model\Menu */
+        $menu = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Backend\Model\Menu\Config')
             ->getMenu();
-        /* @var $itemFactory Magento_Backend_Model_Menu_Item_Factory */
-        $itemFactory = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Backend_Model_Menu_Item_Factory');
+        /* @var $itemFactory \Magento\Backend\Model\Menu\Item\Factory */
+        $itemFactory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Backend\Model\Menu\Item\Factory');
 
         // Add new item in top level
         $menu->add($itemFactory->create(array(

@@ -13,10 +13,10 @@
     <default>
         <payment>
             <paypaluk_express>
-                <model>Magento_PaypalUk_Model_Express</model>
+                <model>Magento\PaypalUk\Model\Express</model>
             </paypaluk_express>
             <paypaluk_direct>
-                <model>Magento_PaypalUk_Model_Direct</model>
+                <model>Magento\PaypalUk\Model\Direct</model>
             </paypaluk_direct>
         </payment>
     </default>

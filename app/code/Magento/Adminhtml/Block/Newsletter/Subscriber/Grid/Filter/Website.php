@@ -15,8 +15,10 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Newsletter_Subscriber_Grid_Filter_Website
-    extends Magento_Adminhtml_Block_Widget_Grid_Column_Filter_Select
+namespace Magento\Adminhtml\Block\Newsletter\Subscriber\Grid\Filter;
+
+class Website
+    extends \Magento\Adminhtml\Block\Widget\Grid\Column\Filter\Select
 {
 
     protected $_websiteCollection = null;
@@ -24,32 +26,32 @@ class Magento_Adminhtml_Block_Newsletter_Subscriber_Grid_Filter_Website
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Core_Model_Resource_Website_CollectionFactory
+     * @var \Magento\Core\Model\Resource\Website\CollectionFactory
      */
     protected $_websitesFactory;
 
     /**
-     * @param Magento_Core_Model_Resource_Website_CollectionFactory $websitesFactory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Backend_Block_Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Core\Model\Resource\Website\CollectionFactory $websitesFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Backend\Block\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Resource_Website_CollectionFactory $websitesFactory,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Backend_Block_Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Core\Model\Resource\Website\CollectionFactory $websitesFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Backend\Block\Context $context,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -66,7 +68,7 @@ class Magento_Adminhtml_Block_Newsletter_Subscriber_Grid_Filter_Website
     }
 
     /**
-     * @return Magento_Core_Model_Resource_Website_Collection|null
+     * @return \Magento\Core\Model\Resource\Website\Collection|null
      */
     public function getCollection()
     {

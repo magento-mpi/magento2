@@ -16,7 +16,9 @@
  * @package     Magento_Review
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Review_Model_Resource_Review_Status extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Review\Model\Resource\Review;
+
+class Status extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
 
     /**

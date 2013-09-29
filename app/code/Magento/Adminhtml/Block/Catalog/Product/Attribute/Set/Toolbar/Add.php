@@ -15,14 +15,16 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Toolbar_Add extends Magento_Adminhtml_Block_Template
+namespace Magento\Adminhtml\Block\Catalog\Product\Attribute\Set\Toolbar;
+
+class Add extends \Magento\Adminhtml\Block\Template
 {
 
     protected $_template = 'catalog/product/attribute/set/toolbar/add.phtml';
 
     protected function _prepareLayout()
     {
-        $this->addChild('save_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('save_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('Save Attribute Set'),
             'class' => 'save',
             'data_attribute' => array(
@@ -31,13 +33,13 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Toolbar_Add extends 
                 ),
             ),
         ));
-        $this->addChild('back_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('back_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('Back'),
             'onclick'   => 'setLocation(\''.$this->getUrl('*/*/').'\')',
             'class' => 'back'
         ));
 
-        $this->addChild('setForm', 'Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Main_Formset');
+        $this->addChild('setForm', 'Magento\Adminhtml\Block\Catalog\Product\Attribute\Set\Main\Formset');
         return parent::_prepareLayout();
     }
 

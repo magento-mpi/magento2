@@ -15,8 +15,10 @@
  * @package     Magento_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle extends Magento_Adminhtml_Block_Widget
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+namespace Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab;
+
+class Bundle extends \Magento\Adminhtml\Block\Widget
+    implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
 {
     protected $_product = null;
 
@@ -25,20 +27,20 @@ class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle extends Mag
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -58,11 +60,11 @@ class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle extends Mag
     /**
      * Prepare layout
      *
-     * @return Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle
+     * @return \Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle
      */
     protected function _prepareLayout()
     {
-        $this->addChild('add_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('add_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label' => __('Create New Option'),
             'class' => 'add',
             'id'    => 'add_new_option',
@@ -70,7 +72,7 @@ class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle extends Mag
         ));
 
         $this->setChild('options_box',
-            $this->getLayout()->createBlock('Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option',
+            $this->getLayout()->createBlock('Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle\Option',
                 'adminhtml.catalog.product.edit.tab.bundle.option')
         );
 

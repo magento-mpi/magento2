@@ -8,33 +8,33 @@
  */
 -->
 <config>
-    <type name="Magento_Customer_Helper_Data">
+    <type name="Magento\Customer\Helper\Data">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
-    <type name="Magento_Customer_Model_Address_Abstract">
+    <type name="Magento\Customer\Model\Address\AbstractAddress">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
-    <type name="Magento_Customer_Model_Customer">
+    <type name="Magento\Customer\Model\Customer">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
-    <type name="Magento_Customer_Model_Session">
+    <type name="Magento\Customer\Model\Session">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
         <param name="configShare">
-            <instance type="Magento_Customer_Model_Config_Share_Proxy" />
+            <instance type="Magento\Customer\Model\Config\Share\Proxy" />
         </param>
     </type>
-    <type name="Magento_Core_Model_Db_Updater">
+    <type name="Magento\Core\Model\Db\Updater">
         <param name="resourceList">
             <value>
-                <customer_setup>Magento_Customer_Model_Resource_Setup</customer_setup>
+                <customer_setup>Magento\Customer\Model\Resource\Setup</customer_setup>
             </value>
         </param>
     </type>

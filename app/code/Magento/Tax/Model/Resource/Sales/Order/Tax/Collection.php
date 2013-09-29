@@ -16,21 +16,23 @@
  * @package     Magento_Tax
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Tax_Model_Resource_Sales_Order_Tax_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Tax\Model\Resource\Sales\Order\Tax;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Resource initialization
      */
     protected function _construct()
     {
-        $this->_init('Magento_Tax_Model_Sales_Order_Tax', 'Magento_Tax_Model_Resource_Sales_Order_Tax');
+        $this->_init('Magento\Tax\Model\Sales\Order\Tax', 'Magento\Tax\Model\Resource\Sales\Order\Tax');
     }
 
     /**
      * Retrieve order tax collection by order identifier
      *
-     * @param Magento_Object $order
-     * @return Magento_Tax_Model_Resource_Sales_Order_Tax_Collection
+     * @param \Magento\Object $order
+     * @return \Magento\Tax\Model\Resource\Sales\Order\Tax\Collection
      */
     public function loadByOrder($order)
     {

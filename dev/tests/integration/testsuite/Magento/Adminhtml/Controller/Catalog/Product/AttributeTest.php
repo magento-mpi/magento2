@@ -9,10 +9,13 @@
  * @license     {license_link}
  */
 
+
+namespace Magento\Adminhtml\Controller\Catalog\Product;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_Controller_Catalog_Product_AttributeTest extends Magento_Backend_Utility_Controller
+class AttributeTest extends \Magento\Backend\Utility\Controller
 {
     /**
      * @magentoDataFixture Magento/Catalog/controllers/_files/attribute_system.php
@@ -22,7 +25,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_AttributeTest extends Magento
         $postData = $this->_getAttributeData() + array('attribute_id' => '2');
         $this->getRequest()->setPost($postData);
         $this->dispatch('backend/admin/catalog_product_attribute/save');
-        $model = $this->_objectManager->create('Magento_Catalog_Model_Resource_Eav_Attribute');
+        $model = $this->_objectManager->create('Magento\Catalog\Model\Resource\Eav\Attribute');
         $model->load($postData['attribute_id']);
         $this->assertNull($model->getData('apply_to'));
     }
@@ -35,7 +38,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_AttributeTest extends Magento
         $postData = $this->_getAttributeData() + array('attribute_id' => '1');
         $this->getRequest()->setPost($postData);
         $this->dispatch('backend/admin/catalog_product_attribute/save');
-        $model = $this->_objectManager->create('Magento_Catalog_Model_Resource_Eav_Attribute');
+        $model = $this->_objectManager->create('Magento\Catalog\Model\Resource\Eav\Attribute');
         $model->load($postData['attribute_id']);
         $this->assertEquals('simple,configurable', $model->getData('apply_to'));
     }
@@ -49,7 +52,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_AttributeTest extends Magento
         unset($postData['apply_to']);
         $this->getRequest()->setPost($postData);
         $this->dispatch('backend/admin/catalog_product_attribute/save');
-        $model = $this->_objectManager->create('Magento_Catalog_Model_Resource_Eav_Attribute');
+        $model = $this->_objectManager->create('Magento\Catalog\Model\Resource\Eav\Attribute');
         $model->load($postData['attribute_id']);
         $this->assertEquals(array('simple', 'configurable'), $model->getApplyTo());
     }
@@ -64,11 +67,11 @@ class Magento_Adminhtml_Controller_Catalog_Product_AttributeTest extends Magento
     {
         // ensure string translation is cached
         $this->_translate('Fixture String');
-        /** @var Magento_Core_Model_Resource_Translate_String $translateString */
-        $translateString = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_Resource_Translate_String');
+        /** @var \Magento\Core\Model\Resource\Translate\String $translateString */
+        $translateString = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Resource\Translate\String');
         $translateString->saveTranslate(
-            'Fixture String', 'New Db Translation', 'en_US', Magento_Core_Model_AppInterface::ADMIN_STORE_ID
+            'Fixture String', 'New Db Translation', 'en_US', \Magento\Core\Model\AppInterface::ADMIN_STORE_ID
         );
         $this->assertEquals(
             'Fixture Db Translation', $this->_translate('Fixture String'), 'Translation is expected to be cached'
@@ -92,14 +95,14 @@ class Magento_Adminhtml_Controller_Catalog_Product_AttributeTest extends Magento
     protected function _translate($string)
     {
         // emulate admin store and design
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
-            ->setCurrentStore(Magento_Core_Model_AppInterface::ADMIN_STORE_ID);
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
+            ->setCurrentStore(\Magento\Core\Model\AppInterface::ADMIN_STORE_ID);
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\View\DesignInterface')
             ->setDesignTheme(1);
-        /** @var Magento_Core_Model_Translate $translate */
-        $translate = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_Translate');
-        $translate->init(Magento_Backend_Helper_Data::BACKEND_AREA_CODE, null);
+        /** @var \Magento\Core\Model\Translate $translate */
+        $translate = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Translate');
+        $translate->init(\Magento\Backend\Helper\Data::BACKEND_AREA_CODE, null);
         return $translate->translate(array($string));
     }
 
@@ -111,7 +114,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_AttributeTest extends Magento
     protected function _getAttributeData()
     {
         return array(
-            'is_global' => Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE,
+            'is_global' => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE,
             'default_value_text' => '0',
             'default_value_yesno' => '0',
             'default_value_date' => '',
@@ -131,7 +134,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_AttributeTest extends Magento
             'used_for_sort_by' => '0',
             'apply_to' => array('simple', 'configurable'),
             'frontend_label' => array(
-                Magento_Core_Model_AppInterface::ADMIN_STORE_ID => 'Fixture String',
+                \Magento\Core\Model\AppInterface::ADMIN_STORE_ID => 'Fixture String',
             ),
         );
     }

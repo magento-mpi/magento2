@@ -15,7 +15,9 @@
  * @package     Magento_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_ImportExport_Model_Import_Proxy_Product_Resource extends Magento_Catalog_Model_Resource_Product
+namespace Magento\ImportExport\Model\Import\Proxy\Product;
+
+class Resource extends \Magento\Catalog\Model\Resource\Product
 {
     /**
      * Product to category table.

@@ -9,28 +9,30 @@
  * @license     {license_link}
  */
 
-class Magento_User_Model_Acl_Loader_RuleTest extends PHPUnit_Framework_TestCase
+namespace Magento\User\Model\Acl\Loader;
+
+class RuleTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_User_Model_Acl_Loader_Rule
+     * @var \Magento\User\Model\Acl\Loader\Rule
      */
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_resourceMock;
 
     /**
-     * @var Magento_Core_Model_Acl_RootResource
+     * @var \Magento\Core\Model\Acl\RootResource
      */
     protected $_rootResourceMock;
 
     protected function setUp()
     {
-        $this->_resourceMock = $this->getMock('Magento_Core_Model_Resource', array(), array(), '', false, false);
-        $this->_rootResourceMock = new Magento_Core_Model_Acl_RootResource('Magento_Adminhtml::all');
-        $this->_model = new Magento_User_Model_Acl_Loader_Rule(
+        $this->_resourceMock = $this->getMock('Magento\Core\Model\Resource', array(), array(), '', false, false);
+        $this->_rootResourceMock = new \Magento\Core\Model\Acl\RootResource('Magento_Adminhtml::all');
+        $this->_model = new \Magento\User\Model\Acl\Loader\Rule(
             $this->_rootResourceMock,
             $this->_resourceMock
         );
@@ -40,12 +42,12 @@ class Magento_User_Model_Acl_Loader_RuleTest extends PHPUnit_Framework_TestCase
     {
         $this->_resourceMock->expects($this->any())->method('getTable')->will($this->returnArgument(1));
 
-        $selectMock = $this->getMock('Magento_DB_Select', array(), array(), '', false);
+        $selectMock = $this->getMock('Magento\DB\Select', array(), array(), '', false);
         $selectMock->expects($this->any())
             ->method('from')
             ->will($this->returnValue($selectMock));
 
-        $adapterMock = $this->getMock('Magento_DB_Adapter_Pdo_Mysql', array(), array(), '', false);
+        $adapterMock = $this->getMock('Magento\DB\Adapter\Pdo\Mysql', array(), array(), '', false);
         $adapterMock->expects($this->once())
             ->method('select')
             ->will($this->returnValue($selectMock));
@@ -66,7 +68,7 @@ class Magento_User_Model_Acl_Loader_RuleTest extends PHPUnit_Framework_TestCase
             ->method('getConnection')
             ->will($this->returnValue($adapterMock));
 
-        $aclMock = $this->getMock('Magento_Acl');
+        $aclMock = $this->getMock('Magento\Acl');
         $aclMock->expects($this->any())->method('has')->will($this->returnValue(true));
         $aclMock->expects($this->at(1))->method('allow')->with('G1', null, null);
         $aclMock->expects($this->at(2))->method('allow')->with('G1', 'Magento_Adminhtml::all', null);

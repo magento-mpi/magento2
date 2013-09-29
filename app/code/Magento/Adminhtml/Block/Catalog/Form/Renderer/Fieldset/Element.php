@@ -15,8 +15,10 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Form_Renderer_Fieldset_Element
-    extends Magento_Adminhtml_Block_Widget_Form_Renderer_Fieldset_Element
+namespace Magento\Adminhtml\Block\Catalog\Form\Renderer\Fieldset;
+
+class Element
+    extends \Magento\Adminhtml\Block\Widget\Form\Renderer\Fieldset\Element
 {
     /**
      * Initialize block template
@@ -27,7 +29,7 @@ class Magento_Adminhtml_Block_Catalog_Form_Renderer_Fieldset_Element
     /**
      * Retrieve data object related with form
      *
-     * @return Magento_Catalog_Model_Product || Magento_Catalog_Model_Category
+     * @return \Magento\Catalog\Model\Product || \Magento\Catalog\Model\Category
      */
     public function getDataObject()
     {
@@ -37,7 +39,7 @@ class Magento_Adminhtml_Block_Catalog_Form_Renderer_Fieldset_Element
     /**
      * Retireve associated with element attribute object
      *
-     * @return Magento_Catalog_Model_Resource_Eav_Attribute
+     * @return \Magento\Catalog\Model\Resource\Eav\Attribute
      */
     public function getAttribute()
     {
@@ -98,7 +100,7 @@ class Magento_Adminhtml_Block_Catalog_Form_Renderer_Fieldset_Element
     /**
      * Disable field in default value using case
      *
-     * @return Magento_Adminhtml_Block_Catalog_Form_Renderer_Fieldset_Element
+     * @return \Magento\Adminhtml\Block\Catalog\Form\Renderer\Fieldset\Element
      */
     public function checkFieldDisable()
     {
@@ -165,6 +167,6 @@ class Magento_Adminhtml_Block_Catalog_Form_Renderer_Fieldset_Element
      */
     protected function _getDefaultStoreId()
     {
-        return Magento_Catalog_Model_Abstract::DEFAULT_STORE_ID;
+        return \Magento\Catalog\Model\AbstractModel::DEFAULT_STORE_ID;
     }
 }

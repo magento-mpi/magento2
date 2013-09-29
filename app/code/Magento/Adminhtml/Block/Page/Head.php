@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Page_Head extends Magento_Page_Block_Html_Head
+namespace Magento\Adminhtml\Block\Page;
+
+class Head extends \Magento\Page\Block\Html\Head
 {
     /**
      * @var string
@@ -23,36 +25,36 @@ class Magento_Adminhtml_Block_Page_Head extends Magento_Page_Block_Html_Head
     protected $_template = 'page/head.phtml';
 
     /**
-     * @var Magento_Core_Model_Session
+     * @var \Magento\Core\Model\Session
      */
     protected $_session;
 
     /**
-     * @param Magento_Core_Model_Session $session
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Core_Model_Dir $dir
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Helper_File_Storage_Database $fileStorageDatabase
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_ObjectManager $objectManager
-     * @param Magento_Core_Model_Page $page
-     * @param Magento_Core_Model_Page_Asset_MergeService $assetMergeService
-     * @param Magento_Core_Model_Page_Asset_MinifyService $assetMinifyService
+     * @param \Magento\Core\Model\Session $session
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Core\Model\Dir $dir
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Helper\File\Storage\Database $fileStorageDatabase
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Core\Model\Page $page
+     * @param \Magento\Core\Model\Page\Asset\MergeService $assetMergeService
+     * @param \Magento\Core\Model\Page\Asset\MinifyService $assetMinifyService
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Session $session,
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Core_Model_Dir $dir,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Helper_File_Storage_Database $fileStorageDatabase,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_ObjectManager $objectManager,
-        Magento_Core_Model_Page $page,
-        Magento_Core_Model_Page_Asset_MergeService $assetMergeService,
-        Magento_Core_Model_Page_Asset_MinifyService $assetMinifyService,
+        \Magento\Core\Model\Session $session,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Core\Model\Dir $dir,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Helper\File\Storage\Database $fileStorageDatabase,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\ObjectManager $objectManager,
+        \Magento\Core\Model\Page $page,
+        \Magento\Core\Model\Page\Asset\MergeService $assetMergeService,
+        \Magento\Core\Model\Page\Asset\MinifyService $assetMinifyService,
         array $data = array()
     ) {
         $this->_session = $session;

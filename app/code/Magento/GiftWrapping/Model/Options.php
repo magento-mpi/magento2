@@ -15,7 +15,9 @@
  * @package     Magento_GiftWrapping
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GiftWrapping_Model_Options extends Magento_Object
+namespace Magento\GiftWrapping\Model;
+
+class Options extends \Magento\Object
 {
     /**
      * Current data object
@@ -25,12 +27,12 @@ class Magento_GiftWrapping_Model_Options extends Magento_Object
     /**
      * Set gift wrapping options data object
      *
-     * @param Magento_Object $item
-     * @return Magento_GiftWrapping_Model_Options
+     * @param \Magento\Object $item
+     * @return \Magento\GiftWrapping\Model\Options
      */
     public function setDataObject($item)
     {
-        if ($item instanceof Magento_Object && $item->getGiftwrappingOptions()) {
+        if ($item instanceof \Magento\Object && $item->getGiftwrappingOptions()) {
             $this->addData(unserialize($item->getGiftwrappingOptions()));
             $this->_dataObject = $item;
         }
@@ -40,7 +42,7 @@ class Magento_GiftWrapping_Model_Options extends Magento_Object
    /**
      * Update gift wrapping options data object
      *
-     * @return Magento_GiftWrapping_Model_Options
+     * @return \Magento\GiftWrapping\Model\Options
      */
     public function update()
     {

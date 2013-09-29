@@ -16,25 +16,27 @@
  * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Eav_Model_Resource_Form_Element_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Eav\Model\Resource\Form\Element;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Initialize collection model
      */
     protected function _construct()
     {
-        $this->_init('Magento_Eav_Model_Form_Element', 'Magento_Eav_Model_Resource_Form_Element');
+        $this->_init('Magento\Eav\Model\Form\Element', 'Magento\Eav\Model\Resource\Form\Element');
     }
 
     /**
      * Add Form Type filter to collection
      *
-     * @param Magento_Eav_Model_Form_Type|int $type
-     * @return Magento_Eav_Model_Resource_Form_Element_Collection
+     * @param \Magento\Eav\Model\Form\Type|int $type
+     * @return \Magento\Eav\Model\Resource\Form\Element\Collection
      */
     public function addTypeFilter($type)
     {
-        if ($type instanceof Magento_Eav_Model_Form_Type) {
+        if ($type instanceof \Magento\Eav\Model\Form\Type) {
             $type = $type->getId();
         }
 
@@ -44,12 +46,12 @@ class Magento_Eav_Model_Resource_Form_Element_Collection extends Magento_Core_Mo
     /**
      * Add Form Fieldset filter to collection
      *
-     * @param Magento_Eav_Model_Form_Fieldset|int $fieldset
-     * @return Magento_Eav_Model_Resource_Form_Element_Collection
+     * @param \Magento\Eav\Model\Form\Fieldset|int $fieldset
+     * @return \Magento\Eav\Model\Resource\Form\Element\Collection
      */
     public function addFieldsetFilter($fieldset)
     {
-        if ($fieldset instanceof Magento_Eav_Model_Form_Fieldset) {
+        if ($fieldset instanceof \Magento\Eav\Model\Form\Fieldset) {
             $fieldset = $fieldset->getId();
         }
 
@@ -59,13 +61,13 @@ class Magento_Eav_Model_Resource_Form_Element_Collection extends Magento_Core_Mo
     /**
      * Add Attribute filter to collection
      *
-     * @param Magento_Eav_Model_Entity_Attribute_Abstract|int $attribute
+     * @param \Magento\Eav\Model\Entity\Attribute\AbstractAttribute|int $attribute
      *
-     * @return Magento_Eav_Model_Resource_Form_Element_Collection
+     * @return \Magento\Eav\Model\Resource\Form\Element\Collection
      */
     public function addAttributeFilter($attribute)
     {
-        if ($attribute instanceof Magento_Eav_Model_Entity_Attribute_Abstract) {
+        if ($attribute instanceof \Magento\Eav\Model\Entity\Attribute\AbstractAttribute) {
             $attribute = $attribute->getId();
         }
 
@@ -75,7 +77,7 @@ class Magento_Eav_Model_Resource_Form_Element_Collection extends Magento_Core_Mo
     /**
      * Set order by element sort order
      *
-     * @return Magento_Eav_Model_Resource_Form_Element_Collection
+     * @return \Magento\Eav\Model\Resource\Form\Element\Collection
      */
     public function setSortOrder()
     {
@@ -87,7 +89,7 @@ class Magento_Eav_Model_Resource_Form_Element_Collection extends Magento_Core_Mo
     /**
      * Join attribute data
      *
-     * @return Magento_Eav_Model_Resource_Form_Element_Collection
+     * @return \Magento\Eav\Model\Resource\Form\Element\Collection
      */
     protected function _joinAttributeData()
     {
@@ -105,7 +107,7 @@ class Magento_Eav_Model_Resource_Form_Element_Collection extends Magento_Core_Mo
      *
      * @param boolean $printQuery
      * @param boolean $logQuery
-     * @return Magento_Eav_Model_Resource_Form_Element_Collection
+     * @return \Magento\Eav\Model\Resource\Form\Element\Collection
      */
     public function load($printQuery = false, $logQuery = false)
     {

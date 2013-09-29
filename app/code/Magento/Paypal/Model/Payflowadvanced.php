@@ -16,28 +16,30 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Paypal_Model_Payflowadvanced extends Magento_Paypal_Model_Payflowlink
+namespace Magento\Paypal\Model;
+
+class Payflowadvanced extends \Magento\Paypal\Model\Payflowlink
 {
     /**
      * Payment method code
      *
      * @var string
      */
-    protected $_code = Magento_Paypal_Model_Config::METHOD_PAYFLOWADVANCED;
+    protected $_code = \Magento\Paypal\Model\Config::METHOD_PAYFLOWADVANCED;
 
     /**
      * Type of block that generates method form
      *
      * @var string
      */
-    protected $_formBlockType = 'Magento_Paypal_Block_Payflow_Advanced_Form';
+    protected $_formBlockType = 'Magento\Paypal\Block\Payflow\Advanced\Form';
 
     /**
      * Type of block that displays method information
      *
      * @var string
      */
-    protected $_infoBlockType = 'Magento_Paypal_Block_Payflow_Advanced_Info';
+    protected $_infoBlockType = 'Magento\Paypal\Block\Payflow\Advanced\Info';
 
     /**
      * Controller for callback urls

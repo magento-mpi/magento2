@@ -11,29 +11,31 @@
 /**
  * MinSaleQty value manipulation helper
  */
-class Magento_CatalogInventory_Helper_Minsaleqty
+namespace Magento\CatalogInventory\Helper;
+
+class Minsaleqty
 {
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Model\Store\Config $coreStoreConfig
     ) {
         $this->_coreData = $coreData;
         $this->_coreStoreConfig = $coreStoreConfig;
@@ -68,8 +70,8 @@ class Magento_CatalogInventory_Helper_Minsaleqty
                     $data[$groupId] = $this->_fixQty($qty);
                 }
             }
-            if (count($data) == 1 && array_key_exists(Magento_Customer_Model_Group::CUST_GROUP_ALL, $data)) {
-                return (string)$data[Magento_Customer_Model_Group::CUST_GROUP_ALL];
+            if (count($data) == 1 && array_key_exists(\Magento\Customer\Model\Group::CUST_GROUP_ALL, $data)) {
+                return (string)$data[\Magento\Customer\Model\Group::CUST_GROUP_ALL];
             }
             return serialize($data);
         } else {
@@ -87,7 +89,7 @@ class Magento_CatalogInventory_Helper_Minsaleqty
     {
         if (is_numeric($value)) {
             return array(
-                Magento_Customer_Model_Group::CUST_GROUP_ALL => $this->_fixQty($value)
+                \Magento\Customer\Model\Group::CUST_GROUP_ALL => $this->_fixQty($value)
             );
         } else if (is_string($value) && !empty($value)) {
             return unserialize($value);
@@ -117,7 +119,7 @@ class Magento_CatalogInventory_Helper_Minsaleqty
     }
 
     /**
-     * Encode value to be used in Magento_Backend_Block_System_Config_Form_Field_Array_Abstract
+     * Encode value to be used in \Magento\Backend\Block\System\Config\Form\Field\FieldArray\AbstractFieldArray
      *
      * @param array
      * @return array
@@ -136,7 +138,7 @@ class Magento_CatalogInventory_Helper_Minsaleqty
     }
 
     /**
-     * Decode value from used in Magento_Backend_Block_System_Config_Form_Field_Array_Abstract
+     * Decode value from used in \Magento\Backend\Block\System\Config\Form\Field\FieldArray\AbstractFieldArray
      *
      * @param array
      * @return array
@@ -165,7 +167,7 @@ class Magento_CatalogInventory_Helper_Minsaleqty
      */
     public function getConfigValue($customerGroupId, $store = null)
     {
-        $value = $this->_coreStoreConfig->getConfig(Magento_CatalogInventory_Model_Stock_Item::XML_PATH_MIN_SALE_QTY, $store);
+        $value = $this->_coreStoreConfig->getConfig(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_MIN_SALE_QTY, $store);
         $value = $this->_unserializeValue($value);
         if ($this->_isEncodedArrayFieldValue($value)) {
             $value = $this->_decodeArrayFieldValue($value);
@@ -175,7 +177,7 @@ class Magento_CatalogInventory_Helper_Minsaleqty
             if ($groupId == $customerGroupId) {
                 $result = $qty;
                 break;
-            } else if ($groupId == Magento_Customer_Model_Group::CUST_GROUP_ALL) {
+            } else if ($groupId == \Magento\Customer\Model\Group::CUST_GROUP_ALL) {
                 $result = $qty;
             }
         }
@@ -183,7 +185,7 @@ class Magento_CatalogInventory_Helper_Minsaleqty
     }
 
     /**
-     * Make value readable by Magento_Backend_Block_System_Config_Form_Field_Array_Abstract
+     * Make value readable by \Magento\Backend\Block\System\Config\Form\Field\FieldArray\AbstractFieldArray
      *
      * @param mixed $value
      * @return array

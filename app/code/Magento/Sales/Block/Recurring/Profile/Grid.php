@@ -8,54 +8,56 @@
  * @license     {license_link}
  */
 
+namespace Magento\Sales\Block\Recurring\Profile;
+
 /**
  * Recurring profile view grid
  */
-class Magento_Sales_Block_Recurring_Profile_Grid extends Magento_Sales_Block_Recurring_Profiles
+class Grid extends \Magento\Sales\Block\Recurring\Profiles
 {
     /**
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_registry;
 
     /**
-     * @var Magento_Sales_Model_Recurring_Profile
+     * @var \Magento\Sales\Model\Recurring\Profile
      */
     protected $_recurringProfile;
 
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
     /**
      * Profiles collection
      *
-     * @var Magento_Sales_Model_Resource_Recurring_Profile_Collection
+     * @var \Magento\Sales\Model\Resource\Recurring\Profile\Collection
      */
     protected $_profiles = null;
 
     /**
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Sales_Model_Recurring_Profile $profile
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Core_Helper_Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Sales\Model\Recurring\Profile $profile
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Core\Helper\Data $coreData
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Block_Template_Context $context,
-        Magento_Sales_Model_Recurring_Profile $profile,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_StoreManager $storeManager,
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Core_Helper_Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Sales\Model\Recurring\Profile $profile,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Core\Helper\Data $coreData,
         array $data = array()
     ) {
         parent::__construct($coreData, $context, $data);
@@ -88,35 +90,35 @@ class Magento_Sales_Block_Recurring_Profile_Grid extends Magento_Sales_Block_Rec
         parent::_prepareLayout();
         $this->_prepareProfiles(array('reference_id', 'state', 'created_at', 'updated_at', 'method_code'));
 
-        $pager = $this->getLayout()->createBlock('Magento_Page_Block_Html_Pager')
+        $pager = $this->getLayout()->createBlock('Magento\Page\Block\Html\Pager')
             ->setCollection($this->_profiles)->setIsOutputRequired(false);
         $this->setChild('pager', $pager);
 
         $this->setGridColumns(array(
-            new Magento_Object(array(
+            new \Magento\Object(array(
                 'index' => 'reference_id',
                 'title' => $this->_recurringProfile->getFieldLabel('reference_id'),
                 'is_nobr' => true,
                 'width' => 1,
             )),
-            new Magento_Object(array(
+            new \Magento\Object(array(
                 'index' => 'state',
                 'title' => $this->_recurringProfile->getFieldLabel('state'),
             )),
-            new Magento_Object(array(
+            new \Magento\Object(array(
                 'index' => 'created_at',
                 'title' => $this->_recurringProfile->getFieldLabel('created_at'),
                 'is_nobr' => true,
                 'width' => 1,
                 'is_amount' => true,
             )),
-            new Magento_Object(array(
+            new \Magento\Object(array(
                 'index' => 'updated_at',
                 'title' => $this->_recurringProfile->getFieldLabel('updated_at'),
                 'is_nobr' => true,
                 'width' => 1,
             )),
-            new Magento_Object(array(
+            new \Magento\Object(array(
                 'index' => 'method_code',
                 'title' => $this->_recurringProfile->getFieldLabel('method_code'),
                 'is_nobr' => true,
@@ -128,7 +130,7 @@ class Magento_Sales_Block_Recurring_Profile_Grid extends Magento_Sales_Block_Rec
         $store = $this->_storeManager->getStore();
         foreach ($this->_profiles as $profile) {
             $profile->setStore($store)->setLocale($this->_locale);
-            $profiles[] = new Magento_Object(array(
+            $profiles[] = new \Magento\Object(array(
                 'reference_id' => $profile->getReferenceId(),
                 'reference_id_link_url' => $this->getUrl(
                     'sales/recurring_profile/view/',

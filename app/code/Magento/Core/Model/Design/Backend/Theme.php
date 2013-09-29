@@ -8,33 +8,35 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Design_Backend_Theme extends Magento_Core_Model_Config_Value
+namespace Magento\Core\Model\Design\Backend;
+
+class Theme extends \Magento\Core\Model\Config\Value
 {
     /**
      * Design package instance
      *
-     * @var Magento_Core_Model_View_DesignInterface
+     * @var \Magento\Core\Model\View\DesignInterface
      */
     protected $_design = null;
 
     /**
-     * @param Magento_Core_Model_View_DesignInterface $design
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Core_Model_Config $config
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Core\Model\View\DesignInterface $design
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_View_DesignInterface $design,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_StoreManager $storeManager,
-        Magento_Core_Model_Config $config,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Core\Model\View\DesignInterface $design,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\Config $config,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_design = $design;
@@ -47,7 +49,7 @@ class Magento_Core_Model_Design_Backend_Theme extends Magento_Core_Model_Config_
     protected function _beforeSave()
     {
         $design = clone $this->_design;
-        $design->setDesignTheme($this->getValue(), Magento_Core_Model_App_Area::AREA_FRONTEND);
+        $design->setDesignTheme($this->getValue(), \Magento\Core\Model\App\Area::AREA_FRONTEND);
         return parent::_beforeSave();
     }
 }

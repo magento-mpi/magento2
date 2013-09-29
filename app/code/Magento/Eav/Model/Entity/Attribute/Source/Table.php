@@ -9,7 +9,9 @@
  */
 
 
-class Magento_Eav_Model_Entity_Attribute_Source_Table extends Magento_Eav_Model_Entity_Attribute_Source_Abstract
+namespace Magento\Eav\Model\Entity\Attribute\Source;
+
+class Table extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
 {
     /**
      * Default values for option cache
@@ -21,15 +23,15 @@ class Magento_Eav_Model_Entity_Attribute_Source_Table extends Magento_Eav_Model_
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
+     * @param \Magento\Core\Helper\Data $coreData
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData
+        \Magento\Core\Helper\Data $coreData
     ) {
         $this->_coreData = $coreData;
     }
@@ -51,7 +53,7 @@ class Magento_Eav_Model_Entity_Attribute_Source_Table extends Magento_Eav_Model_
             $this->_optionsDefault = array();
         }
         if (!isset($this->_options[$storeId])) {
-            $collection = Mage::getResourceModel('Magento_Eav_Model_Resource_Entity_Attribute_Option_Collection')
+            $collection = \Mage::getResourceModel('Magento\Eav\Model\Resource\Entity\Attribute\Option\Collection')
                 ->setPositionOrder('asc')
                 ->setAttributeFilter($this->getAttribute()->getId())
                 ->setStoreFilter($this->getAttribute()->getStoreId())
@@ -104,12 +106,12 @@ class Magento_Eav_Model_Entity_Attribute_Source_Table extends Magento_Eav_Model_
     /**
      * Add Value Sort To Collection Select
      *
-     * @param Magento_Eav_Model_Entity_Collection_Abstract $collection
+     * @param \Magento\Eav\Model\Entity\Collection\AbstractCollection $collection
      * @param string $dir
      *
-     * @return Magento_Eav_Model_Entity_Attribute_Source_Table
+     * @return \Magento\Eav\Model\Entity\Attribute\Source\Table
      */
-    public function addValueSortToCollection($collection, $dir = Magento_DB_Select::SQL_ASC)
+    public function addValueSortToCollection($collection, $dir = \Magento\DB\Select::SQL_ASC)
     {
         $valueTable1    = $this->getAttribute()->getAttributeCode() . '_t1';
         $valueTable2    = $this->getAttribute()->getAttributeCode() . '_t2';
@@ -130,7 +132,7 @@ class Magento_Eav_Model_Entity_Attribute_Source_Table extends Magento_Eav_Model_
         $valueExpr = $collection->getSelect()->getAdapter()
             ->getCheckSql("{$valueTable2}.value_id > 0", "{$valueTable2}.value", "{$valueTable1}.value");
 
-        Mage::getResourceModel('Magento_Eav_Model_Resource_Entity_Attribute_Option')
+        \Mage::getResourceModel('Magento\Eav\Model\Resource\Entity\Attribute\Option')
             ->addOptionValueToCollection($collection, $this->getAttribute(), $valueExpr);
 
         $collection->getSelect()
@@ -168,7 +170,7 @@ class Magento_Eav_Model_Entity_Attribute_Source_Table extends Magento_Eav_Model_
                 );
             }
         } else {
-            $type = ($isMulti) ? Magento_DB_Ddl_Table::TYPE_TEXT : Magento_DB_Ddl_Table::TYPE_INTEGER;
+            $type = ($isMulti) ? \Magento\DB\Ddl\Table::TYPE_TEXT : \Magento\DB\Ddl\Table::TYPE_INTEGER;
             $columns[$attributeCode] = array(
                 'type'      => $type,
                 'length'    => $isMulti ? '255' : null,
@@ -180,7 +182,7 @@ class Magento_Eav_Model_Entity_Attribute_Source_Table extends Magento_Eav_Model_
             );
             if (!$isMulti) {
                 $columns[$attributeCode . '_value'] = array(
-                    'type'      => Magento_DB_Ddl_Table::TYPE_TEXT,
+                    'type'      => \Magento\DB\Ddl\Table::TYPE_TEXT,
                     'length'    => 255,
                     'unsigned'  => false,
                     'nullable'  => true,
@@ -226,11 +228,11 @@ class Magento_Eav_Model_Entity_Attribute_Source_Table extends Magento_Eav_Model_
      * Retrieve Select For Flat Attribute update
      *
      * @param int $store
-     * @return Magento_DB_Select|null
+     * @return \Magento\DB\Select|null
      */
     public function getFlatUpdateSelect($store)
     {
-        return Mage::getResourceModel('Magento_Eav_Model_Resource_Entity_Attribute_Option')
+        return \Mage::getResourceModel('Magento\Eav\Model\Resource\Entity\Attribute\Option')
             ->getFlatUpdateSelect($this->getAttribute(), $store);
     }
 }

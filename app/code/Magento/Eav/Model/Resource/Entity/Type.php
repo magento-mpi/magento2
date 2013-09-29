@@ -16,7 +16,9 @@
  * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Eav_Model_Resource_Entity_Type extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Eav\Model\Resource\Entity;
+
+class Type extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Resource initialization
@@ -29,9 +31,9 @@ class Magento_Eav_Model_Resource_Entity_Type extends Magento_Core_Model_Resource
     /**
      * Load Entity Type by Code
      *
-     * @param Magento_Core_Model_Abstract $object
+     * @param \Magento\Core\Model\AbstractModel $object
      * @param string $code
-     * @return Magento_Eav_Model_Resource_Entity_Type
+     * @return \Magento\Eav\Model\Resource\Entity\Type
      */
     public function loadByCode($object, $code)
     {

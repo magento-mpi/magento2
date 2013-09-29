@@ -16,7 +16,9 @@
  * @package     Magento_GiftRegistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GiftRegistry_Model_Resource_Type extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\GiftRegistry\Model\Resource;
+
+class Type extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Info table name
@@ -47,10 +49,10 @@ class Magento_GiftRegistry_Model_Resource_Type extends Magento_Core_Model_Resour
     /**
      * Add store date to registry type data
      *
-     * @param Magento_Core_Model_Abstract $object
-     * @return Magento_Core_Model_Resource_Db_Abstract
+     * @param \Magento\Core\Model\AbstractModel $object
+     * @return \Magento\Core\Model\Resource\Db\AbstractDb
      */
-    protected function _afterLoad(Magento_Core_Model_Abstract $object)
+    protected function _afterLoad(\Magento\Core\Model\AbstractModel $object)
     {
         $adapter = $this->_getReadAdapter();
 
@@ -59,7 +61,7 @@ class Magento_GiftRegistry_Model_Resource_Type extends Magento_Core_Model_Resour
             $adapter->quote('default'),
             $adapter->quote('store')
         );
-        $storeIds       = array(Magento_Core_Model_AppInterface::ADMIN_STORE_ID);
+        $storeIds       = array(\Magento\Core\Model\AppInterface::ADMIN_STORE_ID);
         if ($object->getStoreId()) {
             $storeIds[] = (int)$object->getStoreId();
         }
@@ -92,8 +94,8 @@ class Magento_GiftRegistry_Model_Resource_Type extends Magento_Core_Model_Resour
     /**
      * Save registry type per store view data
      *
-     * @param Magento_GiftRegistry_Model_Type $type
-     * @return Magento_GiftRegistry_Model_Resource_Type
+     * @param \Magento\GiftRegistry\Model\Type $type
+     * @return \Magento\GiftRegistry\Model\Resource\Type
      */
     public function saveTypeStoreData($type)
     {
@@ -116,10 +118,10 @@ class Magento_GiftRegistry_Model_Resource_Type extends Magento_Core_Model_Resour
     /**
      * Save store data
      *
-     * @param Magento_GiftRegistry_Model_Type $type
+     * @param \Magento\GiftRegistry\Model\Type $type
      * @param array $data
      * @param string $optionCode
-     * @return Magento_GiftRegistry_Model_Resource_Type
+     * @return \Magento\GiftRegistry\Model\Resource\Type
      */
     public function saveStoreData($type, $data, $optionCode = '')
     {
@@ -148,7 +150,7 @@ class Magento_GiftRegistry_Model_Resource_Type extends Magento_Core_Model_Resour
     /**
      * Get attribute store data
      *
-     * @param Magento_GiftRegistry_Model_Type $type
+     * @param \Magento\GiftRegistry\Model\Type $type
      * @return null|array
      */
     public function getAttributesStoreData($type)
@@ -170,7 +172,7 @@ class Magento_GiftRegistry_Model_Resource_Type extends Magento_Core_Model_Resour
      * @param int $typeId
      * @param string $attributeCode
      * @param string $optionCode
-     * @return Magento_GiftRegistry_Model_Resource_Type
+     * @return \Magento\GiftRegistry\Model\Resource\Type
      */
     public function deleteAttributeStoreData($typeId, $attributeCode, $optionCode = null)
     {
@@ -193,7 +195,7 @@ class Magento_GiftRegistry_Model_Resource_Type extends Magento_Core_Model_Resour
      * @param int $typeId
      * @param string $attributeCode
      * @param bool $personValue
-     * @return Magento_GiftRegistry_Model_Resource_Type
+     * @return \Magento\GiftRegistry\Model\Resource\Type
      */
     public function deleteAttributeValues($typeId, $attributeCode, $personValue = false)
     {
@@ -209,7 +211,7 @@ class Magento_GiftRegistry_Model_Resource_Type extends Magento_Core_Model_Resour
         }
 
         $this->_getWriteAdapter()->update($table,
-            array($attributeCode => new Zend_Db_Expr('NULL')),
+            array($attributeCode => new \Zend_Db_Expr('NULL')),
             array('entity_id IN (?)' => $select)
         );
 

@@ -11,7 +11,9 @@
 /**
  * Sales order history block
  */
-class Magento_Sales_Block_Order_History extends Magento_Core_Block_Template
+namespace Magento\Sales\Block\Order;
+
+class History extends \Magento\Core\Block\Template
 {
     /**
      * @var string
@@ -19,41 +21,41 @@ class Magento_Sales_Block_Order_History extends Magento_Core_Block_Template
     protected $_template = 'order/history.phtml';
 
     /**
-     * @var Magento_Sales_Model_Resource_Order_CollectionFactory
+     * @var \Magento\Sales\Model\Resource\Order\CollectionFactory
      */
     protected $_orderCollectionFactory;
 
     /**
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
 
     /**
-     * @var Magento_Sales_Model_Order_Config
+     * @var \Magento\Sales\Model\Order\Config
      */
     protected $_orderConfig;
 
     /**
-     * @var Magento_Core_Model_App
+     * @var \Magento\Core\Model\App
      */
     protected $_coreApp;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Sales_Model_Resource_Order_CollectionFactory $orderCollectionFactory
-     * @param Magento_Customer_Model_Session $customerSession
-     * @param Magento_Sales_Model_Order_Config $orderConfig
-     * @param Magento_Core_Model_App $coreApp
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Sales\Model\Resource\Order\CollectionFactory $orderCollectionFactory
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Sales\Model\Order\Config $orderConfig
+     * @param \Magento\Core\Model\App $coreApp
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Sales_Model_Resource_Order_CollectionFactory $orderCollectionFactory,
-        Magento_Customer_Model_Session $customerSession,
-        Magento_Sales_Model_Order_Config $orderConfig,
-        Magento_Core_Model_App $coreApp,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Sales\Model\Resource\Order\CollectionFactory $orderCollectionFactory,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Sales\Model\Order\Config $orderConfig,
+        \Magento\Core\Model\App $coreApp,
         array $data = array()
     ) {
         $this->_orderCollectionFactory = $orderCollectionFactory;
@@ -84,13 +86,13 @@ class Magento_Sales_Block_Order_History extends Magento_Core_Block_Template
     }
 
     /**
-     * @return $this|Magento_Core_Block_Abstract
+     * @return $this|\Magento\Core\Block\AbstractBlock
      */
     protected function _prepareLayout()
     {
         parent::_prepareLayout();
 
-        $pager = $this->getLayout()->createBlock('Magento_Page_Block_Html_Pager', 'sales.order.history.pager')
+        $pager = $this->getLayout()->createBlock('Magento\Page\Block\Html\Pager', 'sales.order.history.pager')
             ->setCollection($this->getOrders());
         $this->setChild('pager', $pager);
         $this->getOrders()->load();

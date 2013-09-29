@@ -15,12 +15,14 @@
  * @package     Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_System_Variable_Edit_Form extends Magento_Backend_Block_Widget_Form_Generic
+namespace Magento\Adminhtml\Block\System\Variable\Edit;
+
+class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
      * Getter
      *
-     * @return Magento_Core_Model_Variable
+     * @return \Magento\Core\Model\Variable
      */
     public function getVariable()
     {
@@ -30,11 +32,11 @@ class Magento_Adminhtml_Block_System_Variable_Edit_Form extends Magento_Backend_
     /**
      * Prepare form before rendering HTML
      *
-     * @return Magento_Adminhtml_Block_System_Variable_Edit_Form
+     * @return \Magento\Adminhtml\Block\System\Variable\Edit\Form
      */
     protected function _prepareForm()
     {
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create(array(
             'attributes' => array(
                 'id' => 'edit_form',

@@ -15,7 +15,9 @@
  * @package    Magento_Page
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Page_Block_Html_Breadcrumbs extends Magento_Core_Block_Template
+namespace Magento\Page\Block\Html;
+
+class Breadcrumbs extends \Magento\Core\Block\Template
 {
     /**
      * Array of breadcrumbs
@@ -48,7 +50,7 @@ class Magento_Page_Block_Html_Breadcrumbs extends Magento_Core_Block_Template
      *
      * @param string $crumbName
      * @param array $crumbInfo
-     * @return Magento_Page_Block_Html_Breadcrumbs
+     * @return \Magento\Page\Block\Html\Breadcrumbs
      */
     public function addCrumb($crumbName, $crumbInfo)
     {

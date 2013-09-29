@@ -10,23 +10,25 @@
  */
 
 /**
- * Test Class for Magento_Search_Model_Factory_Factory
+ * Test Class for \Magento\Search\Model\Factory\Factory
  */
-class Magento_Search_Model_Factory_FactoryTest extends PHPUnit_Framework_TestCase
+namespace Magento\Search\Model\Factory;
+
+class FactoryTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var Magento_Search_Model_Solr_State |PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Search\Model\Solr\State |\PHPUnit_Framework_MockObject_MockObject */
     protected $_solrStateMock;
 
-    /** @var Magento_Search_Model_Factory_Factory|PHPUnit_Framework_MockObject_MockObject*/
+    /** @var \Magento\Search\Model\Factory\Factory|\PHPUnit_Framework_MockObject_MockObject*/
     protected $_factoryObject;
 
-    /** @var Magento_ObjectManager|PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\ObjectManager|\PHPUnit_Framework_MockObject_MockObject */
     protected $_objectManager;
 
-    /** @var Magento_Search_Model_SolrFactory|PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Search\Model\SolrFactory|\PHPUnit_Framework_MockObject_MockObject */
     protected $_solrFactoryMock;
 
-    /** @var Magento_Search_Model_RegularFactory|PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Search\Model\RegularFactory|\PHPUnit_Framework_MockObject_MockObject */
     protected $_regularFactoryMock;
 
     /**
@@ -34,15 +36,15 @@ class Magento_Search_Model_Factory_FactoryTest extends PHPUnit_Framework_TestCas
      */
     public function setUp()
     {
-        $this->_objectManager = $this->getMockBuilder('Magento_ObjectManager')->getMock();
-        $this->_solrStateMock = $this->getMock('Magento_Search_Model_Solr_State',
+        $this->_objectManager = $this->getMockBuilder('Magento\ObjectManager')->getMock();
+        $this->_solrStateMock = $this->getMock('Magento\Search\Model\Solr\State',
             array(), array(), '', false, false);
-        $this->_solrFactoryMock = $this->getMock('Magento_Search_Model_SolrFactory',
+        $this->_solrFactoryMock = $this->getMock('Magento\Search\Model\SolrFactory',
             array(), array(), '', false, false);
-        $this->_regularFactoryMock = $this->getMock('Magento_Search_Model_RegularFactory',
+        $this->_regularFactoryMock = $this->getMock('Magento\Search\Model\RegularFactory',
             array(), array(), '', false, false);
 
-        $this->_factoryObject = new Magento_Search_Model_Factory_Factory($this->_objectManager, $this->_solrStateMock);
+        $this->_factoryObject = new \Magento\Search\Model\Factory\Factory($this->_objectManager, $this->_solrStateMock);
     }
 
     /**
@@ -55,7 +57,7 @@ class Magento_Search_Model_Factory_FactoryTest extends PHPUnit_Framework_TestCas
             ->will($this->returnValue(true));
         $this->_objectManager->expects($this->once())
             ->method('create')
-            ->with('Magento_Search_Model_SolrFactory')
+            ->with('Magento\Search\Model\SolrFactory')
             ->will($this->returnValue($this->_solrFactoryMock));
         $this->_factoryObject->getFactory();
     }
@@ -70,7 +72,7 @@ class Magento_Search_Model_Factory_FactoryTest extends PHPUnit_Framework_TestCas
             ->will($this->returnValue(false));
         $this->_objectManager->expects($this->once())
             ->method('create')
-            ->with('Magento_Search_Model_RegularFactory')
+            ->with('Magento\Search\Model\RegularFactory')
             ->will($this->returnValue($this->_regularFactoryMock));
         $this->_factoryObject->getFactory();
     }

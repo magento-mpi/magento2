@@ -9,16 +9,16 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <referenceContainer name="content">
-        <block class="Magento_Connect_Block_Adminhtml_Extension_Custom_Edit" name="connect_extension_edit"/>
+        <block class="Magento\Connect\Block\Adminhtml\Extension\Custom\Edit" name="connect_extension_edit"/>
     </referenceContainer>
     <referenceContainer name="left">
-        <block class="Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tabs" name="connect_extension_edit_tabs">
-            <block class="Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Package" name="tab_package" template="extension/custom/package.phtml"/>
-            <block class="Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Release" name="tab_release" template="extension/custom/release.phtml"/>
-            <block class="Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Authors" name="tab_authors" template="extension/custom/authors.phtml"/>
-            <block class="Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Depends" name="tab_depends" template="extension/custom/depends.phtml"/>
-            <block class="Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Contents" name="tab_contents" template="extension/custom/contents.phtml"/>
-            <block class="Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Local" name="tab_local"/>
+        <block class="Magento\Connect\Block\Adminhtml\Extension\Custom\Edit\Tabs" name="connect_extension_edit_tabs">
+            <block class="Magento\Connect\Block\Adminhtml\Extension\Custom\Edit\Tab\Package" name="tab_package" template="extension/custom/package.phtml"/>
+            <block class="Magento\Connect\Block\Adminhtml\Extension\Custom\Edit\Tab\Release" name="tab_release" template="extension/custom/release.phtml"/>
+            <block class="Magento\Connect\Block\Adminhtml\Extension\Custom\Edit\Tab\Authors" name="tab_authors" template="extension/custom/authors.phtml"/>
+            <block class="Magento\Connect\Block\Adminhtml\Extension\Custom\Edit\Tab\Depends" name="tab_depends" template="extension/custom/depends.phtml"/>
+            <block class="Magento\Connect\Block\Adminhtml\Extension\Custom\Edit\Tab\Contents" name="tab_contents" template="extension/custom/contents.phtml"/>
+            <block class="Magento\Connect\Block\Adminhtml\Extension\Custom\Edit\Tab\Local" name="tab_local"/>
             <action method="addTab">
                 <argument name="name" xsi:type="string">package_info</argument>
                 <argument name="block" xsi:type="string">tab_package</argument>

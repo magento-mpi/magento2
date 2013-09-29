@@ -15,34 +15,36 @@
  * @package     Magento_MultipleWishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_MultipleWishlist_Model_Resource_Item_Collection extends Magento_Wishlist_Model_Resource_Item_Collection
+namespace Magento\MultipleWishlist\Model\Resource\Item;
+
+class Collection extends \Magento\Wishlist\Model\Resource\Item\Collection
 {
     /**
      * Wishlist data
      *
-     * @var Magento_Wishlist_Helper_Data
+     * @var \Magento\Wishlist\Helper\Data
      */
     protected $_wishlistData = null;
 
     /**
-     * @param Magento_Wishlist_Helper_Data $wishlistData
-     * @param Magento_CatalogInventory_Helper_Data $catalogInventoryData
-     * @param Magento_Adminhtml_Helper_Sales $adminhtmlSales
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_EntityFactory $entityFactory
-     * @param Magento_Wishlist_Model_Resource_Item $resource
+     * @param \Magento\Wishlist\Helper\Data $wishlistData
+     * @param \Magento\CatalogInventory\Helper\Data $catalogInventoryData
+     * @param \Magento\Adminhtml\Helper\Sales $adminhtmlSales
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Wishlist\Model\Resource\Item $resource
      */
     public function __construct(
-        Magento_Wishlist_Helper_Data $wishlistData,
-        Magento_CatalogInventory_Helper_Data $catalogInventoryData,
-        Magento_Adminhtml_Helper_Sales $adminhtmlSales,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Logger $logger,
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_EntityFactory $entityFactory,
-        Magento_Wishlist_Model_Resource_Item $resource
+        \Magento\Wishlist\Helper\Data $wishlistData,
+        \Magento\CatalogInventory\Helper\Data $catalogInventoryData,
+        \Magento\Adminhtml\Helper\Sales $adminhtmlSales,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Wishlist\Model\Resource\Item $resource
     ) {
         $this->_wishlistData = $wishlistData;
         parent::__construct(
@@ -54,7 +56,7 @@ class Magento_MultipleWishlist_Model_Resource_Item_Collection extends Magento_Wi
      * Add filtration by customer id
      *
      * @param int $customerId
-     * @return Magento_MultipleWishlist_Model_Resource_Item_Collection
+     * @return \Magento\MultipleWishlist\Model\Resource\Item\Collection
      */
     public function addCustomerIdFilter($customerId)
     {

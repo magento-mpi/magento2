@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Index_Model_Indexer_Config_Converter implements Magento_Config_ConverterInterface
+namespace Magento\Index\Model\Indexer\Config;
+
+class Converter implements \Magento\Config\ConverterInterface
 {
     /**
      * Convert config
@@ -19,7 +21,7 @@ class Magento_Index_Model_Indexer_Config_Converter implements Magento_Config_Con
     {
         $output = array();
 
-        /** @var DOMNodeList $indexers */
+        /** @var \DOMNodeList $indexers */
         $indexers = $source->getElementsByTagName('indexer');
 
         /** @var DOMNode $indexer */

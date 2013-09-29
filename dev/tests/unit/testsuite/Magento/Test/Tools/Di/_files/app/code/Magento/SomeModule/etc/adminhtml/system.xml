@@ -15,7 +15,7 @@
             <resource>Magento_Adminhtml::advanced</resource>
             <group id="modules_disable_output" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Disable Modules Output</label>
-                <frontend_model>Magento_Backend_Block_System_Config_Form_Fieldset_Modules_DisableOutput_Proxy</frontend_model>
+                <frontend_model>Magento\Backend\Block\System\Config\Form\Fieldset\Modules\DisableOutput\Proxy</frontend_model>
             </group>
         </section>
     </system>

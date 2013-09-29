@@ -9,35 +9,37 @@
  * @license     {license_link}
  */
 
+namespace Magento\Catalog\Model\Layer\Filter;
+
 /**
- * Test class for Magento_Catalog_Model_Layer_Filter_Decimal.
+ * Test class for \Magento\Catalog\Model\Layer\Filter\Decimal.
  *
  * @magentoDataFixture Magento/Catalog/Model/Layer/Filter/_files/attribute_weight_filterable.php
  * @magentoDataFixture Magento/Catalog/_files/categories.php
  */
-class Magento_Catalog_Model_Layer_Filter_DecimalTest extends PHPUnit_Framework_TestCase
+class DecimalTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Catalog_Model_Layer_Filter_Decimal
+     * @var \Magento\Catalog\Model\Layer\Filter\Decimal
      */
     protected $_model;
 
     protected function setUp()
     {
-        $category = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Category');
+        $category = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Category');
         $category->load(4);
 
-        /** @var $attribute Magento_Catalog_Model_Entity_Attribute */
-        $attribute = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Entity_Attribute');
+        /** @var $attribute \Magento\Catalog\Model\Entity\Attribute */
+        $attribute = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Entity\Attribute');
         $attribute->loadByCode('catalog_product', 'weight');
 
-        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Layer_Filter_Decimal');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Layer\Filter\Decimal');
         $this->_model->setData(array(
-            'layer' => Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Layer', array(
+            'layer' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Layer', array(
                 'data' => array('current_category' => $category)
             )),
             'attribute_model' => $attribute,
@@ -47,14 +49,14 @@ class Magento_Catalog_Model_Layer_Filter_DecimalTest extends PHPUnit_Framework_T
     public function testApplyNothing()
     {
         $this->assertEmpty($this->_model->getData('range'));
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        /** @var $request Magento_TestFramework_Request */
-        $request = $objectManager->get('Magento_TestFramework_Request');
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        /** @var $request \Magento\TestFramework\Request */
+        $request = $objectManager->get('Magento\TestFramework\Request');
         $this->_model->apply(
             $request,
-            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
-                ->createBlock('Magento_Core_Block_Text')
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+                ->createBlock('Magento\Core\Block\Text')
         );
 
         $this->assertEmpty($this->_model->getData('range'));
@@ -63,15 +65,15 @@ class Magento_Catalog_Model_Layer_Filter_DecimalTest extends PHPUnit_Framework_T
     public function testApplyInvalid()
     {
         $this->assertEmpty($this->_model->getData('range'));
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        /** @var $request Magento_TestFramework_Request */
-        $request = $objectManager->get('Magento_TestFramework_Request');
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        /** @var $request \Magento\TestFramework\Request */
+        $request = $objectManager->get('Magento\TestFramework\Request');
         $request->setParam('decimal', 'non-decimal');
         $this->_model->apply(
             $request,
-            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
-                ->createBlock('Magento_Core_Block_Text')
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+                ->createBlock('Magento\Core\Block\Text')
         );
 
         $this->assertEmpty($this->_model->getData('range'));
@@ -79,15 +81,15 @@ class Magento_Catalog_Model_Layer_Filter_DecimalTest extends PHPUnit_Framework_T
 
     public function testApply()
     {
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        /** @var $request Magento_TestFramework_Request */
-        $request = $objectManager->get('Magento_TestFramework_Request');
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        /** @var $request \Magento\TestFramework\Request */
+        $request = $objectManager->get('Magento\TestFramework\Request');
         $request->setParam('decimal', '1,100');
         $this->_model->apply(
             $request,
-            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
-                ->createBlock('Magento_Core_Block_Text')
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+                ->createBlock('Magento\Core\Block\Text')
         );
 
         $this->assertEquals(100, $this->_model->getData('range'));

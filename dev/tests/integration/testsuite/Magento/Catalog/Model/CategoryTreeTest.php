@@ -9,24 +9,26 @@
  * @license     {license_link}
  */
 
+namespace Magento\Catalog\Model;
+
 /**
- * Test class for Magento_Catalog_Model_Category.
+ * Test class for \Magento\Catalog\Model\Category.
  * - tree knowledge is tested
  *
- * @see Magento_Catalog_Model_CategoryTest
+ * @see \Magento\Catalog\Model\CategoryTest
  * @magentoDataFixture Magento/Catalog/_files/categories.php
  */
-class Magento_Catalog_Model_CategoryTreeTest extends PHPUnit_Framework_TestCase
+class CategoryTreeTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Catalog_Model_Category
+     * @var \Magento\Catalog\Model\Category
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Category');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Category');
     }
 
     public function testMove()
@@ -41,7 +43,7 @@ class Magento_Catalog_Model_CategoryTreeTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Magento_Core_Exception
+     * @expectedException \Magento\Core\Exception
      */
     public function testMoveWrongParent()
     {
@@ -50,7 +52,7 @@ class Magento_Catalog_Model_CategoryTreeTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Magento_Core_Exception
+     * @expectedException \Magento\Core\Exception
      */
     public function testMoveWrongId()
     {
@@ -67,7 +69,7 @@ class Magento_Catalog_Model_CategoryTreeTest extends PHPUnit_Framework_TestCase
     public function testGetParentCategory()
     {
         $category = $this->_model->getParentCategory();
-        $this->assertInstanceOf('Magento_Catalog_Model_Category', $category);
+        $this->assertInstanceOf('Magento\Catalog\Model\Category', $category);
         $this->assertSame($category, $this->_model->getParentCategory());
     }
 

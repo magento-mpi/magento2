@@ -16,7 +16,9 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Resource_Category_Indexer_Product extends Magento_Index_Model_Resource_Abstract
+namespace Magento\Catalog\Model\Resource\Category\Indexer;
+
+class Product extends \Magento\Index\Model\Resource\AbstractResource
 {
     /**
      * Category table
@@ -79,10 +81,10 @@ class Magento_Catalog_Model_Resource_Category_Indexer_Product extends Magento_In
      * Method is responsible for index support
      * when product was saved and assigned categories was changed.
      *
-     * @param Magento_Index_Model_Event $event
-     * @return Magento_Catalog_Model_Resource_Category_Indexer_Product
+     * @param \Magento\Index\Model\Event $event
+     * @return \Magento\Catalog\Model\Resource\Category\Indexer\Product
      */
-    public function catalogProductSave(Magento_Index_Model_Event $event)
+    public function catalogProductSave(\Magento\Index\Model\Event $event)
     {
         $productId = $event->getEntityPk();
         $data      = $event->getNewData();
@@ -133,10 +135,10 @@ class Magento_Catalog_Model_Resource_Category_Indexer_Product extends Magento_In
     /**
      * Process Catalog Product mass action
      *
-     * @param Magento_Index_Model_Event $event
-     * @return Magento_Catalog_Model_Resource_Category_Indexer_Product
+     * @param \Magento\Index\Model\Event $event
+     * @return \Magento\Catalog\Model\Resource\Category\Indexer\Product
      */
-    public function catalogProductMassAction(Magento_Index_Model_Event $event)
+    public function catalogProductMassAction(\Magento\Index\Model\Event $event)
     {
         $data = $event->getNewData();
 
@@ -205,9 +207,9 @@ class Magento_Catalog_Model_Resource_Category_Indexer_Product extends Magento_In
     /**
      * Process category index after category save
      *
-     * @param Magento_Index_Model_Event $event
+     * @param \Magento\Index\Model\Event $event
      */
-    public function catalogCategorySave(Magento_Index_Model_Event $event)
+    public function catalogCategorySave(\Magento\Index\Model\Event $event)
     {
         $data = $event->getNewData();
 
@@ -260,7 +262,7 @@ class Magento_Catalog_Model_Resource_Category_Indexer_Product extends Magento_In
         $anchorInfo = $this->_getAnchorAttributeInfo();
         $bind = array(
             'attribute_id' => $anchorInfo['id'],
-            'store_id'     => Magento_Catalog_Model_Abstract::DEFAULT_STORE_ID,
+            'store_id'     => \Magento\Catalog\Model\AbstractModel::DEFAULT_STORE_ID,
             'e_value'      => 1
         );
         $select = $this->_getReadAdapter()->select()
@@ -307,7 +309,7 @@ class Magento_Catalog_Model_Resource_Category_Indexer_Product extends Magento_In
      * Reindex not anchor root categories
      *
      * @param array $categoryIds
-     * @return Magento_Catalog_Model_Resource_Category_Indexer_Product
+     * @return \Magento\Catalog\Model\Resource\Category\Indexer\Product
      */
     protected function _refreshNotAnchorRootCategories(array $categoryIds = null)
     {
@@ -352,11 +354,11 @@ class Magento_Catalog_Model_Resource_Category_Indexer_Product extends Magento_In
                 ->where('cc.path LIKE ?', $rootPath . '/%')
                 ->where('ie.category_id IS NULL')
                 ->columns(array(
-                    'category_id'   => new Zend_Db_Expr($rootId),
+                    'category_id'   => new \Zend_Db_Expr($rootId),
                     'product_id'    => 'i.product_id',
-                    'position'      => new Zend_Db_Expr('0'),
-                    'is_parent'     => new Zend_Db_Expr('0'),
-                    'store_id'      => new Zend_Db_Expr($storeId),
+                    'position'      => new \Zend_Db_Expr('0'),
+                    'is_parent'     => new \Zend_Db_Expr('0'),
+                    'store_id'      => new \Zend_Db_Expr($storeId),
                     'visibility'    => 'i.visibility'
                 ));
             $query = $select->insertFromSelect($this->getMainTable());
@@ -394,13 +396,13 @@ class Magento_Catalog_Model_Resource_Category_Indexer_Product extends Magento_In
                 ->where('pw.website_id=?', $websiteId)
                 ->where(
                     $this->_getWriteAdapter()->getCheckSql('ss.value_id IS NOT NULL', 'ss.value', 'ds.value') . ' = ?',
-                    Magento_Catalog_Model_Product_Status::STATUS_ENABLED)
+                    \Magento\Catalog\Model\Product\Status::STATUS_ENABLED)
                 ->columns(array(
-                    'category_id'   => new Zend_Db_Expr($rootId),
+                    'category_id'   => new \Zend_Db_Expr($rootId),
                     'product_id'    => 'pw.product_id',
-                    'position'      => new Zend_Db_Expr('0'),
-                    'is_parent'     => new Zend_Db_Expr('1'),
-                    'store_id'      => new Zend_Db_Expr($storeId),
+                    'position'      => new \Zend_Db_Expr('0'),
+                    'is_parent'     => new \Zend_Db_Expr('1'),
+                    'store_id'      => new \Zend_Db_Expr($storeId),
                     'visibility'    => $adapter->getCheckSql('sv.value_id IS NOT NULL', 'sv.value', 'dv.value')
                 ));
 
@@ -417,7 +419,7 @@ class Magento_Catalog_Model_Resource_Category_Indexer_Product extends Magento_In
      *
      * @param null|array $categoryIds
      * @param null|array $productIds
-     * @return Magento_Catalog_Model_Resource_Category_Indexer_Product
+     * @return \Magento\Catalog\Model\Resource\Category\Indexer\Product
      */
     protected function _refreshDirectRelations($categoryIds = null, $productIds = null)
     {
@@ -433,7 +435,7 @@ class Magento_Catalog_Model_Resource_Category_Indexer_Product extends Magento_In
          * product_ids (enabled filter) X category_ids X store_ids
          * Validate store root category
          */
-        $isParent = new Zend_Db_Expr('1');
+        $isParent = new \Zend_Db_Expr('1');
         $select = $adapter->select()
             ->from(array('cp' => $this->_categoryProductTable),
                 array('category_id', 'product_id', 'position', $isParent))
@@ -478,7 +480,7 @@ class Magento_Catalog_Model_Resource_Category_Indexer_Product extends Magento_In
                     $adapter->quoteIdentifier('ss.value'),
                     $adapter->quoteIdentifier('ds.value')
                 ) . ' = ?',
-                Magento_Catalog_Model_Product_Status::STATUS_ENABLED
+                \Magento\Catalog\Model\Product\Status::STATUS_ENABLED
             );
         if ($categoryIds) {
             $select->where('cp.category_id IN (?)', $categoryIds);
@@ -500,7 +502,7 @@ class Magento_Catalog_Model_Resource_Category_Indexer_Product extends Magento_In
      *
      * @param null | array $categoryIds
      * @param null | array $productIds
-     * @return Magento_Catalog_Model_Resource_Category_Indexer_Product
+     * @return \Magento\Catalog\Model\Resource\Category\Indexer\Product
      */
     protected function _refreshAnchorRelations($categoryIds = null, $productIds = null)
     {
@@ -584,7 +586,7 @@ class Magento_Catalog_Model_Resource_Category_Indexer_Product extends Magento_In
             )
             ->where(
                 $adapter->getCheckSql('ss.value_id IS NOT NULL', 'ss.value', 'ds.value') . '=?',
-                Magento_Catalog_Model_Product_Status::STATUS_ENABLED
+                \Magento\Catalog\Model\Product\Status::STATUS_ENABLED
             )
             ->group(array('ce.entity_id', 'cp.product_id', 's.store_id'));
         if ($categoryIds) {
@@ -603,7 +605,7 @@ class Magento_Catalog_Model_Resource_Category_Indexer_Product extends Magento_In
      * Add product association with root store category for products which are not assigned to any another category
      *
      * @param int | array $productIds
-     * @return Magento_Catalog_Model_Resource_Category_Indexer_Product
+     * @return \Magento\Catalog\Model\Resource\Category\Indexer\Product
      */
     protected function _refreshRootRelations($productIds)
     {
@@ -613,8 +615,8 @@ class Magento_Catalog_Model_Resource_Category_Indexer_Product extends Magento_In
         /**
          * Insert anchor categories relations
          */
-        $isParent = new Zend_Db_Expr('0');
-        $position = new Zend_Db_Expr('0');
+        $isParent = new \Zend_Db_Expr('0');
+        $position = new \Zend_Db_Expr('0');
         $select = $this->_getReadAdapter()->select()
             ->distinct(true)
             ->from(array('pw'  => $this->_productWebsiteTable), array())
@@ -652,7 +654,7 @@ class Magento_Catalog_Model_Resource_Category_Indexer_Product extends Magento_In
                     $adapter->getCheckSql('ss.value_id IS NOT NULL',
                         $adapter->quoteIdentifier('ss.value'),
                         $adapter->quoteIdentifier('ds.value')
-                    ) . ' = ?', Magento_Catalog_Model_Product_Status::STATUS_ENABLED)
+                    ) . ' = ?', \Magento\Catalog\Model\Product\Status::STATUS_ENABLED)
             ->where('pw.product_id IN(?)', $productIds);
 
         $sql = $select->insertFromSelect($this->getMainTable());
@@ -685,13 +687,13 @@ class Magento_Catalog_Model_Resource_Category_Indexer_Product extends Magento_In
             ->where('i.product_id IS NULL')
             ->where(
                 $adapter->getCheckSql('ss.value_id IS NOT NULL', 'ss.value', 'ds.value') . '=?',
-                Magento_Catalog_Model_Product_Status::STATUS_ENABLED)
+                \Magento\Catalog\Model\Product\Status::STATUS_ENABLED)
             ->where('pw.product_id IN(?)', $productIds)
             ->columns(array(
                 'category_id'   => 'g.root_category_id',
                 'product_id'    => 'pw.product_id',
                 'position'      => $position,
-                'is_parent'     => new Zend_Db_Expr('1'),
+                'is_parent'     => new \Zend_Db_Expr('1'),
                 'store_id'      => 's.store_id',
                 'visibility'    => $adapter->getCheckSql('sv.value_id IS NOT NULL', 'sv.value', 'dv.value'),
             ));
@@ -709,8 +711,8 @@ class Magento_Catalog_Model_Resource_Category_Indexer_Product extends Magento_In
      */
     protected function _getAnchorAttributeInfo()
     {
-        $isAnchorAttribute = Mage::getSingleton('Magento_Eav_Model_Config')
-            ->getAttribute(Magento_Catalog_Model_Category::ENTITY, 'is_anchor');
+        $isAnchorAttribute = \Mage::getSingleton('Magento\Eav\Model\Config')
+            ->getAttribute(\Magento\Catalog\Model\Category::ENTITY, 'is_anchor');
         $info = array(
             'id'    => $isAnchorAttribute->getId() ,
             'table' => $isAnchorAttribute->getBackend()->getTable()
@@ -725,8 +727,8 @@ class Magento_Catalog_Model_Resource_Category_Indexer_Product extends Magento_In
      */
     protected function _getVisibilityAttributeInfo()
     {
-        $visibilityAttribute = Mage::getSingleton('Magento_Eav_Model_Config')
-            ->getAttribute(Magento_Catalog_Model_Product::ENTITY, 'visibility');
+        $visibilityAttribute = \Mage::getSingleton('Magento\Eav\Model\Config')
+            ->getAttribute(\Magento\Catalog\Model\Product::ENTITY, 'visibility');
         $info = array(
             'id'    => $visibilityAttribute->getId() ,
             'table' => $visibilityAttribute->getBackend()->getTable()
@@ -741,7 +743,7 @@ class Magento_Catalog_Model_Resource_Category_Indexer_Product extends Magento_In
      */
     protected function _getStatusAttributeInfo()
     {
-        $statusAttribute = Mage::getSingleton('Magento_Eav_Model_Config')->getAttribute(Magento_Catalog_Model_Product::ENTITY, 'status');
+        $statusAttribute = \Mage::getSingleton('Magento\Eav\Model\Config')->getAttribute(\Magento\Catalog\Model\Product::ENTITY, 'status');
         $info = array(
             'id'    => $statusAttribute->getId() ,
             'table' => $statusAttribute->getBackend()->getTable()
@@ -752,7 +754,7 @@ class Magento_Catalog_Model_Resource_Category_Indexer_Product extends Magento_In
     /**
      * Rebuild all index data
      *
-     * @return Magento_Catalog_Model_Resource_Category_Indexer_Product
+     * @return \Magento\Catalog\Model\Resource\Category\Indexer\Product
      */
     public function reindexAll()
     {
@@ -783,11 +785,11 @@ class Magento_Catalog_Model_Resource_Category_Indexer_Product extends Magento_In
                  * Add relations between not anchor categories and products
                  */
                 $select = $idxAdapter->select();
-                /** @var $select Magento_DB_Select */
+                /** @var $select \Magento\DB\Select */
                 $select->from(
                     array('cp' => $this->_categoryProductTable),
-                    array('category_id', 'product_id', 'position', 'is_parent' => new Zend_Db_Expr('1'),
-                        'store_id' => new Zend_Db_Expr($storeId))
+                    array('category_id', 'product_id', 'position', 'is_parent' => new \Zend_Db_Expr('1'),
+                        'store_id' => new \Zend_Db_Expr($storeId))
                 )
                 ->joinInner(array('pv' => $enabledTable), 'pv.product_id=cp.product_id', array('visibility'))
                 ->joinLeft(array('ac' => $anchorTable), 'ac.category_id=cp.category_id', array())
@@ -807,8 +809,8 @@ class Magento_Catalog_Model_Resource_Category_Indexer_Product extends Magento_In
                 $select = $idxAdapter->select();
                 $select->from(
                     array('pv' => $enabledTable),
-                    array(new Zend_Db_Expr($rootId), 'product_id', new Zend_Db_Expr('0'), new Zend_Db_Expr('1'),
-                        new Zend_Db_Expr($storeId), 'visibility')
+                    array(new \Zend_Db_Expr($rootId), 'product_id', new \Zend_Db_Expr('0'), new \Zend_Db_Expr('1'),
+                        new \Zend_Db_Expr($storeId), 'visibility')
                 )
                 ->joinLeft(array('cp' => $this->_categoryProductTable), 'pv.product_id=cp.product_id', array())
                 ->where('cp.product_id IS NULL');
@@ -869,9 +871,9 @@ class Magento_Catalog_Model_Resource_Category_Indexer_Product extends Magento_In
                 ->from(
                     array('ap' => $anchorProductsTable),
                     array('category_id', 'product_id',
-                        'position', // => new Zend_Db_Expr('MIN('. $idxAdapter->quoteIdentifier('ap.position').')'),
+                        'position', // => new \Zend_Db_Expr('MIN('. $idxAdapter->quoteIdentifier('ap.position').')'),
                         'is_parent' => $idxAdapter->getCheckSql('cp.product_id > 0', 1, 0),
-                        'store_id' => new Zend_Db_Expr($storeId))
+                        'store_id' => new \Zend_Db_Expr($storeId))
                 )
                 ->joinLeft(
                     array('cp' => $this->_categoryProductTable),
@@ -899,11 +901,11 @@ class Magento_Catalog_Model_Resource_Category_Indexer_Product extends Magento_In
                         array())
                     ->where('i.product_id IS NULL')
                     ->columns(array(
-                        'category_id'   => new Zend_Db_Expr($rootId),
+                        'category_id'   => new \Zend_Db_Expr($rootId),
                         'product_id'    => 'e.entity_id',
-                        'position'      => new Zend_Db_Expr('0'),
-                        'is_parent'     => new Zend_Db_Expr('1'),
-                        'store_id'      => new Zend_Db_Expr($storeId),
+                        'position'      => new \Zend_Db_Expr('0'),
+                        'is_parent'     => new \Zend_Db_Expr('1'),
+                        'store_id'      => new \Zend_Db_Expr($storeId),
                         'visibility'    => 'ei.visibility'
                     ));
 
@@ -926,7 +928,7 @@ class Magento_Catalog_Model_Resource_Category_Indexer_Product extends Magento_In
             $idxAdapter->delete($anchorTable);
             $idxAdapter->delete($anchorProductsTable);
             $this->commit();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->rollBack();
             throw $e;
         }
@@ -943,9 +945,9 @@ class Magento_Catalog_Model_Resource_Category_Indexer_Product extends Magento_In
      */
     protected function _prepareEnabledProductsVisibility($websiteId, $storeId)
     {
-        $statusAttribute = Mage::getSingleton('Magento_Eav_Model_Config')->getAttribute(Magento_Catalog_Model_Product::ENTITY, 'status');
-        $visibilityAttribute = Mage::getSingleton('Magento_Eav_Model_Config')
-            ->getAttribute(Magento_Catalog_Model_Product::ENTITY, 'visibility');
+        $statusAttribute = \Mage::getSingleton('Magento\Eav\Model\Config')->getAttribute(\Magento\Catalog\Model\Product::ENTITY, 'status');
+        $visibilityAttribute = \Mage::getSingleton('Magento\Eav\Model\Config')
+            ->getAttribute(\Magento\Catalog\Model\Product::ENTITY, 'visibility');
         $statusAttributeId = $statusAttribute->getId();
         $visibilityAttributeId = $visibilityAttribute->getId();
         $statusTable = $statusAttribute->getBackend()->getTable();
@@ -985,7 +987,7 @@ class Magento_Catalog_Model_Resource_Category_Indexer_Product extends Magento_In
             ->where('pw.website_id=?',$websiteId)
             ->where($adapter->getCheckSql('pss.value_id > 0',
                 $adapter->quoteIdentifier('pss.value'),
-                $adapter->quoteIdentifier('psd.value')) . ' = ?', Magento_Catalog_Model_Product_Status::STATUS_ENABLED);
+                $adapter->quoteIdentifier('psd.value')) . ' = ?', \Magento\Catalog\Model\Product\Status::STATUS_ENABLED);
 
         $query = $select->insertFromSelect($tmpTable, array('product_id' , 'visibility'), false);
         $adapter->query($query);
@@ -1042,8 +1044,8 @@ class Magento_Catalog_Model_Resource_Category_Indexer_Product extends Magento_In
      */
     protected function _prepareAnchorCategories($storeId, $rootPath)
     {
-        $isAnchorAttribute = Mage::getSingleton('Magento_Eav_Model_Config')
-            ->getAttribute(Magento_Catalog_Model_Category::ENTITY, 'is_anchor');
+        $isAnchorAttribute = \Mage::getSingleton('Magento\Eav\Model\Config')
+            ->getAttribute(\Magento\Catalog\Model\Category::ENTITY, 'is_anchor');
         $anchorAttributeId = $isAnchorAttribute->getId();
         $anchorTable = $isAnchorAttribute->getBackend()->getTable();
         $adapter = $this->_getIndexAdapter();

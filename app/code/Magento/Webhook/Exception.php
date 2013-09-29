@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Exception extends Magento_Core_Exception
+namespace Magento\Webhook;
+
+class Exception extends \Magento\Core\Exception
 {
 
 }

@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_System_Cache_Edit extends Magento_Adminhtml_Block_Widget
+namespace Magento\Adminhtml\Block\System\Cache;
+
+class Edit extends \Magento\Adminhtml\Block\Widget
 {
 
     protected $_template = 'system/cache/edit.phtml';
@@ -29,7 +31,7 @@ class Magento_Adminhtml_Block_System_Cache_Edit extends Magento_Adminhtml_Block_
 
     protected function _prepareLayout()
     {
-        $this->addChild('save_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('save_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('Save Cache Settings'),
             'class' => 'save',
             'data_attribute'  => array(
@@ -54,7 +56,7 @@ class Magento_Adminhtml_Block_System_Cache_Edit extends Magento_Adminhtml_Block_
     public function initForm()
     {
         $this->setChild('form',
-            $this->getLayout()->createBlock('Magento_Adminhtml_Block_System_Cache_Form')
+            $this->getLayout()->createBlock('Magento\Adminhtml\Block\System\Cache\Form')
                 ->initForm()
         );
         return $this;

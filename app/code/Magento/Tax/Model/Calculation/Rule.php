@@ -11,20 +11,22 @@
 /**
  * Tax Rule Model
  *
- * @method Magento_Tax_Model_Resource_Calculation_Rule _getResource()
- * @method Magento_Tax_Model_Resource_Calculation_Rule getResource()
+ * @method \Magento\Tax\Model\Resource\Calculation\Rule _getResource()
+ * @method \Magento\Tax\Model\Resource\Calculation\Rule getResource()
  * @method string getCode()
- * @method Magento_Tax_Model_Calculation_Rule setCode(string $value)
+ * @method \Magento\Tax\Model\Calculation\Rule setCode(string $value)
  * @method int getPriority()
- * @method Magento_Tax_Model_Calculation_Rule setPriority(int $value)
+ * @method \Magento\Tax\Model\Calculation\Rule setPriority(int $value)
  * @method int getPosition()
- * @method Magento_Tax_Model_Calculation_Rule setPosition(int $value)
+ * @method \Magento\Tax\Model\Calculation\Rule setPosition(int $value)
  *
  * @category    Magento
  * @package     Magento_Tax
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Tax_Model_Calculation_Rule extends Magento_Core_Model_Abstract
+namespace Magento\Tax\Model\Calculation;
+
+class Rule extends \Magento\Core\Model\AbstractModel
 {
     protected $_ctcs                = null;
     protected $_ptcs                = null;
@@ -46,48 +48,48 @@ class Magento_Tax_Model_Calculation_Rule extends Magento_Core_Model_Abstract
     /**
      * Helper
      *
-     * @var Magento_Tax_Helper_Data
+     * @var \Magento\Tax\Helper\Data
      */
     protected $_helper;
 
     /**
      * Tax Model Class
      *
-     * @var Magento_Tax_Model_Class
+     * @var \Magento\Tax\Model\ClassModel
      */
     protected $_taxClass;
 
     /**
      * Core event manager proxy
      *
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventManager = null;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Tax_Helper_Data $taxHelper
-     * @param Magento_Tax_Model_Class $taxClass
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Tax\Helper\Data $taxHelper
+     * @param \Magento\Tax\Model\ClassModel $taxClass
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Tax_Helper_Data $taxHelper,
-        Magento_Tax_Model_Class $taxClass,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Tax\Helper\Data $taxHelper,
+        \Magento\Tax\Model\ClassModel $taxClass,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
 
-        $this->_init('Magento_Tax_Model_Resource_Calculation_Rule');
+        $this->_init('Magento\Tax\Model\Resource\Calculation\Rule');
 
         $this->_helper = $taxHelper;
         $this->_taxClass = $taxClass;
@@ -97,7 +99,7 @@ class Magento_Tax_Model_Calculation_Rule extends Magento_Core_Model_Abstract
      * After save rule
      * Redeclared for populate rate calculations
      *
-     * @return Magento_Tax_Model_Calculation_Rule
+     * @return \Magento\Tax\Model\Calculation\Rule
      */
     protected function _afterSave()
     {
@@ -111,7 +113,7 @@ class Magento_Tax_Model_Calculation_Rule extends Magento_Core_Model_Abstract
      * After rule delete
      * redeclared for dispatch tax_settings_change_after event
      *
-     * @return Magento_Tax_Model_Calculation_Rule
+     * @return \Magento\Tax\Model\Calculation\Rule
      */
     protected function _afterDelete()
     {
@@ -125,7 +127,7 @@ class Magento_Tax_Model_Calculation_Rule extends Magento_Core_Model_Abstract
         $ptc = $this->getData('tax_product_class');
         $rates = $this->getData('tax_rate');
 
-        Mage::getSingleton('Magento_Tax_Model_Calculation')->deleteByRuleId($this->getId());
+        \Mage::getSingleton('Magento\Tax\Model\Calculation')->deleteByRuleId($this->getId());
         foreach ($ctc as $c) {
             foreach ($ptc as $p) {
                 foreach ($rates as $r) {
@@ -135,7 +137,7 @@ class Magento_Tax_Model_Calculation_Rule extends Magento_Core_Model_Abstract
                         'customer_tax_class_id'     =>$c,
                         'product_tax_class_id'      =>$p,
                     );
-                    Mage::getSingleton('Magento_Tax_Model_Calculation')->setData($dataArray)->save();
+                    \Mage::getSingleton('Magento\Tax\Model\Calculation')->setData($dataArray)->save();
                 }
             }
         }
@@ -144,7 +146,7 @@ class Magento_Tax_Model_Calculation_Rule extends Magento_Core_Model_Abstract
     public function getCalculationModel()
     {
         if (is_null($this->_calculationModel)) {
-            $this->_calculationModel = Mage::getSingleton('Magento_Tax_Model_Calculation');
+            $this->_calculationModel = \Mage::getSingleton('Magento\Tax\Model\Calculation');
         }
         return $this->_calculationModel;
     }
@@ -171,7 +173,7 @@ class Magento_Tax_Model_Calculation_Rule extends Magento_Core_Model_Abstract
      */
     public function getCustomerTaxClassWithDefault()
     {
-        $customerClasses = $this->getAllOptionsForClass(Magento_Tax_Model_Class::TAX_CLASS_TYPE_CUSTOMER);
+        $customerClasses = $this->getAllOptionsForClass(\Magento\Tax\Model\ClassModel::TAX_CLASS_TYPE_CUSTOMER);
         if (empty($customerClasses)) {
             return null;
         }
@@ -192,7 +194,7 @@ class Magento_Tax_Model_Calculation_Rule extends Magento_Core_Model_Abstract
      */
     public function getProductTaxClassWithDefault()
     {
-        $productClasses = $this->getAllOptionsForClass(Magento_Tax_Model_Class::TAX_CLASS_TYPE_PRODUCT);
+        $productClasses = $this->getAllOptionsForClass(\Magento\Tax\Model\ClassModel::TAX_CLASS_TYPE_PRODUCT);
         if (empty($productClasses)) {
             return null;
         }

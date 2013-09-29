@@ -16,7 +16,9 @@
  * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reward_Model_Resource_Reward_History_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Reward\Model\Resource\Reward\History;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Expiry config
@@ -26,32 +28,32 @@ class Magento_Reward_Model_Resource_Reward_History_Collection extends Magento_Co
     protected $_expiryConfig     = array();
 
     /**
-     * @var Magento_Core_Model_Locale
+     * @var \Magento\Core\Model\Locale
      */
     protected $_locale;
 
     /**
-     * @var Magento_Customer_Model_CustomerFactory
+     * @var \Magento\Customer\Model\CustomerFactory
      */
     protected $_customerFactory;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_EntityFactory $entityFactory
-     * @param Magento_Core_Model_Locale $locale
-     * @param Magento_Customer_Model_CustomerFactory $customerFactory
-     * @param Magento_Core_Model_Resource_Db_Abstract $resource
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Core\Model\Locale $locale
+     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
+     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Logger $logger,
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_EntityFactory $entityFactory,
-        Magento_Core_Model_Locale $locale,
-        Magento_Customer_Model_CustomerFactory $customerFactory,
-        Magento_Core_Model_Resource_Db_Abstract $resource = null
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Core\Model\Locale $locale,
+        \Magento\Customer\Model\CustomerFactory $customerFactory,
+        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
     ) {
         $this->_locale = $locale;
         $this->_customerFactory = $customerFactory;
@@ -65,13 +67,13 @@ class Magento_Reward_Model_Resource_Reward_History_Collection extends Magento_Co
      */
     protected function _construct()
     {
-        $this->_init('Magento_Reward_Model_Reward_History', 'Magento_Reward_Model_Resource_Reward_History');
+        $this->_init('Magento\Reward\Model\Reward\History', 'Magento\Reward\Model\Resource\Reward\History');
     }
 
     /**
      * Join reward table and retrieve total balance total with customer_id
      *
-     * @return Magento_Reward_Model_Resource_Reward_History_Collection
+     * @return \Magento\Reward\Model\Resource\Reward\History\Collection
      */
     protected function _joinReward()
     {
@@ -91,7 +93,7 @@ class Magento_Reward_Model_Resource_Reward_History_Collection extends Magento_Co
      * Getter for $_expiryConfig
      *
      * @param int $websiteId Specified Website Id
-     * @return array|Magento_Object
+     * @return array|\Magento\Object
      */
     protected function _getExpiryConfig($websiteId = null)
     {
@@ -105,7 +107,7 @@ class Magento_Reward_Model_Resource_Reward_History_Collection extends Magento_Co
      * Setter for $_expiryConfig
      *
      * @param array $config
-     * @return Magento_Reward_Model_Resource_Reward_History_Collection
+     * @return \Magento\Reward\Model\Resource\Reward\History\Collection
      */
     public function setExpiryConfig($config)
     {
@@ -120,7 +122,7 @@ class Magento_Reward_Model_Resource_Reward_History_Collection extends Magento_Co
      * Join reward table to filter history by customer id
      *
      * @param string $customerId
-     * @return Magento_Reward_Model_Resource_Reward_History_Collection
+     * @return \Magento\Reward\Model\Resource\Reward\History\Collection
      */
     public function addCustomerFilter($customerId)
     {
@@ -134,7 +136,7 @@ class Magento_Reward_Model_Resource_Reward_History_Collection extends Magento_Co
     /**
      * Skip Expired duplicates records (with action = -1)
      *
-     * @return Magento_Reward_Model_Resource_Reward_History_Collection
+     * @return \Magento\Reward\Model\Resource\Reward\History\Collection
      */
     public function skipExpiredDuplicates()
     {
@@ -146,7 +148,7 @@ class Magento_Reward_Model_Resource_Reward_History_Collection extends Magento_Co
      * Add filter by website id
      *
      * @param integer|array $websiteId
-     * @return Magento_Reward_Model_Resource_Reward_History_Collection
+     * @return \Magento\Reward\Model\Resource\Reward\History\Collection
      */
     public function addWebsiteFilter($websiteId)
     {
@@ -159,7 +161,7 @@ class Magento_Reward_Model_Resource_Reward_History_Collection extends Magento_Co
     /**
      * Join additional customer information, such as email, name etc.
      *
-     * @return Magento_Reward_Model_Resource_Reward_History_Collection
+     * @return \Magento\Reward\Model\Resource\Reward\History\Collection
      */
     public function addCustomerInfo()
     {
@@ -170,13 +172,13 @@ class Magento_Reward_Model_Resource_Reward_History_Collection extends Magento_Co
         $this->_joinReward();
 
         $customer = $this->_customerFactory->create();
-        /* @var $customer Magento_Customer_Model_Customer */
+        /* @var $customer \Magento\Customer\Model\Customer */
         $firstname  = $customer->getAttribute('firstname');
         $lastname   = $customer->getAttribute('lastname');
         $warningNotification = $customer->getAttribute('reward_warning_notification');
 
         $connection = $this->getConnection();
-        /* @var $connection Zend_Db_Adapter_Abstract */
+        /* @var $connection \Zend_Db_Adapter_Abstract */
 
         $this->getSelect()
             ->joinInner(
@@ -221,7 +223,7 @@ class Magento_Reward_Model_Resource_Reward_History_Collection extends Magento_Co
      * CASE ... WHEN ... THEN is used only in admin area to show expiration date for all stores
      *
      * @param int $websiteId
-     * @return Magento_Reward_Model_Resource_Reward_History_Collection
+     * @return \Magento\Reward\Model\Resource\Reward\History\Collection
      */
     public function addExpirationDate($websiteId = null)
     {
@@ -243,7 +245,7 @@ class Magento_Reward_Model_Resource_Reward_History_Collection extends Magento_Co
 
             if (count($cases) > 0) {
                 $sql = $adapter->getCaseSql('main_table.website_id', $cases);
-                $this->getSelect()->columns(array('expiration_date' => new Zend_Db_Expr($sql)));
+                $this->getSelect()->columns(array('expiration_date' => new \Zend_Db_Expr($sql)));
             }
         }
 
@@ -256,7 +258,7 @@ class Magento_Reward_Model_Resource_Reward_History_Collection extends Magento_Co
      *
      * @param int $websiteId Specified Website
      * @param bool $subscribedOnly Whether to load expired soon points only for subscribed customers
-     * @return Magento_Reward_Model_Resource_Reward_History_Collection
+     * @return \Magento\Reward\Model\Resource\Reward\History\Collection
      */
     public function loadExpiredSoonPoints($websiteId, $subscribedOnly = true)
     {
@@ -276,13 +278,13 @@ class Magento_Reward_Model_Resource_Reward_History_Collection extends Magento_Co
 
         $field = $expiryConfig->getExpiryCalculation()== 'static' ? 'expired_at_static' : 'expired_at_dynamic';
         $locale = $this->_locale->getLocale();
-        $expireAtLimit = new Zend_Date($locale);
+        $expireAtLimit = new \Zend_Date($locale);
         $expireAtLimit->addDay($inDays);
         $expireAtLimit = $this->formatDate($expireAtLimit);
 
         $this->getSelect()
             ->columns(
-                array('total_expired' => new Zend_Db_Expr('SUM(points_delta-points_used)'))
+                array('total_expired' => new \Zend_Db_Expr('SUM(points_delta-points_used)'))
             )
             ->where('points_delta-points_used > 0')
             ->where('is_expired=0')
@@ -304,7 +306,7 @@ class Magento_Reward_Model_Resource_Reward_History_Collection extends Magento_Co
      * Add filter for notification_sent field
      *
      * @param bool $flag
-     * @return Magento_Reward_Model_Resource_Reward_History_Collection
+     * @return \Magento\Reward\Model\Resource\Reward\History\Collection
      */
     public function addNotificationSentFlag($flag)
     {
@@ -336,14 +338,14 @@ class Magento_Reward_Model_Resource_Reward_History_Collection extends Magento_Co
             return array();
         }
         // filter rows by customer and store, as result of grouped query
-        $where = new Zend_Db_Expr(implode(' OR ', $additionalWhere));
+        $where = new \Zend_Db_Expr(implode(' OR ', $additionalWhere));
 
         $select = clone $this->getSelect();
-        $select->reset(Zend_Db_Select::COLUMNS)
+        $select->reset(\Zend_Db_Select::COLUMNS)
             ->columns('history_id')
-            ->reset(Zend_Db_Select::GROUP)
-            ->reset(Zend_Db_Select::LIMIT_COUNT)
-            ->reset(Zend_Db_Select::LIMIT_OFFSET)
+            ->reset(\Zend_Db_Select::GROUP)
+            ->reset(\Zend_Db_Select::LIMIT_COUNT)
+            ->reset(\Zend_Db_Select::LIMIT_OFFSET)
             ->where($where);
 
         return $this->getConnection()->fetchCol($select);
@@ -352,11 +354,11 @@ class Magento_Reward_Model_Resource_Reward_History_Collection extends Magento_Co
     /**
      * Order by primary key desc
      *
-     * @return Magento_Reward_Model_Resource_Reward_History_Collection
+     * @return \Magento\Reward\Model\Resource\Reward\History\Collection
      */
     public function setDefaultOrder()
     {
-        $this->getSelect()->reset(Zend_Db_Select::ORDER);
+        $this->getSelect()->reset(\Zend_Db_Select::ORDER);
 
         return $this
             ->addOrder('created_at', 'DESC')

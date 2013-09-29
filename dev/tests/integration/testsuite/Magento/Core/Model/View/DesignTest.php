@@ -9,67 +9,69 @@
  * @license     {license_link}
  */
 
+namespace Magento\Core\Model\View;
+
 /**
  * @magentoDataFixture Magento/Core/Model/_files/design/themes.php
  */
-class Magento_Core_Model_View_DesignTest extends PHPUnit_Framework_TestCase
+class DesignTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_View_DesignInterface
+     * @var \Magento\Core\Model\View\DesignInterface
      */
     protected $_model;
 
     /**
-     * @var Magento_Core_Model_View_FileSystem
+     * @var \Magento\Core\Model\View\FileSystem
      */
     protected $_viewFileSystem;
 
     /**
-     * @var Magento_Core_Model_View_Config
+     * @var \Magento\Core\Model\View\Config
      */
     protected $_viewConfig;
 
     /**
-     * @var Magento_Core_Model_View_Url
+     * @var \Magento\Core\Model\View\Url
      */
     protected $_viewUrl;
 
     public static function setUpBeforeClass()
     {
-        $themeDir = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Dir')
-                ->getDir(Magento_Core_Model_Dir::MEDIA) . 'theme';
-        $filesystem = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_Filesystem');
+        $themeDir = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Dir')
+                ->getDir(\Magento\Core\Model\Dir::MEDIA) . 'theme';
+        $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Filesystem');
         $filesystem->delete($themeDir . '/frontend');
         $filesystem->delete($themeDir . '/_merged');
 
-        $ioAdapter = new Magento_Io_File();
+        $ioAdapter = new \Magento\Io\File();
         $ioAdapter->cp(
-            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Dir')
-                ->getDir(Magento_Core_Model_Dir::PUB_LIB) . '/prototype/prototype.js',
-            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Dir')
-                ->getDir(Magento_Core_Model_Dir::PUB_LIB) . '/prototype/prototype.min.js'
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Dir')
+                ->getDir(\Magento\Core\Model\Dir::PUB_LIB) . '/prototype/prototype.js',
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Dir')
+                ->getDir(\Magento\Core\Model\Dir::PUB_LIB) . '/prototype/prototype.min.js'
         );
     }
 
     public static function tearDownAfterClass()
     {
-        $ioAdapter = new Magento_Io_File();
+        $ioAdapter = new \Magento\Io\File();
         $ioAdapter->rm(
-            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Dir')
-                ->getDir(Magento_Core_Model_Dir::PUB_LIB) . '/prototype/prototype.min.js'
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Dir')
+                ->getDir(\Magento\Core\Model\Dir::PUB_LIB) . '/prototype/prototype.min.js'
         );
     }
 
     protected function setUp()
     {
-        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_View_DesignInterface');
-        $this->_viewFileSystem = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_View_FileSystem');
-        $this->_viewConfig = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_View_Config');
-        $this->_viewUrl = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_View_Url');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\View\DesignInterface');
+        $this->_viewFileSystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\View\FileSystem');
+        $this->_viewConfig = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\View\Config');
+        $this->_viewUrl = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\View\Url');
     }
 
     /**
@@ -79,26 +81,26 @@ class Magento_Core_Model_View_DesignTest extends PHPUnit_Framework_TestCase
      */
     protected function _emulateFixtureTheme($themePath = 'test_default')
     {
-        Magento_TestFramework_Helper_Bootstrap::getInstance()->reinitialize(array(
-            Magento_Core_Model_App::PARAM_APP_DIRS => array(
-                Magento_Core_Model_Dir::THEMES => realpath(__DIR__ . '/../_files/design'),
+        \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
+            \Magento\Core\Model\App::PARAM_APP_DIRS => array(
+                \Magento\Core\Model\Dir::THEMES => realpath(__DIR__ . '/../_files/design'),
             ),
         ));
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Core_Model_View_DesignInterface')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Core\Model\View\DesignInterface')
             ->setDesignTheme($themePath);
 
-        $this->_viewFileSystem = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_View_FileSystem');
-        $this->_viewConfig = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_View_Config');
-        $this->_viewUrl = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_View_Url');
+        $this->_viewFileSystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\View\FileSystem');
+        $this->_viewConfig = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\View\Config');
+        $this->_viewUrl = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\View\Url');
     }
 
     public function testSetGetArea()
     {
-        $this->assertEquals(Magento_Core_Model_View_DesignInterface::DEFAULT_AREA, $this->_model->getArea());
+        $this->assertEquals(\Magento\Core\Model\View\DesignInterface::DEFAULT_AREA, $this->_model->getArea());
         $this->_model->setArea('test');
         $this->assertEquals('test', $this->_model->getArea());
     }
@@ -112,7 +114,7 @@ class Magento_Core_Model_View_DesignTest extends PHPUnit_Framework_TestCase
 
     public function testGetDesignTheme()
     {
-        $this->assertInstanceOf('Magento_Core_Model_Theme', $this->_model->getDesignTheme());
+        $this->assertInstanceOf('Magento\Core\Model\Theme', $this->_model->getDesignTheme());
     }
 
     /**
@@ -120,13 +122,13 @@ class Magento_Core_Model_View_DesignTest extends PHPUnit_Framework_TestCase
      */
     public function testGetConfigurationDesignThemeDefaults()
     {
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
         $themes = array('frontend' => 'test_f', 'adminhtml' => 'test_a', 'install' => 'test_i');
-        $design = $objectManager->create('Magento_Core_Model_View_Design', array('themes' => $themes));
-        $objectManager->addSharedInstance($design, 'Magento_Core_Model_View_Design');
+        $design = $objectManager->create('Magento\Core\Model\View\Design', array('themes' => $themes));
+        $objectManager->addSharedInstance($design, 'Magento\Core\Model\View\Design');
 
-        $model = $objectManager->get('Magento_Core_Model_View_Design');
+        $model = $objectManager->get('Magento\Core\Model\View\Design');
 
         $this->assertEquals('test_f', $model->getConfigurationDesignTheme());
         $this->assertEquals('test_f', $model->getConfigurationDesignTheme('frontend'));
@@ -145,8 +147,8 @@ class Magento_Core_Model_View_DesignTest extends PHPUnit_Framework_TestCase
      */
     public function testGetConfigurationDesignThemeStore()
     {
-        $storeId = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Core_Model_StoreManagerInterface')->getStore()->getId();
+        $storeId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Core\Model\StoreManagerInterface')->getStore()->getId();
         $this->assertEquals('one', $this->_model->getConfigurationDesignTheme());
         $this->assertEquals('one', $this->_model->getConfigurationDesignTheme(null, array('store' => $storeId)));
         $this->assertEquals('one', $this->_model->getConfigurationDesignTheme('frontend', array('store' => $storeId)));
@@ -181,7 +183,7 @@ class Magento_Core_Model_View_DesignTest extends PHPUnit_Framework_TestCase
 
     /**
      * @param string $file
-     * @expectedException Magento_Exception
+     * @expectedException \Magento\Exception
      * @dataProvider extractScopeExceptionDataProvider
      */
     public function testExtractScopeException($file)
@@ -207,7 +209,7 @@ class Magento_Core_Model_View_DesignTest extends PHPUnit_Framework_TestCase
     {
         $this->_emulateFixtureTheme();
         $config = $this->_viewConfig->getViewConfig();
-        $this->assertInstanceOf('Magento_Config_View', $config);
+        $this->assertInstanceOf('Magento\Config\View', $config);
         $this->assertEquals(array('var1' => 'value1', 'var2' => 'value2'), $config->getVars('Namespace_Module'));
     }
 
@@ -217,22 +219,22 @@ class Magento_Core_Model_View_DesignTest extends PHPUnit_Framework_TestCase
     public function testGetConfigCustomized()
     {
         $this->_emulateFixtureTheme();
-        /** @var $theme Magento_Core_Model_Theme */
-        $theme = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Core_Model_View_DesignInterface')
+        /** @var $theme \Magento\Core\Model\Theme */
+        $theme = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Core\Model\View\DesignInterface')
             ->getDesignTheme();
         $customConfigFile = $theme->getCustomization()->getCustomViewConfigPath();
-        /** @var $filesystem Magento_Filesystem */
-        $filesystem = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_Filesystem');
+        /** @var $filesystem \Magento\Filesystem */
+        $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Filesystem');
         $filesystem->setIsAllowCreateDirectories(true);
         try {
             $filesystem->write($customConfigFile, '<?xml version="1.0" encoding="UTF-8"?>
                 <view><vars  module="Namespace_Module"><var name="customVar">custom value</var></vars></view>');
 
             $config = $this->_viewConfig->getViewConfig();
-            $this->assertInstanceOf('Magento_Config_View', $config);
+            $this->assertInstanceOf('Magento\Config\View', $config);
             $this->assertEquals(array('customVar' => 'custom value'), $config->getVars('Namespace_Module'));
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $filesystem->delete($customConfigFile);
             throw $e;
         }
@@ -251,8 +253,8 @@ class Magento_Core_Model_View_DesignTest extends PHPUnit_Framework_TestCase
      */
     public function testGetViewUrl($appMode, $file, $result)
     {
-        $currentAppMode = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Core_Model_App_State')->getMode();
+        $currentAppMode = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Core\Model\App\State')->getMode();
         if ($currentAppMode != $appMode) {
             $this->markTestSkipped("Implemented to be run in {$appMode} mode");
         }
@@ -272,8 +274,8 @@ class Magento_Core_Model_View_DesignTest extends PHPUnit_Framework_TestCase
      */
     public function testGetViewUrlSigned($appMode, $file, $result)
     {
-        $currentAppMode = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Core_Model_App_State')->getMode();
+        $currentAppMode = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Core\Model\App\State')->getMode();
         if ($currentAppMode != $appMode) {
             $this->markTestSkipped("Implemented to be run in {$appMode} mode");
         }
@@ -294,32 +296,32 @@ class Magento_Core_Model_View_DesignTest extends PHPUnit_Framework_TestCase
     {
         return array(
             array(
-                Magento_Core_Model_App_State::MODE_DEFAULT,
+                \Magento\Core\Model\App\State::MODE_DEFAULT,
                 'Magento_Page::favicon.ico',
                 'http://localhost/pub/static/frontend/test_default/en_US/Magento_Page/favicon.ico',
             ),
             array(
-                Magento_Core_Model_App_State::MODE_DEFAULT,
+                \Magento\Core\Model\App\State::MODE_DEFAULT,
                 'prototype/prototype.js',
                 'http://localhost/pub/lib/prototype/prototype.js'
             ),
             array(
-                Magento_Core_Model_App_State::MODE_DEVELOPER,
+                \Magento\Core\Model\App\State::MODE_DEVELOPER,
                 'Magento_Page::menu.js',
                 'http://localhost/pub/static/frontend/test_default/en_US/Magento_Page/menu.js'
             ),
             array(
-                Magento_Core_Model_App_State::MODE_DEFAULT,
+                \Magento\Core\Model\App\State::MODE_DEFAULT,
                 'Magento_Page::menu.js',
                 'http://localhost/pub/static/frontend/test_default/en_US/Magento_Page/menu.js'
             ),
             array(
-                Magento_Core_Model_App_State::MODE_DEFAULT,
+                \Magento\Core\Model\App\State::MODE_DEFAULT,
                 'Magento_Catalog::widgets.css',
                 'http://localhost/pub/static/frontend/test_default/en_US/Magento_Catalog/widgets.css'
             ),
             array(
-                Magento_Core_Model_App_State::MODE_DEVELOPER,
+                \Magento\Core\Model\App\State::MODE_DEVELOPER,
                 'Magento_Catalog::widgets.css',
                 'http://localhost/pub/static/frontend/test_default/en_US/Magento_Catalog/widgets.css'
             ),
@@ -328,8 +330,8 @@ class Magento_Core_Model_View_DesignTest extends PHPUnit_Framework_TestCase
 
     public function testGetPublicFileUrl()
     {
-        $pubLibFile = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Dir')
-                ->getDir(Magento_Core_Model_Dir::PUB_LIB) . '/jquery/jquery.js';
+        $pubLibFile = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Dir')
+                ->getDir(\Magento\Core\Model\Dir::PUB_LIB) . '/jquery/jquery.js';
         $actualResult = $this->_viewUrl->getPublicFileUrl($pubLibFile);
         $this->assertStringEndsWith('/jquery/jquery.js', $actualResult);
     }
@@ -339,8 +341,8 @@ class Magento_Core_Model_View_DesignTest extends PHPUnit_Framework_TestCase
      */
     public function testGetPublicFileUrlSigned()
     {
-        $pubLibFile = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Dir')
-                ->getDir(Magento_Core_Model_Dir::PUB_LIB) . '/jquery/jquery.js';
+        $pubLibFile = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Dir')
+                ->getDir(\Magento\Core\Model\Dir::PUB_LIB) . '/jquery/jquery.js';
         $actualResult = $this->_viewUrl->getPublicFileUrl($pubLibFile);
         $this->assertStringMatchesFormat('%a/jquery/jquery.js?%d', $actualResult);
     }

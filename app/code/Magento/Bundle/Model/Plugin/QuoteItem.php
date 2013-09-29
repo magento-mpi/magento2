@@ -5,20 +5,22 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Bundle_Model_Plugin_QuoteItem
+namespace Magento\Bundle\Model\Plugin;
+
+class QuoteItem
 {
     /**
      * Add bundle attributes to order data
      *
      * @param array $arguments
-     * @param Magento_Code_Plugin_InvocationChain $invocationChain
-     * @return Magento_Sales_Model_Order_Item|mixed
+     * @param \Magento\Code\Plugin\InvocationChain $invocationChain
+     * @return \Magento\Sales\Model\Order\Item|mixed
      */
-    public function aroundItemToOrderItem(array $arguments, Magento_Code_Plugin_InvocationChain $invocationChain)
+    public function aroundItemToOrderItem(array $arguments, \Magento\Code\Plugin\InvocationChain $invocationChain)
     {
-        /** @var $orderItem Magento_Sales_Model_Order_Item */
+        /** @var $orderItem \Magento\Sales\Model\Order\Item */
         $orderItem = $invocationChain->proceed($arguments);
-        /** @var $quoteItem Magento_Sales_Model_Quote_Item */
+        /** @var $quoteItem \Magento\Sales\Model\Quote\Item */
         $quoteItem = reset($arguments);
 
         if ($attributes = $quoteItem->getProduct()->getCustomOption('bundle_selection_attributes')) {

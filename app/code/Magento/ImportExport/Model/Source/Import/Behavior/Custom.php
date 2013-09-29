@@ -16,8 +16,10 @@
  * @package     Magento_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_ImportExport_Model_Source_Import_Behavior_Custom
-    extends Magento_ImportExport_Model_Source_Import_BehaviorAbstract
+namespace Magento\ImportExport\Model\Source\Import\Behavior;
+
+class Custom
+    extends \Magento\ImportExport\Model\Source\Import\BehaviorAbstract
 {
     /**
      * Get possible behaviours
@@ -27,11 +29,11 @@ class Magento_ImportExport_Model_Source_Import_Behavior_Custom
     public function toArray()
     {
         return array(
-            Magento_ImportExport_Model_Import::BEHAVIOR_ADD_UPDATE
+            \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE
                 => __('Add/Update Complex Data'),
-            Magento_ImportExport_Model_Import::BEHAVIOR_DELETE
+            \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE
                 => __('Delete Entities'),
-            Magento_ImportExport_Model_Import::BEHAVIOR_CUSTOM
+            \Magento\ImportExport\Model\Import::BEHAVIOR_CUSTOM
                 => __('Custom Action'),
         );
     }

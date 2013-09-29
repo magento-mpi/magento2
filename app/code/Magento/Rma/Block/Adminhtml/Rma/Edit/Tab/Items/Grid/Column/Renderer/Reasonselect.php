@@ -11,24 +11,26 @@
 /**
  * Grid column widget for rendering action grid cells
  */
-class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Reasonselect
-    extends Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Abstract
+namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer;
+
+class Reasonselect
+    extends \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer\AbstractRenderer
 {
     /**
-     * @var Magento_Rma_Model_Item_FormFactory
+     * @var \Magento\Rma\Model\Item\FormFactory
      */
     protected $_itemFormFactory;
 
     /**
-     * @param Magento_Backend_Block_Context $context
-     * @param Magento_Rma_Model_Item_FormFactory $itemFormFactory
-     * @param Magento_Rma_Model_Item_Status $itemStatus
+     * @param \Magento\Backend\Block\Context $context
+     * @param \Magento\Rma\Model\Item\FormFactory $itemFormFactory
+     * @param \Magento\Rma\Model\Item\Status $itemStatus
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Block_Context $context,
-        Magento_Rma_Model_Item_FormFactory $itemFormFactory,
-        Magento_Rma_Model_Item_Status $itemStatus,
+        \Magento\Backend\Block\Context $context,
+        \Magento\Rma\Model\Item\FormFactory $itemFormFactory,
+        \Magento\Rma\Model\Item\Status $itemStatus,
         array $data = array()
     ) {
         $this->_itemFormFactory = $itemFormFactory;
@@ -38,12 +40,12 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Reason
     /**
      * Renders column as select when it is editable
      *
-     * @param   Magento_Object $row
+     * @param   \Magento\Object $row
      * @return  string
      */
-    protected function _getEditableView(Magento_Object $row)
+    protected function _getEditableView(\Magento\Object $row)
     {
-        /** @var $itemForm Magento_Rma_Model_Item_Form */
+        /** @var $itemForm \Magento\Rma\Model\Item\Form */
         $itemForm = $this->_itemFormFactory->create();
         $rmaItemAttribute = $itemForm->setFormCode('default')->getAttribute('reason_other');
 
@@ -76,12 +78,12 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Reason
     /**
      * Renders column as select when it is not editable
      *
-     * @param   Magento_Object $row
+     * @param   \Magento\Object $row
      * @return  string
      */
-    protected function _getNonEditableView(Magento_Object $row)
+    protected function _getNonEditableView(\Magento\Object $row)
     {
-        /** @var $itemForm Magento_Rma_Model_Item_Form */
+        /** @var $itemForm \Magento\Rma\Model\Item\Form */
         $itemForm = $this->_itemFormFactory->create();
         $rmaItemAttribute = $itemForm->setFormCode('default')->getAttribute('reason_other');
         $value = $row->getData($this->getColumn()->getIndex());

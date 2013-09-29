@@ -7,18 +7,19 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
+namespace Magento\Data\Form;
 
-class Magento_Data_Form_ElementFactory
+class ElementFactory
 {
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
@@ -28,7 +29,7 @@ class Magento_Data_Form_ElementFactory
      *
      * @param string $elementClass
      * @param array $data
-     * @return Magento_Data_Form_Element_Abstract
+     * @return \Magento\Data\Form\Element\AbstractElement
      */
     public function create($elementClass, array $data = array())
     {

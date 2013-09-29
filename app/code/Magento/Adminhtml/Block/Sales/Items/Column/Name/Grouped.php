@@ -16,7 +16,9 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Sales_Items_Column_Name_Grouped extends Magento_Adminhtml_Block_Sales_Items_Column_Name
+namespace Magento\Adminhtml\Block\Sales\Items\Column\Name;
+
+class Grouped extends \Magento\Adminhtml\Block\Sales\Items\Column\Name
 {
     /**
      * Prepare item html

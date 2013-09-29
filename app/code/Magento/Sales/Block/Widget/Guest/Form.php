@@ -11,25 +11,27 @@
 /**
  * Sales widget search form for orders and returns block
  */
-class Magento_Sales_Block_Widget_Guest_Form
-    extends Magento_Core_Block_Template
-    implements Magento_Widget_Block_Interface
+namespace Magento\Sales\Block\Widget\Guest;
+
+class Form
+    extends \Magento\Core\Block\Template
+    implements \Magento\Widget\Block\BlockInterface
 {
     /**
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Customer_Model_Session $customerSession
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Customer\Model\Session $customerSession
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Customer_Model_Session $customerSession,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Customer\Model\Session $customerSession,
         array $data = array()
     ) {
         $this->_customerSession = $customerSession;
@@ -53,7 +55,7 @@ class Magento_Sales_Block_Widget_Guest_Form
      */
     public function getTypeSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('Magento_Core_Block_Html_Select')
+        $select = $this->getLayout()->createBlock('Magento\Core\Block\Html\Select')
             ->setData(array(
                 'id'    => 'quick_search_type_id',
                 'class' => 'select guest-select',

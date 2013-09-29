@@ -11,7 +11,9 @@
 /**
  * Installation wizard controller
  */
-class Magento_Install_Controller_Wizard extends Magento_Install_Controller_Action
+namespace Magento\Install\Controller;
+
+class Wizard extends \Magento\Install\Controller\Action
 {
     /**
      * @var string
@@ -19,17 +21,17 @@ class Magento_Install_Controller_Wizard extends Magento_Install_Controller_Actio
     protected $_installDate;
 
     /**
-     * @param Magento_Core_Controller_Varien_Action_Context $context
-     * @param Magento_Core_Model_Config_Scope $configScope
-     * @param Magento_Core_Model_View_DesignInterface $viewDesign
-     * @param Magento_Core_Model_Theme_CollectionFactory $collectionFactory
+     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\Core\Model\Config\Scope $configScope
+     * @param \Magento\Core\Model\View\DesignInterface $viewDesign
+     * @param \Magento\Core\Model\Theme\CollectionFactory $collectionFactory
      * @param string $installDate
      */
     public function __construct(
-        Magento_Core_Controller_Varien_Action_Context $context,
-        Magento_Core_Model_Config_Scope $configScope,
-        Magento_Core_Model_View_DesignInterface $viewDesign,
-        Magento_Core_Model_Theme_CollectionFactory $collectionFactory,
+        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\Core\Model\Config\Scope $configScope,
+        \Magento\Core\Model\View\DesignInterface $viewDesign,
+        \Magento\Core\Model\Theme\CollectionFactory $collectionFactory,
         $installDate = ''
     ) {
         $this->_installDate = $installDate;
@@ -42,11 +44,11 @@ class Magento_Install_Controller_Wizard extends Magento_Install_Controller_Actio
      * Redirect out if system is already installed
      * Throw a bootstrap exception if page cannot be displayed due to mis-configured base directories
      *
-     * @throws Magento_BootstrapException
+     * @throws \Magento\BootstrapException
      */
     public function preDispatch()
     {
-        if (Mage::isInstalled()) {
+        if (\Mage::isInstalled()) {
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             $this->_redirect('/');
             return;
@@ -59,27 +61,27 @@ class Magento_Install_Controller_Wizard extends Magento_Install_Controller_Actio
     /**
      * Retrieve installer object
      *
-     * @return Magento_Install_Model_Installer
+     * @return \Magento\Install\Model\Installer
      */
     protected function _getInstaller()
     {
-        return Mage::getSingleton('Magento_Install_Model_Installer');
+        return \Mage::getSingleton('Magento\Install\Model\Installer');
     }
 
     /**
      * Retrieve wizard
      *
-     * @return Magento_Install_Model_Wizard
+     * @return \Magento\Install\Model\Wizard
      */
     protected function _getWizard()
     {
-        return Mage::getSingleton('Magento_Install_Model_Wizard');
+        return \Mage::getSingleton('Magento\Install\Model\Wizard');
     }
 
     /**
      * Prepare layout
      *
-     * @return Magento_Install_WizardController
+     * @return \Magento\Install\WizardController
      */
     protected function _prepareLayout()
     {
@@ -89,7 +91,7 @@ class Magento_Install_Controller_Wizard extends Magento_Install_Controller_Actio
             $step->setActive(true);
         }
 
-        $this->getLayout()->addBlock('Magento_Install_Block_State', 'install.state', 'left');
+        $this->getLayout()->addBlock('Magento\Install\Block\State', 'install.state', 'left');
         return $this;
     }
 
@@ -102,7 +104,7 @@ class Magento_Install_Controller_Wizard extends Magento_Install_Controller_Actio
     protected function _checkIfInstalled()
     {
         if ($this->_getInstaller()->isApplicationInstalled()) {
-            $this->getResponse()->setRedirect(Mage::getBaseUrl())->sendResponse();
+            $this->getResponse()->setRedirect(\Mage::getBaseUrl())->sendResponse();
             exit;
         }
         return true;
@@ -127,9 +129,9 @@ class Magento_Install_Controller_Wizard extends Magento_Install_Controller_Actio
         $this->setFlag('', self::FLAG_NO_POST_DISPATCH, true);
 
         $this->_prepareLayout();
-        $this->_initLayoutMessages('Magento_Install_Model_Session');
+        $this->_initLayoutMessages('Magento\Install\Model\Session');
 
-        $this->getLayout()->addBlock('Magento_Install_Block_Begin', 'install.begin', 'content');
+        $this->getLayout()->addBlock('Magento\Install\Block\Begin', 'install.begin', 'content');
 
         $this->renderLayout();
     }
@@ -159,8 +161,8 @@ class Magento_Install_Controller_Wizard extends Magento_Install_Controller_Actio
         $this->setFlag('', self::FLAG_NO_POST_DISPATCH, true);
 
         $this->_prepareLayout();
-        $this->_initLayoutMessages('Magento_Install_Model_Session');
-        $this->getLayout()->addBlock('Magento_Install_Block_Locale', 'install.locale', 'content');
+        $this->_initLayoutMessages('Magento\Install\Model\Session');
+        $this->getLayout()->addBlock('Magento\Install\Block\Locale', 'install.locale', 'content');
 
         $this->renderLayout();
     }
@@ -176,9 +178,9 @@ class Magento_Install_Controller_Wizard extends Magento_Install_Controller_Actio
         $timezone = $this->getRequest()->getParam('timezone');
         $currency = $this->getRequest()->getParam('currency');
         if ($locale) {
-            Mage::getSingleton('Magento_Install_Model_Session')->setLocale($locale);
-            Mage::getSingleton('Magento_Install_Model_Session')->setTimezone($timezone);
-            Mage::getSingleton('Magento_Install_Model_Session')->setCurrency($currency);
+            \Mage::getSingleton('Magento\Install\Model\Session')->setLocale($locale);
+            \Mage::getSingleton('Magento\Install\Model\Session')->setTimezone($timezone);
+            \Mage::getSingleton('Magento\Install\Model\Session')->setCurrency($currency);
         }
 
         $this->_redirect('*/*/locale');
@@ -194,7 +196,7 @@ class Magento_Install_Controller_Wizard extends Magento_Install_Controller_Actio
 
         $data = $this->getRequest()->getPost('config');
         if ($data) {
-            Mage::getSingleton('Magento_Install_Model_Session')->setLocaleData($data);
+            \Mage::getSingleton('Magento\Install\Model\Session')->setLocaleData($data);
         }
 
         $this->getResponse()->setRedirect($step->getNextUrl());
@@ -210,8 +212,8 @@ class Magento_Install_Controller_Wizard extends Magento_Install_Controller_Actio
         $this->setFlag('', self::FLAG_NO_POST_DISPATCH, true);
 
         $this->_prepareLayout();
-        $this->_initLayoutMessages('Magento_Install_Model_Session');
-        $this->getLayout()->addBlock('Magento_Install_Block_Download', 'install.download', 'content');
+        $this->_initLayoutMessages('Magento\Install\Model\Session');
+        $this->getLayout()->addBlock('Magento\Install\Block\Download', 'install.download', 'content');
 
         $this->renderLayout();
     }
@@ -257,7 +259,7 @@ class Magento_Install_Controller_Wizard extends Magento_Install_Controller_Actio
      */
     public function installAction()
     {
-        $pear = Magento_Pear::getInstance();        
+        $pear = \Magento\Pear::getInstance();        
         $params = array(
             'comment' => __("Downloading and installing Magento, please wait...") . "\r\n\r\n"
         );
@@ -276,12 +278,12 @@ class Magento_Install_Controller_Wizard extends Magento_Install_Controller_Actio
             }
             $params['command'] = 'install';
             $params['options'] = array('onlyreqdeps' => 1);
-            $params['params'] = Mage::getModel('Magento_Install_Model_Installer_Pear')->getPackages();
+            $params['params'] = \Mage::getModel('Magento\Install\Model\Installer\Pear')->getPackages();
             $params['success_callback'] = array($this, 'installSuccessCallback');
             $params['failure_callback'] = array($this, 'installFailureCallback');
         }
         $pear->runHtmlConsole($params);
-        Mage::app()->getFrontController()->getResponse()->clearAllHeaders();
+        \Mage::app()->getFrontController()->getResponse()->clearAllHeaders();
     }
 
     /**
@@ -322,12 +324,12 @@ class Magento_Install_Controller_Wizard extends Magento_Install_Controller_Actio
 
         $data = $this->getRequest()->getQuery('config');
         if ($data) {
-            Mage::getSingleton('Magento_Install_Model_Session')->setLocaleData($data);
+            \Mage::getSingleton('Magento\Install\Model\Session')->setLocaleData($data);
         }
 
         $this->_prepareLayout();
-        $this->_initLayoutMessages('Magento_Install_Model_Session');
-        $this->getLayout()->addBlock('Magento_Install_Block_Config', 'install.config', 'content');
+        $this->_initLayoutMessages('Magento\Install\Model\Session');
+        $this->getLayout()->addBlock('Magento\Install\Block\Config', 'install.config', 'content');
 
         $this->renderLayout();
     }
@@ -347,7 +349,7 @@ class Magento_Install_Controller_Wizard extends Magento_Install_Controller_Actio
 
             $data = array_merge($config, $connectionConfig[$config['db_model']]);
 
-            Mage::getSingleton('Magento_Install_Model_Session')
+            \Mage::getSingleton('Magento\Install\Model\Session')
                 ->setConfigData($data)
                 ->setSkipUrlValidation($this->getRequest()->getPost('skip_url_validation'))
                 ->setSkipBaseUrlValidation($this->getRequest()->getPost('skip_base_url_validation'));
@@ -355,8 +357,8 @@ class Magento_Install_Controller_Wizard extends Magento_Install_Controller_Actio
                 $this->_getInstaller()->installConfig($data);
                 $this->_redirect('*/*/installDb');
                 return $this;
-            } catch (Exception $e) {
-                Mage::getSingleton('Magento_Install_Model_Session')->addError($e->getMessage());
+            } catch (\Exception $e) {
+                \Mage::getSingleton('Magento\Install\Model\Session')->addError($e->getMessage());
                 $this->getResponse()->setRedirect($step->getUrl());
             }
         }
@@ -375,14 +377,14 @@ class Magento_Install_Controller_Wizard extends Magento_Install_Controller_Actio
             /**
              * Clear session config data
              */
-            Mage::getSingleton('Magento_Install_Model_Session')->getConfigData(true);
+            \Mage::getSingleton('Magento\Install\Model\Session')->getConfigData(true);
 
-            Mage::app()->getStore()->resetConfig();
-            Mage::getSingleton('Magento_Core_Model_Db_UpdaterInterface')->updateData();
+            \Mage::app()->getStore()->resetConfig();
+            \Mage::getSingleton('Magento\Core\Model\Db\UpdaterInterface')->updateData();
 
-            $this->getResponse()->setRedirect(Mage::getUrl($step->getNextUrlPath()));
-        } catch (Exception $e) {
-            Mage::getSingleton('Magento_Install_Model_Session')->addError($e->getMessage());
+            $this->getResponse()->setRedirect(\Mage::getUrl($step->getNextUrlPath()));
+        } catch (\Exception $e) {
+            \Mage::getSingleton('Magento\Install\Model\Session')->addError($e->getMessage());
             $this->getResponse()->setRedirect($step->getUrl());
         }
     }
@@ -395,9 +397,9 @@ class Magento_Install_Controller_Wizard extends Magento_Install_Controller_Actio
         $this->_checkIfInstalled();
 
         $this->_prepareLayout();
-        $this->_initLayoutMessages('Magento_Install_Model_Session');
+        $this->_initLayoutMessages('Magento\Install\Model\Session');
 
-        $this->getLayout()->addBlock('Magento_Install_Block_Admin', 'install.administrator', 'content');
+        $this->getLayout()->addBlock('Magento\Install\Block\Admin', 'install.administrator', 'content');
         $this->renderLayout();
     }
 
@@ -408,7 +410,7 @@ class Magento_Install_Controller_Wizard extends Magento_Install_Controller_Actio
     {
         $this->_checkIfInstalled();
 
-        $step = Mage::getSingleton('Magento_Install_Model_Wizard')->getStepByName('administrator');
+        $step = \Mage::getSingleton('Magento\Install\Model\Wizard')->getStepByName('administrator');
         $adminData      = $this->getRequest()->getPost('admin');
         $encryptionKey  = $this->getRequest()->getPost('encryption_key');
 
@@ -417,11 +419,11 @@ class Magento_Install_Controller_Wizard extends Magento_Install_Controller_Actio
             $this->_getInstaller()->createAdministrator($adminData);
             $this->_getInstaller()->installEncryptionKey($encryptionKey);
             $this->getResponse()->setRedirect($step->getNextUrl());
-        } catch (Exception $e) {
-            /** @var $session Magento_Core_Model_Session_Generic */
-            $session = Mage::getSingleton('Magento_Install_Model_Session');
+        } catch (\Exception $e) {
+            /** @var $session \Magento\Core\Model\Session\Generic */
+            $session = \Mage::getSingleton('Magento\Install\Model\Session');
             $session->setAdminData($adminData);
-            if ($e instanceof Magento_Core_Exception) {
+            if ($e instanceof \Magento\Core\Exception) {
                 $session->addMessages($e->getMessages());
             } else {
                 $session->addError($e->getMessage());
@@ -437,24 +439,24 @@ class Magento_Install_Controller_Wizard extends Magento_Install_Controller_Actio
     {
         $this->_checkIfInstalled();
 
-        if ($this->_installDate !== Magento_Install_Model_Installer_Config::TMP_INSTALL_DATE_VALUE) {
+        if ($this->_installDate !== \Magento\Install\Model\Installer\Config::TMP_INSTALL_DATE_VALUE) {
             $this->_redirect('*/*');
             return;
         }
 
         $this->_getInstaller()->finish();
 
-        /** @var Magento_Core_Model_App_State $appState */
-        $appState = $this->_objectManager->get('Magento_Core_Model_App_State');
+        /** @var \Magento\Core\Model\App\State $appState */
+        $appState = $this->_objectManager->get('Magento\Core\Model\App\State');
         $appState->setInstallDate($this->_installDate);
 
-        $this->_objectManager->get('Magento_AdminNotification_Model_Survey')->saveSurveyViewed(true);
+        $this->_objectManager->get('Magento\AdminNotification\Model\Survey')->saveSurveyViewed(true);
 
         $this->_prepareLayout();
-        $this->_initLayoutMessages('Magento_Install_Model_Session');
+        $this->_initLayoutMessages('Magento\Install\Model\Session');
 
-        $this->getLayout()->addBlock('Magento_Install_Block_End', 'install.end', 'content');
+        $this->getLayout()->addBlock('Magento\Install\Block\End', 'install.end', 'content');
         $this->renderLayout();
-        Mage::getSingleton('Magento_Install_Model_Session')->clear();
+        \Mage::getSingleton('Magento\Install\Model\Session')->clear();
     }
 }

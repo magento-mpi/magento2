@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Validator_Constraint_Option implements  Magento_Validator_Constraint_OptionInterface
+namespace Magento\Validator\Constraint;
+
+class Option implements  \Magento\Validator\Constraint\OptionInterface
 {
     /**
      * @var mixed

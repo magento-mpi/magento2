@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Rma_Block_Email_Items extends Magento_Rma_Block_Form
+namespace Magento\Rma\Block\Email;
+
+class Items extends \Magento\Rma\Block\Form
 {
     /**
      * Variable to store store-depended string values of attributes
@@ -20,26 +22,26 @@ class Magento_Rma_Block_Email_Items extends Magento_Rma_Block_Form
     /**
      * Rma eav
      *
-     * @var Magento_Rma_Helper_Eav
+     * @var \Magento\Rma\Helper\Eav
      */
     protected $_rmaEav = null;
 
     /**
-     * @param Magento_Core_Model_Factory $modelFactory
-     * @param Magento_Eav_Model_Form_Factory $formFactory
-     * @param Magento_Rma_Helper_Eav $rmaEav
-     * @param Magento_Eav_Model_Config $eavConfig
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
+     * @param \Magento\Core\Model\Factory $modelFactory
+     * @param \Magento\Eav\Model\Form\Factory $formFactory
+     * @param \Magento\Rma\Helper\Eav $rmaEav
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Factory $modelFactory,
-        Magento_Eav_Model_Form_Factory $formFactory,
-        Magento_Rma_Helper_Eav $rmaEav,
-        Magento_Eav_Model_Config $eavConfig,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
+        \Magento\Core\Model\Factory $modelFactory,
+        \Magento\Eav\Model\Form\Factory $formFactory,
+        \Magento\Rma\Helper\Eav $rmaEav,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_rmaEav = $rmaEav;

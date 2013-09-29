@@ -11,30 +11,30 @@
 /**
  * Product attribute source input types
  */
-class Magento_Catalog_Model_Product_Attribute_Source_Inputtype
-    extends Magento_Eav_Model_Adminhtml_System_Config_Source_Inputtype
+namespace Magento\Catalog\Model\Product\Attribute\Source;
+class Inputtype extends \Magento\Eav\Model\Adminhtml\System\Config\Source\Inputtype
 {
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
     
     /**
      * Core event manager proxy
      *
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventManager = null;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Registry $coreRegistry
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_eventManager = $eventManager;
         $this->_coreRegistry = $coreRegistry;
@@ -58,7 +58,7 @@ class Magento_Catalog_Model_Product_Attribute_Source_Inputtype
             )
         );
 
-        $response = new Magento_Object();
+        $response = new \Magento\Object();
         $response->setTypes(array());
         $this->_eventManager->dispatch('adminhtml_product_attribute_types', array('response'=>$response));
         $_disabledTypes = array();

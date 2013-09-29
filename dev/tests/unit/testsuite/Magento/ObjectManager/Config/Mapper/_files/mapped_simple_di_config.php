@@ -7,11 +7,11 @@
  */
 return array(
     'preferences' => array(
-        'Magento_Core_Model_Db_UpdaterInterface' => 'Magento_Core_Model_Db_Updater',
-        'Magento_Core_Model_AppInterface' => 'Magento_Core_Model_App_Proxy',
+        'Magento\Core\Model\Db\UpdaterInterface' => 'Magento\Core\Model\Db\Updater',
+        'Magento\Core\Model\AppInterface' => 'Magento\Core\Model\App\Proxy',
     ),
 
-    'Magento_Core_Model_App_State' => array(
+    'Magento\Core\Model\App\State' => array(
         'parameters' => array(
             'mode' => array(
                 'argument' => 'MAGE_MODE',
@@ -19,10 +19,10 @@ return array(
         ),
     ),
 
-    'Magento_Core_Model_Config_Modules' => array(
+    'Magento\Core\Model\Config_Modules' => array(
         'parameters' => array(
             'storage' => array(
-                'instance' => 'Magento_Core_Model_Config_Storage_Modules',
+                'instance' => 'Magento\Core\Model\Config\Storage_Modules',
                 'shared' => false
             ),
         ),
@@ -30,11 +30,11 @@ return array(
             'simple_modules_plugin' => array(
                 'sortOrder' => 10,
                 'disabled' => true,
-                'instance' => 'Magento_Core_Model_Config_Modules_Plugin',
+                'instance' => 'Magento\Core\Model\Config_Modules_Plugin',
             ),
             'simple_modules_plugin_advanced' => array(
                 'sortOrder' => 0,
-                'instance' => 'Magento_Core_Model_Config_Modules_PluginAdvanced',
+                'instance' => 'Magento\Core\Model\Config_Modules_PluginAdvanced',
             ),
             'overridden_plugin' => array(
                 'sortOrder' => 30,
@@ -43,11 +43,11 @@ return array(
         ),
     ),
 
-    'Magento_Http_Handler_Composite' => array(
+    'Magento\Http\Handler\Composite' => array(
         'shared' => false,
         'parameters' => array(
             'factory' => array(
-                'instance' => 'Magento_Http_HandlerFactory',
+                'instance' => 'Magento\Http\HandlerFactory',
             ),
             'handlers' => array(
                 'custom_handler' => array(
@@ -62,12 +62,12 @@ return array(
         ),
     ),
 
-    'Magento_Data_Collection_Db_FetchStrategy_Cache' => array(
+    'Magento\Data\Collection\Db\FetchStrategy\Cache' => array(
         'parameters' => array(
             'cacheIdPrefix' => 'collection_',
             'cacheLifetime' => '86400',
             'cacheTags' => array(
-                'const' => Magento_Core_Model_Website::CACHE_TAG,
+                'const' => \Magento\Core\Model\Website::CACHE_TAG,
                 'boolFalse' => false, 
                 'boolTrue' => true,
                 'boolOne' => true,
@@ -89,7 +89,7 @@ return array(
 
     'customCacheInstance' => array(
         'shared' => true,
-        'type' => 'Magento_Core_Model_Cache',
+        'type' => 'Magento\Core\Model\Cache',
         'parameters' => array(),
     ),
 

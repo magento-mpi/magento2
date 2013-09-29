@@ -9,26 +9,28 @@
  * @license     {license_link}
  */
 
+namespace Magento\Catalog\Block\Product;
+
 /**
- * Test class for Magento_Catalog_Block_Product_Abstract.
+ * Test class for \Magento\Catalog\Block\Product\Abstract.
  *
  * @magentoDataFixture Magento/Catalog/_files/product_simple.php
  * @magentoDataFixture Magento/Catalog/_files/product_image.php
  */
-class Magento_Catalog_Block_Product_AbstractTest extends PHPUnit_Framework_TestCase
+class AbstractTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Stub class name for class under test
      */
-    const STUB_CLASS = 'Magento_Catalog_Block_Product_Abstract_Stub';
+    const STUB_CLASS = 'Magento_Catalog_Block_Product_AbstractProduct_Stub';
 
     /**
-     * @var Magento_Catalog_Block_Product_Abstract
+     * @var \Magento\Catalog\Block\Product\AbstractProduct
      */
     protected $_block;
 
     /**
-     * @var Magento_Catalog_Model_Product
+     * @var \Magento\Catalog\Model\Product
      */
     protected $_product;
 
@@ -42,16 +44,17 @@ class Magento_Catalog_Block_Product_AbstractTest extends PHPUnit_Framework_TestC
     protected function setUp()
     {
         if (!self::$_isStubClass) {
-            $this->getMockForAbstractClass('Magento_Catalog_Block_Product_Abstract', array(), self::STUB_CLASS, false);
+            $this->getMockForAbstractClass('Magento\Catalog\Block\Product\AbstractProduct', array(),
+                self::STUB_CLASS, false);
             self::$_isStubClass = true;
         }
 
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\View\DesignInterface')
             ->setDefaultDesignTheme();
-        $this->_block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
+        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
             ->createBlock(self::STUB_CLASS);
-        $this->_product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Product');
+        $this->_product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $this->_product->load(1);
         $this->_product->addData(array(
             'image'       => '/m/a/magento_image.jpg',
@@ -100,8 +103,8 @@ class Magento_Catalog_Block_Product_AbstractTest extends PHPUnit_Framework_TestC
     public function testGetPriceHtml()
     {
         $this->_block->setLayout(
-            Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-                ->get('Magento_Core_Model_Layout')
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                ->get('Magento\Core\Model\Layout')
         );
         $this->assertContains('10', $this->_block->getPriceHtml($this->_product));
     }
@@ -109,8 +112,8 @@ class Magento_Catalog_Block_Product_AbstractTest extends PHPUnit_Framework_TestC
     public function testGetReviewsSummaryHtml()
     {
         $this->_block->setLayout(
-            Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-                ->get('Magento_Core_Model_Layout')
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                ->get('Magento\Core\Model\Layout')
         );
         $html = $this->_block->getReviewsSummaryHtml($this->_product, false, true);
         $this->assertNotEmpty($html);
@@ -131,8 +134,8 @@ class Magento_Catalog_Block_Product_AbstractTest extends PHPUnit_Framework_TestC
 
     public function testGetTierPriceHtml()
     {
-        $this->_block->setLayout(Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Core_Model_Layout'));
+        $this->_block->setLayout(\Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Core\Model\Layout'));
         $html = $this->_block->getTierPriceHtml();
         $this->assertNotEmpty($html);
         $this->assertContains('2', $html); /* Buy 2 */
@@ -173,8 +176,8 @@ class Magento_Catalog_Block_Product_AbstractTest extends PHPUnit_Framework_TestC
 
     public function testLayoutDependColumnCount()
     {
-        $this->_block->setLayout(Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Core_Model_Layout'));
+        $this->_block->setLayout(\Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Core\Model\Layout'));
         $this->assertEquals(3, $this->_block->getColumnCount()); /* default column count */
 
         $this->_block->addColumnCountLayoutDepend('test', 10);

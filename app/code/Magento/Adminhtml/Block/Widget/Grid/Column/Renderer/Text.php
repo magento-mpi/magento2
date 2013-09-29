@@ -14,7 +14,9 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  * @deprecated Moved to module Magento_Backend
  */
-class Magento_Adminhtml_Block_Widget_Grid_Column_Renderer_Text extends Magento_Backend_Block_Widget_Grid_Column_Renderer_Text
+namespace Magento\Adminhtml\Block\Widget\Grid\Column\Renderer;
+
+class Text extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Text
 {
 
 }

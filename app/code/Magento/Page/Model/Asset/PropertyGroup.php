@@ -11,7 +11,9 @@
 /**
  * Association of arbitrary properties with a list of page assets
  */
-class Magento_Page_Model_Asset_PropertyGroup extends Magento_Core_Model_Page_Asset_Collection
+namespace Magento\Page\Model\Asset;
+
+class PropertyGroup extends \Magento\Core\Model\Page\Asset\Collection
 {
     /**
      * @var array

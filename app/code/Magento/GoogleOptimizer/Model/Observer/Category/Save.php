@@ -7,17 +7,19 @@
  * @copyright {copyright}
  * @license {license_link}
  */
-class Magento_GoogleOptimizer_Model_Observer_Category_Save extends Magento_GoogleOptimizer_Model_Observer_SaveAbstract
+namespace Magento\GoogleOptimizer\Model\Observer\Category;
+
+class Save extends \Magento\GoogleOptimizer\Model\Observer\SaveAbstract
 {
     /**
-     * @var Magento_Catalog_Model_Category
+     * @var \Magento\Catalog\Model\Category
      */
     protected $_category;
 
     /**
      * Init entity
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
     protected function _initEntity($observer)
     {
@@ -40,7 +42,7 @@ class Magento_GoogleOptimizer_Model_Observer_Category_Save extends Magento_Googl
     protected function _getCodeData()
     {
         return array(
-            'entity_type' => Magento_GoogleOptimizer_Model_Code::ENTITY_TYPE_CATEGORY,
+            'entity_type' => \Magento\GoogleOptimizer\Model\Code::ENTITY_TYPE_CATEGORY,
             'entity_id' => $this->_category->getId(),
             'store_id' => $this->_category->getStoreId(),
             'experiment_script' => $this->_params['experiment_script'],

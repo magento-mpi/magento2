@@ -8,13 +8,13 @@
  * @license     {license_link}
  */
 
-/** @var $this Magento_Core_Block_Template */
+/** @var $this \Magento\Core\Block\Template */
 
-/** @var $this Magento_Core_Block_Template */
+/** @var $this \Magento\Core\Block\Template */
 $_gridPopupBlock = $this->getChildBlock('catalog.product.group.grid.popup.container')->getChildBlock('grid');
 $_gridPopupBlock->setRowClickCallback('function(){}');
-/** @var $_helper Magento_Core_Helper_Data */
-$_helper = $this->helper('Magento_Core_Helper_Data');
+/** @var $_helper \Magento\Core\Helper\Data */
+$_helper = $this->helper('Magento\Core\Helper\Data');
 ?>
 <div id="grouped-product-container">
     <div class="no-products-message">

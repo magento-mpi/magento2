@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Block_Adminhtml_User extends Magento_Backend_Block_Widget_Grid_Container
+namespace Magento\Webapi\Block\Adminhtml;
+
+class User extends \Magento\Backend\Block\Widget\Grid\Container
 {
     /**
      * @var string

@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Index_Model_EntryPoint_Indexer extends Magento_Core_Model_EntryPointAbstract
+namespace Magento\Index\Model\EntryPoint;
+
+class Indexer extends \Magento\Core\Model\AbstractEntryPoint
 {
     /**
      * Report directory
@@ -15,21 +17,21 @@ class Magento_Index_Model_EntryPoint_Indexer extends Magento_Core_Model_EntryPoi
     protected $_reportDir;
 
     /**
-     * @var Magento_Filesystem
+     * @var \Magento\Filesystem
      */
     protected $_filesystem;
 
     /**
      * @param string $reportDir absolute path to report directory to be cleaned
-     * @param Magento_Filesystem $filesystem
-     * @param Magento_Core_Model_Config_Primary $config
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\Core\Model\Config\Primary $config
+     * @param \Magento\ObjectManager $objectManager
      */
     public function __construct(
         $reportDir,
-        Magento_Filesystem $filesystem,
-        Magento_Core_Model_Config_Primary $config,
-        Magento_ObjectManager $objectManager = null
+        \Magento\Filesystem $filesystem,
+        \Magento\Core\Model\Config\Primary $config,
+        \Magento\ObjectManager $objectManager = null
     ) {
         parent::__construct($config, $objectManager);
         $this->_reportDir = $reportDir;
@@ -45,9 +47,9 @@ class Magento_Index_Model_EntryPoint_Indexer extends Magento_Core_Model_EntryPoi
         $this->_filesystem->delete($this->_reportDir, dirname($this->_reportDir));
 
         /* Run all indexer processes */
-        /** @var $indexer Magento_Index_Model_Indexer */
-        $indexer = $this->_objectManager->create('Magento_Index_Model_Indexer');
-        /** @var $process Magento_Index_Model_Process */
+        /** @var $indexer \Magento\Index\Model\Indexer */
+        $indexer = $this->_objectManager->create('Magento\Index\Model\Indexer');
+        /** @var $process \Magento\Index\Model\Process */
         foreach ($indexer->getProcessesCollection() as $process) {
             if ($process->getIndexer()->isVisible()) {
                 $process->reindexEverything();

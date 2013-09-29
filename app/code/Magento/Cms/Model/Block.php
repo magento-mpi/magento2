@@ -11,27 +11,29 @@
 /**
  * CMS block model
  *
- * @method Magento_Cms_Model_Resource_Block _getResource()
- * @method Magento_Cms_Model_Resource_Block getResource()
+ * @method \Magento\Cms\Model\Resource\Block _getResource()
+ * @method \Magento\Cms\Model\Resource\Block getResource()
  * @method string getTitle()
- * @method Magento_Cms_Model_Block setTitle(string $value)
+ * @method \Magento\Cms\Model\Block setTitle(string $value)
  * @method string getIdentifier()
- * @method Magento_Cms_Model_Block setIdentifier(string $value)
+ * @method \Magento\Cms\Model\Block setIdentifier(string $value)
  * @method string getContent()
- * @method Magento_Cms_Model_Block setContent(string $value)
+ * @method \Magento\Cms\Model\Block setContent(string $value)
  * @method string getCreationTime()
- * @method Magento_Cms_Model_Block setCreationTime(string $value)
+ * @method \Magento\Cms\Model\Block setCreationTime(string $value)
  * @method string getUpdateTime()
- * @method Magento_Cms_Model_Block setUpdateTime(string $value)
+ * @method \Magento\Cms\Model\Block setUpdateTime(string $value)
  * @method int getIsActive()
- * @method Magento_Cms_Model_Block setIsActive(int $value)
+ * @method \Magento\Cms\Model\Block setIsActive(int $value)
  *
  * @category    Magento
  * @package     Magento_Cms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Cms_Model_Block extends Magento_Core_Model_Abstract
+namespace Magento\Cms\Model;
+
+class Block extends \Magento\Core\Model\AbstractModel
 {
     const CACHE_TAG     = 'cms_block';
     protected $_cacheTag= 'cms_block';
@@ -45,14 +47,14 @@ class Magento_Cms_Model_Block extends Magento_Core_Model_Abstract
 
     protected function _construct()
     {
-        $this->_init('Magento_Cms_Model_Resource_Block');
+        $this->_init('Magento\Cms\Model\Resource\Block');
     }
 
     /**
      * Prevent blocks recursion
      *
-     * @return Magento_Core_Model_Abstract
-     * @throws Magento_Core_Exception
+     * @return \Magento\Core\Model\AbstractModel
+     * @throws \Magento\Core\Exception
      */
     protected function _beforeSave()
     {
@@ -60,7 +62,7 @@ class Magento_Cms_Model_Block extends Magento_Core_Model_Abstract
         if (false == strstr($this->getContent(), $needle)) {
             return parent::_beforeSave();
         }
-        throw new Magento_Core_Exception(
+        throw new \Magento\Core\Exception(
             __('Make sure that static block content does not reference the block itself.')
         );
     }

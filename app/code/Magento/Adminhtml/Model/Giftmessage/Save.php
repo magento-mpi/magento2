@@ -16,43 +16,45 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Model_Giftmessage_Save extends Magento_Object
+namespace Magento\Adminhtml\Model\Giftmessage;
+
+class Save extends \Magento\Object
 {
     protected $_saved = false;
 
     /**
      * Gift message message
      *
-     * @var Magento_GiftMessage_Helper_Message
+     * @var \Magento\GiftMessage\Helper\Message
      */
     protected $_giftMessageMessage = null;
 
     /**
-     * @var Magento_Adminhtml_Model_Session_Quote
+     * @var \Magento\Adminhtml\Model\Session\Quote
      */
     protected $_session;
 
     /**
-     * @var Magento_GiftMessage_Model_MessageFactory
+     * @var \Magento\GiftMessage\Model\MessageFactory
      */
     protected $_messageFactory;
 
     /**
-     * @var Magento_Catalog_Model_ProductFactory
+     * @var \Magento\Catalog\Model\ProductFactory
      */
     protected $_productFactory;
 
     /**
-     * @param Magento_Catalog_Model_ProductFactory $productFactory
-     * @param Magento_GiftMessage_Model_MessageFactory $messageFactory
-     * @param Magento_Adminhtml_Model_Session_Quote $session
-     * @param Magento_GiftMessage_Helper_Message $giftMessageMessage
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\GiftMessage\Model\MessageFactory $messageFactory
+     * @param \Magento\Adminhtml\Model\Session\Quote $session
+     * @param \Magento\GiftMessage\Helper\Message $giftMessageMessage
      */
     public function __construct(
-        Magento_Catalog_Model_ProductFactory $productFactory,
-        Magento_GiftMessage_Model_MessageFactory $messageFactory,
-        Magento_Adminhtml_Model_Session_Quote $session,
-        Magento_GiftMessage_Helper_Message $giftMessageMessage
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\GiftMessage\Model\MessageFactory $messageFactory,
+        \Magento\Adminhtml\Model\Session\Quote $session,
+        \Magento\GiftMessage\Helper\Message $giftMessageMessage
     ) {
         $this->_productFactory = $productFactory;
         $this->_messageFactory = $messageFactory;
@@ -63,7 +65,7 @@ class Magento_Adminhtml_Model_Giftmessage_Save extends Magento_Object
     /**
      * Save all seted giftmessages
      *
-     * @return Magento_Adminhtml_Model_Giftmessage_Save
+     * @return \Magento\Adminhtml\Model\Giftmessage\Save
      */
     public function saveAllInQuote()
     {
@@ -105,11 +107,11 @@ class Magento_Adminhtml_Model_Giftmessage_Save extends Magento_Object
      *
      * @param integer $entityId
      * @param array $giftmessage
-     * @return Magento_Adminhtml_Model_Giftmessage_Save
+     * @return \Magento\Adminhtml\Model\Giftmessage\Save
      */
     protected function _saveOne($entityId, $giftmessage)
     {
-        /* @var $giftmessageModel Magento_GiftMessage_Model_Message */
+        /* @var $giftmessageModel \Magento\GiftMessage\Model\Message */
         $giftmessageModel = $this->_messageFactory->create();
         $entityType = $this->_getMappedType($giftmessage['type']);
 
@@ -157,9 +159,9 @@ class Magento_Adminhtml_Model_Giftmessage_Save extends Magento_Object
     /**
      * Delete a single gift message from entity
      *
-     * @param Magento_GiftMessage_Model_Message|null $giftmessageModel
-     * @param Magento_Object $entityModel
-     * @return Magento_Adminhtml_Model_Giftmessage_Save
+     * @param \Magento\GiftMessage\Model\Message|null $giftmessageModel
+     * @param \Magento\Object $entityModel
+     * @return \Magento\Adminhtml\Model\Giftmessage\Save
      */
     protected function _deleteOne($entityModel, $giftmessageModel=null)
     {
@@ -177,7 +179,7 @@ class Magento_Adminhtml_Model_Giftmessage_Save extends Magento_Object
      * Set allowed quote items for gift messages
      *
      * @param array $items
-     * @return Magento_Adminhtml_Model_Giftmessage_Save
+     * @return \Magento\Adminhtml\Model\Giftmessage\Save
      */
     public function setAllowQuoteItems($items)
     {
@@ -189,7 +191,7 @@ class Magento_Adminhtml_Model_Giftmessage_Save extends Magento_Object
      * Add allowed quote item for gift messages
      *
      * @param int $item
-     * @return Magento_Adminhtml_Model_Giftmessage_Save
+     * @return \Magento\Adminhtml\Model\Giftmessage\Save
      */
     public function addAllowQuoteItem($item)
     {
@@ -237,7 +239,7 @@ class Magento_Adminhtml_Model_Giftmessage_Save extends Magento_Object
     /**
      * Checks allowed quote item for gift messages
      *
-     * @param  Magento_Object $item
+     * @param  \Magento\Object $item
      * @return boolean
      */
     public function getIsAllowedQuoteItem($item)
@@ -256,7 +258,7 @@ class Magento_Adminhtml_Model_Giftmessage_Save extends Magento_Object
     /**
      * Retrieve is gift message available for item (product)
      *
-     * @param Magento_Object $item
+     * @param \Magento\Object $item
      * @return bool
      */
     public function isGiftMessagesAvailable($item)
@@ -354,7 +356,7 @@ class Magento_Adminhtml_Model_Giftmessage_Save extends Magento_Object
     /**
      * Retrieve quote object
      *
-     * @return Magento_Sales_Model_Quote
+     * @return \Magento\Sales\Model\Quote
      */
     protected function _getQuote()
     {

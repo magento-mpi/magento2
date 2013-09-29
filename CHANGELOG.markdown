@@ -1,3 +1,6 @@
+* Implemented PSR-1 Coding Standards
+  * All Magento source code has been converted.
+  * Tests have been written to enforce PSR-1 coding standards.
 * Removed the Poll module including references and dependencies to/on it.
 * Removed from configuration XML files and implemented into di the following nodes:
   * Skip_process_modules_updates
@@ -1578,3 +1581,4 @@ Deprecated code & minor fixes update:
 2.0.0.0-dev01
 =============
 * Added initial version of Magento 2.x CE to public repository
+

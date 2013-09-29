@@ -16,12 +16,14 @@
  * @package    Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_System_Store extends Magento_Object
+namespace Magento\Core\Model\System;
+
+class Store extends \Magento\Object
 {
 
     /**
      * Website collection
-     * websiteId => Magento_Core_Model_Website
+     * websiteId => \Magento\Core\Model\Website
      *
      * @var array
      */
@@ -29,7 +31,7 @@ class Magento_Core_Model_System_Store extends Magento_Object
 
     /**
      * Group collection
-     * groupId => Magento_Core_Model_Store_Group
+     * groupId => \Magento\Core\Model\Store\Group
      *
      * @var array
      */
@@ -37,7 +39,7 @@ class Magento_Core_Model_System_Store extends Magento_Object
 
     /**
      * Store collection
-     * storeId => Magento_Core_Model_Store
+     * storeId => \Magento\Core\Model\Store
      *
      * @var array
      */
@@ -52,7 +54,7 @@ class Magento_Core_Model_System_Store extends Magento_Object
      * Init model
      * Load Website, Group and Store collections
      *
-     * @return Magento_Core_Model_System_Store
+     * @return \Magento\Core\Model\System\Store
      */
     public function __construct()
     {
@@ -66,7 +68,7 @@ class Magento_Core_Model_System_Store extends Magento_Object
      */
     protected function _loadWebsiteCollection()
     {
-        $this->_websiteCollection = Mage::app()->getWebsites();
+        $this->_websiteCollection = \Mage::app()->getWebsites();
         return $this;
     }
 
@@ -78,7 +80,7 @@ class Magento_Core_Model_System_Store extends Magento_Object
     protected function _loadGroupCollection()
     {
         $this->_groupCollection = array();
-        foreach (Mage::app()->getWebsites() as $website) {
+        foreach (\Mage::app()->getWebsites() as $website) {
             foreach ($website->getGroups() as $group) {
                 $this->_groupCollection[$group->getId()] = $group;
             }
@@ -93,7 +95,7 @@ class Magento_Core_Model_System_Store extends Magento_Object
      */
     protected function _loadStoreCollection()
     {
-        $this->_storeCollection = Mage::app()->getStores();
+        $this->_storeCollection = \Mage::app()->getStores();
         return $this;
     }
 
@@ -267,7 +269,7 @@ class Magento_Core_Model_System_Store extends Magento_Object
     public function getWebsiteOptionHash($withDefault = false, $attribute = 'name')
     {
         $options = array();
-        foreach (Mage::app()->getWebsites((bool)$withDefault && $this->_isAdminScopeAllowed) as $website) {
+        foreach (\Mage::app()->getWebsites((bool)$withDefault && $this->_isAdminScopeAllowed) as $website) {
             $options[$website->getId()] = $website->getDataUsingMethod($attribute);
         }
         return $options;
@@ -283,7 +285,7 @@ class Magento_Core_Model_System_Store extends Magento_Object
     public function getStoreOptionHash($withDefault = false, $attribute = 'name')
     {
         $options = array();
-        foreach (Mage::app()->getStores((bool)$withDefault && $this->_isAdminScopeAllowed) as $store) {
+        foreach (\Mage::app()->getStores((bool)$withDefault && $this->_isAdminScopeAllowed) as $store) {
             $options[$store->getId()] = $store->getDataUsingMethod($attribute);
         }
         return $options;
@@ -354,7 +356,7 @@ class Magento_Core_Model_System_Store extends Magento_Object
      * Retrieve store name with website and website store
      *
      * @param  int $storeId
-     * @return Magento_Core_Model_Store
+     * @return \Magento\Core\Model\Store
      **/
     public function getStoreData($storeId)
     {
@@ -426,7 +428,7 @@ class Magento_Core_Model_System_Store extends Magento_Object
      * Allowed types: website, group, store or null for all
      *
      * @param string $type
-     * @return Magento_Core_Model_System_Store
+     * @return \Magento\Core\Model\System\Store
      */
     public function reload($type = null)
     {
@@ -483,7 +485,7 @@ class Magento_Core_Model_System_Store extends Magento_Object
      * Specify whether to show admin-scope options
      *
      * @param bool $value
-     * @return Magento_Core_Model_System_Store
+     * @return \Magento\Core\Model\System\Store
      */
     public function setIsAdminScopeAllowed($value)
     {

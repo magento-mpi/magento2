@@ -16,8 +16,10 @@
  * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class Magento_Eav_Model_Resource_Attribute_Collection
-    extends Magento_Eav_Model_Resource_Entity_Attribute_Collection
+namespace Magento\Eav\Model\Resource\Attribute;
+
+abstract class Collection
+    extends \Magento\Eav\Model\Resource\Entity\Attribute\Collection
 {
     /**
      * code of password hash in customer's EAV tables
@@ -27,14 +29,14 @@ abstract class Magento_Eav_Model_Resource_Attribute_Collection
     /**
      * Current website scope instance
      *
-     * @var Magento_Core_Model_Website
+     * @var \Magento\Core\Model\Website
      */
     protected $_website;
 
     /**
      * Attribute Entity Type Filter
      *
-     * @var Magento_Eav_Model_Entity_Type
+     * @var \Magento\Eav\Model\Entity\Type
      */
     protected $_entityType;
 
@@ -68,12 +70,12 @@ abstract class Magento_Eav_Model_Resource_Attribute_Collection
     /**
      * Return eav entity type instance
      *
-     * @return Magento_Eav_Model_Entity_Type
+     * @return \Magento\Eav\Model\Entity\Type
      */
     public function getEntityType()
     {
         if ($this->_entityType === null) {
-            $this->_entityType = Mage::getSingleton('Magento_Eav_Model_Config')
+            $this->_entityType = \Mage::getSingleton('Magento\Eav\Model\Config')
                 ->getEntityType($this->_getEntityTypeCode());
         }
         return $this->_entityType;
@@ -82,12 +84,12 @@ abstract class Magento_Eav_Model_Resource_Attribute_Collection
     /**
      * Set Website scope
      *
-     * @param Magento_Core_Model_Website|int $website
-     * @return Magento_Eav_Model_Resource_Attribute_Collection
+     * @param \Magento\Core\Model\Website|int $website
+     * @return \Magento\Eav\Model\Resource\Attribute\Collection
      */
     public function setWebsite($website)
     {
-        $this->_website = Mage::app()->getWebsite($website);
+        $this->_website = \Mage::app()->getWebsite($website);
         $this->addBindParam('scope_website_id', $this->_website->getId());
         return $this;
     }
@@ -95,12 +97,12 @@ abstract class Magento_Eav_Model_Resource_Attribute_Collection
     /**
      * Return current website scope instance
      *
-     * @return Magento_Core_Model_Website
+     * @return \Magento\Core\Model\Website
      */
     public function getWebsite()
     {
         if ($this->_website === null) {
-            $this->_website = Mage::app()->getStore()->getWebsite();
+            $this->_website = \Mage::app()->getStore()->getWebsite();
         }
         return $this->_website;
     }
@@ -108,7 +110,7 @@ abstract class Magento_Eav_Model_Resource_Attribute_Collection
     /**
      * Initialize collection select
      *
-     * @return Magento_Eav_Model_Resource_Attribute_Collection
+     * @return \Magento\Eav\Model\Resource\Attribute\Collection
      */
     protected function _initSelect()
     {
@@ -186,7 +188,7 @@ abstract class Magento_Eav_Model_Resource_Attribute_Collection
      * Entity type is defined.
      *
      * @param  int $type
-     * @return Magento_Eav_Model_Resource_Attribute_Collection
+     * @return \Magento\Eav\Model\Resource\Attribute\Collection
      */
     public function setEntityTypeFilter($type)
     {
@@ -196,7 +198,7 @@ abstract class Magento_Eav_Model_Resource_Attribute_Collection
     /**
      * Specify filter by "is_visible" field
      *
-     * @return Magento_Eav_Model_Resource_Attribute_Collection
+     * @return \Magento\Eav\Model\Resource\Attribute\Collection
      */
     public function addVisibleFilter()
     {
@@ -206,7 +208,7 @@ abstract class Magento_Eav_Model_Resource_Attribute_Collection
     /**
      * Exclude system hidden attributes
      *
-     * @return Magento_Eav_Model_Resource_Attribute_Collection
+     * @return \Magento\Eav\Model\Resource\Attribute\Collection
      */
     public function addSystemHiddenFilter()
     {
@@ -220,7 +222,7 @@ abstract class Magento_Eav_Model_Resource_Attribute_Collection
     /**
      * Exclude system hidden attributes but include password hash
      *
-     * @return Magento_Customer_Model_Resource_Attribute_Collection
+     * @return \Magento\Customer\Model\Resource\Attribute\Collection
      */
     public function addSystemHiddenFilterWithPasswordHash()
     {
@@ -239,7 +241,7 @@ abstract class Magento_Eav_Model_Resource_Attribute_Collection
     /**
      * Add exclude hidden frontend input attribute filter to collection
      *
-     * @return Magento_Eav_Model_Resource_Attribute_Collection
+     * @return \Magento\Eav\Model\Resource\Attribute\Collection
      */
     public function addExcludeHiddenFrontendFilter()
     {

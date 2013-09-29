@@ -11,19 +11,21 @@
 /**
  * Enterprise banner model
  *
- * @method Magento_Banner_Model_Resource_Banner _getResource()
- * @method Magento_Banner_Model_Resource_Banner getResource()
+ * @method \Magento\Banner\Model\Resource\Banner _getResource()
+ * @method \Magento\Banner\Model\Resource\Banner getResource()
  * @method string getName()
- * @method Magento_Banner_Model_Banner setName(string $value)
+ * @method \Magento\Banner\Model\Banner setName(string $value)
  * @method int getIsEnabled()
- * @method Magento_Banner_Model_Banner setIsEnabled(int $value)
- * @method Magento_Banner_Model_Banner setTypes(string $value)
+ * @method \Magento\Banner\Model\Banner setIsEnabled(int $value)
+ * @method \Magento\Banner\Model\Banner setTypes(string $value)
  *
  * @category    Magento
  * @package     Magento_Banner
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Banner_Model_Banner extends Magento_Core_Model_Abstract
+namespace Magento\Banner\Model;
+
+class Banner extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Representation value of enabled banner
@@ -66,7 +68,7 @@ class Magento_Banner_Model_Banner extends Magento_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('Magento_Banner_Model_Resource_Banner');
+        $this->_init('Magento\Banner\Model\Resource\Banner');
     }
 
     /**
@@ -152,7 +154,7 @@ class Magento_Banner_Model_Banner extends Magento_Core_Model_Abstract
     /**
      * Save banner content, bind banner to catalog and sales rules after banner save
      *
-     * @return Magento_Banner_Model_Banner
+     * @return \Magento\Banner\Model\Banner
      */
     protected function _afterSave()
     {
@@ -177,12 +179,12 @@ class Magento_Banner_Model_Banner extends Magento_Core_Model_Abstract
 
     /**
      * Validate some data before saving
-     * @return Magento_Banner_Model_Banner
+     * @return \Magento\Banner\Model\Banner
      */
     protected function _beforeSave()
     {
         if ('' == trim($this->getName())) {
-            Mage::throwException(__('Please enter a name.'));
+            \Mage::throwException(__('Please enter a name.'));
         }
         $bannerContents = $this->getStoreContents();
         $flag = false;
@@ -194,7 +196,7 @@ class Magento_Banner_Model_Banner extends Magento_Core_Model_Abstract
         }
         if (!$flag) {
             // @codingStandardsIgnoreStart
-            Mage::throwException(__('Please specify default content for at least one store view.'));
+            \Mage::throwException(__('Please specify default content for at least one store view.'));
             // @codingStandardsIgnoreEnd
         }
         return parent::_beforeSave();

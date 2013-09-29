@@ -9,27 +9,29 @@
  */
 
 
-class Magento_SalesRule_Model_Rule_Condition_Product_Found
-    extends Magento_SalesRule_Model_Rule_Condition_Product_Combine
+namespace Magento\SalesRule\Model\Rule\Condition\Product;
+
+class Found
+    extends \Magento\SalesRule\Model\Rule\Condition\Product\Combine
 {
     /**
-     * @param Magento_Rule_Model_Condition_Context $context
-     * @param Magento_SalesRule_Model_Rule_Condition_Product $ruleConditionProduct
+     * @param \Magento\Rule\Model\Condition\Context $context
+     * @param \Magento\SalesRule\Model\Rule\Condition\Product $ruleConditionProduct
      * @param array $data
      */
     public function __construct(
-        Magento_Rule_Model_Condition_Context $context,
-        Magento_SalesRule_Model_Rule_Condition_Product $ruleConditionProduct,
+        \Magento\Rule\Model\Condition\Context $context,
+        \Magento\SalesRule\Model\Rule\Condition\Product $ruleConditionProduct,
         array $data = array()
     ) {
         parent::__construct($context, $ruleConditionProduct, $data);
-        $this->setType('Magento_SalesRule_Model_Rule_Condition_Product_Found');
+        $this->setType('Magento\SalesRule\Model\Rule\Condition\Product\Found');
     }
 
     /**
      * Load value options
      *
-     * @return Magento_SalesRule_Model_Rule_Condition_Product_Found
+     * @return \Magento\SalesRule\Model\Rule\Condition\Product\Found
      */
     public function loadValueOptions()
     {
@@ -59,10 +61,10 @@ class Magento_SalesRule_Model_Rule_Condition_Product_Found
     /**
      * validate
      *
-     * @param Magento_Object $object Quote
+     * @param \Magento\Object $object Quote
      * @return boolean
      */
-    public function validate(Magento_Object $object)
+    public function validate(\Magento\Object $object)
     {
         $all = $this->getAggregator() === 'all';
         $true = (bool)$this->getValue();

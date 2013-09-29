@@ -9,29 +9,31 @@
  * @license     {license_link}
  */
 
-class Magento_Catalog_Model_Product_Attribute_Backend_MediaTest extends PHPUnit_Framework_TestCase
+namespace Magento\Catalog\Model\Product\Attribute\Backend;
+
+class MediaTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Catalog_Model_Product_Attribute_Backend_Media
+     * @var \Magento\Catalog\Model\Product\Attribute\Backend\Media
      */
     protected $_model;
 
     protected function setUp()
     {
-        $eventManager = $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false);
+        $eventManager = $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false);
 
-        $fileStorageDb = $this->getMock('Magento_Core_Helper_File_Storage_Database', array(), array(), '', false);
-        $coreData = $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false);
+        $fileStorageDb = $this->getMock('Magento\Core\Helper\File\Storage\Database', array(), array(), '', false);
+        $coreData = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
         $resource = $this->getMock('StdClass', array('getMainTable'));
         $resource->expects($this->any())
             ->method('getMainTable')
             ->will($this->returnValue('table'));
 
-        $mediaConfig = $this->getMock('Magento_Catalog_Model_Product_Media_Config', array(), array(), '', false);
-        $dirs = $this->getMock('Magento_Core_Model_Dir', array(), array(), '', false);
-        $filesystem = $this->getMockBuilder('Magento_Filesystem')->disableOriginalConstructor()->getMock();
-        $logger = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
-        $this->_model = new Magento_Catalog_Model_Product_Attribute_Backend_Media(
+        $mediaConfig = $this->getMock('Magento\Catalog\Model\Product\Media\Config', array(), array(), '', false);
+        $dirs = $this->getMock('Magento\Core\Model\Dir', array(), array(), '', false);
+        $filesystem = $this->getMockBuilder('Magento\Filesystem')->disableOriginalConstructor()->getMock();
+        $logger = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false);
+        $this->_model = new \Magento\Catalog\Model\Product\Attribute\Backend\Media(
             $eventManager,
             $fileStorageDb,
             $coreData,
@@ -49,7 +51,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_MediaTest extends PHPUnit_
         $attributeId = 345345;
 
         $attribute = $this->getMock(
-            'Magento_Eav_Model_Entity_Attribute_Abstract',
+            'Magento\Eav\Model\Entity\Attribute\AbstractAttribute',
             array('getBackendTable', 'isStatic', 'getAttributeId', 'getName'),
             array(),
             '',
@@ -74,7 +76,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_MediaTest extends PHPUnit_
 
         $this->_model->setAttribute($attribute);
 
-        $object = new Magento_Object();
+        $object = new \Magento\Object();
         $object->setImage(array(
             'images' => array(array(
                 'value_id' => $valueId

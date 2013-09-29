@@ -16,7 +16,9 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Observer_ReindexTest extends PHPUnit_Framework_TestCase
+namespace Magento\Catalog\Model\Observer;
+
+class ReindexTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Positive test for fulltext reindex
@@ -26,7 +28,7 @@ class Magento_Catalog_Model_Observer_ReindexTest extends PHPUnit_Framework_TestC
         $affectedProduct = array(1, 2, 3);
 
         $fulltextReindex = $this->getMock(
-            'Magento_CatalogSearch_Model_Resource_Fulltext',
+            'Magento\CatalogSearch\Model\Resource\Fulltext',
             array('rebuildIndex'),
             array(),
             '',
@@ -42,7 +44,7 @@ class Magento_Catalog_Model_Observer_ReindexTest extends PHPUnit_Framework_TestC
             );
 
         $objectManager = $this->getMock(
-            'Magento_ObjectManager_ObjectManager',
+            'Magento\ObjectManager\ObjectManager',
             array('get'),
             array(),
             '',
@@ -50,19 +52,19 @@ class Magento_Catalog_Model_Observer_ReindexTest extends PHPUnit_Framework_TestC
         );
         $objectManager->expects($this->once())
             ->method('get')
-            ->with('Magento_CatalogSearch_Model_Resource_Fulltext')
+            ->with('Magento\CatalogSearch\Model\Resource\Fulltext')
             ->will($this->returnValue($fulltextReindex));
 
-        $observer = new Magento_Event_Observer(
+        $observer = new \Magento\Event\Observer(
             array(
-                'data_object' => new Magento_Object(
+                'data_object' => new \Magento\Object(
                     array('affected_product_ids' => $affectedProduct)
                 )
             )
         );
 
-        /** @var $objectManager Magento_ObjectManager */
-        $object = new Magento_Catalog_Model_Observer_Reindex($objectManager);
-        $this->assertInstanceOf('Magento_Catalog_Model_Observer_Reindex', $object->fulltextReindex($observer));
+        /** @var $objectManager \Magento\ObjectManager */
+        $object = new \Magento\Catalog\Model\Observer\Reindex($objectManager);
+        $this->assertInstanceOf('Magento\Catalog\Model\Observer\Reindex', $object->fulltextReindex($observer));
     }
 }

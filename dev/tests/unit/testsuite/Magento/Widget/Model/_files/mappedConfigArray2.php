@@ -7,7 +7,7 @@
  */
 return array(
     '@' => array(
-        'type' => 'Magento_GiftRegistry_Block_Search_Widget_Form',
+        'type' => 'Magento\GiftRegistry\Block\Search\Widget\Form',
         'module' => 'Magento_GiftRegistry',
     ),
     'name' => 'Gift Registry Search',
@@ -16,7 +16,7 @@ return array(
         'types' => array(
             'type' => 'multiselect',
             'visible' => '1',
-            'source_model' => 'Magento_GiftRegistry_Model_Source_Search',
+            'source_model' => 'Magento\GiftRegistry\Model\Source\Search',
         ),
     ),
 );

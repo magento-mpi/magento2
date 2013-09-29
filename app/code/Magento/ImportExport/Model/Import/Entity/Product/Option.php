@@ -15,13 +15,17 @@
  * @package     Magento_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  *
+ */
+namespace Magento\ImportExport\Model\Import\Entity\Product;
+
+/**
  * @SuppressWarnings(PHPMD.TooManyFields)
  * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  * @todo Need to explode this class because of several responsibilities
  * @todo Refactor in the scope of https://wiki.magento.com/display/MAGE2/Technical+Debt+%28Team-Donetsk-B%29
  */
-class Magento_ImportExport_Model_Import_Entity_Product_Option extends Magento_ImportExport_Model_Import_Entity_Abstract
+class Option extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
 {
     /**#@+
      * Custom option column names
@@ -61,7 +65,7 @@ class Magento_ImportExport_Model_Import_Entity_Product_Option extends Magento_Im
     /**
      * Instance of import/export resource helper
      *
-     * @var Magento_ImportExport_Model_Resource_Helper
+     * @var \Magento\ImportExport\Model\Resource\Helper
      */
     protected $_resourceHelper;
 
@@ -127,21 +131,21 @@ class Magento_ImportExport_Model_Import_Entity_Product_Option extends Magento_Im
     /**
      * Product model instance
      *
-     * @var Magento_Catalog_Model_Product
+     * @var \Magento\Catalog\Model\Product
      */
     protected $_productModel;
 
     /**
      * DB data source model
      *
-     * @var Magento_ImportExport_Model_Resource_Import_Data
+     * @var \Magento\ImportExport\Model\Resource\Import\Data
      */
     protected $_dataSourceModel;
 
     /**
      * DB connection
      *
-     * @var Magento_DB_Adapter_Interface
+     * @var \Magento\DB\Adapter\AdapterInterface
      */
     protected $_connection;
 
@@ -163,7 +167,7 @@ class Magento_ImportExport_Model_Import_Entity_Product_Option extends Magento_Im
     /**
      * Parent import product entity
      *
-     * @var Magento_ImportExport_Model_Import_Entity_Product
+     * @var \Magento\ImportExport\Model\Import\Entity\Product
      */
     protected $_productEntity;
 
@@ -198,7 +202,7 @@ class Magento_ImportExport_Model_Import_Entity_Product_Option extends Magento_Im
     /**
      * Product options collection
      *
-     * @var Magento_Catalog_Model_Resource_Product_Option_Collection
+     * @var \Magento\Catalog\Model\Resource\Product\Option\Collection
      */
     protected $_optionCollection;
 
@@ -221,7 +225,7 @@ class Magento_ImportExport_Model_Import_Entity_Product_Option extends Magento_Im
     /**
      * Collection by pages iterator
      *
-     * @var Magento_ImportExport_Model_Resource_CollectionByPagesIterator
+     * @var \Magento\ImportExport\Model\Resource\CollectionByPagesIterator
      */
     protected $_byPagesIterator;
 
@@ -235,25 +239,25 @@ class Magento_ImportExport_Model_Import_Entity_Product_Option extends Magento_Im
     /**
      * Catalog data
      *
-     * @var Magento_Catalog_Helper_Data
+     * @var \Magento\Catalog\Helper\Data
      */
     protected $_catalogData = null;
 
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param array $data
      */
     public function __construct(
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
         array $data = array()
     ) {
         $this->_catalogData = $catalogData;
@@ -261,13 +265,13 @@ class Magento_ImportExport_Model_Import_Entity_Product_Option extends Magento_Im
         if (isset($data['connection'])) {
             $this->_connection = $data['connection'];
         } else {
-            $this->_connection = Mage::getSingleton('Magento_Core_Model_Resource')->getConnection('core_write');
+            $this->_connection = \Mage::getSingleton('Magento\Core\Model\Resource')->getConnection('core_write');
         }
 
         if (isset($data['resource_helper'])) {
             $this->_resourceHelper = $data['resource_helper'];
         } else {
-            $this->_resourceHelper = Mage::getResourceHelper('Magento_ImportExport');
+            $this->_resourceHelper = \Mage::getResourceHelper('Magento_ImportExport');
         }
 
         if (isset($data['is_price_global'])) {
@@ -289,7 +293,7 @@ class Magento_ImportExport_Model_Import_Entity_Product_Option extends Magento_Im
     /**
      * Initialization of error message templates
      *
-     * @return Magento_ImportExport_Model_Import_Entity_Product_Option
+     * @return \Magento\ImportExport\Model\Import\Entity\Product\Option
      */
     protected function _initMessageTemplates()
     {
@@ -335,7 +339,7 @@ class Magento_ImportExport_Model_Import_Entity_Product_Option extends Magento_Im
      * Initialize table names
      *
      * @param array $data
-     * @return Magento_ImportExport_Model_Import_Entity_Product_Option
+     * @return \Magento\ImportExport\Model\Import\Entity\Product\Option
      */
     protected function _initTables(array $data)
     {
@@ -346,7 +350,7 @@ class Magento_ImportExport_Model_Import_Entity_Product_Option extends Magento_Im
         }
         foreach ($this->_tables as $key => $value) {
             if ($value == null) {
-                $this->_tables[$key] = Mage::getSingleton('Magento_Core_Model_Resource')->getTableName($key);
+                $this->_tables[$key] = \Mage::getSingleton('Magento\Core\Model\Resource')->getTableName($key);
             }
         }
         return $this;
@@ -356,15 +360,15 @@ class Magento_ImportExport_Model_Import_Entity_Product_Option extends Magento_Im
      * Initialize stores data
      *
      * @param array $data
-     * @return Magento_ImportExport_Model_Import_Entity_Product_Option
+     * @return \Magento\ImportExport\Model\Import\Entity\Product\Option
      */
     protected function _initStores(array $data)
     {
         if (isset($data['stores'])) {
             $this->_storeCodeToId = $data['stores'];
         } else {
-            /** @var $store Magento_Core_Model_Store */
-            foreach (Mage::app()->getStores(true) as $store) {
+            /** @var $store \Magento\Core\Model\Store */
+            foreach (\Mage::app()->getStores(true) as $store) {
                 $this->_storeCodeToId[$store->getCode()] = $store->getId();
             }
         }
@@ -375,30 +379,30 @@ class Magento_ImportExport_Model_Import_Entity_Product_Option extends Magento_Im
      * Initialize source entities and collections
      *
      * @param array $data
-     * @return Magento_ImportExport_Model_Import_Entity_Product_Option
+     * @return \Magento\ImportExport\Model\Import\Entity\Product\Option
      */
     protected function _initSourceEntities(array $data)
     {
         if (isset($data['data_source_model'])) {
             $this->_dataSourceModel = $data['data_source_model'];
         } else {
-            $this->_dataSourceModel = Magento_ImportExport_Model_Import::getDataSourceModel();
+            $this->_dataSourceModel = \Magento\ImportExport\Model\Import::getDataSourceModel();
         }
         if (isset($data['product_model'])) {
             $this->_productModel = $data['product_model'];
         } else {
-            $this->_productModel = Mage::getModel('Magento_Catalog_Model_Product');
+            $this->_productModel = \Mage::getModel('Magento\Catalog\Model\Product');
         }
         if (isset($data['option_collection'])) {
             $this->_optionCollection = $data['option_collection'];
         } else {
             $this->_optionCollection
-                = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Option_Collection');
+                = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Option\Collection');
         }
         if (isset($data['product_entity'])) {
             $this->_productEntity = $data['product_entity'];
         } else {
-            Mage::throwException(
+            \Mage::throwException(
                 __('Option entity must have a parent product entity.')
             );
         }
@@ -406,7 +410,7 @@ class Magento_ImportExport_Model_Import_Entity_Product_Option extends Magento_Im
             $this->_byPagesIterator = $data['collection_by_pages_iterator'];
         } else {
             $this->_byPagesIterator
-                = Mage::getResourceModel('Magento_ImportExport_Model_Resource_CollectionByPagesIterator');
+                = \Mage::getResourceModel('Magento\ImportExport\Model\Resource\CollectionByPagesIterator');
         }
         if (isset($data['page_size'])) {
             $this->_pageSize = $data['page_size'];
@@ -421,7 +425,7 @@ class Magento_ImportExport_Model_Import_Entity_Product_Option extends Magento_Im
     /**
      * Load exiting custom options data
      *
-     * @return Magento_ImportExport_Model_Import_Entity_Product_Option
+     * @return \Magento\ImportExport\Model\Import\Entity\Product\Option
      */
     protected function _initOldCustomOptions()
     {
@@ -430,7 +434,7 @@ class Magento_ImportExport_Model_Import_Entity_Product_Option extends Magento_Im
             $optionTitleTable = $this->_tables['catalog_product_option_title'];
             $productIds = array_values($this->_productsSkuToId);
             foreach ($this->_storeCodeToId as $storeId) {
-                $addCustomOptions = function (Magento_Catalog_Model_Product_Option $customOption) use (
+                $addCustomOptions = function (\Magento\Catalog\Model\Product\Option $customOption) use (
                     &$oldCustomOptions,
                     $storeId
                     ) {
@@ -448,7 +452,7 @@ class Magento_ImportExport_Model_Import_Entity_Product_Option extends Magento_Im
                         );
                     }
                 };
-                /** @var $collection Magento_Catalog_Model_Resource_Product_Option_Collection */
+                /** @var $collection \Magento\Catalog\Model\Resource\Product\Option\Collection */
                 $this->_optionCollection->reset();
                 $this->_optionCollection->addProductToFilter($productIds);
                 $this->_optionCollection->getSelect()
@@ -490,7 +494,7 @@ class Magento_ImportExport_Model_Import_Entity_Product_Option extends Magento_Im
             $this->_addRowsErrors(self::ERROR_AMBIGUOUS_NEW_NAMES, $errorRows);
             return false;
         }
-        if ($this->getBehavior() == Magento_ImportExport_Model_Import::BEHAVIOR_APPEND) {
+        if ($this->getBehavior() == \Magento\ImportExport\Model\Import::BEHAVIOR_APPEND) {
             $errorRows = $this->_findOldOptionsWithTheSameTitles();
             if ($errorRows) {
                 $this->_addRowsErrors(self::ERROR_AMBIGUOUS_OLD_NAMES, $errorRows);
@@ -709,7 +713,7 @@ class Magento_ImportExport_Model_Import_Entity_Product_Option extends Magento_Im
             $storeCode = $rowData[self::COLUMN_STORE];
             $storeId = $this->_storeCodeToId[$storeCode];
         } else {
-            $storeId = Magento_Core_Model_AppInterface::ADMIN_STORE_ID;
+            $storeId = \Magento\Core\Model\AppInterface::ADMIN_STORE_ID;
         }
         if (isset($this->_productsSkuToId[$this->_rowProductSku])) {
             // save in existing data array
@@ -963,12 +967,12 @@ class Magento_ImportExport_Model_Import_Entity_Product_Option extends Magento_Im
             }
 
             // Save prepared custom options data !!!
-            if ($this->getBehavior() != Magento_ImportExport_Model_Import::BEHAVIOR_APPEND) {
+            if ($this->getBehavior() != \Magento\ImportExport\Model\Import::BEHAVIOR_APPEND) {
                 $this->_deleteEntities(array_keys($products));
             }
 
             if ($this->_isReadyForSaving($options, $titles, $typeValues)) {
-                if ($this->getBehavior() == Magento_ImportExport_Model_Import::BEHAVIOR_APPEND) {
+                if ($this->getBehavior() == \Magento\ImportExport\Model\Import::BEHAVIOR_APPEND) {
                     $this->_compareOptionsWithExisting($options, $titles, $prices, $typeValues);
                 }
                 $this->_saveOptions($options)
@@ -988,7 +992,7 @@ class Magento_ImportExport_Model_Import_Entity_Product_Option extends Magento_Im
     /**
      * Load data of existed products
      *
-     * @return Magento_ImportExport_Model_Import_Entity_Product_Option
+     * @return \Magento\ImportExport\Model\Import\Entity\Product\Option
      */
     protected function _initProductsSku()
     {
@@ -1054,20 +1058,20 @@ class Magento_ImportExport_Model_Import_Entity_Product_Option extends Magento_Im
                 $typeValues[$prevOptionId][] = $specificTypeData['value'];
 
                 // ensure default title is set
-                if (!isset($typeTitles[$nextValueId][Magento_Core_Model_AppInterface::ADMIN_STORE_ID])) {
-                    $typeTitles[$nextValueId][Magento_Core_Model_AppInterface::ADMIN_STORE_ID]
+                if (!isset($typeTitles[$nextValueId][\Magento\Core\Model\AppInterface::ADMIN_STORE_ID])) {
+                    $typeTitles[$nextValueId][\Magento\Core\Model\AppInterface::ADMIN_STORE_ID]
                         = $specificTypeData['title'];
                 }
                 $typeTitles[$nextValueId][$this->_rowStoreId] = $specificTypeData['title'];;
 
                 if ($specificTypeData['price']) {
                     if ($this->_isPriceGlobal) {
-                        $typePrices[$nextValueId][Magento_Core_Model_AppInterface::ADMIN_STORE_ID]
+                        $typePrices[$nextValueId][\Magento\Core\Model\AppInterface::ADMIN_STORE_ID]
                             = $specificTypeData['price'];
                     } else {
                         // ensure default price is set
-                        if (!isset($typePrices[$nextValueId][Magento_Core_Model_AppInterface::ADMIN_STORE_ID])) {
-                            $typePrices[$nextValueId][Magento_Core_Model_AppInterface::ADMIN_STORE_ID]
+                        if (!isset($typePrices[$nextValueId][\Magento\Core\Model\AppInterface::ADMIN_STORE_ID])) {
+                            $typePrices[$nextValueId][\Magento\Core\Model\AppInterface::ADMIN_STORE_ID]
                                 = $specificTypeData['price'];
                         }
                         $typePrices[$nextValueId][$this->_rowStoreId] = $specificTypeData['price'];
@@ -1089,9 +1093,9 @@ class Magento_ImportExport_Model_Import_Entity_Product_Option extends Magento_Im
     protected function _collectOptionTitle(array $rowData, $prevOptionId, array &$titles)
     {
         if (!empty($rowData[self::COLUMN_TITLE])) {
-            if (!isset($titles[$prevOptionId][Magento_Core_Model_AppInterface::ADMIN_STORE_ID])) {
+            if (!isset($titles[$prevOptionId][\Magento\Core\Model\AppInterface::ADMIN_STORE_ID])) {
                 // ensure default title is set
-                $titles[$prevOptionId][Magento_Core_Model_AppInterface::ADMIN_STORE_ID] = $rowData[self::COLUMN_TITLE];
+                $titles[$prevOptionId][\Magento\Core\Model\AppInterface::ADMIN_STORE_ID] = $rowData[self::COLUMN_TITLE];
             }
             $titles[$prevOptionId][$this->_rowStoreId] = $rowData[self::COLUMN_TITLE];
         }
@@ -1104,7 +1108,7 @@ class Magento_ImportExport_Model_Import_Entity_Product_Option extends Magento_Im
      * @param array $titles
      * @param array $prices
      * @param array $typeValues
-     * @return Magento_ImportExport_Model_Import_Entity_Product_Option
+     * @return \Magento\ImportExport\Model\Import\Entity\Product\Option
      */
     protected function _compareOptionsWithExisting(array &$options, array &$titles, array &$prices, array &$typeValues)
     {
@@ -1149,7 +1153,7 @@ class Magento_ImportExport_Model_Import_Entity_Product_Option extends Magento_Im
             }
             $this->_rowStoreId = $this->_storeCodeToId[$rowData[self::COLUMN_STORE]];
         } else {
-            $this->_rowStoreId = Magento_Catalog_Model_Abstract::DEFAULT_STORE_ID;
+            $this->_rowStoreId = \Magento\Catalog\Model\AbstractModel::DEFAULT_STORE_ID;
         }
         // Init option type and set param which tell that row is main
         if (!empty($rowData[self::COLUMN_TYPE])) { // get custom option type if its specified
@@ -1202,7 +1206,7 @@ class Magento_ImportExport_Model_Import_Entity_Product_Option extends Magento_Im
             'entity_id'        => $productId,
             'has_options'      => 1,
             'required_options' => 0,
-            'updated_at'       => Magento_Date::now(),
+            'updated_at'       => \Magento\Date::now(),
         );
 
         if (!empty($rowData[self::COLUMN_IS_REQUIRED])) {
@@ -1264,7 +1268,7 @@ class Magento_ImportExport_Model_Import_Entity_Product_Option extends Magento_Im
             && strlen($rowData[self::COLUMN_PREFIX . 'price']) > 0) {
             $priceData = array(
                 'option_id'  => $optionId,
-                'store_id'   => Magento_Catalog_Model_Abstract::DEFAULT_STORE_ID,
+                'store_id'   => \Magento\Catalog\Model\AbstractModel::DEFAULT_STORE_ID,
                 'price_type' => 'fixed'
             );
 
@@ -1321,7 +1325,7 @@ class Magento_ImportExport_Model_Import_Entity_Product_Option extends Magento_Im
      * Delete custom options for products
      *
      * @param array $productIds
-     * @return Magento_ImportExport_Model_Import_Entity_Product_Option
+     * @return \Magento\ImportExport\Model\Import\Entity\Product\Option
      */
     protected function _deleteEntities(array $productIds)
     {
@@ -1336,7 +1340,7 @@ class Magento_ImportExport_Model_Import_Entity_Product_Option extends Magento_Im
      * Delete custom option type values
      *
      * @param array $optionIds
-     * @return Magento_ImportExport_Model_Import_Entity_Product_Option
+     * @return \Magento\ImportExport\Model\Import\Entity\Product\Option
      */
     protected function _deleteSpecificTypeValues(array $optionIds)
     {
@@ -1351,7 +1355,7 @@ class Magento_ImportExport_Model_Import_Entity_Product_Option extends Magento_Im
      * Save custom options main info
      *
      * @param array $options options data
-     * @return Magento_ImportExport_Model_Import_Entity_Product_Option
+     * @return \Magento\ImportExport\Model\Import\Entity\Product\Option
      */
     protected function _saveOptions(array $options)
     {
@@ -1364,7 +1368,7 @@ class Magento_ImportExport_Model_Import_Entity_Product_Option extends Magento_Im
      * Save custom option titles
      *
      * @param array $titles option titles data
-     * @return Magento_ImportExport_Model_Import_Entity_Product_Option
+     * @return \Magento\ImportExport\Model\Import\Entity\Product\Option
      */
     protected function _saveTitles(array $titles)
     {
@@ -1392,7 +1396,7 @@ class Magento_ImportExport_Model_Import_Entity_Product_Option extends Magento_Im
      * Save custom option prices
      *
      * @param array $prices option prices data
-     * @return Magento_ImportExport_Model_Import_Entity_Product_Option
+     * @return \Magento\ImportExport\Model\Import\Entity\Product\Option
      */
     protected function _savePrices(array $prices)
     {
@@ -1410,7 +1414,7 @@ class Magento_ImportExport_Model_Import_Entity_Product_Option extends Magento_Im
      * Save custom option type values
      *
      * @param array $typeValues option type values
-     * @return Magento_ImportExport_Model_Import_Entity_Product_Option
+     * @return \Magento\ImportExport\Model\Import\Entity\Product\Option
      */
     protected function _saveSpecificTypeValues(array $typeValues)
     {
@@ -1436,7 +1440,7 @@ class Magento_ImportExport_Model_Import_Entity_Product_Option extends Magento_Im
      * Save custom option type prices
      *
      * @param array $typePrices option type prices
-     * @return Magento_ImportExport_Model_Import_Entity_Product_Option
+     * @return \Magento\ImportExport\Model\Import\Entity\Product\Option
      */
     protected function _saveSpecificTypePrices(array $typePrices)
     {
@@ -1462,7 +1466,7 @@ class Magento_ImportExport_Model_Import_Entity_Product_Option extends Magento_Im
      * Save custom option type titles
      *
      * @param array $typeTitles option type titles
-     * @return Magento_ImportExport_Model_Import_Entity_Product_Option
+     * @return \Magento\ImportExport\Model\Import\Entity\Product\Option
      */
     protected function _saveSpecificTypeTitles(array $typeTitles)
     {
@@ -1490,7 +1494,7 @@ class Magento_ImportExport_Model_Import_Entity_Product_Option extends Magento_Im
      * Update product data which related to custom options information
      *
      * @param array $data product data which will be updated
-     * @return Magento_ImportExport_Model_Import_Entity_Product_Option
+     * @return \Magento\ImportExport\Model\Import\Entity\Product\Option
      */
     protected function _updateProducts(array $data)
     {

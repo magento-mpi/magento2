@@ -16,8 +16,10 @@
  * @package     Magento_VersionsCms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_VersionsCms_Model_Resource_Page_Revision_Collection
-    extends Magento_VersionsCms_Model_Resource_Page_Collection_Abstract
+namespace Magento\VersionsCms\Model\Resource\Page\Revision;
+
+class Collection
+    extends \Magento\VersionsCms\Model\Resource\Page\Collection\AbstractCollection
 {
     /**
      * Constructor
@@ -26,7 +28,7 @@ class Magento_VersionsCms_Model_Resource_Page_Revision_Collection
     protected function _construct()
     {
         parent::_construct();
-        $this->_init('Magento_VersionsCms_Model_Page_Revision', 'Magento_VersionsCms_Model_Resource_Page_Revision');
+        $this->_init('Magento\VersionsCms\Model\Page\Revision', 'Magento\VersionsCms\Model\Resource\Page\Revision');
     }
 
     /**
@@ -34,7 +36,7 @@ class Magento_VersionsCms_Model_Resource_Page_Revision_Collection
      * Columns which should be joined determined by parameter $cols.
      *
      * @param mixed $cols
-     * @return Magento_VersionsCms_Model_Resource_Page_Revision_Collection
+     * @return \Magento\VersionsCms\Model\Resource\Page\Revision\Collection
      */
     public function joinVersions($cols = '')
     {
@@ -71,12 +73,12 @@ class Magento_VersionsCms_Model_Resource_Page_Revision_Collection
      * Add filtering by version id.
      * Parameter $version can be int or object.
      *
-     * @param int|Magento_VersionsCms_Model_Page_Version $version
-     * @return Magento_VersionsCms_Model_Resource_Page_Revision_Collection
+     * @param int|\Magento\VersionsCms\Model\Page\Version $version
+     * @return \Magento\VersionsCms\Model\Resource\Page\Revision\Collection
      */
     public function addVersionFilter($version)
     {
-        if ($version instanceof Magento_VersionsCms_Model_Page_Version) {
+        if ($version instanceof \Magento\VersionsCms\Model\Page\Version) {
             $version = $version->getId();
         }
 
@@ -93,9 +95,9 @@ class Magento_VersionsCms_Model_Resource_Page_Revision_Collection
      * Add order by revision number in specified direction.
      *
      * @param string $dir
-     * @return Magento_VersionsCms_Model_Resource_Page_Revision_Collection
+     * @return \Magento\VersionsCms\Model\Resource\Page\Revision\Collection
      */
-    public function addNumberSort($dir = Magento_DB_Select::SQL_DESC)
+    public function addNumberSort($dir = \Magento\DB\Select::SQL_DESC)
     {
         $this->setOrder('revision_number', $dir);
         return $this;

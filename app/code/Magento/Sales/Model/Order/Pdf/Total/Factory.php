@@ -6,10 +6,12 @@
  * @license     {license_link}
  */
 
-class Magento_Sales_Model_Order_Pdf_Total_Factory
+namespace Magento\Sales\Model\Order\Pdf\Total;
+
+class Factory
 {
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
@@ -18,12 +20,12 @@ class Magento_Sales_Model_Order_Pdf_Total_Factory
      *
      * @var string
      */
-    protected $_defaultTotalModel = 'Magento_Sales_Model_Order_Pdf_Total_Default';
+    protected $_defaultTotalModel = 'Magento\Sales\Model\Order\Pdf\Total\DefaultTotal';
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
@@ -33,15 +35,15 @@ class Magento_Sales_Model_Order_Pdf_Total_Factory
      *
      * @param string|null $class
      * @param array $arguments
-     * @return Magento_Sales_Model_Order_Pdf_Total_Default
-     * @throws Magento_Core_Exception
+     * @return \Magento\Sales\Model\Order\Pdf\Total\DefaultTotal
+     * @throws \Magento\Core\Exception
      */
     public function create($class = null, $arguments = array())
     {
         $class = $class ?: $this->_defaultTotalModel;
-        if (!is_a($class, 'Magento_Sales_Model_Order_Pdf_Total_Default', true)) {
-            throw new Magento_Core_Exception(
-                __("The PDF total model {$class} must be or extend Magento_Sales_Model_Order_Pdf_Total_Default.")
+        if (!is_a($class, 'Magento\Sales\Model\Order\Pdf\Total\DefaultTotal', true)) {
+            throw new \Magento\Core\Exception(
+                __("The PDF total model {$class} must be or extend \Magento\Sales\Model\Order\Pdf\Total\Default.")
             );
         }
         return $this->_objectManager->create($class, $arguments);

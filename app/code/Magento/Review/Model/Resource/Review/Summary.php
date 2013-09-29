@@ -16,7 +16,9 @@
  * @package     Magento_Review
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Review_Model_Resource_Review_Summary extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Review\Model\Resource\Review;
+
+class Summary extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Define module
@@ -32,7 +34,7 @@ class Magento_Review_Model_Resource_Review_Summary extends Magento_Core_Model_Re
      *
      * @param string $field
      * @param mixed $value
-     * @param Magento_Core_Model_Abstract $object
+     * @param \Magento\Core\Model\AbstractModel $object
      * @return unknown
      */
     protected function _getLoadSelect($field, $value, $object)
@@ -46,7 +48,7 @@ class Magento_Review_Model_Resource_Review_Summary extends Magento_Core_Model_Re
      * Reaggregate all data by rating summary
      *
      * @param array $summary
-     * @return Magento_Review_Model_Resource_Review_Summary
+     * @return \Magento\Review\Model\Resource\Review\Summary
      */
     public function reAggregate($summary)
     {
@@ -54,7 +56,7 @@ class Magento_Review_Model_Resource_Review_Summary extends Magento_Core_Model_Re
         $select = $adapter->select()
             ->from($this->getMainTable(),
                 array(
-                    'primary_id' => new Zend_Db_Expr('MAX(primary_id)'),
+                    'primary_id' => new \Zend_Db_Expr('MAX(primary_id)'),
                     'store_id',
                     'entity_pk_value'
                 ))

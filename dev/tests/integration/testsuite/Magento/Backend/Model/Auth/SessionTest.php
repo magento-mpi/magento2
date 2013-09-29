@@ -9,37 +9,39 @@
  * @license     {license_link}
  */
 
+namespace Magento\Backend\Model\Auth;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Backend_Model_Auth_SessionTest extends PHPUnit_Framework_TestCase
+class SessionTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Backend_Model_Auth
+     * @var \Magento\Backend\Model\Auth
      */
     protected $_auth;
 
     /**
-     * @var Magento_Backend_Model_Auth_Session
+     * @var \Magento\Backend\Model\Auth\Session
      */
     protected $_model;
 
     protected function setUp()
     {
         parent::setUp();
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Config_Scope')
-            ->setCurrentScope(Magento_Core_Model_App_Area::AREA_ADMINHTML);
-        $this->_auth  = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Backend_Model_Auth');
-        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Backend_Model_Auth_Session');
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Config\Scope')
+            ->setCurrentScope(\Magento\Core\Model\App\Area::AREA_ADMINHTML);
+        $this->_auth  = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Backend\Model\Auth');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Backend\Model\Auth\Session');
         $this->_auth->setAuthStorage($this->_model);
     }
 
     protected function tearDown()
     {
         $this->_model = null;
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Config_Scope')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Config\Scope')
             ->setCurrentScope(null);
     }
 
@@ -50,7 +52,7 @@ class Magento_Backend_Model_Auth_SessionTest extends PHPUnit_Framework_TestCase
     public function testIsLoggedIn()
     {
         $this->_auth->login(
-            Magento_TestFramework_Bootstrap::ADMIN_NAME, Magento_TestFramework_Bootstrap::ADMIN_PASSWORD);
+            \Magento\TestFramework\Bootstrap::ADMIN_NAME, \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD);
         $this->assertTrue($this->_model->isLoggedIn());
 
         $this->_model->setUpdatedAt(time() - 101);
@@ -64,7 +66,7 @@ class Magento_Backend_Model_Auth_SessionTest extends PHPUnit_Framework_TestCase
     public function testIsLoggedInWithIgnoredLifetime()
     {
         $this->_auth->login(
-            Magento_TestFramework_Bootstrap::ADMIN_NAME, Magento_TestFramework_Bootstrap::ADMIN_PASSWORD);
+            \Magento\TestFramework\Bootstrap::ADMIN_NAME, \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD);
         $this->assertTrue($this->_model->isLoggedIn());
 
         $this->_model->setUpdatedAt(time() - 101);

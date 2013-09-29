@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Backup
+ * @package     \Magento\Backup
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -15,7 +15,9 @@
  * @package    Magento_Backup
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backup_Model_Observer
+namespace Magento\Backup\Model;
+
+class Observer
 {
     const XML_PATH_BACKUP_ENABLED          = 'system/backup/enabled';
     const XML_PATH_BACKUP_TYPE             = 'system/backup/type';
@@ -31,51 +33,51 @@ class Magento_Backup_Model_Observer
     /**
      * Backup data
      *
-     * @var Magento_Backup_Helper_Data
+     * @var \Magento\Backup\Helper\Data
      */
     protected $_backupData = null;
 
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @var Magento_Core_Model_Logger
+     * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
 
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
      * Directory model
      *
-     * @var Magento_Core_Model_Dir
+     * @var \Magento\Core\Model\Dir
      */
     protected $_dir;
 
     /**
      * Construct
      * 
-     * @param Magento_Backup_Helper_Data $backupData
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_Dir $dir
+     * @param \Magento\Backup\Helper\Data $backupData
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\Dir $dir
      */
     public function __construct(
-        Magento_Backup_Helper_Data $backupData,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_Core_Model_Logger $logger,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_Dir $dir
+        \Magento\Backup\Helper\Data $backupData,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\Dir $dir
     ) {
         $this->_backupData = $backupData;
         $this->_coreRegistry = $coreRegistry;
@@ -87,7 +89,7 @@ class Magento_Backup_Model_Observer
     /**
      * Create Backup
      *
-     * @return Magento_Log_Model_Cron
+     * @return \Magento\Log\Model\Cron
      */
     public function scheduledBackup()
     {
@@ -103,14 +105,14 @@ class Magento_Backup_Model_Observer
 
         $this->_errors = array();
         try {
-            $backupManager = Magento_Backup::getBackupInstance($type)
+            $backupManager = \Magento\Backup::getBackupInstance($type)
                 ->setBackupExtension($this->_backupData->getExtensionByType($type))
                 ->setTime(time())
                 ->setBackupsDir($this->_backupData->getBackupsDir());
 
             $this->_coreRegistry->register('backup_manager', $backupManager);
 
-            if ($type != Magento_Backup_Helper_Data::TYPE_DB) {
+            if ($type != \Magento\Backup\Helper\Data::TYPE_DB) {
                 $backupManager->setRootDir($this->_dir->getDir())
                     ->addIgnorePaths($this->_backupData->getBackupIgnorePaths());
             }
@@ -118,10 +120,10 @@ class Magento_Backup_Model_Observer
             $backupManager->create();
             $message = $this->_backupData->getCreateSuccessMessageByType($type);
             $this->_logger->log($message);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_errors[] = $e->getMessage();
             $this->_errors[] = $e->getTrace();
-            $this->_logger->log($e->getMessage(), Zend_Log::ERR);
+            $this->_logger->log($e->getMessage(), \Zend_Log::ERR);
             $this->_logger->logException($e);
         }
 

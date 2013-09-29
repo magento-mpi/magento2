@@ -9,7 +9,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Magento_Outbound_Message_FactoryInterface
+namespace Magento\Outbound\Message;
+
+interface FactoryInterface
 {
 
     /** Topic header */
@@ -18,10 +20,10 @@ interface Magento_Outbound_Message_FactoryInterface
     /**
      * Create a message for a given endpoint, topic and message data
      *
-     * @param Magento_Outbound_EndpointInterface $endpoint
+     * @param \Magento\Outbound\EndpointInterface $endpoint
      * @param string $topic topic of the message
      * @param array $bodyData body of the message
-     * @return Magento_Outbound_Message
+     * @return \Magento\Outbound\Message
      */
-    public function create(Magento_Outbound_EndpointInterface $endpoint, $topic, array $bodyData);
+    public function create(\Magento\Outbound\EndpointInterface $endpoint, $topic, array $bodyData);
 }

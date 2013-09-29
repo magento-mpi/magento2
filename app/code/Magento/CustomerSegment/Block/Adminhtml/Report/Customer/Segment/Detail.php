@@ -15,35 +15,37 @@
  * @package    Magento_CustomerSegment
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Detail
-    extends Magento_Backend_Block_Widget_Grid_Container
+namespace Magento\CustomerSegment\Block\Adminhtml\Report\Customer\Segment;
+
+class Detail
+    extends \Magento\Backend\Block\Widget\Grid\Container
 {
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry;
 
     /**
      * Store list manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;
@@ -107,7 +109,7 @@ class Magento_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Detail
     /**
      * Getter
      *
-     * @return Magento_CustomerSegment_Model_Segment
+     * @return \Magento\CustomerSegment\Model\Segment
      */
     public function getCustomerSegment()
     {

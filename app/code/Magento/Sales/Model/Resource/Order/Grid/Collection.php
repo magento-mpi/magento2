@@ -16,7 +16,9 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Resource_Order_Grid_Collection extends Magento_Sales_Model_Resource_Order_Collection
+namespace Magento\Sales\Model\Resource\Order\Grid;
+
+class Collection extends \Magento\Sales\Model\Resource\Order\Collection
 {
     /**
      * Event prefix
@@ -52,7 +54,7 @@ class Magento_Sales_Model_Resource_Order_Grid_Collection extends Magento_Sales_M
     /**
      * Get SQL for get record count
      *
-     * @return Magento_DB_Select
+     * @return \Magento\DB\Select
      */
     public function getSelectCountSql()
     {
@@ -61,9 +63,9 @@ class Magento_Sales_Model_Resource_Order_Grid_Collection extends Magento_Sales_M
 
             $unionSelect = clone $this->getSelect();
 
-            $unionSelect->reset(Zend_Db_Select::ORDER);
-            $unionSelect->reset(Zend_Db_Select::LIMIT_COUNT);
-            $unionSelect->reset(Zend_Db_Select::LIMIT_OFFSET);
+            $unionSelect->reset(\Zend_Db_Select::ORDER);
+            $unionSelect->reset(\Zend_Db_Select::LIMIT_COUNT);
+            $unionSelect->reset(\Zend_Db_Select::LIMIT_OFFSET);
 
             $countSelect = clone $this->getSelect();
             $countSelect->reset();
@@ -79,7 +81,7 @@ class Magento_Sales_Model_Resource_Order_Grid_Collection extends Magento_Sales_M
      * Set customer mode flag value
      *
      * @param bool $value
-     * @return Magento_Sales_Model_Resource_Order_Grid_Collection
+     * @return \Magento\Sales\Model\Resource\Order\Grid\Collection
      */
     public function setIsCustomerMode($value)
     {

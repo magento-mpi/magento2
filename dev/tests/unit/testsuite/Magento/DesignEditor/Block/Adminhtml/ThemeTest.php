@@ -8,16 +8,18 @@
  * @license     {license_link}
  */
 
-class Magento_DesignEditor_Block_Adminhtml_ThemeTest extends PHPUnit_Framework_TestCase
+namespace Magento\DesignEditor\Block\Adminhtml;
+
+class ThemeTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @cover Magento_DesignEditor_Block_Adminhtml_Theme::addButton
-     * @cover Magento_DesignEditor_Block_Adminhtml_Theme::clearButtons
-     * @cover Magento_DesignEditor_Block_Adminhtml_Theme::getButtonsHtml
+     * @cover \Magento\DesignEditor\Block\Adminhtml\Theme::addButton
+     * @cover \Magento\DesignEditor\Block\Adminhtml\Theme::clearButtons
+     * @cover \Magento\DesignEditor\Block\Adminhtml\Theme::getButtonsHtml
      */
     public function testButtons()
     {
-        $themeMock  =  $this->getMock('Magento_DesignEditor_Block_Adminhtml_Theme', null, array(), '', false);
+        $themeMock  =  $this->getMock('Magento\DesignEditor\Block\Adminhtml\Theme', null, array(), '', false);
         $buttonMock = $this->getMock('StdClass', array('toHtml'));
 
         $buttonMock->expects($this->once())

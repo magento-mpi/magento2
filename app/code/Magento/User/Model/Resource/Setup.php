@@ -6,48 +6,50 @@
  * @license     {license_link}
  */
 
+namespace Magento\User\Model\Resource;
+
 /**
  * Resource Setup Model
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Magento_User_Model_Resource_Setup extends Magento_Core_Model_Resource_Setup
+class Setup extends \Magento\Core\Model\Resource\Setup
 {
     /**
      * Role model factory
      *
-     * @var Magento_User_Model_RoleFactory
+     * @var \Magento\User\Model\RoleFactory
      */
     protected $_roleCollectionFactory;
 
     /**
      * Factory for user rules model
      *
-     * @var Magento_User_Model_RulesFactory
+     * @var \Magento\User\Model\RulesFactory
      */
     protected $_rulesCollectionFactory;
 
     /**
      * Role model factory
      *
-     * @var Magento_User_Model_RoleFactory
+     * @var \Magento\User\Model\RoleFactory
      */
     protected $_roleFactory;
 
     /**
      * Rules model factory
      *
-     * @var Magento_User_Model_RulesFactory
+     * @var \Magento\User\Model\RulesFactory
      */
     protected $_rulesFactory;
 
     public function __construct(
-        Magento_Core_Model_Resource_Setup_Context $context,
-        Magento_User_Model_Resource_Role_CollectionFactory $roleCollectionFactory,
-        Magento_User_Model_Resource_Rules_CollectionFactory $rulesCollectionFactory,
-        Magento_User_Model_RoleFactory $roleFactory,
-        Magento_User_Model_RulesFactory $rulesFactory,
+        \Magento\Core\Model\Resource\Setup\Context $context,
+        \Magento\User\Model\Resource\Role\CollectionFactory $roleCollectionFactory,
+        \Magento\User\Model\Resource\Rules\CollectionFactory $rulesCollectionFactory,
+        \Magento\User\Model\RoleFactory $roleFactory,
+        \Magento\User\Model\RulesFactory $rulesFactory,
         $resourceName,
         $moduleName = 'Magento_User',
         $connectionName = ''
@@ -63,7 +65,7 @@ class Magento_User_Model_Resource_Setup extends Magento_Core_Model_Resource_Setu
     /**
      * Creates role collection
      *
-     * @return Magento_User_Model_Resource_Role_Collection
+     * @return \Magento\User\Model\Resource\Role\Collection
      */
     public function createRoleCollection()
     {
@@ -73,7 +75,7 @@ class Magento_User_Model_Resource_Setup extends Magento_Core_Model_Resource_Setu
     /**
      * Creates rules collection
      *
-     * @return Magento_User_Model_Resource_Rules_Collection
+     * @return \Magento\User\Model\Resource\Rules\Collection
      */
     public function createRulesCollection()
     {
@@ -83,7 +85,7 @@ class Magento_User_Model_Resource_Setup extends Magento_Core_Model_Resource_Setu
     /**
      * Creates role model
      *
-     * @return Magento_User_Model_Role
+     * @return \Magento\User\Model\Role
      */
     public function createRole()
     {
@@ -93,7 +95,7 @@ class Magento_User_Model_Resource_Setup extends Magento_Core_Model_Resource_Setu
     /**
      * Creates rules model
      *
-     * @return Magento_User_Model_Rules
+     * @return \Magento\User\Model\Rules
      */
     public function createRules()
     {

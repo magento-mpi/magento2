@@ -16,7 +16,9 @@
  * @package     Magento_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reports_Model_Resource_Accounts_Collection extends Magento_Reports_Model_Resource_Customer_Collection
+namespace Magento\Reports\Model\Resource\Accounts;
+
+class Collection extends \Magento\Reports\Model\Resource\Customer\Collection
 {
 
     /**
@@ -24,12 +26,12 @@ class Magento_Reports_Model_Resource_Accounts_Collection extends Magento_Reports
      *
      * @param string $fromDate
      * @param string $toDate
-     * @return Magento_Reports_Model_Resource_Accounts_Collection
+     * @return \Magento\Reports\Model\Resource\Accounts\Collection
      */
     protected function _joinFields($fromDate = '', $toDate = '')
     {
 
-        $this->getSelect()->reset(Zend_Db_Select::COLUMNS);
+        $this->getSelect()->reset(\Zend_Db_Select::COLUMNS);
         $this->addAttributeToFilter('created_at', array('from' => $fromDate, 'to' => $toDate, 'datetime' => true))
              ->addExpressionAttributeToSelect('accounts', 'COUNT({{entity_id}})', array('entity_id'));
 
@@ -43,7 +45,7 @@ class Magento_Reports_Model_Resource_Accounts_Collection extends Magento_Reports
      *
      * @param string $fromDate
      * @param string $toDate
-     * @return Magento_Reports_Model_Resource_Accounts_Collection
+     * @return \Magento\Reports\Model\Resource\Accounts\Collection
      */
     public function setDateRange($fromDate, $toDate)
     {
@@ -56,7 +58,7 @@ class Magento_Reports_Model_Resource_Accounts_Collection extends Magento_Reports
      * Set store ids to final result
      *
      * @param array $storeIds
-     * @return Magento_Reports_Model_Resource_Accounts_Collection
+     * @return \Magento\Reports\Model\Resource\Accounts\Collection
      */
     public function setStoreIds($storeIds)
     {

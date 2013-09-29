@@ -8,7 +8,7 @@
  */
 -->
 <config>
-    <virtualType name="Magento_Centinel_Model_Session" type="Magento_Core_Model_Session_Generic">
+    <virtualType name="Magento\Centinel\Model\Session" type="Magento\Core\Model\Session\Generic">
         <param name="sessionNamespace">
             <value>centinel_validator</value>
         </param>
@@ -18,21 +18,21 @@
     </virtualType>
     <type name="Magento_Centinel_Controller_Adminhtml_Centinel_Index">
         <param name="checkoutCart">
-            <instance type="Magento_Adminhtml_Model_Sales_Order_Create" />
+            <instance type="Magento\Adminhtml\Model\Sales\Order\Create" />
         </param>
     </type>
     <type name="Magento_Centinel_Model_Service">
         <param name="checkoutCart">
-            <instance type="Magento_Adminhtml_Model_Sales_Order_Create" />
+            <instance type="Magento\Adminhtml\Model\Sales\Order\Create" />
         </param>
         <param name="backendUrl">
-            <instance type="Magento_Backend_Model_Url" />
+            <instance type="Magento\Backend\Model\Url" />
         </param>
         <param name="frontendUrl">
-            <instance type="Magento_Core_Model_Url" />
+            <instance type="Magento\Core\Model\Url" />
         </param>
         <param name="centinelSession">
-            <instance type="Magento_Core_Model_Session" />
+            <instance type="Magento\Core\Model\Session" />
         </param>
     </type>
 </config>

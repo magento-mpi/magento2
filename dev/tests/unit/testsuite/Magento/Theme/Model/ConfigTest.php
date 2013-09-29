@@ -12,66 +12,68 @@
 /**
  * Test theme config model
  */
-class Magento_Theme_Model_ConfigTest extends PHPUnit_Framework_TestCase
+namespace Magento\Theme\Model;
+
+class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_themeMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_configData;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_storeManagerMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_configCacheMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_layoutCacheMock;
 
     /**
-     * @var Magento_Core_Model_Config_Storage_WriterInterface
+     * @var \Magento\Core\Model\Config\Storage\WriterInterface
      */
     protected $_storeConfigWriter;
 
     /**
-     * @var Magento_Theme_Model_Config
+     * @var \Magento\Theme\Model\Config
      */
     protected $_model;
 
     protected function setUp()
     {
-        /** @var $this->_themeMock Magento_Core_Model_Theme */
-        $this->_themeMock = $this->getMock('Magento_Core_Model_Theme', array(), array(), '', false);
+        /** @var $this->_themeMock \Magento\Core\Model\Theme */
+        $this->_themeMock = $this->getMock('Magento\Core\Model\Theme', array(), array(), '', false);
         $this->_storeManagerMock = $this->getMockForAbstractClass(
-            'Magento_Core_Model_StoreManagerInterface', array(), '', true, true, true,
+            'Magento\Core\Model\StoreManagerInterface', array(), '', true, true, true,
             array('getStores', 'isSingleStoreMode')
         );
         $this->_configData = $this->getMock(
-            'Magento_Core_Model_Config_Value', array('getCollection', 'addFieldToFilter'), array(), '', false
+            'Magento\Core\Model\Config\Value', array('getCollection', 'addFieldToFilter'), array(), '', false
         );
-        $this->_configCacheMock = $this->getMockForAbstractClass('Magento_Cache_FrontendInterface');
-        $this->_layoutCacheMock = $this->getMockForAbstractClass('Magento_Cache_FrontendInterface');
+        $this->_configCacheMock = $this->getMockForAbstractClass('Magento\Cache\FrontendInterface');
+        $this->_layoutCacheMock = $this->getMockForAbstractClass('Magento\Cache\FrontendInterface');
 
         $this->_storeConfigWriter = $this->getMock(
-            'Magento_Core_Model_Config_Storage_WriterInterface', array('save', 'delete')
+            'Magento\Core\Model\Config\Storage\WriterInterface', array('save', 'delete')
         );
 
-        $this->_model = new Magento_Theme_Model_Config(
+        $this->_model = new \Magento\Theme\Model\Config(
             $this->_configData,
             $this->_storeConfigWriter,
             $this->_storeManagerMock,
-            $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false),
+            $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false),
             $this->_configCacheMock,
             $this->_layoutCacheMock
         );
@@ -88,7 +90,7 @@ class Magento_Theme_Model_ConfigTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Magento_Theme_Model_Config::assignToStore
+     * @covers \Magento\Theme\Model\Config::assignToStore
      */
     public function testAssignToStoreInSingleStoreMode()
     {
@@ -97,7 +99,7 @@ class Magento_Theme_Model_ConfigTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue(true));
 
         /** Unassign themes from store */
-        $configEntity = new Magento_Object(array('value' => 6, 'scope_id' => 8));
+        $configEntity = new \Magento\Object(array('value' => 6, 'scope_id' => 8));
 
         $this->_configData->expects($this->once())
             ->method('getCollection')
@@ -105,12 +107,12 @@ class Magento_Theme_Model_ConfigTest extends PHPUnit_Framework_TestCase
 
         $this->_configData->expects($this->at(1))
             ->method('addFieldToFilter')
-            ->with('scope', Magento_Core_Model_Config::SCOPE_STORES)
+            ->with('scope', \Magento\Core\Model\Config::SCOPE_STORES)
             ->will($this->returnValue($this->_configData));
 
         $this->_configData->expects($this->at(2))
             ->method('addFieldToFilter')
-            ->with('path', Magento_Core_Model_View_Design::XML_PATH_THEME_ID)
+            ->with('path', \Magento\Core\Model\View\Design::XML_PATH_THEME_ID)
             ->will($this->returnValue(array($configEntity)));
 
         $this->_themeMock->expects($this->any())
@@ -127,7 +129,7 @@ class Magento_Theme_Model_ConfigTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Magento_Theme_Model_Config::assignToStore
+     * @covers \Magento\Theme\Model\Config::assignToStore
      */
     public function testAssignToStoreNonSingleStoreMode()
     {
@@ -136,7 +138,7 @@ class Magento_Theme_Model_ConfigTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue(false));
 
         /** Unassign themes from store */
-        $configEntity = new Magento_Object(array('value' => 6, 'scope_id' => 8));
+        $configEntity = new \Magento\Object(array('value' => 6, 'scope_id' => 8));
 
         $this->_configData->expects($this->once())
             ->method('getCollection')
@@ -144,12 +146,12 @@ class Magento_Theme_Model_ConfigTest extends PHPUnit_Framework_TestCase
 
         $this->_configData->expects($this->at(1))
             ->method('addFieldToFilter')
-            ->with('scope', Magento_Core_Model_Config::SCOPE_STORES)
+            ->with('scope', \Magento\Core\Model\Config::SCOPE_STORES)
             ->will($this->returnValue($this->_configData));
 
         $this->_configData->expects($this->at(2))
             ->method('addFieldToFilter')
-            ->with('path', Magento_Core_Model_View_Design::XML_PATH_THEME_ID)
+            ->with('path', \Magento\Core\Model\View\Design::XML_PATH_THEME_ID)
             ->will($this->returnValue(array($configEntity)));
 
         $this->_themeMock->expects($this->any())

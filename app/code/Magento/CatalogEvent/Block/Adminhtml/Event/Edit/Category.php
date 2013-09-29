@@ -9,7 +9,9 @@
 /**
  * Catalog Events edit form select categories
  */
-class Magento_CatalogEvent_Block_Adminhtml_Event_Edit_Category extends Magento_Adminhtml_Block_Catalog_Category_Abstract
+namespace Magento\CatalogEvent\Block\Adminhtml\Event\Edit;
+
+class Category extends \Magento\Adminhtml\Block\Catalog\Category\AbstractCategory
 {
     /**
      * Template
@@ -21,24 +23,24 @@ class Magento_CatalogEvent_Block_Adminhtml_Event_Edit_Category extends Magento_A
     /**
      * Category model factory
      *
-     * @var Magento_Catalog_Model_CategoryFactory
+     * @var \Magento\Catalog\Model\CategoryFactory
      */
     protected $_categoryFactory;
 
     /**
-     * @param Magento_Catalog_Model_Resource_Category_Tree $categoryTree
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Catalog_Model_CategoryFactory $categoryFactory
+     * @param \Magento\Catalog\Model\Resource\Category\Tree $categoryTree
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Catalog_Model_Resource_Category_Tree $categoryTree,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Catalog_Model_CategoryFactory $categoryFactory,
+        \Magento\Catalog\Model\Resource\Category\Tree $categoryTree,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         array $data = array()
     ) {
         parent::__construct($categoryTree, $coreData, $context, $registry, $data);
@@ -58,7 +60,7 @@ class Magento_CatalogEvent_Block_Adminhtml_Event_Edit_Category extends Magento_A
     {
         $result = array();
         if ($parentId) {
-            /** @var Magento_Catalog_Model_Category $category */
+            /** @var \Magento\Catalog\Model\Category $category */
             $category = $this->_categoryFactory->create()->load($parentId);
             if (!empty($category)) {
                 $tree = $this->_getNodesArray($this->getNode($category, $recursionLevel));
@@ -79,7 +81,7 @@ class Magento_CatalogEvent_Block_Adminhtml_Event_Edit_Category extends Magento_A
     /**
      * Get categories collection
      *
-     * @return Magento_Catalog_Model_Resource_Category_Collection
+     * @return \Magento\Catalog\Model\Resource\Category\Collection
      */
     public function getCategoryCollection()
     {
@@ -101,7 +103,7 @@ class Magento_CatalogEvent_Block_Adminhtml_Event_Edit_Category extends Magento_A
      */
     protected function _getNodesArray($node)
     {
-        $eventHelper = $this->helper('Magento_CatalogEvent_Helper_Adminhtml_Event');
+        $eventHelper = $this->helper('Magento\CatalogEvent\Helper\Adminhtml\Event');
         $result = array(
             'id'             => (int)$node->getId(),
             'parent_id'      => (int)$node->getParentId(),

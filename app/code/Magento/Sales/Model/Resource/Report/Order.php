@@ -11,29 +11,31 @@
 /**
  * Order entity resource model
  */
-class Magento_Sales_Model_Resource_Report_Order extends Magento_Sales_Model_Resource_Report_Abstract
+namespace Magento\Sales\Model\Resource\Report;
+
+class Order extends \Magento\Sales\Model\Resource\Report\AbstractReport
 {
     /**
-     * @var Magento_Sales_Model_Resource_Report_Order_CreatedatFactory
+     * @var \Magento\Sales\Model\Resource\Report\Order\CreatedatFactory
      */
     protected $_createDatFactory;
 
     /**
-     * @var Magento_Sales_Model_Resource_Report_Order_UpdatedatFactory
+     * @var \Magento\Sales\Model\Resource\Report\Order\UpdatedatFactory
      */
     protected $_updateDatFactory;
 
     /**
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Sales_Model_Resource_Report_Order_CreatedatFactory $createDatFactory
-     * @param Magento_Sales_Model_Resource_Report_Order_UpdatedatFactory $updateDatFactory
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Sales\Model\Resource\Report\Order\CreatedatFactory $createDatFactory
+     * @param \Magento\Sales\Model\Resource\Report\Order\UpdatedatFactory $updateDatFactory
      */
     public function __construct(
-        Magento_Core_Model_Logger $logger,
-        Magento_Core_Model_Resource $resource,
-        Magento_Sales_Model_Resource_Report_Order_CreatedatFactory $createDatFactory,
-        Magento_Sales_Model_Resource_Report_Order_UpdatedatFactory $updateDatFactory
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Sales\Model\Resource\Report\Order\CreatedatFactory $createDatFactory,
+        \Magento\Sales\Model\Resource\Report\Order\UpdatedatFactory $updateDatFactory
     ) {
         parent::__construct($logger, $resource);
         $this->_createDatFactory = $createDatFactory;
@@ -53,13 +55,13 @@ class Magento_Sales_Model_Resource_Report_Order extends Magento_Sales_Model_Reso
      *
      * @param mixed $from
      * @param mixed $to
-     * @return Magento_Sales_Model_Resource_Report_Order
+     * @return \Magento\Sales\Model\Resource\Report\Order
      */
     public function aggregate($from = null, $to = null)
     {
         $this->_createDatFactory->create()->aggregate($from, $to);
         $this->_updateDatFactory->create()->aggregate($from, $to);
-        $this->_setFlagData(Magento_Reports_Model_Flag::REPORT_ORDER_FLAG_CODE);
+        $this->_setFlagData(\Magento\Reports\Model\Flag::REPORT_ORDER_FLAG_CODE);
         return $this;
     }
 }

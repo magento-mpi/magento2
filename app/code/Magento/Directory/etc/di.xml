@@ -8,26 +8,26 @@
  */
 -->
 <config>
-    <type name="Magento_Directory_Model_Resource_Country_Collection" shared="false" />
-    <type name="Magento_Directory_Model_Currency_Import_Config">
+    <type name="Magento\Directory\Model\Resource\Country\Collection" shared="false" />
+    <type name="Magento\Directory\Model\Currency\Import\Config">
         <param name="servicesConfig">
             <value>
                 <webservicex>
                     <label>Webservicex</label>
-                    <class>Magento_Directory_Model_Currency_Import_Webservicex</class>
+                    <class>Magento\Directory\Model\Currency\Import\Webservicex</class>
                 </webservicex>
             </value>
         </param>
     </type>
-    <type name="Magento_Directory_Model_Currency_Import_Factory">
+    <type name="Magento\Directory\Model\Currency\Import\Factory">
         <param name="coreConfig">
-            <instance type="Magento_Core_Model_Config_Proxy" />
+            <instance type="Magento\Core\Model\Config\Proxy" />
         </param>
     </type>
-    <type name="Magento_Core_Model_Db_Updater">
+    <type name="Magento\Core\Model\Db\Updater">
         <param name="resourceList">
             <value>
-                <directory_setup>Magento_Directory_Model_Resource_Setup</directory_setup>
+                <directory_setup>Magento\Directory\Model\Resource\Setup</directory_setup>
             </value>
         </param>
     </type>

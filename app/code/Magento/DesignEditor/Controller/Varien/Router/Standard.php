@@ -5,12 +5,16 @@
  * @copyright   {copyright}
  * @license     {license_link}
  *
+ */
+namespace Magento\DesignEditor\Controller\Varien\Router;
+
+/**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Magento_DesignEditor_Controller_Varien_Router_Standard extends Magento_Core_Controller_Varien_Router_Base
+class Standard extends \Magento\Core\Controller\Varien\Router\Base
 {
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
@@ -22,30 +26,30 @@ class Magento_DesignEditor_Controller_Varien_Router_Standard extends Magento_Cor
     protected $_excludedRouters = array('admin', 'vde');
 
     /**
-     * @param Magento_Core_Controller_Varien_Action_Factory $controllerFactory
-     * @param Magento_ObjectManager $objectManager
-     * @param Magento_Filesystem $filesystem
-     * @param Magento_Core_Model_App $app
-     * @param Magento_Core_Model_Config_Scope $configScope
-     * @param Magento_Core_Model_Route_Config $routeConfig
-     * @param Magento_Core_Model_Url_SecurityInfoInterface $securityInfo
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_Config $config
+     * @param \Magento\Core\Controller\Varien\Action\Factory $controllerFactory
+     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\Core\Model\App $app
+     * @param \Magento\Core\Model\Config\Scope $configScope
+     * @param \Magento\Core\Model\Route\Config $routeConfig
+     * @param \Magento\Core\Model\Url\SecurityInfoInterface $securityInfo
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\Config $config
      * @param $areaCode
      * @param $baseController
      * @param $routerId
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Magento_Core_Controller_Varien_Action_Factory $controllerFactory,
-        Magento_ObjectManager $objectManager,
-        Magento_Filesystem $filesystem,
-        Magento_Core_Model_App $app,
-        Magento_Core_Model_Config_Scope $configScope,
-        Magento_Core_Model_Route_Config $routeConfig,
-        Magento_Core_Model_Url_SecurityInfoInterface $securityInfo,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_Config $config,
+        \Magento\Core\Controller\Varien\Action\Factory $controllerFactory,
+        \Magento\ObjectManager $objectManager,
+        \Magento\Filesystem $filesystem,
+        \Magento\Core\Model\App $app,
+        \Magento\Core\Model\Config\Scope $configScope,
+        \Magento\Core\Model\Route\Config $routeConfig,
+        \Magento\Core\Model\Url\SecurityInfoInterface $securityInfo,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\Config $config,
         $areaCode,
         $baseController,
         $routerId
@@ -69,18 +73,18 @@ class Magento_DesignEditor_Controller_Varien_Router_Standard extends Magento_Cor
     /**
      * Match provided request and if matched - return corresponding controller
      *
-     * @param Magento_Core_Controller_Request_Http $request
-     * @return Magento_Core_Controller_Front_Action|null
+     * @param \Magento\Core\Controller\Request\Http $request
+     * @return \Magento\Core\Controller\Front\Action|null
      */
-    public function match(Magento_Core_Controller_Request_Http $request)
+    public function match(\Magento\Core\Controller\Request\Http $request)
     {
         // if URL has VDE prefix
-        if (!$this->_objectManager->get('Magento_DesignEditor_Helper_Data')->isVdeRequest($request)) {
+        if (!$this->_objectManager->get('Magento\DesignEditor\Helper\Data')->isVdeRequest($request)) {
             return null;
         }
 
         // user must be logged in admin area
-        if (!$this->_objectManager->get('Magento_Backend_Model_Auth_Session')->isLoggedIn()) {
+        if (!$this->_objectManager->get('Magento\Backend\Model\Auth\Session')->isLoggedIn()) {
             return null;
         }
 
@@ -96,19 +100,19 @@ class Magento_DesignEditor_Controller_Varien_Router_Standard extends Magento_Cor
         // match routers
         $controller = null;
         $routers = $this->_getMatchedRouters();
-        /** @var $router Magento_Core_Controller_Varien_Router_Abstract */
+        /** @var $router \Magento\Core\Controller\Varien\Router\AbstractRouter */
         foreach ($routers as $router) {
-            /** @var $controller Magento_Core_Controller_Varien_ActionAbstract */
+            /** @var $controller \Magento\Core\Controller\Varien\AbstractAction */
             $controller = $router->match($request);
             if ($controller) {
-                $this->_objectManager->get('Magento_DesignEditor_Model_State')
+                $this->_objectManager->get('Magento\DesignEditor\Model\State')
                     ->update($this->_areaCode, $request, $controller);
                 break;
             }
         }
 
         // set inline translation mode
-        $this->_objectManager->get('Magento_DesignEditor_Helper_Data')->setTranslationMode($request);
+        $this->_objectManager->get('Magento\DesignEditor\Helper\Data')->setTranslationMode($request);
 
         return $controller;
     }
@@ -116,10 +120,10 @@ class Magento_DesignEditor_Controller_Varien_Router_Standard extends Magento_Cor
     /**
      * Modify request path to imitate basic request
      *
-     * @param Magento_Core_Controller_Request_Http $request
-     * @return Magento_DesignEditor_Controller_Varien_Router_Standard
+     * @param \Magento\Core\Controller\Request\Http $request
+     * @return \Magento\DesignEditor\Controller\Varien\Router\Standard
      */
-    protected function _prepareVdeRequest(Magento_Core_Controller_Request_Http $request)
+    protected function _prepareVdeRequest(\Magento\Core\Controller\Request\Http $request)
     {
         list($vdeFrontName, $designMode, $themeId) = explode('/', trim($request->getPathInfo(), '/'));
         $request->setAlias('editorMode', $designMode);
@@ -151,10 +155,11 @@ class Magento_DesignEditor_Controller_Varien_Router_Standard extends Magento_Cor
      */
     protected function _overrideConfiguration()
     {
-        $vdeNode = $this->_objectManager->get('Magento_Core_Model_Config')
-            ->getNode(Magento_DesignEditor_Model_Area::AREA_VDE);
+        $vdeNode = $this->_objectManager->get('Magento\Core\Model\Config')
+            ->getNode(\Magento\DesignEditor\Model\Area::AREA_VDE);
         if ($vdeNode) {
-            $this->_objectManager->get('Magento_Core_Model_Config')->getNode(Magento_Core_Model_App_Area::AREA_FRONTEND)
+            $this->_objectManager->get('Magento\Core\Model\Config')
+                ->getNode(\Magento\Core\Model\App\Area::AREA_FRONTEND)
                 ->extend($vdeNode, true);
         }
     }

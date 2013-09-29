@@ -16,7 +16,9 @@
  * @package    Magento_Page
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Page_Block_Html_Head extends Magento_Core_Block_Template
+namespace Magento\Page\Block\Html;
+
+class Head extends \Magento\Core\Block\Template
 {
     /**
      * Block template
@@ -40,53 +42,53 @@ class Magento_Page_Block_Html_Head extends Magento_Core_Block_Template
     protected $_pureTitle;
 
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @var Magento_Core_Model_Page_Asset_MergeService
+     * @var \Magento\Core\Model\Page\Asset\MergeService
      */
     private $_assetMergeService;
 
     /**
-     * @var Magento_Core_Model_Page_Asset_MinifyService
+     * @var \Magento\Core\Model\Page\Asset\MinifyService
      */
     private $_assetMinifyService;
 
     /**
-     * @var Magento_Page_Model_Asset_GroupedCollection
+     * @var \Magento\Page\Model\Asset\GroupedCollection
      */
     private $_pageAssets;
 
     /**
      * Core file storage database
      *
-     * @var Magento_Core_Helper_File_Storage_Database
+     * @var \Magento\Core\Helper\File\Storage\Database
      */
     protected $_fileStorageDatabase = null;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Core_Model_Dir
+     * @var \Magento\Core\Model\Dir
      */
     protected $_dir;
 
     /**
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
     /**
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Core_Model_Dir $dir
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Helper_File_Storage_Database $fileStorageDatabase
-     * @param Magento_Core_Helper_Data $coreData
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Core\Model\Dir $dir
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Helper\File\Storage\Database $fileStorageDatabase
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento_Core_Block_Template_Context $context
      * @param \Magento_ObjectManager $objectManager
      * @param \Magento_Core_Model_Page $page
@@ -95,16 +97,16 @@ class Magento_Page_Block_Html_Head extends Magento_Core_Block_Template
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Core_Model_Dir $dir,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Helper_File_Storage_Database $fileStorageDatabase,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_ObjectManager $objectManager,
-        Magento_Core_Model_Page $page,
-        Magento_Core_Model_Page_Asset_MergeService $assetMergeService,
-        Magento_Core_Model_Page_Asset_MinifyService $assetMinifyService,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Core\Model\Dir $dir,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Helper\File\Storage\Database $fileStorageDatabase,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\ObjectManager $objectManager,
+        \Magento\Core\Model\Page $page,
+        \Magento\Core\Model\Page\Asset\MergeService $assetMergeService,
+        \Magento\Core\Model\Page\Asset\MinifyService $assetMinifyService,
         array $data = array()
     ) {
         $this->_fileStorageDatabase = $fileStorageDatabase;
@@ -123,13 +125,13 @@ class Magento_Page_Block_Html_Head extends Magento_Core_Block_Template
      *
      * @param string $title
      * @param string $href
-     * @return Magento_Page_Block_Html_Head
+     * @return \Magento\Page\Block\Html\Head
      */
     public function addRss($title, $href)
     {
         $attributes = 'rel="alternate" type="application/rss+xml" title="' . $title . '"';
         $asset = $this->_objectManager->create(
-            'Magento_Core_Model_Page_Asset_Remote', array('url' => (string)$href)
+            'Magento\Core\Model\Page\Asset\Remote', array('url' => (string)$href)
         );
         $this->_pageAssets->add("link/$href", $asset, array('attributes' => $attributes));
         return $this;
@@ -143,9 +145,9 @@ class Magento_Page_Block_Html_Head extends Magento_Core_Block_Template
     public function getCssJsHtml()
     {
         foreach ($this->getLayout()->getChildBlocks($this->getNameInLayout()) as $block) {
-            /** @var $block Magento_Core_Block_Abstract */
-            if ($block instanceof Magento_Page_Block_Html_Head_AssetBlock) {
-                /** @var Magento_Core_Model_Page_Asset_AssetInterface $asset */
+            /** @var $block \Magento\Core\Block\AbstractBlock */
+            if ($block instanceof \Magento\Page\Block\Html\Head\AssetBlock) {
+                /** @var \Magento\Core\Model\Page\Asset\AssetInterface $asset */
                 $asset = $block->getAsset();
                 $this->_pageAssets->add(
                     $block->getNameInLayout(),
@@ -156,10 +158,10 @@ class Magento_Page_Block_Html_Head extends Magento_Core_Block_Template
         }
 
         $result = '';
-        /** @var $group Magento_Page_Model_Asset_PropertyGroup */
+        /** @var $group \Magento\Page\Model\Asset\PropertyGroup */
         foreach ($this->_pageAssets->getGroups() as $group) {
-            $contentType = $group->getProperty(Magento_Page_Model_Asset_GroupedCollection::PROPERTY_CONTENT_TYPE);
-            $canMerge = $group->getProperty(Magento_Page_Model_Asset_GroupedCollection::PROPERTY_CAN_MERGE);
+            $contentType = $group->getProperty(\Magento\Page\Model\Asset\GroupedCollection::PROPERTY_CONTENT_TYPE);
+            $canMerge = $group->getProperty(\Magento\Page\Model\Asset\GroupedCollection::PROPERTY_CAN_MERGE);
             $attributes = $group->getProperty('attributes');
             $ieCondition = $group->getProperty('ie_condition');
             $flagName = $group->getProperty('flag_name');
@@ -186,10 +188,10 @@ class Magento_Page_Block_Html_Head extends Magento_Core_Block_Template
                 }
             }
 
-            if ($contentType == Magento_Core_Model_View_Publisher::CONTENT_TYPE_JS ) {
+            if ($contentType == \Magento\Core\Model\View\Publisher::CONTENT_TYPE_JS ) {
                 $groupTemplate = '<script' . $attributes . ' type="text/javascript" src="%s"></script>' . "\n";
             } else {
-                if ($contentType == Magento_Core_Model_View_Publisher::CONTENT_TYPE_CSS) {
+                if ($contentType == \Magento\Core\Model\View\Publisher::CONTENT_TYPE_CSS) {
                     $attributes = ' rel="stylesheet" type="text/css"' . ($attributes ?: ' media="all"');
                 }
                 $groupTemplate = '<link' . $attributes . ' href="%s" />' . "\n";
@@ -217,11 +219,11 @@ class Magento_Page_Block_Html_Head extends Magento_Core_Block_Template
     {
         $result = '';
         try {
-            /** @var $asset Magento_Core_Model_Page_Asset_AssetInterface */
+            /** @var $asset \Magento\Core\Model\Page\Asset\AssetInterface */
             foreach ($assets as $asset) {
                 $result .= sprintf($template, $asset->getUrl());
             }
-        } catch (Magento_Exception $e) {
+        } catch (\Magento\Exception $e) {
             $result .= sprintf($template, $this->_getNotFoundUrl());
         }
         return $result;
@@ -270,7 +272,7 @@ class Magento_Page_Block_Html_Head extends Magento_Core_Block_Template
      * Set title element text
      *
      * @param string|array $title
-     * @return Magento_Page_Block_Html_Head
+     * @return \Magento\Page\Block\Html\Head
      */
     public function setTitle($title)
     {
@@ -394,7 +396,7 @@ class Magento_Page_Block_Html_Head extends Magento_Core_Block_Template
      */
     protected function _getFaviconFile()
     {
-        $folderName = Magento_Backend_Model_Config_Backend_Image_Favicon::UPLOAD_DIR;
+        $folderName = \Magento\Backend\Model\Config\Backend\Image\Favicon::UPLOAD_DIR;
         $storeConfig = $this->_storeConfig->getConfig('design/head/shortcut_icon');
         $faviconFile = $this->_storeManager->getStore()->getBaseUrl('media') . $folderName . '/' . $storeConfig;
         $absolutePath = $this->_dir->getDir('media') . '/' . $folderName . '/' . $storeConfig;

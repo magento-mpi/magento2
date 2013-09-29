@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Page_Model_Config_Reader extends Magento_Config_Reader_Filesystem
+namespace Magento\Page\Model\Config;
+
+class Reader extends \Magento\Config\Reader\Filesystem
 {
     /**
      * List of identifier attributes for merging

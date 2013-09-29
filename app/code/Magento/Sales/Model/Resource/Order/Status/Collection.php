@@ -15,14 +15,16 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Resource_Order_Status_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Sales\Model\Resource\Order\Status;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Internal constructor
      */
     protected function _construct()
     {
-        $this->_init('Magento_Sales_Model_Order_Status', 'Magento_Sales_Model_Resource_Order_Status');
+        $this->_init('Magento\Sales\Model\Order\Status', 'Magento\Sales\Model\Resource\Order\Status');
     }
 
     /**
@@ -78,7 +80,7 @@ class Magento_Sales_Model_Resource_Order_Status_Collection extends Magento_Core_
      * Define label order
      *
      * @param string $dir
-     * @return Magento_Sales_Model_Resource_Order_Status_Collection
+     * @return \Magento\Sales\Model\Resource\Order\Status\Collection
      */
     public function orderByLabel($dir = 'ASC')
     {

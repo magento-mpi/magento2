@@ -16,7 +16,9 @@
  * @package     Magento_CustomAttribute
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CustomAttribute_Block_Form_Renderer_Boolean extends Magento_CustomAttribute_Block_Form_Renderer_Select
+namespace Magento\CustomAttribute\Block\Form\Renderer;
+
+class Boolean extends \Magento\CustomAttribute\Block\Form\Renderer\Select
 {
     /**
      * Return array of select options

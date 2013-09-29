@@ -11,7 +11,9 @@
 /**
  * Db migration logger. Output result print to console
  */
-class Magento_Tools_Migration_Acl_Db_Logger_Console extends Magento_Tools_Migration_Acl_Db_LoggerAbstract
+namespace Magento\Tools\Migration\Acl\Db\Logger;
+
+class Console extends \Magento\Tools\Migration\Acl\Db\LoggerAbstract
 {
     /**
      * Print logs to console

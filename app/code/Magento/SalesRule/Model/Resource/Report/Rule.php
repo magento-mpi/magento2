@@ -16,29 +16,31 @@
  * @package     Magento_SalesRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_SalesRule_Model_Resource_Report_Rule extends Magento_Reports_Model_Resource_Report_Abstract
+namespace Magento\SalesRule\Model\Resource\Report;
+
+class Rule extends \Magento\Reports\Model\Resource\Report\AbstractReport
 {
     /**
-     * @var Magento_SalesRule_Model_Resource_Report_Rule_Createdat
+     * @var \Magento\SalesRule\Model\Resource\Report\Rule\Createdat
      */
     protected $_ruleCreated;
 
     /**
-     * @var Magento_SalesRule_Model_Resource_Report_Rule_Updatedat
+     * @var \Magento\SalesRule\Model\Resource\Report\Rule\Updatedat
      */
     protected $_ruleUpdated;
 
     /**
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Core_Model_Resource $resource
-     * @param Magento_SalesRule_Model_Resource_Report_Rule_Createdat $ruleCreated
-     * @param Magento_SalesRule_Model_Resource_Report_Rule_Updatedat $ruleUpdated
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\SalesRule\Model\Resource\Report\Rule\Createdat $ruleCreated
+     * @param \Magento\SalesRule\Model\Resource\Report\Rule\Updatedat $ruleUpdated
      */
     public function __construct(
-        Magento_Core_Model_Logger $logger,
-        Magento_Core_Model_Resource $resource,
-        Magento_SalesRule_Model_Resource_Report_Rule_Createdat $ruleCreated,
-        Magento_SalesRule_Model_Resource_Report_Rule_Updatedat $ruleUpdated
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Core\Model\Resource $resource,
+        \Magento\SalesRule\Model\Resource\Report\Rule\Createdat $ruleCreated,
+        \Magento\SalesRule\Model\Resource\Report\Rule\Updatedat $ruleUpdated
     ) {
         parent::__construct($logger, $resource);
         $this->_ruleCreated = $ruleCreated;
@@ -58,13 +60,13 @@ class Magento_SalesRule_Model_Resource_Report_Rule extends Magento_Reports_Model
      *
      * @param mixed $from
      * @param mixed $to
-     * @return Magento_SalesRule_Model_Resource_Report_Rule
+     * @return \Magento\SalesRule\Model\Resource\Report\Rule
      */
     public function aggregate($from = null, $to = null)
     {
         $this->_ruleCreated->aggregate($from, $to);
         $this->_ruleUpdated->aggregate($from, $to);
-        $this->_setFlagData(Magento_Reports_Model_Flag::REPORT_COUPONS_FLAG_CODE);
+        $this->_setFlagData(\Magento\Reports\Model\Flag::REPORT_COUPONS_FLAG_CODE);
 
         return $this;
     }
@@ -81,7 +83,7 @@ class Magento_SalesRule_Model_Resource_Report_Rule extends Magento_Reports_Model
         $select = $adapter->select()
             ->from(
                 $tableName,
-                new Zend_Db_Expr('DISTINCT rule_name')
+                new \Zend_Db_Expr('DISTINCT rule_name')
             )
             ->where('rule_name IS NOT NULL')
             ->where('rule_name <> ?', '')

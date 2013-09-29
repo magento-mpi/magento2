@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Captcha_Model_DefaultTest extends PHPUnit_Framework_TestCase
+namespace Magento\Captcha\Model;
+
+class DefaultTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Captcha default config data
@@ -40,7 +42,7 @@ class Magento_Captcha_Model_DefaultTest extends PHPUnit_Framework_TestCase
     );
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_dirMock;
 
@@ -56,27 +58,27 @@ class Magento_Captcha_Model_DefaultTest extends PHPUnit_Framework_TestCase
     );
 
     /**
-     * @var Magento_Captcha_Model_Default
+     * @var \Magento\Captcha\Model\DefaultModel
      */
     protected $_object;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_objectManager;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_storeManager;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_session;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_resLogFactory;
 
@@ -88,28 +90,28 @@ class Magento_Captcha_Model_DefaultTest extends PHPUnit_Framework_TestCase
     {
         $this->session = $this->_getSessionStub();
 
-        $this->_storeManager = $this->getMock('Magento_Core_Model_StoreManager', array('getStore'), array(), '', false);
+        $this->_storeManager = $this->getMock('Magento\Core\Model\StoreManager', array('getStore'), array(), '', false);
         $this->_storeManager->expects($this->any())
             ->method('getStore')
             ->will($this->returnValue($this->_getStoreStub()));
 
-        // Magento_Customer_Model_Session
-        $this->_objectManager = $this->getMock('Magento_ObjectManager');
+        // \Magento\Customer\Model\Session
+        $this->_objectManager = $this->getMock('Magento\ObjectManager');
         $this->_objectManager->expects($this->any())
             ->method('get')
             ->will($this->returnValueMap(array(
-                'Magento_Captcha_Helper_Data' => $this->_getHelperStub(),
-                'Magento_Customer_Model_Session' => $this->session,
+                'Magento\Captcha\Helper\Data' => $this->_getHelperStub(),
+                'Magento\Customer\Model\Session' => $this->session,
             )));
 
 
-        $this->_resLogFactory = $this->getMock('Magento_Captcha_Model_Resource_LogFactory',
+        $this->_resLogFactory = $this->getMock('Magento\Captcha\Model\Resource\LogFactory',
             array('create'), array(), '', false);
         $this->_resLogFactory->expects($this->any())
             ->method('create')
             ->will($this->returnValue($this->_getResourceModelStub()));
 
-        $this->_object = new Magento_Captcha_Model_Default(
+        $this->_object = new \Magento\Captcha\Model\DefaultModel(
             $this->session,
             $this->_getHelperStub(),
             $this->_resLogFactory,
@@ -118,15 +120,15 @@ class Magento_Captcha_Model_DefaultTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Magento_Captcha_Model_Default::getBlockName
+     * @covers \Magento\Captcha\Model\DefaultModel::getBlockName
      */
     public function testGetBlockName()
     {
-        $this->assertEquals($this->_object->getBlockName(), 'Magento_Captcha_Block_Captcha_Default');
+        $this->assertEquals($this->_object->getBlockName(), 'Magento\Captcha\Block\Captcha\DefaultCaptcha');
     }
 
     /**
-     * @covers Magento_Captcha_Model_Default::isRequired
+     * @covers \Magento\Captcha\Model\DefaultModel::isRequired
      */
     public function testIsRequired()
     {
@@ -134,7 +136,7 @@ class Magento_Captcha_Model_DefaultTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Magento_Captcha_Model_Default::isCaseSensitive
+     * @covers \Magento\Captcha\Model\DefaultModel::isCaseSensitive
      */
     public function testIsCaseSensitive()
     {
@@ -145,7 +147,7 @@ class Magento_Captcha_Model_DefaultTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Magento_Captcha_Model_Default::getFont
+     * @covers \Magento\Captcha\Model\DefaultModel::getFont
      */
     public function testGetFont()
     {
@@ -156,8 +158,8 @@ class Magento_Captcha_Model_DefaultTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Magento_Captcha_Model_Default::getTimeout
-     * @covers Magento_Captcha_Model_Default::getExpiration
+     * @covers \Magento\Captcha\Model\DefaultModel::getTimeout
+     * @covers \Magento\Captcha\Model\DefaultModel::getExpiration
      */
     public function testGetTimeout()
     {
@@ -168,7 +170,7 @@ class Magento_Captcha_Model_DefaultTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Magento_Captcha_Model_Default::isCorrect
+     * @covers \Magento\Captcha\Model\DefaultModel::isCorrect
      */
     public function testIsCorrect()
     {
@@ -186,7 +188,7 @@ class Magento_Captcha_Model_DefaultTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Magento_Captcha_Model_Default::getImgSrc
+     * @covers \Magento\Captcha\Model\DefaultModel::getImgSrc
      */
     public function testGetImgSrc()
     {
@@ -197,11 +199,11 @@ class Magento_Captcha_Model_DefaultTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Magento_Captcha_Model_Default::logAttempt
+     * @covers \Magento\Captcha\Model\DefaultModel::logAttempt
      */
     public function testLogAttempt()
     {
-        $captcha = new Magento_Captcha_Model_Default(
+        $captcha = new \Magento\Captcha\Model\DefaultModel(
             $this->session,
             $this->_getHelperStub(),
             $this->_resLogFactory,
@@ -214,7 +216,7 @@ class Magento_Captcha_Model_DefaultTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Magento_Captcha_Model_Default::getWord
+     * @covers \Magento\Captcha\Model\DefaultModel::getWord
      */
     public function testGetWord()
     {
@@ -233,11 +235,11 @@ class Magento_Captcha_Model_DefaultTest extends PHPUnit_Framework_TestCase
     /**
      * Create stub session object
      *
-     * @return Magento_Customer_Model_Session
+     * @return \Magento\Customer\Model\Session
      */
     protected function _getSessionStub()
     {
-        $session = $this->getMock('Magento_Customer_Model_Session', array('isLoggedIn'), array(), '', false);
+        $session = $this->getMock('Magento\Customer\Model\Session', array('isLoggedIn'), array(), '', false);
         $session->expects($this->any())
             ->method('isLoggedIn')
             ->will($this->returnValue(false));
@@ -255,18 +257,18 @@ class Magento_Captcha_Model_DefaultTest extends PHPUnit_Framework_TestCase
 
     /**
      * Create helper stub
-     * @return Magento_Captcha_Helper_Data
+     * @return \Magento\Captcha\Helper\Data
      */
     protected function _getHelperStub()
     {
-        $helper = $this->getMockBuilder('Magento_Captcha_Helper_Data')
+        $helper = $this->getMockBuilder('Magento\Captcha\Helper\Data')
             ->disableOriginalConstructor()
             ->setMethods(array('getConfigNode', 'getFonts', '_getWebsiteCode', 'getImgUrl'))
             ->getMock();
 
         $helper->expects($this->any())
             ->method('getConfigNode')
-            ->will($this->returnCallback('Magento_Captcha_Model_DefaultTest::getConfigNodeStub'));
+            ->will($this->returnCallback('Magento\Captcha\Model\DefaultTest::getConfigNodeStub'));
 
         $helper->expects($this->any())
             ->method('getFonts')
@@ -286,12 +288,12 @@ class Magento_Captcha_Model_DefaultTest extends PHPUnit_Framework_TestCase
 
     /**
      * Get stub for resource model
-     * @return Magento_Captcha_Model_Resource_Log
+     * @return \Magento\Captcha\Model\Resource\Log
      */
     protected function _getResourceModelStub()
     {
         $resourceModel = $this->getMock(
-            'Magento_Captcha_Model_Resource_Log',
+            'Magento\Captcha\Model\Resource\Log',
             array('countAttemptsByRemoteAddress', 'countAttemptsByUserLogin', 'logAttempt'),
             array(), '', false
         );
@@ -313,7 +315,7 @@ class Magento_Captcha_Model_DefaultTest extends PHPUnit_Framework_TestCase
      * Mock get config method
      * @static
      * @return string
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public static function getConfigNodeStub()
     {
@@ -324,17 +326,17 @@ class Magento_Captcha_Model_DefaultTest extends PHPUnit_Framework_TestCase
             return self::$_defaultConfig[$hashName];
         }
 
-        throw new InvalidArgumentException('Unknow id = ' . $hashName);
+        throw new \InvalidArgumentException('Unknow id = ' . $hashName);
     }
 
     /**
      * Create store stub
      *
-     * @return Magento_Core_Model_Store
+     * @return \Magento\Core\Model\Store
      */
     protected function _getStoreStub()
     {
-        $store = $this->getMock('Magento_Core_Model_Store', array(), array(), '', false);
+        $store = $this->getMock('Magento\Core\Model\Store', array(), array(), '', false);
         $store->expects($this->any())
             ->method('getBaseUrl')
             ->will($this->returnValue('http://localhost/pub/media/'));
@@ -351,7 +353,7 @@ class Magento_Captcha_Model_DefaultTest extends PHPUnit_Framework_TestCase
      */
     public function testIsShownToLoggedInUser($expectedResult, $formId)
     {
-        $captcha = new Magento_Captcha_Model_Default(
+        $captcha = new \Magento\Captcha\Model\DefaultModel(
             $this->session,
             $this->_getHelperStub(),
             $this->_resLogFactory,

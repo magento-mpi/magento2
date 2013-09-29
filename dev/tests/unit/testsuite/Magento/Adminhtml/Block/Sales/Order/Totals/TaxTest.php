@@ -10,60 +10,62 @@
  */
 
 /**
- * Test class for Magento_Adminhtml_Block_Sales_Order_Totals_TaxTest
+ * Test class for \Magento\Adminhtml\Block\Sales\Order\Totals\TaxTest
  */
-class Magento_Adminhtml_Block_Sales_Order_Totals_TaxTest extends PHPUnit_Framework_TestCase
+namespace Magento\Adminhtml\Block\Sales\Order\Totals;
+
+class TaxTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Adminhtml_Block_Sales_Order_Totals_Tax
+     * @var \Magento\Adminhtml\Block\Sales\Order\Totals\Tax
      */
     protected $_block;
 
     /**
-     * @var Magento_ObjectManager|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\ObjectManager|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_objectManager;
 
     /**
-     * Instantiate Magento_Adminhtml_Block_Sales_Order_Totals_Tax block
+     * Instantiate \Magento\Adminhtml\Block\Sales\Order\Totals\Tax block
      */
     protected function setUp()
     {
-        $this->_block = $this->getMockBuilder('Magento_Adminhtml_Block_Sales_Order_Totals_Tax')
+        $this->_block = $this->getMockBuilder('Magento\Adminhtml\Block\Sales\Order\Totals\Tax')
             ->setConstructorArgs($this->_getModelArgument())
             ->setMethods(array('getOrder'))
             ->getMock();
     }
 
     /**
-     * Module arguments for Magento_Adminhtml_Block_Sales_Order_Totals_Tax
+     * Module arguments for \Magento\Adminhtml\Block\Sales\Order\Totals\Tax
      *
      * @return array
      */
     protected function _getModelArgument()
     {
-        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         return $objectManagerHelper->getConstructArguments(
-            'Magento_Adminhtml_Block_Sales_Order_Totals_Tax',
+            'Magento\Adminhtml\Block\Sales\Order\Totals\Tax',
             array(
-                'coreData'        => $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false),
-                'context'         => $this->getMock('Magento_Backend_Block_Template_Context', array(), array(), '',
+                'coreData'        => $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false),
+                'context'         => $this->getMock('Magento\Backend\Block\Template\Context', array(), array(), '',
                     false),
-                'taxConfig'       => $this->getMock('Magento_Tax_Model_Config', array(), array(), '', false),
+                'taxConfig'       => $this->getMock('Magento\Tax\Model\Config', array(), array(), '', false),
                 'taxHelper'       => $this->_getTaxHelperMock(),
-                'taxCalculation'  => $this->getMock('Magento_Tax_Model_Calculation', array(), array(), '', false),
-                'taxOrderFactory' => $this->getMock('Magento_Tax_Model_Sales_Order_Tax_Factory', array(), array(), '',
+                'taxCalculation'  => $this->getMock('Magento\Tax\Model\Calculation', array(), array(), '', false),
+                'taxOrderFactory' => $this->getMock('Magento\Tax\Model\Sales\Order\Tax\Factory', array(), array(), '',
                     false),
             )
         );
     }
 
     /**
-     * @return Magento_Sales_Model_Order|PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\Sales\Model\Order|PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getSalesOrderMock()
     {
-        $orderMock = $this->getMockBuilder('Magento_Sales_Model_Order')
+        $orderMock = $this->getMockBuilder('Magento\Sales\Model\Order')
             ->setMethods(array('getItemsCollection'))
             ->disableOriginalConstructor()
             ->getMock();
@@ -74,17 +76,17 @@ class Magento_Adminhtml_Block_Sales_Order_Totals_TaxTest extends PHPUnit_Framewo
     }
 
     /**
-     * @return Magento_Tax_Helper_Data|PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\Tax\Helper\Data|PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getTaxHelperMock()
     {
-        $taxHelper = $this->getMockBuilder('Magento_Tax_Helper_Data')
+        $taxHelper = $this->getMockBuilder('Magento\Tax\Helper\Data')
             ->setConstructorArgs(array(
-                'coreData' => $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false),
-                'context' => $this->getMock('Magento_Core_Helper_Context', array(), array(), '', false),
-                'coreRegistry' => $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false),
-                'coreStoreConfig' => $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false),
-                'taxConfig' => $this->getMock('Magento_Tax_Model_Config', array(), array(), '', false)
+                'coreData' => $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false),
+                'context' => $this->getMock('Magento\Core\Helper\Context', array(), array(), '', false),
+                'coreRegistry' => $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false),
+                'coreStoreConfig' => $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false),
+                'taxConfig' => $this->getMock('Magento\Tax\Model\Config', array(), array(), '', false)
             ))
             ->setMethods(null)
             ->getMock();

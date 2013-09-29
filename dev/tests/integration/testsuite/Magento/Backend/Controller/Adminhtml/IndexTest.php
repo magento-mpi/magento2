@@ -9,15 +9,18 @@
  * @license     {license_link}
  */
 
+
+namespace Magento\Backend\Controller\Adminhtml;
+
 /**
- * Test class for Magento_Backend_Controller_Adminhtml_Index.
+ * Test class for \Magento\Backend\Controller\Adminhtml\Index.
  *
  * @magentoAppArea adminhtml
  */
-class Magento_Backend_Controller_Adminhtml_IndexTest extends Magento_TestFramework_TestCase_ControllerAbstract
+class IndexTest extends \Magento\TestFramework\TestCase\ControllerAbstract
 {
     /**
-     * @var Magento_Backend_Model_Auth
+     * @var \Magento\Backend\Model\Auth
      */
     protected $_auth;
 
@@ -26,11 +29,11 @@ class Magento_Backend_Controller_Adminhtml_IndexTest extends Magento_TestFramewo
      */
     protected  function _login()
     {
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Backend_Model_Url')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Backend\Model\Url')
             ->turnOffSecretKey();
-        $this->_auth = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Backend_Model_Auth');
+        $this->_auth = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Backend\Model\Auth');
         $this->_auth->login(
-            Magento_TestFramework_Bootstrap::ADMIN_NAME, Magento_TestFramework_Bootstrap::ADMIN_PASSWORD);
+            \Magento\TestFramework\Bootstrap::ADMIN_NAME, \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD);
     }
 
     /**
@@ -39,12 +42,13 @@ class Magento_Backend_Controller_Adminhtml_IndexTest extends Magento_TestFramewo
     protected function _logout()
     {
         $this->_auth->logout();
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Backend_Model_Url')->turnOnSecretKey();
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Backend\Model\Url')->turnOnSecretKey();
     }
 
     /**
      * Check not logged state
-     * @covers Magento_Backend_Controller_Adminhtml_Index::indexAction
+     * @covers \Magento\Backend\Controller\Adminhtml\Index::indexAction
      */
     public function testNotLoggedIndexAction()
     {
@@ -58,7 +62,7 @@ class Magento_Backend_Controller_Adminhtml_IndexTest extends Magento_TestFramewo
 
     /**
      * Check logged state
-     * @covers Magento_Backend_Controller_Adminhtml_Index::indexAction
+     * @covers \Magento\Backend\Controller\Adminhtml\Index::indexAction
      * @magentoDbIsolation enabled
      */
     public function testLoggedIndexAction()

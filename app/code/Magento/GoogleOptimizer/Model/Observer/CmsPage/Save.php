@@ -7,17 +7,19 @@
  * @copyright {copyright}
  * @license {license_link}
  */
-class Magento_GoogleOptimizer_Model_Observer_CmsPage_Save extends Magento_GoogleOptimizer_Model_Observer_SaveAbstract
+namespace Magento\GoogleOptimizer\Model\Observer\CmsPage;
+
+class Save extends \Magento\GoogleOptimizer\Model\Observer\SaveAbstract
 {
     /**
-     * @var Magento_Cms_Model_Page
+     * @var \Magento\Cms\Model\Page
      */
     protected $_page;
 
     /**
      * Init entity
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
     protected function _initEntity($observer)
     {
@@ -32,7 +34,7 @@ class Magento_GoogleOptimizer_Model_Observer_CmsPage_Save extends Magento_Google
     protected function _getCodeData()
     {
         return array(
-            'entity_type' => Magento_GoogleOptimizer_Model_Code::ENTITY_TYPE_PAGE,
+            'entity_type' => \Magento\GoogleOptimizer\Model\Code::ENTITY_TYPE_PAGE,
             'entity_id' => $this->_page->getId(),
             'store_id' => 0,
             'experiment_script' => $this->_params['experiment_script'],

@@ -11,7 +11,9 @@
 /**
  * Theme Image Uploader
  */
-class Magento_Core_Model_Theme_Image_Uploader
+namespace Magento\Core\Model\Theme\Image;
+
+class Uploader
 {
     /**
      * Allowed file extensions to upload
@@ -21,17 +23,17 @@ class Magento_Core_Model_Theme_Image_Uploader
     protected  $_allowedExtensions = array('jpg', 'jpeg', 'gif', 'png', 'xbm', 'wbmp');
 
     /**
-     * @var Magento_Filesystem
+     * @var \Magento\Filesystem
      */
     protected $_filesystem;
 
     /**
-     * @var Zend_File_Transfer_Adapter_Http
+     * @var \Zend_File_Transfer_Adapter_Http
      */
     protected $_transferAdapter;
 
     /**
-     * @var Magento_File_UploaderFactory
+     * @var \Magento\File\UploaderFactory
      */
     protected $_uploaderFactory;
 
@@ -39,14 +41,14 @@ class Magento_Core_Model_Theme_Image_Uploader
     /**
      * Initialize dependencies
      *
-     * @param Magento_Filesystem $filesystem
-     * @param Zend_File_Transfer_Adapter_Http $transferAdapter
-     * @param Magento_File_UploaderFactory $uploaderFactory
+     * @param \Magento\Filesystem $filesystem
+     * @param \Zend_File_Transfer_Adapter_Http $transferAdapter
+     * @param \Magento\File\UploaderFactory $uploaderFactory
      */
     public function __construct(
-        Magento_Filesystem $filesystem,
-        Zend_File_Transfer_Adapter_Http $transferAdapter,
-        Magento_File_UploaderFactory $uploaderFactory
+        \Magento\Filesystem $filesystem,
+        \Zend_File_Transfer_Adapter_Http $transferAdapter,
+        \Magento\File\UploaderFactory $uploaderFactory
     ) {
         $this->_filesystem = $filesystem;
         $this->_transferAdapter = $transferAdapter;
@@ -59,7 +61,7 @@ class Magento_Core_Model_Theme_Image_Uploader
      * @param string $scope the request key for file
      * @param string $destinationPath path to upload directory
      * @return bool
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     public function uploadPreviewImage($scope, $destinationPath)
     {
@@ -67,7 +69,7 @@ class Magento_Core_Model_Theme_Image_Uploader
             return false;
         }
         if (!$this->_transferAdapter->isValid($scope)) {
-            throw new Magento_Core_Exception(__('Uploaded image is not valid'));
+            throw new \Magento\Core\Exception(__('Uploaded image is not valid'));
         }
         $upload = $this->_uploaderFactory->create(array('fileId' => $scope));
         $upload->setAllowCreateFolders(true);
@@ -76,10 +78,10 @@ class Magento_Core_Model_Theme_Image_Uploader
         $upload->setFilesDispersion(false);
 
         if (!$upload->checkAllowedExtension($upload->getFileExtension())) {
-            throw new Magento_Core_Exception(__('Invalid image file type.'));
+            throw new \Magento\Core\Exception(__('Invalid image file type.'));
         }
         if (!$upload->save($destinationPath)) {
-            throw new Magento_Core_Exception(__('Image can not be saved.'));
+            throw new \Magento\Core\Exception(__('Image can not be saved.'));
         }
         return $destinationPath . DIRECTORY_SEPARATOR . $upload->getUploadedFileName();
     }

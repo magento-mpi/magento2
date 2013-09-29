@@ -8,10 +8,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\Cron\Model;
+
 /**
- * Interface Magento_Cron_Model_ConfigInterface
+ * Interface \Magento\Cron\Model\ConfigInterface
  */
-interface Magento_Cron_Model_ConfigInterface
+interface ConfigInterface
 {
     /**
      * Return list of cron jobs

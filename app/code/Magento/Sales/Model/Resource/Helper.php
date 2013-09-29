@@ -11,20 +11,22 @@
 /**
  * Sales Mysql resource helper model
  */
-class Magento_Sales_Model_Resource_Helper extends Magento_Core_Model_Resource_Helper
-    implements Magento_Sales_Model_Resource_HelperInterface
+namespace Magento\Sales\Model\Resource;
+
+class Helper extends \Magento\Core\Model\Resource\Helper
+    implements \Magento\Sales\Model\Resource\HelperInterface
 {
     /**
-     * @var Magento_Reports_Model_Resource_Helper
+     * @var \Magento\Reports\Model\Resource\Helper
      */
     protected $_reportsResourceHelper;
 
     /**
-     * @param Magento_Reports_Model_Resource_Helper $reportsResourceHelper
+     * @param \Magento\Reports\Model\Resource\Helper $reportsResourceHelper
      * @param string $modulePrefix
      */
     public function __construct(
-        Magento_Reports_Model_Resource_Helper $reportsResourceHelper,
+        \Magento\Reports\Model\Resource\Helper $reportsResourceHelper,
         $modulePrefix = 'sales'
     ) {
         parent::__construct($modulePrefix);
@@ -34,11 +36,11 @@ class Magento_Sales_Model_Resource_Helper extends Magento_Core_Model_Resource_He
     /**
      * Update rating position
      *
-     * @param string $aggregation One of Magento_Sales_Model_Resource_Report_Bestsellers::AGGREGATION_XXX constants
+     * @param string $aggregation One of \Magento\Sales\Model\Resource\Report\Bestsellers::AGGREGATION_XXX constants
      * @param array $aggregationAliases
      * @param string $mainTable
      * @param string $aggregationTable
-     * @return Magento_Sales_Model_Resource_Helper
+     * @return \Magento\Sales\Model\Resource\Helper
      */
     public function getBestsellersReportUpdateRatingPos($aggregation, $aggregationAliases,
         $mainTable, $aggregationTable

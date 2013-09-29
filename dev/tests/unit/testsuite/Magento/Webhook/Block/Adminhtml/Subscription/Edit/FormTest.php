@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento_Webhook_Block_Adminhtml_Subscription_Edit_Form
+ * \Magento\Webhook\Block\Adminhtml\Subscription\Edit\Form
  *
  * {license_notice}
  *
@@ -9,33 +9,35 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Block_Adminhtml_Subscription_Edit_FormTest extends Magento_Test_Block_Adminhtml
+namespace Magento\Webhook\Block\Adminhtml\Subscription\Edit;
+
+class FormTest extends \Magento\Test\Block\Adminhtml
 {
-    /** @var  PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \PHPUnit_Framework_MockObject_MockObject */
     private $_formMock;
 
-    /** @var  PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \PHPUnit_Framework_MockObject_MockObject */
     private $_formFactoryMock;
 
-    /** @var  Magento_Core_Model_Registry */
+    /** @var  \Magento\Core\Model\Registry */
     private $_registry;
 
-    /** @var  Magento_Core_Helper_Data */
+    /** @var  \Magento\Core\Helper\Data */
     protected $_coreData;
 
-    /** @var  PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \PHPUnit_Framework_MockObject_MockObject */
     private $_formatMock;
 
-    /** @var  PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \PHPUnit_Framework_MockObject_MockObject */
     private $_authenticationMock;
 
-    /** @var  PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \PHPUnit_Framework_MockObject_MockObject */
     private $_hookMock;
 
-    /** @var  PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \PHPUnit_Framework_MockObject_MockObject */
     private $_dataFormMock;
 
-    /** @var  PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \PHPUnit_Framework_MockObject_MockObject */
     private $_fieldsetMock;
 
     /** @var  string[] */
@@ -43,22 +45,22 @@ class Magento_Webhook_Block_Adminhtml_Subscription_Edit_FormTest extends Magento
 
     public function testPrepareColumns()
     {
-        $this->_formFactoryMock = $this->getMock('Magento_Data_Form_Factory', array('create'),
+        $this->_formFactoryMock = $this->getMock('Magento\Data\Form\Factory', array('create'),
             array(), '', false, false);
-        $this->_registry = new Magento_Core_Model_Registry();
-        $this->_coreData = $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false);
-        $this->_formatMock = $this->_makeMock('Magento_Webhook_Model_Source_Format');
-        $this->_authenticationMock = $this->_makeMock('Magento_Webhook_Model_Source_Authentication');
-        $this->_hookMock = $this->_makeMock('Magento_Webhook_Model_Source_Hook');
+        $this->_registry = new \Magento\Core\Model\Registry();
+        $this->_coreData = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
+        $this->_formatMock = $this->_makeMock('Magento\Webhook\Model\Source\Format');
+        $this->_authenticationMock = $this->_makeMock('Magento\Webhook\Model\Source\Authentication');
+        $this->_hookMock = $this->_makeMock('Magento\Webhook\Model\Source\Hook');
 
-        $selectMock = $this->_makeMock('Magento_DB_Select');
-        $collectionMock = $this->_makeMock('Magento_Data_Collection_Db');
+        $selectMock = $this->_makeMock('Magento\DB\Select');
+        $collectionMock = $this->_makeMock('Magento\Data\Collection\Db');
         $this->_setStub($collectionMock, 'getSelect', $selectMock);
 
         // Primary test logic
-        $this->_dataFormMock = $this->_makeMock('Magento_Data_Form');
+        $this->_dataFormMock = $this->_makeMock('Magento\Data\Form');
         $this->_setStub($this->_formFactoryMock, 'create', $this->_dataFormMock);
-        $this->_fieldsetMock = $this->_makeMock('Magento_Data_Form_Element_Fieldset');
+        $this->_fieldsetMock = $this->_makeMock('Magento\Data\Form\Element\Fieldset');
         $this->_setStub($this->_dataFormMock, 'addFieldset', $this->_fieldsetMock);
         $this->_fieldsetMock->expects($this->atLeastOnce())
             ->method('addField')
@@ -89,9 +91,9 @@ class Magento_Webhook_Block_Adminhtml_Subscription_Edit_FormTest extends Magento
             'addColumn'
         );
 
-        $this->_formMock =  $this->getMock('Magento_Webhook_Block_Adminhtml_Subscription_Edit_Form', $methods,
+        $this->_formMock =  $this->getMock('Magento\Webhook\Block\Adminhtml\Subscription\Edit\Form', $methods,
             $arguments);
-        $columnsSetMock = $this->_makeMock('Magento_Backend_Block_Widget_Grid_ColumnSet');
+        $columnsSetMock = $this->_makeMock('Magento\Backend\Block\Widget\Grid\ColumnSet');
         $this->_setStub($this->_formMock, 'getChildBlock', $columnsSetMock);
 
         // Intended to call _prepareColumns

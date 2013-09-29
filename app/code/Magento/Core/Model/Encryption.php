@@ -15,12 +15,14 @@
  * @package    Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Encryption implements Magento_Core_Model_EncryptionInterface
+namespace Magento\Core\Model;
+
+class Encryption implements \Magento\Core\Model\EncryptionInterface
 {
     const PARAM_CRYPT_KEY = 'crypt.key';
 
     /**
-     * @var Magento_Crypt
+     * @var \Magento\Crypt
      */
     protected $_crypt;
 
@@ -30,7 +32,7 @@ class Magento_Core_Model_Encryption implements Magento_Core_Model_EncryptionInte
     protected $_helper;
 
     /**
-     * @var Magento_ObjectManager|null
+     * @var \Magento\ObjectManager|null
      */
     protected $_objectManager = null;
 
@@ -42,11 +44,11 @@ class Magento_Core_Model_Encryption implements Magento_Core_Model_EncryptionInte
     protected $_cryptKey;
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      * @param string $cryptKey
      */
     public function __construct(
-        Magento_ObjectManager $objectManager,
+        \Magento\ObjectManager $objectManager,
         $cryptKey
     ) {
         $this->_objectManager = $objectManager;
@@ -56,18 +58,18 @@ class Magento_Core_Model_Encryption implements Magento_Core_Model_EncryptionInte
     /**
      * Set helper instance
      *
-     * @param Magento_Core_Helper_Data|string $helper
-     * @return Magento_Core_Model_Encryption
-     * @throws InvalidArgumentException
+     * @param \Magento\Core\Helper\Data|string $helper
+     * @return \Magento\Core\Model\Encryption
+     * @throws \InvalidArgumentException
      */
     public function setHelper($helper)
     {
         if (!is_string($helper)) {
-            if ($helper instanceof Magento_Core_Helper_Abstract) {
+            if ($helper instanceof \Magento\Core\Helper\AbstractHelper) {
                 $helper = get_class($helper);
             } else {
-                throw new InvalidArgumentException(
-                    'Input parameter "$helper" must be either "string" or instance of "Magento_Core_Helper_Abstract"'
+                throw new \InvalidArgumentException(
+                    'Input parameter "$helper" must be either "string" or instance of "Magento\Core\Helper\AbstractHelper"'
                 );
             }
         }
@@ -112,7 +114,7 @@ class Magento_Core_Model_Encryption implements Magento_Core_Model_EncryptionInte
      * @param string $password
      * @param string $hash
      * @return bool
-     * @throws Exception
+     * @throws \Exception
      */
     public function validateHash($password, $hash)
     {
@@ -123,14 +125,14 @@ class Magento_Core_Model_Encryption implements Magento_Core_Model_EncryptionInte
             case 2:
                 return $this->hash($hashArr[1] . $password) === $hashArr[0];
         }
-        Mage::throwException('Invalid hash.');
+        \Mage::throwException('Invalid hash.');
     }
 
     /**
      * Instantiate crypt model
      *
      * @param string $key
-     * @return Magento_Crypt
+     * @return \Magento\Crypt
      */
     protected function _getCrypt($key = null)
     {
@@ -138,7 +140,7 @@ class Magento_Core_Model_Encryption implements Magento_Core_Model_EncryptionInte
             if (null === $key) {
                 $key = $this->_cryptKey;
             }
-            $this->_crypt = new Magento_Crypt($key);
+            $this->_crypt = new \Magento\Crypt($key);
         }
         return $this->_crypt;
     }
@@ -169,7 +171,7 @@ class Magento_Core_Model_Encryption implements Magento_Core_Model_EncryptionInte
      * Return crypt model, instantiate if it is empty
      *
      * @param string $key
-     * @return Magento_Crypt
+     * @return \Magento\Crypt
      */
     public function validateKey($key)
     {

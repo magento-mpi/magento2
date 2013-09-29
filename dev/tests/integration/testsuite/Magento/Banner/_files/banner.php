@@ -10,11 +10,11 @@
  * Creates banner with enabled status and text content
  */
 
-/** @var $banner Magento_Banner_Model_Banner */
-$banner = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Banner_Model_Banner');
+/** @var $banner \Magento\Banner\Model\Banner */
+$banner = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Banner\Model\Banner');
 
-$banner->setIsEnabled(Magento_Banner_Model_Banner::STATUS_ENABLED)
+$banner->setIsEnabled(\Magento\Banner\Model\Banner::STATUS_ENABLED)
     ->setName('Test Banner')
     ->setTypes('')
     ->setStoreContents(array(0 => 'Banner Content'))

@@ -11,7 +11,9 @@
 /**
  * Currency filter
  */
-class Magento_Directory_Model_Currency_Filter implements Zend_Filter_Interface
+namespace Magento\Directory\Model\Currency;
+
+class Filter implements \Zend_Filter_Interface
 {
     /**
      * Rate value
@@ -23,29 +25,29 @@ class Magento_Directory_Model_Currency_Filter implements Zend_Filter_Interface
     /**
      * Currency object
      *
-     * @var Zend_Currency
+     * @var \Zend_Currency
      */
     protected $_currency;
 
     /**
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param string $code
      * @param int $rate
      */
     public function __construct(
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         $code,
         $rate = 1
     ) {

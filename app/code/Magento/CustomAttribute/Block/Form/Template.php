@@ -16,7 +16,9 @@
  * @package     Magento_CustomAttribute
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CustomAttribute_Block_Form_Template extends Magento_Core_Block_Abstract
+namespace Magento\CustomAttribute\Block\Form;
+
+class Template extends \Magento\Core\Block\AbstractBlock
 {
     /**
      * Array of attribute renderers data keyed by attribute front-end type
@@ -31,7 +33,7 @@ class Magento_CustomAttribute_Block_Form_Template extends Magento_Core_Block_Abs
      * @param string $type
      * @param string $block
      * @param string $template
-     * @return Magento_CustomAttribute_Block_Form_Template
+     * @return \Magento\CustomAttribute\Block\Form\Template
      */
     public function addRenderer($type, $block, $template)
     {

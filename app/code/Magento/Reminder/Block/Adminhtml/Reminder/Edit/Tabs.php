@@ -11,8 +11,10 @@
 /**
  * Reminder rules edit tabs block
  */
-class Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tabs
-    extends Magento_Adminhtml_Block_Widget_Tabs
+namespace Magento\Reminder\Block\Adminhtml\Reminder\Edit;
+
+class Tabs
+    extends \Magento\Adminhtml\Block\Widget\Tabs
 {
 
     /**
@@ -21,15 +23,15 @@ class Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tabs
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -52,14 +54,14 @@ class Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tabs
     /**
      * Add tab sections
      *
-     * @return Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tabs
+     * @return \Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tabs
      */
     protected function _beforeToHtml()
     {
         $this->addTab('general_section', array(
             'label'   => __('Rule Information'),
             'content' => $this->getLayout()->createBlock(
-                'Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tab_General',
+                'Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab\General',
                 'adminhtml_reminder_edit_tab_general'
             )->toHtml(),
         ));
@@ -67,7 +69,7 @@ class Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tabs
         $this->addTab('conditions_section', array(
             'label'   => __('Conditions'),
             'content' => $this->getLayout()->createBlock(
-                'Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Conditions',
+                'Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab\Conditions',
                 'adminhtml_reminder_edit_tab_conditions'
             )->toHtml()
         ));
@@ -75,7 +77,7 @@ class Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tabs
         $this->addTab('template_section', array(
             'label'   => __('Emails and Labels'),
             'content' => $this->getLayout()->createBlock(
-                'Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Templates',
+                'Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab\Templates',
                 'adminhtml_reminder_edit_tab_templates'
             )->toHtml()
         ));

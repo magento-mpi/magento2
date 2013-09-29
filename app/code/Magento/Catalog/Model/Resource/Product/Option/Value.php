@@ -16,7 +16,9 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Resource_Product_Option_Value extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Catalog\Model\Resource\Product\Option;
+
+class Value extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Define main table and initialize connection
@@ -31,10 +33,10 @@ class Magento_Catalog_Model_Resource_Product_Option_Value extends Magento_Core_M
      * Proceed operations after object is saved
      * Save options store data
      *
-     * @param Magento_Core_Model_Abstract $object
-     * @return Magento_Core_Model_Resource_Db_Abstract
+     * @param \Magento\Core\Model\AbstractModel $object
+     * @return \Magento\Core\Model\Resource\Db\AbstractDb
      */
-    protected function _afterSave(Magento_Core_Model_Abstract $object)
+    protected function _afterSave(\Magento\Core\Model\AbstractModel $object)
     {
         $this->_saveValuePrices($object);
         $this->_saveValueTitles($object);
@@ -45,9 +47,9 @@ class Magento_Catalog_Model_Resource_Product_Option_Value extends Magento_Core_M
     /**
      * Save option value price data
      *
-     * @param Magento_Core_Model_Abstract $object
+     * @param \Magento\Core\Model\AbstractModel $object
      */
-    protected function _saveValuePrices(Magento_Core_Model_Abstract $object)
+    protected function _saveValuePrices(\Magento\Core\Model\AbstractModel $object)
     {
         $priceTable = $this->getTable('catalog_product_option_type_price');
 
@@ -59,7 +61,7 @@ class Magento_Catalog_Model_Resource_Product_Option_Value extends Magento_Core_M
             $select = $this->_getReadAdapter()->select()
                 ->from($priceTable, 'option_type_id')
                 ->where('option_type_id = ?', (int)$object->getId())
-                ->where('store_id = ?', Magento_Catalog_Model_Abstract::DEFAULT_STORE_ID);
+                ->where('store_id = ?', \Magento\Catalog\Model\AbstractModel::DEFAULT_STORE_ID);
             $optionTypeId = $this->_getReadAdapter()->fetchOne($select);
 
             if ($optionTypeId) {
@@ -70,7 +72,7 @@ class Magento_Catalog_Model_Resource_Product_Option_Value extends Magento_Core_M
                     );
                     $where = array(
                         'option_type_id = ?'    => $optionTypeId,
-                        'store_id = ?'          => Magento_Catalog_Model_Abstract::DEFAULT_STORE_ID
+                        'store_id = ?'          => \Magento\Catalog\Model\AbstractModel::DEFAULT_STORE_ID
                     );
 
                     $this->_getWriteAdapter()->update($priceTable, $bind, $where);
@@ -78,7 +80,7 @@ class Magento_Catalog_Model_Resource_Product_Option_Value extends Magento_Core_M
             } else {
                 $bind  = array(
                     'option_type_id'    => (int)$object->getId(),
-                    'store_id'          => Magento_Catalog_Model_Abstract::DEFAULT_STORE_ID,
+                    'store_id'          => \Magento\Catalog\Model\AbstractModel::DEFAULT_STORE_ID,
                     'price'             => $price,
                     'price_type'        => $priceType
                 );
@@ -86,22 +88,22 @@ class Magento_Catalog_Model_Resource_Product_Option_Value extends Magento_Core_M
             }
         }
 
-        $scope = (int)Mage::app()->getStore()->getConfig(Magento_Core_Model_Store::XML_PATH_PRICE_SCOPE);
+        $scope = (int)\Mage::app()->getStore()->getConfig(\Magento\Core\Model\Store::XML_PATH_PRICE_SCOPE);
 
-        if ($object->getStoreId() != '0' && $scope == Magento_Core_Model_Store::PRICE_SCOPE_WEBSITE
+        if ($object->getStoreId() != '0' && $scope == \Magento\Core\Model\Store::PRICE_SCOPE_WEBSITE
             && !$object->getData('scope', 'price')) {
 
-            $baseCurrency = Mage::app()->getBaseCurrencyCode();
+            $baseCurrency = \Mage::app()->getBaseCurrencyCode();
 
-            $storeIds = Mage::app()->getStore($object->getStoreId())
+            $storeIds = \Mage::app()->getStore($object->getStoreId())
                 ->getWebsite()
                 ->getStoreIds();
             if (is_array($storeIds)) {
                 foreach ($storeIds as $storeId) {
                     if ($priceType == 'fixed') {
-                        $storeCurrency = Mage::app()->getStore($storeId)->getBaseCurrencyCode();
-                        /** @var $currencyModel Magento_Directory_Model_Currency */
-                        $currencyModel = Mage::getModel('Magento_Directory_Model_Currency');
+                        $storeCurrency = \Mage::app()->getStore($storeId)->getBaseCurrencyCode();
+                        /** @var $currencyModel \Magento\Directory\Model\Currency */
+                        $currencyModel = \Mage::getModel('Magento\Directory\Model\Currency');
                         $currencyModel->load($baseCurrency);
                         $rate = $currencyModel->getRate($storeCurrency);
                         if (!$rate) {
@@ -141,7 +143,7 @@ class Magento_Catalog_Model_Resource_Product_Option_Value extends Magento_Core_M
                     }
                 }// end of foreach()
             }
-        } else if ($scope == Magento_Core_Model_Store::PRICE_SCOPE_WEBSITE && $object->getData('scope', 'price')) {
+        } else if ($scope == \Magento\Core\Model\Store::PRICE_SCOPE_WEBSITE && $object->getData('scope', 'price')) {
             $where = array(
                 'option_type_id = ?'    => (int)$object->getId(),
                 'store_id = ?'          => (int)$object->getStoreId(),
@@ -154,9 +156,9 @@ class Magento_Catalog_Model_Resource_Product_Option_Value extends Magento_Core_M
     /**
      * Save option value title data
      *
-     * @param Magento_Core_Model_Abstract $object
+     * @param \Magento\Core\Model\AbstractModel $object
      */
-    protected function _saveValueTitles(Magento_Core_Model_Abstract $object)
+    protected function _saveValueTitles(\Magento\Core\Model\AbstractModel $object)
     {
         $titleTable = $this->getTable('catalog_product_option_type_title');
 
@@ -164,14 +166,14 @@ class Magento_Catalog_Model_Resource_Product_Option_Value extends Magento_Core_M
             $select = $this->_getReadAdapter()->select()
                 ->from($titleTable, array('option_type_id'))
                 ->where('option_type_id = ?', (int)$object->getId())
-                ->where('store_id = ?', Magento_Catalog_Model_Abstract::DEFAULT_STORE_ID);
+                ->where('store_id = ?', \Magento\Catalog\Model\AbstractModel::DEFAULT_STORE_ID);
             $optionTypeId = $this->_getReadAdapter()->fetchOne($select);
 
             if ($optionTypeId) {
                 if ($object->getStoreId() == '0') {
                     $where = array(
                         'option_type_id = ?'    => (int)$optionTypeId,
-                        'store_id = ?'          => Magento_Catalog_Model_Abstract::DEFAULT_STORE_ID
+                        'store_id = ?'          => \Magento\Catalog\Model\AbstractModel::DEFAULT_STORE_ID
                     );
                     $bind  = array(
                         'title' => $object->getTitle()
@@ -181,7 +183,7 @@ class Magento_Catalog_Model_Resource_Product_Option_Value extends Magento_Core_M
             } else {
                 $bind  = array(
                     'option_type_id'    => (int)$object->getId(),
-                    'store_id'          => Magento_Catalog_Model_Abstract::DEFAULT_STORE_ID,
+                    'store_id'          => \Magento\Catalog\Model\AbstractModel::DEFAULT_STORE_ID,
                     'title'             => $object->getTitle()
                 );
                 $this->_getWriteAdapter()->insert($titleTable, $bind);
@@ -225,7 +227,7 @@ class Magento_Catalog_Model_Resource_Product_Option_Value extends Magento_Core_M
      * Delete values by option id
      *
      * @param int $optionId
-     * @return Magento_Catalog_Model_Resource_Product_Option_Value
+     * @return \Magento\Catalog\Model\Resource\Product\Option\Value
      */
     public function deleteValue($optionId)
     {
@@ -274,12 +276,12 @@ class Magento_Catalog_Model_Resource_Product_Option_Value extends Magento_Core_M
     /**
      * Duplicate product options value
      *
-     * @param Magento_Catalog_Model_Product_Option_Value $object
+     * @param \Magento\Catalog\Model\Product\Option\Value $object
      * @param int $oldOptionId
      * @param int $newOptionId
-     * @return Magento_Catalog_Model_Product_Option_Value
+     * @return \Magento\Catalog\Model\Product\Option\Value
      */
-    public function duplicate(Magento_Catalog_Model_Product_Option_Value $object, $oldOptionId, $newOptionId)
+    public function duplicate(\Magento\Catalog\Model\Product\Option\Value $object, $oldOptionId, $newOptionId)
     {
         $writeAdapter = $this->_getWriteAdapter();
         $readAdapter  = $this->_getReadAdapter();
@@ -305,7 +307,7 @@ class Magento_Catalog_Model_Resource_Product_Option_Value extends Magento_Core_M
             // price
             $priceTable = $this->getTable('catalog_product_option_type_price');
             $columns= array(
-                new Zend_Db_Expr($newTypeId),
+                new \Zend_Db_Expr($newTypeId),
                 'store_id', 'price', 'price_type'
             );
 
@@ -320,7 +322,7 @@ class Magento_Catalog_Model_Resource_Product_Option_Value extends Magento_Core_M
             // title
             $titleTable = $this->getTable('catalog_product_option_type_title');
             $columns= array(
-                new Zend_Db_Expr($newTypeId),
+                new \Zend_Db_Expr($newTypeId),
                 'store_id', 'title'
             );
 

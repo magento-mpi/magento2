@@ -9,12 +9,14 @@
  */
 
 /**
- * Class Exception
+ * Class \Exception
  *
  * @category   Magento
  * @package    Magento_Connect
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Downloader_Exception extends Exception
+namespace Magento\Downloader;
+
+class Exception extends \Exception
 {
 }

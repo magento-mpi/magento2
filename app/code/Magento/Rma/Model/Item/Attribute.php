@@ -15,7 +15,9 @@
  * @package    Magento_Rma
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rma_Model_Item_Attribute extends Magento_Eav_Model_Attribute
+namespace Magento\Rma\Model\Item;
+
+class Attribute extends \Magento\Eav\Model\Attribute
 {
     /**
      * Name of the module
@@ -41,6 +43,6 @@ class Magento_Rma_Model_Item_Attribute extends Magento_Eav_Model_Attribute
      */
     protected function _construct()
     {
-        $this->_init('Magento_Rma_Model_Resource_Item_Attribute');
+        $this->_init('Magento\Rma\Model\Resource\Item\Attribute');
     }
 }

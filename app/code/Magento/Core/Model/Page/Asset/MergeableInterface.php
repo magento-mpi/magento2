@@ -11,6 +11,8 @@
 /**
  * Interface of an asset that can be merged with other assets
  */
-interface Magento_Core_Model_Page_Asset_MergeableInterface extends Magento_Core_Model_Page_Asset_LocalInterface
+namespace Magento\Core\Model\Page\Asset;
+
+interface MergeableInterface extends \Magento\Core\Model\Page\Asset\LocalInterface
 {
 }

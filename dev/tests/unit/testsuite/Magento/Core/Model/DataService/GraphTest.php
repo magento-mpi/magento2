@@ -1,13 +1,15 @@
 <?php
 /**
- * Magento_Core_Model_DataService_Invoker
+ * \Magento\Core\Model\DataService\Invoker
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_DataService_GraphTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\DataService;
+
+class GraphTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Fake info for service and classes.
@@ -21,7 +23,7 @@ class Magento_Core_Model_DataService_GraphTest extends PHPUnit_Framework_TestCas
     const TEST_NAMESPACE_ALIAS = 'TEST_NAMESPACE_ALIAS';
 
     /**
-     * @var Magento_Core_Model_DataService_Graph
+     * @var \Magento\Core\Model\DataService\Graph
      */
     protected $_graph;
 
@@ -31,22 +33,22 @@ class Magento_Core_Model_DataService_GraphTest extends PHPUnit_Framework_TestCas
     protected $_dataServiceMock;
 
     /**
-     * @var  PHPUnit_Framework_MockObject_MockObject
+     * @var  \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_invokerMock;
 
     /**
-     * @var  PHPUnit_Framework_MockObject_MockObject
+     * @var  \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_repositoryMock;
 
     protected function setUp()
     {
-        $this->_invokerMock = $this->getMock('Magento_Core_Model_DataService_Invoker', array(), array(), "", false);
+        $this->_invokerMock = $this->getMock('Magento\Core\Model\DataService\Invoker', array(), array(), "", false);
         $this->_repositoryMock = $this->getMock(
-            'Magento_Core_Model_DataService_Repository', array(), array(), "", false
+            'Magento\Core\Model\DataService\Repository', array(), array(), "", false
         );
-        $this->_graph = new Magento_Core_Model_DataService_Graph($this->_invokerMock, $this->_repositoryMock);
+        $this->_graph = new \Magento\Core\Model\DataService\Graph($this->_invokerMock, $this->_repositoryMock);
         $this->_dataServiceMock = (object)array();
     }
 
@@ -59,7 +61,7 @@ class Magento_Core_Model_DataService_GraphTest extends PHPUnit_Framework_TestCas
         );
         $namespaceConfig
             = array('namespaces' => array(self::TEST_NAMESPACE =>
-                                          Magento_Core_Model_DataService_GraphTest::TEST_NAMESPACE_ALIAS));
+                                          \Magento\Core\Model\DataService\GraphTest::TEST_NAMESPACE_ALIAS));
         $this->_repositoryMock->expects($this->once())->method("get")->with(
             $this->equalTo(self::TEST_DATA_SERVICE_NAME)
         )->will($this->returnValue(null));
@@ -76,7 +78,7 @@ class Magento_Core_Model_DataService_GraphTest extends PHPUnit_Framework_TestCas
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Data reference configuration doesn't have a block to link to
      */
     public function testInitMissingNamespaces()

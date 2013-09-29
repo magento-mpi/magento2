@@ -9,42 +9,44 @@
 /**
  * Log and archive grids controller
  */
-class Magento_Logging_Controller_Adminhtml_Logging extends Magento_Adminhtml_Controller_Action
+namespace Magento\Logging\Controller\Adminhtml;
+
+class Logging extends \Magento\Adminhtml\Controller\Action
 {
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * Event model factory
      *
-     * @var Magento_Logging_Model_EventFactory
+     * @var \Magento\Logging\Model\EventFactory
      */
     protected $_eventFactory;
 
     /**
      * Archive model factory
      *
-     * @var Magento_Logging_Model_ArchiveFactory
+     * @var \Magento\Logging\Model\ArchiveFactory
      */
     protected $_archiveFactory;
 
     /**
      * Construct
      *
-     * @param Magento_Backend_Controller_Context $context
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_Logging_Model_EventFactory $eventFactory
-     * @param Magento_Logging_Model_ArchiveFactory $archiveFactory
+     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Logging\Model\EventFactory $eventFactory
+     * @param \Magento\Logging\Model\ArchiveFactory $archiveFactory
      */
     public function __construct(
-        Magento_Backend_Controller_Context $context,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_Logging_Model_EventFactory $eventFactory,
-        Magento_Logging_Model_ArchiveFactory $archiveFactory
+        \Magento\Backend\Controller\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Logging\Model\EventFactory $eventFactory,
+        \Magento\Logging\Model\ArchiveFactory $archiveFactory
     ) {
         parent::__construct($context);
 
@@ -80,7 +82,7 @@ class Magento_Logging_Controller_Adminhtml_Logging extends Magento_Adminhtml_Con
     public function detailsAction()
     {
         $eventId = $this->getRequest()->getParam('event_id');
-        /** @var Magento_Logging_Model_Event $model */
+        /** @var \Magento\Logging\Model\Event $model */
         $model = $this->_eventFactory->create()
             ->load($eventId);
         if (!$model->getId()) {
@@ -103,7 +105,7 @@ class Magento_Logging_Controller_Adminhtml_Logging extends Magento_Adminhtml_Con
     {
         $this->loadLayout();
         $fileName = 'log.csv';
-        /** @var Magento_Backend_Block_Widget_Grid_ExportInterface $exportBlock */
+        /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock */
         $exportBlock = $this->getLayout()->getChildBlock('logging.grid', 'grid.export');
         $this->_prepareDownloadResponse($fileName, $exportBlock->getCsvFile($fileName));
     }
@@ -115,7 +117,7 @@ class Magento_Logging_Controller_Adminhtml_Logging extends Magento_Adminhtml_Con
     {
         $this->loadLayout();
         $fileName = 'log.xml';
-        /** @var Magento_Backend_Block_Widget_Grid_ExportInterface $exportBlock */
+        /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock */
         $exportBlock = $this->getLayout()->getChildBlock('logging.grid', 'grid.export');
         $this->_prepareDownloadResponse($fileName, $exportBlock->getExcelFile($fileName));
     }

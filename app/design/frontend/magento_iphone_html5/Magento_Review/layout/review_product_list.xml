@@ -14,12 +14,12 @@
         </action>
     </referenceBlock>
     <referenceBlock name="head">
-        <block class="Magento_Page_Block_Html_Head_Script" name="varien-product-js">
+        <block class="Magento\Page\Block\Html\Head\Script" name="varien-product-js">
             <arguments>
                 <argument name="file" xsi:type="string">varien/product.js</argument>
             </arguments>
         </block>
-        <block class="Magento_Page_Block_Html_Head_Script" name="varien-configurable-js">
+        <block class="Magento\Page\Block\Html\Head\Script" name="varien-configurable-js">
             <arguments>
                 <argument name="file" xsi:type="string">varien/configurable.js</argument>
             </arguments>

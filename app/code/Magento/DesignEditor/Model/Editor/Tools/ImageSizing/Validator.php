@@ -11,7 +11,9 @@
 /**
  * Image sizing validator
  */
-class Magento_DesignEditor_Model_Editor_Tools_ImageSizing_Validator
+namespace Magento\DesignEditor\Model\Editor\Tools\ImageSizing;
+
+class Validator
 {
     /**
      * Control type for image white border
@@ -95,7 +97,7 @@ class Magento_DesignEditor_Model_Editor_Tools_ImageSizing_Validator
      * Initialize list of controls for validation
      *
      * @param array $controls
-     * @return Magento_DesignEditor_Model_Editor_Tools_ImageSizing_Validator
+     * @return \Magento\DesignEditor\Model\Editor\Tools\ImageSizing\Validator
      */
     protected function _initFieldByTypes(array $controls)
     {
@@ -116,7 +118,7 @@ class Magento_DesignEditor_Model_Editor_Tools_ImageSizing_Validator
      * @param array $validators
      * @param array $fields
      * @param array $data
-     * @return Magento_DesignEditor_Model_Editor_Tools_ImageSizing_Validator
+     * @return \Magento\DesignEditor\Model\Editor\Tools\ImageSizing\Validator
      */
     protected function _validate(array $validators, array $fields, array $data)
     {
@@ -137,7 +139,7 @@ class Magento_DesignEditor_Model_Editor_Tools_ImageSizing_Validator
      */
     protected function _validateField(array $validators, $filedData)
     {
-        /** @var $validator Zend_Validate_Abstract */
+        /** @var $validator \Zend_Validate_Abstract */
         foreach ($validators as $validator) {
             if (!$validator->isValid($filedData)) {
                 return false;
@@ -190,7 +192,7 @@ class Magento_DesignEditor_Model_Editor_Tools_ImageSizing_Validator
      * Instantiate class validator
      *
      * @param array $validators
-     * @return Magento_DesignEditor_Model_Editor_Tools_ImageSizing_Validator
+     * @return \Magento\DesignEditor\Model\Editor\Tools\ImageSizing\Validator
      */
     protected function _instantiateValidators(array &$validators)
     {

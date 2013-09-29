@@ -16,16 +16,18 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Report_Grid_Column_Renderer_Currency
-    extends Magento_Backend_Block_Widget_Grid_Column_Renderer_Currency
+namespace Magento\Adminhtml\Block\Report\Grid\Column\Renderer;
+
+class Currency
+    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Currency
 {
     /**
      * Renders grid column
      *
-     * @param   Magento_Object $row
+     * @param   \Magento\Object $row
      * @return  string
      */
-    public function render(Magento_Object $row)
+    public function render(\Magento\Object $row)
     {
         $data = $row->getData($this->getColumn()->getIndex());
         $currency_code = $this->_getCurrencyCode($row);

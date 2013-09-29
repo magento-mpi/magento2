@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_DataService_Path_Composite implements Magento_Core_Model_DataService_Path_NodeInterface
+namespace Magento\Core\Model\DataService\Path;
+
+class Composite implements \Magento\Core\Model\DataService\Path\NodeInterface
 {
     /**
      * @var array
@@ -15,10 +17,10 @@ class Magento_Core_Model_DataService_Path_Composite implements Magento_Core_Mode
     protected $_children = array();
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      * @param array string[] $items
      */
-    public function __construct(Magento_ObjectManager $objectManager, $items)
+    public function __construct(\Magento\ObjectManager $objectManager, $items)
     {
         foreach ($items as $key => $item) {
             $this->_children[$key] = $objectManager->get($item);
@@ -30,7 +32,7 @@ class Magento_Core_Model_DataService_Path_Composite implements Magento_Core_Mode
      * data service tree.  Leaf nodes in the graph tend to be of mixed type (scalar, array, or object).
      *
      * @param string $pathElement the path element name of the child node
-     * @return Magento_Core_Model_DataService_Path_NodeInterface|mixed|null the child node,
+     * @return \Magento\Core\Model\DataService\Path\NodeInterface|mixed|null the child node,
      *   or mixed if this is a leaf node
      */
     public function getChildNode($pathElement)

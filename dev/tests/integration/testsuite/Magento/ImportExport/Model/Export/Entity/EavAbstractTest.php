@@ -12,7 +12,9 @@
 /**
  * Test for eav abstract export model
  */
-class Magento_ImportExport_Model_Export_Entity_EavAbstractTest extends PHPUnit_Framework_TestCase
+namespace Magento\ImportExport\Model\Export\Entity;
+
+class EavAbstractTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Skipped attribute codes
@@ -22,7 +24,7 @@ class Magento_ImportExport_Model_Export_Entity_EavAbstractTest extends PHPUnit_F
     protected static $_skippedAttributes = array('confirmation', 'lastname');
 
     /**
-     * @var Magento_ImportExport_Model_Export_Entity_EavAbstract
+     * @var \Magento\ImportExport\Model\Export\Entity\EavAbstract
      */
     protected $_model;
 
@@ -35,14 +37,14 @@ class Magento_ImportExport_Model_Export_Entity_EavAbstractTest extends PHPUnit_F
 
     protected function setUp()
     {
-        /** @var Magento_TestFramework_ObjectManager  $objectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        /** @var \Magento\TestFramework\ObjectManager  $objectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
-        $customerAttributes = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Customer_Model_Resource_Attribute_Collection');
+        $customerAttributes = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Customer\Model\Resource\Attribute\Collection');
 
-        $storeConfig = $objectManager->get('Magento_Core_Model_Store_Config');
-        $this->_model = $this->getMockForAbstractClass('Magento_ImportExport_Model_Export_Entity_EavAbstract',
+        $storeConfig = $objectManager->get('Magento\Core\Model\Store\Config');
+        $this->_model = $this->getMockForAbstractClass('Magento\ImportExport\Model\Export\Entity\EavAbstract',
             array($storeConfig), '', false);
         $this->_model->expects($this->any())
             ->method('getEntityTypeCode')
@@ -59,7 +61,7 @@ class Magento_ImportExport_Model_Export_Entity_EavAbstractTest extends PHPUnit_F
     public function testGetEntityTypeId()
     {
         $entityCode = 'customer';
-        $entityId = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Eav_Model_Config')
+        $entityId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Eav\Model\Config')
             ->getEntityType($entityCode)
             ->getEntityTypeId();
 
@@ -69,12 +71,12 @@ class Magento_ImportExport_Model_Export_Entity_EavAbstractTest extends PHPUnit_F
     /**
      * Test for method _getExportAttrCodes()
      *
-     * @covers Magento_ImportExport_Model_Export_Entity_EavAbstract::_getExportAttrCodes
+     * @covers \Magento\ImportExport\Model\Export\Entity\EavAbstract::_getExportAttrCodes
      */
     public function testGetExportAttrCodes()
     {
         $this->_model->setParameters($this->_getSkippedAttributes());
-        $method = new ReflectionMethod($this->_model, '_getExportAttributeCodes');
+        $method = new \ReflectionMethod($this->_model, '_getExportAttributeCodes');
         $method->setAccessible(true);
         $attributes = $method->invoke($this->_model);
         foreach (self::$_skippedAttributes as $code) {
@@ -87,11 +89,11 @@ class Magento_ImportExport_Model_Export_Entity_EavAbstractTest extends PHPUnit_F
      */
     public function testGetAttributeOptions()
     {
-        /** @var $attributeCollection Magento_Customer_Model_Resource_Attribute_Collection */
-        $attributeCollection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Customer_Model_Resource_Attribute_Collection');
+        /** @var $attributeCollection \Magento\Customer\Model\Resource\Attribute\Collection */
+        $attributeCollection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Customer\Model\Resource\Attribute\Collection');
         $attributeCollection->addFieldToFilter('attribute_code', 'gender');
-        /** @var $attribute Magento_Customer_Model_Attribute */
+        /** @var $attribute \Magento\Customer\Model\Attribute */
         $attribute = $attributeCollection->getFirstItem();
 
         $expectedOptions = array();
@@ -110,18 +112,18 @@ class Magento_ImportExport_Model_Export_Entity_EavAbstractTest extends PHPUnit_F
      */
     protected function _getSkippedAttributes()
     {
-        /** @var $attributeCollection Magento_Customer_Model_Resource_Attribute_Collection */
-        $attributeCollection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Customer_Model_Resource_Attribute_Collection');
+        /** @var $attributeCollection \Magento\Customer\Model\Resource\Attribute\Collection */
+        $attributeCollection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Customer\Model\Resource\Attribute\Collection');
         $attributeCollection->addFieldToFilter('attribute_code', array('in' => self::$_skippedAttributes));
         $skippedAttributes = array();
-        /** @var $attribute  Magento_Customer_Model_Attribute */
+        /** @var $attribute  \Magento\Customer\Model\Attribute */
         foreach ($attributeCollection as $attribute) {
             $skippedAttributes[$attribute->getAttributeCode()] = $attribute->getId();
         }
 
         return array(
-            Magento_ImportExport_Model_Export::FILTER_ELEMENT_SKIP => $skippedAttributes
+            \Magento\ImportExport\Model\Export::FILTER_ELEMENT_SKIP => $skippedAttributes
         );
     }
 }

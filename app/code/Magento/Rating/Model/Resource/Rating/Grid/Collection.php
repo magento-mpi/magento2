@@ -15,34 +15,36 @@
  * @package     Magento_Rating
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rating_Model_Resource_Rating_Grid_Collection extends Magento_Rating_Model_Resource_Rating_Collection
+namespace Magento\Rating\Model\Resource\Rating\Grid;
+
+class Collection extends \Magento\Rating\Model\Resource\Rating\Collection
 {
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_EntityFactory $entityFactory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Rating_Model_Resource_Rating_Option_CollectionFactory $ratingCollectionF
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_Core_Model_Resource_Db_Abstract $resource
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Rating\Model\Resource\Rating\Option\CollectionFactory $ratingCollectionF
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Logger $logger,
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_EntityFactory $entityFactory,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Rating_Model_Resource_Rating_Option_CollectionFactory $ratingCollectionF,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_Core_Model_Resource_Db_Abstract $resource = null
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Rating\Model\Resource\Rating\Option\CollectionFactory $ratingCollectionF,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $storeManager, $ratingCollectionF,
@@ -52,7 +54,7 @@ class Magento_Rating_Model_Resource_Rating_Grid_Collection extends Magento_Ratin
     /**
      * Add entity filter
      *
-     * @return Magento_Core_Model_Resource_Db_Collection_Abstract|Magento_Rating_Model_Resource_Rating_Grid_Collection
+     * @return \Magento\Core\Model\Resource\Db\Collection\AbstractCollection|\Magento\Rating\Model\Resource\Rating\Grid\Collection
      */
     public function _initSelect()
     {

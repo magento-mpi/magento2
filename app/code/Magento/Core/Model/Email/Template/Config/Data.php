@@ -7,15 +7,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Email_Template_Config_Data extends Magento_Config_Data
+namespace Magento\Core\Model\Email\Template\Config;
+
+class Data extends \Magento\Config\Data
 {
     /**
-     * @param Magento_Core_Model_Email_Template_Config_Reader $reader
-     * @param Magento_Config_CacheInterface $cache
+     * @param \Magento\Core\Model\Email\Template\Config\Reader $reader
+     * @param \Magento\Config\CacheInterface $cache
      */
     public function __construct(
-        Magento_Core_Model_Email_Template_Config_Reader $reader,
-        Magento_Config_CacheInterface $cache
+        \Magento\Core\Model\Email\Template\Config\Reader $reader,
+        \Magento\Config\CacheInterface $cache
     ) {
         parent::__construct($reader, $cache, 'email_templates');
     }

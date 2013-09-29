@@ -10,9 +10,11 @@
  */
 
 /**
- * Test class for Magento_ImportExport_Model_Import_Entity_EavAbstract
+ * Test class for \Magento\ImportExport\Model\Import\Entity\EavAbstract
  */
-class Magento_ImportExport_Model_Import_Entity_EavAbstractTest extends PHPUnit_Framework_TestCase
+namespace Magento\ImportExport\Model\Import\Entity;
+
+class EavAbstractTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Entity type id
@@ -22,26 +24,26 @@ class Magento_ImportExport_Model_Import_Entity_EavAbstractTest extends PHPUnit_F
     /**
      * Abstract import entity eav model
      *
-     * @var Magento_ImportExport_Model_Import_Entity_EavAbstract
+     * @var \Magento\ImportExport\Model\Import\Entity\EavAbstract
      */
     protected $_model;
 
     /**
-     * @var Magento_Core_Helper_Data|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Helper\Data|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_coreDataMock;
 
     /**
-     * @var Magento_Core_Helper_String|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Helper\String|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_coreStringMock;
 
     protected function setUp()
     {
-        $this->_coreDataMock = $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false);
-        $this->_coreStringMock = $this->getMock('Magento_Core_Helper_String', array('__construct'), array(), '', false);
-        $coreStoreConfig = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false);
-        $this->_model = $this->getMockForAbstractClass('Magento_ImportExport_Model_Import_Entity_EavAbstract',
+        $this->_coreDataMock = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
+        $this->_coreStringMock = $this->getMock('Magento\Core\Helper\String', array('__construct'), array(), '', false);
+        $coreStoreConfig = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false);
+        $this->_model = $this->getMockForAbstractClass('Magento\ImportExport\Model\Import\Entity\EavAbstract',
             array($this->_coreDataMock, $this->_coreStringMock, $coreStoreConfig, $this->_getModelDependencies())
         );
     }
@@ -62,8 +64,8 @@ class Magento_ImportExport_Model_Import_Entity_EavAbstractTest extends PHPUnit_F
             'data_source_model'            => 'not_used',
             'connection'                   => 'not_used',
             'json_helper'                  => 'not_used',
-            'string_helper'                => new Magento_Core_Helper_String(
-                $this->getMock('Magento_Core_Helper_Context', array(), array(), '', false, false)
+            'string_helper'                => new \Magento\Core\Helper\String(
+                $this->getMock('Magento\Core\Helper\Context', array(), array(), '', false, false)
             ),
             'page_size'                    => 1,
             'max_data_size'                => 1,
@@ -81,7 +83,7 @@ class Magento_ImportExport_Model_Import_Entity_EavAbstractTest extends PHPUnit_F
     /**
      * Test entity type id getter
      *
-     * @covers Magento_ImportExport_Model_Import_Entity_EavAbstract::getEntityTypeId
+     * @covers \Magento\ImportExport\Model\Import\Entity\EavAbstract::getEntityTypeId
      */
     public function testGetEntityTypeId()
     {

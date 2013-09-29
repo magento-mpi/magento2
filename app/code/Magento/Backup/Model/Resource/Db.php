@@ -9,12 +9,14 @@
 /**
  * Database backup resource model
  */
-class Magento_Backup_Model_Resource_Db
+namespace Magento\Backup\Model\Resource;
+
+class Db
 {
     /**
      * Database connection adapter
      *
-     * @var Magento_DB_Adapter_Pdo_Mysql
+     * @var \Magento\DB\Adapter\Pdo\Mysql
      */
     protected $_write;
 
@@ -29,19 +31,19 @@ class Magento_Backup_Model_Resource_Db
     /**
      * Backup resource helper
      *
-     * @var Magento_Backup_Model_Resource_Helper
+     * @var \Magento\Backup\Model\Resource\Helper
      */
     protected $_resourceHelper;
 
     /**
      * Initialize Backup DB resource model
      *
-     * @param Magento_Backup_Model_Resource_Helper $resourceHelper
+     * @param \Magento\Backup\Model\Resource\Helper $resourceHelper
      */
-    public function __construct(Magento_Backup_Model_Resource_Helper $resourceHelper)
+    public function __construct(\Magento\Backup\Model\Resource\Helper $resourceHelper)
     {
         $this->_resourceHelper = $resourceHelper;
-        $this->_write = Mage::getSingleton('Magento_Core_Model_Resource')->getConnection('backup_write');
+        $this->_write = \Mage::getSingleton('Magento\Core\Model\Resource')->getConnection('backup_write');
     }
 
     /**
@@ -113,14 +115,14 @@ class Magento_Backup_Model_Resource_Db
      * Retrieve table status
      *
      * @param string $tableName
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function getTableStatus($tableName)
     {
         $row = $this->_write->showTableStatus($tableName);
 
         if ($row) {
-            $statusObject = new Magento_Object();
+            $statusObject = new \Magento\Object();
             $statusObject->setIdFieldName('name');
             foreach ($row as $field => $value) {
                 $statusObject->setData(strtolower($field), $value);
@@ -232,7 +234,7 @@ class Magento_Backup_Model_Resource_Db
     /**
      * Start transaction mode
      *
-     * @return Magento_Backup_Model_Resource_Db
+     * @return \Magento\Backup\Model\Resource\Db
      */
     public function beginTransaction()
     {
@@ -244,7 +246,7 @@ class Magento_Backup_Model_Resource_Db
     /**
      * Commit transaction
      *
-     * @return Magento_Backup_Model_Resource_Db
+     * @return \Magento\Backup\Model\Resource\Db
      */
     public function commitTransaction()
     {
@@ -256,7 +258,7 @@ class Magento_Backup_Model_Resource_Db
     /**
      * Rollback transaction
      *
-     * @return Magento_Backup_Model_Resource_Db
+     * @return \Magento\Backup\Model\Resource\Db
      */
     public function rollBackTransaction()
     {
@@ -268,7 +270,7 @@ class Magento_Backup_Model_Resource_Db
      * Run sql code
      *
      * @param $command
-     * @return Magento_Backup_Model_Resource_Db
+     * @return \Magento\Backup\Model\Resource\Db
      */
     public function runCommand($command){
         $this->_write->query($command);

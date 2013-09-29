@@ -9,7 +9,7 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <referenceBlock name="product.info">
-        <block class="Magento_GiftRegistry_Block_Product_View" name="giftregistry.product.view.customize.button">
+        <block class="Magento\GiftRegistry\Block\Product\View" name="giftregistry.product.view.customize.button">
             <action method="setGiftRegistryTemplate">
                 <argument name="blockName" xsi:type="string">product.info.addtocart.additional</argument>
                 <argument name="template" xsi:type="string">Magento_GiftRegistry::product/addtocart.phtml</argument>

@@ -15,25 +15,27 @@
  * @package    Magento_Paypal
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Paypal_Block_Payflow_Link_Iframe extends Magento_Paypal_Block_Iframe
+namespace Magento\Paypal\Block\Payflow\Link;
+
+class Iframe extends \Magento\Paypal\Block\Iframe
 {
     /**
      * Payment data
      *
-     * @var Magento_Payment_Helper_Data
+     * @var \Magento\Payment\Helper\Data
      */
     protected $_paymentData = null;
 
     /**
-     * @param Magento_Payment_Helper_Data $paymentData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
+     * @param \Magento\Payment\Helper\Data $paymentData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Payment_Helper_Data $paymentData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
+        \Magento\Payment\Helper\Data $paymentData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_paymentData = $paymentData;
@@ -46,7 +48,7 @@ class Magento_Paypal_Block_Payflow_Link_Iframe extends Magento_Paypal_Block_Ifra
     protected function _construct()
     {
         parent::_construct();
-        $this->_paymentMethodCode = Magento_Paypal_Model_Config::METHOD_PAYFLOWLINK;
+        $this->_paymentMethodCode = \Magento\Paypal\Model\Config::METHOD_PAYFLOWLINK;
     }
 
     /**
@@ -90,7 +92,7 @@ class Magento_Paypal_Block_Payflow_Link_Iframe extends Magento_Paypal_Block_Ifra
      */
     public function getTransactionUrl()
     {
-        return Magento_Paypal_Model_Payflowlink::TRANSACTION_PAYFLOW_URL;
+        return \Magento\Paypal\Model\Payflowlink::TRANSACTION_PAYFLOW_URL;
     }
 
     /**

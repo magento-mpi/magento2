@@ -6,36 +6,38 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_RouterListTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model;
+
+class RouterListTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @var Magento_Core_Model_RouterList
+     * @var \Magento\Core\Model\RouterList
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $this->_model = $this->_objectManager->create('Magento_Core_Model_RouterList');
+        $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $this->_model = $this->_objectManager->create('Magento\Core\Model\RouterList');
     }
 
     public function testGetRouterByRoute()
     {
         $this->assertInstanceOf(
-            'Magento_Core_Controller_Varien_Router_Base',
+            'Magento\Core\Controller\Varien\Router\Base',
             $this->_model->getRouterByRoute('')
         );
         $this->assertInstanceOf(
-            'Magento_Core_Controller_Varien_Router_Base',
+            'Magento\Core\Controller\Varien\Router\Base',
             $this->_model->getRouterByRoute('checkout')
         );
         $this->assertInstanceOf(
-            'Magento_Core_Controller_Varien_Router_Default',
+            'Magento\Core\Controller\Varien\Router\DefaultRouter',
             $this->_model->getRouterByRoute('test')
         );
     }
@@ -43,15 +45,15 @@ class Magento_Core_Model_RouterListTest extends PHPUnit_Framework_TestCase
     public function testGetRouterByFrontName()
     {
         $this->assertInstanceOf(
-            'Magento_Core_Controller_Varien_Router_Base',
+            'Magento\Core\Controller\Varien\Router\Base',
             $this->_model->getRouterByFrontName('')
         );
         $this->assertInstanceOf(
-            'Magento_Core_Controller_Varien_Router_Base',
+            'Magento\Core\Controller\Varien\Router\Base',
             $this->_model->getRouterByFrontName('checkout')
         );
         $this->assertInstanceOf(
-            'Magento_Core_Controller_Varien_Router_Default',
+            'Magento\Core\Controller\Varien\Router\DefaultRouter',
             $this->_model->getRouterByFrontName('test')
         );
     }

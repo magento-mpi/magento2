@@ -14,7 +14,9 @@
  * @category   Magento
  * @package    Magento_Invitation
  */
-class Magento_Invitation_Block_Form extends Magento_Core_Block_Template
+namespace Magento\Invitation\Block;
+
+class Form extends \Magento\Core\Block\Template
 {
     /**
      * Returns maximal number of invitations to send in one try
@@ -23,7 +25,7 @@ class Magento_Invitation_Block_Form extends Magento_Core_Block_Template
      */
     public function getMaxInvitationsPerSend()
     {
-        return Mage::getSingleton('Magento_Invitation_Model_Config')->getMaxInvitationsPerSend();
+        return \Mage::getSingleton('Magento\Invitation\Model\Config')->getMaxInvitationsPerSend();
     }
 
     /**
@@ -33,6 +35,6 @@ class Magento_Invitation_Block_Form extends Magento_Core_Block_Template
      */
     public function isInvitationMessageAllowed()
     {
-        return Mage::getSingleton('Magento_Invitation_Model_Config')->isInvitationMessageAllowed();
+        return \Mage::getSingleton('Magento\Invitation\Model\Config')->isInvitationMessageAllowed();
     }
 }

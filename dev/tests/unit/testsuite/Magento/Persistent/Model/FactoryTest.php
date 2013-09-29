@@ -6,24 +6,26 @@
  * @license     {license_link}
  */
 
-class Magento_Persistent_Model_FactoryTest extends PHPUnit_Framework_TestCase
+namespace Magento\Persistent\Model;
+
+class FactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_ObjectManager|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\ObjectManager|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_objectManagerMock;
 
     /**
-     * @var Magento_Persistent_Model_Factory
+     * @var \Magento\Persistent\Model\Factory
      */
     protected $_factory;
 
     protected function setUp()
     {
-        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
 
-        $this->_objectManagerMock = $this->getMock('Magento_ObjectManager');
-        $this->_factory = $helper->getObject('Magento_Persistent_Model_Factory', array(
+        $this->_objectManagerMock = $this->getMock('Magento\ObjectManager');
+        $this->_factory = $helper->getObject('Magento\Persistent\Model\Factory', array(
             'objectManager' => $this->_objectManagerMock,
         ));
     }

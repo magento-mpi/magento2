@@ -12,7 +12,9 @@
 /**
  * Bootstrap for the integration testing environment
  */
-class Magento_TestFramework_Bootstrap
+namespace Magento\TestFramework;
+
+class Bootstrap
 {
     /**
      * Predefined admin user credentials
@@ -26,7 +28,7 @@ class Magento_TestFramework_Bootstrap
     const ADMIN_ROLE_NAME = 'Administrators';
 
     /**
-     * @var Magento_TestFramework_Bootstrap_Settings
+     * @var \Magento\TestFramework\Bootstrap\Settings
      */
     private $_settings;
 
@@ -36,27 +38,27 @@ class Magento_TestFramework_Bootstrap
     private $_dbVendorName;
 
     /**
-     * @var Magento_TestFramework_Application
+     * @var \Magento\TestFramework\Application
      */
     private $_application;
 
     /**
-     * @var Magento_TestFramework_Bootstrap_Environment
+     * @var \Magento\TestFramework\Bootstrap\Environment
      */
     private $_envBootstrap;
 
     /**
-     * @var Magento_TestFramework_Bootstrap_DocBlock
+     * @var \Magento\TestFramework\Bootstrap\DocBlock
      */
     private $_docBlockBootstrap;
 
     /**
-     * @var Magento_TestFramework_Bootstrap_Profiler
+     * @var \Magento\TestFramework\Bootstrap\Profiler
      */
     private $_profilerBootstrap;
 
     /**
-     * @var Magento_Shell
+     * @var \Magento\Shell
      */
     private $_shell;
 
@@ -70,19 +72,19 @@ class Magento_TestFramework_Bootstrap
     /**
      * Constructor
      *
-     * @param Magento_TestFramework_Bootstrap_Settings $settings
-     * @param Magento_TestFramework_Bootstrap_Environment $envBootstrap
-     * @param Magento_TestFramework_Bootstrap_DocBlock $docBlockBootstrap
-     * @param Magento_TestFramework_Bootstrap_Profiler $profilerBootstrap
-     * @param Magento_Shell $shell
+     * @param \Magento\TestFramework\Bootstrap\Settings $settings
+     * @param \Magento\TestFramework\Bootstrap\Environment $envBootstrap
+     * @param \Magento\TestFramework\Bootstrap\DocBlock $docBlockBootstrap
+     * @param \Magento\TestFramework\Bootstrap\Profiler $profilerBootstrap
+     * @param \Magento\Shell $shell
      * @param string $tmpDir
      */
     public function __construct(
-        Magento_TestFramework_Bootstrap_Settings $settings,
-        Magento_TestFramework_Bootstrap_Environment $envBootstrap,
-        Magento_TestFramework_Bootstrap_DocBlock $docBlockBootstrap,
-        Magento_TestFramework_Bootstrap_Profiler $profilerBootstrap,
-        Magento_Shell $shell,
+        \Magento\TestFramework\Bootstrap\Settings $settings,
+        \Magento\TestFramework\Bootstrap\Environment $envBootstrap,
+        \Magento\TestFramework\Bootstrap\DocBlock $docBlockBootstrap,
+        \Magento\TestFramework\Bootstrap\Profiler $profilerBootstrap,
+        \Magento\Shell $shell,
         $tmpDir
     ) {
         $this->_settings = $settings;
@@ -105,7 +107,7 @@ class Magento_TestFramework_Bootstrap
     /**
      * Retrieve the application instance
      *
-     * @return Magento_TestFramework_Application
+     * @return \Magento\TestFramework\Application
      */
     public function getApplication()
     {
@@ -164,12 +166,12 @@ class Magento_TestFramework_Bootstrap
      *
      * @param int $memUsageLimit
      * @param int $memLeakLimit
-     * @return Magento_TestFramework_Bootstrap_Memory
+     * @return \Magento\TestFramework\Bootstrap\Memory
      */
     protected function _createMemoryBootstrap($memUsageLimit, $memLeakLimit)
     {
-        return new Magento_TestFramework_Bootstrap_Memory(new Magento_TestFramework_MemoryLimit(
-            $memUsageLimit, $memLeakLimit, new Magento_TestFramework_Helper_Memory($this->_shell)
+        return new \Magento\TestFramework\Bootstrap\Memory(new \Magento\TestFramework\MemoryLimit(
+            $memUsageLimit, $memLeakLimit, new \Magento\TestFramework\Helper\Memory($this->_shell)
         ));
     }
 
@@ -180,7 +182,7 @@ class Magento_TestFramework_Bootstrap
      * @param string $globalConfigDir
      * @param array $moduleConfigFiles
      * @param string $appMode
-     * @return Magento_TestFramework_Application
+     * @return \Magento\TestFramework\Application
      */
     protected function _createApplication(
         array $localConfigFiles, $globalConfigDir, array $moduleConfigFiles, $appMode
@@ -190,8 +192,8 @@ class Magento_TestFramework_Bootstrap
         $this->_dbVendorName = $this->_determineDbVendorName($dbConfig);
         $sandboxUniqueId = $this->_calcConfigFilesHash($localConfigFiles);
         $installDir = "{$this->_tmpDir}/sandbox-{$this->_dbVendorName}-{$sandboxUniqueId}";
-        $dbClass = 'Magento_TestFramework_Db_' . ucfirst($this->_dbVendorName);
-        /** @var $dbInstance Magento_TestFramework_Db_DbAbstract */
+        $dbClass = 'Magento\TestFramework\Db\\' . ucfirst($this->_dbVendorName);
+        /** @var $dbInstance \Magento\TestFramework\Db\DbAbstract */
         $dbInstance = new $dbClass(
             (string)$dbConfig->host,
             (string)$dbConfig->username,
@@ -200,7 +202,7 @@ class Magento_TestFramework_Bootstrap
             $this->_tmpDir,
             $this->_shell
         );
-        return new Magento_TestFramework_Application(
+        return new \Magento\TestFramework\Application(
             $dbInstance, $installDir, $localConfigXml, $globalConfigDir, $moduleConfigFiles, $appMode
         );
     }
@@ -223,15 +225,15 @@ class Magento_TestFramework_Bootstrap
 
     /**
      * @param array $configFiles
-     * @return Magento_Simplexml_Element
+     * @return \Magento\Simplexml\Element
      */
     protected function _loadConfigFiles(array $configFiles)
     {
-        /** @var $result Magento_Simplexml_Element */
-        $result = simplexml_load_string('<config/>', 'Magento_Simplexml_Element');
+        /** @var $result \Magento\Simplexml\Element */
+        $result = simplexml_load_string('<config/>', 'Magento\Simplexml\Element');
         foreach ($configFiles as $configFile) {
-            /** @var $configXml Magento_Simplexml_Element */
-            $configXml = simplexml_load_file($configFile, 'Magento_Simplexml_Element');
+            /** @var $configXml \Magento\Simplexml\Element */
+            $configXml = simplexml_load_file($configFile, 'Magento\Simplexml\Element');
             $result->extend($configXml);
         }
         return $result;
@@ -240,17 +242,17 @@ class Magento_TestFramework_Bootstrap
     /**
      * Retrieve database vendor name from the database connection XML configuration
      *
-     * @param SimpleXMLElement $dbConfig
+     * @param \SimpleXMLElement $dbConfig
      * @return string
-     * @throws Magento_Exception
+     * @throws \Magento\Exception
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    protected function _determineDbVendorName(SimpleXMLElement $dbConfig)
+    protected function _determineDbVendorName(\SimpleXMLElement $dbConfig)
     {
         $dbVendorAlias = 'mysql4';
         $dbVendorMap = array('mysql4' => 'mysql');
         if (!array_key_exists($dbVendorAlias, $dbVendorMap)) {
-            throw new Magento_Exception("Database vendor '$dbVendorAlias' is not supported.");
+            throw new \Magento\Exception("Database vendor '$dbVendorAlias' is not supported.");
         }
         return $dbVendorMap[$dbVendorAlias];
     }

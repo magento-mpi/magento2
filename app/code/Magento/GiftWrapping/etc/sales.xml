@@ -10,22 +10,22 @@
 <config>
     <section name="quote">
         <group name="totals">
-            <item name="giftwrapping" instance="Magento_GiftWrapping_Model_Total_Quote_Giftwrapping" sort_order="900">
-                <renderer name="frontend" instance="Magento_GiftWrapping_Block_Checkout_Totals"/>
+            <item name="giftwrapping" instance="Magento\GiftWrapping\Model\Total\Quote\Giftwrapping" sort_order="900">
+                <renderer name="frontend" instance="Magento\GiftWrapping\Block\Checkout\Totals"/>
             </item>
-            <item name="tax_giftwrapping" instance="Magento_GiftWrapping_Model_Total_Quote_Tax_Giftwrapping" sort_order="500"/>
+            <item name="tax_giftwrapping" instance="Magento\GiftWrapping\Model\Total\Quote\Tax\Giftwrapping" sort_order="500"/>
         </group>
     </section>
     <section name="order_invoice">
         <group name="totals">
-            <item name="giftwrapping" instance="Magento_GiftWrapping_Model_Total_Invoice_Giftwrapping" sort_order="400"/>
-            <item name="tax_giftwrapping" instance="Magento_GiftWrapping_Model_Total_Invoice_Tax_Giftwrapping" sort_order="300"/>
+            <item name="giftwrapping" instance="Magento\GiftWrapping\Model\Total\Invoice\Giftwrapping" sort_order="400"/>
+            <item name="tax_giftwrapping" instance="Magento\GiftWrapping\Model\Total\Invoice\Tax\Giftwrapping" sort_order="300"/>
         </group>
     </section>
     <section name="order_creditmemo">
         <group name="totals">
-            <item name="giftwrapping" instance="Magento_GiftWrapping_Model_Total_Creditmemo_Giftwrapping" sort_order="450"/>
-            <item name="tax_giftwrapping" instance="Magento_GiftWrapping_Model_Total_Creditmemo_Tax_Giftwrapping" sort_order="350"/>
+            <item name="giftwrapping" instance="Magento\GiftWrapping\Model\Total\Creditmemo\Giftwrapping" sort_order="450"/>
+            <item name="tax_giftwrapping" instance="Magento\GiftWrapping\Model\Total\Creditmemo\Tax\Giftwrapping" sort_order="350"/>
         </group>
     </section>
 </config>

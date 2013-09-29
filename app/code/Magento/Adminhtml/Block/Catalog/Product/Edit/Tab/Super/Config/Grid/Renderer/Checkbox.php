@@ -16,26 +16,27 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid_Renderer_Checkbox
-    extends Magento_Adminhtml_Block_Widget_Grid_Column_Renderer_Checkbox
+namespace Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super\Config\Grid\Renderer;
+
+class Checkbox extends \Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\Checkbox
 {
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Context $context
-     * @param Magento_Backend_Block_Widget_Grid_Column_Renderer_Options_Converter $converter
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Context $context
+     * @param \Magento\Backend\Block\Widget\Grid\Column\Renderer\Options\Converter $converter
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Context $context,
-        Magento_Backend_Block_Widget_Grid_Column_Renderer_Options_Converter $converter,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Context $context,
+        \Magento\Backend\Block\Widget\Grid\Column\Renderer\Options\Converter $converter,
         array $data = array()
     ) {
         $this->_coreData = $coreData;
@@ -45,16 +46,16 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid_Rendere
     /**
      * Renders grid column
      *
-     * @param   Magento_Object $row
+     * @param   \Magento\Object $row
      * @return  string
      */
-    public function render(Magento_Object $row)
+    public function render(\Magento\Object $row)
     {
         $result = parent::render($row);
         return $result.'<input type="hidden" class="value-json" value="'.htmlspecialchars($this->getAttributesJson($row)).'" />';
     }
 
-    public function getAttributesJson(Magento_Object $row)
+    public function getAttributesJson(\Magento\Object $row)
     {
         if(!$this->getColumn()->getAttributes()) {
             return '[]';
@@ -77,4 +78,4 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid_Rendere
 
         return $this->_coreData->jsonEncode($result);
     }
-}// Class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid_Renderer_Checkbox END
+}// Class \Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super\Config\Grid\Renderer\Checkbox END

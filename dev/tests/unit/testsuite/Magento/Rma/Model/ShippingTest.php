@@ -9,24 +9,26 @@
  * @license     {license_link}
  */
 
-class Magento_Rma_Model_ShippingTest extends PHPUnit_Framework_TestCase
+namespace Magento\Rma\Model;
+
+class ShippingTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Rma_Model_Shipping
+     * @var \Magento\Rma\Model\Shipping
      */
     protected $_model;
 
     protected function setUp()
     {
-        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
 
-        $orderFactory = $this->getMock('Magento_Sales_Model_OrderFactory', array('create'), array(), '', false);
-        $regionFactory = $this->getMock('Magento_Directory_Model_RegionFactory', array('create'), array(), '', false);
-        $returnFactory = $this->getMock('Magento_Shipping_Model_Shipment_ReturnFactory',
+        $orderFactory = $this->getMock('Magento\Sales\Model\OrderFactory', array('create'), array(), '', false);
+        $regionFactory = $this->getMock('Magento\Directory\Model\RegionFactory', array('create'), array(), '', false);
+        $returnFactory = $this->getMock('Magento\Shipping\Model\Shipment\ReturnShipmentFactory',
             array('create'), array(), '', false);
-        $rmaFactory = $this->getMock('Magento_Rma_Model_RmaFactory', array('create'), array(), '', false);
+        $rmaFactory = $this->getMock('Magento\Rma\Model\RmaFactory', array('create'), array(), '', false);
 
-        $this->_model = $objectManagerHelper->getObject('Magento_Rma_Model_Shipping', array(
+        $this->_model = $objectManagerHelper->getObject('Magento\Rma\Model\Shipping', array(
             'orderFactory'  => $orderFactory,
             'regionFactory' => $regionFactory,
             'returnFactory' => $returnFactory,
@@ -51,7 +53,7 @@ class Magento_Rma_Model_ShippingTest extends PHPUnit_Framework_TestCase
     public static function isCustomDataProvider()
     {
         return array(
-            array(true, Magento_Sales_Model_Order_Shipment_Track::CUSTOM_CARRIER_CODE),
+            array(true, \Magento\Sales\Model\Order\Shipment\Track::CUSTOM_CARRIER_CODE),
             array(false, 'ups'),
         );
     }

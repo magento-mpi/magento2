@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Revision_Edit_Info extends Magento_Adminhtml_Block_Widget_Container
+namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit;
+
+class Info extends \Magento\Adminhtml\Block\Widget\Container
 {
     /**
      * Currently loaded page model
@@ -28,20 +30,20 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Revision_Edit_Info extends Ma
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -122,11 +124,11 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Revision_Edit_Info extends Ma
     public function getAuthor()
     {
         $userId = $this->_page->getUserId();
-        if (Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getUser()->getId() == $userId) {
-            return Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getUser()->getUsername();
+        if (\Mage::getSingleton('Magento\Backend\Model\Auth\Session')->getUser()->getId() == $userId) {
+            return \Mage::getSingleton('Magento\Backend\Model\Auth\Session')->getUser()->getUsername();
         }
 
-        $user = Mage::getModel('Magento_User_Model_User')
+        $user = \Mage::getModel('Magento\User\Model\User')
             ->load($userId);
 
         if ($user->getId()) {
@@ -142,13 +144,13 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Revision_Edit_Info extends Ma
      */
     public function getCreatedAt()
     {
-        $format = Mage::app()->getLocale()->getDateTimeFormat(
-                Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM
+        $format = \Mage::app()->getLocale()->getDateTimeFormat(
+                \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM
             );
         $data = $this->_page->getRevisionCreatedAt();
         try {
-            $data = Mage::app()->getLocale()->date($data, Magento_Date::DATETIME_INTERNAL_FORMAT)->toString($format);
-        } catch (Exception $e) {
+            $data = \Mage::app()->getLocale()->date($data, \Magento\Date::DATETIME_INTERNAL_FORMAT)->toString($format);
+        } catch (\Exception $e) {
             $data = __('N/A');
         }
         return  $data;

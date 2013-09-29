@@ -9,25 +9,27 @@
 /**
  * Checkout workflow helper
  */
-class Magento_Paypal_Helper_Checkout extends Magento_Core_Helper_Abstract
+namespace Magento\Paypal\Helper;
+
+class Checkout extends \Magento\Core\Helper\AbstractHelper
 {
     /**
-     * @var Magento_Checkout_Model_SessionFactory
+     * @var \Magento\Checkout\Model\SessionFactory
      */
     protected $_session;
 
     /**
-     * @var Magento_Sales_Model_QuoteFactory
+     * @var \Magento\Sales\Model\QuoteFactory
      */
     protected $_quoteFactory;
 
     /**
-     * @param Magento_Checkout_Model_Session $session
-     * @param Magento_Sales_Model_QuoteFactory $quoteFactory
+     * @param \Magento\Checkout\Model\Session $session
+     * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
      */
     public function __construct(
-        Magento_Checkout_Model_Session $session,
-        Magento_Sales_Model_QuoteFactory $quoteFactory
+        \Magento\Checkout\Model\Session $session,
+        \Magento\Sales\Model\QuoteFactory $quoteFactory
     ) {
         $this->_session = $session;
         $this->_quoteFactory = $quoteFactory;
@@ -64,7 +66,7 @@ class Magento_Paypal_Helper_Checkout extends Magento_Core_Helper_Abstract
     public function cancelCurrentOrder($comment)
     {
         $order = $this->_session->getLastRealOrder();
-        if ($order->getId() && $order->getState() != Magento_Sales_Model_Order::STATE_CANCELED) {
+        if ($order->getId() && $order->getState() != \Magento\Sales\Model\Order::STATE_CANCELED) {
             $order->registerCancellation($comment)->save();
             return true;
         }

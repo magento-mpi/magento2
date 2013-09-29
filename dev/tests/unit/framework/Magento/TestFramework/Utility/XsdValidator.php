@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_TestFramework_Utility_XsdValidator
+namespace Magento\TestFramework\Utility;
+
+class XsdValidator
 {
     /**
      * @param string $schema
@@ -14,7 +16,7 @@ class Magento_TestFramework_Utility_XsdValidator
      */
     public function validate($schema, $xml)
     {
-        $document = new DOMDocument();
+        $document = new \DOMDocument();
         $document->loadXML($xml);
         libxml_use_internal_errors(true);
         $document->schemaValidate($schema);

@@ -9,10 +9,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\Block\Catalog\Product\Edit;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_Block_Catalog_Product_Edit_TabsTest extends PHPUnit_Framework_TestCase
+class TabsTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @magentoDataFixture Magento/Catalog/_files/product_simple.php
@@ -20,24 +22,24 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_TabsTest extends PHPUnit_Fram
      */
     public function testPrepareLayout()
     {
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $objectManager->get('Magento_Core_Model_View_DesignInterface')
-            ->setArea(Magento_Core_Model_App_Area::AREA_ADMINHTML)
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $objectManager->get('Magento\Core\Model\View\DesignInterface')
+            ->setArea(\Magento\Core\Model\App\Area::AREA_ADMINHTML)
             ->setDefaultDesignTheme();
-        $objectManager->get('Magento_Core_Model_Config_Scope')
-            ->setCurrentScope(Magento_Core_Model_App_Area::AREA_ADMINHTML);
-        /** @var $product Magento_Catalog_Model_Product */
-        $product = $objectManager->create('Magento_Catalog_Model_Product');
+        $objectManager->get('Magento\Core\Model\Config\Scope')
+            ->setCurrentScope(\Magento\Core\Model\App\Area::AREA_ADMINHTML);
+        /** @var $product \Magento\Catalog\Model\Product */
+        $product = $objectManager->create('Magento\Catalog\Model\Product');
         $product->load(1); // fixture
-        $objectManager->get('Magento_Core_Model_Registry')->register('product', $product);
+        $objectManager->get('Magento\Core\Model\Registry')->register('product', $product);
 
-        /** @var $layout Magento_Core_Model_Layout */
-        $layout = $objectManager->get('Magento_Core_Model_Layout');
-        $layout->addBlock('Magento_Core_Block_Text', 'head');
+        /** @var $layout \Magento\Core\Model\Layout */
+        $layout = $objectManager->get('Magento\Core\Model\Layout');
+        $layout->addBlock('Magento\Core\Block\Text', 'head');
         $layout->setArea('nonexisting'); // prevent block templates rendering
-        /** @var $block Magento_Adminhtml_Block_Catalog_Product_Edit_Tabs */
-        $block = $layout->createBlock('Magento_Adminhtml_Block_Catalog_Product_Edit_Tabs');
+        /** @var $block \Magento\Adminhtml\Block\Catalog\Product\Edit\Tabs */
+        $block = $layout->createBlock('Magento\Adminhtml\Block\Catalog\Product\Edit\Tabs');
         $this->assertArrayHasKey(0, $block->getTabsIds());
-        $this->assertNotEmpty($layout->getBlock('catalog_product_edit_tabs'));
+        $this->assertNotEmpty($layout->getBlock('catalog\product\edit\tabs'));
     }
 }

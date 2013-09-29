@@ -15,39 +15,41 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Simple
-    extends Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes
+namespace Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super\Config;
+
+class Simple
+    extends \Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Attributes
 {
     /**
      * Link to currently editing product
      *
-     * @var Magento_Catalog_Model_Product
+     * @var \Magento\Catalog\Model\Product
      */
     protected $_product = null;
 
     /**
-     * @var Magento_Catalog_Model_ProductFactory
+     * @var \Magento\Catalog\Model\ProductFactory
      */
     protected $_productFactory;
 
     /**
-     * @param Magento_Catalog_Model_ProductFactory $productFactory
-     * @param Magento_Cms_Model_Wysiwyg_Config $wysiwygConfig
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Catalog_Model_ProductFactory $productFactory,
-        Magento_Cms_Model_Wysiwyg_Config $wysiwygConfig,
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_productFactory = $productFactory;
@@ -56,7 +58,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Simple
 
     protected function _prepareForm()
     {
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
 
         $form->setFieldNameSuffix('simple_product');
@@ -74,7 +76,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Simple
         $availableTypes = array('text', 'select', 'multiselect', 'textarea', 'price', 'weight');
 
         $attributes = $this->_productFactory->create()
-            ->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE)
+            ->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE)
             ->setAttributeSetId($this->getProduct()->getAttributeSetId())
             ->getAttributes();
 
@@ -83,7 +85,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Simple
             if (($attribute->getIsRequired()
                 && $attribute->getApplyTo()
                 // If not applied to configurable
-                && !in_array(Magento_Catalog_Model_Product_Type::TYPE_CONFIGURABLE, $attribute->getApplyTo())
+                && !in_array(\Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE, $attribute->getApplyTo())
                 // If not used in configurable
                 && !in_array($attribute->getId(),
                     $this->getProduct()->getTypeInstance()->getUsedProductAttributeIds($this->getProduct()))
@@ -191,7 +193,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Simple
     /**
      * Retrieve currently edited product object
      *
-     * @return Magento_Catalog_Model_Product
+     * @return \Magento\Catalog\Model\Product
      */
     public function getProduct()
     {

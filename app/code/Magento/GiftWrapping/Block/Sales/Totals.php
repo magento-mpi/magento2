@@ -12,25 +12,27 @@
  * Customer balance block for order
  *
  */
-class Magento_GiftWrapping_Block_Sales_Totals extends Magento_Core_Block_Template
+namespace Magento\GiftWrapping\Block\Sales;
+
+class Totals extends \Magento\Core\Block\Template
 {
     /**
      * Gift wrapping data
      *
-     * @var Magento_GiftWrapping_Helper_Data
+     * @var \Magento\GiftWrapping\Helper\Data
      */
     protected $_giftWrappingData = null;
 
     /**
-     * @param Magento_GiftWrapping_Helper_Data $giftWrappingData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
+     * @param \Magento\GiftWrapping\Helper\Data $giftWrappingData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_GiftWrapping_Helper_Data $giftWrappingData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
+        \Magento\GiftWrapping\Helper\Data $giftWrappingData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_giftWrappingData = $giftWrappingData;
@@ -40,7 +42,7 @@ class Magento_GiftWrapping_Block_Sales_Totals extends Magento_Core_Block_Templat
     /**
      * Initialize gift wrapping and printed card totals for order/invoice/creditmemo
      *
-     * @return Magento_GiftWrapping_Block_Sales_Totals
+     * @return \Magento\GiftWrapping\Block\Sales\Totals
      */
     public function initTotals()
     {
@@ -48,7 +50,7 @@ class Magento_GiftWrapping_Block_Sales_Totals extends Magento_Core_Block_Templat
         $source  = $parent->getSource();
         $totals = $this->_giftWrappingData->getTotals($source);
         foreach ($totals as $total) {
-            $this->getParentBlock()->addTotalBefore(new Magento_Object($total), 'tax');
+            $this->getParentBlock()->addTotalBefore(new \Magento\Object($total), 'tax');
         }
         return $this;
     }

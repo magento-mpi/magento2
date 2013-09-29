@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category   Magento
- * @package    Magento_Event
+ * @package    \Magento\Event
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -13,10 +13,12 @@
  * Event observer collection
  * 
  * @category   Magento
- * @package    Magento_Event
+ * @package    \Magento\Event
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Event_Observer_Collection
+namespace Magento\Event\Observer;
+
+class Collection
 {
     /**
      * Array of observers
@@ -48,7 +50,7 @@ class Magento_Event_Observer_Collection
      * Returns observer by its name
      *
      * @param string $observerName
-     * @return Magento_Event_Observer
+     * @return \Magento\Event\Observer
      */
     public function getObserverByName($observerName)
     {
@@ -58,10 +60,10 @@ class Magento_Event_Observer_Collection
     /**
      * Adds an observer to the collection
      *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_Event_Observer_Collection
+     * @param \Magento\Event\Observer $observer
+     * @return \Magento\Event\Observer\Collection
      */
-    public function addObserver(Magento_Event_Observer $observer)
+    public function addObserver(\Magento\Event\Observer $observer)
     {
         $this->_observers[$observer->getName()] = $observer;
         return $this;
@@ -71,7 +73,7 @@ class Magento_Event_Observer_Collection
      * Removes an observer from the collection by its name
      *
      * @param string $observerName
-     * @return Magento_Event_Observer_Collection
+     * @return \Magento\Event\Observer\Collection
      */
     public function removeObserverByName($observerName)
     {
@@ -82,10 +84,10 @@ class Magento_Event_Observer_Collection
     /**
      * Dispatches an event to all observers in the collection
      *
-     * @param Magento_Event $event
-     * @return Magento_Event_Observer_Collection
+     * @param \Magento\Event $event
+     * @return \Magento\Event\Observer\Collection
      */
-    public function dispatch(Magento_Event $event)
+    public function dispatch(\Magento\Event $event)
     {
         foreach ($this->_observers as $observer) {
             $observer->dispatch($event);

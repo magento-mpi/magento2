@@ -11,7 +11,9 @@
 /**
  * Source model for Ogone DirectLink Payment Actions
  */
-class Magento_Pbridge_Model_Source_Ogone_PaymentAction implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Pbridge\Model\Source\Ogone;
+
+class PaymentAction implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
      * Prepare payment action list as optional array
@@ -21,8 +23,8 @@ class Magento_Pbridge_Model_Source_Ogone_PaymentAction implements Magento_Core_M
     public function toOptionArray()
     {
         return array(
-            array('value' => Magento_Payment_Model_Method_Abstract::ACTION_AUTHORIZE, 'label' => __('Authorization')),
-            array('value' => Magento_Payment_Model_Method_Abstract::ACTION_AUTHORIZE_CAPTURE, 'label' => __('Direct Sale')),
+            array('value' => \Magento\Payment\Model\Method\AbstractMethod::ACTION_AUTHORIZE, 'label' => __('Authorization')),
+            array('value' => \Magento\Payment\Model\Method\AbstractMethod::ACTION_AUTHORIZE_CAPTURE, 'label' => __('Direct Sale')),
         );
     }
 }

@@ -9,7 +9,9 @@
  */
 
 
-class Magento_Eav_Model_Entity_Attribute_Source_Boolean extends Magento_Eav_Model_Entity_Attribute_Source_Abstract
+namespace Magento\Eav\Model\Entity\Attribute\Source;
+
+class Boolean extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
 {
     /**
      * Option values
@@ -21,15 +23,15 @@ class Magento_Eav_Model_Entity_Attribute_Source_Boolean extends Magento_Eav_Mode
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
+     * @param \Magento\Core\Helper\Data $coreData
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData
+        \Magento\Core\Helper\Data $coreData
     ) {
         $this->_coreData = $coreData;
     }
@@ -105,7 +107,7 @@ class Magento_Eav_Model_Entity_Attribute_Source_Boolean extends Magento_Eav_Mode
             $column['type']     = 'tinyint(1)';
             $column['is_null']  = true;
         } else {
-            $column['type']     = Magento_DB_Ddl_Table::TYPE_SMALLINT;
+            $column['type']     = \Magento\DB\Ddl\Table::TYPE_SMALLINT;
             $column['length']   = 1;
             $column['nullable'] = true;
             $column['comment']  = $attributeCode . ' column';
@@ -136,11 +138,11 @@ class Magento_Eav_Model_Entity_Attribute_Source_Boolean extends Magento_Eav_Mode
      * Retrieve Select For Flat Attribute update
      *
      * @param int $store
-     * @return Magento_DB_Select|null
+     * @return \Magento\DB\Select|null
      */
     public function getFlatUpdateSelect($store)
     {
-        return Mage::getResourceModel('Magento_Eav_Model_Resource_Entity_Attribute')
+        return \Mage::getResourceModel('Magento\Eav\Model\Resource\Entity\Attribute')
             ->getFlatUpdateSelect($this->getAttribute(), $store);
     }
 

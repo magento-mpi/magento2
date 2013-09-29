@@ -8,5 +8,5 @@
  */
 -->
 <config>
-    <job name="sitemap_generate" instance="Magento_Sitemap_Model_Observer" method="scheduledGenerateSitemaps" />
+    <job name="sitemap_generate" instance="Magento\Sitemap\Model\Observer" method="scheduledGenerateSitemaps" />
 </config>

@@ -5,7 +5,9 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Acl_Resource_Config_Converter_Dom implements Magento_Config_ConverterInterface
+namespace Magento\Acl\Resource\Config\Converter;
+
+class Dom implements \Magento\Config\ConverterInterface
 {
     /**
      * {@inheritdoc}
@@ -13,8 +15,8 @@ class Magento_Acl_Resource_Config_Converter_Dom implements Magento_Config_Conver
     public function convert($source)
     {
         $aclResourceConfig = array('config' => array('acl' => array('resources' => array())));
-        $xpath = new DOMXPath($source);
-        /** @var $resourceNode DOMNode */
+        $xpath = new \DOMXPath($source);
+        /** @var $resourceNode \DOMNode */
         foreach ($xpath->query('/config/acl/resources/resource') as $resourceNode) {
             $aclResourceConfig['config']['acl']['resources'][] = $this->_convertResourceNode($resourceNode);
         }
@@ -24,18 +26,18 @@ class Magento_Acl_Resource_Config_Converter_Dom implements Magento_Config_Conver
     /**
      * Convert resource node into assoc array
      *
-     * @param DOMNode $resourceNode
+     * @param \DOMNode $resourceNode
      * @return array
-     * @throws Exception
+     * @throws \Exception
      * @SuppressWarnings(PHPMD.NPathComplexity)
      */
-    protected function _convertResourceNode(DOMNode $resourceNode)
+    protected function _convertResourceNode(\DOMNode $resourceNode)
     {
         $resourceData = array();
         $resourceAttributes = $resourceNode->attributes;
         $idNode = $resourceAttributes->getNamedItem('id');
         if (is_null($idNode)) {
-            throw new Exception('Attribute "id" is required for ACL resource.');
+            throw new \Exception('Attribute "id" is required for ACL resource.');
         }
         $resourceData['id'] = $idNode->nodeValue;
         $moduleNode = $resourceAttributes->getNamedItem('module');
@@ -52,7 +54,7 @@ class Magento_Acl_Resource_Config_Converter_Dom implements Magento_Config_Conver
         $resourceData['disabled'] =  (!is_null($disabledNode) && $disabledNode->nodeValue == 'true') ? true : false;
         // convert child resource nodes if needed
         $resourceData['children'] = array();
-        /** @var $childNode DOMNode */
+        /** @var $childNode \DOMNode */
         foreach ($resourceNode->childNodes as $childNode) {
             if ($childNode->nodeName == 'resource') {
                 $resourceData['children'][] = $this->_convertResourceNode($childNode);

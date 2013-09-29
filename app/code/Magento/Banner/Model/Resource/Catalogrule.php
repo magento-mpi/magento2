@@ -16,7 +16,9 @@
  * @package     Magento_Banner
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Banner_Model_Resource_Catalogrule extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Banner\Model\Resource;
+
+class Catalogrule extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Initialize banner catalog rule resource model

@@ -15,8 +15,10 @@
  * @package     Magento_Pbridge
  * @author      Magento
  */
-class Magento_Pbridge_Block_Adminhtml_Sales_Order_Create_Dibs
-    extends Magento_Pbridge_Block_Adminhtml_Sales_Order_Create_Abstract
+namespace Magento\Pbridge\Block\Adminhtml\Sales\Order\Create;
+
+class Dibs
+    extends \Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\AbstractCreate
 {
     /**
      * Dibs payment code

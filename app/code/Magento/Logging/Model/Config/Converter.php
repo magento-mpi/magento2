@@ -7,22 +7,24 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Logging_Model_Config_Converter implements Magento_Config_ConverterInterface
+namespace Magento\Logging\Model\Config;
+
+class Converter implements \Magento\Config\ConverterInterface
 {
     /**
      * Convert dom node tree to array
      *
-     * @param DOMDocument $source
+     * @param \DOMDocument $source
      * @return array
      */
     public function convert($source)
     {
         $result = array('logging' => array());
-        $xpath = new DOMXPath($source);
+        $xpath = new \DOMXPath($source);
         $result['logging']['actions'] = $this->_getActionTitles($xpath);
 
         $groups = $xpath->query('/logging/groups/group');
-        /** @var DOMNode $group */
+        /** @var \DOMNode $group */
         foreach ($groups as $group) {
             $groupId = $group->attributes->getNamedItem('name')->nodeValue;
             $result['logging'][$groupId] = $this->_convertGroup($group, $groupId);
@@ -34,7 +36,7 @@ class Magento_Logging_Model_Config_Converter implements Magento_Config_Converter
     /**
      * Retrieves titles array from Xpath object
      *
-     * @param DOMXPath $xpath
+     * @param \DOMXPath $xpath
      * @return array
      */
     protected function _getActionTitles($xpath)
@@ -42,7 +44,7 @@ class Magento_Logging_Model_Config_Converter implements Magento_Config_Converter
         $result = array();
         $actions = $xpath->query('/logging/actions/action');
 
-        /** @var DOMNode $action */
+        /** @var \DOMNode $action */
         foreach ($actions as $action) {
             $actionId = $action->attributes->getNamedItem('id')->nodeValue;
             foreach ($action->childNodes as $label) {
@@ -57,7 +59,7 @@ class Magento_Logging_Model_Config_Converter implements Magento_Config_Converter
     /**
      * Convert Group node to array
      *
-     * @param DOMNode $group
+     * @param \DOMNode $group
      * @param string $groupId
      * @return array
      */
@@ -83,7 +85,7 @@ class Magento_Logging_Model_Config_Converter implements Magento_Config_Converter
     /**
      * Convert Event node to array
      *
-     * @param DOMNode $event
+     * @param \DOMNode $event
      * @param string $groupId
      * @return array
      */
@@ -117,7 +119,7 @@ class Magento_Logging_Model_Config_Converter implements Magento_Config_Converter
     /**
      * Convert events grouping node
      *
-     * @param DOMNode $events
+     * @param \DOMNode $events
      * @param string $groupId
      * @return array
      */
@@ -136,7 +138,7 @@ class Magento_Logging_Model_Config_Converter implements Magento_Config_Converter
     /**
      * Convert skip_on_back node to array
      *
-     * @param DOMNode $skipOnBack
+     * @param \DOMNode $skipOnBack
      * @return array
      */
     protected function _convertSkipOnBack($skipOnBack)
@@ -153,7 +155,7 @@ class Magento_Logging_Model_Config_Converter implements Magento_Config_Converter
     /**
      * Convert expected_models grouping node
      *
-     * @param DOMNode $expectedModels
+     * @param \DOMNode $expectedModels
      * @return array
      */
     protected function _convertExpectedModels($expectedModels)
@@ -175,7 +177,7 @@ class Magento_Logging_Model_Config_Converter implements Magento_Config_Converter
     /**
      * Convert Expected Model node to array
      *
-     * @param DOMNode $expectedModel
+     * @param \DOMNode $expectedModel
      * @return array
      */
     protected function _convertExpectedModel($expectedModel)
@@ -196,7 +198,7 @@ class Magento_Logging_Model_Config_Converter implements Magento_Config_Converter
     /**
      * Convert skip_fields node to array
      *
-     * @param DOMNode $skipFields
+     * @param \DOMNode $skipFields
      * @return array
      */
     protected function _convertSkipFields($skipFields)
@@ -213,7 +215,7 @@ class Magento_Logging_Model_Config_Converter implements Magento_Config_Converter
     /**
      * Convert additional_fields node to array
      *
-     * @param DOMNode $additionalFields
+     * @param \DOMNode $additionalFields
      * @return array
      */
     protected function _convertAdditionalFields($additionalFields)

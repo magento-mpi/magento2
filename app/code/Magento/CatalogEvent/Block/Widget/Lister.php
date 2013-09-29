@@ -15,9 +15,11 @@
  * @category   Magento
  * @package    Magento_CatalogEvent
  */
-class Magento_CatalogEvent_Block_Widget_Lister
-    extends Magento_CatalogEvent_Block_Event_Lister
-    implements Magento_Widget_Block_Interface
+namespace Magento\CatalogEvent\Block\Widget;
+
+class Lister
+    extends \Magento\CatalogEvent\Block\Event\Lister
+    implements \Magento\Widget\Block\BlockInterface
 {
 
 }

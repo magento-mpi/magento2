@@ -16,16 +16,18 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Resource_Quote_Address_Attribute_Frontend
-    extends Magento_Eav_Model_Entity_Attribute_Frontend_Abstract
+namespace Magento\Sales\Model\Resource\Quote\Address\Attribute;
+
+class Frontend
+    extends \Magento\Eav\Model\Entity\Attribute\Frontend\AbstractFrontend
 {
     /**
      * Fetch totals
      *
-     * @param Magento_Sales_Model_Quote_Address $address
+     * @param \Magento\Sales\Model\Quote\Address $address
      * @return array
      */
-    public function fetchTotals(Magento_Sales_Model_Quote_Address $address)
+    public function fetchTotals(\Magento\Sales\Model\Quote\Address $address)
     {
         $arr = array();
         

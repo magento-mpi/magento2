@@ -16,7 +16,9 @@
  * @package     Magento_Index
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Index_Model_Resource_Event extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Index\Model\Resource;
+
+class Event extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     protected function _construct()
     {
@@ -26,10 +28,10 @@ class Magento_Index_Model_Resource_Event extends Magento_Core_Model_Resource_Db_
     /**
      * Check if semilar event exist before start saving data
      *
-     * @param Magento_Core_Model_Abstract $object
-     * @return Magento_Index_Model_Resource_Event
+     * @param \Magento\Core\Model\AbstractModel $object
+     * @return \Magento\Index\Model\Resource\Event
      */
-    protected function _beforeSave(Magento_Core_Model_Abstract $object)
+    protected function _beforeSave(\Magento\Core\Model\AbstractModel $object)
     {
         /**
          * Check if event already exist and merge previous data
@@ -54,10 +56,10 @@ class Magento_Index_Model_Resource_Event extends Magento_Core_Model_Resource_Db_
     /**
      * Save assigned processes
      *
-     * @param Magento_Core_Model_Abstract $object
-     * @return Magento_Index_Model_Resource_Event
+     * @param \Magento\Core\Model\AbstractModel $object
+     * @return \Magento\Index\Model\Resource\Event
      */
-    protected function _afterSave(Magento_Core_Model_Abstract $object)
+    protected function _afterSave(\Magento\Core\Model\AbstractModel $object)
     {
         $processIds = $object->getProcessIds();
         if (is_array($processIds)) {
@@ -66,7 +68,7 @@ class Magento_Index_Model_Resource_Event extends Magento_Core_Model_Resource_Db_
                 $this->_getWriteAdapter()->delete($processTable);
             } else {
                 foreach ($processIds as $processId => $processStatus) {
-                    if (is_null($processStatus) || $processStatus == Magento_Index_Model_Process::EVENT_STATUS_DONE) {
+                    if (is_null($processStatus) || $processStatus == \Magento\Index\Model\Process::EVENT_STATUS_DONE) {
                         $this->_getWriteAdapter()->delete($processTable, array(
                             'process_id = ?' => $processId,
                             'event_id = ?'   => $object->getId(),
@@ -88,14 +90,14 @@ class Magento_Index_Model_Resource_Event extends Magento_Core_Model_Resource_Db_
     /**
      * Update status for events of process
      *
-     * @param int|array|Magento_Index_Model_Process $process
+     * @param int|array|\Magento\Index\Model\Process $process
      * @param string $status
-     * @return Magento_Index_Model_Resource_Event
+     * @return \Magento\Index\Model\Resource\Event
      */
-    public function updateProcessEvents($process, $status = Magento_Index_Model_Process::EVENT_STATUS_DONE)
+    public function updateProcessEvents($process, $status = \Magento\Index\Model\Process::EVENT_STATUS_DONE)
     {
         $whereCondition = '';
-        if ($process instanceof Magento_Index_Model_Process) {
+        if ($process instanceof \Magento\Index\Model\Process) {
             $whereCondition = array('process_id = ?' => $process->getId());
         } elseif (is_array($process) && !empty($process)) {
             $whereCondition = array('process_id IN (?)' => $process);

@@ -16,12 +16,14 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Block_Product_Compare_Sidebar extends Magento_Catalog_Block_Product_Compare_Abstract
+namespace Magento\Catalog\Block\Product\Compare;
+
+class Sidebar extends \Magento\Catalog\Block\Product\Compare\AbstractCompare
 {
     /**
      * Compare Products Collection
      *
-     * @var null|Magento_Catalog_Model_Resource_Product_Compare_Item_Collection
+     * @var null|\Magento\Catalog\Model\Resource\Product\Compare\Item\Collection
      */
     protected $_itemsCollection = null;
 
@@ -37,7 +39,7 @@ class Magento_Catalog_Block_Product_Compare_Sidebar extends Magento_Catalog_Bloc
     /**
      * Retrieve Compare Products Collection
      *
-     * @return Magento_Catalog_Model_Resource_Product_Compare_Item_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Compare\Item\Collection
      */
     public function getItems()
     {
@@ -50,8 +52,8 @@ class Magento_Catalog_Block_Product_Compare_Sidebar extends Magento_Catalog_Bloc
     /**
      * Set Compare Products Collection
      *
-     * @param Magento_Catalog_Model_Resource_Product_Compare_Item_Collection $collection
-     * @return Magento_Catalog_Block_Product_Compare_Sidebar
+     * @param \Magento\Catalog\Model\Resource\Product\Compare\Item\Collection $collection
+     * @return \Magento\Catalog\Block\Product\Compare\Sidebar
      */
     public function setItems($collection)
     {
@@ -62,7 +64,7 @@ class Magento_Catalog_Block_Product_Compare_Sidebar extends Magento_Catalog_Bloc
     /**
      * Retrieve compare product helper
      *
-     * @return Magento_Catalog_Helper_Product_Compare
+     * @return \Magento\Catalog\Helper\Product\Compare
      */
     public function getCompareProductHelper()
     {

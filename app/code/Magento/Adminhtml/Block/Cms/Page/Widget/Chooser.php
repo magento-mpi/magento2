@@ -15,48 +15,50 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Cms_Page_Widget_Chooser extends Magento_Adminhtml_Block_Widget_Grid
+namespace Magento\Adminhtml\Block\Cms\Page\Widget;
+
+class Chooser extends \Magento\Adminhtml\Block\Widget\Grid
 {
     /**
-     * @var Magento_Page_Model_Source_Layout
+     * @var \Magento\Page\Model\Source\Layout
      */
     protected $_pageLayout;
 
     /**
-     * @var Magento_Cms_Model_Page
+     * @var \Magento\Cms\Model\Page
      */
     protected $_cmsPage;
 
     /**
-     * @var Magento_Cms_Model_PageFactory
+     * @var \Magento\Cms\Model\PageFactory
      */
     protected $_pageFactory;
 
     /**
-     * @var Magento_Cms_Model_Resource_Page_CollectionFactory
+     * @var \Magento\Cms\Model\Resource\Page\CollectionFactory
      */
     protected $_collectionFactory;
 
     /**
-     * @param Magento_Page_Model_Source_Layout $pageLayout
-     * @param Magento_Cms_Model_Page $cmsPage
-     * @param Magento_Cms_Model_PageFactory $pageFactory
-     * @param Magento_Cms_Model_Resource_Page_CollectionFactory $collectionFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Url $urlModel
+     * @param \Magento\Page\Model\Source\Layout $pageLayout
+     * @param \Magento\Cms\Model\Page $cmsPage
+     * @param \Magento\Cms\Model\PageFactory $pageFactory
+     * @param \Magento\Cms\Model\Resource\Page\CollectionFactory $collectionFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
      * @param array $data
      */
     public function __construct(
-        Magento_Page_Model_Source_Layout $pageLayout,
-        Magento_Cms_Model_Page $cmsPage,
-        Magento_Cms_Model_PageFactory $pageFactory,
-        Magento_Cms_Model_Resource_Page_CollectionFactory $collectionFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Url $urlModel,
+        \Magento\Page\Model\Source\Layout $pageLayout,
+        \Magento\Cms\Model\Page $cmsPage,
+        \Magento\Cms\Model\PageFactory $pageFactory,
+        \Magento\Cms\Model\Resource\Page\CollectionFactory $collectionFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
         array $data = array()
     ) {
         $this->_pageLayout = $pageLayout;
@@ -80,15 +82,15 @@ class Magento_Adminhtml_Block_Cms_Page_Widget_Chooser extends Magento_Adminhtml_
     /**
      * Prepare chooser element HTML
      *
-     * @param Magento_Data_Form_Element_Abstract $element Form Element
-     * @return Magento_Data_Form_Element_Abstract
+     * @param \Magento\Data\Form\Element\AbstractElement $element Form Element
+     * @return \Magento\Data\Form\Element\AbstractElement
      */
-    public function prepareElementHtml(Magento_Data_Form_Element_Abstract $element)
+    public function prepareElementHtml(\Magento\Data\Form\Element\AbstractElement $element)
     {
         $uniqId = $this->_coreData->uniqHash($element->getId());
         $sourceUrl = $this->getUrl('*/cms_page_widget/chooser', array('uniq_id' => $uniqId));
 
-        $chooser = $this->getLayout()->createBlock('Magento_Widget_Block_Adminhtml_Widget_Chooser')
+        $chooser = $this->getLayout()->createBlock('Magento\Widget\Block\Adminhtml\Widget\Chooser')
             ->setElement($element)
             ->setConfig($this->getConfig())
             ->setFieldsetId($this->getFieldsetId())
@@ -131,12 +133,12 @@ class Magento_Adminhtml_Block_Cms_Page_Widget_Chooser extends Magento_Adminhtml_
     /**
      * Prepare pages collection
      *
-     * @return Magento_Adminhtml_Block_Widget_Grid
+     * @return \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _prepareCollection()
     {
         $collection = $this->_collectionFactory->create();
-        /* @var $collection Magento_Cms_Model_Resource_Page_Collection */
+        /* @var $collection \Magento\Cms\Model\Resource\Page\Collection */
         $collection->setFirstStoreFlag(true);
         $this->setCollection($collection);
 
@@ -146,7 +148,7 @@ class Magento_Adminhtml_Block_Cms_Page_Widget_Chooser extends Magento_Adminhtml_
     /**
      * Prepare columns for pages grid
      *
-     * @return Magento_Adminhtml_Block_Widget_Grid
+     * @return \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _prepareColumns()
     {

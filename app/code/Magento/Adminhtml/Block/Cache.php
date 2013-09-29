@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Adminhtml_Block_Cache extends Magento_Adminhtml_Block_Widget_Grid_Container
+namespace Magento\Adminhtml\Block;
+
+class Cache extends \Magento\Adminhtml\Block\Widget\Grid\Container
 {
     /**
      * Class constructor

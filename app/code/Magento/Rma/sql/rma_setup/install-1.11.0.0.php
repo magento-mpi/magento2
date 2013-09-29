@@ -8,8 +8,8 @@
  * @license     {license_link}
  */
 
-/** @var $this Magento_Rma_Model_Resource_Setup */
-/** @var $installer Magento_Rma_Model_Resource_Setup */
+/** @var $this \Magento\Rma\Model\Resource\Setup */
+/** @var $installer \Magento\Rma\Model\Resource\Setup */
 $installer = $this;
 
 /**
@@ -22,37 +22,37 @@ $installer->startSetup();
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('magento_rma'))
-    ->addColumn('entity_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('entity_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
         'nullable'  => false,
         'primary'   => true,
         ), 'RMA Id')
-    ->addColumn('status', Magento_DB_Ddl_Table::TYPE_TEXT, 32, array(
+    ->addColumn('status', \Magento\DB\Ddl\Table::TYPE_TEXT, 32, array(
         ), 'Status')
-    ->addColumn('is_active', Magento_DB_Ddl_Table::TYPE_SMALLINT, null, array(
+    ->addColumn('is_active', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '1',
         ), 'Is Active')
-    ->addColumn('increment_id', Magento_DB_Ddl_Table::TYPE_TEXT, 50, array(
+    ->addColumn('increment_id', \Magento\DB\Ddl\Table::TYPE_TEXT, 50, array(
         ), 'Increment Id')
-    ->addColumn('date_requested', Magento_DB_Ddl_Table::TYPE_TIMESTAMP, null, array(
-        'default' => Magento_DB_Ddl_Table::TIMESTAMP_INIT,
+    ->addColumn('date_requested', \Magento\DB\Ddl\Table::TYPE_TIMESTAMP, null, array(
+        'default' => \Magento\DB\Ddl\Table::TIMESTAMP_INIT,
         ), 'RMA Requested At')
-    ->addColumn('order_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('order_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         ), 'Order Id')
-    ->addColumn('order_increment_id', Magento_DB_Ddl_Table::TYPE_TEXT, 50, array(
+    ->addColumn('order_increment_id', \Magento\DB\Ddl\Table::TYPE_TEXT, 50, array(
         ), 'Order Increment Id')
-    ->addColumn('store_id', Magento_DB_Ddl_Table::TYPE_SMALLINT, null, array(
+    ->addColumn('store_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         ), 'Store Id')
-    ->addColumn('customer_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('customer_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         ), 'Customer Id')
-    ->addColumn('customer_custom_email', Magento_DB_Ddl_Table::TYPE_TEXT, 255, array(
+    ->addColumn('customer_custom_email', \Magento\DB\Ddl\Table::TYPE_TEXT, 255, array(
         ), 'Customer Custom Email')
     ->addIndex($installer->getIdxName('magento_rma', array('status')),
         array('status'))
@@ -72,10 +72,10 @@ $table = $installer->getConnection()
         array('customer_id'))
     ->addForeignKey($installer->getFkName('magento_rma', 'customer_id', 'customer_entity', 'entity_id'),
         'customer_id', $installer->getTable('customer_entity'), 'entity_id',
-        Magento_DB_Ddl_Table::ACTION_SET_NULL, Magento_DB_Ddl_Table::ACTION_CASCADE)
+        \Magento\DB\Ddl\Table::ACTION_SET_NULL, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->addForeignKey($installer->getFkName('magento_rma', 'store_id', 'core_store', 'store_id'),
         'store_id', $installer->getTable('core_store'), 'store_id',
-        Magento_DB_Ddl_Table::ACTION_SET_NULL, Magento_DB_Ddl_Table::ACTION_CASCADE)
+        \Magento\DB\Ddl\Table::ACTION_SET_NULL, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('RMA LIst');
 $installer->getConnection()->createTable($table);
 
@@ -84,33 +84,33 @@ $installer->getConnection()->createTable($table);
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('magento_rma_grid'))
-    ->addColumn('entity_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('entity_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'primary'   => true,
         ), 'RMA Id')
-    ->addColumn('status', Magento_DB_Ddl_Table::TYPE_TEXT, 32, array(
+    ->addColumn('status', \Magento\DB\Ddl\Table::TYPE_TEXT, 32, array(
         ), 'Status')
-    ->addColumn('increment_id', Magento_DB_Ddl_Table::TYPE_TEXT, 50, array(
+    ->addColumn('increment_id', \Magento\DB\Ddl\Table::TYPE_TEXT, 50, array(
         ), 'Increment Id')
-    ->addColumn('date_requested', Magento_DB_Ddl_Table::TYPE_TIMESTAMP, null, array(
-        'default' => Magento_DB_Ddl_Table::TIMESTAMP_INIT,
+    ->addColumn('date_requested', \Magento\DB\Ddl\Table::TYPE_TIMESTAMP, null, array(
+        'default' => \Magento\DB\Ddl\Table::TIMESTAMP_INIT,
         ), 'RMA Requested At')
-    ->addColumn('order_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('order_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         ), 'Order Id')
-    ->addColumn('order_increment_id', Magento_DB_Ddl_Table::TYPE_TEXT, 50, array(
+    ->addColumn('order_increment_id', \Magento\DB\Ddl\Table::TYPE_TEXT, 50, array(
         ), 'Order Increment Id')
-    ->addColumn('order_date', Magento_DB_Ddl_Table::TYPE_TIMESTAMP, null, array(
+    ->addColumn('order_date', \Magento\DB\Ddl\Table::TYPE_TIMESTAMP, null, array(
         ), 'Order Created At')
-    ->addColumn('store_id', Magento_DB_Ddl_Table::TYPE_SMALLINT, null, array(
+    ->addColumn('store_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         ), 'Store Id')
-    ->addColumn('customer_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('customer_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         ), 'Customer Id')
-    ->addColumn('customer_name', Magento_DB_Ddl_Table::TYPE_TEXT, 255, array(
+    ->addColumn('customer_name', \Magento\DB\Ddl\Table::TYPE_TEXT, 255, array(
         ), 'Customer Billing Name')
     ->addIndex($installer->getIdxName('magento_rma_grid', array('status')),
         array('status'))
@@ -132,7 +132,7 @@ $table = $installer->getConnection()
         array('customer_name'))
     ->addForeignKey($installer->getFkName('magento_rma_grid', 'entity_id', 'magento_rma', 'entity_id'),
         'entity_id', $installer->getTable('magento_rma'), 'entity_id',
-        Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE)
+        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('RMA Grid');
 $installer->getConnection()->createTable($table);
 
@@ -141,31 +141,31 @@ $installer->getConnection()->createTable($table);
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('magento_rma_status_history'))
-    ->addColumn('entity_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('entity_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
         'nullable'  => false,
         'primary'   => true,
         ), 'Entity Id')
-    ->addColumn('rma_entity_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('rma_entity_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         ), 'RMA Entity Id')
-    ->addColumn('is_customer_notified', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('is_customer_notified', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         ), 'Is Customer Notified')
-    ->addColumn('is_visible_on_front', Magento_DB_Ddl_Table::TYPE_SMALLINT, null, array(
+    ->addColumn('is_visible_on_front', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '0',
         ), 'Is Visible On Front')
-    ->addColumn('comment', Magento_DB_Ddl_Table::TYPE_TEXT, '64k', array(
+    ->addColumn('comment', \Magento\DB\Ddl\Table::TYPE_TEXT, '64k', array(
         ), 'Comment')
-    ->addColumn('status', Magento_DB_Ddl_Table::TYPE_TEXT, 32, array(
+    ->addColumn('status', \Magento\DB\Ddl\Table::TYPE_TEXT, 32, array(
         ), 'Status')
-    ->addColumn('created_at', Magento_DB_Ddl_Table::TYPE_TIMESTAMP, null, array(
-        'default' => Magento_DB_Ddl_Table::TIMESTAMP_INIT,
+    ->addColumn('created_at', \Magento\DB\Ddl\Table::TYPE_TIMESTAMP, null, array(
+        'default' => \Magento\DB\Ddl\Table::TIMESTAMP_INIT,
         ), 'Created At')
-    ->addColumn('is_admin', Magento_DB_Ddl_Table::TYPE_SMALLINT, null, array(
+    ->addColumn('is_admin', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
         ), 'Is this Merchant Comment')
     ->addIndex($installer->getIdxName('magento_rma_status_history', array('rma_entity_id')),
         array('rma_entity_id'))
@@ -176,8 +176,8 @@ $table = $installer->getConnection()
         'rma_entity_id',
         $installer->getTable('magento_rma'),
         'entity_id',
-        Magento_DB_Ddl_Table::ACTION_CASCADE,
-        Magento_DB_Ddl_Table::ACTION_CASCADE)
+        \Magento\DB\Ddl\Table::ACTION_CASCADE,
+        \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('RMA status history magento_rma_status_history');
 $installer->getConnection()->createTable($table);
 
@@ -186,48 +186,48 @@ $installer->getConnection()->createTable($table);
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('magento_rma_item_entity'))
-    ->addColumn('entity_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('entity_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
         'nullable'  => false,
         'primary'   => true,
         ), 'Entity Id')
-    ->addColumn('entity_type_id', Magento_DB_Ddl_Table::TYPE_SMALLINT, null, array(
+    ->addColumn('entity_type_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '0',
         ), 'Entity Type Id')
-    ->addColumn('attribute_set_id', Magento_DB_Ddl_Table::TYPE_SMALLINT, null, array(
+    ->addColumn('attribute_set_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '0',
         ), 'Attribute Set Id')
-    ->addColumn('rma_entity_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('rma_entity_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         ), 'RMA entity id')
-    ->addColumn('is_qty_decimal', Magento_DB_Ddl_Table::TYPE_SMALLINT, null, array(
+    ->addColumn('is_qty_decimal', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '0',
         ), 'Is Qty Decimal')
-    ->addColumn('qty_requested', Magento_DB_Ddl_Table::TYPE_DECIMAL, '12,4', array(
+    ->addColumn('qty_requested', \Magento\DB\Ddl\Table::TYPE_DECIMAL, '12,4', array(
         'nullable'  => false,
         'default'   => '0.0000',
         ), 'Qty of requested for RMA items')
-    ->addColumn('qty_authorized', Magento_DB_Ddl_Table::TYPE_DECIMAL, '12,4', array(
+    ->addColumn('qty_authorized', \Magento\DB\Ddl\Table::TYPE_DECIMAL, '12,4', array(
         ), 'Qty of authorized items')
-    ->addColumn('qty_approved', Magento_DB_Ddl_Table::TYPE_DECIMAL, '12,4', array(
+    ->addColumn('qty_approved', \Magento\DB\Ddl\Table::TYPE_DECIMAL, '12,4', array(
         ), 'Qty of approved items')
-    ->addColumn('status', Magento_DB_Ddl_Table::TYPE_TEXT, 32, array(
+    ->addColumn('status', \Magento\DB\Ddl\Table::TYPE_TEXT, 32, array(
         ), 'Status')
-    ->addColumn('order_item_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('order_item_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         ), 'Product Order Item Id')
-    ->addColumn('product_name', Magento_DB_Ddl_Table::TYPE_TEXT, 255, array(
+    ->addColumn('product_name', \Magento\DB\Ddl\Table::TYPE_TEXT, 255, array(
         ), 'Product Name')
-    ->addColumn('product_sku', Magento_DB_Ddl_Table::TYPE_TEXT, 255, array(
+    ->addColumn('product_sku', \Magento\DB\Ddl\Table::TYPE_TEXT, 255, array(
         ), 'Product Sku')
     ->addIndex($installer->getIdxName('magento_rma_item_entity', array('entity_type_id')),
         array('entity_type_id'))
@@ -236,8 +236,8 @@ $table = $installer->getConnection()
         'rma_entity_id',
         $installer->getTable('magento_rma'),
         'entity_id',
-        Magento_DB_Ddl_Table::ACTION_CASCADE,
-        Magento_DB_Ddl_Table::ACTION_CASCADE)
+        \Magento\DB\Ddl\Table::ACTION_CASCADE,
+        \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('RMA Item Entity');
 $installer->getConnection()->createTable($table);
 
@@ -246,42 +246,42 @@ $installer->getConnection()->createTable($table);
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('magento_rma_item_eav_attribute'))
-    ->addColumn('attribute_id', Magento_DB_Ddl_Table::TYPE_SMALLINT, null, array(
+    ->addColumn('attribute_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
         'identity'  => false,
         'unsigned'  => true,
         'nullable'  => false,
         'primary'   => true,
         ), 'Attribute Id')
-    ->addColumn('is_visible', Magento_DB_Ddl_Table::TYPE_SMALLINT, null, array(
+    ->addColumn('is_visible', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '1',
         ), 'Is Visible')
-    ->addColumn('input_filter', Magento_DB_Ddl_Table::TYPE_TEXT, 255, array(
+    ->addColumn('input_filter', \Magento\DB\Ddl\Table::TYPE_TEXT, 255, array(
         ), 'Input Filter')
-    ->addColumn('multiline_count', Magento_DB_Ddl_Table::TYPE_SMALLINT, null, array(
+    ->addColumn('multiline_count', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '1',
         ), 'Multiline Count')
-    ->addColumn('validate_rules', Magento_DB_Ddl_Table::TYPE_TEXT, '64k', array(
+    ->addColumn('validate_rules', \Magento\DB\Ddl\Table::TYPE_TEXT, '64k', array(
         ), 'Validate Rules')
-    ->addColumn('is_system', Magento_DB_Ddl_Table::TYPE_SMALLINT, null, array(
+    ->addColumn('is_system', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '0',
         ), 'Is System')
-    ->addColumn('sort_order', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('sort_order', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '0',
         ), 'Sort Order')
-    ->addColumn('data_model', Magento_DB_Ddl_Table::TYPE_TEXT, 255, array(
+    ->addColumn('data_model', \Magento\DB\Ddl\Table::TYPE_TEXT, 255, array(
         ), 'Data Model')
     ->addForeignKey(
         $installer->getFkName('magento_rma_item_eav_attribute', 'attribute_id', 'eav_attribute', 'attribute_id'),
         'attribute_id', $installer->getTable('eav_attribute'), 'attribute_id',
-        Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE)
+        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('RMA Item EAV Attribute');
 $installer->getConnection()->createTable($table);
 
@@ -290,35 +290,35 @@ $installer->getConnection()->createTable($table);
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('magento_rma_item_entity_datetime'))
-    ->addColumn('value_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('value_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'nullable'  => false,
         'primary'   => true,
         ), 'Value Id')
-    ->addColumn('entity_type_id', Magento_DB_Ddl_Table::TYPE_SMALLINT, null, array(
+    ->addColumn('entity_type_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '0',
         ), 'Entity Type Id')
-    ->addColumn('attribute_id', Magento_DB_Ddl_Table::TYPE_SMALLINT, null, array(
+    ->addColumn('attribute_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '0',
         ), 'Attribute Id')
-    ->addColumn('entity_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('entity_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '0',
         ), 'Entity Id')
-    ->addColumn('value', Magento_DB_Ddl_Table::TYPE_DATETIME, null, array(
+    ->addColumn('value', \Magento\DB\Ddl\Table::TYPE_DATETIME, null, array(
         'nullable'  => false,
         ), 'Value')
     ->addIndex(
         $installer->getIdxName(
             'magento_rma_item_entity_datetime',
             array('entity_id', 'attribute_id'),
-            Magento_DB_Adapter_Interface::INDEX_TYPE_UNIQUE),
-        array('entity_id', 'attribute_id'), array('type' => Magento_DB_Adapter_Interface::INDEX_TYPE_UNIQUE))
+            \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE),
+        array('entity_id', 'attribute_id'), array('type' => \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName('magento_rma_item_entity_datetime', array('entity_type_id')),
         array('entity_type_id'))
     ->addIndex($installer->getIdxName('magento_rma_item_entity_datetime', array('attribute_id')),
@@ -331,7 +331,7 @@ $table = $installer->getConnection()
     ->addForeignKey(
         $installer->getFkName('magento_rma_item_entity_datetime', 'attribute_id', 'eav_attribute', 'attribute_id'),
         'attribute_id', $installer->getTable('eav_attribute'), 'attribute_id',
-        Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE)
+        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName(
             'magento_rma_item_entity_datetime',
@@ -339,7 +339,7 @@ $table = $installer->getConnection()
             'magento_rma_item_entity',
             'entity_id'),
         'entity_id', $installer->getTable('magento_rma_item_entity'), 'entity_id',
-        Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE)
+        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName(
             'magento_rma_item_entity_datetime',
@@ -347,7 +347,7 @@ $table = $installer->getConnection()
             'eav_entity_type',
             'entity_type_id'),
         'entity_type_id', $installer->getTable('eav_entity_type'), 'entity_type_id',
-        Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE)
+        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('RMA Item Entity Datetime');
 $installer->getConnection()->createTable($table);
 
@@ -356,27 +356,27 @@ $installer->getConnection()->createTable($table);
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('magento_rma_item_entity_decimal'))
-    ->addColumn('value_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('value_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'nullable'  => false,
         'primary'   => true,
         ), 'Value Id')
-    ->addColumn('entity_type_id', Magento_DB_Ddl_Table::TYPE_SMALLINT, null, array(
+    ->addColumn('entity_type_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '0',
         ), 'Entity Type Id')
-    ->addColumn('attribute_id', Magento_DB_Ddl_Table::TYPE_SMALLINT, null, array(
+    ->addColumn('attribute_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '0',
         ), 'Attribute Id')
-    ->addColumn('entity_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('entity_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '0',
         ), 'Entity Id')
-    ->addColumn('value', Magento_DB_Ddl_Table::TYPE_DECIMAL, '12,4', array(
+    ->addColumn('value', \Magento\DB\Ddl\Table::TYPE_DECIMAL, '12,4', array(
         'nullable'  => false,
         'default'   => '0.0000',
         ), 'Value')
@@ -384,8 +384,8 @@ $table = $installer->getConnection()
         $installer->getIdxName(
             'magento_rma_item_entity_decimal',
             array('entity_id', 'attribute_id'),
-            Magento_DB_Adapter_Interface::INDEX_TYPE_UNIQUE),
-        array('entity_id', 'attribute_id'), array('type' => Magento_DB_Adapter_Interface::INDEX_TYPE_UNIQUE))
+            \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE),
+        array('entity_id', 'attribute_id'), array('type' => \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName('magento_rma_item_entity_decimal', array('entity_type_id')),
         array('entity_type_id'))
     ->addIndex($installer->getIdxName('magento_rma_item_entity_decimal', array('attribute_id')),
@@ -398,7 +398,7 @@ $table = $installer->getConnection()
     ->addForeignKey(
         $installer->getFkName('magento_rma_item_entity_decimal', 'attribute_id', 'eav_attribute', 'attribute_id'),
         'attribute_id', $installer->getTable('eav_attribute'), 'attribute_id',
-        Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE)
+        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName(
             'magento_rma_item_entity_decimal',
@@ -406,7 +406,7 @@ $table = $installer->getConnection()
             'magento_rma_item_entity',
             'entity_id'),
         'entity_id', $installer->getTable('magento_rma_item_entity'), 'entity_id',
-        Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE)
+        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName(
             'magento_rma_item_entity_decimal',
@@ -414,7 +414,7 @@ $table = $installer->getConnection()
             'eav_entity_type',
             'entity_type_id'),
         'entity_type_id', $installer->getTable('eav_entity_type'), 'entity_type_id',
-        Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE)
+        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('RMA Item Entity Decimal');
 $installer->getConnection()->createTable($table);
 
@@ -423,27 +423,27 @@ $installer->getConnection()->createTable($table);
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('magento_rma_item_entity_int'))
-    ->addColumn('value_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('value_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'nullable'  => false,
         'primary'   => true,
         ), 'Value Id')
-    ->addColumn('entity_type_id', Magento_DB_Ddl_Table::TYPE_SMALLINT, null, array(
+    ->addColumn('entity_type_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '0',
         ), 'Entity Type Id')
-    ->addColumn('attribute_id', Magento_DB_Ddl_Table::TYPE_SMALLINT, null, array(
+    ->addColumn('attribute_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '0',
         ), 'Attribute Id')
-    ->addColumn('entity_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('entity_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '0',
         ), 'Entity Id')
-    ->addColumn('value', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('value', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'nullable'  => false,
         'default'   => '0',
         ), 'Value')
@@ -451,8 +451,8 @@ $table = $installer->getConnection()
         $installer->getIdxName(
             'magento_rma_item_entity_int',
             array('entity_id', 'attribute_id'),
-            Magento_DB_Adapter_Interface::INDEX_TYPE_UNIQUE),
-        array('entity_id', 'attribute_id'), array('type' => Magento_DB_Adapter_Interface::INDEX_TYPE_UNIQUE))
+            \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE),
+        array('entity_id', 'attribute_id'), array('type' => \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName('magento_rma_item_entity_int', array('entity_type_id')),
         array('entity_type_id'))
     ->addIndex($installer->getIdxName('magento_rma_item_entity_int', array('attribute_id')),
@@ -464,15 +464,15 @@ $table = $installer->getConnection()
     ->addForeignKey(
         $installer->getFkName('magento_rma_item_entity_int', 'attribute_id', 'eav_attribute', 'attribute_id'),
         'attribute_id', $installer->getTable('eav_attribute'), 'attribute_id',
-        Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE)
+        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName('magento_rma_item_entity_int', 'entity_id', 'magento_rma_item_entity', 'entity_id'),
         'entity_id', $installer->getTable('magento_rma_item_entity'), 'entity_id',
-        Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE)
+        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName('magento_rma_item_entity_int', 'entity_type_id', 'eav_entity_type', 'entity_type_id'),
         'entity_type_id', $installer->getTable('eav_entity_type'), 'entity_type_id',
-        Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE)
+        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('RMA Item Entity Int');
 $installer->getConnection()->createTable($table);
 
@@ -481,35 +481,35 @@ $installer->getConnection()->createTable($table);
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('magento_rma_item_entity_text'))
-    ->addColumn('value_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('value_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'nullable'  => false,
         'primary'   => true,
         ), 'Value Id')
-    ->addColumn('entity_type_id', Magento_DB_Ddl_Table::TYPE_SMALLINT, null, array(
+    ->addColumn('entity_type_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '0',
         ), 'Entity Type Id')
-    ->addColumn('attribute_id', Magento_DB_Ddl_Table::TYPE_SMALLINT, null, array(
+    ->addColumn('attribute_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '0',
         ), 'Attribute Id')
-    ->addColumn('entity_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('entity_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '0',
         ), 'Entity Id')
-    ->addColumn('value', Magento_DB_Ddl_Table::TYPE_TEXT, '64k', array(
+    ->addColumn('value', \Magento\DB\Ddl\Table::TYPE_TEXT, '64k', array(
         'nullable'  => false,
         ), 'Value')
     ->addIndex(
         $installer->getIdxName(
             'magento_rma_item_entity_text',
             array('entity_id', 'attribute_id'),
-            Magento_DB_Adapter_Interface::INDEX_TYPE_UNIQUE),
-        array('entity_id', 'attribute_id'), array('type' => Magento_DB_Adapter_Interface::INDEX_TYPE_UNIQUE))
+            \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE),
+        array('entity_id', 'attribute_id'), array('type' => \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName('magento_rma_item_entity_text', array('entity_type_id')),
         array('entity_type_id'))
     ->addIndex($installer->getIdxName('magento_rma_item_entity_text', array('attribute_id')),
@@ -519,7 +519,7 @@ $table = $installer->getConnection()
     ->addForeignKey(
         $installer->getFkName('magento_rma_item_entity_text', 'attribute_id', 'eav_attribute', 'attribute_id'),
         'attribute_id', $installer->getTable('eav_attribute'), 'attribute_id',
-        Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE)
+        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName(
             'magento_rma_item_entity_text',
@@ -527,11 +527,11 @@ $table = $installer->getConnection()
             'magento_rma_item_entity',
             'entity_id'),
         'entity_id', $installer->getTable('magento_rma_item_entity'), 'entity_id',
-        Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE)
+        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName('magento_rma_item_entity_text', 'entity_type_id', 'eav_entity_type', 'entity_type_id'),
         'entity_type_id', $installer->getTable('eav_entity_type'), 'entity_type_id',
-        Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE)
+        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('RMA Item Entity Text');
 $installer->getConnection()->createTable($table);
 
@@ -540,34 +540,34 @@ $installer->getConnection()->createTable($table);
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('magento_rma_item_entity_varchar'))
-    ->addColumn('value_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('value_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'nullable'  => false,
         'primary'   => true,
         ), 'Value Id')
-    ->addColumn('entity_type_id', Magento_DB_Ddl_Table::TYPE_SMALLINT, null, array(
+    ->addColumn('entity_type_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '0',
         ), 'Entity Type Id')
-    ->addColumn('attribute_id', Magento_DB_Ddl_Table::TYPE_SMALLINT, null, array(
+    ->addColumn('attribute_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '0',
         ), 'Attribute Id')
-    ->addColumn('entity_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('entity_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '0',
         ), 'Entity Id')
-    ->addColumn('value', Magento_DB_Ddl_Table::TYPE_TEXT, 255, array(
+    ->addColumn('value', \Magento\DB\Ddl\Table::TYPE_TEXT, 255, array(
         ), 'Value')
     ->addIndex(
         $installer->getIdxName(
             'magento_rma_item_entity_varchar',
             array('entity_id', 'attribute_id'),
-            Magento_DB_Adapter_Interface::INDEX_TYPE_UNIQUE),
-        array('entity_id', 'attribute_id'), array('type' => Magento_DB_Adapter_Interface::INDEX_TYPE_UNIQUE))
+            \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE),
+        array('entity_id', 'attribute_id'), array('type' => \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName('magento_rma_item_entity_varchar', array('entity_type_id')),
         array('entity_type_id'))
     ->addIndex($installer->getIdxName('magento_rma_item_entity_varchar', array('attribute_id')),
@@ -580,7 +580,7 @@ $table = $installer->getConnection()
     ->addForeignKey(
         $installer->getFkName('magento_rma_item_entity_varchar', 'attribute_id', 'eav_attribute', 'attribute_id'),
         'attribute_id', $installer->getTable('eav_attribute'), 'attribute_id',
-        Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE)
+        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName(
             'magento_rma_item_entity_varchar',
@@ -588,7 +588,7 @@ $table = $installer->getConnection()
             'magento_rma_item_entity',
             'entity_id'),
         'entity_id', $installer->getTable('magento_rma_item_entity'), 'entity_id',
-        Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE)
+        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName(
             'magento_rma_item_entity_varchar',
@@ -596,7 +596,7 @@ $table = $installer->getConnection()
             'eav_entity_type',
             'entity_type_id'),
         'entity_type_id', $installer->getTable('eav_entity_type'), 'entity_type_id',
-        Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE)
+        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('RMA Item Entity Varchar');
 $installer->getConnection()->createTable($table);
 
@@ -605,11 +605,11 @@ $installer->getConnection()->createTable($table);
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('magento_rma_item_form_attribute'))
-    ->addColumn('form_code', Magento_DB_Ddl_Table::TYPE_TEXT, 32, array(
+    ->addColumn('form_code', \Magento\DB\Ddl\Table::TYPE_TEXT, 32, array(
         'nullable'  => false,
         'primary'   => true,
         ), 'Form Code')
-    ->addColumn('attribute_id', Magento_DB_Ddl_Table::TYPE_SMALLINT, null, array(
+    ->addColumn('attribute_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'primary'   => true,
@@ -621,8 +621,8 @@ $table = $installer->getConnection()
         'attribute_id',
         $installer->getTable('eav_attribute'),
         'attribute_id',
-        Magento_DB_Ddl_Table::ACTION_CASCADE,
-        Magento_DB_Ddl_Table::ACTION_CASCADE)
+        \Magento\DB\Ddl\Table::ACTION_CASCADE,
+        \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('RMA Item Form Attribute');
 $installer->getConnection()->createTable($table);
 
@@ -631,25 +631,25 @@ $installer->getConnection()->createTable($table);
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('magento_rma_item_eav_attribute_website'))
-    ->addColumn('attribute_id', Magento_DB_Ddl_Table::TYPE_SMALLINT, null, array(
+    ->addColumn('attribute_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'primary'   => true,
         ), 'Attribute Id')
-    ->addColumn('website_id', Magento_DB_Ddl_Table::TYPE_SMALLINT, null, array(
+    ->addColumn('website_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'primary'   => true,
         ), 'Website Id')
-    ->addColumn('is_visible', Magento_DB_Ddl_Table::TYPE_SMALLINT, null, array(
+    ->addColumn('is_visible', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         ), 'Is Visible')
-    ->addColumn('is_required', Magento_DB_Ddl_Table::TYPE_SMALLINT, null, array(
+    ->addColumn('is_required', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         ), 'Is Required')
-    ->addColumn('default_value', Magento_DB_Ddl_Table::TYPE_TEXT, '64k', array(
+    ->addColumn('default_value', \Magento\DB\Ddl\Table::TYPE_TEXT, '64k', array(
         ), 'Default Value')
-    ->addColumn('multiline_count', Magento_DB_Ddl_Table::TYPE_SMALLINT, null, array(
+    ->addColumn('multiline_count', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         ), 'Multiline Count')
     ->addIndex($installer->getIdxName('magento_rma_item_eav_attribute_website', array('website_id')),
@@ -661,11 +661,11 @@ $table = $installer->getConnection()
             'eav_attribute',
             'attribute_id'),
         'attribute_id', $installer->getTable('eav_attribute'), 'attribute_id',
-        Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE)
+        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName('magento_rma_item_eav_attribute_website', 'website_id', 'core_website', 'website_id'),
         'website_id', $installer->getTable('core_website'), 'website_id',
-        Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE)
+        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Enterprise RMA Item Eav Attribute Website');
 $installer->getConnection()->createTable($table);
 
@@ -675,7 +675,7 @@ $installer->installEntities();
 $installer->installForms();
 
 //Add Product's Attribute
-/** @var Magento_Catalog_Model_Resource_Setup $installer */
+/** @var \Magento\Catalog\Model\Resource\Setup $installer */
 $installer = $this->getCatalogSetup(array('resourceName' => 'catalog_setup'));
 
 /**
@@ -683,7 +683,7 @@ $installer = $this->getCatalogSetup(array('resourceName' => 'catalog_setup'));
  */
 $installer->startSetup();
 
-$installer->addAttribute(Magento_Catalog_Model_Product::ENTITY, 'is_returnable', array(
+$installer->addAttribute(\Magento\Catalog\Model\Product::ENTITY, 'is_returnable', array(
     'group'             => 'General',
     'type'              => 'int',
     'backend'           => '',
@@ -691,8 +691,8 @@ $installer->addAttribute(Magento_Catalog_Model_Product::ENTITY, 'is_returnable',
     'label'             => 'Enable RMA',
     'input'             => 'select',
     'class'             => '',
-    'source'            => 'Magento_Eav_Model_Entity_Attribute_Source_Boolean',
-    'global'            => Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_WEBSITE,
+    'source'            => 'Magento\Eav\Model\Entity\Attribute\Source\Boolean',
+    'global'            => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_WEBSITE,
     'visible'           => true,
     'required'          => false,
     'user_defined'      => false,
@@ -703,15 +703,15 @@ $installer->addAttribute(Magento_Catalog_Model_Product::ENTITY, 'is_returnable',
     'visible_on_front'  => false,
     'unique'            => false,
     'apply_to'          =>
-        Magento_Catalog_Model_Product_Type::TYPE_SIMPLE . ',' .
-        Magento_Catalog_Model_Product_Type::TYPE_CONFIGURABLE . ',' .
-        Magento_Catalog_Model_Product_Type::TYPE_GROUPED . ',' .
-        Magento_Catalog_Model_Product_Type::TYPE_BUNDLE,
+        \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE . ',' .
+        \Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE . ',' .
+        \Magento\Catalog\Model\Product\Type::TYPE_GROUPED . ',' .
+        \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE,
     'is_configurable'   => false,
-    'input_renderer'    => 'Magento_Rma_Block_Adminhtml_Product_Renderer',
+    'input_renderer'    => 'Magento\Rma\Block\Adminhtml\Product\Renderer',
 ));
 
-$installer->addAttribute(Magento_Catalog_Model_Product::ENTITY, 'use_config_is_returnable', array(
+$installer->addAttribute(\Magento\Catalog\Model\Product::ENTITY, 'use_config_is_returnable', array(
     'group'             => 'General',
     'type'              => 'int',
     'backend'           => '',
@@ -720,7 +720,7 @@ $installer->addAttribute(Magento_Catalog_Model_Product::ENTITY, 'use_config_is_r
     'input'             => 'text',
     'class'             => '',
     'source'            => '',
-    'global'            => Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_WEBSITE,
+    'global'            => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_WEBSITE,
     'visible'           => false,
     'required'          => false,
     'user_defined'      => false,
@@ -731,10 +731,10 @@ $installer->addAttribute(Magento_Catalog_Model_Product::ENTITY, 'use_config_is_r
     'visible_on_front'  => false,
     'unique'            => false,
     'apply_to'          =>
-        Magento_Catalog_Model_Product_Type::TYPE_SIMPLE . ',' .
-        Magento_Catalog_Model_Product_Type::TYPE_CONFIGURABLE . ',' .
-        Magento_Catalog_Model_Product_Type::TYPE_GROUPED . ',' .
-        Magento_Catalog_Model_Product_Type::TYPE_BUNDLE,
+        \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE . ',' .
+        \Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE . ',' .
+        \Magento\Catalog\Model\Product\Type::TYPE_GROUPED . ',' .
+        \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE,
     'is_configurable'   => false
 ));
 

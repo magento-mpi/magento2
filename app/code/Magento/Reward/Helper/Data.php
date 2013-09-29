@@ -16,7 +16,9 @@
  * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reward_Helper_Data extends Magento_Core_Helper_Abstract
+namespace Magento\Reward\Helper;
+
+class Data extends \Magento\Core\Helper\AbstractHelper
 {
     /**
      * XML configuration paths
@@ -36,52 +38,52 @@ class Magento_Reward_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_ratesArray = null;
 
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_storeConfig;
 
     /**
-     * @var Magento_Core_Model_Config
+     * @var \Magento\Core\Model\Config
      */
     protected $_config;
 
     /**
-     * @var Magento_Core_Model_Locale
+     * @var \Magento\Core\Model\Locale
      */
     protected $_locale;
 
     /**
-     * @var Magento_Core_Model_UrlFactory
+     * @var \Magento\Core\Model\UrlFactory
      */
     protected $_urlFactory;
 
     /**
-     * @var Magento_Reward_Model_Resource_Reward_Rate_CollectionFactory
+     * @var \Magento\Reward\Model\Resource\Reward\Rate\CollectionFactory
      */
     protected $_ratesFactory;
 
     /**
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Store_Config $storeConfig
-     * @param Magento_Core_Model_Config $config
-     * @param Magento_Core_Model_Locale $locale
-     * @param Magento_Core_Model_UrlFactory $urlFactory
-     * @param Magento_Reward_Model_Resource_Reward_Rate_CollectionFactory $ratesFactory
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Store\Config $storeConfig
+     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Core\Model\Locale $locale
+     * @param \Magento\Core\Model\UrlFactory $urlFactory
+     * @param \Magento\Reward\Model\Resource\Reward\Rate\CollectionFactory $ratesFactory
      */
     public function __construct(
-        Magento_Core_Helper_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Store_Config $storeConfig,
-        Magento_Core_Model_Config $config,
-        Magento_Core_Model_Locale $locale,
-        Magento_Core_Model_UrlFactory $urlFactory,
-        Magento_Reward_Model_Resource_Reward_Rate_CollectionFactory $ratesFactory
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Store\Config $storeConfig,
+        \Magento\Core\Model\Config $config,
+        \Magento\Core\Model\Locale $locale,
+        \Magento\Core\Model\UrlFactory $urlFactory,
+        \Magento\Reward\Model\Resource\Reward\Rate\CollectionFactory $ratesFactory
     ) {
         $this->_storeManager = $storeManager;
         $this->_storeConfig = $storeConfig;
@@ -96,7 +98,7 @@ class Magento_Reward_Helper_Data extends Magento_Core_Helper_Abstract
      * Setter for hasRates flag
      *
      * @param boolean $flag
-     * @return Magento_Reward_Helper_Data
+     * @return \Magento\Reward\Helper\Data
      */
     public function setHasRates($flag)
     {
@@ -213,7 +215,7 @@ class Magento_Reward_Helper_Data extends Magento_Core_Helper_Abstract
             $result = array();
             foreach ($this->_storeManager->getWebsites() as $website) {
                 $websiteId = $website->getId();
-                $result[$websiteId] = new Magento_Object(array(
+                $result[$websiteId] = new \Magento\Object(array(
                     'expiration_days' => $this->getGeneralConfig('expiration_days', $websiteId),
                     'expiry_calculation' => $this->getGeneralConfig('expiry_calculation', $websiteId),
                     'expiry_day_before' => $this->getNotificationConfig('expiry_day_before', $websiteId)
@@ -346,7 +348,7 @@ class Magento_Reward_Helper_Data extends Magento_Core_Helper_Abstract
     {
         $ratesArray = array();
         $collection = $this->_ratesFactory->create()
-            ->addFieldToFilter('direction', Magento_Reward_Model_Reward_Rate::RATE_EXCHANGE_DIRECTION_TO_CURRENCY);
+            ->addFieldToFilter('direction', \Magento\Reward\Model\Reward\Rate::RATE_EXCHANGE_DIRECTION_TO_CURRENCY);
         foreach ($collection as $rate) {
             $ratesArray[$rate->getCustomerGroupId()][$rate->getWebsiteId()] = $rate;
         }

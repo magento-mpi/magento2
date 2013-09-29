@@ -15,30 +15,32 @@
  * @package    Magento_Page
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Page_Block_Html_Header extends Magento_Core_Block_Template
+namespace Magento\Page\Block\Html;
+
+class Header extends \Magento\Core\Block\Template
 {
     /**
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
 
     /**
-     * @var Magento_Core_Model_App_State
+     * @var \Magento\Core\Model\App\State
      */
     protected $_appState;
 
     /**
-     * @param Magento_Core_Model_App_State $appState
-     * @param Magento_Customer_Model_Session $customerSession
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
+     * @param \Magento\Core\Model\App\State $appState
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_App_State $appState,
-        Magento_Customer_Model_Session $customerSession,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
+        \Magento\Core\Model\App\State $appState,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_customerSession = $customerSession;
@@ -109,11 +111,11 @@ class Magento_Page_Block_Html_Header extends Magento_Core_Block_Template
      */
     protected function _getLogoUrl()
     {
-        $folderName = Magento_Backend_Model_Config_Backend_Image_Logo::UPLOAD_DIR;
+        $folderName = \Magento\Backend\Model\Config\Backend\Image\Logo::UPLOAD_DIR;
         $storeLogoPath = $this->_storeConfig->getConfig('design/header/logo_src');
-        $logoUrl = $this->_urlBuilder->getBaseUrl(array('_type' => Magento_Core_Model_Store::URL_TYPE_MEDIA))
+        $logoUrl = $this->_urlBuilder->getBaseUrl(array('_type' => \Magento\Core\Model\Store::URL_TYPE_MEDIA))
             . $folderName . '/' . $storeLogoPath;
-        $absolutePath = $this->_dirs->getDir(Magento_Core_Model_Dir::MEDIA) . DIRECTORY_SEPARATOR
+        $absolutePath = $this->_dirs->getDir(\Magento\Core\Model\Dir::MEDIA) . DIRECTORY_SEPARATOR
             . $folderName . DIRECTORY_SEPARATOR . $storeLogoPath;
 
         if (!is_null($storeLogoPath) && $this->_isFile($absolutePath)) {
@@ -133,7 +135,7 @@ class Magento_Page_Block_Html_Header extends Magento_Core_Block_Template
      */
     protected function _isFile($filename)
     {
-        $helper = $this->_helperFactory->get('Magento_Core_Helper_File_Storage_Database');
+        $helper = $this->_helperFactory->get('Magento\Core\Helper\File\Storage\Database');
 
         if ($helper->checkDbUsage() && !is_file($filename)) {
             $helper->saveFileToFilesystem($filename);

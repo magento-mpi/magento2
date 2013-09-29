@@ -16,7 +16,9 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Resource_Url_Rewrite_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Core\Model\Resource\Url\Rewrite;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Define resource model
@@ -24,7 +26,7 @@ class Magento_Core_Model_Resource_Url_Rewrite_Collection extends Magento_Core_Mo
      */
     protected function _construct()
     {
-        $this->_init('Magento_Core_Model_Url_Rewrite', 'Magento_Core_Model_Resource_Url_Rewrite');
+        $this->_init('Magento\Core\Model\Url\Rewrite', 'Magento\Core\Model\Resource\Url\Rewrite');
     }
 
     /**
@@ -32,12 +34,12 @@ class Magento_Core_Model_Resource_Url_Rewrite_Collection extends Magento_Core_Mo
      *
      * @param mixed $store
      * @param bool $withAdmin
-     * @return Magento_Core_Model_Resource_Url_Rewrite_Collection
+     * @return \Magento\Core\Model\Resource\Url\Rewrite\Collection
      */
     public function addStoreFilter($store, $withAdmin = true)
     {
         if (!is_array($store)) {
-            $store = array(Mage::app()->getStore($store)->getId());
+            $store = array(\Mage::app()->getStore($store)->getId());
         }
         if ($withAdmin) {
             $store[] = 0;
@@ -52,7 +54,7 @@ class Magento_Core_Model_Resource_Url_Rewrite_Collection extends Magento_Core_Mo
      *  Add filter by catalog product Id
      *
      * @param int $productId
-     * @return Magento_Core_Model_Resource_Url_Rewrite_Collection
+     * @return \Magento\Core\Model\Resource\Url\Rewrite\Collection
      */
     public function filterAllByProductId($productId)
     {
@@ -66,7 +68,7 @@ class Magento_Core_Model_Resource_Url_Rewrite_Collection extends Magento_Core_Mo
     /**
      * Add filter by all catalog category
      *
-     * @return Magento_Core_Model_Resource_Url_Rewrite_Collection
+     * @return \Magento\Core\Model\Resource\Url\Rewrite\Collection
      */
     public function filterAllByCategory()
     {

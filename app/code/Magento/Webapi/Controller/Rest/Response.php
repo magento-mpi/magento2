@@ -7,28 +7,30 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Controller_Rest_Response extends Magento_Webapi_Controller_Response
+namespace Magento\Webapi\Controller\Rest;
+
+class Response extends \Magento\Webapi\Controller\Response
 {
-    /** @var Magento_Webapi_Controller_ErrorProcessor */
+    /** @var \Magento\Webapi\Controller\ErrorProcessor */
     protected $_errorProcessor;
 
-    /** @var Magento_Webapi_Controller_Rest_Response_RendererInterface */
+    /** @var \Magento\Webapi\Controller\Rest\Response\RendererInterface */
     protected $_renderer;
 
-    /** @var Magento_Core_Model_App */
+    /** @var \Magento\Core\Model\App */
     protected $_app;
 
     /**
      * Initialize dependencies.
      *
-     * @param Magento_Webapi_Controller_Rest_Response_Renderer_Factory $rendererFactory
-     * @param Magento_Webapi_Controller_ErrorProcessor $errorProcessor
-     * @param Magento_Core_Model_App $app
+     * @param \Magento\Webapi\Controller\Rest\Response\Renderer\Factory $rendererFactory
+     * @param \Magento\Webapi\Controller\ErrorProcessor $errorProcessor
+     * @param \Magento\Core\Model\App $app
      */
     public function __construct(
-        Magento_Webapi_Controller_Rest_Response_Renderer_Factory $rendererFactory,
-        Magento_Webapi_Controller_ErrorProcessor $errorProcessor,
-        Magento_Core_Model_App $app
+        \Magento\Webapi\Controller\Rest\Response\Renderer\Factory $rendererFactory,
+        \Magento\Webapi\Controller\ErrorProcessor $errorProcessor,
+        \Magento\Core\Model\App $app
     ) {
         $this->_renderer = $rendererFactory->get();
         $this->_errorProcessor = $errorProcessor;
@@ -45,14 +47,14 @@ class Magento_Webapi_Controller_Rest_Response extends Magento_Webapi_Controller_
                 $this->_renderMessages();
             }
             parent::sendResponse();
-        } catch (Exception $e) {
-            if ($e instanceof Magento_Webapi_Exception) {
+        } catch (\Exception $e) {
+            if ($e instanceof \Magento\Webapi\Exception) {
                 // If the server does not support all MIME types accepted by the client it SHOULD send 406.
-                $httpCode = $e->getHttpCode() == Magento_Webapi_Exception::HTTP_NOT_ACCEPTABLE
-                    ? Magento_Webapi_Exception::HTTP_NOT_ACCEPTABLE
-                    : Magento_Webapi_Exception::HTTP_INTERNAL_ERROR;
+                $httpCode = $e->getHttpCode() == \Magento\Webapi\Exception::HTTP_NOT_ACCEPTABLE
+                    ? \Magento\Webapi\Exception::HTTP_NOT_ACCEPTABLE
+                    : \Magento\Webapi\Exception::HTTP_INTERNAL_ERROR;
             } else {
-                $httpCode = Magento_Webapi_Exception::HTTP_INTERNAL_ERROR;
+                $httpCode = \Magento\Webapi\Exception::HTTP_INTERNAL_ERROR;
             }
 
             /** If error was encountered during "error rendering" process then use error renderer. */
@@ -97,7 +99,7 @@ class Magento_Webapi_Controller_Rest_Response extends Magento_Webapi_Controller_
      * Perform rendering of response data.
      *
      * @param array|null $outputData
-     * @return Magento_Webapi_Controller_Rest_Response
+     * @return \Magento\Webapi\Controller\Rest\Response
      */
     public function prepareResponse($outputData = null)
     {

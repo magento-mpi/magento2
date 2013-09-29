@@ -9,7 +9,7 @@
 -->
 <widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="../../../../../../../../app/code/Magento/Widget/etc/widget.xsd">
-    <widget id="sales_widget_guestform" class="Magento_Sales_Block_Widget_Guest_Form" is_email_compatible="true">
+    <widget id="sales_widget_guestform" class="Magento\Sales\Block\Widget\Guest\Form" is_email_compatible="true">
         <label translate="true">Orders and Returns</label>
         <description translate="true">Orders and Returns Search Form</description>
         <parameters>
@@ -28,7 +28,7 @@
                 </options>
             </parameter>
             <parameter name="link_display" xsi:type="select" visible="true" sort_order="10"
-                       source_model="Magento_Backend_Model_Config_Source_Yesno">
+                       source_model="Magento\Backend\Model\Config\Source\Yesno">
                 <label translate="true">Display a Link to Loading a Spreadsheet</label>
                 <description translate="true">Defines whether a link to My Account</description>
             </parameter>
@@ -42,7 +42,7 @@
             </parameter>
             <parameter name="id_path" xsi:type="block" visible="true" required="true" sort_order="10">
                 <label translate="true">Product</label>
-                <block class="Magento_Adminhtml_Block_Catalog_Product_Widget_Chooser">
+                <block class="Magento\Adminhtml\Block\Catalog\Product\Widget\Chooser">
                     <data>
                         <item name="button" xsi:type="array">
                             <item name="open" xsi:type="string">Select Product...</item>

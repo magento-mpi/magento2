@@ -16,25 +16,27 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Persistent_Block_Header_Additional extends Magento_Core_Block_Html_Link
+namespace Magento\Persistent\Block\Header;
+
+class Additional extends \Magento\Core\Block\Html\Link
 {
     /**
      * Persistent session
      *
-     * @var Magento_Persistent_Helper_Session
+     * @var \Magento\Persistent\Helper\Session
      */
     protected $_persistentSession = null;
 
     /**
-     * @param Magento_Persistent_Helper_Session $persistentSession
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
+     * @param \Magento\Persistent\Helper\Session $persistentSession
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Persistent_Helper_Session $persistentSession,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
+        \Magento\Persistent\Helper\Session $persistentSession,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_persistentSession = $persistentSession;

@@ -11,7 +11,9 @@
 /**
  * Image uploader element renderer
  */
-class Magento_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_ImageUploader
-    extends Magento_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Uploader
+namespace Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer;
+
+class ImageUploader
+    extends \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer\Uploader
 {
 }

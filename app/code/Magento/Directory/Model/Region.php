@@ -11,25 +11,27 @@
 /**
  * Region
  *
- * @method Magento_Directory_Model_Resource_Region _getResource()
- * @method Magento_Directory_Model_Resource_Region getResource()
+ * @method \Magento\Directory\Model\Resource\Region _getResource()
+ * @method \Magento\Directory\Model\Resource\Region getResource()
  * @method string getRegionId()
  * @method string getCountryId()
- * @method Magento_Directory_Model_Region setCountryId(string $value)
+ * @method \Magento\Directory\Model\Region setCountryId(string $value)
  * @method string getCode()
- * @method Magento_Directory_Model_Region setCode(string $value)
+ * @method \Magento\Directory\Model\Region setCode(string $value)
  * @method string getDefaultName()
- * @method Magento_Directory_Model_Region setDefaultName(string $value)
+ * @method \Magento\Directory\Model\Region setDefaultName(string $value)
  *
  * @category    Magento
  * @package     Magento_Directory
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Directory_Model_Region extends Magento_Core_Model_Abstract
+namespace Magento\Directory\Model;
+
+class Region extends \Magento\Core\Model\AbstractModel
 {
     protected function _construct()
     {
-        $this->_init('Magento_Directory_Model_Resource_Region');
+        $this->_init('Magento\Directory\Model\Resource\Region');
     }
 
     /**

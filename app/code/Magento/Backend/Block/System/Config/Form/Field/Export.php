@@ -15,25 +15,27 @@
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backend_Block_System_Config_Form_Field_Export extends Magento_Data_Form_Element_Abstract
+namespace Magento\Backend\Block\System\Config\Form\Field;
+
+class Export extends \Magento\Data\Form\Element\AbstractElement
 {
     /**
-     * @var Magento_Core_Model_Factory_Helper
+     * @var \Magento\Core\Model\Factory\Helper
      */
     protected $_helperFactory;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Data_Form_Element_Factory $factoryElement
-     * @param Magento_Data_Form_Element_CollectionFactory $factoryCollection
-     * @param Magento_Core_Model_Factory_Helper $helperFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Data\Form\Element\Factory $factoryElement
+     * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
+     * @param \Magento\Core\Model\Factory\Helper $helperFactory
      * @param array $attributes
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Data_Form_Element_Factory $factoryElement,
-        Magento_Data_Form_Element_CollectionFactory $factoryCollection,
-        Magento_Core_Model_Factory_Helper $helperFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Data\Form\Element\Factory $factoryElement,
+        \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
+        \Magento\Core\Model\Factory\Helper $helperFactory,
         array $attributes = array()
     ) {
         $this->_helperFactory = $helperFactory;
@@ -42,17 +44,17 @@ class Magento_Backend_Block_System_Config_Form_Field_Export extends Magento_Data
 
     public function getElementHtml()
     {
-        /** @var Magento_Backend_Block_Widget_Button $buttonBlock  */
+        /** @var \Magento\Backend\Block\Widget\Button $buttonBlock  */
         $buttonBlock = $this->getForm()
             ->getParent()
             ->getLayout()
-            ->createBlock('Magento_Backend_Block_Widget_Button');
+            ->createBlock('Magento\Backend\Block\Widget\Button');
 
         $params = array(
             'website' => $buttonBlock->getRequest()->getParam('website')
         );
 
-        $url = $this->_helperFactory->get('Magento_Backend_Helper_Data')->getUrl("*/*/exportTablerates", $params);
+        $url = $this->_helperFactory->get('Magento\Backend\Helper\Data')->getUrl("*/*/exportTablerates", $params);
         $data = array(
             'label'     =>  __('Export CSV'),
             'onclick'   => "setLocation('" . $url

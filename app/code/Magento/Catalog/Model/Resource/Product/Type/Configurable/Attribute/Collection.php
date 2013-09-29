@@ -16,8 +16,10 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute_Collection
-    extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Catalog\Model\Resource\Product\Type\Configurable\Attribute;
+
+class Collection
+    extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Configurable attributes label table name
@@ -36,32 +38,32 @@ class Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute_Collect
     /**
      * Product instance
      *
-     * @var Magento_Catalog_Model_Product
+     * @var \Magento\Catalog\Model\Product
      */
     protected $_product;
 
     /**
      * Catalog data
      *
-     * @var Magento_Catalog_Helper_Data
+     * @var \Magento\Catalog\Helper\Data
      */
     protected $_catalogData = null;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_EntityFactory $entityFactory
-     * @param Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute $resource
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Catalog\Model\Resource\Product\Type\Configurable\Attribute $resource
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Logger $logger,
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_EntityFactory $entityFactory,
-        Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute  $resource
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Catalog\Model\Resource\Product\Type\Configurable\Attribute  $resource
     ) {
         $this->_catalogData = $catalogData;
         parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
@@ -74,8 +76,8 @@ class Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute_Collect
     protected function _construct()
     {
         $this->_init(
-            'Magento_Catalog_Model_Product_Type_Configurable_Attribute',
-            'Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute'
+            'Magento\Catalog\Model\Product\Type\Configurable\Attribute',
+            'Magento\Catalog\Model\Resource\Product\Type\Configurable\Attribute'
         );
         $this->_labelTable = $this->getTable('catalog_product_super_attribute_label');
         $this->_priceTable = $this->getTable('catalog_product_super_attribute_pricing');
@@ -84,8 +86,8 @@ class Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute_Collect
     /**
      * Set Product filter (Configurable)
      *
-     * @param Magento_Catalog_Model_Product $product
-     * @return Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute_Collection
+     * @param \Magento\Catalog\Model\Product $product
+     * @return \Magento\Catalog\Model\Resource\Product\Type\Configurable\Attribute\Collection
      */
     public function setProductFilter($product)
     {
@@ -96,18 +98,18 @@ class Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute_Collect
     /**
      * Get product type
      *
-     * @return Magento_Catalog_Model_Product_Type_Configurable
+     * @return \Magento\Catalog\Model\Product\Type\Configurable
      */
     private function getProductType()
     {
-        return Mage::getSingleton('Magento_Catalog_Model_Product_Type_Configurable');
+        return \Mage::getSingleton('Magento\Catalog\Model\Product\Type\Configurable');
     }
 
     /**
      * Set order collection by Position
      *
      * @param string $dir
-     * @return Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Type\Configurable\Attribute\Collection
      */
     public function orderByPosition($dir = self::SORT_ORDER_ASC)
     {
@@ -128,30 +130,30 @@ class Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute_Collect
     /**
      * After load collection process
      *
-     * @return Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Type\Configurable\Attribute\Collection
      */
     protected function _afterLoad()
     {
         parent::_afterLoad();
-        Magento_Profiler::start('TTT1:'.__METHOD__, array('group' => 'TTT1', 'method' => __METHOD__));
+        \Magento\Profiler::start('TTT1:'.__METHOD__, array('group' => 'TTT1', 'method' => __METHOD__));
         $this->_addProductAttributes();
-        Magento_Profiler::stop('TTT1:'.__METHOD__);
-        Magento_Profiler::start('TTT2:'.__METHOD__, array('group' => 'TTT2', 'method' => __METHOD__));
+        \Magento\Profiler::stop('TTT1:'.__METHOD__);
+        \Magento\Profiler::start('TTT2:'.__METHOD__, array('group' => 'TTT2', 'method' => __METHOD__));
         $this->_addAssociatedProductFilters();
-        Magento_Profiler::stop('TTT2:'.__METHOD__);
-        Magento_Profiler::start('TTT3:'.__METHOD__, array('group' => 'TTT3', 'method' => __METHOD__));
+        \Magento\Profiler::stop('TTT2:'.__METHOD__);
+        \Magento\Profiler::start('TTT3:'.__METHOD__, array('group' => 'TTT3', 'method' => __METHOD__));
         $this->_loadLabels();
-        Magento_Profiler::stop('TTT3:'.__METHOD__);
-        Magento_Profiler::start('TTT4:'.__METHOD__, array('group' => 'TTT4', 'method' => __METHOD__));
+        \Magento\Profiler::stop('TTT3:'.__METHOD__);
+        \Magento\Profiler::start('TTT4:'.__METHOD__, array('group' => 'TTT4', 'method' => __METHOD__));
         $this->_loadPrices();
-        Magento_Profiler::stop('TTT4:'.__METHOD__);
+        \Magento\Profiler::stop('TTT4:'.__METHOD__);
         return $this;
     }
 
     /**
      * Add product attributes to collection items
      *
-     * @return Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Type\Configurable\Attribute\Collection
      */
     protected function _addProductAttributes()
     {
@@ -166,7 +168,7 @@ class Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute_Collect
     /**
      * Add Associated Product Filters (From Product Type Instance)
      *
-     * @return Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Type\Configurable\Attribute\Collection
      */
     public function _addAssociatedProductFilters()
     {
@@ -179,7 +181,7 @@ class Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute_Collect
     /**
      * Load attribute labels
      *
-     * @return Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Type\Configurable\Attribute\Collection
      */
     protected function _loadLabels()
     {
@@ -223,7 +225,7 @@ class Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute_Collect
     /**
      * Load attribute prices information
      *
-     * @return Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Type\Configurable\Attribute\Collection
      */
     protected function _loadPrices()
     {
@@ -235,7 +237,7 @@ class Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute_Collect
             if ($this->_catalogData->isPriceGlobal()) {
                 $websiteId = 0;
             } else {
-                $websiteId = (int)Mage::app()->getStore($this->getStoreId())->getWebsiteId();
+                $websiteId = (int)\Mage::app()->getStore($this->getStoreId())->getWebsiteId();
                 $pricing[$websiteId] = array();
             }
 
@@ -260,7 +262,7 @@ class Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute_Collect
             if ($usedProducts) {
                 foreach ($this->_items as $item) {
                     $productAttribute = $item->getProductAttribute();
-                    if (!($productAttribute instanceof Magento_Eav_Model_Entity_Attribute_Abstract)) {
+                    if (!($productAttribute instanceof \Magento\Eav\Model\Entity\Attribute\AbstractAttribute)) {
                         continue;
                     }
                     $itemId = $item->getId();
@@ -321,7 +323,7 @@ class Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute_Collect
     /**
      * Retrieve product instance
      *
-     * @return Magento_Catalog_Model_Product
+     * @return \Magento\Catalog\Model\Product
      */
     public function getProduct()
     {

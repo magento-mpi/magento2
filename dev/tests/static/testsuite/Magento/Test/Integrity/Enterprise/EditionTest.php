@@ -10,18 +10,20 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Test_Integrity_Enterprise_EditionTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Integrity\Enterprise;
+
+class EditionTest extends \PHPUnit_Framework_TestCase
 {
     public function testCongruence()
     {
-        $root = Magento_TestFramework_Utility_Files::init()->getPathToSource();
+        $root = \Magento\TestFramework\Utility\Files::init()->getPathToSource();
 
         $xmlFile = $root . '/app/etc/enterprise/module.xml.dist';
-        $dom = new DOMDocument();
+        $dom = new \DOMDocument();
         $dom->loadXML(file_get_contents($xmlFile));
-        $xpath = new DOMXPath($dom);
+        $xpath = new \DOMXPath($dom);
         $moduleNames = array();
-        /** @var $moduleNode DOMNode */
+        /** @var $moduleNode \DOMNode */
         foreach ($xpath->query('/config/module') as $moduleNode) {
             $nameNode = $moduleNode->attributes->getNamedItem('name');
             $activeNode = $moduleNode->attributes->getNamedItem('active');
@@ -36,7 +38,7 @@ class Magento_Test_Integrity_Enterprise_EditionTest extends PHPUnit_Framework_Te
         }
 
         $magentoPoolPath = $root . '/app/code/Magento';
-        foreach (new DirectoryIterator($magentoPoolPath) as $dir) {
+        foreach (new \DirectoryIterator($magentoPoolPath) as $dir) {
             if (!$dir->isDot()) {
                 $moduleName = 'Magento_' . $dir->getFilename();
                 $moduleNames = array_diff($moduleNames, array($moduleName));

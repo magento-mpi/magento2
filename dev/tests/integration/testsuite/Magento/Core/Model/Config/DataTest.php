@@ -9,27 +9,29 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Config_DataTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Config;
+
+class DataTest extends \PHPUnit_Framework_TestCase
 {
     const SAMPLE_CONFIG_PATH = 'web/unsecure/base_url';
     const SAMPLE_VALUE = 'http://example.com/';
 
     /**
-     * @var Magento_Core_Model_Config_Value
+     * @var \Magento\Core\Model\Config\Value
      */
     protected $_model;
 
     public static function setUpBeforeClass()
     {
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Config_Storage_Writer_Db')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Config\Storage\Writer\Db')
             ->save(self::SAMPLE_CONFIG_PATH, self::SAMPLE_VALUE);
         self::_refreshConfiguration();
     }
 
     public static function tearDownAfterClass()
     {
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Core_Model_Config_Storage_Writer_Db')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Core\Model\Config\Storage\Writer\Db')
             ->delete(self::SAMPLE_CONFIG_PATH);
         self::_refreshConfiguration();
     }
@@ -39,22 +41,22 @@ class Magento_Core_Model_Config_DataTest extends PHPUnit_Framework_TestCase
      */
     protected static function _refreshConfiguration()
     {
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App')
-            ->cleanCache(array(Magento_Core_Model_Config::CACHE_TAG));
-        Magento_TestFramework_Helper_Bootstrap::getInstance()->reinitialize();
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
+            ->cleanCache(array(\Magento\Core\Model\Config::CACHE_TAG));
+        \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize();
     }
 
     protected function setUp()
     {
-        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_Config_Value');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Config\Value');
     }
 
     public function testIsValueChanged()
     {
         // load the model
-        $collection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_Resource_Config_Data_Collection');
+        $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Resource\Config\Data\Collection');
         $collection->addFieldToFilter('path', self::SAMPLE_CONFIG_PATH)->addFieldToFilter('scope_id', 0)
             ->addFieldToFilter('scope', 'default')
         ;
@@ -99,7 +101,7 @@ class Magento_Core_Model_Config_DataTest extends PHPUnit_Framework_TestCase
                 'value'     => 'test value'
             )
         );
-        $crud = new Magento_TestFramework_Entity($this->_model, array('value' => 'new value'));
+        $crud = new \Magento\TestFramework\Entity($this->_model, array('value' => 'new value'));
         $crud->testCrud();
     }
 

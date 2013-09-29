@@ -8,5 +8,5 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <block class="Magento_Adminhtml_Block_Sales_Transactions_Grid" name="sales_transactions.grid" output="1"/>
+    <block class="Magento\Adminhtml\Block\Sales\Transactions\Grid" name="sales_transactions.grid" output="1"/>
 </layout>

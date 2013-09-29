@@ -8,11 +8,11 @@
  * @license     {license_link}
  */
 
-/** @var $this Magento_Catalog_Block_Product_Configurable_AttributeSelector */
+/** @var $this \Magento\Catalog\Block\Product\Configurable\AttributeSelector */
 ?>
 <script type="text/javascript">
 jQuery(function($) {
-    var options = <?php echo $this->helper('Magento_Core_Helper_Data')->jsonEncode($this->getSuggestWidgetOptions())?>;
+    var options = <?php echo $this->helper('Magento\Core\Helper\Data')->jsonEncode($this->getSuggestWidgetOptions())?>;
     $('#configurable-attribute-selector')
         .mage('suggest', options)
         .on('suggestselect', function (event, ui) {

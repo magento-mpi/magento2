@@ -11,17 +11,19 @@
 /**
  * Generate options for media database selection
  */
-class Magento_Backend_Model_Config_Source_Storage_Media_Database implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Backend\Model\Config\Source\Storage\Media;
+
+class Database implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
-     * @var Magento_Core_Model_Config_Local
+     * @var \Magento\Core\Model\Config\Local
      */
     protected $_localConfig;
 
     /**
-     * @param Magento_Core_Model_Config_Local $localConfig
+     * @param \Magento\Core\Model\Config\Local $localConfig
      */
-    public function __construct(Magento_Core_Model_Config_Local $localConfig)
+    public function __construct(\Magento\Core\Model\Config\Local $localConfig)
     {
         $this->_localConfig = $localConfig;
     }

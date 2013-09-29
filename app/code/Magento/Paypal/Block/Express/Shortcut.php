@@ -11,7 +11,9 @@
 /**
  * Paypal expess checkout shortcut link
  */
-class Magento_Paypal_Block_Express_Shortcut extends Magento_Core_Block_Template
+namespace Magento\Paypal\Block\Express;
+
+class Shortcut extends \Magento\Core\Block\Template
 {
     /**
      * Position of "OR" label against shortcut
@@ -31,7 +33,7 @@ class Magento_Paypal_Block_Express_Shortcut extends Magento_Core_Block_Template
      *
      * @var string
      */
-    protected $_paymentMethodCode = Magento_Paypal_Model_Config::METHOD_WPP_EXPRESS;
+    protected $_paymentMethodCode = \Magento\Paypal\Model\Config::METHOD_WPP_EXPRESS;
 
     /**
      * Start express action
@@ -45,43 +47,43 @@ class Magento_Paypal_Block_Express_Shortcut extends Magento_Core_Block_Template
      *
      * @var string
      */
-    protected $_checkoutType = 'Magento_Paypal_Model_Express_Checkout';
+    protected $_checkoutType = 'Magento\Paypal\Model\Express\Checkout';
 
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
     
     /**
      * Payment data
      *
-     * @var Magento_Payment_Helper_Data
+     * @var \Magento\Payment\Helper\Data
      */
     protected $_paymentData = null;
 
     /**
      * Paypal data
      *
-     * @var Magento_Paypal_Helper_Data
+     * @var \Magento\Paypal\Helper\Data
      */
     protected $_paypalData = null;
 
     /**
-     * @param Magento_Paypal_Helper_Data $paypalData
-     * @param Magento_Payment_Helper_Data $paymentData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Paypal\Helper\Data $paypalData
+     * @param \Magento\Payment\Helper\Data $paymentData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Paypal_Helper_Data $paypalData,
-        Magento_Payment_Helper_Data $paymentData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Paypal\Helper\Data $paypalData,
+        \Magento\Payment\Helper\Data $paymentData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -94,10 +96,10 @@ class Magento_Paypal_Block_Express_Shortcut extends Magento_Core_Block_Template
     {
         $result = parent::_beforeToHtml();
         $params = array($this->_paymentMethodCode);
-        $config = Mage::getModel('Magento_Paypal_Model_Config', array('params' => $params));
+        $config = \Mage::getModel('Magento\Paypal\Model\Config', array('params' => $params));
         $isInCatalog = $this->getIsInCatalogProduct();
         $quote = ($isInCatalog || '' == $this->getIsQuoteAllowed())
-            ? null : Mage::getSingleton('Magento_Checkout_Model_Session')->getQuote();
+            ? null : \Mage::getSingleton('Magento\Checkout\Model\Session')->getQuote();
 
         // check visibility on cart or product page
         $context = $isInCatalog ? 'visible_on_product' : 'visible_on_cart';
@@ -108,7 +110,7 @@ class Magento_Paypal_Block_Express_Shortcut extends Magento_Core_Block_Template
 
         if ($isInCatalog) {
             // Show PayPal shortcut on a product view page only if product has nonzero price
-            /** @var $currentProduct Magento_Catalog_Model_Product */
+            /** @var $currentProduct \Magento\Catalog\Model\Product */
             $currentProduct = $this->_coreRegistry->registry('current_product');
             if (!is_null($currentProduct)) {
                 $productPrice = (float)$currentProduct->getFinalPrice();
@@ -133,13 +135,13 @@ class Magento_Paypal_Block_Express_Shortcut extends Magento_Core_Block_Template
         }
 
         // set misc data
-        $this->setShortcutHtmlId($this->helper('Magento_Core_Helper_Data')->uniqHash('ec_shortcut_'))
+        $this->setShortcutHtmlId($this->helper('Magento\Core\Helper\Data')->uniqHash('ec_shortcut_'))
             ->setCheckoutUrl($this->getUrl($this->_startAction))
         ;
 
         // use static image if in catalog
         if ($isInCatalog || null === $quote) {
-            $this->setImageUrl($config->getExpressCheckoutShortcutImageUrl(Mage::app()->getLocale()->getLocaleCode()));
+            $this->setImageUrl($config->getExpressCheckoutShortcutImageUrl(\Mage::app()->getLocale()->getLocaleCode()));
         } else {
             $parameters = array(
                 'params' => array(
@@ -147,15 +149,15 @@ class Magento_Paypal_Block_Express_Shortcut extends Magento_Core_Block_Template
                     'config' => $config,
                 ),
             );
-            $checkoutModel = Mage::getModel($this->_checkoutType, $parameters);
+            $checkoutModel = \Mage::getModel($this->_checkoutType, $parameters);
             $this->setImageUrl($checkoutModel->getCheckoutShortcutImageUrl());
         }
 
         // ask whether to create a billing agreement
-        $customerId = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId(); // potential issue for caching
+        $customerId = \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerId(); // potential issue for caching
         if ($this->_paypalData->shouldAskToCreateBillingAgreement($config, $customerId)) {
             $this->setConfirmationUrl($this->getUrl($this->_startAction,
-                array(Magento_Paypal_Model_Express_Checkout::PAYMENT_INFO_TRANSPORT_BILLING_AGREEMENT => 1)
+                array(\Magento\Paypal\Model\Express\Checkout::PAYMENT_INFO_TRANSPORT_BILLING_AGREEMENT => 1)
             ));
             $this->setConfirmationMessage(__('Would you like to sign a billing agreement '
                 . 'to streamline further purchases with PayPal?'));

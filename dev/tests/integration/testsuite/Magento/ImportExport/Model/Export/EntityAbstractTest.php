@@ -12,10 +12,12 @@
 /**
  * Test for abstract export model
  */
-class Magento_ImportExport_Model_Export_EntityAbstractTest extends PHPUnit_Framework_TestCase
+namespace Magento\ImportExport\Model\Export;
+
+class EntityAbstractTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_ImportExport_Model_Export_EntityAbstract
+     * @var \Magento\ImportExport\Model\Export\EntityAbstract
      */
     protected $_model;
 
@@ -23,12 +25,12 @@ class Magento_ImportExport_Model_Export_EntityAbstractTest extends PHPUnit_Frame
     {
         parent::setUp();
 
-        /** @var Magento_TestFramework_ObjectManager  $objectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        /** @var \Magento\TestFramework\ObjectManager  $objectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
-        $storeConfig = $objectManager->get('Magento_Core_Model_Store_Config');
+        $storeConfig = $objectManager->get('Magento\Core\Model\Store\Config');
         $this->_model = $this->getMockForAbstractClass(
-            'Magento_ImportExport_Model_Export_EntityAbstract', array($storeConfig)
+            'Magento\ImportExport\Model\Export\EntityAbstract', array($storeConfig)
         );
     }
 
@@ -53,15 +55,15 @@ class Magento_ImportExport_Model_Export_EntityAbstractTest extends PHPUnit_Frame
      */
     public function testGetWriter()
     {
-        $this->_model->setWriter(Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_ImportExport_Model_Export_Adapter_Csv'));
-        $this->assertInstanceOf('Magento_ImportExport_Model_Export_Adapter_Csv', $this->_model->getWriter());
+        $this->_model->setWriter(\Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\ImportExport\Model\Export\Adapter\Csv'));
+        $this->assertInstanceOf('Magento\ImportExport\Model\Export\Adapter\Csv', $this->_model->getWriter());
     }
 
     /**
      * Check that method throw exception when writer was not defined
      *
-     * @expectedException Magento_Core_Exception
+     * @expectedException \Magento\Core\Exception
      */
     public function testGetWriterThrowsException()
     {
@@ -73,16 +75,16 @@ class Magento_ImportExport_Model_Export_EntityAbstractTest extends PHPUnit_Frame
      */
     public function testFilterAttributeCollection()
     {
-        /** @var $model Stub_Magento_ImportExport_Model_Export_EntityAbstract */
-        $model = $this->getMockForAbstractClass('Stub_Magento_ImportExport_Model_Export_EntityAbstract');
-        $collection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Customer_Model_Resource_Attribute_Collection');
+        /** @var $model \Magento\ImportExport\Model\Export\AbstractStubEntity */
+        $model = $this->getMockForAbstractClass('\Magento\ImportExport\Model\Export\AbstractStubEntity');
+        $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Customer\Model\Resource\Attribute\Collection');
         $collection = $model->filterAttributeCollection($collection);
         /**
          * Check that disabled attributes is not existed in attribute collection
          */
         $existedAttributes = array();
-        /** @var $attribute Magento_Customer_Model_Attribute */
+        /** @var $attribute \Magento\Customer\Model\Attribute */
         foreach ($collection as $attribute) {
             $existedAttributes[] = $attribute->getAttributeCode();
         }
@@ -94,22 +96,5 @@ class Magento_ImportExport_Model_Export_EntityAbstractTest extends PHPUnit_Frame
                 'Disabled attribute "' . $attributeCode . '" existed in collection'
             );
         }
-    }
-}
-
-/**
- * Stub abstract class which provide to change protected property "$_disabledAttrs" and test methods depended on it
- */
-abstract class Stub_Magento_ImportExport_Model_Export_EntityAbstract
-    extends Magento_ImportExport_Model_Export_EntityAbstract
-{
-    public function __construct()
-    {
-        /** @var Magento_TestFramework_ObjectManager  $objectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-
-        $storeConfig = $objectManager->get('Magento_Core_Model_Store_Config');
-        parent::__construct($storeConfig);
-        $this->_disabledAttrs = array('default_billing', 'default_shipping');
     }
 }

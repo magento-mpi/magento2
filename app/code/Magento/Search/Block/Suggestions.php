@@ -15,32 +15,34 @@
  * @package    Magento_Search
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Search_Block_Suggestions extends Magento_Core_Block_Template
+namespace Magento\Search\Block;
+
+class Suggestions extends \Magento\Core\Block\Template
 {
     /**
      * Search data
      *
-     * @var Magento_Search_Helper_Data
+     * @var \Magento\Search\Helper\Data
      */
     protected $_searchData = null;
 
     /**
-     * @var Magento_Search_Model_Suggestions
+     * @var \Magento\Search\Model\Suggestions
      */
     protected $_suggestions;
 
     /**
-     * @param Magento_Search_Model_Suggestions $suggestions
-     * @param Magento_Search_Helper_Data $searchData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
+     * @param \Magento\Search\Model\Suggestions $suggestions
+     * @param \Magento\Search\Helper\Data $searchData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Search_Model_Suggestions $suggestions,
-        Magento_Search_Helper_Data $searchData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
+        \Magento\Search\Model\Suggestions $suggestions,
+        \Magento\Search\Helper\Data $searchData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_suggestions = $suggestions;

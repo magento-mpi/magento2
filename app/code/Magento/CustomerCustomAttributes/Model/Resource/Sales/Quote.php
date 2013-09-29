@@ -11,23 +11,25 @@
 /**
  * Customer Quote resource
  */
-class Magento_CustomerCustomAttributes_Model_Resource_Sales_Quote
-    extends Magento_CustomerCustomAttributes_Model_Resource_Sales_Abstract
+namespace Magento\CustomerCustomAttributes\Model\Resource\Sales;
+
+class Quote
+    extends \Magento\CustomerCustomAttributes\Model\Resource\Sales\AbstractSales
 {
     /**
      * Main entity resource model
      *
-     * @var Magento_Sales_Model_Resource_Quote
+     * @var \Magento\Sales\Model\Resource\Quote
      */
     protected $_parentResourceModel;
 
     /**
-     * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Sales_Model_Resource_Quote $parentResourceModel
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Sales\Model\Resource\Quote $parentResourceModel
      */
     public function __construct(
-        Magento_Core_Model_Resource $resource,
-        Magento_Sales_Model_Resource_Quote $parentResourceModel
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Sales\Model\Resource\Quote $parentResourceModel
     ) {
         $this->_parentResourceModel = $parentResourceModel;
         parent::__construct($resource);
@@ -44,7 +46,7 @@ class Magento_CustomerCustomAttributes_Model_Resource_Sales_Quote
     /**
      * Return resource model of the main entity
      *
-     * @return Magento_Sales_Model_Resource_Quote
+     * @return \Magento\Sales\Model\Resource\Quote
      */
     protected function _getParentResourceModel()
     {

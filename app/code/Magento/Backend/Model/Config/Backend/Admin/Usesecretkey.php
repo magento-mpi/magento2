@@ -16,11 +16,13 @@
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backend_Model_Config_Backend_Admin_Usesecretkey extends Magento_Core_Model_Config_Value
+namespace Magento\Backend\Model\Config\Backend\Admin;
+
+class Usesecretkey extends \Magento\Core\Model\Config\Value
 {
     protected function _afterSave()
     {
-        Mage::getSingleton('Magento_Backend_Model_Url')->renewSecretUrls();
+        \Mage::getSingleton('Magento\Backend\Model\Url')->renewSecretUrls();
         return $this;
     }
 }

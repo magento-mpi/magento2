@@ -15,50 +15,52 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Helper_Form_Wysiwyg extends Magento_Data_Form_Element_Textarea
+namespace Magento\Adminhtml\Block\Catalog\Helper\Form;
+
+class Wysiwyg extends \Magento\Data\Form\Element\Textarea
 {
     /**
      * Adminhtml data
      *
-     * @var Magento_Backend_Helper_Data
+     * @var \Magento\Backend\Helper\Data
      */
     protected $_backendData = null;
 
     /**
      * Catalog data
      *
-     * @var Magento_Core_Model_ModuleManager
+     * @var \Magento\Core\Model\ModuleManager
      */
     protected $_moduleManager = null;
 
     /**
-     * @var Magento_Cms_Model_Wysiwyg_Config
+     * @var \Magento\Cms\Model\Wysiwyg\Config
      */
     protected $_wysiwygConfig;
 
     /**
-     * @var Magento_Core_Model_Layout
+     * @var \Magento\Core\Model\Layout
      */
     protected $_layout;
 
     /**
-     * @param Magento_Cms_Model_Wysiwyg_Config $wysiwygConfig
-     * @param Magento_Core_Model_Layout $layout
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Data_Form_Element_Factory $factoryElement
-     * @param Magento_Data_Form_Element_CollectionFactory $factoryCollection
-     * @param Magento_Core_Model_ModuleManager $moduleManager
-     * @param Magento_Backend_Helper_Data $backendData
+     * @param \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig
+     * @param \Magento\Core\Model\Layout $layout
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Data\Form\Element\Factory $factoryElement
+     * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
+     * @param \Magento\Core\Model\ModuleManager $moduleManager
+     * @param \Magento\Backend\Helper\Data $backendData
      * @param array $attributes
      */
     public function __construct(
-        Magento_Cms_Model_Wysiwyg_Config $wysiwygConfig,
-        Magento_Core_Model_Layout $layout,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Data_Form_Element_Factory $factoryElement,
-        Magento_Data_Form_Element_CollectionFactory $factoryCollection,
-        Magento_Core_Model_ModuleManager $moduleManager,
-        Magento_Backend_Helper_Data $backendData,
+        \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig,
+        \Magento\Core\Model\Layout $layout,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Data\Form\Element\Factory $factoryElement,
+        \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
+        \Magento\Core\Model\ModuleManager $moduleManager,
+        \Magento\Backend\Helper\Data $backendData,
         array $attributes = array()
     ) {
         $this->_wysiwygConfig = $wysiwygConfig;
@@ -78,7 +80,7 @@ class Magento_Adminhtml_Block_Catalog_Helper_Form_Wysiwyg extends Magento_Data_F
         $html = parent::getAfterElementHtml();
         if ($this->getIsWysiwygEnabled()) {
             $disabled = ($this->getDisabled() || $this->getReadonly());
-            $html .= $this->_layout->createBlock('Magento_Adminhtml_Block_Widget_Button', '', array('data' => array(
+            $html .= $this->_layout->createBlock('Magento\Adminhtml\Block\Widget\Button', '', array('data' => array(
                     'label'   => __('WYSIWYG Editor'),
                     'type'    => 'button',
                     'disabled' => $disabled,

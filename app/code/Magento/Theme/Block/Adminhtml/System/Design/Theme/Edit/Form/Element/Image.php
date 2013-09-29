@@ -11,27 +11,29 @@
 /**
  * Image form element that generates correct thumbnail image URL for theme preview image
  */
-class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Form_Element_Image extends Magento_Data_Form_Element_Image
+namespace Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Form\Element;
+
+class Image extends \Magento\Data\Form\Element\Image
 {
     /**
-     * @var Magento_Core_Model_Theme_Image_Path
+     * @var \Magento\Core\Model\Theme\Image\Path
      */
     protected $_imagePath;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Data_Form_Element_Factory $factoryElement
-     * @param Magento_Data_Form_Element_CollectionFactory $factoryCollection
-     * @param Magento_Core_Model_UrlInterface $urlBuilder
-     * @param Magento_Core_Model_Theme_Image_Path $imagePath
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Data\Form\Element\Factory $factoryElement
+     * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
+     * @param \Magento\Core\Model\UrlInterface $urlBuilder
+     * @param \Magento\Core\Model\Theme\Image\Path $imagePath
      * @param array $attributes
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Data_Form_Element_Factory $factoryElement,
-        Magento_Data_Form_Element_CollectionFactory $factoryCollection,
-        Magento_Core_Model_UrlInterface $urlBuilder,
-        Magento_Core_Model_Theme_Image_Path $imagePath,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Data\Form\Element\Factory $factoryElement,
+        \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
+        \Magento\Core\Model\UrlInterface $urlBuilder,
+        \Magento\Core\Model\Theme\Image\Path $imagePath,
         $attributes = array()
     ) {
         $this->_imagePath = $imagePath;

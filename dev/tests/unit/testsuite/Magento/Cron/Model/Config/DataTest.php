@@ -5,18 +5,20 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Cron_Model_Config_DataTest extends PHPUnit_Framework_TestCase
+namespace Magento\Cron\Model\Config;
+
+class DataTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Testing return jobs from different sources (DB, XML)
      */
     public function testGetJobs()
     {
-        $reader = $this->getMockBuilder('Magento_Cron_Model_Config_Reader_Xml')
+        $reader = $this->getMockBuilder('Magento\Cron\Model\Config\Reader\Xml')
             ->disableOriginalConstructor()
             ->getMock();
-        $cache = $this->getMock('Magento_Config_CacheInterface');
-        $dbReader = $this->getMockBuilder('Magento_Cron_Model_Config_Reader_Db')
+        $cache = $this->getMock('Magento\Config\CacheInterface');
+        $dbReader = $this->getMockBuilder('Magento\Cron\Model\Config\Reader\Db')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -53,7 +55,7 @@ class Magento_Cron_Model_Config_DataTest extends PHPUnit_Framework_TestCase
 
         $dbReader->expects($this->once())->method('get')->will($this->returnValue($dbReaderData));
 
-        $configData = new Magento_Cron_Model_Config_Data(
+        $configData = new \Magento\Cron\Model\Config\Data(
             $reader, $cache, $dbReader, 'test_cache_id'
         );
 

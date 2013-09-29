@@ -9,26 +9,28 @@
  * @license     {license_link}
  */
 
+namespace Magento\Backend\Block;
+
 /**
- * Test class for Magento_Backend_Block_Widget
+ * Test class for \Magento\Backend\Block\Widget
  *
  * @magentoAppArea adminhtml
  */
-class Magento_Backend_Block_WidgetTest extends PHPUnit_Framework_TestCase
+class WidgetTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @covers Magento_Backend_Block_Widget::getButtonHtml
+     * @covers \Magento\Backend\Block\Widget::getButtonHtml
      */
     public function testGetButtonHtml()
     {
-        $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create(
-            'Magento_Core_Model_Layout',
-            array('area' => Magento_Core_Model_App_Area::AREA_ADMINHTML)
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Core\Model\Layout',
+            array('area' => \Magento\Core\Model\App\Area::AREA_ADMINHTML)
         );
         $layout->getUpdate()->load();
         $layout->generateXml()->generateElements();
 
-        $widget = $layout->createBlock('Magento_Backend_Block_Widget');
+        $widget = $layout->createBlock('Magento\Backend\Block\Widget');
 
         $this->assertRegExp(
             '/<button.*onclick\=\"this.form.submit\(\)\".*\>[\s\S]*Button Label[\s\S]*<\/button>/iu',
@@ -39,18 +41,18 @@ class Magento_Backend_Block_WidgetTest extends PHPUnit_Framework_TestCase
     /**
      * Case when two buttons will be created in same parent block
      *
-     * @covers Magento_Backend_Block_Widget::getButtonHtml
+     * @covers \Magento\Backend\Block\Widget::getButtonHtml
      */
     public function testGetButtonHtmlForTwoButtonsInOneBlock()
     {
-        $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create(
-            'Magento_Core_Model_Layout',
-            array('area' => Magento_Core_Model_App_Area::AREA_ADMINHTML)
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Core\Model\Layout',
+            array('area' => \Magento\Core\Model\App\Area::AREA_ADMINHTML)
         );
         $layout->getUpdate()->load();
         $layout->generateXml()->generateElements();
 
-        $widget = $layout->createBlock('Magento_Backend_Block_Widget');
+        $widget = $layout->createBlock('Magento\Backend\Block\Widget');
 
         $this->assertRegExp(
             '/<button.*onclick\=\"this.form.submit\(\)\".*\>[\s\S]*Button Label[\s\S]*<\/button>/iu',
@@ -65,7 +67,7 @@ class Magento_Backend_Block_WidgetTest extends PHPUnit_Framework_TestCase
 
     public function testGetSuffixId()
     {
-        $block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_Backend_Block_Widget');
+        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Backend\Block\Widget');
         $this->assertStringEndsNotWith('_test', $block->getSuffixId('suffix'));
         $this->assertStringEndsWith('_test', $block->getSuffixId('test'));
     }

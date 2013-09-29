@@ -11,32 +11,34 @@
 /**
  * Wishlist item collection grouped by customer id
  */
-class Magento_Wishlist_Model_Resource_Item_Collection_Grid extends Magento_Wishlist_Model_Resource_Item_Collection
+namespace Magento\Wishlist\Model\Resource\Item\Collection;
+
+class Grid extends \Magento\Wishlist\Model\Resource\Item\Collection
 {
     /**
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_registryManager;
 
     /**
-     * @param Magento_Adminhtml_Helper_Sales $adminhtmlSales
-     * @param Magento_CatalogInventory_Helper_Data $catalogInventoryData
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_EntityFactory $entityFactory
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Wishlist_Model_Resource_Item $resource
+     * @param \Magento\Adminhtml\Helper\Sales $adminhtmlSales
+     * @param \Magento\CatalogInventory\Helper\Data $catalogInventoryData
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Wishlist\Model\Resource\Item $resource
      */
     public function __construct(
-        Magento_Adminhtml_Helper_Sales $adminhtmlSales,
-        Magento_CatalogInventory_Helper_Data $catalogInventoryData,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Logger $logger,
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_EntityFactory $entityFactory,
-        Magento_Core_Model_Registry $registry,
-        Magento_Wishlist_Model_Resource_Item $resource
+        \Magento\Adminhtml\Helper\Sales $adminhtmlSales,
+        \Magento\CatalogInventory\Helper\Data $catalogInventoryData,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Wishlist\Model\Resource\Item $resource
     ) {
         $this->_registryManager = $registry;
         parent::__construct(
@@ -47,7 +49,7 @@ class Magento_Wishlist_Model_Resource_Item_Collection_Grid extends Magento_Wishl
     /**
      * Initialize db select
      *
-     * @return Magento_Core_Model_Resource_Db_Collection_Abstract
+     * @return \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
      */
     protected function _initSelect()
     {
@@ -64,7 +66,7 @@ class Magento_Wishlist_Model_Resource_Item_Collection_Grid extends Magento_Wishl
      *
      * @param   string $field
      * @param   string $direction
-     * @return  Magento_Data_Collection_Db
+     * @return  \Magento\Data\Collection\Db
      */
     public function setOrder($field, $direction = self::SORT_ORDER_DESC)
     {
@@ -86,7 +88,7 @@ class Magento_Wishlist_Model_Resource_Item_Collection_Grid extends Magento_Wishl
      *
      * @param string|array $field
      * @param null|string|array $condition
-     * @return Magento_Data_Collection_Db
+     * @return \Magento\Data\Collection\Db
      */
     public function addFieldToFilter($field, $condition = null)
     {

@@ -9,21 +9,23 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\Block\Catalog\Product\Attribute\Set\Toolbar;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Toolbar_AddTest extends PHPUnit_Framework_TestCase
+class AddTest extends \PHPUnit_Framework_TestCase
 {
     public function testToHtmlFormId()
     {
-        /** @var $layout Magento_Core_Model_Layout */
-        $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout');
+        /** @var $layout \Magento\Core\Model\Layout */
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout');
 
-        $block = $layout->addBlock('Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Toolbar_Add', 'block');
+        $block = $layout->addBlock('Magento\Adminhtml\Block\Catalog\Product\Attribute\Set\Toolbar\Add', 'block');
         $block->setArea('adminhtml')->unsetChild('setForm');
 
-        $childBlock = $layout->addBlock('Magento_Core_Block_Template', 'setForm', 'block');
-        $form = new Magento_Object();
+        $childBlock = $layout->addBlock('Magento\Core\Block\Template', 'setForm', 'block');
+        $form = new \Magento\Object();
         $childBlock->setForm($form);
 
         $expectedId = '12121212';

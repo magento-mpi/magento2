@@ -10,7 +10,7 @@
 require __DIR__ . '/../app/bootstrap.php';
 Magento_Profiler::start('mage');
 $params = $_SERVER;
-$params[Magento_Core_Model_App::PARAM_APP_URIS][Magento_Core_Model_Dir::PUB] = '';
-$entryPoint = new Magento_Core_Model_EntryPoint_Http(new Magento_Core_Model_Config_Primary(BP, $params));
+$params[\Magento\Core\Model\App::PARAM_APP_URIS][\Magento\Core\Model\Dir::PUB] = '';
+$entryPoint = new \Magento\Core\Model\EntryPoint\Http(new \Magento\Core\Model\Config\Primary(BP, $params));
 $entryPoint->processRequest();
 Magento_Profiler::stop('mage');

@@ -9,30 +9,33 @@
  * @license     {license_link}
  */
 
+
+namespace Magento\Adminhtml\Block\Catalog\Product;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_Block_Catalog_Product_EditTest extends PHPUnit_Framework_TestCase
+class EditTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Adminhtml_Block_Catalog_Product_Edit
+     * @var \Magento\Adminhtml\Block\Catalog\Product\Edit
      */
     protected $_block;
 
     protected function setUp()
     {
         parent::setUp();
-        /** @var $product Magento_Catalog_Model_Product */
+        /** @var $product \Magento\Catalog\Model\Product */
         $product = $this->getMock(
-            'Magento_Catalog_Model_Product', array('getAttributes', '__wakeup'), array(), '', false
+            'Magento\Catalog\Model\Product', array('getAttributes', '__wakeup'), array(), '', false
         );
         $product->expects($this->any())->method('getAttributes')->will($this->returnValue(array()));
-        $product->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE);
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $objectManager->get('Magento_Core_Model_Registry')->register('current_product', $product);
-        $this->_block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
-            ->createBlock('Magento_Adminhtml_Block_Catalog_Product_Edit');
+        $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE);
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $objectManager->get('Magento\Core\Model\Registry')->register('current_product', $product);
+        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            ->createBlock('Magento\Adminhtml\Block\Catalog\Product\Edit');
     }
 
     public function testGetTypeSwitcherData()

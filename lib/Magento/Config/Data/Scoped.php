@@ -5,26 +5,28 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Config_Data_Scoped extends Magento_Config_Data
+namespace Magento\Config\Data;
+
+class Scoped extends \Magento\Config\Data
 {
     /**
      * Configuration scope resolver
      *
-     * @var Magento_Config_ScopeInterface
+     * @var \Magento\Config\ScopeInterface
      */
     protected $_configScope;
 
     /**
      * Configuration reader
      *
-     * @var Magento_Config_ReaderInterface
+     * @var \Magento\Config\ReaderInterface
      */
     protected $_reader;
 
     /**
      * Configuration cache
      *
-     * @var Magento_Config_CacheInterface
+     * @var \Magento\Config\CacheInterface
      */
     protected $_cache;
 
@@ -50,15 +52,15 @@ class Magento_Config_Data_Scoped extends Magento_Config_Data
     protected $_loadedScopes = array();
 
     /**
-     * @param Magento_Config_ReaderInterface $reader
-     * @param Magento_Config_ScopeInterface $configScope
-     * @param Magento_Config_CacheInterface $cache
+     * @param \Magento\Config\ReaderInterface $reader
+     * @param \Magento\Config\ScopeInterface $configScope
+     * @param \Magento\Config\CacheInterface $cache
      * @param string $cacheId
      */
     public function __construct(
-        Magento_Config_ReaderInterface $reader,
-        Magento_Config_ScopeInterface $configScope,
-        Magento_Config_CacheInterface $cache,
+        \Magento\Config\ReaderInterface $reader,
+        \Magento\Config\ScopeInterface $configScope,
+        \Magento\Config\CacheInterface $cache,
         $cacheId
     ) {
         $this->_reader = $reader;

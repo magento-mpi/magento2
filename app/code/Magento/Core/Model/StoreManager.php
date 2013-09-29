@@ -5,26 +5,28 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Core_Model_StoreManager implements Magento_Core_Model_StoreManagerInterface
+namespace Magento\Core\Model;
+
+class StoreManager implements \Magento\Core\Model\StoreManagerInterface
 {
     /**
      * Store storage factory model
      *
-     * @var Magento_Core_Model_Store_StorageFactory
+     * @var \Magento\Core\Model\Store\StorageFactory
      */
     protected $_factory;
 
     /**
      * Event manager
      *
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventManager;
 
     /**
      * Request model
      *
-     * @var Magento_Core_Controller_Request_Http
+     * @var \Magento\Core\Controller\Request\Http
      */
     protected $_request;
 
@@ -59,21 +61,21 @@ class Magento_Core_Model_StoreManager implements Magento_Core_Model_StoreManager
     /**
      * Helper factory
      *
-     * @var Magento_Core_Model_Factory_Helper
+     * @var \Magento\Core\Model\Factory\Helper
      */
     protected $_helperFactory;
 
     /**
-     * @param Magento_Core_Model_Store_StorageFactory $factory
-     * @param Magento_Core_Controller_Request_Http $request
-     * @param Magento_Core_Model_Factory_Helper $helperFactory
+     * @param \Magento\Core\Model\Store\StorageFactory $factory
+     * @param \Magento\Core\Controller\Request\Http $request
+     * @param \Magento\Core\Model\Factory\Helper $helperFactory
      * @param string $scopeCode
      * @param string $scopeType
      */
     public function __construct(
-        Magento_Core_Model_Store_StorageFactory $factory,
-        Magento_Core_Controller_Request_Http $request,
-        Magento_Core_Model_Factory_Helper $helperFactory,
+        \Magento\Core\Model\Store\StorageFactory $factory,
+        \Magento\Core\Controller\Request\Http $request,
+        \Magento\Core\Model\Factory\Helper $helperFactory,
         $scopeCode = '',
         $scopeType = 'store'
     ) {
@@ -87,7 +89,7 @@ class Magento_Core_Model_StoreManager implements Magento_Core_Model_StoreManager
     /**
      * Get storage instance
      *
-     * @return Magento_Core_Model_Store_StorageInterface
+     * @return \Magento\Core\Model\Store\StorageInterface
      */
     protected function _getStorage()
     {
@@ -103,20 +105,20 @@ class Magento_Core_Model_StoreManager implements Magento_Core_Model_StoreManager
     /**
      * Retrieve application store object without Store_Exception
      *
-     * @param string|int|Magento_Core_Model_Store $storeId
-     * @return Magento_Core_Model_Store
+     * @param string|int|\Magento\Core\Model\Store $storeId
+     * @return \Magento\Core\Model\Store
      */
     public function getSafeStore($storeId = null)
     {
         try {
             return $this->getStore($storeId);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             if ($this->_getStorage()->getCurrentStore()) {
                 $this->_request->setActionName('noRoute');
-                return new Magento_Object();
+                return new \Magento\Object();
             }
 
-            Mage::throwException(
+            \Mage::throwException(
                 __('Requested invalid store "%1"', $storeId)
             );
         }
@@ -134,7 +136,7 @@ class Magento_Core_Model_StoreManager implements Magento_Core_Model_StoreManager
     }
 
     /**
-     * @throws Magento_Core_Model_Store_Exception
+     * @throws \Magento\Core\Model\Store\Exception
      */
     public function throwStoreException()
     {
@@ -169,17 +171,17 @@ class Magento_Core_Model_StoreManager implements Magento_Core_Model_StoreManager
      */
     public function isSingleStoreMode()
     {
-        /** @var $helper Magento_Core_Helper_Data */
-        $helper =  $this->_helperFactory->get('Magento_Core_Helper_Data');
+        /** @var $helper \Magento\Core\Helper\Data */
+        $helper =  $this->_helperFactory->get('Magento\Core\Helper\Data');
         return $this->hasSingleStore() && $helper->isSingleStoreModeEnabled();
     }
 
     /**
      * Retrieve application store object
      *
-     * @param null|string|bool|int|Magento_Core_Model_Store $storeId
-     * @return Magento_Core_Model_Store
-     * @throws Magento_Core_Model_Store_Exception
+     * @param null|string|bool|int|\Magento\Core\Model\Store $storeId
+     * @return \Magento\Core\Model\Store
+     * @throws \Magento\Core\Model\Store\Exception
      */
     public function getStore($storeId = null)
     {
@@ -191,7 +193,7 @@ class Magento_Core_Model_StoreManager implements Magento_Core_Model_StoreManager
      *
      * @param bool $withDefault
      * @param bool $codeKey
-     * @return Magento_Core_Model_Store[]
+     * @return \Magento\Core\Model\Store[]
      */
     public function getStores($withDefault = false, $codeKey = false)
     {
@@ -201,9 +203,9 @@ class Magento_Core_Model_StoreManager implements Magento_Core_Model_StoreManager
     /**
      * Retrieve application website object
      *
-     * @param null|bool|int|string|Magento_Core_Model_Website $websiteId
-     * @return Magento_Core_Model_Website
-     * @throws Magento_Core_Exception
+     * @param null|bool|int|string|\Magento\Core\Model\Website $websiteId
+     * @return \Magento\Core\Model\Website
+     * @throws \Magento\Core\Exception
      */
     public function getWebsite($websiteId = null)
     {
@@ -215,7 +217,7 @@ class Magento_Core_Model_StoreManager implements Magento_Core_Model_StoreManager
      *
      * @param bool $withDefault
      * @param bool|string $codeKey
-     * @return Magento_Core_Model_Website[]
+     * @return \Magento\Core\Model\Website[]
      */
     public function getWebsites($withDefault = false, $codeKey = false)
     {
@@ -233,7 +235,7 @@ class Magento_Core_Model_StoreManager implements Magento_Core_Model_StoreManager
     /**
      * Retrieve default store for default group and website
      *
-     * @return Magento_Core_Model_Store
+     * @return \Magento\Core\Model\Store
      */
     public function getDefaultStoreView()
     {
@@ -243,9 +245,9 @@ class Magento_Core_Model_StoreManager implements Magento_Core_Model_StoreManager
     /**
      * Retrieve application store group object
      *
-     * @param null|Magento_Core_Model_Store_Group|string $groupId
-     * @return Magento_Core_Model_Store_Group
-     * @throws Magento_Core_Exception
+     * @param null|\Magento\Core\Model\Store\Group|string $groupId
+     * @return \Magento\Core\Model\Store\Group
+     * @throws \Magento\Core\Exception
      */
     public function getGroup($groupId = null)
     {
@@ -259,7 +261,7 @@ class Magento_Core_Model_StoreManager implements Magento_Core_Model_StoreManager
      *
      * @param bool $withDefault
      * @param bool $codeKey
-     * @return Magento_Core_Model_Store_Group[]
+     * @return \Magento\Core\Model\Store\Group[]
      */
     public function getGroups($withDefault = false, $codeKey = false)
     {
@@ -269,7 +271,7 @@ class Magento_Core_Model_StoreManager implements Magento_Core_Model_StoreManager
     /**
      *  Unset website by id from app cache
      *
-     * @param null|bool|int|string|Magento_Core_Model_Website $websiteId
+     * @param null|bool|int|string|\Magento\Core\Model\Website $websiteId
      */
     public function clearWebsiteCache($websiteId = null)
     {
@@ -279,7 +281,7 @@ class Magento_Core_Model_StoreManager implements Magento_Core_Model_StoreManager
     /**
      * Get either default or any store view
      *
-     * @return Magento_Core_Model_Store|null
+     * @return \Magento\Core\Model\Store|null
      */
     public function getAnyStoreView()
     {

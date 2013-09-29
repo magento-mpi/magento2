@@ -15,17 +15,19 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Layout_Argument_Handler_Object extends Magento_Core_Model_Layout_Argument_HandlerAbstract
+namespace Magento\Core\Model\Layout\Argument\Handler;
+
+class Object extends \Magento\Core\Model\Layout\Argument\AbstractHandler
 {
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
@@ -35,7 +37,7 @@ class Magento_Core_Model_Layout_Argument_Handler_Object extends Magento_Core_Mod
      *
      * @param array $argument
      * @return mixed
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function process(array $argument)
     {
@@ -48,7 +50,7 @@ class Magento_Core_Model_Layout_Argument_Handler_Object extends Magento_Core_Mod
     /**
      * Validate argument
      * @param $argument
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     protected function _validate(array $argument)
     {
@@ -56,13 +58,13 @@ class Magento_Core_Model_Layout_Argument_Handler_Object extends Magento_Core_Mod
         $value = $argument['value'];
 
         if (!isset($value['object'])) {
-            throw new InvalidArgumentException(
+            throw new \InvalidArgumentException(
                 'Passed value has incorrect format. ' . $this->_getArgumentInfo($argument)
             );
         }
 
-        if (!is_subclass_of($value['object'], 'Magento_Data_Collection')) {
-            throw new InvalidArgumentException(
+        if (!is_subclass_of($value['object'], 'Magento\Data\Collection')) {
+            throw new \InvalidArgumentException(
                 'Incorrect data source model. ' . $this->_getArgumentInfo($argument)
             );
         }
@@ -71,10 +73,10 @@ class Magento_Core_Model_Layout_Argument_Handler_Object extends Magento_Core_Mod
     /**
      * Retrieve value from argument
      *
-     * @param Magento_Core_Model_Layout_Element $argument
+     * @param \Magento\Core\Model\Layout\Element $argument
      * @return array|null
      */
-    protected function _getArgumentValue(Magento_Core_Model_Layout_Element $argument)
+    protected function _getArgumentValue(\Magento\Core\Model\Layout\Element $argument)
     {
         $value = parent::_getArgumentValue($argument);
         if (!isset($value)) {

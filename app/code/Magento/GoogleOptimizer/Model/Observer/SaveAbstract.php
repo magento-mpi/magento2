@@ -7,20 +7,22 @@
  * @copyright {copyright}
  * @license {license_link}
  */
-abstract class Magento_GoogleOptimizer_Model_Observer_SaveAbstract
+namespace Magento\GoogleOptimizer\Model\Observer;
+
+abstract class SaveAbstract
 {
     /**
-     * @var Magento_GoogleOptimizer_Helper_Data
+     * @var \Magento\GoogleOptimizer\Helper\Data
      */
     protected $_helper;
 
     /**
-     * @var Magento_GoogleOptimizer_Model_Code
+     * @var \Magento\GoogleOptimizer\Model\Code
      */
     protected $_modelCode;
 
     /**
-     * @var Magento_Core_Controller_Request_Http
+     * @var \Magento\Core\Controller\Request\Http
      */
     protected $_request;
 
@@ -30,14 +32,14 @@ abstract class Magento_GoogleOptimizer_Model_Observer_SaveAbstract
     protected $_params;
 
     /**
-     * @param Magento_GoogleOptimizer_Helper_Data $helper
-     * @param Magento_GoogleOptimizer_Model_Code $modelCode
-     * @param Magento_Core_Controller_Request_Http $request
+     * @param \Magento\GoogleOptimizer\Helper\Data $helper
+     * @param \Magento\GoogleOptimizer\Model\Code $modelCode
+     * @param \Magento\Core\Controller\Request\Http $request
      */
     public function __construct(
-        Magento_GoogleOptimizer_Helper_Data $helper,
-        Magento_GoogleOptimizer_Model_Code $modelCode,
-        Magento_Core_Controller_Request_Http $request
+        \Magento\GoogleOptimizer\Helper\Data $helper,
+        \Magento\GoogleOptimizer\Model\Code $modelCode,
+        \Magento\Core\Controller\Request\Http $request
     ) {
         $this->_helper = $helper;
         $this->_modelCode = $modelCode;
@@ -47,9 +49,9 @@ abstract class Magento_GoogleOptimizer_Model_Observer_SaveAbstract
     /**
      * Save script after saving entity
      *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_GoogleOptimizer_Model_Observer_Category_Save
-     * @throws InvalidArgumentException
+     * @param \Magento\Event\Observer $observer
+     * @return \Magento\GoogleOptimizer\Model\Observer\Category\Save
+     * @throws \InvalidArgumentException
      */
     public function saveGoogleExperimentScript($observer)
     {
@@ -65,7 +67,7 @@ abstract class Magento_GoogleOptimizer_Model_Observer_SaveAbstract
     /**
      * Init entity
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
     abstract protected function _initEntity($observer);
 
@@ -99,13 +101,13 @@ abstract class Magento_GoogleOptimizer_Model_Observer_SaveAbstract
     /**
      * Init request params
      *
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     protected function _initRequestParams()
     {
         $params = $this->_request->getParam('google_experiment');
         if (!is_array($params) || !isset($params['experiment_script']) || !isset($params['code_id'])) {
-            throw new InvalidArgumentException('Wrong request parameters');
+            throw new \InvalidArgumentException('Wrong request parameters');
         }
         $this->_params = $params;
     }
@@ -139,13 +141,13 @@ abstract class Magento_GoogleOptimizer_Model_Observer_SaveAbstract
     /**
      * Load model code
      *
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     protected function _loadCode()
     {
         $this->_modelCode->load($this->_params['code_id']);
         if (!$this->_modelCode->getId()) {
-            throw new InvalidArgumentException('Code does not exist');
+            throw new \InvalidArgumentException('Code does not exist');
         }
     }
 
@@ -162,7 +164,7 @@ abstract class Magento_GoogleOptimizer_Model_Observer_SaveAbstract
     /**
      * Delete model code
      *
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     protected function _deleteCode()
     {

@@ -7,14 +7,16 @@
  */
 
 /**
- * Abstract decorator class for Zend_Cache_Backend class and its descendants
+ * Abstract decorator class for \Zend_Cache_Backend class and its descendants
  */
-abstract class Magento_Cache_Backend_Decorator_DecoratorAbstract extends Zend_Cache_Backend
-    implements Zend_Cache_Backend_ExtendedInterface
+namespace Magento\Cache\Backend\Decorator;
+
+abstract class DecoratorAbstract extends \Zend_Cache_Backend
+    implements \Zend_Cache_Backend_ExtendedInterface
 {
     /**
      * Concrete Cache Backend class that is being decorated
-     * @var Zend_Cache_Backend
+     * @var \Zend_Cache_Backend
      */
     protected $_backend;
 
@@ -30,12 +32,12 @@ abstract class Magento_Cache_Backend_Decorator_DecoratorAbstract extends Zend_Ca
     public function __construct(array $options = array())
     {
         if (array_key_exists('concrete_backend', $options)
-            && ($options['concrete_backend'] instanceof Zend_Cache_Backend_Interface)
+            && ($options['concrete_backend'] instanceof \Zend_Cache_Backend_Interface)
         ) {
             $this->_backend = $options['concrete_backend'];
             unset($options['concrete_backend']);
         } else {
-            Zend_Cache::throwException(
+            \Zend_Cache::throwException(
                 "'concrete_backend' is not specified or it does not implement 'Zend_Cache_Backend_Interface' interface"
             );
         }
@@ -117,20 +119,20 @@ abstract class Magento_Cache_Backend_Decorator_DecoratorAbstract extends Zend_Ca
      * Clean some cache records
      *
      * Available modes are :
-     * Zend_Cache::CLEANING_MODE_ALL (default)    => remove all cache entries ($tags is not used)
-     * Zend_Cache::CLEANING_MODE_OLD              => remove too old cache entries ($tags is not used)
-     * Zend_Cache::CLEANING_MODE_MATCHING_TAG     => remove cache entries matching all given tags
+     * \Zend_Cache::CLEANING_MODE_ALL (default)    => remove all cache entries ($tags is not used)
+     * \Zend_Cache::CLEANING_MODE_OLD              => remove too old cache entries ($tags is not used)
+     * \Zend_Cache::CLEANING_MODE_MATCHING_TAG     => remove cache entries matching all given tags
      *                                               ($tags can be an array of strings or a single string)
-     * Zend_Cache::CLEANING_MODE_NOT_MATCHING_TAG => remove cache entries not {matching one of the given tags}
+     * \Zend_Cache::CLEANING_MODE_NOT_MATCHING_TAG => remove cache entries not {matching one of the given tags}
      *                                               ($tags can be an array of strings or a single string)
-     * Zend_Cache::CLEANING_MODE_MATCHING_ANY_TAG => remove cache entries matching any given tags
+     * \Zend_Cache::CLEANING_MODE_MATCHING_ANY_TAG => remove cache entries matching any given tags
      *                                               ($tags can be an array of strings or a single string)
      *
      * @param  string $mode Clean mode
      * @param  array  $tags Array of tags
      * @return boolean true if no problem
      */
-    public function clean($mode = Zend_Cache::CLEANING_MODE_ALL, $tags = array())
+    public function clean($mode = \Zend_Cache::CLEANING_MODE_ALL, $tags = array())
     {
         return $this->_backend->clean($mode, $tags);
     }
@@ -256,7 +258,7 @@ abstract class Magento_Cache_Backend_Decorator_DecoratorAbstract extends Zend_Ca
      *
      * @param  string $name
      * @param  mixed  $value
-     * @throws Zend_Cache_Exception
+     * @throws \Zend_Cache_Exception
      * @return void
      */
     public function setOption($name, $value)
@@ -294,10 +296,10 @@ abstract class Magento_Cache_Backend_Decorator_DecoratorAbstract extends Zend_Ca
     /**
      * Determine system TMP directory and detect if we have read access
      *
-     * inspired from Zend_File_Transfer_Adapter_Abstract
+     * inspired from \Zend_File_Transfer_Adapter_Abstract
      *
      * @return string
-     * @throws Zend_Cache_Exception if unable to determine directory
+     * @throws \Zend_Cache_Exception if unable to determine directory
      */
     public function getTmpDir()
     {

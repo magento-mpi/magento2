@@ -15,13 +15,15 @@
  * @package    Magento_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Config_Source_Category implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Catalog\Model\Config\Source;
+
+class Category implements \Magento\Core\Model\Option\ArrayInterface
 {
     public function toOptionArray($addEmpty = true)
     {
-        $tree = Mage::getResourceModel('Magento_Catalog_Model_Resource_Category_Tree');
+        $tree = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Category\Tree');
 
-        $collection = Mage::getResourceModel('Magento_Catalog_Model_Resource_Category_Collection');
+        $collection = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Category\Collection');
 
         $collection->addAttributeToSelect('name')
             ->addRootLevelFilter()

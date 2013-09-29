@@ -5,10 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Directory_Model_Currency_Import_Source_Service implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Directory\Model\Currency\Import\Source;
+
+class Service implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
-     * @var Magento_Core_Model_Config
+     * @var \Magento\Core\Model\Config
      */
     private $_importConfig;
 
@@ -18,9 +20,9 @@ class Magento_Directory_Model_Currency_Import_Source_Service implements Magento_
     private $_options;
 
     /**
-     * @param Magento_Directory_Model_Currency_Import_Config $importConfig
+     * @param \Magento\Directory\Model\Currency\Import\Config $importConfig
      */
-    public function __construct(Magento_Directory_Model_Currency_Import_Config $importConfig)
+    public function __construct(\Magento\Directory\Model\Currency\Import\Config $importConfig)
     {
         $this->_importConfig = $importConfig;
     }

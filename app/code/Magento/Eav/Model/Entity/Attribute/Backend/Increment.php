@@ -15,13 +15,15 @@
  * @package    Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Eav_Model_Entity_Attribute_Backend_Increment extends Magento_Eav_Model_Entity_Attribute_Backend_Abstract
+namespace Magento\Eav\Model\Entity\Attribute\Backend;
+
+class Increment extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
 {
     /**
      * Set new increment id
      *
-     * @param Magento_Object $object
-     * @return Magento_Eav_Model_Entity_Attribute_Backend_Increment
+     * @param \Magento\Object $object
+     * @return \Magento\Eav\Model\Entity\Attribute\Backend\Increment
      */
     public function beforeSave($object)
     {

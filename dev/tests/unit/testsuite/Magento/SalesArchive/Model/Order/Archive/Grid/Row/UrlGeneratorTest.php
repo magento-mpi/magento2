@@ -9,29 +9,31 @@
  * @license     {license_link}
  */
 
-class Magento_SalesArchive_Model_Order_Archive_Grid_Row_UrlGeneratorTest extends PHPUnit_Framework_TestCase
+namespace Magento\SalesArchive\Model\Order\Archive\Grid\Row;
+
+class UrlGeneratorTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var $_model Magento_SalesArchive_Model_Order_Archive_Grid_Row_UrlGenerator
+     * @var $_model \Magento\SalesArchive\Model\Order\Archive\Grid\Row\UrlGenerator
      */
     protected $_model;
 
     /**
-     * @var $_authorization PHPUnit_Framework_MockObject_MockObject
+     * @var $_authorization \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_authorizationMock;
 
     /**
-     * @var $_urlModel PHPUnit_Framework_MockObject_MockObject
+     * @var $_urlModel \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_urlModelMock;
 
     protected function setUp()
     {
-        $this->_authorizationMock = $this->getMockBuilder('Magento_AuthorizationInterface')
+        $this->_authorizationMock = $this->getMockBuilder('Magento\AuthorizationInterface')
             ->getMock();
 
-        $this->_urlModelMock = $this->getMockBuilder('Magento_Backend_Model_Url')
+        $this->_urlModelMock = $this->getMockBuilder('Magento\Backend\Model\Url')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -55,7 +57,7 @@ class Magento_SalesArchive_Model_Order_Archive_Grid_Row_UrlGeneratorTest extends
             ->method('getUrl')
             ->will($this->returnValueMap($urlMap));
 
-        $this->_model = new Magento_SalesArchive_Model_Order_Archive_Grid_Row_UrlGenerator(
+        $this->_model = new \Magento\SalesArchive\Model\Order\Archive\Grid\Row\UrlGenerator(
             $this->_authorizationMock,
             array(
                 'path' => '*/sales_order/view',
@@ -74,7 +76,7 @@ class Magento_SalesArchive_Model_Order_Archive_Grid_Row_UrlGeneratorTest extends
             ->with('Magento_SalesArchive::orders')
             ->will($this->returnValue(false));
 
-        $this->assertFalse($this->_model->getUrl(new Magento_Object()));
+        $this->assertFalse($this->_model->getUrl(new \Magento\Object()));
     }
 
     /**
@@ -96,11 +98,11 @@ class Magento_SalesArchive_Model_Order_Archive_Grid_Row_UrlGeneratorTest extends
     {
         return array(
             array(
-                new Magento_Object(),
+                new \Magento\Object(),
                 'http://localhost/backend/admin/sales_order/view/order_id/'
             ),
             array(
-                new Magento_Object(
+                new \Magento\Object(
                     array(
                         'id' => 1
                     )

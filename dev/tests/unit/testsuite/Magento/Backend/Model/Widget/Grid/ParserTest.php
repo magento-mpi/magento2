@@ -9,16 +9,18 @@
  * @license     {license_link}
  */
 
-class Magento_Backend_Model_Widget_Grid_ParserTest extends PHPUnit_Framework_TestCase
+namespace Magento\Backend\Model\Widget\Grid;
+
+class ParserTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Backend_Model_Widget_Grid_Parser
+     * @var \Magento\Backend\Model\Widget\Grid\Parser
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = new Magento_Backend_Model_Widget_Grid_Parser();
+        $this->_model = new \Magento\Backend\Model\Widget\Grid\Parser();
     }
 
     /**

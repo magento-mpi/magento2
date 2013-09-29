@@ -11,8 +11,10 @@
 /**
  * Sales conditions combine
  */
-class Magento_CustomerSegment_Model_Segment_Condition_Sales_Combine
-    extends Magento_CustomerSegment_Model_Condition_Combine_Abstract
+namespace Magento\CustomerSegment\Model\Segment\Condition\Sales;
+
+class Combine
+    extends \Magento\CustomerSegment\Model\Condition\Combine\AbstractCombine
 {
     /**
      * @var string
@@ -20,25 +22,25 @@ class Magento_CustomerSegment_Model_Segment_Condition_Sales_Combine
     protected $_inputType = 'numeric';
 
     /**
-     * @var Magento_CustomerSegment_Model_ConditionFactory
+     * @var \Magento\CustomerSegment\Model\ConditionFactory
      */
     protected $_conditionFactory;
 
     /**
-     * @param Magento_CustomerSegment_Model_Resource_Segment $resourceSegment
-     * @param Magento_CustomerSegment_Model_ConditionFactory $conditionFactory
-     * @param Magento_Rule_Model_Condition_Context $context
+     * @param \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment
+     * @param \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory
+     * @param \Magento\Rule\Model\Condition\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_CustomerSegment_Model_Resource_Segment $resourceSegment,
-        Magento_CustomerSegment_Model_ConditionFactory $conditionFactory,
-        Magento_Rule_Model_Condition_Context $context,
+        \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment,
+        \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory,
+        \Magento\Rule\Model\Condition\Context $context,
         array $data = array()
     ) {
         $this->_conditionFactory = $conditionFactory;
         parent::__construct($resourceSegment, $context, $data);
-        $this->setType('Magento_CustomerSegment_Model_Segment_Condition_Sales_Combine');
+        $this->setType('Magento\CustomerSegment\Model\Segment\Condition\Sales\Combine');
     }
 
     /**
@@ -64,7 +66,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Sales_Combine
     /**
      * Init attribute select options
      *
-     * @return Magento_CustomerSegment_Model_Segment_Condition_Sales_Combine
+     * @return \Magento\CustomerSegment\Model\Segment\Condition\Sales\Combine
      */
     public function loadAttributeOptions()
     {

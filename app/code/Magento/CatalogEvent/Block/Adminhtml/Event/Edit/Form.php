@@ -9,49 +9,51 @@
 /**
  * Catalog Events edit form
  */
-class Magento_CatalogEvent_Block_Adminhtml_Event_Edit_Form extends Magento_Backend_Block_Widget_Form_Generic
+namespace Magento\CatalogEvent\Block\Adminhtml\Event\Edit;
+
+class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
      * Adminhtml data
      *
-     * @var Magento_Backend_Helper_Data
+     * @var \Magento\Backend\Helper\Data
      */
     protected $_adminhtmlData = null;
 
     /**
      * Category model factory
      *
-     * @var Magento_Catalog_Model_CategoryFactory
+     * @var \Magento\Catalog\Model\CategoryFactory
      */
     protected $_categoryFactory;
 
     /**
      * Locale model
      *
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
     /**
      * Construct
      * 
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Backend_Helper_Data $adminhtmlData
-     * @param Magento_Catalog_Model_CategoryFactory $categoryFactory
-     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param \Magento\Backend\Helper\Data $adminhtmlData
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Backend\Helper\Data $adminhtmlData
+     * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
+     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Registry $registry,
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Backend_Helper_Data $adminhtmlData,
-        Magento_Catalog_Model_CategoryFactory $categoryFactory,
-        Magento_Core_Model_LocaleInterface $locale,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Backend\Helper\Data $adminhtmlData,
+        \Magento\Catalog\Model\CategoryFactory $categoryFactory,
+        \Magento\Core\Model\LocaleInterface $locale,
         array $data = array()
     ) {
         parent::__construct($registry, $formFactory, $coreData, $context, $data);
@@ -80,9 +82,9 @@ class Magento_CatalogEvent_Block_Adminhtml_Event_Edit_Form extends Magento_Backe
     {
         parent::_prepareLayout();
 
-        Magento_Data_Form::setFieldsetElementRenderer(
+        \Magento\Data\Form::setFieldsetElementRenderer(
             $this->getLayout()->createBlock(
-                'Magento_CatalogEvent_Block_Adminhtml_Form_Renderer_Fieldset_Element',
+                'Magento\CatalogEvent\Block\Adminhtml\Form\Renderer\Fieldset\Element',
                 $this->getNameInLayout() . '_fieldset_element_catalog_event'
             )
         );
@@ -91,11 +93,11 @@ class Magento_CatalogEvent_Block_Adminhtml_Event_Edit_Form extends Magento_Backe
     /**
      * Prepares event edit form
      *
-     * @return Magento_CatalogEvent_Block_Adminhtml_Event_Edit_Form
+     * @return \Magento\CatalogEvent\Block\Adminhtml\Event\Edit\Form
      */
     protected function _prepareForm()
     {
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create(array(
             'attributes' => array(
                 'id'      => 'edit_form',
@@ -117,7 +119,7 @@ class Magento_CatalogEvent_Block_Adminhtml_Event_Edit_Form extends Magento_Backe
 
         $this->_addElementTypes($fieldset);
 
-        /** @var Magento_Catalog_Model_Category $currentCategory */
+        /** @var \Magento\Catalog\Model\Category $currentCategory */
         $currentCategory = $this->_categoryFactory->create()->load($this->getEvent()->getCategoryId());
 
         $fieldset->addField('category_name', 'note',
@@ -127,8 +129,8 @@ class Magento_CatalogEvent_Block_Adminhtml_Event_Edit_Form extends Magento_Backe
             )
         );
 
-        $dateFormat = $this->_locale->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
-        $timeFormat = $this->_locale->getTimeFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
+        $dateFormat = $this->_locale->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
+        $timeFormat = $this->_locale->getTimeFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
 
         $fieldset->addField('date_start', 'date', array(
                 'label'        => __('Start Date'),
@@ -162,24 +164,24 @@ class Magento_CatalogEvent_Block_Adminhtml_Event_Edit_Form extends Magento_Backe
         );
 
         $statuses = array(
-            Magento_CatalogEvent_Model_Event::STATUS_UPCOMING => __('Upcoming'),
-            Magento_CatalogEvent_Model_Event::STATUS_OPEN => __('Open'),
-            Magento_CatalogEvent_Model_Event::STATUS_CLOSED => __('Closed')
+            \Magento\CatalogEvent\Model\Event::STATUS_UPCOMING => __('Upcoming'),
+            \Magento\CatalogEvent\Model\Event::STATUS_OPEN => __('Open'),
+            \Magento\CatalogEvent\Model\Event::STATUS_CLOSED => __('Closed')
         );
 
         $fieldset->addField('display_state_array', 'checkboxes', array(
                 'label'  => __('Display Countdown Ticker On'),
                 'name'   => 'display_state[]',
                 'values' => array(
-                    Magento_CatalogEvent_Model_Event::DISPLAY_CATEGORY_PAGE => __('Category Page'),
-                    Magento_CatalogEvent_Model_Event::DISPLAY_PRODUCT_PAGE => __('Product Page')
+                    \Magento\CatalogEvent\Model\Event::DISPLAY_CATEGORY_PAGE => __('Category Page'),
+                    \Magento\CatalogEvent\Model\Event::DISPLAY_PRODUCT_PAGE => __('Product Page')
                 )
             ));
 
         if ($this->getEvent()->getId()) {
             $fieldset->addField('status', 'note', array(
                     'label' => __('Status'),
-                    'text'  => ($this->getEvent()->getStatus() ? $statuses[$this->getEvent()->getStatus()] : $statuses[Magento_CatalogEvent_Model_Event::STATUS_UPCOMING])
+                    'text'  => ($this->getEvent()->getStatus() ? $statuses[$this->getEvent()->getStatus()] : $statuses[\Magento\CatalogEvent\Model\Event::STATUS_UPCOMING])
             ));
         }
 
@@ -226,7 +228,7 @@ class Magento_CatalogEvent_Block_Adminhtml_Event_Edit_Form extends Magento_Backe
     /**
      * Retrieve catalog event model
      *
-     * @return Magento_CatalogEvent_Model_Event
+     * @return \Magento\CatalogEvent\Model\Event
      */
     public function getEvent()
     {
@@ -240,6 +242,6 @@ class Magento_CatalogEvent_Block_Adminhtml_Event_Edit_Form extends Magento_Backe
      */
     protected function _getAdditionalElementTypes()
     {
-        return array('image' => 'Magento_CatalogEvent_Block_Adminhtml_Event_Helper_Image');
+        return array('image' => 'Magento\CatalogEvent\Block\Adminhtml\Event\Helper\Image');
     }
 }

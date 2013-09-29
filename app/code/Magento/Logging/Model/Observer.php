@@ -12,77 +12,79 @@
  * Log admin actions and performed changes.
  * It doesn't log all admin actions, only listed in logging.xml config files.
  */
-class Magento_Logging_Model_Observer
+namespace Magento\Logging\Model;
+
+class Observer
 {
     /**
-     * Instance of Magento_Logging_Model_Logging
+     * Instance of \Magento\Logging\Model\Logging
      *
-     * @var Magento_Logging_Model_Processor
+     * @var \Magento\Logging\Model\Processor
      */
     protected $_processor;
 
     /**
      * Core http
      *
-     * @var Magento_Core_Helper_Http
+     * @var \Magento\Core\Helper\Http
      */
     protected $_coreHttp = null;
 
     /**
-     * @var Magento_Core_Model_Config
+     * @var \Magento\Core\Model\Config
      */
     protected $_coreConfig;
 
     /**
-     * @var Magento_Logging_Model_Config
+     * @var \Magento\Logging\Model\Config
      */
     protected $_config;
 
     /**
-     * @var Magento_User_Model_User
+     * @var \Magento\User\Model\User
      */
     protected $_user;
 
     /**
-     * @var Magento_Logging_Model_Event
+     * @var \Magento\Logging\Model\Event
      */
     protected $_event;
 
     /**
      * Request
      *
-     * @var Magento_Core_Controller_Request_Http
+     * @var \Magento\Core\Controller\Request\Http
      */
     protected $_request;
 
     /**
      * Flag model factory
      *
-     * @var Magento_Logging_Model_FlagFactory
+     * @var \Magento\Logging\Model\FlagFactory
      */
     protected $_flagFactory;
 
     /**
      * Construct
      * 
-     * @param Magento_Logging_Model_Config $config
-     * @param Magento_User_Model_User $user
-     * @param Magento_Logging_Model_Event $event
-     * @param Magento_Core_Helper_Http $coreHttp
-     * @param Magento_Logging_Model_Processor $processor
-     * @param Magento_Core_Model_Config $coreConfig
-     * @param Magento_Core_Controller_Request_Http $request
-     * @param Magento_Logging_Model_FlagFactory $flagFactory
+     * @param \Magento\Logging\Model\Config $config
+     * @param \Magento\User\Model\User $user
+     * @param \Magento\Logging\Model\Event $event
+     * @param \Magento\Core\Helper\Http $coreHttp
+     * @param \Magento\Logging\Model\Processor $processor
+     * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\Core\Controller\Request\Http $request
+     * @param \Magento\Logging\Model\FlagFactory $flagFactory
      */
     public function __construct(
-        Magento_Logging_Model_Config $config,
-        Magento_User_Model_User $user,
-        Magento_Logging_Model_Event $event,
-        Magento_Core_Helper_Http $coreHttp,
-        Magento_Logging_Model_Processor $processor,
-        Magento_Core_Model_Config $coreConfig,
-        Magento_Core_Controller_Request_Http $request,
-        Magento_Logging_Model_FlagFactory $flagFactory
+        \Magento\Logging\Model\Config $config,
+        \Magento\User\Model\User $user,
+        \Magento\Logging\Model\Event $event,
+        \Magento\Core\Helper\Http $coreHttp,
+        \Magento\Logging\Model\Processor $processor,
+        \Magento\Core\Model\Config $coreConfig,
+        \Magento\Core\Controller\Request\Http $request,
+        \Magento\Logging\Model\FlagFactory $flagFactory
     ) {
         $this->_config = $config;
         $this->_user = $user;
@@ -97,13 +99,13 @@ class Magento_Logging_Model_Observer
     /**
      * Mark actions for logging, if required
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
     public function controllerPredispatch($observer)
     {
-        /* @var $action Magento_Core_Controller_Varien_Action */
+        /* @var $action \Magento\Core\Controller\Varien\Action */
         $action = $observer->getEvent()->getControllerAction();
-        /* @var $request Magento_Core_Controller_Request_Http */
+        /* @var $request \Magento\Core\Controller\Request\Http */
         $request = $observer->getEvent()->getControllerAction()->getRequest();
 
         $beforeForwardInfo = $request->getBeforeForwardInfo();
@@ -138,7 +140,7 @@ class Magento_Logging_Model_Observer
     /**
      * Model after save observer.
      *
-     * @param Magento_Event_Observer
+     * @param \Magento\Event\Observer
      */
     public function modelSaveAfter($observer)
     {
@@ -148,7 +150,7 @@ class Magento_Logging_Model_Observer
     /**
      * Model after delete observer.
      *
-     * @param Magento_Event_Observer
+     * @param \Magento\Event\Observer
      */
     public function modelDeleteAfter($observer)
     {
@@ -158,7 +160,7 @@ class Magento_Logging_Model_Observer
     /**
      * Model after load observer.
      *
-     * @param Magento_Event_Observer
+     * @param \Magento\Event\Observer
      */
     public function modelLoadAfter($observer)
     {
@@ -168,7 +170,7 @@ class Magento_Logging_Model_Observer
     /**
      * Log marked actions
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
     public function controllerPostdispatch($observer)
     {
@@ -180,7 +182,7 @@ class Magento_Logging_Model_Observer
     /**
      * Log successful admin sign in
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
     public function adminSessionLoginSuccess($observer)
     {
@@ -190,15 +192,15 @@ class Magento_Logging_Model_Observer
     /**
      * Log failure of sign in
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
     public function adminSessionLoginFailed($observer)
     {
         $eventModel = $this->_logAdminLogin($observer->getUserName());
 
-        if (class_exists('Magento_Pci_Model_Observer', false) && $eventModel) {
+        if (class_exists('Magento\Pci\Model\Observer', false) && $eventModel) {
             $exception = $observer->getException();
-            if ($exception->getCode() == Magento_Pci_Model_Observer::ADMIN_USER_LOCKED) {
+            if ($exception->getCode() == \Magento\Pci\Model\Observer::ADMIN_USER_LOCKED) {
                 $eventModel->setInfo(__('User is locked'))->save();
             }
         }
@@ -209,7 +211,7 @@ class Magento_Logging_Model_Observer
      *
      * @param string $username
      * @param int $userId
-     * @return Magento_Logging_Model_Event
+     * @return \Magento\Logging\Model\Event
      */
     protected function _logAdminLogin($username, $userId = null)
     {
@@ -243,7 +245,7 @@ class Magento_Logging_Model_Observer
         $lastRotationTime = $lastRotationFlag->getFlagData();
         $rotationFrequency = 3600 * 24 * (int)$this->_coreConfig->getValue('system/rotation/frequency', 'default');
         if (!$lastRotationTime || ($lastRotationTime < time() - $rotationFrequency)) {
-            Mage::getResourceModel('Magento_Logging_Model_Resource_Event')->rotate(
+            \Mage::getResourceModel('Magento\Logging\Model\Resource\Event')->rotate(
                 3600 * 24 *(int)$this->_coreConfig->getValue('system/rotation/lifetime', 'default')
             );
         }

@@ -7,13 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Shipping_Model_Source_HandlingType implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Shipping\Model\Source;
+
+class HandlingType implements \Magento\Core\Model\Option\ArrayInterface
 {
     public function toOptionArray()
     {
         return array(
-            array('value' => Magento_Shipping_Model_Carrier_Abstract::HANDLING_TYPE_FIXED, 'label' => __('Fixed')),
-            array('value' => Magento_Shipping_Model_Carrier_Abstract::HANDLING_TYPE_PERCENT, 'label' => __('Percent')),
+            array('value' => \Magento\Shipping\Model\Carrier\AbstractCarrier::HANDLING_TYPE_FIXED, 'label' => __('Fixed')),
+            array('value' => \Magento\Shipping\Model\Carrier\AbstractCarrier::HANDLING_TYPE_PERCENT, 'label' => __('Percent')),
         );
     }
 }

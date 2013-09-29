@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Search extends Magento_Adminhtml_Block_Widget
+namespace Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle\Option;
+
+class Search extends \Magento\Adminhtml\Block\Widget
 {
     /**
      * @var string
@@ -31,14 +33,14 @@ class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Sear
     /**
      * Create search grid
      *
-     * @return Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Search
+     * @return \Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle\Option\Search
      */
     protected function _prepareLayout()
     {
         $this->setChild(
             'grid',
             $this->getLayout()->createBlock(
-                'Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Search_Grid',
+                'Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle\Option\Search\Grid',
                 'adminhtml.catalog.product.edit.tab.bundle.option.search.grid'
             )
         );
@@ -48,7 +50,7 @@ class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Sear
     /**
      * Prepare search grid
      *
-     * @return Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Search
+     * @return \Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle\Option\Search
      */
     protected function _beforeToHtml()
     {

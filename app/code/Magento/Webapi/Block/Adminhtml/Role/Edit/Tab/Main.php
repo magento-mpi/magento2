@@ -7,21 +7,25 @@
  * @copyright   {copyright}
  * @license     {license_link}
  *
- * @method Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_Main setApiRole(Magento_Webapi_Model_Acl_Role $role)
- * @method Magento_Webapi_Model_Acl_Role getApiRole()
+ * @method \Magento\Webapi\Block\Adminhtml\Role\Edit\Tab\Main setApiRole(\Magento\Webapi\Model\Acl\Role $role)
+ * @method \Magento\Webapi\Model\Acl\Role getApiRole()
  *
+ */
+namespace Magento\Webapi\Block\Adminhtml\Role\Edit\Tab;
+
+/**
  * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
-class Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_Main extends Magento_Backend_Block_Widget_Form_Generic
+class Main extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
      * Prepare Form.
      *
-     * @return Magento_Backend_Block_Widget_Form
+     * @return \Magento\Backend\Block\Widget\Form
      */
     protected function _prepareForm()
     {
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
 
         $fieldset = $form->addFieldset('base_fieldset', array(

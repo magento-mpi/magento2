@@ -9,13 +9,13 @@
  */
 
 $installer = $this;
-/** @var $installer Magento_Core_Model_Resource_Setup */
+/** @var $installer \Magento\Core\Model\Resource\Setup */
 
 $installer->startSetup();
 
 $installer->getConnection()
     ->addColumn($installer->getTable('catalog_eav_attribute'), 'search_weight', array(
-        'type'      => Magento_DB_Ddl_Table::TYPE_SMALLINT,
+        'type'      => \Magento\DB\Ddl\Table::TYPE_SMALLINT,
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '1',
@@ -33,28 +33,28 @@ $installer->getConnection()->addIndex($installer->getTable('catalogsearch_query'
 
 $table = $installer->getConnection()
     ->newTable($installer->getTable('catalogsearch_recommendations'))
-    ->addColumn('id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
         'nullable'  => false,
         'primary'   => true,
         ), 'Id')
-    ->addColumn('query_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('query_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '0',
         ), 'Query Id')
-    ->addColumn('relation_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('relation_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '0',
         ), 'Relation Id')
     ->addForeignKey($installer->getFkName('catalogsearch_recommendations', 'query_id', 'catalogsearch_query', 'query_id'),
         'query_id', $installer->getTable('catalogsearch_query'), 'query_id',
-        Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE)
+        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->addForeignKey($installer->getFkName('catalogsearch_recommendations', 'relation_id', 'catalogsearch_query', 'query_id'),
         'relation_id', $installer->getTable('catalogsearch_query'), 'query_id',
-        Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE)
+        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Enterprise Search Recommendations');
 $installer->getConnection()->createTable($table);
 

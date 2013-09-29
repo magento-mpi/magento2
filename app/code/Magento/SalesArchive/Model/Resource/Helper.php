@@ -16,7 +16,9 @@
  * @package     Magento_SalesArchive
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_SalesArchive_Model_Resource_Helper extends Magento_Core_Model_Resource_Helper
+namespace Magento\SalesArchive\Model\Resource;
+
+class Helper extends \Magento\Core\Model\Resource\Helper
 {
     /**
      * @param string $modulePrefix
@@ -33,7 +35,7 @@ class Magento_SalesArchive_Model_Resource_Helper extends Magento_Core_Model_Reso
      * @param string $column
      * @param boolean $after
      * @param boolean $first
-     * @return Magento_SalesArchive_Model_Resource_Helper
+     * @return \Magento\SalesArchive\Model\Resource\Helper
      */
     public function changeColumnPosition($table, $column, $after = false, $first = false)
     {
@@ -49,7 +51,7 @@ class Magento_SalesArchive_Model_Resource_Helper extends Magento_Core_Model_Reso
         }
 
         if (!$this->_getWriteAdapter()->isTableExists($table)) {
-            throw new Magento_Core_Exception(__("We can't find the table."));
+            throw new \Magento\Core\Exception(__("We can't find the table."));
         }
 
         $columns = array();
@@ -60,9 +62,9 @@ class Magento_SalesArchive_Model_Resource_Helper extends Magento_Core_Model_Reso
         }
 
         if (!isset($columns[$column])) {
-            throw new Magento_Core_Exception(__('Column not found'));
+            throw new \Magento\Core\Exception(__('Column not found'));
         } elseif ($after && !isset($columns[$after])) {
-            throw new Magento_Core_Exception(__('Positioning column not found'));
+            throw new \Magento\Core\Exception(__('Positioning column not found'));
         }
 
         if ($after) {

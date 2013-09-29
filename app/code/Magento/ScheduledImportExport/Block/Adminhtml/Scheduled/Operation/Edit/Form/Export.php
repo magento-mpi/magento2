@@ -16,52 +16,54 @@
  * @package     Magento_ScheduledImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  *
- * @method Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form_Export setGeneralSettingsLabel() setGeneralSettingsLabel(string $value)
- * @method Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form_Export setFileSettingsLabel() setFileSettingsLabel(string $value)
- * @method Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form_Export setEmailSettingsLabel() setEmailSettingsLabel(string $value)
+ * @method \Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Operation\Edit\Form\Export setGeneralSettingsLabel() setGeneralSettingsLabel(string $value)
+ * @method \Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Operation\Edit\Form\Export setFileSettingsLabel() setFileSettingsLabel(string $value)
+ * @method \Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Operation\Edit\Form\Export setEmailSettingsLabel() setEmailSettingsLabel(string $value)
  */
 // @codingStandardsIgnoreEnd
-class Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form_Export
-    extends Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form
+namespace Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Operation\Edit\Form;
+
+class Export
+    extends \Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Operation\Edit\Form
 {
     /**
-     * @var Magento_ImportExport_Model_Source_Export_Format
+     * @var \Magento\ImportExport\Model\Source\Export\Format
      */
     protected $_sourceExportFormat;
 
     /**
-     * @var Magento_Backend_Model_Config_Source_Email_TemplateFactory
+     * @var \Magento\Backend\Model\Config\Source\Email\TemplateFactory
      */
     protected $_templateFactory;
 
     /**
-     * @param Magento_Backend_Model_Config_Source_Email_TemplateFactory $templateFactory
-     * @param Magento_ImportExport_Model_Source_Export_Format $sourceExportFormat
-     * @param Magento_Core_Model_Option_ArrayPool $optionArrayPool
-     * @param Magento_Backend_Model_Config_Source_Email_Method $emailMethod
-     * @param Magento_Backend_Model_Config_Source_Email_Identity $emailIdentity
-     * @param Magento_ScheduledImportExport_Model_Scheduled_Operation_Data $operationData
-     * @param Magento_Backend_Model_Config_Source_Yesno $sourceYesno
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
+     * @param \Magento\Backend\Model\Config\Source\Email\TemplateFactory $templateFactory
+     * @param \Magento\ImportExport\Model\Source\Export\Format $sourceExportFormat
+     * @param \Magento\Core\Model\Option\ArrayPool $optionArrayPool
+     * @param \Magento\Backend\Model\Config\Source\Email\Method $emailMethod
+     * @param \Magento\Backend\Model\Config\Source\Email\Identity $emailIdentity
+     * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation\Data $operationData
+     * @param \Magento\Backend\Model\Config\Source\Yesno $sourceYesno
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Magento_Backend_Model_Config_Source_Email_TemplateFactory $templateFactory,
-        Magento_ImportExport_Model_Source_Export_Format $sourceExportFormat,
-        Magento_Core_Model_Option_ArrayPool $optionArrayPool,
-        Magento_Backend_Model_Config_Source_Email_Method $emailMethod,
-        Magento_Backend_Model_Config_Source_Email_Identity $emailIdentity,
-        Magento_ScheduledImportExport_Model_Scheduled_Operation_Data $operationData,
-        Magento_Backend_Model_Config_Source_Yesno $sourceYesno,
-        Magento_Core_Model_Registry $registry,
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
+        \Magento\Backend\Model\Config\Source\Email\TemplateFactory $templateFactory,
+        \Magento\ImportExport\Model\Source\Export\Format $sourceExportFormat,
+        \Magento\Core\Model\Option\ArrayPool $optionArrayPool,
+        \Magento\Backend\Model\Config\Source\Email\Method $emailMethod,
+        \Magento\Backend\Model\Config\Source\Email\Identity $emailIdentity,
+        \Magento\ScheduledImportExport\Model\Scheduled\Operation\Data $operationData,
+        \Magento\Backend\Model\Config\Source\Yesno $sourceYesno,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_sourceExportFormat = $sourceExportFormat;
@@ -75,7 +77,7 @@ class Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit_For
     /**
      * Prepare form for export operation
      *
-     * @return Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form_Export
+     * @return \Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Operation\Edit\Form\Export
      */
     protected function _prepareForm()
     {
@@ -85,7 +87,7 @@ class Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit_For
 
         parent::_prepareForm();
         $form = $this->getForm();
-        /** @var $operation Magento_ScheduledImportExport_Model_Scheduled_Operation */
+        /** @var $operation \Magento\ScheduledImportExport\Model\Scheduled\Operation */
         $operation = $this->_coreRegistry->registry('current_operation');
 
         $fieldset = $form->getElement('operation_settings');
@@ -103,7 +105,7 @@ class Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit_For
                 ->toOptionArray()
             );
 
-        /** @var $element Magento_Data_Form_Element_Abstract */
+        /** @var $element \Magento\Data\Form\Element\AbstractElement */
         $element = $form->getElement('entity');
         $element->setData('onchange', 'varienImportExportScheduled.getFilter();');
 
@@ -134,15 +136,15 @@ class Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit_For
     /**
      * Return block instance with specific attribute fields
      *
-     * @param Magento_ScheduledImportExport_Model_Scheduled_Operation $operation
-     * @return Magento_ScheduledImportExport_Block_Adminhtml_Export_Filter
+     * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation $operation
+     * @return \Magento\ScheduledImportExport\Block\Adminhtml\Export\Filter
      */
     protected function _getFilterBlock($operation)
     {
         $exportOperation = $operation->getInstance();
-        /** @var $block Magento_ScheduledImportExport_Block_Adminhtml_Export_Filter */
+        /** @var $block \Magento\ScheduledImportExport\Block\Adminhtml\Export\Filter */
         $block = $this->getLayout()
-            ->createBlock('Magento_ScheduledImportExport_Block_Adminhtml_Export_Filter')
+            ->createBlock('Magento\ScheduledImportExport\Block\Adminhtml\Export\Filter')
             ->setOperation($exportOperation);
 
         $exportOperation->filterAttributeCollection(

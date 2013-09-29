@@ -9,27 +9,29 @@
  * @license     {license_link}
  */
 
+namespace Magento\Widget\Controller\Adminhtml\Widget;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Widget_Controller_Adminhtml_Widget_InstanceTest extends Magento_Backend_Utility_Controller
+class InstanceTest extends \Magento\Backend\Utility\Controller
 {
     protected function setUp()
     {
         parent::setUp();
 
-        $theme = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Core_Model_View_DesignInterface')
+        $theme = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Core\Model\View\DesignInterface')
             ->setDefaultDesignTheme()
             ->getDesignTheme();
-        $this->getRequest()->setParam('type', 'Magento_Cms_Block_Widget_Page_Link');
+        $this->getRequest()->setParam('type', 'Magento\Cms\Block\Widget\Page\Link');
         $this->getRequest()->setParam('theme_id', $theme->getId());
     }
 
     public function testEditAction()
     {
         $this->dispatch('backend/admin/widget_instance/edit');
-        $this->assertContains('<option value="Magento_Cms_Block_Widget_Page_Link" selected="selected">',
+        $this->assertContains('<option value="Magento\Cms\Block\Widget\Page\Link" selected="selected">',
             $this->getResponse()->getBody()
         );
     }

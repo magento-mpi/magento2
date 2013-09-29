@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Email_Template_Config_SchemaLocator implements Magento_Config_SchemaLocatorInterface
+namespace Magento\Core\Model\Email\Template\Config;
+
+class SchemaLocator implements \Magento\Config\SchemaLocatorInterface
 {
     /**
      * Path to corresponding XSD file with validation rules for both individual and merged configs
@@ -17,9 +19,9 @@ class Magento_Core_Model_Email_Template_Config_SchemaLocator implements Magento_
     private $_schema;
 
     /**
-     * @param Magento_Core_Model_Config_Modules_Reader $moduleReader
+     * @param \Magento\Core\Model\Config\Modules\Reader $moduleReader
      */
-    public function __construct(Magento_Core_Model_Config_Modules_Reader $moduleReader)
+    public function __construct(\Magento\Core\Model\Config\Modules\Reader $moduleReader)
     {
         $this->_schema = $moduleReader->getModuleDir('etc', 'Magento_Core') . '/email_templates.xsd';
     }

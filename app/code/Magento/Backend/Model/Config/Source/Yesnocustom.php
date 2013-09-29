@@ -12,7 +12,9 @@
  * Used in creating options for Yes|No|Specified config value selection
  *
  */
-class Magento_Backend_Model_Config_Source_Yesnocustom implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Backend\Model\Config\Source;
+
+class Yesnocustom implements \Magento\Core\Model\Option\ArrayInterface
 {
 
     /**

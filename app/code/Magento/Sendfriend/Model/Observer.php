@@ -16,18 +16,20 @@
  * @package     Magento_Sendfriend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sendfriend_Model_Observer
+namespace Magento\Sendfriend\Model;
+
+class Observer
 {
     /**
-     * @var Magento_Sendfriend_Model_SendfriendFactory
+     * @var \Magento\Sendfriend\Model\SendfriendFactory
      */
     protected $_sendfriendFactory;
 
     /**
-     * @param Magento_Sendfriend_Model_SendfriendFactory $sendfriendFactory
+     * @param \Magento\Sendfriend\Model\SendfriendFactory $sendfriendFactory
      */
     public function __construct(
-        Magento_Sendfriend_Model_SendfriendFactory $sendfriendFactory
+        \Magento\Sendfriend\Model\SendfriendFactory $sendfriendFactory
     ) {
         $this->_sendfriendFactory = $sendfriendFactory;
     }
@@ -35,10 +37,10 @@ class Magento_Sendfriend_Model_Observer
     /**
      * Register Sendfriend Model in global registry
      *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_Sendfriend_Model_Observer
+     * @param \Magento\Event\Observer $observer
+     * @return \Magento\Sendfriend\Model\Observer
      */
-    public function register(Magento_Event_Observer $observer)
+    public function register(\Magento\Event\Observer $observer)
     {
         $this->_sendfriendFactory->create()->register();
         return $this;

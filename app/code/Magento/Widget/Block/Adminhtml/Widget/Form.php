@@ -16,27 +16,29 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Widget_Block_Adminhtml_Widget_Form extends Magento_Backend_Block_Widget_Form_Generic
+namespace Magento\Widget\Block\Adminhtml\Widget;
+
+class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
-     * @var Magento_Widget_Model_WidgetFactory
+     * @var \Magento\Widget\Model\WidgetFactory
      */
     protected $_widgetFactory;
 
     /**
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Widget_Model_WidgetFactory $widgetFactory
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Widget\Model\WidgetFactory $widgetFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Registry $registry,
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Widget_Model_WidgetFactory $widgetFactory,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Widget\Model\WidgetFactory $widgetFactory,
         array $data = array()
     ) {
         $this->_widgetFactory = $widgetFactory;
@@ -48,7 +50,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Form extends Magento_Backend_Block_W
      */
     protected function _prepareForm()
     {
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
 
         $fieldset = $form->addFieldset('base_fieldset', array(

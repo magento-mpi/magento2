@@ -12,8 +12,10 @@
 /**
  * Tests for obsolete methods in Product Type instances
  */
-class Magento_Test_Legacy_Magento_Bundle_Model_Product_TypeTest
-    extends Magento_Test_Legacy_Magento_Catalog_Model_Product_AbstractTypeTest
+namespace Magento\Test\Legacy\Magento\Bundle\Model\Product;
+
+class TypeTest
+    extends \Magento\Test\Legacy\Magento\Catalog\Model\Product\AbstractTypeTest
 {
     /**
      * @var array

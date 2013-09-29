@@ -15,29 +15,31 @@
  * @package     Magento_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Grid extends Magento_Adminhtml_Block_Widget_Grid
+namespace Magento\Connect\Block\Adminhtml\Extension\Custom\Edit\Tab;
+
+class Grid extends \Magento\Adminhtml\Block\Widget\Grid
 {
     /**
      * Extension collection factory
      *
-     * @var Magento_Connect_Model_Extension_CollectionFactory
+     * @var \Magento\Connect\Model\Extension\CollectionFactory
      */
     protected $_collectionFactory;
 
     /**
-     * @param Magento_Connect_Model_Extension_CollectionFactory $collectionFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Url $urlModel
+     * @param \Magento\Connect\Model\Extension\CollectionFactory $collectionFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
      * @param array $data
      */
     public function __construct(
-        Magento_Connect_Model_Extension_CollectionFactory $collectionFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Url $urlModel,
+        \Magento\Connect\Model\Extension\CollectionFactory $collectionFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
         array $data = array()
     ) {
         $this->_collectionFactory = $collectionFactory;
@@ -59,7 +61,7 @@ class Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Grid extends Mag
     /**
      * Creates extension collection if it has not been created yet
      *
-     * @return Magento_Connect_Model_Extension_Collection
+     * @return \Magento\Connect\Model\Extension\Collection
      */
     public function getCollection()
     {
@@ -72,7 +74,7 @@ class Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Grid extends Mag
     /**
      * Prepare Local Package Collection for Grid
      *
-     * @return Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Grid
+     * @return \Magento\Connect\Block\Adminhtml\Extension\Custom\Edit\Tab\Grid
      */
     protected function _prepareCollection()
     {

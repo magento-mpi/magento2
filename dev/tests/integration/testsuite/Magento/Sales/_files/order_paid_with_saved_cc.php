@@ -11,24 +11,24 @@
 
 $addressData = include(__DIR__ . '/address_data.php');
 
-$billingAddress = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Sales_Model_Order_Address', array('data' => $addressData));
+$billingAddress = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Sales\Model\Order\Address', array('data' => $addressData));
 $billingAddress->setAddressType('billing');
 
 $shippingAddress = clone $billingAddress;
 $shippingAddress->setId(null)
     ->setAddressType('shipping');
 
-$payment = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Sales_Model_Order_Payment');
+$payment = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Sales\Model\Order\Payment');
 $payment->setMethod('ccsave')
     ->setCcExpMonth('5')
     ->setCcLast4('0005')
     ->setCcType('AE')
     ->setCcExpYear('2016');
 
-$order = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Sales_Model_Order');
+$order = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Sales\Model\Order');
 $order->setIncrementId('100000001')
     ->setSubtotal(100)
     ->setBaseSubtotal(100)
@@ -36,7 +36,7 @@ $order->setIncrementId('100000001')
     ->setBillingAddress($billingAddress)
     ->setShippingAddress($shippingAddress)
     ->setStoreId(
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
             ->getStore()->getId()
     )
     ->setPayment($payment)

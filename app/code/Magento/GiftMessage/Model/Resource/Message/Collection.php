@@ -16,7 +16,9 @@
  * @package     Magento_GiftMessage
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GiftMessage_Model_Resource_Message_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\GiftMessage\Model\Resource\Message;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Initialize resource model
@@ -24,6 +26,6 @@ class Magento_GiftMessage_Model_Resource_Message_Collection extends Magento_Core
      */
     protected function _construct()
     {
-        $this->_init('Magento_GiftMessage_Model_Message', 'Magento_GiftMessage_Model_Resource_Message');
+        $this->_init('Magento\GiftMessage\Model\Message', 'Magento\GiftMessage\Model\Resource\Message');
     }
 }

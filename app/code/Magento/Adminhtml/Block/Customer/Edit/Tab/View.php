@@ -15,9 +15,11 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Customer_Edit_Tab_View
-    extends Magento_Adminhtml_Block_Template
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+namespace Magento\Adminhtml\Block\Customer\Edit\Tab;
+
+class View
+    extends \Magento\Adminhtml\Block\Template
+    implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
 {
     protected $_customer;
 
@@ -26,42 +28,42 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @var Magento_Log_Model_Visitor
+     * @param \Magento\Core\Helper\Data $coreData
+     * @var \Magento\Log\Model\Visitor
      */
     protected $_modelVisitor;
 
     /**
-     * @var Magento_Customer_Model_GroupFactory
+     * @var \Magento\Customer\Model\GroupFactory
      */
     protected $_groupFactory;
 
     /**
-     * @var Magento_Log_Model_CustomerFactory
+     * @var \Magento\Log\Model\CustomerFactory
      */
     protected $_logFactory;
 
     /**
-     * @param Magento_Customer_Model_GroupFactory $groupFactory
-     * @param Magento_Log_Model_CustomerFactory $logFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Log_Model_Visitor $modelVisitor
+     * @param \Magento\Customer\Model\GroupFactory $groupFactory
+     * @param \Magento\Log\Model\CustomerFactory $logFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Log\Model\Visitor $modelVisitor
      * @param array $data
      */
     public function __construct(
-        Magento_Customer_Model_GroupFactory $groupFactory,
-        Magento_Log_Model_CustomerFactory $logFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Log_Model_Visitor $modelVisitor,
+        \Magento\Customer\Model\GroupFactory $groupFactory,
+        \Magento\Log\Model\CustomerFactory $logFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Log\Model\Visitor $modelVisitor,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -92,7 +94,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View
     /**
      * Load Customer Log model
      *
-     * @return Magento_Log_Model_Customer
+     * @return \Magento\Log\Model\Customer
      */
     public function getCustomerLog()
     {
@@ -112,7 +114,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View
     {
         return $this->_coreData->formatDate(
             $this->getCustomer()->getCreatedAtTimestamp(),
-            Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM,
+            \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM,
             true
         );
     }
@@ -124,13 +126,13 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View
             $this->getCustomer()->getCreatedAtTimestamp(),
             true
         );
-        return $this->formatDate($date, Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM, true);
+        return $this->formatDate($date, \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM, true);
     }
 
     public function getStoreCreateDateTimezone()
     {
         return $this->_storeConfig->getConfig(
-            Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_TIMEZONE,
+            \Magento\Core\Model\LocaleInterface::XML_PATH_DEFAULT_TIMEZONE,
             $this->getCustomer()->getStoreId()
         );
     }
@@ -146,7 +148,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View
         if ($date) {
             return $this->_coreData->formatDate(
                 $date,
-                Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM,
+                \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM,
                 true
             );
         }
@@ -162,7 +164,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View
                 $date,
                 true
             );
-            return $this->formatDate($date, Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM, true);
+            return $this->formatDate($date, \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM, true);
         }
         return __('Never');
     }
@@ -170,7 +172,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View
     public function getStoreLastLoginDateTimezone()
     {
         return $this->_storeConfig->getConfig(
-            Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_TIMEZONE,
+            \Magento\Core\Model\LocaleInterface::XML_PATH_DEFAULT_TIMEZONE,
             $this->getCustomer()->getStoreId()
         );
     }

@@ -16,8 +16,10 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Type_Date extends
-    Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Type_Abstract
+namespace Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Options\Type;
+
+class Date extends
+    \Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Options\Type\AbstractType
 {
     protected $_template = 'catalog/product/edit/options/type/date.phtml';
 }

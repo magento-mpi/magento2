@@ -16,7 +16,9 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Product_Flat_Flag extends Magento_Core_Model_Flag
+namespace Magento\Catalog\Model\Product\Flat;
+
+class Flag extends \Magento\Core\Model\Flag
 {
     /**
      * Flag code
@@ -60,7 +62,7 @@ class Magento_Catalog_Model_Product_Flat_Flag extends Magento_Core_Model_Flag
      *
      * @param bool $flag
      *
-     * @return Magento_Catalog_Model_Product_Flat_Flag
+     * @return \Magento\Catalog\Model\Product\Flat\Flag
      */
     public function setIsBuilt($flag)
     {
@@ -73,11 +75,11 @@ class Magento_Catalog_Model_Product_Flat_Flag extends Magento_Core_Model_Flag
     /**
      * Set Catalog Product Flat Data is built flag
      *
-     * @deprecated after 1.7.0.0 use Magento_Catalog_Model_Product_Flat_Flag::setIsBuilt() instead
+     * @deprecated after 1.7.0.0 use \Magento\Catalog\Model\Product\Flat\Flag::setIsBuilt() instead
      *
      * @param bool $flag
      *
-     * @return Magento_Catalog_Model_Product_Flat_Flag
+     * @return \Magento\Catalog\Model\Product\Flat\Flag
      */
     public function setIsBuild($flag)
     {

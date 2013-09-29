@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-interface Magento_Sales_Model_ConfigInterface
+namespace Magento\Sales\Model;
+
+interface ConfigInterface
 {
     /**
      * Retrieve renderer for area from config

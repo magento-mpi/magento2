@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-interface Magento_FullPageCache_Model_ContainerInterface
+namespace Magento\FullPageCache\Model;
+
+interface ContainerInterface
 {
     /**
      * Generate placeholder content before application was initialized and apply to page content if possible
@@ -30,15 +32,15 @@ interface Magento_FullPageCache_Model_ContainerInterface
      * Save rendered block content to cache storage
      *
      * @param string $blockContent
-     * @return Magento_FullPageCache_Model_ContainerInterface
+     * @return \Magento\FullPageCache\Model\ContainerInterface
      */
     public function saveCache($blockContent);
 
     /**
      * Set processor for container needs
      *
-     * @param Magento_FullPageCache_Model_Processor $processor
-     * @return Magento_FullPageCache_Model_ContainerInterface
+     * @param \Magento\FullPageCache\Model\Processor $processor
+     * @return \Magento\FullPageCache\Model\ContainerInterface
      */
-    public function setProcessor(Magento_FullPageCache_Model_Processor $processor);
+    public function setProcessor(\Magento\FullPageCache\Model\Processor $processor);
 }

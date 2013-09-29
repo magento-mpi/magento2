@@ -16,27 +16,29 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  *
- * @method Magento_Data_Form_Element_Abstract getElement()
+ * @method \Magento\Data\Form\Element\AbstractElement getElement()
  */
-class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery_Content extends Magento_Backend_Block_Widget
+namespace Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Gallery;
+
+class Content extends \Magento\Backend\Block\Widget
 {
     protected $_template = 'catalog/product/helper/gallery.phtml';
 
     /**
-     * @var Magento_Catalog_Model_Product_Media_Config
+     * @var \Magento\Catalog\Model\Product\Media\Config
      */
     protected $_mediaConfig;
 
     /**
-     * @param Magento_Catalog_Model_Product_Media_Config $mediaConfig
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
+     * @param \Magento\Catalog\Model\Product\Media\Config $mediaConfig
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Catalog_Model_Product_Media_Config $mediaConfig,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
+        \Magento\Catalog\Model\Product\Media\Config $mediaConfig,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_mediaConfig = $mediaConfig;
@@ -45,7 +47,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery_Content extend
 
     protected function _prepareLayout()
     {
-        $this->addChild('uploader', 'Magento_Adminhtml_Block_Media_Uploader');
+        $this->addChild('uploader', 'Magento\Adminhtml\Block\Media\Uploader');
 
         $this->getUploader()->getConfig()
             ->setUrl(
@@ -69,7 +71,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery_Content extend
     /**
      * Retrive uploader block
      *
-     * @return Magento_Adminhtml_Block_Media_Uploader
+     * @return \Magento\Adminhtml\Block\Media\Uploader
      */
     public function getUploader()
     {
@@ -119,7 +121,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery_Content extend
     {
         $values = array();
         foreach ($this->getMediaAttributes() as $attribute) {
-            /* @var $attribute Magento_Eav_Model_Entity_Attribute */
+            /* @var $attribute \Magento\Eav\Model\Entity\Attribute */
             $values[$attribute->getAttributeCode()] = $this->getElement()->getDataObject()->getData(
                 $attribute->getAttributeCode()
             );
@@ -136,7 +138,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery_Content extend
     {
         $imageTypes = array();
         foreach ($this->getMediaAttributes() as $attribute) {
-            /* @var $attribute Magento_Eav_Model_Entity_Attribute */
+            /* @var $attribute \Magento\Eav\Model\Entity\Attribute */
             $imageTypes[$attribute->getAttributeCode()] = array(
                 'code' => $attribute->getAttributeCode(),
                 'value' => $this->getElement()->getDataObject()->getData($attribute->getAttributeCode()),

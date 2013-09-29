@@ -8,12 +8,14 @@
  * @license     {license_link}
  */
 
+namespace Magento\Theme\Block\Adminhtml\Wysiwyg\Files\Content;
+
 /**
  * Files uploader block
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Magento_Theme_Block_Adminhtml_Wysiwyg_Files_Content_Uploader extends Magento_Adminhtml_Block_Media_Uploader
+class Uploader extends \Magento\Adminhtml\Block\Media\Uploader
 {
     /**
      * Path to uploader template
@@ -25,12 +27,12 @@ class Magento_Theme_Block_Adminhtml_Wysiwyg_Files_Content_Uploader extends Magen
     /**
      * Prepare layout
      *
-     * @return Magento_Adminhtml_Block_Media_Uploader
+     * @return \Magento\Adminhtml\Block\Media\Uploader
      */
     protected function _prepareLayout()
     {
         $this->getConfig()->setUrl(
-            $this->getUrl('*/*/upload', $this->helper('Magento_Theme_Helper_Storage')->getRequestParams())
+            $this->getUrl('*/*/upload', $this->helper('Magento\Theme\Helper\Storage')->getRequestParams())
         );
         return parent::_prepareLayout();
     }
@@ -38,10 +40,10 @@ class Magento_Theme_Block_Adminhtml_Wysiwyg_Files_Content_Uploader extends Magen
     /**
      * Return storage helper
      *
-     * @return Magento_Theme_Helper_Storage
+     * @return \Magento\Theme\Helper\Storage
      */
     public function getHelperStorage()
     {
-        return $this->helper('Magento_Theme_Helper_Storage');
+        return $this->helper('Magento\Theme\Helper\Storage');
     }
 }

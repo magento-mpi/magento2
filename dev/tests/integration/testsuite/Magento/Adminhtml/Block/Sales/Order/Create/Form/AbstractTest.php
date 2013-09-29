@@ -10,37 +10,40 @@
  */
 
 /**
- * Test class for Magento_Adminhtml_Block_Sales_Order_Create_Form_Abstract
+ * Test class for \Magento\Adminhtml\Block\Sales\Order\Create\Form\AbstractForm
  */
-class Magento_Adminhtml_Block_Sales_Order_Create_Form_AbstractTest
-    extends PHPUnit_Framework_TestCase
+namespace Magento\Adminhtml\Block\Sales\Order\Create\Form;
+
+class AbstractTest
+    extends \PHPUnit_Framework_TestCase
 {
     /**
      * @magentoAppIsolation enabled
      */
     public function testAddAttributesToForm()
     {
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $objectManager->get('Magento_Core_Model_View_DesignInterface')
-            ->setArea(Magento_Core_Model_App_Area::AREA_ADMINHTML)
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $objectManager->get('Magento\Core\Model\View\DesignInterface')
+            ->setArea(\Magento\Core\Model\App\Area::AREA_ADMINHTML)
             ->setDefaultDesignTheme();
         $arguments = array(
-            $objectManager->get('Magento_Data_Form_Factory'),
-            $objectManager->get('Magento_Adminhtml_Model_Session_Quote'),
-            $objectManager->get('Magento_Adminhtml_Model_Sales_Order_Create'),
-            $objectManager->get('Magento_Core_Helper_Data'),
-            $objectManager->get('Magento_Backend_Block_Template_Context'),
+            $objectManager->get('Magento\Data\Form\Factory'),
+            $objectManager->get('Magento\Adminhtml\Model\Session\Quote'),
+            $objectManager->get('Magento\Adminhtml\Model\Sales\Order\Create'),
+            $objectManager->get('Magento\Core\Helper\Data'),
+            $objectManager->get('Magento\Backend\Block\Template\Context'),
         );
-        /** @var $block Magento_Adminhtml_Block_Sales_Order_Create_Form_Abstract */
-        $block = $this->getMockForAbstractClass('Magento_Adminhtml_Block_Sales_Order_Create_Form_Abstract', $arguments);
-        $block->setLayout($objectManager->create('Magento_Core_Model_Layout'));
+        /** @var $block \Magento\Adminhtml\Block\Sales\Order\Create\Form\AbstractForm */
+        $block = $this
+            ->getMockForAbstractClass('Magento\Adminhtml\Block\Sales\Order\Create\Form\AbstractForm', $arguments);
+        $block->setLayout($objectManager->create('Magento\Core\Model\Layout'));
 
-        $method = new ReflectionMethod(
-            'Magento_Adminhtml_Block_Sales_Order_Create_Form_Abstract', '_addAttributesToForm');
+        $method = new \ReflectionMethod(
+            'Magento\Adminhtml\Block\Sales\Order\Create\Form\AbstractForm', '_addAttributesToForm');
         $method->setAccessible(true);
 
-        /** @var $formFactory Magento_Data_Form_Factory */
-        $formFactory = $objectManager->get('Magento_Data_Form_Factory');
+        /** @var $formFactory \Magento\Data\Form\Factory */
+        $formFactory = $objectManager->get('Magento\Data\Form\Factory');
         $form = $formFactory->create();
         $fieldset = $form->addFieldset('test_fieldset', array());
         $arguments = array(
@@ -51,7 +54,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Form_AbstractTest
                 'frontend_label' => 'Date',
             )
         );
-        $dateAttribute = $objectManager->create('Magento_Customer_Model_Attribute', $arguments);
+        $dateAttribute = $objectManager->create('Magento\Customer\Model\Attribute', $arguments);
         $attributes = array('date' => $dateAttribute);
         $method->invoke($block, $attributes, $fieldset);
 

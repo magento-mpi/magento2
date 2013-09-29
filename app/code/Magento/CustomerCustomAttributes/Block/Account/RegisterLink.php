@@ -6,10 +6,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\CustomerCustomAttributes\Block\Account;
+
 /**
- * Class Magento_CustomerCustomAttributes_Block_Account_RegisterLink
+ * Class \Magento\CustomerCustomAttributes\Block\Account\RegisterLink
  */
-class Magento_CustomerCustomAttributes_Block_Account_RegisterLink extends Magento_Customer_Block_Account_RegisterLink
+class RegisterLink extends \Magento\Customer\Block\Account\RegisterLink
 {
     /**
      * @inheritdoc

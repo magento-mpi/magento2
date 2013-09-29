@@ -12,7 +12,9 @@
  * Restriction modes dictionary
  *
  */
-class Magento_WebsiteRestriction_Model_Mode
+namespace Magento\WebsiteRestriction\Model;
+
+class Mode
 {
     const ALLOW_NONE     = 0;
     const ALLOW_LOGIN    = 1;

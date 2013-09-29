@@ -16,59 +16,61 @@
  * @package    Magento_ProductAlert
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_ProductAlert_Helper_Data extends Magento_Core_Helper_Url
+namespace Magento\ProductAlert\Helper;
+
+class Data extends \Magento\Core\Helper\Url
 {
     /**
      * Current product instance (override registry one)
      *
-     * @var null|Magento_Catalog_Model_Product
+     * @var null|\Magento\Catalog\Model\Product
      */
     protected $_product = null;
 
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
     
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
-     * @var Magento_Core_Model_Layout
+     * @var \Magento\Core\Model\Layout
      */
     protected $_layout;
 
     /**
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $_session;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_Core_Model_Layout $layout
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Customer_Model_Session $session
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Core\Model\Layout $layout
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Customer\Model\Session $session
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
-        Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_Core_Model_Layout $layout,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Customer_Model_Session $session,
-        Magento_Core_Model_StoreManagerInterface $storeManager
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Core\Model\Layout $layout,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Customer\Model\Session $session,
+        \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_layout = $layout;
@@ -81,7 +83,7 @@ class Magento_ProductAlert_Helper_Data extends Magento_Core_Helper_Url
     /**
      * Get current product instance
      *
-     * @return Magento_Catalog_Model_Product
+     * @return \Magento\Catalog\Model\Product
      */
     public function getProduct()
     {
@@ -94,8 +96,8 @@ class Magento_ProductAlert_Helper_Data extends Magento_Core_Helper_Url
     /**
      * Set current product instance
      *
-     * @param Magento_Catalog_Model_Product $product
-     * @return Magento_ProductAlert_Helper_Data
+     * @param \Magento\Catalog\Model\Product $product
+     * @return \Magento\ProductAlert\Helper\Data
      */
     public function setProduct($product)
     {
@@ -117,16 +119,16 @@ class Magento_ProductAlert_Helper_Data extends Magento_Core_Helper_Url
     {
         return $this->_getUrl('productalert/add/' . $type, array(
             'product_id'    => $this->getProduct()->getId(),
-            Magento_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED => $this->getEncodedUrl()
+            \Magento\Core\Controller\Front\Action::PARAM_NAME_URL_ENCODED => $this->getEncodedUrl()
         ));
     }
 
     /**
      * Create block instance
      *
-     * @param string|Magento_Core_Block_Abstract $block
-     * @return Magento_Core_Block_Abstract
-     * @throws Magento_Core_Exception
+     * @param string|\Magento\Core\Block\AbstractBlock $block
+     * @return \Magento\Core\Block\AbstractBlock
+     * @throws \Magento\Core\Exception
      */
     public function createBlock($block)
     {
@@ -135,8 +137,8 @@ class Magento_ProductAlert_Helper_Data extends Magento_Core_Helper_Url
                 $block = $this->_layout->createBlock($block);
             }
         }
-        if (!$block instanceof Magento_Core_Block_Abstract) {
-            throw new Magento_Core_Exception(__('Invalid block type: %1', $block));
+        if (!$block instanceof \Magento\Core\Block\AbstractBlock) {
+            throw new \Magento\Core\Exception(__('Invalid block type: %1', $block));
         }
         return $block;
     }
@@ -148,7 +150,7 @@ class Magento_ProductAlert_Helper_Data extends Magento_Core_Helper_Url
      */
     public function isStockAlertAllowed()
     {
-        return $this->_coreStoreConfig->getConfigFlag(Magento_ProductAlert_Model_Observer::XML_PATH_STOCK_ALLOW);
+        return $this->_coreStoreConfig->getConfigFlag(\Magento\ProductAlert\Model\Observer::XML_PATH_STOCK_ALLOW);
     }
 
     /**
@@ -158,6 +160,6 @@ class Magento_ProductAlert_Helper_Data extends Magento_Core_Helper_Url
      */
     public function isPriceAlertAllowed()
     {
-        return $this->_coreStoreConfig->getConfigFlag(Magento_ProductAlert_Model_Observer::XML_PATH_PRICE_ALLOW);
+        return $this->_coreStoreConfig->getConfigFlag(\Magento\ProductAlert\Model\Observer::XML_PATH_PRICE_ALLOW);
     }
 }

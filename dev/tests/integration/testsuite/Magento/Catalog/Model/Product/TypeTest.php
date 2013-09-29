@@ -9,17 +9,19 @@
  * @license     {license_link}
  */
 
-class Magento_Catalog_Model_Product_TypeTest extends PHPUnit_Framework_TestCase
+namespace Magento\Catalog\Model\Product;
+
+class TypeTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Catalog_Model_Product_Type
+     * @var \Magento\Catalog\Model\Product\Type
      */
     protected $_productType;
 
     protected function setUp()
     {
-        $this->_productType = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Catalog_Model_Product_Type');
+        $this->_productType = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Catalog\Model\Product\Type');
     }
 
     /**
@@ -29,7 +31,7 @@ class Magento_Catalog_Model_Product_TypeTest extends PHPUnit_Framework_TestCase
      */
     public function testFactory($typeId, $expectedClass)
     {
-        $product = new Magento_Object;
+        $product = new \Magento\Object;
         if ($typeId) {
             $product->setTypeId($typeId);
         }
@@ -43,16 +45,16 @@ class Magento_Catalog_Model_Product_TypeTest extends PHPUnit_Framework_TestCase
     public function factoryDataProvider()
     {
         return array(
-            array(null, 'Magento_Catalog_Model_Product_Type_Simple'),
-            array(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE, 'Magento_Catalog_Model_Product_Type_Simple'),
-            array(Magento_Catalog_Model_Product_Type::TYPE_VIRTUAL, 'Magento_Catalog_Model_Product_Type_Virtual'),
-            array(Magento_Catalog_Model_Product_Type::TYPE_GROUPED, 'Magento_Catalog_Model_Product_Type_Grouped'),
-            array(Magento_Catalog_Model_Product_Type::TYPE_CONFIGURABLE,
-                'Magento_Catalog_Model_Product_Type_Configurable'
+            array(null, 'Magento\Catalog\Model\Product\Type\Simple'),
+            array(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE, 'Magento\Catalog\Model\Product\Type\Simple'),
+            array(\Magento\Catalog\Model\Product\Type::TYPE_VIRTUAL, 'Magento\Catalog\Model\Product\Type\Virtual'),
+            array(\Magento\Catalog\Model\Product\Type::TYPE_GROUPED, 'Magento\Catalog\Model\Product\Type\Grouped'),
+            array(\Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE,
+                'Magento\Catalog\Model\Product\Type\Configurable'
             ),
-            array(Magento_Catalog_Model_Product_Type::TYPE_BUNDLE, 'Magento_Bundle_Model_Product_Type'),
-            array(Magento_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE,
-                'Magento_Downloadable_Model_Product_Type'
+            array(\Magento\Catalog\Model\Product\Type::TYPE_BUNDLE, 'Magento\Bundle\Model\Product\Type'),
+            array(\Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE,
+                'Magento\Downloadable\Model\Product\Type'
             ),
         );
     }
@@ -63,7 +65,7 @@ class Magento_Catalog_Model_Product_TypeTest extends PHPUnit_Framework_TestCase
      */
     public function testFactoryReturnsSingleton($typeId)
     {
-        $product = new Magento_Object;
+        $product = new \Magento\Object;
         if ($typeId) {
             $product->setTypeId($typeId);
         }
@@ -80,12 +82,12 @@ class Magento_Catalog_Model_Product_TypeTest extends PHPUnit_Framework_TestCase
     {
         return array(
             array(null),
-            array(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE),
-            array(Magento_Catalog_Model_Product_Type::TYPE_VIRTUAL),
-            array(Magento_Catalog_Model_Product_Type::TYPE_GROUPED),
-            array(Magento_Catalog_Model_Product_Type::TYPE_CONFIGURABLE),
-            array(Magento_Catalog_Model_Product_Type::TYPE_BUNDLE),
-            array(Magento_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE)
+            array(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE),
+            array(\Magento\Catalog\Model\Product\Type::TYPE_VIRTUAL),
+            array(\Magento\Catalog\Model\Product\Type::TYPE_GROUPED),
+            array(\Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE),
+            array(\Magento\Catalog\Model\Product\Type::TYPE_BUNDLE),
+            array(\Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE)
         );
     }
 
@@ -103,16 +105,16 @@ class Magento_Catalog_Model_Product_TypeTest extends PHPUnit_Framework_TestCase
     public function priceFactoryDataProvider()
     {
         return array(
-            array(null, 'Magento_Catalog_Model_Product_Type_Price'),
-            array(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE, 'Magento_Catalog_Model_Product_Type_Price'),
-            array(Magento_Catalog_Model_Product_Type::TYPE_VIRTUAL, 'Magento_Catalog_Model_Product_Type_Price'),
-            array(Magento_Catalog_Model_Product_Type::TYPE_GROUPED, 'Magento_Catalog_Model_Product_Type_Price'),
-            array(Magento_Catalog_Model_Product_Type::TYPE_CONFIGURABLE,
-                'Magento_Catalog_Model_Product_Type_Configurable_Price'
+            array(null, 'Magento\Catalog\Model\Product\Type\Price'),
+            array(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE, 'Magento\Catalog\Model\Product\Type\Price'),
+            array(\Magento\Catalog\Model\Product\Type::TYPE_VIRTUAL, 'Magento\Catalog\Model\Product\Type\Price'),
+            array(\Magento\Catalog\Model\Product\Type::TYPE_GROUPED, 'Magento\Catalog\Model\Product\Type\Price'),
+            array(\Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE,
+                'Magento\Catalog\Model\Product\Type\Configurable\Price'
             ),
-            array(Magento_Catalog_Model_Product_Type::TYPE_BUNDLE, 'Magento_Bundle_Model_Product_Price'),
-            array(Magento_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE,
-                'Magento_Downloadable_Model_Product_Price'
+            array(\Magento\Catalog\Model\Product\Type::TYPE_BUNDLE, 'Magento\Bundle\Model\Product\Price'),
+            array(\Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE,
+                'Magento\Downloadable\Model\Product\Price'
             ),
         );
     }
@@ -120,12 +122,12 @@ class Magento_Catalog_Model_Product_TypeTest extends PHPUnit_Framework_TestCase
     public function testGetOptionArray()
     {
         $options = $this->_productType->getOptionArray();
-        $this->assertArrayHasKey(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE, $options);
-        $this->assertArrayHasKey(Magento_Catalog_Model_Product_Type::TYPE_VIRTUAL, $options);
-        $this->assertArrayHasKey(Magento_Catalog_Model_Product_Type::TYPE_GROUPED, $options);
-        $this->assertArrayHasKey(Magento_Catalog_Model_Product_Type::TYPE_CONFIGURABLE, $options);
-        $this->assertArrayHasKey(Magento_Catalog_Model_Product_Type::TYPE_BUNDLE, $options);
-        $this->assertArrayHasKey(Magento_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE, $options);
+        $this->assertArrayHasKey(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE, $options);
+        $this->assertArrayHasKey(\Magento\Catalog\Model\Product\Type::TYPE_VIRTUAL, $options);
+        $this->assertArrayHasKey(\Magento\Catalog\Model\Product\Type::TYPE_GROUPED, $options);
+        $this->assertArrayHasKey(\Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE, $options);
+        $this->assertArrayHasKey(\Magento\Catalog\Model\Product\Type::TYPE_BUNDLE, $options);
+        $this->assertArrayHasKey(\Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE, $options);
     }
 
     public function testGetAllOption()
@@ -161,24 +163,24 @@ class Magento_Catalog_Model_Product_TypeTest extends PHPUnit_Framework_TestCase
     public function getOptionTextDataProvider()
     {
         return array(
-            array(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE),
-            array(Magento_Catalog_Model_Product_Type::TYPE_VIRTUAL),
-            array(Magento_Catalog_Model_Product_Type::TYPE_GROUPED),
-            array(Magento_Catalog_Model_Product_Type::TYPE_CONFIGURABLE),
-            array(Magento_Catalog_Model_Product_Type::TYPE_BUNDLE),
-            array(Magento_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE),
+            array(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE),
+            array(\Magento\Catalog\Model\Product\Type::TYPE_VIRTUAL),
+            array(\Magento\Catalog\Model\Product\Type::TYPE_GROUPED),
+            array(\Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE),
+            array(\Magento\Catalog\Model\Product\Type::TYPE_BUNDLE),
+            array(\Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE),
         );
     }
 
     public function testGetTypes()
     {
         $types = $this->_productType->getTypes();
-        $this->assertArrayHasKey(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE, $types);
-        $this->assertArrayHasKey(Magento_Catalog_Model_Product_Type::TYPE_VIRTUAL, $types);
-        $this->assertArrayHasKey(Magento_Catalog_Model_Product_Type::TYPE_GROUPED, $types);
-        $this->assertArrayHasKey(Magento_Catalog_Model_Product_Type::TYPE_CONFIGURABLE, $types);
-        $this->assertArrayHasKey(Magento_Catalog_Model_Product_Type::TYPE_BUNDLE, $types);
-        $this->assertArrayHasKey(Magento_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE, $types);
+        $this->assertArrayHasKey(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE, $types);
+        $this->assertArrayHasKey(\Magento\Catalog\Model\Product\Type::TYPE_VIRTUAL, $types);
+        $this->assertArrayHasKey(\Magento\Catalog\Model\Product\Type::TYPE_GROUPED, $types);
+        $this->assertArrayHasKey(\Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE, $types);
+        $this->assertArrayHasKey(\Magento\Catalog\Model\Product\Type::TYPE_BUNDLE, $types);
+        $this->assertArrayHasKey(\Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE, $types);
         foreach ($types as $type) {
             $this->assertArrayHasKey('label', $type);
             $this->assertArrayHasKey('model', $type);
@@ -191,9 +193,9 @@ class Magento_Catalog_Model_Product_TypeTest extends PHPUnit_Framework_TestCase
     {
         $types = $this->_productType->getCompositeTypes();
         $this->assertInternalType('array', $types);
-        $this->assertContains(Magento_Catalog_Model_Product_Type::TYPE_GROUPED, $types);
-        $this->assertContains(Magento_Catalog_Model_Product_Type::TYPE_CONFIGURABLE, $types);
-        $this->assertContains(Magento_Catalog_Model_Product_Type::TYPE_BUNDLE, $types);
+        $this->assertContains(\Magento\Catalog\Model\Product\Type::TYPE_GROUPED, $types);
+        $this->assertContains(\Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE, $types);
+        $this->assertContains(\Magento\Catalog\Model\Product\Type::TYPE_BUNDLE, $types);
     }
 
     public function testGetTypesByPriority()
@@ -234,12 +236,12 @@ class Magento_Catalog_Model_Product_TypeTest extends PHPUnit_Framework_TestCase
             $this->assertArrayHasKey('label', $option);
             $types[] = $option['value'];
         }
-        $this->assertContains(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE, $types);
-        $this->assertContains(Magento_Catalog_Model_Product_Type::TYPE_VIRTUAL, $types);
-        $this->assertContains(Magento_Catalog_Model_Product_Type::TYPE_GROUPED, $types);
-        $this->assertContains(Magento_Catalog_Model_Product_Type::TYPE_CONFIGURABLE, $types);
-        $this->assertContains(Magento_Catalog_Model_Product_Type::TYPE_BUNDLE, $types);
-        $this->assertContains(Magento_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE, $types);
+        $this->assertContains(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE, $types);
+        $this->assertContains(\Magento\Catalog\Model\Product\Type::TYPE_VIRTUAL, $types);
+        $this->assertContains(\Magento\Catalog\Model\Product\Type::TYPE_GROUPED, $types);
+        $this->assertContains(\Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE, $types);
+        $this->assertContains(\Magento\Catalog\Model\Product\Type::TYPE_BUNDLE, $types);
+        $this->assertContains(\Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE, $types);
         return $types;
     }
 }

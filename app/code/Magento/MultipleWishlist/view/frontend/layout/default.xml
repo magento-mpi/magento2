@@ -9,10 +9,10 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <referenceBlock name="top.links">
-        <block class="Magento_MultipleWishlist_Block_Link" name="wish-list-link"/>
+        <block class="Magento\MultipleWishlist\Block\Link" name="wish-list-link"/>
     </referenceBlock>
-    <block class="Magento_MultipleWishlist_Block_Customer_Sidebar" name="wishlist_sidebar" template="Magento_Wishlist::sidebar.phtml"/>
+    <block class="Magento\MultipleWishlist\Block\Customer\Sidebar" name="wishlist_sidebar" template="Magento_Wishlist::sidebar.phtml"/>
     <referenceContainer name="before_body_end">
-        <block class="Magento_MultipleWishlist_Block_Behaviour" name="wishlist_behaviour" as="wishlist_behaviour" template="behaviour.phtml"/>
+        <block class="Magento\MultipleWishlist\Block\Behaviour" name="wishlist_behaviour" as="wishlist_behaviour" template="behaviour.phtml"/>
     </referenceContainer>
 </layout>

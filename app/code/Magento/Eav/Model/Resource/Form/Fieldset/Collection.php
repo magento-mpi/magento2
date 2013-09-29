@@ -16,7 +16,9 @@
  * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Eav_Model_Resource_Form_Fieldset_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Eav\Model\Resource\Form\Fieldset;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Store scope ID
@@ -31,18 +33,18 @@ class Magento_Eav_Model_Resource_Form_Fieldset_Collection extends Magento_Core_M
      */
     protected function _construct()
     {
-        $this->_init('Magento_Eav_Model_Form_Fieldset', 'Magento_Eav_Model_Resource_Form_Fieldset');
+        $this->_init('Magento\Eav\Model\Form\Fieldset', 'Magento\Eav\Model\Resource\Form\Fieldset');
     }
 
     /**
      * Add Form Type filter to collection
      *
-     * @param Magento_Eav_Model_Form_Type|int $type
-     * @return Magento_Eav_Model_Resource_Form_Fieldset_Collection
+     * @param \Magento\Eav\Model\Form\Type|int $type
+     * @return \Magento\Eav\Model\Resource\Form\Fieldset\Collection
      */
     public function addTypeFilter($type)
     {
-        if ($type instanceof Magento_Eav_Model_Form_Type) {
+        if ($type instanceof \Magento\Eav\Model\Form\Type) {
             $type = $type->getId();
         }
 
@@ -52,7 +54,7 @@ class Magento_Eav_Model_Resource_Form_Fieldset_Collection extends Magento_Core_M
     /**
      * Set order by fieldset sort order
      *
-     * @return Magento_Eav_Model_Resource_Form_Fieldset_Collection
+     * @return \Magento\Eav\Model\Resource\Form\Fieldset\Collection
      */
     public function setSortOrder()
     {
@@ -68,7 +70,7 @@ class Magento_Eav_Model_Resource_Form_Fieldset_Collection extends Magento_Core_M
     public function getStoreId()
     {
         if (is_null($this->_storeId)) {
-            return Mage::app()->getStore()->getId();
+            return \Mage::app()->getStore()->getId();
         }
         return $this->_storeId;
     }
@@ -77,7 +79,7 @@ class Magento_Eav_Model_Resource_Form_Fieldset_Collection extends Magento_Core_M
      * Set store scope ID
      *
      * @param int $storeId
-     * @return Magento_Eav_Model_Resource_Form_Fieldset_Collection
+     * @return \Magento\Eav\Model\Resource\Form\Fieldset\Collection
      */
     public function setStoreId($storeId)
     {
@@ -88,7 +90,7 @@ class Magento_Eav_Model_Resource_Form_Fieldset_Collection extends Magento_Core_M
     /**
      * Initialize select object
      *
-     * @return Magento_Eav_Model_Resource_Form_Fieldset_Collection
+     * @return \Magento\Eav\Model\Resource\Form\Fieldset\Collection
      */
     protected function _initSelect()
     {

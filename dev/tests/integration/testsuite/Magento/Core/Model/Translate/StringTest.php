@@ -9,22 +9,24 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Translate_StringTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Translate;
+
+class StringTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Translate_String
+     * @var \Magento\Core\Model\Translate\String
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_Translate_String');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Translate\String');
     }
 
     public function testConstructor()
     {
-        $this->assertInstanceOf('Magento_Core_Model_Resource_Translate_String', $this->_model->getResource());
+        $this->assertInstanceOf('Magento\Core\Model\Resource\Translate\String', $this->_model->getResource());
     }
 
     public function testSetGetString()

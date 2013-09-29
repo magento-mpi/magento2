@@ -16,7 +16,9 @@
  * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reward_Model_Resource_Reward_Rate extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Reward\Model\Resource\Reward;
+
+class Rate extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Internal constructor
@@ -30,13 +32,13 @@ class Magento_Reward_Model_Resource_Reward_Rate extends Magento_Core_Model_Resou
     /**
      * Fetch rate customer group and website
      *
-     * @param Magento_Reward_Model_Reward_Rate $rate
+     * @param \Magento\Reward\Model\Reward\Rate $rate
      * @param int $customerGroupId
      * @param int $websiteId
      * @param int $direction
-     * @return Magento_Reward_Model_Resource_Reward_Rate
+     * @return \Magento\Reward\Model\Resource\Reward\Rate
      */
-    public function fetch(Magento_Reward_Model_Reward_Rate $rate, $customerGroupId, $websiteId, $direction)
+    public function fetch(\Magento\Reward\Model\Reward\Rate $rate, $customerGroupId, $websiteId, $direction)
     {
         $select = $this->_getReadAdapter()->select()
             ->from($this->getMainTable())

@@ -9,9 +9,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  *
+ */
+namespace Magento\Webhook\Block\Adminhtml\Subscription\Edit;
+
+/**
  * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
-class Magento_Webhook_Block_Adminhtml_Subscription_Edit_Form extends Magento_Backend_Block_Widget_Form_Generic
+class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /** Key used to store subscription data into the registry */
     const REGISTRY_KEY_CURRENT_SUBSCRIPTION = 'current_subscription';
@@ -20,33 +24,33 @@ class Magento_Webhook_Block_Adminhtml_Subscription_Edit_Form extends Magento_Bac
     const DATA_SUBSCRIPTION_ID = 'subscription_id';
     const DATA_ALIAS = 'alias';
 
-    /** @var  Magento_Webhook_Model_Source_Format $_format */
+    /** @var  \Magento\Webhook\Model\Source\Format $_format */
     protected $_format;
 
-    /** @var  Magento_Webhook_Model_Source_Authentication $_authentication */
+    /** @var  \Magento\Webhook\Model\Source\Authentication $_authentication */
     protected $_authentication;
 
-    /** @var  Magento_Webhook_Model_Source_Hook  $_hook */
+    /** @var  \Magento\Webhook\Model\Source\Hook  $_hook */
     protected $_hook;
 
     /**
-     * @param Magento_Webhook_Model_Source_Format $format
-     * @param Magento_Webhook_Model_Source_Authentication $authentication
-     * @param Magento_Webhook_Model_Source_Hook $hook
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
+     * @param \Magento\Webhook\Model\Source\Format $format
+     * @param \Magento\Webhook\Model\Source\Authentication $authentication
+     * @param \Magento\Webhook\Model\Source\Hook $hook
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Webhook_Model_Source_Format $format,
-        Magento_Webhook_Model_Source_Authentication $authentication,
-        Magento_Webhook_Model_Source_Hook $hook,
-        Magento_Core_Model_Registry $registry,
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
+        \Magento\Webhook\Model\Source\Format $format,
+        \Magento\Webhook\Model\Source\Authentication $authentication,
+        \Magento\Webhook\Model\Source\Hook $hook,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
         parent::__construct($registry, $formFactory, $coreData, $context, $data);
@@ -60,7 +64,7 @@ class Magento_Webhook_Block_Adminhtml_Subscription_Edit_Form extends Magento_Bac
     /**
      * Prepares subscription editor form
      *
-     * @return Magento_Backend_Block_Widget_Form
+     * @return \Magento\Backend\Block\Widget\Form
      */
     protected function _prepareForm()
     {

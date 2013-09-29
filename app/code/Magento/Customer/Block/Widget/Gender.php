@@ -15,7 +15,9 @@
  * @package    Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Customer_Block_Widget_Gender extends Magento_Customer_Block_Widget_Abstract
+namespace Magento\Customer\Block\Widget;
+
+class Gender extends \Magento\Customer\Block\Widget\AbstractWidget
 {
     /**
      * Initialize block
@@ -49,11 +51,11 @@ class Magento_Customer_Block_Widget_Gender extends Magento_Customer_Block_Widget
     /**
      * Get current customer from session
      *
-     * @return Magento_Customer_Model_Customer
+     * @return \Magento\Customer\Model\Customer
      */
     public function getCustomer()
     {
-        return Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer();
+        return \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomer();
     }
 
     /**
@@ -63,7 +65,7 @@ class Magento_Customer_Block_Widget_Gender extends Magento_Customer_Block_Widget
      */
     public function getGenderOptions()
     {
-        return Mage::getResourceSingleton('Magento_Customer_Model_Resource_Customer')
+        return \Mage::getResourceSingleton('Magento\Customer\Model\Resource\Customer')
             ->getAttribute('gender')
             ->getSource()
             ->getAllOptions();

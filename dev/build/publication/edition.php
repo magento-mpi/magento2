@@ -16,7 +16,7 @@ try {
 
     $basePath = realpath($options['dir']);
     require $basePath . '/app/autoload.php';
-    Magento_Autoload_IncludePath::addIncludePath(
+    \Magento\Autoload\IncludePath::addIncludePath(
         array(
             realpath($basePath . '/dev/build/publication/edition/'),
             realpath($basePath . '/lib/'),
@@ -39,7 +39,7 @@ try {
             $configurator = new CommunityConfigurator();
             break;
         case 'ee':
-            $configurator = new EnterpriseConfigurator($basePath, new Magento_Io_File());
+            $configurator = new EnterpriseConfigurator($basePath, new \Magento\Io\File());
             break;
         default:
             throw new Exception("Specified edition '{$options['edition']}' is not implemented.");

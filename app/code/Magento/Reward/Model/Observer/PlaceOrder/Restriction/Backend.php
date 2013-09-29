@@ -5,26 +5,28 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Reward_Model_Observer_PlaceOrder_Restriction_Backend
-    implements Magento_Reward_Model_Observer_PlaceOrder_RestrictionInterface
+namespace Magento\Reward\Model\Observer\PlaceOrder\Restriction;
+
+class Backend
+    implements \Magento\Reward\Model\Observer\PlaceOrder\RestrictionInterface
 {
     /**
-     * @var Magento_Reward_Helper_Data
+     * @var \Magento\Reward\Helper\Data
      */
     protected $_helper;
 
     /**
-     * @var Magento_AuthorizationInterface
+     * @var \Magento\AuthorizationInterface
      */
     protected $_authorization;
 
     /**
-     * @param Magento_Reward_Helper_Data $helper
-     * @param Magento_AuthorizationInterface $authorization
+     * @param \Magento\Reward\Helper\Data $helper
+     * @param \Magento\AuthorizationInterface $authorization
      */
     public function __construct(
-        Magento_Reward_Helper_Data $helper,
-        Magento_AuthorizationInterface $authorization
+        \Magento\Reward\Helper\Data $helper,
+        \Magento\AuthorizationInterface $authorization
     ) {
         $this->_helper = $helper;
         $this->_authorization = $authorization;
@@ -38,6 +40,6 @@ class Magento_Reward_Model_Observer_PlaceOrder_Restriction_Backend
     public function isAllowed()
     {
         return $this->_helper->isEnabledOnFront()
-            && $this->_authorization->isAllowed(Magento_Reward_Helper_Data::XML_PATH_PERMISSION_AFFECT);
+            && $this->_authorization->isAllowed(\Magento\Reward\Helper\Data::XML_PATH_PERMISSION_AFFECT);
     }
 }

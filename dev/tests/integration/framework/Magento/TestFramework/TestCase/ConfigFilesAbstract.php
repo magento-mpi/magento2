@@ -8,7 +8,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-abstract class Magento_TestFramework_TestCase_ConfigFilesAbstract extends PHPUnit_Framework_TestCase
+namespace Magento\TestFramework\TestCase;
+
+abstract class ConfigFilesAbstract extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var string
@@ -16,31 +18,31 @@ abstract class Magento_TestFramework_TestCase_ConfigFilesAbstract extends PHPUni
     protected $_schemaFile;
 
     /**
-     * @var  Magento_Config_Reader_Filesystem
+     * @var  \Magento\Config\Reader\Filesystem
      */
     protected $_reader;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_fileResolverMock;
 
     /**
-     * @var Magento_TestFramework_ObjectManager
+     * @var \Magento\TestFramework\ObjectManager
      */
     protected $_objectManager;
 
     public function setUp()
     {
-        $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $xmlFiles = $this->getXmlConfigFiles();
         if (!empty($xmlFiles)) {
 
-            $this->_fileResolverMock = $this->getMockBuilder('Magento_Core_Model_Config_FileResolver_Primary')
+            $this->_fileResolverMock = $this->getMockBuilder('Magento\Core\Model\Config\FileResolver\Primary')
                 ->disableOriginalConstructor()->getMock();
 
             /* Enable Validation regardles of MAGE_MODE */
-            $validateStateMock = $this->getMockBuilder('Magento_Config_ValidationStateInterface')
+            $validateStateMock = $this->getMockBuilder('Magento\Config\ValidationStateInterface')
                 ->disableOriginalConstructor()->getMock();
             $validateStateMock->expects($this->any())
                 ->method('isValidated')
@@ -54,8 +56,8 @@ abstract class Magento_TestFramework_TestCase_ConfigFilesAbstract extends PHPUni
                 )
             );
 
-            $dirs = $this->_objectManager->get('Magento_Core_Model_Dir');
-            $modulesDir = $dirs->getDir(Magento_Core_Model_Dir::MODULES);
+            $dirs = $this->_objectManager->get('Magento\Core\Model\Dir');
+            $modulesDir = $dirs->getDir(\Magento\Core\Model\Dir::MODULES);
             $this->_schemaFile = $modulesDir . $this->_getXsdPath();
         }
     }
@@ -73,7 +75,7 @@ abstract class Magento_TestFramework_TestCase_ConfigFilesAbstract extends PHPUni
         if ($skip) {
             $this->markTestSkipped('There are no xml files in the system for this test.');
         }
-        $domConfig = new Magento_Config_Dom(file_get_contents($file));
+        $domConfig = new \Magento\Config\Dom(file_get_contents($file));
         $result = $domConfig->validate($this->_schemaFile, $errors);
         $message = "Invalid XML-file: {$file}\n";
         foreach ($errors as $error) {
@@ -95,7 +97,7 @@ abstract class Magento_TestFramework_TestCase_ConfigFilesAbstract extends PHPUni
         try {
             // this will merge all xml files and validate them
             $this->_reader->read('global');
-        } catch (Magento_Exception $e) {
+        } catch (\Magento\Exception $e) {
             $this->fail($e->getMessage());
         }
     }
@@ -130,7 +132,7 @@ abstract class Magento_TestFramework_TestCase_ConfigFilesAbstract extends PHPUni
     public function getXmlConfigFiles()
     {
         return glob(
-            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Dir')->getDir('app')
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Dir')->getDir('app')
                 . $this->_getConfigFilePathGlob()
         );
     }

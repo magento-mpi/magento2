@@ -9,15 +9,17 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Theme_RegistrationTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Theme;
+
+class RegistrationTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Theme_Registration
+     * @var \Magento\Core\Model\Theme\Registration
      */
     protected $_model;
 
     /**
-     * @var Magento_Core_Model_Theme
+     * @var \Magento\Core\Model\Theme
      */
     protected $_theme;
 
@@ -26,17 +28,17 @@ class Magento_Core_Model_Theme_RegistrationTest extends PHPUnit_Framework_TestCa
      */
     protected function setUp()
     {
-        $this->_theme = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_Theme');
-        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_Theme_Registration', array('theme' => $this->_theme));
+        $this->_theme = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Theme');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Theme\Registration', array('theme' => $this->_theme));
     }
 
     /**
      * Register themes by pattern
      * Use this method only with database isolation
      *
-     * @return Magento_Core_Model_Theme_RegistrationTest
+     * @return \Magento\Core\Model\Theme\RegistrationTest
      */
     protected function registerThemes()
     {
@@ -49,12 +51,12 @@ class Magento_Core_Model_Theme_RegistrationTest extends PHPUnit_Framework_TestCa
     /**
      * Use this method only with database isolation
      *
-     * @return Magento_Core_Model_Theme
+     * @return \Magento\Core\Model\Theme
      */
     protected function _getTestTheme()
     {
         $theme = $this->_theme->getCollection()->getThemeByFullPath(
-            implode(Magento_Core_Model_Theme::PATH_SEPARATOR, array('frontend', 'test_test_theme'))
+            implode(\Magento\Core\Model\Theme::PATH_SEPARATOR, array('frontend', 'test_test_theme'))
         );
         $this->assertNotEmpty($theme->getId());
         return $theme;
@@ -70,11 +72,11 @@ class Magento_Core_Model_Theme_RegistrationTest extends PHPUnit_Framework_TestCa
 
         $virtualTheme = clone $this->_theme;
         $virtualTheme->setData($theme->getData())->setId(null);
-        $virtualTheme->setType(Magento_Core_Model_Theme::TYPE_VIRTUAL)->save();
+        $virtualTheme->setType(\Magento\Core\Model\Theme::TYPE_VIRTUAL)->save();
 
         $subVirtualTheme = clone $this->_theme;
         $subVirtualTheme->setData($theme->getData())->setId(null);
-        $subVirtualTheme->setParentId($virtualTheme->getId())->setType(Magento_Core_Model_Theme::TYPE_VIRTUAL)->save();
+        $subVirtualTheme->setParentId($virtualTheme->getId())->setType(\Magento\Core\Model\Theme::TYPE_VIRTUAL)->save();
 
         $this->registerThemes();
         $parentId = $subVirtualTheme->getParentId();
@@ -92,10 +94,10 @@ class Magento_Core_Model_Theme_RegistrationTest extends PHPUnit_Framework_TestCa
 
         $testTheme = clone $this->_theme;
         $testTheme->setData($theme->getData())->setThemePath('empty')->setId(null);
-        $testTheme->setType(Magento_Core_Model_Theme::TYPE_PHYSICAL)->save();
+        $testTheme->setType(\Magento\Core\Model\Theme::TYPE_PHYSICAL)->save();
 
         $this->registerThemes();
         $testTheme->load($testTheme->getId());
-        $this->assertNotEquals((int)$testTheme->getType(), Magento_Core_Model_Theme::TYPE_PHYSICAL);
+        $this->assertNotEquals((int)$testTheme->getType(), \Magento\Core\Model\Theme::TYPE_PHYSICAL);
     }
 }

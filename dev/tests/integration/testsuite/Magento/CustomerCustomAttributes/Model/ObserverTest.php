@@ -9,10 +9,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\CustomerCustomAttributes\Model;
+
 /**
  * @magentoDataFixture Magento/CustomerCustomAttributes/_files/order_address_with_attribute.php
  */
-class Magento_CustomerCustomAttributes_Model_ObserverTest extends PHPUnit_Framework_TestCase
+class ObserverTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * List of block injection classes
@@ -20,43 +22,43 @@ class Magento_CustomerCustomAttributes_Model_ObserverTest extends PHPUnit_Framew
      * @var array
      */
     protected $_blockInjections = array(
-        'Magento_Core_Model_Context',
-        'Magento_Core_Model_Registry',
+        'Magento\Core\Model\Context',
+        'Magento\Core\Model\Registry',
         null,
         null
     );
 
     /**
-     * @var Magento_CustomerCustomAttributes_Model_Observer
+     * @var \Magento\CustomerCustomAttributes\Model\Observer
      */
     protected $_observer;
 
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     protected function setUp()
     {
-        $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $this->_observer = $this->_objectManager->create('Magento_CustomerCustomAttributes_Model_Observer');
+        $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $this->_observer = $this->_objectManager->create('Magento\CustomerCustomAttributes\Model\Observer');
     }
 
     public function testSalesOrderAddressCollectionAfterLoad()
     {
-        /** @var $address Magento_Sales_Model_Order_Address */
-        $address = $this->_objectManager->create('Magento_Sales_Model_Order_Address');
+        /** @var $address \Magento\Sales\Model\Order\Address */
+        $address = $this->_objectManager->create('Magento\Sales\Model\Order\Address');
         $address->load('admin@example.com', 'email');
 
-        $entity = new Magento_Object(array('id' => $address->getId()));
-        $collection = $this->getMock('Magento_Data_Collection_Db', array('getItems'), array(), '', false);
+        $entity = new \Magento\Object(array('id' => $address->getId()));
+        $collection = $this->getMock('Magento\Data\Collection\Db', array('getItems'), array(), '', false);
         $collection
             ->expects($this->any())
             ->method('getItems')
             ->will($this->returnValue(array($entity)))
         ;
-        $observer = new Magento_Event_Observer(array(
-            'event' => new Magento_Object(array(
+        $observer = new \Magento\Event\Observer(array(
+            'event' => new \Magento\Object(array(
                 'order_address_collection' => $collection,
             ))
         ));
@@ -67,14 +69,14 @@ class Magento_CustomerCustomAttributes_Model_ObserverTest extends PHPUnit_Framew
 
     public function testSalesOrderAddressAfterLoad()
     {
-        $address = $this->_objectManager->create('Magento_Sales_Model_Order_Address');
+        $address = $this->_objectManager->create('Magento\Sales\Model\Order\Address');
         $address->load('admin@example.com', 'email');
         $arguments = $this->_prepareConstructorArguments();
 
         $arguments[] = array('id' => $address->getId());
-        $entity = $this->getMockForAbstractClass('Magento_Core_Model_Abstract', $arguments);
-        $observer = new Magento_Event_Observer(array(
-            'event' => new Magento_Object(array(
+        $entity = $this->getMockForAbstractClass('Magento\Core\Model\AbstractModel', $arguments);
+        $observer = new \Magento\Event\Observer(array(
+            'event' => new \Magento\Object(array(
                 'address' => $entity,
             ))
         ));
@@ -93,7 +95,7 @@ class Magento_CustomerCustomAttributes_Model_ObserverTest extends PHPUnit_Framew
         $arguments = array();
         foreach ($this->_blockInjections as $injectionClass) {
             if ($injectionClass) {
-                $arguments[] = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create($injectionClass);
+                $arguments[] = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create($injectionClass);
             } else {
                 $arguments[] = null;
             }

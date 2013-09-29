@@ -8,14 +8,14 @@
  */
 -->
 <config>
-    <type name="Magento_Authorizenet_Model_Directpost_Session">
+    <type name="Magento\Authorizenet\Model\Directpost\Session">
         <param name="sessionName">
             <value>adminhtml</value>
         </param>
     </type>
-    <type name="Magento_Authorizenet_Model_Directpost">
+    <type name="Magento\Authorizenet\Model\Directpost">
         <param name="session">
-            <instance type="Magento_Adminhtml_Model_Session_Quote" />
+            <instance type="Magento\Adminhtml\Model\Session\Quote" />
         </param>
     </type>
 </config>

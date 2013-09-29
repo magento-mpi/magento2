@@ -17,6 +17,8 @@
  * @package     Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Customer_Model_Attribute_Data extends Magento_Eav_Model_Attribute_Data
+namespace Magento\Customer\Model\Attribute;
+
+class Data extends \Magento\Eav\Model\Attribute\Data
 {
 }

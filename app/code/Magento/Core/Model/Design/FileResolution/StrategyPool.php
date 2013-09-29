@@ -11,7 +11,9 @@
 /**
  * Class for choosing the strategy for file resolution
  */
-class Magento_Core_Model_Design_FileResolution_StrategyPool
+namespace Magento\Core\Model\Design\FileResolution;
+
+class StrategyPool
 {
     /**
      * Sub-directory where to store maps of view files fallback (if used)
@@ -19,7 +21,7 @@ class Magento_Core_Model_Design_FileResolution_StrategyPool
     const FALLBACK_MAP_DIR = 'maps/fallback';
 
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
@@ -29,12 +31,12 @@ class Magento_Core_Model_Design_FileResolution_StrategyPool
     protected $_appState;
 
     /**
-     * @var Magento_Filesystem
+     * @var \Magento\Filesystem
      */
     protected $_filesystem;
 
     /**
-     * @var Magento_Core_Model_Dir
+     * @var \Magento\Core\Model\Dir
      */
     protected $_dirs;
 
@@ -52,33 +54,33 @@ class Magento_Core_Model_Design_FileResolution_StrategyPool
      */
     protected $_strategies = array(
         'production_mode' => array(
-            'file' => 'Magento_Core_Model_Design_FileResolution_Strategy_Fallback_CachingProxy',
-            'locale' => 'Magento_Core_Model_Design_FileResolution_Strategy_Fallback',
-            'view' => 'Magento_Core_Model_Design_FileResolution_Strategy_Fallback',
+            'file' => 'Magento\Core\Model\Design\FileResolution\Strategy\Fallback\CachingProxy',
+            'locale' => 'Magento\Core\Model\Design\FileResolution\Strategy\Fallback',
+            'view' => 'Magento\Core\Model\Design\FileResolution\Strategy\Fallback',
         ),
         'caching_map' => array(
-            'file' => 'Magento_Core_Model_Design_FileResolution_Strategy_Fallback_CachingProxy',
-            'locale' => 'Magento_Core_Model_Design_FileResolution_Strategy_Fallback_CachingProxy',
-            'view' => 'Magento_Core_Model_Design_FileResolution_Strategy_Fallback_CachingProxy',
+            'file' => 'Magento\Core\Model\Design\FileResolution\Strategy\Fallback\CachingProxy',
+            'locale' => 'Magento\Core\Model\Design\FileResolution\Strategy\Fallback\CachingProxy',
+            'view' => 'Magento\Core\Model\Design\FileResolution\Strategy\Fallback\CachingProxy',
         ),
         'full_check' => array(
-            'file' => 'Magento_Core_Model_Design_FileResolution_Strategy_Fallback',
-            'locale' => 'Magento_Core_Model_Design_FileResolution_Strategy_Fallback',
-            'view' => 'Magento_Core_Model_Design_FileResolution_Strategy_Fallback',
+            'file' => 'Magento\Core\Model\Design\FileResolution\Strategy\Fallback',
+            'locale' => 'Magento\Core\Model\Design\FileResolution\Strategy\Fallback',
+            'view' => 'Magento\Core\Model\Design\FileResolution\Strategy\Fallback',
         ),
     );
 
     /**
-     * @param Magento_ObjectManager $objectManager
-     * @param Magento_Core_Model_App_State $appState
-     * @param Magento_Core_Model_Dir $dirs
-     * @param Magento_Filesystem $filesystem
+     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Core\Model\App\State $appState
+     * @param \Magento\Core\Model\Dir $dirs
+     * @param \Magento\Filesystem $filesystem
      */
     public function __construct(
-        Magento_ObjectManager $objectManager,
-        Magento_Core_Model_App_State $appState,
-        Magento_Core_Model_Dir $dirs,
-        Magento_Filesystem $filesystem
+        \Magento\ObjectManager $objectManager,
+        \Magento\Core\Model\App\State $appState,
+        \Magento\Core\Model\Dir $dirs,
+        \Magento\Filesystem $filesystem
     ) {
         $this->_objectManager = $objectManager;
         $this->_appState = $appState;
@@ -90,7 +92,7 @@ class Magento_Core_Model_Design_FileResolution_StrategyPool
      * Get strategy to resolve dynamic files (e.g. templates)
      *
      * @param bool $skipProxy
-     * @return Magento_Core_Model_Design_FileResolution_Strategy_FileInterface
+     * @return \Magento\Core\Model\Design\FileResolution\Strategy\FileInterface
      */
     public function getFileStrategy($skipProxy = false)
     {
@@ -101,7 +103,7 @@ class Magento_Core_Model_Design_FileResolution_StrategyPool
      * * Get strategy to resolve locale files (e.g. locale settings)
      *
      * @param bool $skipProxy
-     * @return Magento_Core_Model_Design_FileResolution_Strategy_LocaleInterface
+     * @return \Magento\Core\Model\Design\FileResolution\Strategy\LocaleInterface
      */
     public function getLocaleStrategy($skipProxy = false)
     {
@@ -112,7 +114,7 @@ class Magento_Core_Model_Design_FileResolution_StrategyPool
      * Get strategy to resolve static view files (e.g. javascripts)
      *
      * @param bool $skipProxy
-     * @return Magento_Core_Model_Design_FileResolution_Strategy_ViewInterface
+     * @return \Magento\Core\Model\Design\FileResolution\Strategy\ViewInterface
      */
     public function getViewStrategy($skipProxy = false)
     {
@@ -141,19 +143,19 @@ class Magento_Core_Model_Design_FileResolution_StrategyPool
      * @param string $fileType
      * @param bool $skipProxy
      * @return string
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     protected function _getStrategyClass($fileType, $skipProxy = false)
     {
         $mode = $this->_appState->getMode();
-        if ($mode == Magento_Core_Model_App_State::MODE_PRODUCTION) {
+        if ($mode == \Magento\Core\Model\App\State::MODE_PRODUCTION) {
             $strategyClasses = $this->_strategies['production_mode'];
-        } else if (($mode == Magento_Core_Model_App_State::MODE_DEVELOPER) || $skipProxy) {
+        } else if (($mode == \Magento\Core\Model\App\State::MODE_DEVELOPER) || $skipProxy) {
             $strategyClasses = $this->_strategies['full_check'];
-        } else if ($mode == Magento_Core_Model_App_State::MODE_DEFAULT) {
+        } else if ($mode == \Magento\Core\Model\App\State::MODE_DEFAULT) {
             $strategyClasses = $this->_strategies['caching_map'];
         } else {
-            throw new Magento_Core_Exception("Unknown mode to choose strategy: {$mode}");
+            throw new \Magento\Core\Exception("Unknown mode to choose strategy: {$mode}");
         }
         return $strategyClasses[$fileType];
     }
@@ -167,12 +169,12 @@ class Magento_Core_Model_Design_FileResolution_StrategyPool
     protected function _createStrategy($className)
     {
         switch ($className) {
-            case 'Magento_Core_Model_Design_FileResolution_Strategy_Fallback_CachingProxy':
-                $mapDir = $this->_dirs->getDir(Magento_Core_Model_Dir::VAR_DIR) . DIRECTORY_SEPARATOR
+            case 'Magento\Core\Model\Design\FileResolution\Strategy\Fallback\CachingProxy':
+                $mapDir = $this->_dirs->getDir(\Magento\Core\Model\Dir::VAR_DIR) . DIRECTORY_SEPARATOR
                     . self::FALLBACK_MAP_DIR;
                 $arguments = array(
                     'mapDir' => str_replace('/', DIRECTORY_SEPARATOR, $mapDir),
-                    'baseDir' => $this->_dirs->getDir(Magento_Core_Model_Dir::ROOT),
+                    'baseDir' => $this->_dirs->getDir(\Magento\Core\Model\Dir::ROOT),
                 );
                 break;
             default:

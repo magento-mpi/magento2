@@ -11,7 +11,7 @@
 <?php echo $this->getChildHtml('login_before')?>
 <?php /* Extensions placeholder */ ?>
 <?php echo $this->getChildHtml('checkout.onepage.login.extra')?>
-<div class="col2-set<?php if (!$this->helper('Magento_Customer_Helper_Data')->isRegistrationAllowed() && !$this->getQuote()->isAllowedGuestCheckout()) echo ' login-only' ?>">
+<div class="col2-set<?php if (!$this->helper('Magento\Customer\Helper\Data')->isRegistrationAllowed() && !$this->getQuote()->isAllowedGuestCheckout()) echo ' login-only' ?>">
     <div class="col-1">
         <h4><?php echo __('Login') ?></h4>
         <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
@@ -42,25 +42,25 @@
         </fieldset>
         </form>
     </div>
-    <?php if ( $this->isAllowedGuestCheckout() || $this->helper('Magento_Customer_Helper_Data')->isRegistrationAllowed() ): ?>
+    <?php if ( $this->isAllowedGuestCheckout() || $this->helper('Magento\Customer\Helper\Data')->isRegistrationAllowed() ): ?>
     <div class="col-2">
         <h4>
-            <?php if( $this->isAllowedGuestCheckout() && $this->helper('Magento_Customer_Helper_Data')->isRegistrationAllowed() ): ?>
+            <?php if( $this->isAllowedGuestCheckout() && $this->helper('Magento\Customer\Helper\Data')->isRegistrationAllowed() ): ?>
                 <?php echo __('Checkout as a Guest or Register') ?>
-            <?php elseif ( $this->isAllowedGuestCheckout() && !$this->helper('Magento_Customer_Helper_Data')->isRegistrationAllowed() ): ?>
+            <?php elseif ( $this->isAllowedGuestCheckout() && !$this->helper('Magento\Customer\Helper\Data')->isRegistrationAllowed() ): ?>
                 <?php echo __('Checkout as a Guest') ?>
             <?php else: ?>
                 <?php echo __('Register to Create an Account') ?>
             <?php endif; ?>
         </h4>
-        <?php if( !$this->isAllowedGuestCheckout() && $this->helper('Magento_Customer_Helper_Data')->isRegistrationAllowed() ): ?>
+        <?php if( !$this->isAllowedGuestCheckout() && $this->helper('Magento\Customer\Helper\Data')->isRegistrationAllowed() ): ?>
             <p><strong><?php echo __('Register and save time!') ?></strong><br />
             <?php echo __('Register with us for future convenience:') ?></p>
             <ul>
                 <li><?php echo __('Fast and easy check out') ?></li>
                 <li><?php echo __('Easy access to your order history and status') ?></li>
             </ul>
-        <?php elseif( $this->isAllowedGuestCheckout() && $this->helper('Magento_Customer_Helper_Data')->isRegistrationAllowed() ): ?>
+        <?php elseif( $this->isAllowedGuestCheckout() && $this->helper('Magento\Customer\Helper\Data')->isRegistrationAllowed() ): ?>
             <p><?php echo __('Register with us for future convenience:') ?></p>
         <?php endif ?>
 
@@ -68,13 +68,13 @@
             <ul class="form-list form-alt">
                 <?php if( $this->isAllowedGuestCheckout() ): ?>
                 <li>
-                    <input type="radio" name="checkout_method" id="login:guest" value="guest"<?php if($this->getQuote()->getCheckoutMethod()==Magento_Checkout_Model_Type_Onepage::METHOD_GUEST): ?> checked="checked"<?php endif; ?> class="radio" />
+                    <input type="radio" name="checkout_method" id="login:guest" value="guest"<?php if($this->getQuote()->getCheckoutMethod()==\Magento\Checkout\Model\Type\Onepage::METHOD_GUEST): ?> checked="checked"<?php endif; ?> class="radio" />
                     <label for="login:guest"><?php echo __('Checkout as Guest') ?></label>
                 </li>
                 <?php endif; ?>
-                <?php if( $this->helper('Magento_Customer_Helper_Data')->isRegistrationAllowed() ): ?>
+                <?php if( $this->helper('Magento\Customer\Helper\Data')->isRegistrationAllowed() ): ?>
                 <li>
-                    <input type="radio" name="checkout_method" id="login:register" value="register"<?php if($this->getQuote()->getCheckoutMethod()==Magento_Checkout_Model_Type_Onepage::METHOD_REGISTER || !$this->isAllowedGuestCheckout()): ?> checked="checked"<?php endif ?> class="radio" />
+                    <input type="radio" name="checkout_method" id="login:register" value="register"<?php if($this->getQuote()->getCheckoutMethod()==\Magento\Checkout\Model\Type\Onepage::METHOD_REGISTER || !$this->isAllowedGuestCheckout()): ?> checked="checked"<?php endif ?> class="radio" />
                     <label for="login:register"><?php echo __('Register') ?></label>
                 </li>
                 <?php endif; ?>

@@ -14,6 +14,6 @@
         </action>
     </referenceBlock>
     <referenceContainer name="content">
-        <block class="Magento_Checkout_Block_Onepage_Success" name="checkout.success" template="success.phtml"/>
+        <block class="Magento\Checkout\Block\Onepage\Success" name="checkout.success" template="success.phtml"/>
     </referenceContainer>
 </layout>

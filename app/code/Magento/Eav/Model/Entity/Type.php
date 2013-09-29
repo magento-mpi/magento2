@@ -12,42 +12,44 @@
 /**
  * Entity type model
  *
- * @method Magento_Eav_Model_Resource_Entity_Type _getResource()
- * @method Magento_Eav_Model_Resource_Entity_Type getResource()
- * @method Magento_Eav_Model_Entity_Type setEntityTypeCode(string $value)
+ * @method \Magento\Eav\Model\Resource\Entity\Type _getResource()
+ * @method \Magento\Eav\Model\Resource\Entity\Type getResource()
+ * @method \Magento\Eav\Model\Entity\Type setEntityTypeCode(string $value)
  * @method string getEntityModel()
- * @method Magento_Eav_Model_Entity_Type setEntityModel(string $value)
- * @method Magento_Eav_Model_Entity_Type setAttributeModel(string $value)
- * @method Magento_Eav_Model_Entity_Type setEntityTable(string $value)
- * @method Magento_Eav_Model_Entity_Type setValueTablePrefix(string $value)
- * @method Magento_Eav_Model_Entity_Type setEntityIdField(string $value)
+ * @method \Magento\Eav\Model\Entity\Type setEntityModel(string $value)
+ * @method \Magento\Eav\Model\Entity\Type setAttributeModel(string $value)
+ * @method \Magento\Eav\Model\Entity\Type setEntityTable(string $value)
+ * @method \Magento\Eav\Model\Entity\Type setValueTablePrefix(string $value)
+ * @method \Magento\Eav\Model\Entity\Type setEntityIdField(string $value)
  * @method int getIsDataSharing()
- * @method Magento_Eav_Model_Entity_Type setIsDataSharing(int $value)
+ * @method \Magento\Eav\Model\Entity\Type setIsDataSharing(int $value)
  * @method string getDataSharingKey()
- * @method Magento_Eav_Model_Entity_Type setDataSharingKey(string $value)
- * @method Magento_Eav_Model_Entity_Type setDefaultAttributeSetId(int $value)
+ * @method \Magento\Eav\Model\Entity\Type setDataSharingKey(string $value)
+ * @method \Magento\Eav\Model\Entity\Type setDefaultAttributeSetId(int $value)
  * @method string getIncrementModel()
- * @method Magento_Eav_Model_Entity_Type setIncrementModel(string $value)
+ * @method \Magento\Eav\Model\Entity\Type setIncrementModel(string $value)
  * @method int getIncrementPerStore()
- * @method Magento_Eav_Model_Entity_Type setIncrementPerStore(int $value)
+ * @method \Magento\Eav\Model\Entity\Type setIncrementPerStore(int $value)
  * @method int getIncrementPadLength()
- * @method Magento_Eav_Model_Entity_Type setIncrementPadLength(int $value)
+ * @method \Magento\Eav\Model\Entity\Type setIncrementPadLength(int $value)
  * @method string getIncrementPadChar()
- * @method Magento_Eav_Model_Entity_Type setIncrementPadChar(string $value)
+ * @method \Magento\Eav\Model\Entity\Type setIncrementPadChar(string $value)
  * @method string getAdditionalAttributeTable()
- * @method Magento_Eav_Model_Entity_Type setAdditionalAttributeTable(string $value)
- * @method Magento_Eav_Model_Entity_Type setEntityAttributeCollection(string $value)
+ * @method \Magento\Eav\Model\Entity\Type setAdditionalAttributeTable(string $value)
+ * @method \Magento\Eav\Model\Entity\Type setEntityAttributeCollection(string $value)
  *
  * @category    Magento
  * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Eav_Model_Entity_Type extends Magento_Core_Model_Abstract
+namespace Magento\Eav\Model\Entity;
+
+class Type extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Collection of attributes
      *
-     * @var Magento_Eav_Model_Resource_Entity_Attribute_Collection
+     * @var \Magento\Eav\Model\Resource\Entity\Attribute\Collection
      */
     protected $_attributes;
 
@@ -61,7 +63,7 @@ class Magento_Eav_Model_Entity_Type extends Magento_Core_Model_Abstract
     /**
      * Collection of sets
      *
-     * @var Magento_Eav_Model_Resource_Entity_Attribute_Set_Collection
+     * @var \Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection
      */
     protected $_sets;
 
@@ -70,14 +72,14 @@ class Magento_Eav_Model_Entity_Type extends Magento_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('Magento_Eav_Model_Resource_Entity_Type');
+        $this->_init('Magento\Eav\Model\Resource\Entity\Type');
     }
 
     /**
      * Load type by code
      *
      * @param string $code
-     * @return Magento_Eav_Model_Entity_Type
+     * @return \Magento\Eav\Model\Entity\Type
      */
     public function loadByCode($code)
     {
@@ -90,7 +92,7 @@ class Magento_Eav_Model_Entity_Type extends Magento_Core_Model_Abstract
      * Retrieve entity type attributes collection
      *
      * @param   int $setId
-     * @return  Magento_Eav_Model_Resource_Entity_Attribute_Collection
+     * @return  \Magento\Eav\Model\Resource\Entity\Attribute\Collection
      */
     public function getAttributeCollection($setId = null)
     {
@@ -115,11 +117,11 @@ class Magento_Eav_Model_Entity_Type extends Magento_Core_Model_Abstract
     /**
      * Init and retreive attribute collection
      *
-     * @return Magento_Eav_Model_Resource_Entity_Attribute_Collection
+     * @return \Magento\Eav\Model\Resource\Entity\Attribute\Collection
      */
     protected function _getAttributeCollection()
     {
-        $collection = Mage::getModel('Magento_Eav_Model_Entity_Attribute')->getCollection();
+        $collection = \Mage::getModel('Magento\Eav\Model\Entity\Attribute')->getCollection();
         $objectsModel = $this->getAttributeModel();
         if ($objectsModel) {
             $collection->setModel($objectsModel);
@@ -131,12 +133,12 @@ class Magento_Eav_Model_Entity_Type extends Magento_Core_Model_Abstract
     /**
      * Retrieve entity tpe sets collection
      *
-     * @return Magento_Eav_Model_Resource_Entity_Attribute_Set_Collection
+     * @return \Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection
      */
     public function getAttributeSetCollection()
     {
         if (empty($this->_sets)) {
-            $this->_sets = Mage::getModel('Magento_Eav_Model_Entity_Attribute_Set')->getResourceCollection()
+            $this->_sets = \Mage::getModel('Magento\Eav\Model\Entity\Attribute\Set')->getResourceCollection()
                 ->setEntityTypeFilter($this->getId());
         }
         return $this->_sets;
@@ -164,7 +166,7 @@ class Magento_Eav_Model_Entity_Type extends Magento_Core_Model_Abstract
         // Start transaction to run SELECT ... FOR UPDATE
         $this->_getResource()->beginTransaction();
 
-        $entityStoreConfig = Mage::getModel('Magento_Eav_Model_Entity_Store')
+        $entityStoreConfig = \Mage::getModel('Magento\Eav\Model\Entity\Store')
             ->loadByEntityStore($this->getId(), $storeId);
 
         if (!$entityStoreConfig->getId()) {
@@ -175,7 +177,7 @@ class Magento_Eav_Model_Entity_Type extends Magento_Core_Model_Abstract
                 ->save();
         }
 
-        $incrementInstance = Mage::getModel($this->getIncrementModel())
+        $incrementInstance = \Mage::getModel($this->getIncrementModel())
             ->setPrefix($entityStoreConfig->getIncrementPrefix())
             ->setPadLength($this->getIncrementPadLength())
             ->setPadChar($this->getIncrementPadChar())
@@ -296,7 +298,7 @@ class Magento_Eav_Model_Entity_Type extends Magento_Core_Model_Abstract
     public function getAttributeModel()
     {
         if (empty($this->_data['attribute_model'])) {
-            return Magento_Eav_Model_Entity::DEFAULT_ATTRIBUTE_MODEL;
+            return \Magento\Eav\Model\Entity::DEFAULT_ATTRIBUTE_MODEL;
         }
 
         return $this->_data['attribute_model'];
@@ -305,11 +307,11 @@ class Magento_Eav_Model_Entity_Type extends Magento_Core_Model_Abstract
     /**
      * Retreive resource entity object
      *
-     * @return Magento_Core_Model_Resource_Abstract
+     * @return \Magento\Core\Model\Resource\AbstractResource
      */
     public function getEntity()
     {
-        return Mage::getResourceSingleton($this->_data['entity_model']);
+        return \Mage::getResourceSingleton($this->_data['entity_model']);
     }
 
     /**
@@ -323,6 +325,6 @@ class Magento_Eav_Model_Entity_Type extends Magento_Core_Model_Abstract
         if ($collection) {
             return $collection;
         }
-        return 'Magento_Eav_Model_Resource_Entity_Attribute_Collection';
+        return 'Magento\Eav\Model\Resource\Entity\Attribute\Collection';
     }
 }

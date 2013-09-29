@@ -22,7 +22,7 @@ return array(
     '/config/global/page/layouts'              => 'Moved to page_layouts.xml',
     '/config/global/cms/layouts'               => 'This was never used and is no longer supported',
     '/config/global/payment/cc/types/*/validator' =>
-        'This configuration was moved to DI configuration of Magento_Centinel_Model_StateFactory',
+        'This configuration was moved to DI configuration of \Magento\Centinel\Model\StateFactory',
     '/config/global/payment'                   => 'Move them to payment.xml.',
     '/config/adminhtml/menu'                   => 'Move them to adminhtml.xml.',
     '/config/adminhtml/acl'                    => 'Move them to adminhtml.xml.',
@@ -30,52 +30,52 @@ return array(
     '/config/*[self::global|self::adminhtml|self::frontend]/events' => 'This configuration moved to events.xml file',
     '/config/*[self::global|self::adminhtml|self::frontend]/routers' =>
         'Routes configuration moved to routes.xml file,'
-        . 'routers list can be set through Di configuration of Magento_Core_Model_RouterList model',
+        . 'routers list can be set through Di configuration of \Magento\Core\Model\RouterList model',
     '/config/global/importexport' => 'This configuration moved to import.xml and export.xml files',
     '/config/global/catalog/product/type' => 'This configuration moved to product_types.xml file',
     '/config/global/catalog/product/options' => 'This configuration moved to product_options.xml file',
     '/config/global/eav_attributes' => 'This configuration moved to eav_attributes.xml file',
     '/config/global/index' => 'This configuration moved to indexers.xml file',
-    '/config/global/catalogrule' => 'This configuration moved to Di configuration of Magento_CatalogRule_Model_Rule',
-    '/config/global/salesrule' => 'This configuration moved to Di configuration of Magento_SalesRule_Helper_Coupon',
-    '/config/global/session' => 'This configuration moved to Di configuration of Magento_Core_Model_Session_Validator',
-    '/config/global/ignore_user_agents' => 'This configuration moved to Di configuration of Magento_Log_Model_Visitor',
-    '/config/global/request' => 'This configuration moved to Di configuration of Magento_Core_Controller_Request_Http',
+    '/config/global/catalogrule' => 'This configuration moved to Di configuration of \Magento\CatalogRule\Model\Rule',
+    '/config/global/salesrule' => 'This configuration moved to Di configuration of \Magento\SalesRule\Helper\Coupon',
+    '/config/global/session' => 'This configuration moved to Di configuration of \Magento\Core\Model\Session\Validator',
+    '/config/global/ignore_user_agents' => 'This configuration moved to Di configuration of \Magento\Log\Model\Visitor',
+    '/config/global/request' => 'This configuration moved to Di configuration of \Magento\Core\Controller\Request\Http',
     '/config/global/secure_url' =>
-        'This configuration moved to Di configuration of Magento_Core_Model_Url_SecurityInfo',
+        'This configuration moved to Di configuration of \Magento\Core\Model\Url\SecurityInfo',
     '/config/global/dev' =>
-        'This configuration moved to Di configuration of Magento_Core_Controller_Varien_Action_Context',
+        'This configuration moved to Di configuration of \Magento\Core\Controller\Varien\Action\Context',
     '/config/global/webapi' =>
-        'This configuration moved to Di configuration of Magento_Webapi_Controller_Request_Rest_Interpreter_Factory'
-        . ' and Magento_Webapi_Controller_Response_Rest_Renderer_Factory',
-    '/config/global/cms' => 'This configuration moved to Di configuration of Magento_Cms_Model_Wysiwyg_Images_Storage'
-        .' and Magento_Cms_Model_Wysiwyg_Config',
+        'This configuration moved to Di configuration of \Magento\Webapi\Controller\Request\Rest\Interpreter\Factory'
+        . ' and \Magento\Webapi\Controller\Response\Rest\Renderer\Factory',
+    '/config/global/cms' => 'This configuration moved to Di configuration of \Magento\Cms\Model\Wysiwyg\Images\Storage'
+        .' and \Magento\Cms\Model\Wysiwyg\Config',
     '/config/global/widget' =>
-        'This configuration moved to Di configuration of Magento_Cms_Model_Template_FilterProvider',
+        'This configuration moved to Di configuration of \Magento\Cms\Model\Template\FilterProvider',
     '/config/global/catalog/product/flat/max_index_count' =>
-        'This configuration moved to Di configuration of Magento_Catalog_Model_Resource_Product_Flat_Indexer',
+        'This configuration moved to Di configuration of \Magento\Catalog\Model\Resource\Product\Flat\Indexer',
     '/config/global/catalog/product/flat/attribute_groups' =>
-        'This configuration moved to Di configuration of Magento_Catalog_Model_Resource_Product_Flat_Indexer',
+        'This configuration moved to Di configuration of \Magento\Catalog\Model\Resource\Product\Flat\Indexer',
     '/config/global/catalog/product/flat/add_filterable_attributes' =>
-        'This configuration moved to Di configuration of Magento_Catalog_Helper_Product_Flat',
+        'This configuration moved to Di configuration of \Magento\Catalog\Helper\Product\Flat',
     '/config/global/catalog/product/flat/add_child_data' =>
-        'This configuration moved to Di configuration of Magento_Catalog_Helper_Product_Flat',
+        'This configuration moved to Di configuration of \Magento\Catalog\Helper\Product\Flat',
     '/config/global/catalog/content/template_filter' =>
-        'This configuration moved to Di configuration of Magento_Catalog_Helper_Data',
+        'This configuration moved to Di configuration of \Magento\Catalog\Helper\Data',
     '/config/frontend/catalog/per_page_values/list' =>
-        'This configuration moved to Di configuration of Magento_Catalog_Model_Config_Source_ListPerPage',
+        'This configuration moved to Di configuration of \Magento\Catalog\Model\Config\Source\ListPerPage',
     '/config/frontend/catalog/per_page_values/grid' =>
-        'This configuration moved to Di configuration of Magento_Catalog_Model_Config_Source_GridPerPage',
+        'This configuration moved to Di configuration of \Magento\Catalog\Model\Config\Source\GridPerPage',
     '/config/global/catalog/product/design' =>
         'This configuration moved to Di configuration of'
-        . ' Magento_Catalog_Model_Entity_Product_Attribute_Design_Option_Container',
+        . ' \Magento\Catalog\Model\Entity\Product\Attribute\Design\Option\Container',
     '/config/global/catalog/product/attributes' =>
         'This configuration moved catalog_attributes.xml',
     '/config/global/eav_frontendclasses' =>
         'This configuration was removed. '
-        . 'Please pluginize Magento_Eav_Helper_Data::getFrontendClasses to extend frontend classes list',
-    '/config/global/resources' => 'This configuration moved to Di configuration of Magento_Core_Model_Resource',
-    '/config/global/resource' => 'This configuration moved to Di configuration of Magento_Core_Model_Resource',
+        . 'Please pluginize \Magento\Eav\Helper\Data::getFrontendClasses to extend frontend classes list',
+    '/config/global/resources' => 'This configuration moved to Di configuration of \Magento\Core\Model\Resource',
+    '/config/global/resource' => 'This configuration moved to Di configuration of \Magento\Core\Model\Resource',
     '/config/*/events/core_block_abstract_to_html_after' =>
     'Event has been replaced with "core_layout_render_element"',
     '/config/*/events/catalog_controller_product_delete' => '',

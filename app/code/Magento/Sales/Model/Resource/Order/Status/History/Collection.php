@@ -16,8 +16,10 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Resource_Order_Status_History_Collection
-    extends Magento_Sales_Model_Resource_Order_Collection_Abstract
+namespace Magento\Sales\Model\Resource\Order\Status\History;
+
+class Collection
+    extends \Magento\Sales\Model\Resource\Order\Collection\AbstractCollection
 {
     /**
      * Event prefix
@@ -39,22 +41,22 @@ class Magento_Sales_Model_Resource_Order_Status_History_Collection
      */
     protected function _construct()
     {
-        $this->_init('Magento_Sales_Model_Order_Status_History', 'Magento_Sales_Model_Resource_Order_Status_History');
+        $this->_init('Magento\Sales\Model\Order\Status\History', 'Magento\Sales\Model\Resource\Order\Status\History');
     }
 
     /**
      * Get history object collection for specified instance (order, shipment, invoice or credit memo)
-     * Parameter instance may be one of the following types: Magento_Sales_Model_Order,
-     * Magento_Sales_Model_Order_Creditmemo, Magento_Sales_Model_Order_Invoice, Magento_Sales_Model_Order_Shipment
+     * Parameter instance may be one of the following types: \Magento\Sales\Model\Order,
+     * \Magento\Sales\Model\Order\Creditmemo, \Magento\Sales\Model\Order\Invoice, \Magento\Sales\Model\Order\Shipment
      *
      * @param mixed $instance
      * @param string $historyEntityName
      *
-     * @return Magento_Sales_Model_Order_Status_History|null
+     * @return \Magento\Sales\Model\Order\Status\History|null
      */
-    public function getUnnotifiedForInstance($instance, $historyEntityName=Magento_Sales_Model_Order::HISTORY_ENTITY_NAME)
+    public function getUnnotifiedForInstance($instance, $historyEntityName=\Magento\Sales\Model\Order::HISTORY_ENTITY_NAME)
     {
-        if(!$instance instanceof Magento_Sales_Model_Order) {
+        if(!$instance instanceof \Magento\Sales\Model\Order) {
             $instance = $instance->getOrder();
         }
         $this->setOrderFilter($instance)->setOrder('created_at', 'desc')

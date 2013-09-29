@@ -8,6 +8,8 @@
  * @license     {license_link}
  */
 
-class Magento_Weee_Block_Element_Weee_Tax extends Magento_Data_Form_Element_Abstract
+namespace Magento\Weee\Block\Element\Weee;
+
+class Tax extends \Magento\Data\Form\Element\AbstractElement
 {
 }

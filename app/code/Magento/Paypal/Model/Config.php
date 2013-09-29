@@ -12,7 +12,9 @@
  * Config model that is aware of all Magento_Paypal payment methods
  * Works with PayPal-specific system configuration
  */
-class Magento_Paypal_Model_Config
+namespace Magento\Paypal\Model;
+
+class Config
 {
     /**
      * PayPal Standard
@@ -65,10 +67,10 @@ class Magento_Paypal_Model_Config
     const EC_FLAVOR_STATIC  = 'static';
     const EC_BUTTON_TYPE_SHORTCUT = 'ecshortcut';
     const EC_BUTTON_TYPE_MARK     = 'ecmark';
-    const PAYMENT_MARK_37x23   = '37x23';
-    const PAYMENT_MARK_50x34   = '50x34';
-    const PAYMENT_MARK_60x38   = '60x38';
-    const PAYMENT_MARK_180x113 = '180x113';
+    const PAYMENT_MARK_37X23   = '37x23';
+    const PAYMENT_MARK_50X34   = '50x34';
+    const PAYMENT_MARK_60X38   = '60x38';
+    const PAYMENT_MARK_180X113 = '180x113';
 
     const DEFAULT_LOGO_TYPE = 'wePrefer_150x60';
 
@@ -238,25 +240,25 @@ class Magento_Paypal_Model_Config
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param array $params
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
         $params = array()
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
@@ -274,12 +276,12 @@ class Magento_Paypal_Model_Config
     /**
      * Method code setter
      *
-     * @param string|Magento_Payment_Model_Method_Abstract $method
-     * @return Magento_Paypal_Model_Config
+     * @param string|\Magento\Payment\Model\Method\AbstractMethod $method
+     * @return \Magento\Paypal\Model\Config
      */
     public function setMethod($method)
     {
-        if ($method instanceof Magento_Payment_Model_Method_Abstract) {
+        if ($method instanceof \Magento\Payment\Model\Method\AbstractMethod) {
             $this->_methodCode = $method->getCode();
         } elseif (is_string($method)) {
             $this->_methodCode = $method;
@@ -301,7 +303,7 @@ class Magento_Paypal_Model_Config
      * Store ID setter
      *
      * @param int $storeId
-     * @return Magento_Paypal_Model_Config
+     * @return \Magento\Paypal\Model\Config
      */
     public function setStoreId($storeId)
     {
@@ -694,13 +696,13 @@ class Magento_Paypal_Model_Config
             $staticSize = $this->paymentMarkSize;
         }
         switch ($staticSize) {
-            case self::PAYMENT_MARK_37x23:
-            case self::PAYMENT_MARK_50x34:
-            case self::PAYMENT_MARK_60x38:
-            case self::PAYMENT_MARK_180x113:
+            case self::PAYMENT_MARK_37X23:
+            case self::PAYMENT_MARK_50X34:
+            case self::PAYMENT_MARK_60X38:
+            case self::PAYMENT_MARK_180X113:
                 break;
             default:
-                $staticSize = self::PAYMENT_MARK_37x23;
+                $staticSize = self::PAYMENT_MARK_37X23;
         }
         return sprintf('https://www.paypal.com/%s/i/logo/PayPal_mark_%s.gif',
             $this->_getSupportedLocaleCode($localeCode), $staticSize);
@@ -710,13 +712,13 @@ class Magento_Paypal_Model_Config
      * Get "What Is PayPal" localized URL
      * Supposed to be used with "mark" as popup window
      *
-     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param \Magento\Core\Model\LocaleInterface $locale
      */
-    public function getPaymentMarkWhatIsPaypalUrl(Magento_Core_Model_LocaleInterface $locale = null)
+    public function getPaymentMarkWhatIsPaypalUrl(\Magento\Core\Model\LocaleInterface $locale = null)
     {
         $countryCode = 'US';
         if (null !== $locale) {
-            $shouldEmulate = (null !== $this->_storeId) && (Mage::app()->getStore()->getId() != $this->_storeId);
+            $shouldEmulate = (null !== $this->_storeId) && (\Mage::app()->getStore()->getId() != $this->_storeId);
             if ($shouldEmulate) {
                 $locale->emulate($this->_storeId);
             }
@@ -845,7 +847,7 @@ class Magento_Paypal_Model_Config
         if ($countryCode) {
             $countryCode = '_' . $countryCode;
         }
-        return sprintf('Magento_Cart_%s%s', $product, $countryCode);
+        return sprintf('Magento\\Cart\\%s%s', $product, $countryCode);
     }
 
     /**
@@ -914,11 +916,11 @@ class Magento_Paypal_Model_Config
     {
         switch ($this->paymentAction) {
             case self::PAYMENT_ACTION_AUTH:
-                return Magento_Payment_Model_Method_Abstract::ACTION_AUTHORIZE;
+                return \Magento\Payment\Model\Method\AbstractMethod::ACTION_AUTHORIZE;
             case self::PAYMENT_ACTION_SALE:
-                return Magento_Payment_Model_Method_Abstract::ACTION_AUTHORIZE_CAPTURE;
+                return \Magento\Payment\Model\Method\AbstractMethod::ACTION_AUTHORIZE_CAPTURE;
             case self::PAYMENT_ACTION_ORDER:
-                return Magento_Payment_Model_Method_Abstract::ACTION_ORDER;
+                return \Magento\Payment\Model\Method\AbstractMethod::ACTION_ORDER;
         }
     }
 
@@ -1015,7 +1017,7 @@ class Magento_Paypal_Model_Config
      */
     public function getWppCcTypesAsOptionArray()
     {
-        $model = Mage::getModel('Magento_Payment_Model_Source_Cctype');
+        $model = \Mage::getModel('Magento\Payment\Model\Source\Cctype');
         return $model->setAllowedTypes(array('AE', 'VI', 'MC', 'SM', 'SO', 'DI'))->toOptionArray();
     }
 
@@ -1026,7 +1028,7 @@ class Magento_Paypal_Model_Config
      */
     public function getWppPeCcTypesAsOptionArray()
     {
-        $model = Mage::getModel('Magento_Payment_Model_Source_Cctype');
+        $model = \Mage::getModel('Magento\Payment\Model\Source\Cctype');
         return $model->setAllowedTypes(array('VI', 'MC', 'SM', 'SO', 'OT', 'AE'))->toOptionArray();
     }
 
@@ -1037,7 +1039,7 @@ class Magento_Paypal_Model_Config
      */
     public function getPayflowproCcTypesAsOptionArray()
     {
-        $model = Mage::getModel('Magento_Payment_Model_Source_Cctype');
+        $model = \Mage::getModel('Magento\Payment\Model\Source\Cctype');
         return $model->setAllowedTypes(array('AE', 'VI', 'MC', 'JCB', 'DI'))->toOptionArray();
     }
 
@@ -1084,9 +1086,9 @@ class Magento_Paypal_Model_Config
     /**
      * Export page style current settings to specified object
      *
-     * @param Magento_Object $to
+     * @param \Magento\Object $to
      */
-    public function exportExpressCheckoutStyleSettings(Magento_Object $to)
+    public function exportExpressCheckoutStyleSettings(\Magento\Object $to)
     {
         foreach ($this->_ecStyleConfigMap as $key => $exportKey) {
             if ($this->$key) {
@@ -1428,7 +1430,7 @@ class Magento_Paypal_Model_Config
      */
     public function getApiCertificate()
     {
-        $websiteId = Mage::app()->getStore($this->_storeId)->getWebsiteId();
-        return Mage::getModel('Magento_Paypal_Model_Cert')->loadByWebsite($websiteId, false)->getCertPath();
+        $websiteId = \Mage::app()->getStore($this->_storeId)->getWebsiteId();
+        return \Mage::getModel('Magento\Paypal\Model\Cert')->loadByWebsite($websiteId, false)->getCertPath();
     }
 }

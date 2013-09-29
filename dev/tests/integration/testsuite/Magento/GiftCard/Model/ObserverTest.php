@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_GiftCard_Model_ObserverTest extends PHPUnit_Framework_TestCase
+namespace Magento\GiftCard\Model;
+
+class ObserverTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * List of block injection classes
@@ -17,14 +19,14 @@ class Magento_GiftCard_Model_ObserverTest extends PHPUnit_Framework_TestCase
      * @var array
      */
     protected $_blockInjections = array(
-        'Magento_Core_Model_Context',
-        'Magento_Core_Model_Registry',
-        'Magento_Filesystem',
-        'Magento_Core_Model_View_Url',
-        'Magento_Core_Model_View_FileSystem',
-        'Magento_Core_Model_View_Design',
-        'Magento_Core_Model_Store_Config',
-        'Magento_Core_Model_Email_Template_Config',
+        'Magento\Core\Model\Context',
+        'Magento\Core\Model\Registry',
+        'Magento\Filesystem',
+        'Magento\Core\Model\View\Url',
+        'Magento\Core\Model\View\FileSystem',
+        'Magento\Core\Model\View\Design',
+        'Magento\Core\Model\Store\Config',
+        'Magento\Core\Model\Email\Template\Config',
     );
 
     /**
@@ -34,34 +36,34 @@ class Magento_GiftCard_Model_ObserverTest extends PHPUnit_Framework_TestCase
      */
     public function testGenerateGiftCardAccountsEmailSending()
     {
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App')
-            ->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
-        $order = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Sales_Model_Order');
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
+            ->getArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)->load();
+        $order = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Sales\Model\Order');
         $this->_checkOrderItemProductOptions($order, true);
 
-        $event = new Magento_Event(array('order' => $order));
-        $observer = new Magento_Event_Observer(array('event' => $event));
+        $event = new \Magento\Event(array('order' => $order));
+        $observer = new \Magento\Event\Observer(array('event' => $event));
 
         $zendMailMock = $this->getMock('Zend_Mail', array('send'));
         $zendMailMock->expects($this->once())
             ->method('send')
             ->will($this->returnValue(true));
 
-        $emailTemplateMock = $this->getMock('Magento_Core_Model_Email_Template', array('_getMail'),
+        $emailTemplateMock = $this->getMock('Magento\Core\Model\Email\Template', array('_getMail'),
             $this->_prepareConstructorArguments()
         );
         $emailTemplateMock->expects($this->once())
             ->method('_getMail')
             ->will($this->returnValue($zendMailMock));
-        /** @var $model Magento_GiftCard_Model_Observer */
-        $model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_GiftCard_Model_Observer', array(
+        /** @var $model \Magento\GiftCard\Model\Observer */
+        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\GiftCard\Model\Observer', array(
             'data' => array('email_template_model' => $emailTemplateMock)
         ));
         $model->generateGiftCardAccounts($observer);
         $this->assertEquals(
-            array('area' => Magento_Core_Model_App_Area::AREA_FRONTEND, 'store' => 1),
+            array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => 1),
             $emailTemplateMock->getDesignConfig()->getData()
         );
 
@@ -71,7 +73,7 @@ class Magento_GiftCard_Model_ObserverTest extends PHPUnit_Framework_TestCase
     /**
      * Check email sending related gift card product options
      *
-     * @param Magento_Sales_Model_Order $order
+     * @param \Magento\Sales\Model\Order $order
      * @param bool $expectedEmpty
      */
     protected function _checkOrderItemProductOptions($order, $expectedEmpty)
@@ -93,7 +95,7 @@ class Magento_GiftCard_Model_ObserverTest extends PHPUnit_Framework_TestCase
     {
         $arguments = array();
         foreach ($this->_blockInjections as $injectionClass) {
-            $arguments[] = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            $arguments[] = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create($injectionClass);
         }
         return $arguments;

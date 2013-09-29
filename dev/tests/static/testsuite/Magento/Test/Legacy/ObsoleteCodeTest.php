@@ -13,7 +13,9 @@
  * Tests to find various obsolete code usage
  * (deprecated and removed Magento 1 legacy methods, properties, classes, etc.)
  */
-class Magento_Test_Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Legacy;
+
+class ObsoleteCodeTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Message text that is used to render suggestions
@@ -52,7 +54,7 @@ class Magento_Test_Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
                 }
                 $message .= PHP_EOL;
             }
-            throw new Exception($message);
+            throw new \Exception($message);
         }
     }
 
@@ -132,7 +134,7 @@ class Magento_Test_Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
      */
     public function phpFileDataProvider()
     {
-        return Magento_TestFramework_Utility_Files::init()->getPhpFiles();
+        return \Magento\TestFramework\Utility\Files::init()->getPhpFiles();
     }
 
     /**
@@ -150,7 +152,7 @@ class Magento_Test_Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
      */
     public function phtmlFileDataProvider()
     {
-        return Magento_TestFramework_Utility_Files::init()->getPhpFiles(false, false, true);
+        return \Magento\TestFramework\Utility\Files::init()->getPhpFiles(false, false, true);
     }
 
     /**
@@ -169,7 +171,7 @@ class Magento_Test_Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
      */
     public function xmlFileDataProvider()
     {
-        return Magento_TestFramework_Utility_Files::init()->getXmlFiles();
+        return \Magento\TestFramework\Utility\Files::init()->getXmlFiles();
     }
 
     /**
@@ -187,7 +189,7 @@ class Magento_Test_Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
      */
     public function jsFileDataProvider()
     {
-        return Magento_TestFramework_Utility_Files::init()->getJsFiles();
+        return \Magento\TestFramework\Utility\Files::init()->getJsFiles();
     }
 
     /**
@@ -199,7 +201,7 @@ class Magento_Test_Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
     {
         foreach (self::$_classes as $row) {
             list($class, , $replacement) = $row;
-            $this->_assertNotRegExp('/[^a-z\d_]' . preg_quote($class, '/') . '[^a-z\d_]/iS', $content,
+            $this->_assertNotRegExp('/[^a-z\d_;\\\\]' . preg_quote($class, '/') . '[^a-z\d_;\\\\]/iS', $content,
                 $this->_suggestReplacement(sprintf("Class '%s' is obsolete.", $class), $replacement)
             );
         }
@@ -266,7 +268,7 @@ class Magento_Test_Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
     {
         foreach (self::$_namespaces as $row) {
             list($namespacePath, , $replacementPath) = $row;
-            $relativePath = str_replace(Magento_TestFramework_Utility_Files::init()->getPathToSource(), "", $file);
+            $relativePath = str_replace(\Magento\TestFramework\Utility\Files::init()->getPathToSource(), "", $file);
             $namespacePathArray = explode('/', $namespacePath);
             $namespace = $namespacePathArray[4];
             $replacementPathArray = explode('/', $replacementPath);
@@ -287,10 +289,10 @@ class Magento_Test_Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
      */
     protected function _testGetChildSpecialCase($content, $file)
     {
-        if (0 === strpos($file, Magento_TestFramework_Utility_Files::init()->getPathToSource() . '/app/')) {
+        if (0 === strpos($file, \Magento\TestFramework\Utility\Files::init()->getPathToSource() . '/app/')) {
             $this->_assertNotRegexp('/[^a-z\d_]getChild\s*\(/iS', $content,
                 'Block method getChild() is obsolete. ' .
-                'Replacement suggestion: Magento_Core_Block_Abstract::getChildBlock()'
+                'Replacement suggestion: \Magento\Core\Block\AbstractBlock::getChildBlock()'
             );
         }
     }
@@ -306,7 +308,7 @@ class Magento_Test_Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
             '/getOptions\(\)\s*->get(Base|App|Code|Design|Etc|Lib|Locale|Js|Media'
                 .'|Var|Tmp|Cache|Log|Session|Upload|Export)?Dir\(/S',
             $content,
-            'The class Magento_Core_Model_Config_Options is obsolete. Replacement suggestion: Magento_Core_Model_Dir'
+            'The class Magento_Core_Model_Config_Options is obsolete. Replacement suggestion: \Magento\Core\Model\Dir'
         );
     }
 
@@ -457,7 +459,7 @@ class Magento_Test_Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
     {
         $name = preg_quote($name, '/');
         return (bool)preg_match(
-            '/\s+extends\s+' . $name . '\b|\s+implements\s+[^{]*\b' . $name . '\b[^{]*\{/iS',
+            '/\s+extends\s+' . $name . '\b|\s+implements\s+[^{]*\b' . $name . '\b[^{^\\\\]*\{/iS',
             $content
         );
     }

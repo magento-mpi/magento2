@@ -17,7 +17,7 @@
             <events>
                 <event controller_action="adminhtml_customerbalance_form" action_alias="view">
                     <expected_models>
-                        <expected_model class="Magento_CustomerBalance_Model_Balance" />
+                        <expected_model class="Magento\CustomerBalance\Model\Balance" />
                     </expected_models>
                 </event>
             </events>
@@ -26,7 +26,7 @@
             <events>
                 <event controller_action="adminhtml_customer_save" action_alias="save">
                     <expected_models merge_group="true">
-                        <expected_model class="Magento_CustomerBalance_Model_Balance" />
+                        <expected_model class="Magento\CustomerBalance\Model\Balance" />
                     </expected_models>
                     <skip_on_back>
                         <controller_action name="adminhtml_customerbalance_form" />

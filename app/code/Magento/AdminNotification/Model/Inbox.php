@@ -11,28 +11,30 @@
 /**
  * AdminNotification Inbox model
  *
- * @method Magento_AdminNotification_Model_Resource_Inbox _getResource()
- * @method Magento_AdminNotification_Model_Resource_Inbox getResource()
+ * @method \Magento\AdminNotification\Model\Resource\Inbox _getResource()
+ * @method \Magento\AdminNotification\Model\Resource\Inbox getResource()
  * @method int getSeverity()
- * @method Magento_AdminNotification_Model_Inbox setSeverity(int $value)
+ * @method \Magento\AdminNotification\Model\Inbox setSeverity(int $value)
  * @method string getDateAdded()
- * @method Magento_AdminNotification_Model_Inbox setDateAdded(string $value)
+ * @method \Magento\AdminNotification\Model\Inbox setDateAdded(string $value)
  * @method string getTitle()
- * @method Magento_AdminNotification_Model_Inbox setTitle(string $value)
+ * @method \Magento\AdminNotification\Model\Inbox setTitle(string $value)
  * @method string getDescription()
- * @method Magento_AdminNotification_Model_Inbox setDescription(string $value)
+ * @method \Magento\AdminNotification\Model\Inbox setDescription(string $value)
  * @method string getUrl()
- * @method Magento_AdminNotification_Model_Inbox setUrl(string $value)
+ * @method \Magento\AdminNotification\Model\Inbox setUrl(string $value)
  * @method int getIsRead()
- * @method Magento_AdminNotification_Model_Inbox setIsRead(int $value)
+ * @method \Magento\AdminNotification\Model\Inbox setIsRead(int $value)
  * @method int getIsRemove()
- * @method Magento_AdminNotification_Model_Inbox setIsRemove(int $value)
+ * @method \Magento\AdminNotification\Model\Inbox setIsRemove(int $value)
  *
  * @category    Magento
  * @package     Magento_AdminNotification
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_AdminNotification_Model_Inbox extends Magento_Core_Model_Abstract
+namespace Magento\AdminNotification\Model;
+
+class Inbox extends \Magento\Core\Model\AbstractModel
 {
     const SEVERITY_CRITICAL = 1;
     const SEVERITY_MAJOR    = 2;
@@ -41,7 +43,7 @@ class Magento_AdminNotification_Model_Inbox extends Magento_Core_Model_Abstract
 
     protected function _construct()
     {
-        $this->_init('Magento_AdminNotification_Model_Resource_Inbox');
+        $this->_init('Magento\AdminNotification\Model\Resource\Inbox');
     }
 
     /**
@@ -71,7 +73,7 @@ class Magento_AdminNotification_Model_Inbox extends Magento_Core_Model_Abstract
     /**
      * Retrieve Latest Notice
      *
-     * @return Magento_AdminNotification_Model_Inbox
+     * @return \Magento\AdminNotification\Model\Inbox
      */
     public function loadLatestNotice()
     {
@@ -94,7 +96,7 @@ class Magento_AdminNotification_Model_Inbox extends Magento_Core_Model_Abstract
      * Parse and save new data
      *
      * @param array $data
-     * @return Magento_AdminNotification_Model_Inbox
+     * @return \Magento\AdminNotification\Model\Inbox
      */
     public function parse(array $data)
     {
@@ -109,12 +111,12 @@ class Magento_AdminNotification_Model_Inbox extends Magento_Core_Model_Abstract
      * @param string|array $description
      * @param string $url
      * @param bool $isInternal
-     * @return Magento_AdminNotification_Model_Inbox
+     * @return \Magento\AdminNotification\Model\Inbox
      */
     public function add($severity, $title, $description, $url = '', $isInternal = true)
     {
         if (!$this->getSeverities($severity)) {
-            Mage::throwException(__('Wrong message type'));
+            \Mage::throwException(__('Wrong message type'));
         }
         if (is_array($description)) {
             $description = '<ul><li>' . implode('</li><li>', $description) . '</li></ul>';
@@ -138,7 +140,7 @@ class Magento_AdminNotification_Model_Inbox extends Magento_Core_Model_Abstract
      * @param string|array $description
      * @param string $url
      * @param bool $isInternal
-     * @return Magento_AdminNotification_Model_Inbox
+     * @return \Magento\AdminNotification\Model\Inbox
      */
     public function addCritical($title, $description, $url = '', $isInternal = true)
     {
@@ -153,7 +155,7 @@ class Magento_AdminNotification_Model_Inbox extends Magento_Core_Model_Abstract
      * @param string|array $description
      * @param string $url
      * @param bool $isInternal
-     * @return Magento_AdminNotification_Model_Inbox
+     * @return \Magento\AdminNotification\Model\Inbox
      */
     public function addMajor($title, $description, $url = '', $isInternal = true)
     {
@@ -168,7 +170,7 @@ class Magento_AdminNotification_Model_Inbox extends Magento_Core_Model_Abstract
      * @param string|array $description
      * @param string $url
      * @param bool $isInternal
-     * @return Magento_AdminNotification_Model_Inbox
+     * @return \Magento\AdminNotification\Model\Inbox
      */
     public function addMinor($title, $description, $url = '', $isInternal = true)
     {
@@ -183,7 +185,7 @@ class Magento_AdminNotification_Model_Inbox extends Magento_Core_Model_Abstract
      * @param string|array $description
      * @param string $url
      * @param bool $isInternal
-     * @return Magento_AdminNotification_Model_Inbox
+     * @return \Magento\AdminNotification\Model\Inbox
      */
     public function addNotice($title, $description, $url = '', $isInternal = true)
     {

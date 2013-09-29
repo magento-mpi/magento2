@@ -16,7 +16,9 @@
  * @package     Magento_GiftCardAccount
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GiftCardAccount_Model_Resource_Pool extends Magento_GiftCardAccount_Model_Resource_Pool_Abstract
+namespace Magento\GiftCardAccount\Model\Resource;
+
+class Pool extends \Magento\GiftCardAccount\Model\Resource\Pool\AbstractPool
 {
     /**
      * Define main table and primary key field

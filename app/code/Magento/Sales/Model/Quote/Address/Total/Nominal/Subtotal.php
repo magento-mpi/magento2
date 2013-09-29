@@ -11,7 +11,9 @@
 /**
  * Nominal subtotal total
  */
-class Magento_Sales_Model_Quote_Address_Total_Nominal_Subtotal extends Magento_Sales_Model_Quote_Address_Total_Subtotal
+namespace Magento\Sales\Model\Quote\Address\Total\Nominal;
+
+class Subtotal extends \Magento\Sales\Model\Quote\Address\Total\Subtotal
 {
     /**
      * Don't add amounts to address
@@ -30,12 +32,12 @@ class Magento_Sales_Model_Quote_Address_Total_Nominal_Subtotal extends Magento_S
     /**
      * Don't fetch anything
      *
-     * @param Magento_Sales_Model_Quote_Address $address
+     * @param \Magento\Sales\Model\Quote\Address $address
      * @return array
      */
-    public function fetch(Magento_Sales_Model_Quote_Address $address)
+    public function fetch(\Magento\Sales\Model\Quote\Address $address)
     {
-        return Magento_Sales_Model_Quote_Address_Total_Abstract::fetch($address);
+        return \Magento\Sales\Model\Quote\Address\Total\AbstractTotal::fetch($address);
     }
 
     /**
@@ -51,10 +53,10 @@ class Magento_Sales_Model_Quote_Address_Total_Nominal_Subtotal extends Magento_S
     /**
      * Get nominal items only
      *
-     * @param Magento_Sales_Model_Quote_Address $address
+     * @param \Magento\Sales\Model\Quote\Address $address
      * @return array
      */
-    protected function _getAddressItems(Magento_Sales_Model_Quote_Address $address)
+    protected function _getAddressItems(\Magento\Sales\Model\Quote\Address $address)
     {
         return $address->getAllNominalItems();
     }

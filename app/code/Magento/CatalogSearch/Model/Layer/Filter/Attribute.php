@@ -12,12 +12,14 @@
  * CatalogSearch layer attribute filter
  *
  */
-class Magento_CatalogSearch_Model_Layer_Filter_Attribute extends Magento_Catalog_Model_Layer_Filter_Attribute
+namespace Magento\CatalogSearch\Model\Layer\Filter;
+
+class Attribute extends \Magento\Catalog\Model\Layer\Filter\Attribute
 {
     /**
      * Check whether specified attribute can be used in LN
      *
-     * @param Magento_Catalog_Model_Resource_Eav_Attribute  $attribute
+     * @param \Magento\Catalog\Model\Resource\Eav\Attribute  $attribute
      * @return bool
      */
     protected function _getIsFilterableAttribute($attribute)

@@ -11,7 +11,9 @@
 /**
  * Customer gift registry view items block
  */
-class Magento_GiftRegistry_Block_Customer_Items extends Magento_Catalog_Block_Product_Abstract
+namespace Magento\GiftRegistry\Block\Customer;
+
+class Items extends \Magento\Catalog\Block\Product\AbstractProduct
 {
     /**
      * Return gift registry form header
@@ -24,13 +26,13 @@ class Magento_GiftRegistry_Block_Customer_Items extends Magento_Catalog_Block_Pr
     /**
      * Return list of gift registries
      *
-     * @return Magento_GiftRegistry_Model_Resource_Item_Collection
+     * @return \Magento\GiftRegistry\Model\Resource\Item\Collection
      */
     public function getItemCollection()
     {
         if (!$this->hasItemCollection()) {
-            $attributes = Mage::getSingleton('Magento_Catalog_Model_Config')->getProductAttributes();
-            $collection = Mage::getModel('Magento_GiftRegistry_Model_Item')->getCollection()
+            $attributes = \Mage::getSingleton('Magento\Catalog\Model\Config')->getProductAttributes();
+            $collection = \Mage::getModel('Magento\GiftRegistry\Model\Item')->getCollection()
                 ->addRegistryFilter($this->getEntity()->getId());
             $this->setData('item_collection', $collection);
         }
@@ -40,18 +42,18 @@ class Magento_GiftRegistry_Block_Customer_Items extends Magento_Catalog_Block_Pr
     /**
      * Retrieve item formatted date
      *
-     * @param Magento_GiftRegistry_Model_Item $item
+     * @param \Magento\GiftRegistry\Model\Item $item
      * @return string
      */
     public function getFormattedDate($item)
     {
-        return $this->formatDate($item->getAddedAt(), Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM);
+        return $this->formatDate($item->getAddedAt(), \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM);
     }
 
     /**
      * Retrieve escaped item note
      *
-     * @param Magento_GiftRegistry_Model_Item $item
+     * @param \Magento\GiftRegistry\Model\Item $item
      * @return string
      */
     public function getEscapedNote($item)
@@ -62,7 +64,7 @@ class Magento_GiftRegistry_Block_Customer_Items extends Magento_Catalog_Block_Pr
     /**
      * Retrieve item qty
      *
-     * @param Magento_GiftRegistry_Model_Item $item
+     * @param \Magento\GiftRegistry\Model\Item $item
      * @return string
      */
     public function getItemQty($item)
@@ -73,7 +75,7 @@ class Magento_GiftRegistry_Block_Customer_Items extends Magento_Catalog_Block_Pr
     /**
      * Retrieve item fulfilled qty
      *
-     * @param Magento_GiftRegistry_Model_Item $item
+     * @param \Magento\GiftRegistry\Model\Item $item
      * @return string
      */
     public function getItemQtyFulfilled($item)
@@ -114,7 +116,7 @@ class Magento_GiftRegistry_Block_Customer_Items extends Magento_Catalog_Block_Pr
     /**
      * Returns product price
      *
-     * @param Magento_GiftRegistry_Model_Item $item
+     * @param \Magento\GiftRegistry\Model\Item $item
      * @return mixed
      */
     public function getPrice($item)

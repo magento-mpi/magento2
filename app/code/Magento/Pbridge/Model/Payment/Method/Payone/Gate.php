@@ -11,7 +11,9 @@
 /**
  * Payone dummy payment method model
  */
-class Magento_Pbridge_Model_Payment_Method_Payone_Gate extends Magento_Payment_Model_Method_Cc
+namespace Magento\Pbridge\Model\Payment\Method\Payone;
+
+class Gate extends \Magento\Payment\Model\Method\Cc
 {
     /**
      * Payone payment method code
@@ -41,53 +43,53 @@ class Magento_Pbridge_Model_Payment_Method_Payone_Gate extends Magento_Payment_M
      *
      * @var string
      */
-    protected $_formBlockType = 'Magento_Pbridge_Block_Checkout_Payment_Payone_Gate';
+    protected $_formBlockType = 'Magento\Pbridge\Block\Checkout\Payment\Payone\Gate';
 
     /**
      * Form block type for the backend
      *
      * @var string
      */
-    protected $_backendFormBlockType = 'Magento_Pbridge_Block_Adminhtml_Sales_Order_Create_Payone_Gate';
+    protected $_backendFormBlockType = 'Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\Payone\Gate';
 
     /**
      * Payment Bridge Payment Method Instance
      *
-     * @var Magento_Pbridge_Model_Payment_Method_Pbridge
+     * @var \Magento\Pbridge\Model\Payment\Method\Pbridge
      */
     protected $_pbridgeMethodInstance = null;
 
     /**
      * Pbridge data
      *
-     * @var Magento_Pbridge_Helper_Data
+     * @var \Magento\Pbridge\Helper\Data
      */
     protected $_pbridgeData = null;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Pbridge_Helper_Data $pbridgeData
-     * @param Magento_Core_Model_ModuleListInterface $moduleList
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Payment_Helper_Data $paymentData
-     * @param Magento_Core_Model_Log_AdapterFactory $logAdapterFactory
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Centinel_Model_Service $centinelService
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Pbridge\Helper\Data $pbridgeData
+     * @param \Magento\Core\Model\ModuleListInterface $moduleList
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Payment\Helper\Data $paymentData
+     * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Centinel\Model\Service $centinelService
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Logger $logger,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Pbridge_Helper_Data $pbridgeData,
-        Magento_Core_Model_ModuleListInterface $moduleList,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Payment_Helper_Data $paymentData,
-        Magento_Core_Model_Log_AdapterFactory $logAdapterFactory,
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Centinel_Model_Service $centinelService,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Pbridge\Helper\Data $pbridgeData,
+        \Magento\Core\Model\ModuleListInterface $moduleList,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Payment\Helper\Data $paymentData,
+        \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Centinel\Model\Service $centinelService,
         array $data = array()
     ) {
         $this->_pbridgeData = $pbridgeData;
@@ -137,7 +139,7 @@ class Magento_Pbridge_Model_Payment_Method_Payone_Gate extends Magento_Payment_M
     /**
      * Return Payment Bridge method instance
      *
-     * @return Magento_Pbridge_Model_Payment_Method_Pbridge
+     * @return \Magento\Pbridge\Model\Payment\Method\Pbridge
      */
     public function getPbridgeMethodInstance()
     {
@@ -164,7 +166,7 @@ class Magento_Pbridge_Model_Payment_Method_Payone_Gate extends Magento_Payment_M
      * Assign data to info model instance
      *
      * @param  mixed $data
-     * @return Magento_Payment_Model_Info
+     * @return \Magento\Payment\Model\Info
      */
     public function assignData($data)
     {
@@ -191,13 +193,13 @@ class Magento_Pbridge_Model_Payment_Method_Payone_Gate extends Magento_Payment_M
     /**
      * Check whether payment method can be used
      *
-     * @param Magento_Sales_Model_Quote $quote
+     * @param \Magento\Sales\Model\Quote $quote
      * @return boolean
      */
     public function isAvailable($quote = null)
     {
         return $this->_pbridgeData->isEnabled($quote ? $quote->getStoreId() : null)
-            && Magento_Payment_Model_Method_Abstract::isAvailable($quote);
+            && \Magento\Payment\Model\Method\AbstractMethod::isAvailable($quote);
     }
 
     /**
@@ -207,7 +209,7 @@ class Magento_Pbridge_Model_Payment_Method_Payone_Gate extends Magento_Payment_M
      */
     public function getFormBlockType()
     {
-        return Mage::app()->getStore()->isAdmin() ?
+        return \Mage::app()->getStore()->isAdmin() ?
             $this->_backendFormBlockType :
             $this->_formBlockType;
     }
@@ -215,7 +217,7 @@ class Magento_Pbridge_Model_Payment_Method_Payone_Gate extends Magento_Payment_M
     /**
      * Validate payment method information object
      *
-     * @return Magento_Pbridge_Model_Payment_Method_Authorizenet
+     * @return \Magento\Pbridge\Model\Payment\Method\Authorizenet
      */
     public function validate()
     {
@@ -226,11 +228,11 @@ class Magento_Pbridge_Model_Payment_Method_Payone_Gate extends Magento_Payment_M
     /**
      * Authorization method being executed via Payment Bridge
      *
-     * @param Magento_Object $payment
+     * @param \Magento\Object $payment
      * @param float $amount
-     * @return Magento_Pbridge_Model_Payment_Method_Authorizenet
+     * @return \Magento\Pbridge\Model\Payment\Method\Authorizenet
      */
-    public function authorize(Magento_Object $payment, $amount)
+    public function authorize(\Magento\Object $payment, $amount)
     {
         $response = $this->getPbridgeMethodInstance()->authorize($payment, $amount);
         $payment->addData((array)$response);
@@ -240,11 +242,11 @@ class Magento_Pbridge_Model_Payment_Method_Payone_Gate extends Magento_Payment_M
     /**
      * Capturing method being executed via Payment Bridge
      *
-     * @param Magento_Object $payment
+     * @param \Magento\Object $payment
      * @param float $amount
-     * @return Magento_Pbridge_Model_Payment_Method_Authorizenet
+     * @return \Magento\Pbridge\Model\Payment\Method\Authorizenet
      */
-    public function capture(Magento_Object $payment, $amount)
+    public function capture(\Magento\Object $payment, $amount)
     {
         $response = $this->getPbridgeMethodInstance()->capture($payment, $amount);
         if (!$response) {
@@ -257,11 +259,11 @@ class Magento_Pbridge_Model_Payment_Method_Payone_Gate extends Magento_Payment_M
     /**
      * Refunding method being executed via Payment Bridge
      *
-     * @param Magento_Object $payment
+     * @param \Magento\Object $payment
      * @param float $amount
-     * @return Magento_Pbridge_Model_Payment_Method_Authorizenet
+     * @return \Magento\Pbridge\Model\Payment\Method\Authorizenet
      */
-    public function refund(Magento_Object $payment, $amount)
+    public function refund(\Magento\Object $payment, $amount)
     {
         $response = $this->getPbridgeMethodInstance()->refund($payment, $amount);
         $payment->addData((array)$response);
@@ -271,10 +273,10 @@ class Magento_Pbridge_Model_Payment_Method_Payone_Gate extends Magento_Payment_M
     /**
      * Voiding method being executed via Payment Bridge
      *
-     * @param Magento_Object $payment
-     * @return Magento_Pbridge_Model_Payment_Method_Authorizenet
+     * @param \Magento\Object $payment
+     * @return \Magento\Pbridge\Model\Payment\Method\Authorizenet
      */
-    public function void(Magento_Object $payment)
+    public function void(\Magento\Object $payment)
     {
         $response = $this->getPbridgeMethodInstance()->void($payment);
         $payment->addData((array)$response);
@@ -315,9 +317,9 @@ class Magento_Pbridge_Model_Payment_Method_Payone_Gate extends Magento_Payment_M
 
     /**
      * Set capture transaction ID to invoice for informational purposes
-     * @param Magento_Sales_Model_Order_Invoice $invoice
-     * @param Magento_Sales_Model_Order_Payment $payment
-     * @return Magento_Payment_Model_Method_Abstract
+     * @param \Magento\Sales\Model\Order\Invoice $invoice
+     * @param \Magento\Sales\Model\Order\Payment $payment
+     * @return \Magento\Payment\Model\Method\AbstractMethod
      */
     public function processInvoice($invoice, $payment)
     {

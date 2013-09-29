@@ -16,22 +16,24 @@
  * @package     Magento_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Bundle_Model_Resource_Bundle extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Bundle\Model\Resource;
+
+class Bundle extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
-     * @var Magento_Catalog_Model_Resource_Product_Relation
+     * @var \Magento\Catalog\Model\Resource\Product\Relation
      */
     protected $_productRelation;
 
     /**
      * Class constructor
      *
-     * @param Magento_Catalog_Model_Resource_Product_Relation $productRelation
-     * @param Magento_Core_Model_Resource $resource
+     * @param \Magento\Catalog\Model\Resource\Product\Relation $productRelation
+     * @param \Magento\Core\Model\Resource $resource
      */
     public function __construct(
-        Magento_Catalog_Model_Resource_Product_Relation $productRelation,
-        Magento_Core_Model_Resource $resource
+        \Magento\Catalog\Model\Resource\Product\Relation $productRelation,
+        \Magento\Core\Model\Resource $resource
     ) {
         parent::__construct($resource);
         $this->_productRelation = $productRelation;
@@ -51,7 +53,7 @@ class Magento_Bundle_Model_Resource_Bundle extends Magento_Core_Model_Resource_D
      *
      * @param int $productId
      * @param array $columns
-     * @return Zend_DB_Select
+     * @return \Zend_DB_Select
      */
     protected function _getSelect($productId, $columns = array())
     {
@@ -125,7 +127,7 @@ class Magento_Bundle_Model_Resource_Bundle extends Magento_Core_Model_Resource_D
      *
      * @param int $parentId
      * @param array $childIds
-     * @return Magento_Bundle_Model_Resource_Bundle
+     * @return \Magento\Bundle\Model\Resource\Bundle
      */
     public function saveProductRelations($parentId, $childIds)
     {

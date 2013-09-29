@@ -10,19 +10,21 @@
  */
 
 /**
- * Test class for Magento_Downloadable_Model_Product_Type
+ * Test class for \Magento\Downloadable\Model\Product\Type
  */
-class Magento_Downloadable_Model_Product_TypeTest extends PHPUnit_Framework_TestCase
+namespace Magento\Downloadable\Model\Product;
+
+class TypeTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Downloadable_Model_Product_Type
+     * @var \Magento\Downloadable\Model\Product\Type
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Downloadable_Model_Product_Type');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Downloadable\Model\Product\Type');
     }
 
     /**
@@ -30,11 +32,11 @@ class Magento_Downloadable_Model_Product_TypeTest extends PHPUnit_Framework_Test
      */
     public function testDeleteTypeSpecificData()
     {
-        $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Product');
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $product->load(1);
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
-            ->setCurrentStore(Magento_Core_Model_AppInterface::ADMIN_STORE_ID);
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
+            ->setCurrentStore(\Magento\Core\Model\AppInterface::ADMIN_STORE_ID);
         $product->setOrigData();
         $downloadableData = array();
 
@@ -51,8 +53,8 @@ class Magento_Downloadable_Model_Product_TypeTest extends PHPUnit_Framework_Test
 
         $product->setDownloadableData($downloadableData);
         $this->_model->deleteTypeSpecificData($product);
-        $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Product');
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $product->load(1);
 
         $links = $this->_model->getLinks($product);

@@ -15,7 +15,9 @@
  * @package    Magento_Connect
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-final class Magento_Downloader_Controller
+namespace Magento\Downloader;
+
+final class Controller
 {
     /**
      * Request key of action
@@ -25,7 +27,7 @@ final class Magento_Downloader_Controller
     /**
      * Instance of class
      *
-     * @var Magento_Downloader_Controller
+     * @var \Magento\Downloader\Controller
      */
     private static $_instance;
 
@@ -67,28 +69,28 @@ final class Magento_Downloader_Controller
     /**
      * View instance
      *
-     * @var Magento_Downloader_View
+     * @var \Magento\Downloader\View
      */
     private $_view;
 
     /**
      * Connect config instance
      *
-     * @var Magento_Connect_Config
+     * @var \Magento\Connect\Config
      */
     private $_config;
 
     /**
      * Config instance
      *
-     * @var Magento_Downloader_Model_Config
+     * @var \Magento\Downloader\Model\Config
      */
     private $_localConfig;
 
     /**
      * Session instance
      *
-     * @var Magento_Downloader_Model_Session
+     * @var \Magento\Downloader\Model\Session
      */
     private $_session;
 
@@ -447,7 +449,7 @@ final class Magento_Downloader_Controller
                 $this->model('connect', true)->saveConfigPost($_POST);
                 $this->channelConfig()->setSettingsSession($_POST, $this->session());
                 $this->model('connect', true)->connect()->run('sync');
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->session()->addMessage('error', "Unable to save settings: " . $e->getMessage());
             }
         }
@@ -472,7 +474,7 @@ final class Magento_Downloader_Controller
     {
         try {
             self::singleton()->dispatch();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             echo $e->getMessage();
         }
     }
@@ -480,7 +482,7 @@ final class Magento_Downloader_Controller
     /**
      * Initialize object of class
      *
-     * @return Magento_Downloader_Controller
+     * @return \Magento\Downloader\Controller
      */
     public static function singleton()
     {
@@ -494,13 +496,13 @@ final class Magento_Downloader_Controller
                     }
                     include_once self::$_instance->getBootstrapPath();
 
-                    Magento_Core_Model_ObjectManager::getInstance()
-                        ->get('Magento_Core_Model_App_State')
+                    \Magento\Core\Model\ObjectManager::getInstance()
+                        ->get('Magento\Core\Model\App\State')
                         ->setIsDownloader();
                 }
-                Magento_Core_Model_ObjectManager::getInstance()->get('Magento_Core_Model_App');
+                \Magento\Core\Model\ObjectManager::getInstance()->get('Magento\Core\Model\App');
                 if (self::isInstalled()) {
-                    Mage::getSingleton('Magento_Backend_Model_Url')->turnOffSecretKey();
+                    \Mage::getSingleton('Magento\Backend\Model\Url')->turnOffSecretKey();
                 }
             }
         }
@@ -539,7 +541,7 @@ final class Magento_Downloader_Controller
     }
 
     /**
-     * Retrieve path for Magento_Profiler
+     * Retrieve path for \Magento\Profiler
      *
      * @return string
      */
@@ -564,12 +566,12 @@ final class Magento_Downloader_Controller
     /**
      * Retrieve object of view
      *
-     * @return Magento_Downloader_View
+     * @return \Magento\Downloader\View
      */
     public function view()
     {
         if (!$this->_view) {
-            $this->_view = new Magento_Downloader_View;
+            $this->_view = new \Magento\Downloader\View;
         }
         return $this->_view;
     }
@@ -579,7 +581,7 @@ final class Magento_Downloader_Controller
      *
      * @param string $model
      * @param boolean $singleton
-     * @return Magento_Downloader_Model
+     * @return \Magento\Downloader\Model
      */
     public function model($model = null, $singleton = false)
     {
@@ -588,9 +590,9 @@ final class Magento_Downloader_Controller
         }
 
         if (is_null($model)) {
-            $class = 'Magento_Downloader_Model';
+            $class = 'Magento\Downloader\Model';
         } else {
-            $class = 'Magento_Downloader_Model_' . str_replace(' ', '_', ucwords(str_replace('_', ' ', $model)));
+            $class = 'Magento\Downloader\Model\\' . str_replace(' ', '\\', ucwords(str_replace('\\', ' ', $model)));
             if (!class_exists($class, false)) {
                 include_once str_replace('_', DIRECTORY_SEPARATOR, $class).'.php';
             }
@@ -608,7 +610,7 @@ final class Magento_Downloader_Controller
     /**
      * Retrieve object of config
      *
-     * @return Magento_Connect_Config
+     * @return \Magento\Connect\Config
      */
     public function config()
     {
@@ -627,7 +629,7 @@ final class Magento_Downloader_Controller
     /**
      * Retrieve object of channel config
      *
-     * @return Magento_Downloader_Model_Config_Interface
+     * @return \Magento\Downloader\Model\Config\ConfigInterface
      */
     public function channelConfig()
     {
@@ -640,7 +642,7 @@ final class Magento_Downloader_Controller
     /**
      * Retrieve object of session
      *
-     * @return Magento_Downloader_Model_Session
+     * @return \Magento\Downloader\Model\Session
      */
     public function session()
     {
@@ -654,7 +656,7 @@ final class Magento_Downloader_Controller
      * Set Controller action
      *
      * @param string $action
-     * @return Magento_Downloader_Controller
+     * @return \Magento\Downloader\Controller
      */
     public function setAction($action=null)
     {
@@ -687,7 +689,7 @@ final class Magento_Downloader_Controller
      *
      * @param string $url
      * @param bool $force
-     * @return Magento_Downloader_Controller
+     * @return \Magento\Downloader\Controller
      */
     public function redirect($url, $force = false)
     {
@@ -701,7 +703,7 @@ final class Magento_Downloader_Controller
     /**
      * Precess redirect
      *
-     * @return Magento_Downloader_Controller
+     * @return \Magento\Downloader\Controller
      */
     public function processRedirect()
     {
@@ -721,7 +723,7 @@ final class Magento_Downloader_Controller
      * Forward to action
      *
      * @param string $action
-     * @return Magento_Downloader_Controller
+     * @return \Magento\Downloader\Controller
      */
     public function forward($action)
     {
@@ -821,7 +823,7 @@ final class Magento_Downloader_Controller
         if (!$this->isDownloaded()) {
             return false;
         }
-        return Mage::isInstalled();
+        return \Mage::isInstalled();
     }
 
     /**
@@ -860,7 +862,7 @@ final class Magento_Downloader_Controller
             $maintenance_filename='maintenance.flag';
             $config = $this->config();
             if (!$this->isWritable() || strlen($config->__get('remote_config')) > 0) {
-                $ftpObj = new Magento_Connect_Ftp();
+                $ftpObj = new \Magento\Connect\Ftp();
                 $ftpObj->connect($config->__get('remote_config'));
                 $tempFile = tempnam(sys_get_temp_dir(),'maintenance');
                 @file_put_contents($tempFile, 'maintenance');
@@ -890,7 +892,7 @@ final class Magento_Downloader_Controller
             if (!$isSuccess) {
                 $this->endInstall();
                 $this->cleanCache();
-                throw new Magento_Exception(
+                throw new \Magento\Exception(
                     'The installation process has been canceled because of the backup creation error'
                 );
             }
@@ -903,9 +905,9 @@ final class Magento_Downloader_Controller
     public function endInstall()
     {
         //$connect
-        /** @var $connect Magento_Downloader_Model_Connect */
+        /** @var $connect \Magento\Downloader\Model\Connect */
         $frontend = $this->model('connect', true)->connect()->getFrontend();
-        if (!($frontend instanceof Magento_Downloader_Connect_Frontend)) {
+        if (!($frontend instanceof \Magento\Downloader\Connect\Frontend)) {
             $this->cleanCache();
         }
     }
@@ -917,24 +919,24 @@ final class Magento_Downloader_Controller
         try {
             if ($this->isInstalled()) {
                 if (!empty($_REQUEST['clean_sessions'])) {
-                    Mage::app()->cleanAllSessions();
+                    \Mage::app()->cleanAllSessions();
                     $message .= 'Session cleaned successfully. ';
                 }
-                Mage::app()->cleanCache();
+                \Mage::app()->cleanCache();
 
                 // reinit config and apply all updates
-                Mage::app()->getConfig()->reinit();
+                \Mage::app()->getConfig()->reinit();
 
-                /** @var $updater Magento_Core_Model_Db_UpdaterInterface*/
-                $updater = Magento_Core_Model_ObjectManager::getInstance()
-                    ->get('Magento_Core_Model_Db_UpdaterInterface');
+                /** @var $updater \Magento\Core\Model\Db\UpdaterInterface*/
+                $updater = \Magento\Core\Model\ObjectManager::getInstance()
+                    ->get('Magento\Core\Model\Db\UpdaterInterface');
                 $updater->updateScheme();
                 $updater->updateData();
                 $message .= 'Cache cleaned successfully';
             } else {
                 $result = true;
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $result = false;
             $message = "Exception during cache and session cleaning: ".$e->getMessage();
             $this->session()->addMessage('error', $message);
@@ -944,7 +946,7 @@ final class Magento_Downloader_Controller
             $maintenance_filename='maintenance.flag';
             $config = $this->config();
             if (!$this->isWritable() && strlen($config->__get('remote_config')) > 0) {
-                $ftpObj = new Magento_Connect_Ftp();
+                $ftpObj = new \Magento\Connect\Ftp();
                 $ftpObj->connect($config->__get('remote_config'));
                 $ftpObj->delete($maintenance_filename);
                 $ftpObj->close();
@@ -998,7 +1000,7 @@ final class Magento_Downloader_Controller
      * @return bool
      */
     protected function _createBackup($archiveType, $archiveName){
-        /** @var $connect Magento_Downloader_Connect */
+        /** @var $connect \Magento\Downloader\Connect */
         $connect = $this->model('connect', true)->connect();
         $connect->runHtmlConsole('Creating backup...');
 
@@ -1007,18 +1009,18 @@ final class Magento_Downloader_Controller
         try {
             $type = $this->_getBackupTypeByCode($archiveType);
 
-            $backupManager = Magento_Backup::getBackupInstance($type)
+            $backupManager = \Magento\Backup::getBackupInstance($type)
                 ->setBackupExtension($this->_getExtensionType($type))
                 ->setTime(time())
                 ->setName($archiveName)
-                ->setBackupsDir(Mage::getBaseDir('var') . DS . 'backups');
+                ->setBackupsDir(\Mage::getBaseDir('var') . DS . 'backups');
 
-            Magento_Core_Model_ObjectManager::getInstance()
-                ->get('Magento_Core_Model_Registry')
+            \Magento\Core\Model\ObjectManager::getInstance()
+                ->get('Magento\Core\Model\Registry')
                 ->register('backup_manager', $backupManager);
 
-            if ($type != Magento_Backup_Helper_Data::TYPE_DB) {
-                $backupManager->setRootDir(Mage::getBaseDir())
+            if ($type != \Magento\Backup\Helper\Data::TYPE_DB) {
+                $backupManager->setRootDir(\Mage::getBaseDir())
                     ->addIgnorePaths($this->_getBackupIgnorePaths());
             }
             $backupManager->create();
@@ -1026,11 +1028,11 @@ final class Magento_Downloader_Controller
                 $this->_getCreateBackupSuccessMessageByType($type)
             );
             $isSuccess = true;
-        } catch (Magento_Backup_Exception_NotEnoughFreeSpace $e) {
+        } catch (\Magento\Backup\Exception\NotEnoughFreeSpace $e) {
             $connect->runHtmlConsole('Not enough free space to create backup.');
-        } catch (Magento_Backup_Exception_NotEnoughPermissions $e) {
+        } catch (\Magento\Backup\Exception\NotEnoughPermissions $e) {
             $connect->runHtmlConsole('Not enough permissions to create backup.');
-        } catch (Exception  $e) {
+        } catch (\Exception  $e) {
             $connect->runHtmlConsole('An error occurred while creating the backup.');
         }
 
@@ -1040,10 +1042,10 @@ final class Magento_Downloader_Controller
     protected function _getExtensionType($type)
     {
         $extensionType = array(
-            Magento_Backup_Helper_Data::TYPE_SYSTEM_SNAPSHOT => 'tgz',
-            Magento_Backup_Helper_Data::TYPE_SNAPSHOT_WITHOUT_MEDIA => 'tgz',
-            Magento_Backup_Helper_Data::TYPE_MEDIA => 'tgz',
-            Magento_Backup_Helper_Data::TYPE_DB => 'gz'
+            \Magento\Backup\Helper\Data::TYPE_SYSTEM_SNAPSHOT => 'tgz',
+            \Magento\Backup\Helper\Data::TYPE_SNAPSHOT_WITHOUT_MEDIA => 'tgz',
+            \Magento\Backup\Helper\Data::TYPE_MEDIA => 'tgz',
+            \Magento\Backup\Helper\Data::TYPE_DB => 'gz'
         );
 
         return $extensionType[$type];
@@ -1055,12 +1057,12 @@ final class Magento_Downloader_Controller
             '.git',
             '.svn',
             'maintenance.flag',
-            Mage::getBaseDir('var') . DS . 'session',
-            Mage::getBaseDir('var') . DS . 'cache',
-            Mage::getBaseDir('var') . DS . 'full_page_cache',
-            Mage::getBaseDir('var') . DS . 'locks',
-            Mage::getBaseDir('var') . DS . 'log',
-            Mage::getBaseDir('var') . DS . 'report'
+            \Mage::getBaseDir('var') . DS . 'session',
+            \Mage::getBaseDir('var') . DS . 'cache',
+            \Mage::getBaseDir('var') . DS . 'full_page_cache',
+            \Mage::getBaseDir('var') . DS . 'locks',
+            \Mage::getBaseDir('var') . DS . 'log',
+            \Mage::getBaseDir('var') . DS . 'report'
         );
     }
 
@@ -1073,14 +1075,14 @@ final class Magento_Downloader_Controller
     protected function _getBackupTypeByCode($code)
     {
         $typeMap = array(
-            1 => Magento_Backup_Helper_Data::TYPE_DB,
-            2 => Magento_Backup_Helper_Data::TYPE_SYSTEM_SNAPSHOT,
-            3 => Magento_Backup_Helper_Data::TYPE_SNAPSHOT_WITHOUT_MEDIA,
-            4 => Magento_Backup_Helper_Data::TYPE_MEDIA
+            1 => \Magento\Backup\Helper\Data::TYPE_DB,
+            2 => \Magento\Backup\Helper\Data::TYPE_SYSTEM_SNAPSHOT,
+            3 => \Magento\Backup\Helper\Data::TYPE_SNAPSHOT_WITHOUT_MEDIA,
+            4 => \Magento\Backup\Helper\Data::TYPE_MEDIA
         );
 
         if (!isset($typeMap[$code])) {
-            Mage::throwException('Unknown backup type');
+            \Mage::throwException('Unknown backup type');
         }
 
         return $typeMap[$code];
@@ -1095,10 +1097,10 @@ final class Magento_Downloader_Controller
     protected function _getCreateBackupSuccessMessageByType($type)
     {
         $messagesMap = array(
-            Magento_Backup_Helper_Data::TYPE_SYSTEM_SNAPSHOT => 'System backup has been created',
-            Magento_Backup_Helper_Data::TYPE_SNAPSHOT_WITHOUT_MEDIA => 'System (excluding Media) backup has been created',
-            Magento_Backup_Helper_Data::TYPE_MEDIA => 'Database and media backup has been created',
-            Magento_Backup_Helper_Data::TYPE_DB => 'Database backup has been created'
+            \Magento\Backup\Helper\Data::TYPE_SYSTEM_SNAPSHOT => 'System backup has been created',
+            \Magento\Backup\Helper\Data::TYPE_SNAPSHOT_WITHOUT_MEDIA => 'System (excluding Media) backup has been created',
+            \Magento\Backup\Helper\Data::TYPE_MEDIA => 'Database and media backup has been created',
+            \Magento\Backup\Helper\Data::TYPE_DB => 'Database backup has been created'
         );
 
         if (!isset($messagesMap[$type])) {

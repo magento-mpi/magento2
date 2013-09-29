@@ -11,16 +11,18 @@
 /**
  * Country model
  *
- * @method Magento_Directory_Model_Resource_Country _getResource()
- * @method Magento_Directory_Model_Resource_Country getResource()
+ * @method \Magento\Directory\Model\Resource\Country _getResource()
+ * @method \Magento\Directory\Model\Resource\Country getResource()
  * @method string getCountryId()
- * @method Magento_Directory_Model_Country setCountryId(string $value)
+ * @method \Magento\Directory\Model\Country setCountryId(string $value)
  * @method string getIso2Code()
- * @method Magento_Directory_Model_Country setIso2Code(string $value)
+ * @method \Magento\Directory\Model\Country setIso2Code(string $value)
  * @method string getIso3Code()
- * @method Magento_Directory_Model_Country setIso3Code(string $value)
+ * @method \Magento\Directory\Model\Country setIso3Code(string $value)
  */
-class Magento_Directory_Model_Country extends Magento_Core_Model_Abstract
+namespace Magento\Directory\Model;
+
+class Country extends \Magento\Core\Model\AbstractModel
 {
     /**
      * @var array
@@ -28,38 +30,38 @@ class Magento_Directory_Model_Country extends Magento_Core_Model_Abstract
     static public $_format = array();
 
     /**
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
     /**
-     * @var Magento_Directory_Model_Country_FormatFactory
+     * @var \Magento\Directory\Model\Country\FormatFactory
      */
     protected $_formatFactory;
 
     /**
-     * @var Magento_Directory_Model_Resource_Region_CollectionFactory
+     * @var \Magento\Directory\Model\Resource\Region\CollectionFactory
      */
     protected $_regionCollFactory;
 
     /**
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Directory_Model_Country_FormatFactory $formatFactory
-     * @param Magento_Directory_Model_Resource_Region_CollectionFactory $regionCollFactory
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Directory\Model\Country\FormatFactory $formatFactory
+     * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Directory_Model_Country_FormatFactory $formatFactory,
-        Magento_Directory_Model_Resource_Region_CollectionFactory $regionCollFactory,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Directory\Model\Country\FormatFactory $formatFactory,
+        \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct(
@@ -72,7 +74,7 @@ class Magento_Directory_Model_Country extends Magento_Core_Model_Abstract
 
     protected function _construct()
     {
-        $this->_init('Magento_Directory_Model_Resource_Country');
+        $this->_init('Magento\Directory\Model\Resource\Country');
     }
 
     /**
@@ -86,7 +88,7 @@ class Magento_Directory_Model_Country extends Magento_Core_Model_Abstract
     }
 
     /**
-     * @return Magento_Directory_Model_Resource_Region_Collection
+     * @return \Magento\Directory\Model\Resource\Region\Collection
      */
     public function getRegions()
     {
@@ -94,7 +96,7 @@ class Magento_Directory_Model_Country extends Magento_Core_Model_Abstract
     }
 
     /**
-     * @return Magento_Directory_Model_Resource_Region_Collection
+     * @return \Magento\Directory\Model\Resource\Region\Collection
      */
     public function getLoadedRegionCollection()
     {
@@ -104,7 +106,7 @@ class Magento_Directory_Model_Country extends Magento_Core_Model_Abstract
     }
 
     /**
-     * @return Magento_Directory_Model_Resource_Region_Collection
+     * @return \Magento\Directory\Model\Resource\Region\Collection
      */
     public function getRegionCollection()
     {
@@ -114,11 +116,11 @@ class Magento_Directory_Model_Country extends Magento_Core_Model_Abstract
     }
 
     /**
-     * @param Magento_Object $address
+     * @param \Magento\Object $address
      * @param bool $html
      * @return string
      */
-    public function formatAddress(Magento_Object $address, $html = false)
+    public function formatAddress(\Magento\Object $address, $html = false)
     {
         //TODO: is it still used?
         $address->getRegion();
@@ -144,7 +146,7 @@ T: {{telephone}}";
             }
         }
 
-        $filter = new Magento_Filter_Template_Simple();
+        $filter = new \Magento\Filter\Template\Simple();
         $addressText = $filter->setData($address->getData())->filter($template);
 
         if ($html) {
@@ -159,7 +161,7 @@ T: {{telephone}}";
     /**
      * Retrieve formats for
      *
-     * @return Magento_Directory_Model_Resource_Country_Format_Collection
+     * @return \Magento\Directory\Model\Resource\Country\Format\Collection
      */
     public function getFormats()
     {
@@ -179,7 +181,7 @@ T: {{telephone}}";
      * Retrieve format
      *
      * @param string $type
-     * @return Magento_Directory_Model_Country_Format
+     * @return \Magento\Directory\Model\Country\Format
      */
     public function getFormat($type)
     {

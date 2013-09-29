@@ -36,7 +36,7 @@ try {
     $opt->parse();
 
     $generationDir = $opt->getOption('generation') ? $opt->getOption('generation') : $rootDir . DS . 'var/generation';
-    Magento_Autoload_IncludePath::addIncludePath($generationDir);
+    \Magento\Autoload\IncludePath::addIncludePath($generationDir);
 
     $diDir = $opt->getOption('di') ? $opt->getOption('di') : $rootDir . DS . 'var/di';
     $compiledFile = $diDir . DS . 'definitions.php';
@@ -74,19 +74,19 @@ try {
     $entities = array_merge($entities, $interceptorScanner->collectEntities($files['di']));
 
     // 1.2 Generation
-    $generatorIo = new Magento_Code_Generator_Io(null, null, $generationDir);
-    $generator = new Magento_Code_Generator(null, null, $generatorIo);
+    $generatorIo = new \Magento\Code\Generator\Io(null, null, $generationDir);
+    $generator = new \Magento\Code\Generator(null, null, $generatorIo);
     foreach ($entities as $entityName) {
         switch ($generator->generateClass($entityName)) {
-            case Magento_Code_Generator::GENERATION_SUCCESS:
+            case \Magento\Code\Generator::GENERATION_SUCCESS:
                 $log->add(Log::GENERATION_SUCCESS, $entityName);
                 break;
 
-            case Magento_Code_Generator::GENERATION_ERROR:
+            case \Magento\Code\Generator::GENERATION_ERROR:
                 $log->add(Log::GENERATION_ERROR, $entityName);
                 break;
 
-            case Magento_Code_Generator::GENERATION_SKIP:
+            case \Magento\Code\Generator::GENERATION_SKIP:
             default:
                 //no log
                 break;

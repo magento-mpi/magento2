@@ -12,42 +12,44 @@
 /**
  * Gift Message model
  *
- * @method Magento_GiftMessage_Model_Resource_Message _getResource()
- * @method Magento_GiftMessage_Model_Resource_Message getResource()
+ * @method \Magento\GiftMessage\Model\Resource\Message _getResource()
+ * @method \Magento\GiftMessage\Model\Resource\Message getResource()
  * @method int getCustomerId()
- * @method Magento_GiftMessage_Model_Message setCustomerId(int $value)
+ * @method \Magento\GiftMessage\Model\Message setCustomerId(int $value)
  * @method string getSender()
- * @method Magento_GiftMessage_Model_Message setSender(string $value)
+ * @method \Magento\GiftMessage\Model\Message setSender(string $value)
  * @method string getRecipient()
- * @method Magento_GiftMessage_Model_Message setRecipient(string $value)
+ * @method \Magento\GiftMessage\Model\Message setRecipient(string $value)
  * @method string getMessage()
- * @method Magento_GiftMessage_Model_Message setMessage(string $value)
+ * @method \Magento\GiftMessage\Model\Message setMessage(string $value)
  *
  * @category    Magento
  * @package     Magento_GiftMessage
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GiftMessage_Model_Message extends Magento_Core_Model_Abstract
+namespace Magento\GiftMessage\Model;
+
+class Message extends \Magento\Core\Model\AbstractModel
 {
     /**
-     * @var Magento_GiftMessage_Model_TypeFactory
+     * @var \Magento\GiftMessage\Model\TypeFactory
      */
     protected $_typeFactory;
 
     /**
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_GiftMessage_Model_Resource_Message $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
-     * @param Magento_GiftMessage_Model_TypeFactory $typeFactory
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\GiftMessage\Model\Resource\Message $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\GiftMessage\Model\TypeFactory $typeFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_GiftMessage_Model_Resource_Message $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
-        Magento_GiftMessage_Model_TypeFactory $typeFactory,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\GiftMessage\Model\Resource\Message $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\GiftMessage\Model\TypeFactory $typeFactory,
         array $data = array()
     ) {
         $this->_typeFactory = $typeFactory;
@@ -56,7 +58,7 @@ class Magento_GiftMessage_Model_Message extends Magento_Core_Model_Abstract
 
     protected function _construct()
     {
-        $this->_init('Magento_GiftMessage_Model_Resource_Message');
+        $this->_init('Magento\GiftMessage\Model\Resource\Message');
     }
 
     /**
@@ -64,7 +66,7 @@ class Magento_GiftMessage_Model_Message extends Magento_Core_Model_Abstract
      *
      * @param string $type
      *
-     * @return Magento_Eav_Model_Entity_Abstract
+     * @return \Magento\Eav\Model\Entity\AbstractEntity
      */
     public function getEntityModelByType($type)
     {

@@ -13,15 +13,17 @@
  * GiftWrapping total calculator for invoice
  *
  */
-class Magento_GiftWrapping_Model_Total_Invoice_Giftwrapping extends Magento_Sales_Model_Order_Invoice_Total_Abstract
+namespace Magento\GiftWrapping\Model\Total\Invoice;
+
+class Giftwrapping extends \Magento\Sales\Model\Order\Invoice\Total\AbstractTotal
 {
     /**
      * Collect gift wrapping totals
      *
-     * @param Magento_Sales_Model_Order_Invoice $invoice
-     * @return Magento_GiftWrapping_Model_Total_Invoice_Giftwrapping
+     * @param \Magento\Sales\Model\Order\Invoice $invoice
+     * @return \Magento\GiftWrapping\Model\Total\Invoice\Giftwrapping
      */
-    public function collect(Magento_Sales_Model_Order_Invoice $invoice)
+    public function collect(\Magento\Sales\Model\Order\Invoice $invoice)
     {
         $order = $invoice->getOrder();
 

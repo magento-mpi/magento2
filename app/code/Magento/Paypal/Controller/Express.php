@@ -9,28 +9,30 @@
 /**
  * Express Checkout Controller
  */
-class Magento_Paypal_Controller_Express extends Magento_Paypal_Controller_Express_Abstract
+namespace Magento\Paypal\Controller;
+
+class Express extends \Magento\Paypal\Controller\Express\AbstractExpress
 {
     /**
      * Config mode type
      *
      * @var string
      */
-    protected $_configType = 'Magento_Paypal_Model_Config';
+    protected $_configType = 'Magento\Paypal\Model\Config';
 
     /**
      * Config method type
      *
      * @var string
      */
-    protected $_configMethod = Magento_Paypal_Model_Config::METHOD_WPP_EXPRESS;
+    protected $_configMethod = \Magento\Paypal\Model\Config::METHOD_WPP_EXPRESS;
 
     /**
      * Checkout mode type
      *
      * @var string
      */
-    protected $_checkoutType = 'Magento_Paypal_Model_Express_Checkout';
+    protected $_checkoutType = 'Magento\Paypal\Model\Express\Checkout';
 
     /**
      * Redirect to login page
@@ -39,10 +41,10 @@ class Magento_Paypal_Controller_Express extends Magento_Paypal_Controller_Expres
     public function redirectLogin()
     {
         $this->setFlag('', 'no-dispatch', true);
-        Mage::getSingleton('Magento_Customer_Model_Session')->setBeforeAuthUrl($this->_getRefererUrl());
+        \Mage::getSingleton('Magento\Customer\Model\Session')->setBeforeAuthUrl($this->_getRefererUrl());
         $this->getResponse()->setRedirect(
-            $this->_objectManager->get('Magento_Core_Helper_Url')->addRequestParam(
-                $this->_objectManager->get('Magento_Customer_Helper_Data')->getLoginUrl(),
+            $this->_objectManager->get('Magento\Core\Helper\Url')->addRequestParam(
+                $this->_objectManager->get('Magento\Customer\Helper\Data')->getLoginUrl(),
                 array('context' => 'checkout')
             )
         );

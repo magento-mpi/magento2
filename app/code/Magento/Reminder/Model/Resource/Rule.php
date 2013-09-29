@@ -16,7 +16,9 @@
  * @package     Magento_Reminder
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reminder_Model_Resource_Rule extends Magento_Rule_Model_Resource_Abstract
+namespace Magento\Reminder\Model\Resource;
+
+class Rule extends \Magento\Rule\Model\Resource\AbstractResource
 {
     /**
      * Store associated with rule entities information map
@@ -54,11 +56,11 @@ class Magento_Reminder_Model_Resource_Rule extends Magento_Rule_Model_Resource_A
     /**
      * Add website ids to rule data after load
      *
-     * @param Magento_Core_Model_Abstract $object
+     * @param \Magento\Core\Model\AbstractModel $object
      *
-     * @return Magento_Reminder_Model_Resource_Rule
+     * @return \Magento\Reminder\Model\Resource\Rule
      */
-    protected function _afterLoad(Magento_Core_Model_Abstract $object)
+    protected function _afterLoad(\Magento\Core\Model\AbstractModel $object)
     {
         $object->setData('website_ids', (array)$this->getWebsiteIds($object->getId()));
 
@@ -70,10 +72,10 @@ class Magento_Reminder_Model_Resource_Rule extends Magento_Rule_Model_Resource_A
      * Bind reminder rule to and website(s).
      * Save store templates data.
      *
-     * @param Magento_Core_Model_Abstract $rule
-     * @return Magento_Reminder_Model_Resource_Rule
+     * @param \Magento\Core\Model\AbstractModel $rule
+     * @return \Magento\Reminder\Model\Resource\Rule
      */
-    protected function _afterSave(Magento_Core_Model_Abstract $rule)
+    protected function _afterSave(\Magento\Core\Model\AbstractModel $rule)
     {
         if ($rule->hasWebsiteIds()) {
             $websiteIds = $rule->getWebsiteIds();
@@ -94,9 +96,9 @@ class Magento_Reminder_Model_Resource_Rule extends Magento_Rule_Model_Resource_A
     /**
      * Save store templates
      *
-     * @param Magento_Reminder_Model_Rule $rule
-     * @return Magento_Reminder_Model_Resource_Rule
-     * @throws Exception
+     * @param \Magento\Reminder\Model\Rule $rule
+     * @return \Magento\Reminder\Model\Resource\Rule
+     * @throws \Exception
      */
     protected function _saveStoreData($rule)
     {
@@ -130,7 +132,7 @@ class Magento_Reminder_Model_Resource_Rule extends Magento_Rule_Model_Resource_A
             if (!empty($data)) {
                 $adapter->insertMultiple($templateTable, $data);
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $adapter->rollback();
             throw $e;
         }
@@ -199,7 +201,7 @@ class Magento_Reminder_Model_Resource_Rule extends Magento_Rule_Model_Resource_A
      *
      * @param int $ruleId
      *
-     * @return Magento_Reminder_Model_Resource_Rule
+     * @return \Magento\Reminder\Model\Resource\Rule
      */
     public function deactivateMatchedCustomers($ruleId)
     {
@@ -215,18 +217,18 @@ class Magento_Reminder_Model_Resource_Rule extends Magento_Rule_Model_Resource_A
      * Try to associate reminder rule with matched customers.
      * If customer was added earlier, update is_active column.
      *
-     * @param Magento_Reminder_Model_Rule $rule
-     * @param Magento_SalesRule_Model_Rule $salesRule
+     * @param \Magento\Reminder\Model\Rule $rule
+     * @param \Magento\SalesRule\Model\Rule $salesRule
      * @param int $websiteId
      * @param int $threshold
-     * @return Magento_Reminder_Model_Resource_Rule
-     * @throws Exception
+     * @return \Magento\Reminder\Model\Resource\Rule
+     * @throws \Exception
      */
     public function saveMatchedCustomers($rule, $salesRule, $websiteId, $threshold = null)
     {
         $rule->setConditions(null);
         $rule->afterLoad();
-        /** @var $select Zend_Db_Select */
+        /** @var $select \Zend_Db_Select */
         $select = $rule->getConditions()->getConditionsSql(null, $websiteId);
 
         if (!$rule->getConditionSql()) {
@@ -273,7 +275,7 @@ class Magento_Reminder_Model_Resource_Rule extends Magento_Rule_Model_Resource_A
             if (!empty($dataToInsert)) {
                 $adapter->insertOnDuplicate($couponsTable, $dataToInsert, array('is_active'));
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $adapter->rollBack();
             throw $e;
         }
@@ -325,8 +327,8 @@ class Magento_Reminder_Model_Resource_Rule extends Magento_Rule_Model_Resource_A
             'log_sent_at_min' => 'MIN(l.sent_at)'
         ));
 
-        /** @var $helper Magento_Core_Model_Resource_Helper */
-        $helper = Mage::getResourceHelper('Magento_Core');
+        /** @var $helper \Magento\Core\Model\Resource\Helper */
+        $helper = \Mage::getResourceHelper('Magento_Core');
         $findInSetSql = $adapter->prepareSqlCondition('schedule', array(
             'finset' => $helper->getDateDiff('log_sent_at_min', $adapter->formatDate($currentDate))
         ));
@@ -345,7 +347,7 @@ class Magento_Reminder_Model_Resource_Rule extends Magento_Rule_Model_Resource_A
      * @param int $ruleId
      * @param int $customerId
      *
-     * @return Magento_Reminder_Model_Resource_Rule
+     * @return \Magento\Reminder\Model\Resource\Rule
      */
     public function addNotificationLog($ruleId, $customerId)
     {
@@ -366,12 +368,12 @@ class Magento_Reminder_Model_Resource_Rule extends Magento_Rule_Model_Resource_A
      * @param int $ruleId
      * @param int $customerId
      *
-     * @return Magento_Reminder_Model_Resource_Rule
+     * @return \Magento\Reminder\Model\Resource\Rule
      */
     public function updateFailedEmailsCounter($ruleId, $customerId)
     {
         $this->_getWriteAdapter()->update($this->getTable('magento_reminder_rule_coupon'),
-            array('emails_failed' => new Zend_Db_Expr('emails_failed + 1')),
+            array('emails_failed' => new \Zend_Db_Expr('emails_failed + 1')),
             array('rule_id = ?'   => $ruleId, 'customer_id = ?' => $customerId)
         );
         return $this;
@@ -389,7 +391,7 @@ class Magento_Reminder_Model_Resource_Rule extends Magento_Rule_Model_Resource_A
         $adapter = $this->_getReadAdapter();
         $select = $adapter->select()->from(
             array('r' => $this->getTable('magento_reminder_rule')),
-            array(new Zend_Db_Expr('count(1)'))
+            array(new \Zend_Db_Expr('count(1)'))
         );
         $select->where('r.salesrule_id = :salesrule_id');
 
@@ -400,13 +402,13 @@ class Magento_Reminder_Model_Resource_Rule extends Magento_Rule_Model_Resource_A
      * Detaches sales rule from all Email Remainder Rules that uses it
      *
      * @param int $salesRuleId
-     * @return Magento_Reminder_Model_Resource_Rule
+     * @return \Magento\Reminder\Model\Resource\Rule
      */
     public function detachSalesRule($salesRuleId)
     {
         $this->_getWriteAdapter()->update(
             $this->getTable('magento_reminder_rule'),
-            array('salesrule_id' => new Zend_Db_Expr('NULL')),
+            array('salesrule_id' => new \Zend_Db_Expr('NULL')),
             array('salesrule_id = ?' => $salesRuleId)
         );
 
@@ -439,7 +441,7 @@ class Magento_Reminder_Model_Resource_Rule extends Magento_Rule_Model_Resource_A
             case '<=':
                 return $operator;
             default:
-                Mage::throwException(__('Unknown operator specified.'));
+                \Mage::throwException(__('Unknown operator specified.'));
         }
     }
 
@@ -520,8 +522,8 @@ class Magento_Reminder_Model_Resource_Rule extends Magento_Rule_Model_Resource_A
      *
      * @deprecated after 1.11.2.0 use $this->bindRuleToEntity() instead
      *
-     * @param Magento_Reminder_Model_Rule $rule
-     * @return Magento_Reminder_Model_Resource_Rule
+     * @param \Magento\Reminder\Model\Rule $rule
+     * @return \Magento\Reminder\Model\Resource\Rule
      */
     protected function _saveWebsiteIds($rule)
     {
@@ -541,7 +543,7 @@ class Magento_Reminder_Model_Resource_Rule extends Magento_Rule_Model_Resource_A
      *
      * @deprecated after 1.11.2.0
      *
-     * @return Magento_DB_Select
+     * @return \Magento\DB\Select
      */
     public function createSelect()
     {

@@ -11,9 +11,11 @@
  *
  * @author Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Oauth_Block_Adminhtml_Oauth_Consumer_Grid extends Magento_Backend_Block_Widget_Grid_Extended
+namespace Magento\Oauth\Block\Adminhtml\Oauth\Consumer;
+
+class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 {
-    /** @var Magento_Oauth_Model_Consumer_Factory  */
+    /** @var \Magento\Oauth\Model\Consumer\Factory  */
     private $_consumerFactory;
 
     /**
@@ -26,19 +28,19 @@ class Magento_Oauth_Block_Adminhtml_Oauth_Consumer_Grid extends Magento_Backend_
     /**
      * Internal constructor. Override _construct(), not __construct().
      *
-     * @param Magento_Oauth_Model_Consumer_Factory $consumerFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Url $urlModel
+     * @param \Magento\Oauth\Model\Consumer\Factory $consumerFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
      * @param array $data
      */
     public function __construct(
-        Magento_Oauth_Model_Consumer_Factory $consumerFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Url $urlModel,
+        \Magento\Oauth\Model\Consumer\Factory $consumerFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
         array $data = array()
     ) {
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
@@ -53,14 +55,14 @@ class Magento_Oauth_Block_Adminhtml_Oauth_Consumer_Grid extends Magento_Backend_
         parent::_construct();
         $this->setId('consumerGrid');
         $this->setSaveParametersInSession(true);
-        $this->setDefaultSort('entity_id')->setDefaultDir(Magento_Db_Select::SQL_DESC);
+        $this->setDefaultSort('entity_id')->setDefaultDir(\Magento\Db\Select::SQL_DESC);
         $this->_editAllow = $this->_authorization->isAllowed('Magento_Oauth::consumer_edit');
     }
 
     /**
      * Prepare collection
      *
-     * @return Magento_Backend_Block_Widget_Grid
+     * @return \Magento\Backend\Block\Widget\Grid
      */
     protected function _prepareCollection()
     {
@@ -72,7 +74,7 @@ class Magento_Oauth_Block_Adminhtml_Oauth_Consumer_Grid extends Magento_Backend_
     /**
      * Prepare columns
      *
-     * @return Magento_Oauth_Block_Adminhtml_Oauth_Consumer_Grid
+     * @return \Magento\Oauth\Block\Adminhtml\Oauth\Consumer\Grid
      */
     protected function _prepareColumns()
     {
@@ -115,7 +117,7 @@ class Magento_Oauth_Block_Adminhtml_Oauth_Consumer_Grid extends Magento_Backend_
     /**
      * Get row URL
      *
-     * @param Magento_Oauth_Model_Consumer $row
+     * @param \Magento\Oauth\Model\Consumer $row
      * @return string|null
      */
     public function getRowUrl($row)

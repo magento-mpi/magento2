@@ -15,14 +15,18 @@
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  *
+ */
+namespace Magento\Backend\Block;
+
+/**
  * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
-class Magento_Backend_Block_Widget extends Magento_Backend_Block_Template
+class Widget extends \Magento\Backend\Block\Template
 {
     public function getId()
     {
         if (null === $this->getData('id')) {
-            $helper = $this->helper('Magento_Core_Helper_Data');
+            $helper = $this->helper('Magento\Core\Helper\Data');
             $this->setData('id', $helper->uniqHash('id_'));
         }
         return $this->getData('id');
@@ -75,7 +79,7 @@ class Magento_Backend_Block_Widget extends Magento_Backend_Block_Template
      */
     public function getButtonHtml($label, $onclick, $class = '', $buttonId = null, $dataAttr = array())
     {
-        return $this->getLayout()->createBlock('Magento_Backend_Block_Widget_Button')
+        return $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')
             ->setData(array(
                 'label'     => $label,
                 'onclick'   => $onclick,

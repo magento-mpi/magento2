@@ -8,12 +8,12 @@
  */
 -->
 <config>
-    <type name="Magento_Pbridge_Model_Session">
+    <type name="Magento\Pbridge\Model\Session">
         <param name="sessionName">
             <value>frontend</value>
         </param>
     </type>
-    <type name="Magento_Core_Model_Url_SecurityInfo">
+    <type name="Magento\Core\Model\Url\SecurityInfo">
         <param name="secureUrlList">
             <value>
                 <magento_pbridge_pbridge>/magento_pbridge/pbridge/</magento_pbridge_pbridge>

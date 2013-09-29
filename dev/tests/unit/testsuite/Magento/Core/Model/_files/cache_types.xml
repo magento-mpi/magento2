@@ -17,12 +17,12 @@
                 <fixture_type_tag_scope>
                     <label>Fixture Type One</label>
                     <description>This is Fixture Type One</description>
-                    <class>Magento_Cache_Frontend_Decorator_TagScope</class>
+                    <class>Magento\Cache\Frontend\Decorator\TagScope</class>
                 </fixture_type_tag_scope>
                 <fixture_type_bare>
                     <label>Fixture Type Two</label>
                     <description>This is Fixture Type Two</description>
-                    <class>Magento_Cache_Frontend_Decorator_Bare</class>
+                    <class>Magento\Cache\Frontend\Decorator\Bare</class>
                 </fixture_type_bare>
             </types>
         </cache>

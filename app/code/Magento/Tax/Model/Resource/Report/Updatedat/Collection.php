@@ -16,7 +16,9 @@
  * @package     Magento_Tax
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Tax_Model_Resource_Report_Updatedat_Collection extends Magento_Tax_Model_Resource_Report_Collection
+namespace Magento\Tax\Model\Resource\Report\Updatedat;
+
+class Collection extends \Magento\Tax\Model\Resource\Report\Collection
 {
     /**
      * Aggregated Data Table

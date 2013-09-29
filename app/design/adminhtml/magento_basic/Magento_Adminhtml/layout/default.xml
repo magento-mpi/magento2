@@ -9,22 +9,22 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <referenceBlock name="head">
-        <block class="Magento_Page_Block_Html_Head_Css" name="reset-css">
+        <block class="Magento\Page\Block\Html\Head\Css" name="reset-css">
             <arguments>
                 <argument name="file" xsi:type="string">reset.css</argument>
             </arguments>
         </block>
-        <block class="Magento_Page_Block_Html_Head_Css" name="boxes-css">
+        <block class="Magento\Page\Block\Html\Head\Css" name="boxes-css">
             <arguments>
                 <argument name="file" xsi:type="string">boxes.css</argument>
             </arguments>
         </block>
-        <block class="Magento_Page_Block_Html_Head_Css" name="custom-css">
+        <block class="Magento\Page\Block\Html\Head\Css" name="custom-css">
             <arguments>
                 <argument name="file" xsi:type="string">custom.css</argument>
             </arguments>
         </block>
-        <block class="Magento_Page_Block_Html_Head_Css" name="iestyles-css">
+        <block class="Magento\Page\Block\Html\Head\Css" name="iestyles-css">
             <arguments>
                 <argument name="file" xsi:type="string">iestyles.css</argument>
                 <argument name="properties" xsi:type="array">
@@ -33,7 +33,7 @@
                 </argument>
             </arguments>
         </block>
-        <block class="Magento_Page_Block_Html_Head_Css" name="below-ie-css">
+        <block class="Magento\Page\Block\Html\Head\Css" name="below-ie-css">
             <arguments>
                 <argument name="file" xsi:type="string">below_ie7.css</argument>
                 <argument name="properties" xsi:type="array">
@@ -42,7 +42,7 @@
                 </argument>
             </arguments>
         </block>
-        <block class="Magento_Page_Block_Html_Head_Css" name="ie-css">
+        <block class="Magento\Page\Block\Html\Head\Css" name="ie-css">
             <arguments>
                 <argument name="file" xsi:type="string">ie7.css</argument>
                 <argument name="properties" xsi:type="array">
@@ -51,7 +51,7 @@
                 </argument>
             </arguments>
         </block>
-        <block class="Magento_Page_Block_Html_Head_Css" name="menu-css">
+        <block class="Magento\Page\Block\Html\Head\Css" name="menu-css">
             <arguments>
                 <argument name="file" xsi:type="string">menu.css</argument>
                 <argument name="properties" xsi:type="array">
@@ -59,7 +59,7 @@
                 </argument>
             </arguments>
         </block>
-        <block class="Magento_Page_Block_Html_Head_Css" name="print-css">
+        <block class="Magento\Page\Block\Html\Head\Css" name="print-css">
             <arguments>
                 <argument name="file" xsi:type="string">print.css</argument>
                 <argument name="properties" xsi:type="array">

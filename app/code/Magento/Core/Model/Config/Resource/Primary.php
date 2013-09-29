@@ -7,11 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Config_Resource_Primary implements Magento_Core_Model_Config_ResourceInterface
+namespace Magento\Core\Model\Config\Resource;
+
+class Primary implements \Magento\Core\Model\Config\ResourceInterface
 {
     protected $_resourceList;
 
-    public function __construct(Magento_Core_Model_Config_Local $configLocal)
+    public function __construct(\Magento\Core\Model\Config\Local $configLocal)
     {
         $this->_resourceList = $configLocal->getResources();
     }
@@ -27,6 +29,6 @@ class Magento_Core_Model_Config_Resource_Primary implements Magento_Core_Model_C
     {
         return isset($this->_resourceList[$resourceName]['connection'])
             ? $this->_resourceList[$resourceName]['connection']
-            : Magento_Core_Model_Config_Resource::DEFAULT_SETUP_CONNECTION;
+            : \Magento\Core\Model\Config\Resource::DEFAULT_SETUP_CONNECTION;
     }
 }

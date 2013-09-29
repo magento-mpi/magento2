@@ -8,7 +8,9 @@
  * @license    {license_link}
  */
 
-class Magento_Tools_Migration_Acl_Db_Logger_Factory
+namespace Magento\Tools\Migration\Acl\Db\Logger;
+
+class Factory
 {
     /**
      * List of allowed logger types
@@ -27,23 +29,23 @@ class Magento_Tools_Migration_Acl_Db_Logger_Factory
     /**
      * @param string $loggerType
      * @param string $filePath
-     * @return Magento_Tools_Migration_Acl_Db_LoggerAbstract
-     * @throws InvalidArgumentException
+     * @return \Magento\Tools\Migration\Acl\Db\LoggerAbstract
+     * @throws \InvalidArgumentException
      */
     public function getLogger($loggerType, $filePath = null)
     {
         $loggerType = empty($loggerType) ? 'console' : $loggerType;
         if (false == in_array($loggerType, $this->_allowedLoggerTypes)) {
-            throw new InvalidArgumentException('Invalid logger type: ' . $loggerType);
+            throw new \InvalidArgumentException('Invalid logger type: ' . $loggerType);
         }
 
         $loggerClassName = null;
         switch ($loggerType) {
             case 'file':
-                $loggerClassName = 'Magento_Tools_Migration_Acl_Db_Logger_File';
+                $loggerClassName = 'Magento\Tools\Migration\Acl\Db\Logger\File';
                 break;
             default:
-                $loggerClassName = 'Magento_Tools_Migration_Acl_Db_Logger_Console';
+                $loggerClassName = 'Magento\Tools\Migration\Acl\Db\Logger\Console';
                 break;
         }
 

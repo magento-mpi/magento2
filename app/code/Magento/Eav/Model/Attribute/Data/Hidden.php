@@ -16,6 +16,8 @@
  * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Eav_Model_Attribute_Data_Hidden extends Magento_Eav_Model_Attribute_Data_Text
+namespace Magento\Eav\Model\Attribute\Data;
+
+class Hidden extends \Magento\Eav\Model\Attribute\Data\Text
 {
 }

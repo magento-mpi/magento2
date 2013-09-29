@@ -15,29 +15,33 @@
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  *
+ */
+namespace Magento\Backend\Block\System\Config\Form;
+
+/**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Magento_Backend_Block_System_Config_Form_Field
-    extends Magento_Backend_Block_Template
-    implements Magento_Data_Form_Element_Renderer_Interface
+class Field
+    extends \Magento\Backend\Block\Template
+    implements \Magento\Data\Form\Element\Renderer\RendererInterface
 {
     /**
      * Application
      *
-     * @var Magento_Core_Model_App
+     * @var \Magento\Core\Model\App
      */
     protected $_application;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_App $application
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\App $application
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_App $application,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\App $application,
         array $data = array()
     ) {
         $this->_application = $application;
@@ -47,10 +51,10 @@ class Magento_Backend_Block_System_Config_Form_Field
     /**
      * Retrieve element HTML markup
      *
-     * @param Magento_Data_Form_Element_Abstract $element
+     * @param \Magento\Data\Form\Element\AbstractElement $element
      * @return string
      */
-    protected function _getElementHtml(Magento_Data_Form_Element_Abstract $element)
+    protected function _getElementHtml(\Magento\Data\Form\Element\AbstractElement $element)
     {
         return $element->getElementHtml();
     }
@@ -58,10 +62,10 @@ class Magento_Backend_Block_System_Config_Form_Field
     /**
      * Retrieve HTML markup for given form element
      *
-     * @param Magento_Data_Form_Element_Abstract $element
+     * @param \Magento\Data\Form\Element\AbstractElement $element
      * @return string
      */
-    public function render(Magento_Data_Form_Element_Abstract $element)
+    public function render(\Magento\Data\Form\Element\AbstractElement $element)
     {
         $isCheckboxRequired = $this->_isInheritCheckboxRequired($element);
 
@@ -87,10 +91,10 @@ class Magento_Backend_Block_System_Config_Form_Field
     /**
      * Render element value
      *
-     * @param Magento_Data_Form_Element_Abstract $element
+     * @param \Magento\Data\Form\Element\AbstractElement $element
      * @return string
      */
-    protected function _renderValue(Magento_Data_Form_Element_Abstract $element)
+    protected function _renderValue(\Magento\Data\Form\Element\AbstractElement $element)
     {
         if ($element->getTooltip()) {
             $html = '<td class="value with-tooltip">';
@@ -111,10 +115,10 @@ class Magento_Backend_Block_System_Config_Form_Field
     /**
      * Render inheritance checkbox (Use Default or Use Website)
      *
-     * @param Magento_Data_Form_Element_Abstract $element
+     * @param \Magento\Data\Form\Element\AbstractElement $element
      * @return string
      */
-    protected function _renderInheritCheckbox(Magento_Data_Form_Element_Abstract $element)
+    protected function _renderInheritCheckbox(\Magento\Data\Form\Element\AbstractElement $element)
     {
         $htmlId = $element->getHtmlId();
         $namePrefix = preg_replace('#\[value\](\[\])?$#', '', $element->getName());
@@ -134,10 +138,10 @@ class Magento_Backend_Block_System_Config_Form_Field
     /**
      * Check if inheritance checkbox has to be rendered
      *
-     * @param Magento_Data_Form_Element_Abstract $element
+     * @param \Magento\Data\Form\Element\AbstractElement $element
      * @return bool
      */
-    protected function _isInheritCheckboxRequired(Magento_Data_Form_Element_Abstract $element)
+    protected function _isInheritCheckboxRequired(\Magento\Data\Form\Element\AbstractElement $element)
     {
         return $element->getCanUseWebsiteValue() || $element->getCanUseDefaultValue();
     }
@@ -145,10 +149,10 @@ class Magento_Backend_Block_System_Config_Form_Field
     /**
      * Retrieve label for the inheritance checkbox
      *
-     * @param Magento_Data_Form_Element_Abstract $element
+     * @param \Magento\Data\Form\Element\AbstractElement $element
      * @return string
      */
-    protected function _getInheritCheckboxLabel(Magento_Data_Form_Element_Abstract $element)
+    protected function _getInheritCheckboxLabel(\Magento\Data\Form\Element\AbstractElement $element)
     {
         $checkboxLabel = __('Use Default');
         if ($element->getCanUseWebsiteValue()) {
@@ -160,10 +164,10 @@ class Magento_Backend_Block_System_Config_Form_Field
     /**
      * Render scope label
      *
-     * @param Magento_Data_Form_Element_Abstract $element
+     * @param \Magento\Data\Form\Element\AbstractElement $element
      * @return string
      */
-    protected function _renderScopeLabel(Magento_Data_Form_Element_Abstract $element)
+    protected function _renderScopeLabel(\Magento\Data\Form\Element\AbstractElement $element)
     {
         $html = '<td class="scope-label">';
         if ($element->getScope() && false == $this->_application->isSingleStoreMode()) {
@@ -176,10 +180,10 @@ class Magento_Backend_Block_System_Config_Form_Field
     /**
      * Render field hint
      *
-     * @param Magento_Data_Form_Element_Abstract $element
+     * @param \Magento\Data\Form\Element\AbstractElement $element
      * @return string
      */
-    protected function _renderHint(Magento_Data_Form_Element_Abstract $element)
+    protected function _renderHint(\Magento\Data\Form\Element\AbstractElement $element)
     {
         $html = '<td class="">';
         if ($element->getHint()) {
@@ -192,7 +196,7 @@ class Magento_Backend_Block_System_Config_Form_Field
     /**
      * Decorate field row html
      *
-     * @param Magento_Data_Form_Element_Abstract $element
+     * @param \Magento\Data\Form\Element\AbstractElement $element
      * @param string $html
      * @return string
      */

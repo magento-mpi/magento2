@@ -11,34 +11,36 @@
 /**
  * Downloadable link model
  *
- * @method Magento_Downloadable_Model_Resource_Link _getResource()
- * @method Magento_Downloadable_Model_Resource_Link getResource()
+ * @method \Magento\Downloadable\Model\Resource\Link _getResource()
+ * @method \Magento\Downloadable\Model\Resource\Link getResource()
  * @method int getProductId()
- * @method Magento_Downloadable_Model_Link setProductId(int $value)
+ * @method \Magento\Downloadable\Model\Link setProductId(int $value)
  * @method int getSortOrder()
- * @method Magento_Downloadable_Model_Link setSortOrder(int $value)
+ * @method \Magento\Downloadable\Model\Link setSortOrder(int $value)
  * @method int getNumberOfDownloads()
- * @method Magento_Downloadable_Model_Link setNumberOfDownloads(int $value)
+ * @method \Magento\Downloadable\Model\Link setNumberOfDownloads(int $value)
  * @method int getIsShareable()
- * @method Magento_Downloadable_Model_Link setIsShareable(int $value)
+ * @method \Magento\Downloadable\Model\Link setIsShareable(int $value)
  * @method string getLinkUrl()
- * @method Magento_Downloadable_Model_Link setLinkUrl(string $value)
+ * @method \Magento\Downloadable\Model\Link setLinkUrl(string $value)
  * @method string getLinkFile()
- * @method Magento_Downloadable_Model_Link setLinkFile(string $value)
+ * @method \Magento\Downloadable\Model\Link setLinkFile(string $value)
  * @method string getLinkType()
- * @method Magento_Downloadable_Model_Link setLinkType(string $value)
+ * @method \Magento\Downloadable\Model\Link setLinkType(string $value)
  * @method string getSampleUrl()
- * @method Magento_Downloadable_Model_Link setSampleUrl(string $value)
+ * @method \Magento\Downloadable\Model\Link setSampleUrl(string $value)
  * @method string getSampleFile()
- * @method Magento_Downloadable_Model_Link setSampleFile(string $value)
+ * @method \Magento\Downloadable\Model\Link setSampleFile(string $value)
  * @method string getSampleType()
- * @method Magento_Downloadable_Model_Link setSampleType(string $value)
+ * @method \Magento\Downloadable\Model\Link setSampleType(string $value)
  *
  * @category    Magento
  * @package     Magento_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Downloadable_Model_Link extends Magento_Core_Model_Abstract
+namespace Magento\Downloadable\Model;
+
+class Link extends \Magento\Core\Model\AbstractModel
 {
     const XML_PATH_LINKS_TITLE              = 'catalog/downloadable/links_title';
     const XML_PATH_DEFAULT_DOWNLOADS_NUMBER = 'catalog/downloadable/downloads_number';
@@ -50,24 +52,24 @@ class Magento_Downloadable_Model_Link extends Magento_Core_Model_Abstract
     const LINK_SHAREABLE_CONFIG = 2;
 
     /**
-     * @var Magento_Core_Model_Dir
+     * @var \Magento\Core\Model\Dir
      */
     protected $_dirModel;
 
     /**
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Dir $dirModel
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Dir $dirModel
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_Dir $dirModel,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Dir $dirModel,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_dirModel = $dirModel;
@@ -80,7 +82,7 @@ class Magento_Downloadable_Model_Link extends Magento_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('Magento_Downloadable_Model_Resource_Link');
+        $this->_init('Magento\Downloadable\Model\Resource\Link');
         parent::_construct();
     }
 
@@ -97,7 +99,7 @@ class Magento_Downloadable_Model_Link extends Magento_Core_Model_Abstract
     /**
      * Enter description here...
      *
-     * @return Magento_Downloadable_Model_Link
+     * @return \Magento\Downloadable\Model\Link
      */
     protected function _afterSave()
     {
@@ -112,7 +114,7 @@ class Magento_Downloadable_Model_Link extends Magento_Core_Model_Abstract
      */
     public function getBaseTmpPath()
     {
-        return $this->_dirModel->getDir(Magento_Core_Model_Dir::MEDIA)
+        return $this->_dirModel->getDir(\Magento\Core\Model\Dir::MEDIA)
             . DS . 'downloadable' . DS . 'tmp' . DS . 'links';
     }
 
@@ -123,7 +125,7 @@ class Magento_Downloadable_Model_Link extends Magento_Core_Model_Abstract
      */
     public function getBasePath()
     {
-        return $this->_dirModel->getDir(Magento_Core_Model_Dir::MEDIA) . DS . 'downloadable' . DS . 'files' . DS . 'links';
+        return $this->_dirModel->getDir(\Magento\Core\Model\Dir::MEDIA) . DS . 'downloadable' . DS . 'files' . DS . 'links';
     }
 
     /**
@@ -133,7 +135,7 @@ class Magento_Downloadable_Model_Link extends Magento_Core_Model_Abstract
      */
     public function getBaseSampleTmpPath()
     {
-        return $this->_dirModel->getDir(Magento_Core_Model_Dir::MEDIA) . DS . 'downloadable' . DS . 'tmp' . DS . 'link_samples';
+        return $this->_dirModel->getDir(\Magento\Core\Model\Dir::MEDIA) . DS . 'downloadable' . DS . 'tmp' . DS . 'link_samples';
     }
 
     /**
@@ -143,7 +145,7 @@ class Magento_Downloadable_Model_Link extends Magento_Core_Model_Abstract
      */
     public function getBaseSamplePath()
     {
-        return $this->_dirModel->getDir(Magento_Core_Model_Dir::MEDIA) . DS . 'downloadable' . DS . 'files' . DS . 'link_samples';
+        return $this->_dirModel->getDir(\Magento\Core\Model\Dir::MEDIA) . DS . 'downloadable' . DS . 'files' . DS . 'link_samples';
     }
 
     /**

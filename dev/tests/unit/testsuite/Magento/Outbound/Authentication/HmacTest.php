@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento_Outbound_Authentication_Hmac
+ * \Magento\Outbound\Authentication\Hmac
  *
  * {license_notice}
  *
@@ -9,11 +9,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Outbound_Authentication_HmacTest extends PHPUnit_Framework_TestCase
+namespace Magento\Outbound\Authentication;
+
+class HmacTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
-     * @var Magento_Outbound_Authentication_Hmac
+     * @var \Magento\Outbound\Authentication\Hmac
      */
     private $_model;
 
@@ -29,42 +31,42 @@ class Magento_Outbound_Authentication_HmacTest extends PHPUnit_Framework_TestCas
     const DOMAIN = 'www.fake.magento.com';
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject Magento_Outbound_MessageInterface
+     * @var \PHPUnit_Framework_MockObject_MockObject \Magento\Outbound\MessageInterface
      */
     private $_mockMessage;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject Magento_Outbound_UserInterface
+     * @var \PHPUnit_Framework_MockObject_MockObject \Magento\Outbound\UserInterface
      */
     private $_mockUser;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject Magento_Core_Model_StoreManagerInterface
+     * @var \PHPUnit_Framework_MockObject_MockObject \Magento\Core\Model\StoreManagerInterface
      */
     private $_mockStoreManager;
 
     protected function setUp()
     {
-        $this->_mockStoreManager = $this->getMockBuilder('Magento_Core_Model_StoreManagerInterface')
+        $this->_mockStoreManager = $this->getMockBuilder('Magento\Core\Model\StoreManagerInterface')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_model = new Magento_Outbound_Authentication_Hmac($this->_mockStoreManager);
+        $this->_model = new \Magento\Outbound\Authentication\Hmac($this->_mockStoreManager);
 
-        $this->_mockMessage = $this->getMockBuilder('Magento_Outbound_MessageInterface')
+        $this->_mockMessage = $this->getMockBuilder('Magento\Outbound\MessageInterface')
             ->disableOriginalConstructor()
             ->getMock();
         $this->_mockMessage->expects($this->any())
             ->method('getBody')
             ->will($this->returnValue(self::BODY));
 
-        $this->_mockUser = $this->getMockBuilder('Magento_Outbound_UserInterface')
+        $this->_mockUser = $this->getMockBuilder('Magento\Outbound\UserInterface')
             ->disableOriginalConstructor()
             ->getMock();
     }
 
     public function testHeaders()
     {
-        $store = $this->getMockBuilder('Magento_Core_Model_Store')
+        $store = $this->getMockBuilder('Magento\Core\Model\Store')
             ->disableOriginalConstructor()
             ->getMock();
         $this->_mockStoreManager->expects($this->once())
@@ -79,21 +81,21 @@ class Magento_Outbound_Authentication_HmacTest extends PHPUnit_Framework_TestCas
             ->will($this->returnValue(self::SHARED_SECRET));
 
         $hash = (string) hash_hmac(
-            Magento_Outbound_Authentication_Hmac::SHA256_ALGORITHM,
+            \Magento\Outbound\Authentication\Hmac::SHA256_ALGORITHM,
             self::BODY,
             self::SHARED_SECRET
         );
 
         $headers = $this->_model->getSignatureHeaders($this->_mockMessage->getBody(), $this->_mockUser);
-        $this->assertArrayHasKey(Magento_Outbound_Authentication_Hmac::DOMAIN_HEADER, $headers);
-        $this->assertSame(self::DOMAIN, $headers[Magento_Outbound_Authentication_Hmac::DOMAIN_HEADER]);
-        $this->assertArrayHasKey(Magento_Outbound_Authentication_Hmac::HMAC_HEADER, $headers);
-        $this->assertSame($hash, $headers[Magento_Outbound_Authentication_Hmac::HMAC_HEADER]);
+        $this->assertArrayHasKey(\Magento\Outbound\Authentication\Hmac::DOMAIN_HEADER, $headers);
+        $this->assertSame(self::DOMAIN, $headers[\Magento\Outbound\Authentication\Hmac::DOMAIN_HEADER]);
+        $this->assertArrayHasKey(\Magento\Outbound\Authentication\Hmac::HMAC_HEADER, $headers);
+        $this->assertSame($hash, $headers[\Magento\Outbound\Authentication\Hmac::HMAC_HEADER]);
 
     }
 
     /**
-     * @expectedException LogicException
+     * @expectedException \LogicException
      * @expectedMessage The shared secret cannot be a empty.
      */
     public function testEmptySecret()

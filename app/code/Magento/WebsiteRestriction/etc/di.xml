@@ -8,16 +8,16 @@
  */
 -->
 <config>
-    <preference for="Magento_WebsiteRestriction_Model_ConfigInterface" type="Magento_WebsiteRestriction_Model_Config" />
-    <type name="Magento_WebsiteRestriction_Model_Observer">
+    <preference for="Magento\WebsiteRestriction\Model\ConfigInterface" type="Magento\WebsiteRestriction\Model\Config" />
+    <type name="Magento\WebsiteRestriction\Model\Observer">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
-    <type name="Magento_Core_Model_Db_Updater">
+    <type name="Magento\Core\Model\Db\Updater">
         <param name="resourceList">
             <value>
-                <websiterestriction_setup>Magento_WebsiteRestriction_Model_Resource_Setup</websiterestriction_setup>
+                <websiterestriction_setup>Magento\WebsiteRestriction\Model\Resource\Setup</websiterestriction_setup>
             </value>
         </param>
     </type>

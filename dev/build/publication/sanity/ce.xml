@@ -154,5 +154,11 @@
             <word>enterprise</word>
             <path>static_tests_no_js.xml</path>
         </item>
+        <item>
+            <word>{copyright}</word>
+            <word>{license_link}</word>
+            <word>{license_notice}</word>
+            <path>dev/tests/unit/testsuite/Magento/Cache/Backend/_files/MongoBinData.txt</path>
+        </item>
     </whitelist>
 </config>

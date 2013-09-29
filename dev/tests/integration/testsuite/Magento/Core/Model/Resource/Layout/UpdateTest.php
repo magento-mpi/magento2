@@ -9,17 +9,19 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Resource_Layout_UpdateTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Resource\Layout;
+
+class UpdateTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Resource_Layout_Update
+     * @var \Magento\Core\Model\Resource\Layout\Update
      */
     protected $_resourceModel;
 
     protected function setUp()
     {
-        $this->_resourceModel = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_Resource_Layout_Update');
+        $this->_resourceModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Resource\Layout\Update');
     }
 
     /**
@@ -27,14 +29,14 @@ class Magento_Core_Model_Resource_Layout_UpdateTest extends PHPUnit_Framework_Te
      */
     public function testFetchUpdatesByHandle()
     {
-        /** @var $theme Magento_Core_Model_Theme */
-        $theme = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_Theme');
+        /** @var $theme \Magento\Core\Model\Theme */
+        $theme = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Theme');
         $theme->load('Test Theme', 'theme_title');
         $result = $this->_resourceModel->fetchUpdatesByHandle(
             'test_handle',
             $theme,
-            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
                 ->getStore()
         );
         $this->assertEquals('not_temporary', $result);
@@ -47,18 +49,18 @@ class Magento_Core_Model_Resource_Layout_UpdateTest extends PHPUnit_Framework_Te
      */
     public function testSaveAfterClearCache()
     {
-        /** @var $appCache Magento_Core_Model_Cache */
-        $appCache = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Cache');
-        /** @var Magento_Core_Model_Cache_Type_Layout $layoutCache */
-        $layoutCache = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Core_Model_Cache_Type_Layout');
+        /** @var $appCache \Magento\Core\Model\Cache */
+        $appCache = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Cache');
+        /** @var \Magento\Core\Model\Cache\Type\Layout $layoutCache */
+        $layoutCache = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Core\Model\Cache\Type\Layout');
 
         $this->assertNotEmpty($appCache->load('APPLICATION_FIXTURE'));
         $this->assertNotEmpty($layoutCache->load('LAYOUT_CACHE_FIXTURE'));
 
-        /** @var $layoutUpdate Magento_Core_Model_Layout_Update */
-        $layoutUpdate = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_Layout_Update');
+        /** @var $layoutUpdate \Magento\Core\Model\Layout\Update */
+        $layoutUpdate = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Layout\Update');
         $this->_resourceModel->save($layoutUpdate);
 
         $this->assertNotEmpty($appCache->load('APPLICATION_FIXTURE'), 'Non-layout cache must be kept');

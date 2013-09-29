@@ -16,7 +16,9 @@
  * @package     Magento_Log
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Log_Model_Resource_Visitor_Online_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Log\Model\Resource\Visitor\Online;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * joined fields array
@@ -26,25 +28,25 @@ class Magento_Log_Model_Resource_Visitor_Online_Collection extends Magento_Core_
     protected $_fields   = array();
 
     /**
-     * @var Magento_Customer_Model_CustomerFactory
+     * @var \Magento\Customer\Model\CustomerFactory
      */
     protected $_customerFactory;
 
     /**
-     * @param Magento_Customer_Model_CustomerFactory $customerFactory
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_EntityFactory $entityFactory
-     * @param Magento_Core_Model_Resource_Db_Abstract $resource
+     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
-        Magento_Customer_Model_CustomerFactory $customerFactory,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Logger $logger,
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_EntityFactory $entityFactory,
-        Magento_Core_Model_Resource_Db_Abstract $resource = null
+        \Magento\Customer\Model\CustomerFactory $customerFactory,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
     ) {
         $this->_customerFactory = $customerFactory;
         parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
@@ -56,13 +58,13 @@ class Magento_Log_Model_Resource_Visitor_Online_Collection extends Magento_Core_
      */
     protected function _construct()
     {
-        $this->_init('Magento_Log_Model_Visitor_Online', 'Magento_Log_Model_Resource_Visitor_Online');
+        $this->_init('Magento\Log\Model\Visitor\Online', 'Magento\Log\Model\Resource\Visitor\Online');
     }
 
     /**
      * Add Customer data to collection
      *
-     * @return Magento_Log_Model_Resource_Visitor_Online_Collection
+     * @return \Magento\Log\Model\Resource\Visitor\Online\Collection
      */
     public function addCustomerData()
     {
@@ -76,7 +78,7 @@ class Magento_Log_Model_Resource_Visitor_Online_Collection extends Magento_Core_
 
         foreach ($attributes as $alias => $attributeCode) {
             $attribute = $customer->getAttribute($attributeCode);
-            /* @var $attribute Magento_Eav_Model_Entity_Attribute_Abstract */
+            /* @var $attribute \Magento\Eav\Model\Entity\Attribute\AbstractAttribute */
 
             if ($attribute->getBackendType() == 'static') {
                 $tableAlias = 'customer_' . $attribute->getAttributeCode();
@@ -115,7 +117,7 @@ class Magento_Log_Model_Resource_Visitor_Online_Collection extends Magento_Core_
      * Filter collection by specified website(s)
      *
      * @param int|array $websiteIds
-     * @return Magento_Log_Model_Resource_Visitor_Online_Collection
+     * @return \Magento\Log\Model\Resource\Visitor\Online\Collection
      */
     public function addWebsiteFilter($websiteIds)
     {
@@ -138,7 +140,7 @@ class Magento_Log_Model_Resource_Visitor_Online_Collection extends Magento_Core_
      *
      * @param string $field
      * @param null|string|array $condition
-     * @return Magento_Eav_Model_Entity_Collection_Abstract
+     * @return \Magento\Eav\Model\Entity\Collection\AbstractCollection
      */
     public function addFieldToFilter($field, $condition = null)
     {

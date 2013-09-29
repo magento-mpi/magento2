@@ -10,11 +10,11 @@
 require_once __DIR__ . '/../../../../../app/bootstrap.php';
 $rootDir = realpath(__DIR__ . '/../../../../..');
 try {
-    $config = new Magento_Core_Model_Config_Primary($rootDir, array());
-    $entryPoint = new Magento_Core_Model_EntryPoint_Cron($config);
+    $config = new \Magento\Core\Model\Config\Primary($rootDir, array());
+    $entryPoint = new \Magento\Core\Model\EntryPoint\Cron($config);
 
-    /** @var $configModel Magento_Core_Model_Config */
-    $configModel = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Config');
+    /** @var $configModel \Magento\Core\Model\Config */
+    $configModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Config');
     $configModel->removeCache();
     $configModel->reinit();
     $config = array();
@@ -26,7 +26,7 @@ try {
     foreach ($config as $table => $field) {
         updateFieldForTable($table, $field);
     }
-} catch (Exception $e) {
+} catch (\Exception $e) {
     echo "Make sure that you launch this script with Magento 2 configured sources. \n\n";
     echo $e->getMessage();
 }
@@ -40,7 +40,7 @@ try {
 function updateFieldForTable($table, $col)
 {
     /** @var $installer Mage_Core_Model_Resource_Setup */
-    $installer = Mage::getResourceModel('Mage_Core_Model_Resource_Setup', array('resourceName' => 'core_setup'));
+    $installer = \Mage::getResourceModel('Mage\Core\Model\Resource\Setup', array('resourceName' => 'core_setup'));
     $installer->startSetup();
 
     $table = $installer->getTable($table);
@@ -50,7 +50,7 @@ function updateFieldForTable($table, $col)
 
         $indexList = $installer->getConnection()->getIndexList($table);
         $pkField = array_shift($indexList[$installer->getConnection()->getPrimaryKeyName($table)]['fields']);
-        /** @var $select Magento_Db_Select */
+        /** @var $select \Magento\Db\Select */
         $select = $installer->getConnection()->select()->from($table, array('id' => $pkField, 'content' => $col));
         $result = $installer->getConnection()->fetchPairs($select);
 

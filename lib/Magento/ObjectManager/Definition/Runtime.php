@@ -1,13 +1,15 @@
 <?php
 /**
- * Runtime class definitions. Reflection is used to parse constructor signatures. Should be used only in dev mode.
+ * Runtime class definitions. \Reflection is used to parse constructor signatures. Should be used only in dev mode.
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_ObjectManager_Definition_Runtime implements Magento_ObjectManager_Definition
+namespace Magento\ObjectManager\Definition;
+
+class Runtime implements \Magento\ObjectManager\Definition
 {
     /**
      * @var array
@@ -15,11 +17,11 @@ class Magento_ObjectManager_Definition_Runtime implements Magento_ObjectManager_
     protected $_definitions = array();
 
     /**
-     * @param Magento_Code_Reader_ClassReader $reader
+     * @param \Magento\Code\Reader\ClassReader $reader
      */
-    public function __construct(Magento_Code_Reader_ClassReader $reader = null)
+    public function __construct(\Magento\Code\Reader\ClassReader $reader = null)
     {
-        $this->_reader = $reader ?: new Magento_Code_Reader_ClassReader();
+        $this->_reader = $reader ?: new \Magento\Code\Reader\ClassReader();
     }
 
     /**

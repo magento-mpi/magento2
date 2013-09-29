@@ -10,25 +10,27 @@
  */
 
 /**
- * Tests for Magento_Data_Form_Element_Factory
+ * Tests for \Magento\Data\Form\Element\Factory
  */
-class Magento_Data_Form_Element_FactoryTest extends PHPUnit_Framework_TestCase
+namespace Magento\Data\Form\Element;
+
+class FactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_objectManagerMock;
 
     /**
-     * @var Magento_Data_Form_Element_Factory
+     * @var \Magento\Data\Form\Element\Factory
      */
     protected $_factory;
 
     protected function setUp()
     {
-        $this->_objectManagerMock = $this->getMock('Magento_ObjectManager_ObjectManager',
+        $this->_objectManagerMock = $this->getMock('Magento\ObjectManager\ObjectManager',
             array('create'), array(), '', false);
-        $this->_factory = new Magento_Data_Form_Element_Factory($this->_objectManagerMock);
+        $this->_factory = new \Magento\Data\Form\Element\Factory($this->_objectManagerMock);
     }
 
     /**
@@ -37,7 +39,7 @@ class Magento_Data_Form_Element_FactoryTest extends PHPUnit_Framework_TestCase
      */
     public function testCreatePositive($type)
     {
-        $className = 'Magento_Data_Form_Element_' . ucfirst($type);
+        $className = 'Magento\Data\Form\Element\\' . ucfirst($type);
         $elementMock = $this->getMock($className, array(), array(), '', false);
         $this->_objectManagerMock->expects($this->once())
             ->method('create')
@@ -53,7 +55,7 @@ class Magento_Data_Form_Element_FactoryTest extends PHPUnit_Framework_TestCase
     public function testCreatePositiveWithNotEmptyConfig($type)
     {
         $config = array('attributes' => array('attr1' => 'attr1', 'attr2' => 'attr2'));
-        $className = 'Magento_Data_Form_Element_' . ucfirst($type);
+        $className = 'Magento\Data\Form\Element\\' . ucfirst($type);
         $elementMock = $this->getMock($className, array(), array(), '', false);
         $this->_objectManagerMock->expects($this->once())
             ->method('create')
@@ -102,14 +104,14 @@ class Magento_Data_Form_Element_FactoryTest extends PHPUnit_Framework_TestCase
     /**
      * @param string $type
      * @dataProvider createExceptionReflectionExceptionDataProvider
-     * @expectedException ReflectionException
+     * @expectedException \ReflectionException
      */
     public function testCreateExceptionReflectionException($type)
     {
         $this->_objectManagerMock->expects($this->once())
             ->method('create')
             ->with($type, array())
-            ->will($this->throwException(new ReflectionException()));
+            ->will($this->throwException(new \ReflectionException()));
         $this->_factory->create($type);
     }
 
@@ -128,7 +130,7 @@ class Magento_Data_Form_Element_FactoryTest extends PHPUnit_Framework_TestCase
     /**
      * @param string $type
      * @dataProvider createExceptionInvalidArgumentDataProvider
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testCreateExceptionInvalidArgument($type)
     {
@@ -146,8 +148,8 @@ class Magento_Data_Form_Element_FactoryTest extends PHPUnit_Framework_TestCase
     public function createExceptionInvalidArgumentDataProvider()
     {
         return array(
-            'Magento_Data_Form_Element_Factory' => array('Magento_Data_Form_Element_Factory'),
-            'Magento_Data_Form_Element_Collection' => array('Magento_Data_Form_Element_Collection'),
+            'Magento\Data\Form\Element\Factory' => array('Magento\Data\Form\Element\Factory'),
+            'Magento\Data\Form\Element\Collection' => array('Magento\Data\Form\Element\Collection'),
         );
     }
 }

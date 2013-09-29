@@ -14,19 +14,21 @@
  * @category   Magento
  * @package    Magento_Invitation
  */
-class Magento_Invitation_Model_Source_Invitation_GroupId
-    implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Invitation\Model\Source\Invitation;
+
+class GroupId
+    implements \Magento\Core\Model\Option\ArrayInterface
 
 {
     /**
-     * @var Magento_Customer_Model_Group
+     * @var \Magento\Customer\Model\Group
      */
     protected $_model;
 
     /**
-     * @param Magento_Customer_Model_Group $invitationModel
+     * @param \Magento\Customer\Model\Group $invitationModel
      */
-    public function __construct(Magento_Customer_Model_Group $invitationModel)
+    public function __construct(\Magento\Customer\Model\Group $invitationModel)
     {
         $this->_model = $invitationModel;
     }

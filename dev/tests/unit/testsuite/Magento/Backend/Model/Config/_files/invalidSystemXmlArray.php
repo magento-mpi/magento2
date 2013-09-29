@@ -48,7 +48,8 @@ return array
         '<group id="group2"><label>Label_One</label></group></section></system></config>',
         array("Element 'config_path': [facet 'minLength'] The value has a length of '2'; this underruns "
         . "the allowed minimum length of '5'.", "Element 'config_path': [facet 'pattern'] The value 'co' is not "
-        . "accepted by the pattern '[a-zA-Z0-9_]+/[a-zA-Z0-9_]+/[a-zA-Z0-9_]+'.", "Element 'config_path': 'co' is "
+        . "accepted by the pattern '[a-zA-Z0-9_\\\\\\\\]+/[a-zA-Z0-9_\\\\\\\\]+/[a-zA-Z0-9_\\\\\\\\]+'.",
+              "Element 'config_path': 'co' is "
         . "not a valid value of the atomic type 'typeConfigPath'.")),
     'if_module_enabled_with_invalid_type' => array(
         '<?xml version="1.0"?><config><system><section id="section1"><group id="group1">'
@@ -57,7 +58,8 @@ return array
         '<group id="group2"><label>Label_One</label></group></section></system></config>',
         array("Element 'if_module_enabled': [facet 'minLength'] The value has a length of '3'; this underruns the "
         . "allowed minimum length of '5'.", "Element 'if_module_enabled': [facet 'pattern'] The value 'Som' is not "
-        . "accepted by the pattern '[A-Z]+[a-z0-9]{1,}_[A-Z]+[A-Z0-9a-z]{1,}'.", "Element 'if_module_enabled': 'Som' "
+        . "accepted by the pattern '[A-Z]+[a-z0-9]{1,}[_\\\\\\\\][A-Z]+[A-Z0-9a-z]{1,}'.",
+              "Element 'if_module_enabled': 'Som' "
         . "is not a valid value of the atomic type 'typeModule'.")),
     'id_minimum length' => array(
         '<?xml version="1.0"?><config><system><section id="s"><group id="gr">'

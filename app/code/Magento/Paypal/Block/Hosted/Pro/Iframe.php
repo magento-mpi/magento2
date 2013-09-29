@@ -15,7 +15,9 @@
  * @package    Magento_Paypal
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Paypal_Block_Hosted_Pro_Iframe extends Magento_Paypal_Block_Iframe
+namespace Magento\Paypal\Block\Hosted\Pro;
+
+class Iframe extends \Magento\Paypal\Block\Iframe
 {
     /**
      * Internal constructor
@@ -25,7 +27,7 @@ class Magento_Paypal_Block_Hosted_Pro_Iframe extends Magento_Paypal_Block_Iframe
     protected function _construct()
     {
         parent::_construct();
-        $this->_paymentMethodCode = Magento_Paypal_Model_Config::METHOD_HOSTEDPRO;
+        $this->_paymentMethodCode = \Magento\Paypal\Model\Config::METHOD_HOSTEDPRO;
     }
 
     /**

@@ -15,50 +15,52 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Widget_Chooser extends Magento_Adminhtml_Block_Widget_Grid
+namespace Magento\Adminhtml\Block\Catalog\Product\Widget;
+
+class Chooser extends \Magento\Adminhtml\Block\Widget\Grid
 {
     protected $_selectedProducts = array();
 
     /**
-     * @var Magento_Catalog_Model_Resource_Category
+     * @var \Magento\Catalog\Model\Resource\Category
      */
     protected $_resourceCategory;
 
     /**
-     * @var Magento_Catalog_Model_Resource_Product
+     * @var \Magento\Catalog\Model\Resource\Product
      */
     protected $_resourceProduct;
 
     /**
-     * @var Magento_Catalog_Model_Resource_Product_CollectionFactory
+     * @var \Magento\Catalog\Model\Resource\Product\CollectionFactory
      */
     protected $_collectionFactory;
 
     /**
-     * @var Magento_Catalog_Model_CategoryFactory
+     * @var \Magento\Catalog\Model\CategoryFactory
      */
     protected $_categoryFactory;
 
     /**
-     * @param Magento_Catalog_Model_CategoryFactory $categoryFactory
-     * @param Magento_Catalog_Model_Resource_Product_CollectionFactory $collectionFactory
-     * @param Magento_Catalog_Model_Resource_Category $resourceCategory
-     * @param Magento_Catalog_Model_Resource_Product $resourceProduct
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Url $urlModel
+     * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
+     * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $collectionFactory
+     * @param \Magento\Catalog\Model\Resource\Category $resourceCategory
+     * @param \Magento\Catalog\Model\Resource\Product $resourceProduct
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
      * @param array $data
      */
     public function __construct(
-        Magento_Catalog_Model_CategoryFactory $categoryFactory,
-        Magento_Catalog_Model_Resource_Product_CollectionFactory $collectionFactory,
-        Magento_Catalog_Model_Resource_Category $resourceCategory,
-        Magento_Catalog_Model_Resource_Product $resourceProduct,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Url $urlModel,
+        \Magento\Catalog\Model\CategoryFactory $categoryFactory,
+        \Magento\Catalog\Model\Resource\Product\CollectionFactory $collectionFactory,
+        \Magento\Catalog\Model\Resource\Category $resourceCategory,
+        \Magento\Catalog\Model\Resource\Product $resourceProduct,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
         array $data = array()
     ) {
         $this->_categoryFactory = $categoryFactory;
@@ -81,10 +83,10 @@ class Magento_Adminhtml_Block_Catalog_Product_Widget_Chooser extends Magento_Adm
     /**
      * Prepare chooser element HTML
      *
-     * @param Magento_Data_Form_Element_Abstract $element Form Element
-     * @return Magento_Data_Form_Element_Abstract
+     * @param \Magento\Data\Form\Element\AbstractElement $element Form Element
+     * @return \Magento\Data\Form\Element\AbstractElement
      */
-    public function prepareElementHtml(Magento_Data_Form_Element_Abstract $element)
+    public function prepareElementHtml(\Magento\Data\Form\Element\AbstractElement $element)
     {
         $uniqId = $this->_coreData->uniqHash($element->getId());
         $sourceUrl = $this->getUrl('*/catalog_product_widget/chooser', array(
@@ -92,7 +94,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Widget_Chooser extends Magento_Adm
             'use_massaction' => false,
         ));
 
-        $chooser = $this->getLayout()->createBlock('Magento_Widget_Block_Adminhtml_Widget_Chooser')
+        $chooser = $this->getLayout()->createBlock('Magento\Widget\Block\Adminhtml\Widget\Chooser')
             ->setElement($element)
             ->setConfig($this->getConfig())
             ->setFieldsetId($this->getFieldsetId())
@@ -192,8 +194,8 @@ class Magento_Adminhtml_Block_Catalog_Product_Widget_Chooser extends Magento_Adm
     /**
      * Filter checked/unchecked rows in grid
      *
-     * @param Magento_Adminhtml_Block_Widget_Grid_Column $column
-     * @return Magento_Adminhtml_Block_Catalog_Product_Widget_Chooser
+     * @param \Magento\Adminhtml\Block\Widget\Grid\Column $column
+     * @return \Magento\Adminhtml\Block\Catalog\Product\Widget\Chooser
      */
     protected function _addColumnFilterToCollection($column)
     {
@@ -213,11 +215,11 @@ class Magento_Adminhtml_Block_Catalog_Product_Widget_Chooser extends Magento_Adm
     /**
      * Prepare products collection, defined collection filters (category, product type)
      *
-     * @return Magento_Adminhtml_Block_Widget_Grid
+     * @return \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _prepareCollection()
     {
-        /* @var $collection Magento_Catalog_Model_Resource_Product_Collection */
+        /* @var $collection \Magento\Catalog\Model\Resource\Product\Collection */
         $collection = $this->_collectionFactory->create()
             ->setStoreId(0)
             ->addAttributeToSelect('name');
@@ -246,7 +248,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Widget_Chooser extends Magento_Adm
     /**
      * Prepare columns for products grid
      *
-     * @return Magento_Adminhtml_Block_Widget_Grid
+     * @return \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _prepareColumns()
     {
@@ -309,7 +311,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Widget_Chooser extends Magento_Adm
      * Setter
      *
      * @param array $selectedProducts
-     * @return Magento_Adminhtml_Block_Catalog_Product_Widget_Chooser
+     * @return \Magento\Adminhtml\Block\Catalog\Product\Widget\Chooser
      */
     public function setSelectedProducts($selectedProducts)
     {

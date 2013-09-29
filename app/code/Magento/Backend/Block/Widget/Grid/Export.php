@@ -8,12 +8,14 @@
  * @license     {license_link}
  */
 
+namespace Magento\Backend\Block\Widget\Grid;
+
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Magento_Backend_Block_Widget_Grid_Export
-    extends Magento_Backend_Block_Widget
-    implements Magento_Backend_Block_Widget_Grid_ExportInterface
+class Export
+    extends \Magento\Backend\Block\Widget
+    implements \Magento\Backend\Block\Widget\Grid\ExportInterface
 {
     /**
      * Grid export types
@@ -42,20 +44,20 @@ class Magento_Backend_Block_Widget_Grid_Export
     protected $_exportPath;
 
     /**
-     * @var Magento_Data_CollectionFactory
+     * @var \Magento\Data\CollectionFactory
      */
     protected $_collectionFactory;
 
     /**
-     * @param Magento_Data_CollectionFactory $collectionFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
+     * @param \Magento\Data\CollectionFactory $collectionFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Data_CollectionFactory $collectionFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
+        \Magento\Data\CollectionFactory $collectionFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_collectionFactory = $collectionFactory;
@@ -68,18 +70,18 @@ class Magento_Backend_Block_Widget_Grid_Export
         if ($this->hasData('exportTypes')) {
             foreach ($this->getData('exportTypes') as $type) {
                 if (!isset($type['urlPath']) || !isset($type['label'])) {
-                    Mage::throwException('Invalid export type supplied for grid export block');
+                    \Mage::throwException('Invalid export type supplied for grid export block');
                 }
                 $this->addExportType($type['urlPath'], $type['label']);
             }
         }
-        $this->_exportPath = Mage::getBaseDir('var') . DS . 'export';
+        $this->_exportPath = \Mage::getBaseDir('var') . DS . 'export';
     }
 
     /**
      * Retrieve grid columns
      *
-     * @return Magento_Backend_Block_Widget_Grid_Column[]
+     * @return \Magento\Backend\Block\Widget\Grid\Column[]
      */
     protected function _getColumns()
     {
@@ -89,7 +91,7 @@ class Magento_Backend_Block_Widget_Grid_Export
     /**
      * Retrieve totals
      *
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     protected function _getTotals()
     {
@@ -109,7 +111,7 @@ class Magento_Backend_Block_Widget_Grid_Export
     /**
      * Get collection object
      *
-     * @return Magento_Data_Collection
+     * @return \Magento\Data\Collection
      */
     protected function _getCollection()
     {
@@ -139,12 +141,12 @@ class Magento_Backend_Block_Widget_Grid_Export
     /**
      * Prepare export button
      *
-     * @return Magento_Core_Block_Abstract
+     * @return \Magento\Core\Block\AbstractBlock
      */
     protected function _prepareLayout()
     {
         $this->setChild('export_button',
-            $this->getLayout()->createBlock('Magento_Backend_Block_Widget_Button')
+            $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')
                 ->setData(array(
                 'label'     => __('Export'),
                 'onclick'   => $this->getParentBlock()->getJsObjectName().'.doExport()',
@@ -169,11 +171,11 @@ class Magento_Backend_Block_Widget_Grid_Export
      *
      * @param   string $url
      * @param   string $label
-     * @return  Magento_Backend_Block_Widget_Grid
+     * @return  \Magento\Backend\Block\Widget\Grid
      */
     public function addExportType($url, $label)
     {
-        $this->_exportTypes[] = new Magento_Object(
+        $this->_exportTypes[] = new \Magento\Object(
             array(
                 'url'   => $this->getUrl($url, array('_current'=>true)),
                 'label' => $label
@@ -232,11 +234,11 @@ class Magento_Backend_Block_Widget_Grid_Export
      *
      * @param string $callback
      * @param array $args additional arguments for callback method
-     * @return Magento_Backend_Block_Widget_Grid
+     * @return \Magento\Backend\Block\Widget\Grid
      */
     public function _exportIterateCollection($callback, array $args)
     {
-        /** @var $originalCollection Magento_Data_Collection */
+        /** @var $originalCollection \Magento\Data\Collection */
         $originalCollection = $this->getParentBlock()->getPreparedCollection();
         $count = null;
         $page  = 1;
@@ -266,10 +268,10 @@ class Magento_Backend_Block_Widget_Grid_Export
     /**
      * Write item data to csv export file
      *
-     * @param Magento_Object $item
-     * @param Magento_Filesystem_StreamInterface $stream
+     * @param \Magento\Object $item
+     * @param \Magento\Filesystem\StreamInterface $stream
      */
-    protected function _exportCsvItem(Magento_Object $item, Magento_Filesystem_StreamInterface $stream)
+    protected function _exportCsvItem(\Magento\Object $item, \Magento\Filesystem\StreamInterface $stream)
     {
         $row = array();
         foreach ($this->_getColumns() as $column) {
@@ -388,10 +390,10 @@ class Magento_Backend_Block_Widget_Grid_Export
     /**
      *  Get a row data of the particular columns
      *
-     * @param Magento_Object $data
+     * @param \Magento\Object $data
      * @return array
      */
-    public function getRowRecord(Magento_Object $data)
+    public function getRowRecord(\Magento\Object $data)
     {
         $row = array();
         foreach ($this->_getColumns() as $column) {
@@ -414,7 +416,7 @@ class Magento_Backend_Block_Widget_Grid_Export
     {
         $collection = $this->_getRowCollection();
 
-        $convert = new Magento_Convert_Excel($collection->getIterator(), array($this, 'getRowRecord'));
+        $convert = new \Magento\Convert\Excel($collection->getIterator(), array($this, 'getRowRecord'));
 
         $name = md5(microtime());
         $file = $this->_exportPath . DS . $name . '.xml';
@@ -478,30 +480,30 @@ class Magento_Backend_Block_Widget_Grid_Export
             $data[] = $row;
         }
 
-        $convert = new Magento_Convert_Excel(new ArrayIterator($data));
+        $convert = new \Magento\Convert\Excel(new \ArrayIterator($data));
         return $convert->convert('single_sheet');
     }
 
     /**
      * Reformat base collection into collection without sub-collection in items
      *
-     * @param Magento_Data_Collection $baseCollection
-     * @return Magento_Data_Collection
+     * @param \Magento\Data\Collection $baseCollection
+     * @return \Magento\Data\Collection
      */
-    protected function _getRowCollection(Magento_Data_Collection $baseCollection = null)
+    protected function _getRowCollection(\Magento\Data\Collection $baseCollection = null)
     {
         if (null === $baseCollection) {
             $baseCollection = $this->getParentBlock()->getPreparedCollection();
         }
         $collection = $this->_collectionFactory->create();
 
-        /** @var $item Magento_Object */
+        /** @var $item \Magento\Object */
         foreach ($baseCollection as $item) {
             if ($item->getIsEmpty()) {
                 continue;
             }
             if ($item->hasChildren() && count($item->getChildren()) > 0) {
-                /** @var $subItem Magento_Object */
+                /** @var $subItem \Magento\Object */
                 foreach ($item->getChildren() as $subItem) {
                     $tmpItem = clone $item;
                     $tmpItem->unsChildren();
@@ -519,11 +521,11 @@ class Magento_Backend_Block_Widget_Grid_Export
     /**
      * Return prepared collection as row collection with additional conditions
      *
-     * @return Magento_Data_Collection
+     * @return \Magento\Data\Collection
      */
     public function _getPreparedCollection()
     {
-        /** @var $collection Magento_Data_Collection */
+        /** @var $collection \Magento\Data\Collection */
         $collection = $this->getParentBlock()->getPreparedCollection();
         $collection->setPageSize(0);
         $collection->load();

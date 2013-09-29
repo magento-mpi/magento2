@@ -14,23 +14,23 @@
         </action>
     </referenceBlock>
     <referenceContainer name="content">
-        <block class="Magento_GiftRegistry_Block_View" name="magento.giftregistry.view" template="view.phtml">
-            <block class="Magento_GiftRegistry_Block_Items" name="giftregistry_items" template="view/items.phtml">
-                <block class="Magento_Catalog_Block_Product_Price" template="product/price_msrp_item.phtml" name="enterprise.giftregistry.item.price"/>
-                <block class="Magento_Checkout_Block_Cart_Item_Renderer" as="default" template="Magento_GiftRegistry::view/items/default.phtml"/>
-                <block class="Magento_Checkout_Block_Cart_Item_Renderer" as="simple" template="Magento_GiftRegistry::view/items/default.phtml"/>
-                <block class="Magento_Checkout_Block_Cart_Item_Renderer_Grouped" as="grouped" template="Magento_GiftRegistry::view/items/default.phtml"/>
-                <block class="Magento_Checkout_Block_Cart_Item_Renderer_Configurable" as="configurable" template="Magento_GiftRegistry::view/items/default.phtml"/>
-                <block class="Magento_Bundle_Block_Checkout_Cart_Item_Renderer" as="bundle" template="Magento_GiftRegistry::view/items/default.phtml"/>
-                <block class="Magento_GiftCard_Block_Checkout_Cart_Item_Renderer" as="giftcard" template="Magento_GiftRegistry::view/items/default.phtml"/>
+        <block class="Magento\GiftRegistry\Block\View" name="magento.giftregistry.view" template="view.phtml">
+            <block class="Magento\GiftRegistry\Block\Items" name="giftregistry_items" template="view/items.phtml">
+                <block class="Magento\Catalog\Block\Product\Price" template="product/price_msrp_item.phtml" name="enterprise.giftregistry.item.price"/>
+                <block class="Magento\Checkout\Block\Cart\Item\Renderer" as="default" template="Magento_GiftRegistry::view/items/default.phtml"/>
+                <block class="Magento\Checkout\Block\Cart\Item\Renderer" as="simple" template="Magento_GiftRegistry::view/items/default.phtml"/>
+                <block class="Magento\Checkout\Block\Cart\Item\Renderer\Grouped" as="grouped" template="Magento_GiftRegistry::view/items/default.phtml"/>
+                <block class="Magento\Checkout\Block\Cart\Item\Renderer\Configurable" as="configurable" template="Magento_GiftRegistry::view/items/default.phtml"/>
+                <block class="Magento\Bundle\Block\Checkout\Cart\Item\Renderer" as="bundle" template="Magento_GiftRegistry::view/items/default.phtml"/>
+                <block class="Magento\GiftCard\Block\Checkout\Cart\Item\Renderer" as="giftcard" template="Magento_GiftRegistry::view/items/default.phtml"/>
             </block>
-            <block class="Magento_GiftRegistry_Block_Customer_Items" name="giftregistry.view.items" template="view/items.phtml"/>
+            <block class="Magento\GiftRegistry\Block\Customer\Items" name="giftregistry.view.items" template="view/items.phtml"/>
         </block>
     </referenceContainer>
     <update handle="MAP_popup"/>
     <referenceBlock name="product.tooltip">
         <container name="product.info.addtocart.paypal.wrapper" label="PayPal Express Checkout Shortcut Wrapper" htmlTag="div">
-            <block class="Magento_Paypal_Block_Express_Shortcut" name="product.info.addtocart.paypal" template="express/shortcut.phtml">
+            <block class="Magento\Paypal\Block\Express\Shortcut" name="product.info.addtocart.paypal" template="express/shortcut.phtml">
                 <action method="setIsInCatalogProduct">
                     <argument name="value" xsi:type="string">1</argument>
                 </action>

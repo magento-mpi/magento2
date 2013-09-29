@@ -15,34 +15,36 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Edit extends Magento_Backend_Block_Widget
+namespace Magento\Adminhtml\Block\Catalog\Product;
+
+class Edit extends \Magento\Backend\Block\Widget
 {
     protected $_template = 'catalog/product/edit.phtml';
 
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @var Magento_Eav_Model_Entity_Attribute_SetFactory
+     * @var \Magento\Eav\Model\Entity\Attribute\SetFactory
      */
     protected $_attributeSetFactory;
 
     /**
-     * @param Magento_Eav_Model_Entity_Attribute_SetFactory $attributeSetFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Eav\Model\Entity\Attribute\SetFactory $attributeSetFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Eav_Model_Entity_Attribute_SetFactory $attributeSetFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Eav\Model\Entity\Attribute\SetFactory $attributeSetFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_attributeSetFactory = $attributeSetFactory;
@@ -60,7 +62,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit extends Magento_Backend_Block
     /**
      * Retrieve currently edited product object
      *
-     * @return Magento_Catalog_Model_Product
+     * @return \Magento\Catalog\Model\Product
      */
     public function getProduct()
     {
@@ -70,12 +72,12 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit extends Magento_Backend_Block
     /**
      * Add elements in layout
      *
-     * @return Magento_Adminhtml_Block_Catalog_Product_Edit
+     * @return \Magento\Adminhtml\Block\Catalog\Product\Edit
      */
     protected function _prepareLayout()
     {
         if (!$this->getRequest()->getParam('popup')) {
-            $this->addChild('back_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+            $this->addChild('back_button', 'Magento\Adminhtml\Block\Widget\Button', array(
                 'label' => __('Back'),
                 'title' => __('Back'),
                 'onclick' => 'setLocation(\''
@@ -83,7 +85,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit extends Magento_Backend_Block
                 'class' => 'action-back'
             ));
         } else {
-            $this->addChild('back_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+            $this->addChild('back_button', 'Magento\Adminhtml\Block\Widget\Button', array(
                 'label' => __('Close Window'),
                 'onclick' => 'window.close()',
                 'class' => 'cancel'
@@ -91,17 +93,17 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit extends Magento_Backend_Block
         }
 
         if (!$this->getProduct()->isReadonly()) {
-            $this->addChild('reset_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+            $this->addChild('reset_button', 'Magento\Adminhtml\Block\Widget\Button', array(
                 'label' => __('Reset'),
                 'onclick' => 'setLocation(\'' . $this->getUrl('*/*/*', array('_current' => true)) . '\')'
             ));
         }
 
         if (!$this->getProduct()->isReadonly()) {
-            $this->addChild('save-split-button', 'Magento_Backend_Block_Widget_Button_Split', array(
+            $this->addChild('save-split-button', 'Magento\Backend\Block\Widget\Button\SplitButton', array(
                 'id' => 'save-split-button',
                 'label' => __('Save'),
-                'class_name' => 'Magento_Backend_Block_Widget_Button_Split',
+                'class_name' => 'Magento\Backend\Block\Widget\Button\SplitButton',
                 'button_class' => 'widget-button-save',
                 'options' => $this->_getSaveSplitButtonOptions()
             ));
@@ -238,7 +240,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit extends Magento_Backend_Block
      */
     public function getFieldsAutogenerationMasks()
     {
-        return $this->helper('Magento_Catalog_Helper_Product')->getFieldsAutogenerationMasks();
+        return $this->helper('Magento\Catalog\Helper\Product')->getFieldsAutogenerationMasks();
     }
 
     /**
@@ -248,7 +250,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit extends Magento_Backend_Block
      */
     public function getAttributesAllowedForAutogeneration()
     {
-        return $this->helper('Magento_Catalog_Helper_Product')->getAttributesAllowedForAutogeneration();
+        return $this->helper('Magento\Catalog\Helper\Product')->getAttributesAllowedForAutogeneration();
     }
 
     /**
@@ -260,7 +262,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit extends Magento_Backend_Block
     {
         return $this->_coreData->jsonEncode(array(
             'tab_id' => 'product_info_tabs_downloadable_items',
-            'is_virtual_id' => Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Weight::VIRTUAL_FIELD_HTML_ID,
+            'is_virtual_id' => \Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Weight::VIRTUAL_FIELD_HTML_ID,
             'weight_id' => 'weight',
             'current_type' => $this->getProduct()->getTypeId(),
             'attributes' => $this->_getAttributes(),
@@ -274,7 +276,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit extends Magento_Backend_Block
      */
     protected function _getAttributes()
     {
-        /** @var $product Magento_Catalog_Model_Product */
+        /** @var $product \Magento\Catalog\Model\Product */
         $product = $this->getProduct();
         $attributes = array();
 

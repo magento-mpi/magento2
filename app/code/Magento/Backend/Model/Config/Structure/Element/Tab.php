@@ -8,8 +8,10 @@
  * @license     {license_link}
  */
 
-class Magento_Backend_Model_Config_Structure_Element_Tab
-    extends Magento_Backend_Model_Config_Structure_Element_CompositeAbstract
+namespace Magento\Backend\Model\Config\Structure\Element;
+
+class Tab
+    extends \Magento\Backend\Model\Config\Structure\Element\AbstractComposite
 {
 
     /**

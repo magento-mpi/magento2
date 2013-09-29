@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_NoRouteHandlerList
+namespace Magento\Core\Model;
+
+class NoRouteHandlerList
 {
     /**
      * No route handlers instances
@@ -23,16 +25,16 @@ class Magento_Core_Model_NoRouteHandlerList
     protected $_handlerList;
 
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      * @param array $handlerClassesList
      */
     public function __construct(
-        Magento_ObjectManager $objectManager,
+        \Magento\ObjectManager $objectManager,
         array $handlerClassesList
     ) {
         $this->_handlerList = $handlerClassesList;

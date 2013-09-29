@@ -15,7 +15,9 @@
  * @category   Magento
  * @package    Magento_VersionsCms
  */
-class Magento_VersionsCms_Helper_Hierarchy extends Magento_Core_Helper_Abstract
+namespace Magento\VersionsCms\Helper;
+
+class Hierarchy extends \Magento\Core\Helper\AbstractHelper
 {
     const XML_PATH_HIERARCHY_ENABLED    = 'cms/hierarchy/enabled';
     const XML_PATH_METADATA_ENABLED     = 'cms/hierarchy/metadata_enabled';
@@ -30,17 +32,17 @@ class Magento_VersionsCms_Helper_Hierarchy extends Magento_Core_Helper_Abstract
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      */
     public function __construct(
-        Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\Store\Config $coreStoreConfig
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($context);
@@ -208,15 +210,15 @@ class Magento_VersionsCms_Helper_Hierarchy extends Magento_Core_Helper_Abstract
      */
     public function getParentScope($scope, $scopeId)
     {
-        if ($scope === Magento_VersionsCms_Model_Hierarchy_Node::NODE_SCOPE_STORE) {
+        if ($scope === \Magento\VersionsCms\Model\Hierarchy\Node::NODE_SCOPE_STORE) {
             return array(
-                Magento_VersionsCms_Model_Hierarchy_Node::NODE_SCOPE_WEBSITE,
-                Mage::app()->getStore($scopeId)->getWebsiteId(),
+                \Magento\VersionsCms\Model\Hierarchy\Node::NODE_SCOPE_WEBSITE,
+                \Mage::app()->getStore($scopeId)->getWebsiteId(),
             );
-        } elseif ($scope === Magento_VersionsCms_Model_Hierarchy_Node::NODE_SCOPE_WEBSITE) {
+        } elseif ($scope === \Magento\VersionsCms\Model\Hierarchy\Node::NODE_SCOPE_WEBSITE) {
             return array(
-                Magento_VersionsCms_Model_Hierarchy_Node::NODE_SCOPE_DEFAULT,
-                Magento_VersionsCms_Model_Hierarchy_Node::NODE_SCOPE_DEFAULT_ID,
+                \Magento\VersionsCms\Model\Hierarchy\Node::NODE_SCOPE_DEFAULT,
+                \Magento\VersionsCms\Model\Hierarchy\Node::NODE_SCOPE_DEFAULT_ID,
             );
         }
 

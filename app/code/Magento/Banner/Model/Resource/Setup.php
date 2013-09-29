@@ -8,52 +8,53 @@
  * @license     {license_link}
  */
 
+namespace Magento\Banner\Model\Resource;
 
 /**
  * Banner Setup Resource Model
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Magento_Banner_Model_Resource_Setup extends Magento_Sales_Model_Resource_Setup
+class Setup extends \Magento\Sales\Model\Resource\Setup
 {
     /**
-     * @var Magento_Banner_Model_BannerFactory
+     * @var \Magento\Banner\Model\BannerFactory
      */
     protected $_bannerFactory;
 
     /**
-     * @var Magento_Widget_Model_Widget_InstanceFactory
+     * @var \Magento\Widget\Model\Widget\InstanceFactory
      */
     protected $_widgetFactory;
 
     /**
-     * @var Magento_Core_Model_Resource_Theme_CollectionFactory
+     * @var \Magento\Core\Model\Resource\Theme\CollectionFactory
      */
     protected $_themeCollFactory;
 
     /**
-     * @param Magento_Core_Model_Resource_Setup_Context $context
-     * @param Magento_Core_Model_Config $config
-     * @param Magento_Core_Model_CacheInterface $cache
-     * @param Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Model_Resource_Theme_CollectionFactory $themeCollFactory
-     * @param Magento_Widget_Model_Widget_InstanceFactory $widgetFactory
-     * @param Magento_Banner_Model_BannerFactory $bannerFactory
+     * @param \Magento\Core\Model\Resource\Setup\Context $context
+     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Core\Model\CacheInterface $cache
+     * @param \Magento\Core\Model\Resource\Setup\MigrationFactory $migrationFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Model\Resource\Theme\CollectionFactory $themeCollFactory
+     * @param \Magento\Widget\Model\Widget\InstanceFactory $widgetFactory
+     * @param \Magento\Banner\Model\BannerFactory $bannerFactory
      * @param string $resourceName
      * @param string $moduleName
      * @param string $connectionName
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Magento_Core_Model_Resource_Setup_Context $context,
-        Magento_Core_Model_Config $config,
-        Magento_Core_Model_CacheInterface $cache,
-        Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Model_Resource_Theme_CollectionFactory $themeCollFactory,
-        Magento_Widget_Model_Widget_InstanceFactory $widgetFactory,
-        Magento_Banner_Model_BannerFactory $bannerFactory,
+        \Magento\Core\Model\Resource\Setup\Context $context,
+        \Magento\Core\Model\Config $config,
+        \Magento\Core\Model\CacheInterface $cache,
+        \Magento\Core\Model\Resource\Setup\MigrationFactory $migrationFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Model\Resource\Theme\CollectionFactory $themeCollFactory,
+        \Magento\Widget\Model\Widget\InstanceFactory $widgetFactory,
+        \Magento\Banner\Model\BannerFactory $bannerFactory,
         $resourceName,
         $moduleName = 'Magento_Banner',
         $connectionName = ''
@@ -76,7 +77,7 @@ class Magento_Banner_Model_Resource_Setup extends Magento_Sales_Model_Resource_S
     }
 
     /**
-     * @return \Magento_Core_Model_Resource_Theme_Collection
+     * @return \Magento\Core\Model\Resource\Theme\Collection
      */
     public function getThemeCollection()
     {

@@ -9,8 +9,9 @@
  */
 
 
-class Magento_Usa_Model_Shipping_Carrier_Ups_Source_Unitofmeasure
-    extends Magento_Usa_Model_Shipping_Carrier_Ups_Source_Generic
+namespace Magento\Usa\Model\Shipping\Carrier\Ups\Source;
+
+class Unitofmeasure extends \Magento\Usa\Model\Shipping\Carrier\Ups\Source\Generic
 {
     /**
      * Carrier code

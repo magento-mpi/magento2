@@ -13,29 +13,31 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Wishlist_Model_Observer extends Magento_Core_Model_Abstract
+namespace Magento\Wishlist\Model;
+
+class Observer extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Wishlist data
      *
-     * @var Magento_Wishlist_Helper_Data
+     * @var \Magento\Wishlist\Helper\Data
      */
     protected $_wishlistData = null;
 
     /**
-     * @param Magento_Wishlist_Helper_Data $wishlistData
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Wishlist\Helper\Data $wishlistData
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Wishlist_Helper_Data $wishlistData,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Wishlist\Helper\Data $wishlistData,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_wishlistData = $wishlistData;
@@ -46,21 +48,21 @@ class Magento_Wishlist_Model_Observer extends Magento_Core_Model_Abstract
      * Get customer wishlist model instance
      *
      * @param   int $customerId
-     * @return  Magento_Wishlist_Model_Wishlist || false
+     * @return  \Magento\Wishlist\Model\Wishlist || false
      */
     protected function _getWishlist($customerId)
     {
         if (!$customerId) {
             return false;
         }
-        return Mage::getModel('Magento_Wishlist_Model_Wishlist')->loadByCustomer($customerId, true);
+        return \Mage::getModel('Magento\Wishlist\Model\Wishlist')->loadByCustomer($customerId, true);
     }
 
     /**
      * Check move quote item to wishlist request
      *
-     * @param   Magento_Event_Observer $observer
-     * @return  Magento_Wishlist_Model_Observer
+     * @param   \Magento\Event\Observer $observer
+     * @return  \Magento\Wishlist\Model\Observer
      */
     public function processCartUpdateBefore($observer)
     {
@@ -103,11 +105,11 @@ class Magento_Wishlist_Model_Observer extends Magento_Core_Model_Abstract
     public function processAddToCart($observer)
     {
         $request = $observer->getEvent()->getRequest();
-        $sharedWishlist = Mage::getSingleton('Magento_Checkout_Model_Session')->getSharedWishlist();
-        $messages = Mage::getSingleton('Magento_Checkout_Model_Session')->getWishlistPendingMessages();
-        $urls = Mage::getSingleton('Magento_Checkout_Model_Session')->getWishlistPendingUrls();
-        $wishlistIds = Mage::getSingleton('Magento_Checkout_Model_Session')->getWishlistIds();
-        $singleWishlistId = Mage::getSingleton('Magento_Checkout_Model_Session')->getSingleWishlistId();
+        $sharedWishlist = \Mage::getSingleton('Magento\Checkout\Model\Session')->getSharedWishlist();
+        $messages = \Mage::getSingleton('Magento\Checkout\Model\Session')->getWishlistPendingMessages();
+        $urls = \Mage::getSingleton('Magento\Checkout\Model\Session')->getWishlistPendingUrls();
+        $wishlistIds = \Mage::getSingleton('Magento\Checkout\Model\Session')->getWishlistIds();
+        $singleWishlistId = \Mage::getSingleton('Magento\Checkout\Model\Session')->getSingleWishlistId();
 
         if ($singleWishlistId) {
             $wishlistIds = array($singleWishlistId);
@@ -116,11 +118,11 @@ class Magento_Wishlist_Model_Observer extends Magento_Core_Model_Abstract
         if (count($wishlistIds) && $request->getParam('wishlist_next')) {
             $wishlistId = array_shift($wishlistIds);
 
-            if (Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()) {
-                $wishlist = Mage::getModel('Magento_Wishlist_Model_Wishlist')
-                        ->loadByCustomer(Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer(), true);
+            if (\Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn()) {
+                $wishlist = \Mage::getModel('Magento\Wishlist\Model\Wishlist')
+                        ->loadByCustomer(\Mage::getSingleton('Magento\Customer\Model\Session')->getCustomer(), true);
             } else if ($sharedWishlist) {
-                $wishlist = Mage::getModel('Magento_Wishlist_Model_Wishlist')->loadByCode($sharedWishlist);
+                $wishlist = \Mage::getModel('Magento\Wishlist\Model\Wishlist')->loadByCode($sharedWishlist);
             } else {
                 return;
             }
@@ -133,31 +135,31 @@ class Magento_Wishlist_Model_Observer extends Magento_Core_Model_Abstract
                     $wishlistItem->delete();
                 }
             }
-            Mage::getSingleton('Magento_Checkout_Model_Session')->setWishlistIds($wishlistIds);
-            Mage::getSingleton('Magento_Checkout_Model_Session')->setSingleWishlistId(null);
+            \Mage::getSingleton('Magento\Checkout\Model\Session')->setWishlistIds($wishlistIds);
+            \Mage::getSingleton('Magento\Checkout\Model\Session')->setSingleWishlistId(null);
         }
 
         if ($request->getParam('wishlist_next') && count($urls)) {
             $url = array_shift($urls);
             $message = array_shift($messages);
 
-            Mage::getSingleton('Magento_Checkout_Model_Session')->setWishlistPendingUrls($urls);
-            Mage::getSingleton('Magento_Checkout_Model_Session')->setWishlistPendingMessages($messages);
+            \Mage::getSingleton('Magento\Checkout\Model\Session')->setWishlistPendingUrls($urls);
+            \Mage::getSingleton('Magento\Checkout\Model\Session')->setWishlistPendingMessages($messages);
 
-            Mage::getSingleton('Magento_Checkout_Model_Session')->addError($message);
+            \Mage::getSingleton('Magento\Checkout\Model\Session')->addError($message);
 
             $observer->getEvent()->getResponse()->setRedirect($url);
-            Mage::getSingleton('Magento_Checkout_Model_Session')->setNoCartRedirect(true);
+            \Mage::getSingleton('Magento\Checkout\Model\Session')->setNoCartRedirect(true);
         }
     }
 
     /**
      * Customer login processing
      *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_Wishlist_Model_Observer
+     * @param \Magento\Event\Observer $observer
+     * @return \Magento\Wishlist\Model\Observer
      */
-    public function customerLogin(Magento_Event_Observer $observer)
+    public function customerLogin(\Magento\Event\Observer $observer)
     {
         $this->_wishlistData->calculate();
 
@@ -167,12 +169,12 @@ class Magento_Wishlist_Model_Observer extends Magento_Core_Model_Abstract
     /**
      * Customer logout processing
      *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_Wishlist_Model_Observer
+     * @param \Magento\Event\Observer $observer
+     * @return \Magento\Wishlist\Model\Observer
      */
-    public function customerLogout(Magento_Event_Observer $observer)
+    public function customerLogout(\Magento\Event\Observer $observer)
     {
-        Mage::getSingleton('Magento_Customer_Model_Session')->setWishlistItemCount(0);
+        \Mage::getSingleton('Magento\Customer\Model\Session')->setWishlistItemCount(0);
 
         return $this;
     }

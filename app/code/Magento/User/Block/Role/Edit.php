@@ -8,25 +8,27 @@
  * @license     {license_link}
  */
 
-class Magento_User_Block_Role_Edit extends Magento_Backend_Block_Widget_Tabs
+namespace Magento\User\Block\Role;
+
+class Edit extends \Magento\Backend\Block\Widget\Tabs
 {
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -48,7 +50,7 @@ class Magento_User_Block_Role_Edit extends Magento_Backend_Block_Widget_Tabs
         $this->addTab(
             'info',
             $this->getLayout()
-                ->createBlock('Magento_User_Block_Role_Tab_Info')
+                ->createBlock('Magento\User\Block\Role\Tab\Info')
                 ->setRole($role)
                 ->setActive(true)
         );
@@ -58,7 +60,7 @@ class Magento_User_Block_Role_Edit extends Magento_Backend_Block_Widget_Tabs
                 'label'     => __('Role Users'),
                 'title'     => __('Role Users'),
                 'content'   => $this->getLayout()
-                    ->createBlock('Magento_User_Block_Role_Tab_Users', 'role.users.grid')
+                    ->createBlock('Magento\User\Block\Role\Tab\Users', 'role.users.grid')
                     ->toHtml(),
             ));
         }

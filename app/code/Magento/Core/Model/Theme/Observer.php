@@ -11,39 +11,41 @@
 /**
  * Theme Observer model
  */
-class Magento_Core_Model_Theme_Observer
+namespace Magento\Core\Model\Theme;
+
+class Observer
 {
     /**
-     * @var Magento_Core_Model_Theme_ImageFactory
+     * @var \Magento\Core\Model\Theme\ImageFactory
      */
     protected $_themeImageFactory;
 
     /**
-     * @var Magento_Core_Model_Resource_Layout_Update_Collection
+     * @var \Magento\Core\Model\Resource\Layout\Update\Collection
      */
     protected $_updateCollection;
 
     /**
-     * @var Magento_Theme_Model_Config_Customization
+     * @var \Magento\Theme\Model\Config\Customization
      */
     protected $_themeConfig;
 
     /**
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventDispatcher;
 
     /**
-     * @param Magento_Core_Model_Theme_ImageFactory $themeImageFactory
-     * @param Magento_Core_Model_Resource_Layout_Update_Collection $updateCollection
-     * @param Magento_Theme_Model_Config_Customization $themeConfig
-     * @param Magento_Core_Model_Event_Manager $eventDispatcher
+     * @param \Magento\Core\Model\Theme\ImageFactory $themeImageFactory
+     * @param \Magento\Core\Model\Resource\Layout\Update\Collection $updateCollection
+     * @param \Magento\Theme\Model\Config\Customization $themeConfig
+     * @param \Magento\Core\Model\Event\Manager $eventDispatcher
      */
     public function __construct(
-        Magento_Core_Model_Theme_ImageFactory $themeImageFactory,
-        Magento_Core_Model_Resource_Layout_Update_Collection $updateCollection,
-        Magento_Theme_Model_Config_Customization $themeConfig,
-        Magento_Core_Model_Event_Manager $eventDispatcher
+        \Magento\Core\Model\Theme\ImageFactory $themeImageFactory,
+        \Magento\Core\Model\Resource\Layout\Update\Collection $updateCollection,
+        \Magento\Theme\Model\Config\Customization $themeConfig,
+        \Magento\Core\Model\Event\Manager $eventDispatcher
     ) {
         $this->_themeImageFactory = $themeImageFactory;
         $this->_updateCollection = $updateCollection;
@@ -54,18 +56,18 @@ class Magento_Core_Model_Theme_Observer
     /**
      * Clean related contents to a theme (before save)
      *
-     * @param Magento_Event_Observer $observer
-     * @throws Magento_Core_Exception
+     * @param \Magento\Event\Observer $observer
+     * @throws \Magento\Core\Exception
      */
-    public function cleanThemeRelatedContent(Magento_Event_Observer $observer)
+    public function cleanThemeRelatedContent(\Magento\Event\Observer $observer)
     {
         $theme = $observer->getEvent()->getData('theme');
-        if ($theme instanceof Magento_Core_Model_Theme) {
+        if ($theme instanceof \Magento\Core\Model\Theme) {
             return;
         }
-        /** @var $theme Magento_Core_Model_Theme */
+        /** @var $theme \Magento\Core\Model\Theme */
         if ($this->_themeConfig->isThemeAssignedToStore($theme)) {
-            throw new Magento_Core_Exception(__('Theme isn\'t deletable.'));
+            throw new \Magento\Core\Exception(__('Theme isn\'t deletable.'));
         }
         $this->_themeImageFactory->create(array('theme' => $theme))->removePreviewImage();
         $this->_updateCollection->addThemeFilter($theme->getId())->delete();
@@ -74,13 +76,13 @@ class Magento_Core_Model_Theme_Observer
     /**
      * Check a theme, it's assigned to any of store
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
-    public function checkThemeIsAssigned(Magento_Event_Observer $observer)
+    public function checkThemeIsAssigned(\Magento\Event\Observer $observer)
     {
         $theme = $observer->getEvent()->getData('theme');
-        if ($theme instanceof Magento_Core_Model_Theme) {
-            /** @var $theme Magento_Core_Model_Theme */
+        if ($theme instanceof \Magento\Core\Model\Theme) {
+            /** @var $theme \Magento\Core\Model\Theme */
             if ($this->_themeConfig->isThemeAssignedToStore($theme)) {
                 $this->_eventDispatcher->dispatch('assigned_theme_changed', array('theme' => $this));
             }

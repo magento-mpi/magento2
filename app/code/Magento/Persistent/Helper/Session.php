@@ -12,19 +12,21 @@
 /**
  * Persistent Shopping Cart Data Helper
  */
-class Magento_Persistent_Helper_Session extends Magento_Core_Helper_Data
+namespace Magento\Persistent\Helper;
+
+class Session extends \Magento\Core\Helper\Data
 {
     /**
      * Instance of Session Model
      *
-     * @var Magento_Persistent_Model_Session
+     * @var \Magento\Persistent\Model\Session
      */
     protected $_sessionModel;
 
     /**
      * Persistent customer
      *
-     * @var null|Magento_Customer_Model_Customer
+     * @var null|\Magento\Customer\Model\Customer
      */
     protected $_customer;
 
@@ -38,56 +40,56 @@ class Magento_Persistent_Helper_Session extends Magento_Core_Helper_Data
     /**
      * Persistent data
      *
-     * @var Magento_Persistent_Helper_Data
+     * @var \Magento\Persistent\Helper\Data
      */
     protected $_persistentData;
 
     /**
      * Persistent session factory
      *
-     * @var Magento_Persistent_Model_SessionFactory
+     * @var \Magento\Persistent\Model\SessionFactory
      */
     protected $_sessionFactory;
 
     /**
      * Customer factory
      *
-     * @var Magento_Customer_Model_CustomerFactory
+     * @var \Magento\Customer\Model\CustomerFactory
      */
     protected $_customerFactory;
 
     /**
      * Checkout session
      *
-     * @var Magento_Checkout_Model_Session
+     * @var \Magento\Checkout\Model\Session
      */
     protected $_checkoutSession;
 
     /**
-     * @param Magento_Core_Model_Event_Manager        $eventManager
-     * @param Magento_Core_Helper_Http                $coreHttp
-     * @param Magento_Core_Helper_Context             $context
-     * @param Magento_Core_Model_Config               $config
-     * @param Magento_Core_Model_Store_Config         $coreStoreConfig
-     * @param Magento_Core_Model_Encryption           $encryptor
-     * @param Magento_Persistent_Helper_Data          $persistentData
-     * @param Magento_Checkout_Model_Session          $checkoutSession
-     * @param Magento_Customer_Model_CustomerFactory  $customerFactory
-     * @param Magento_Persistent_Model_SessionFactory $sessionFactory
+     * @param \Magento\Core\Model\Event\Manager        $eventManager
+     * @param \Magento\Core\Helper\Http                $coreHttp
+     * @param \Magento\Core\Helper\Context             $context
+     * @param \Magento\Core\Model\Config               $config
+     * @param \Magento\Core\Model\Store\Config         $coreStoreConfig
+     * @param \Magento\Core\Model\Encryption           $encryptor
+     * @param \Magento\Persistent\Helper\Data          $persistentData
+     * @param \Magento\Checkout\Model\Session          $checkoutSession
+     * @param \Magento\Customer\Model\CustomerFactory  $customerFactory
+     * @param \Magento\Persistent\Model\SessionFactory $sessionFactory
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Helper_Http $coreHttp,
-        Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Config $config,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_Encryption $encryptor,
-        Magento_Persistent_Helper_Data $persistentData,
-        Magento_Checkout_Model_Session $checkoutSession,
-        Magento_Customer_Model_CustomerFactory $customerFactory,
-        Magento_Persistent_Model_SessionFactory $sessionFactory
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Helper\Http $coreHttp,
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\Config $config,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\Encryption $encryptor,
+        \Magento\Persistent\Helper\Data $persistentData,
+        \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Customer\Model\CustomerFactory $customerFactory,
+        \Magento\Persistent\Model\SessionFactory $sessionFactory
     ) {
         $this->_persistentData = $persistentData;
         $this->_checkoutSession = $checkoutSession;
@@ -100,7 +102,7 @@ class Magento_Persistent_Helper_Session extends Magento_Core_Helper_Data
     /**
      * Get Session model
      *
-     * @return Magento_Persistent_Model_Session
+     * @return \Magento\Persistent\Model\Session
      */
     public function getSession()
     {
@@ -114,8 +116,8 @@ class Magento_Persistent_Helper_Session extends Magento_Core_Helper_Data
     /**
      * Force setting session model
      *
-     * @param Magento_Persistent_Model_Session $sessionModel
-     * @return Magento_Persistent_Model_Session
+     * @param \Magento\Persistent\Model\Session $sessionModel
+     * @return \Magento\Persistent\Model\Session
      */
     public function setSession($sessionModel)
     {
@@ -170,7 +172,7 @@ class Magento_Persistent_Helper_Session extends Magento_Core_Helper_Data
     /**
      * Return persistent customer
      *
-     * @return Magento_Customer_Model_Customer|bool
+     * @return \Magento\Customer\Model\Customer|bool
      */
     public function getCustomer()
     {

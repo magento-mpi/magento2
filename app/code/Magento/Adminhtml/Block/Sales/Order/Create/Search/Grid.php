@@ -15,48 +15,50 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Magento_Adminhtml_Block_Widget_Grid
+namespace Magento\Adminhtml\Block\Sales\Order\Create\Search;
+
+class Grid extends \Magento\Adminhtml\Block\Widget\Grid
 {
     /**
-     * @var Magento_Sales_Model_Config
+     * @var \Magento\Sales\Model\Config
      */
     protected $_salesConfig;
 
     /**
-     * @var Magento_Adminhtml_Model_Session_Quote
+     * @var \Magento\Adminhtml\Model\Session\Quote
      */
     protected $_sessionQuote;
 
     /**
-     * @var Magento_Catalog_Model_Config
+     * @var \Magento\Catalog\Model\Config
      */
     protected $_catalogConfig;
 
     /**
-     * @var Magento_Catalog_Model_ProductFactory
+     * @var \Magento\Catalog\Model\ProductFactory
      */
     protected $_productFactory;
 
     /**
-     * @param Magento_Catalog_Model_ProductFactory $productFactory
-     * @param Magento_Catalog_Model_Config $catalogConfig
-     * @param Magento_Adminhtml_Model_Session_Quote $sessionQuote
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Url $urlModel
-     * @param Magento_Sales_Model_Config $salesConfig
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Catalog\Model\Config $catalogConfig
+     * @param \Magento\Adminhtml\Model\Session\Quote $sessionQuote
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Sales\Model\Config $salesConfig
      * @param array $data
      */
     public function __construct(
-        Magento_Catalog_Model_ProductFactory $productFactory,
-        Magento_Catalog_Model_Config $catalogConfig,
-        Magento_Adminhtml_Model_Session_Quote $sessionQuote,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Url $urlModel,
-        Magento_Sales_Model_Config $salesConfig,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Catalog\Model\Config $catalogConfig,
+        \Magento\Adminhtml\Model\Session\Quote $sessionQuote,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        \Magento\Sales\Model\Config $salesConfig,
         array $data = array()
     ) {
         $this->_productFactory = $productFactory;
@@ -82,7 +84,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Magento_Adm
 
     /**
      * Retrieve quote store object
-     * @return Magento_Core_Model_Store
+     * @return \Magento\Core\Model\Store
      */
     public function getStore()
     {
@@ -91,7 +93,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Magento_Adm
 
     /**
      * Retrieve quote object
-     * @return Magento_Sales_Model_Quote
+     * @return \Magento\Sales\Model\Quote
      */
     public function getQuote()
     {
@@ -122,12 +124,12 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Magento_Adm
     /**
      * Prepare collection to be displayed in the grid
      *
-     * @return Magento_Adminhtml_Block_Sales_Order_Create_Search_Grid
+     * @return \Magento\Adminhtml\Block\Sales\Order\Create\Search\Grid
      */
     protected function _prepareCollection()
     {
         $attributes = $this->_catalogConfig->getProductAttributes();
-        /* @var $collection Magento_Catalog_Model_Resource_Product_Collection */
+        /* @var $collection \Magento\Catalog\Model\Resource\Product\Collection */
         $collection = $this->_productFactory->create()->getCollection();
         $collection
             ->setStore($this->getStore())
@@ -144,7 +146,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Magento_Adm
     /**
      * Prepare columns
      *
-     * @return Magento_Adminhtml_Block_Sales_Order_Create_Search_Grid
+     * @return \Magento\Adminhtml\Block\Sales\Order\Create\Search\Grid
      */
     protected function _prepareColumns()
     {
@@ -156,7 +158,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Magento_Adm
         ));
         $this->addColumn('name', array(
             'header'    => __('Product'),
-            'renderer'  => 'Magento_Adminhtml_Block_Sales_Order_Create_Search_Grid_Renderer_Product',
+            'renderer'  => 'Magento\Adminhtml\Block\Sales\Order\Create\Search\Grid\Renderer\Product',
             'index'     => 'name'
         ));
         $this->addColumn('sku', array(
@@ -172,7 +174,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Magento_Adm
             'currency_code' => $this->getStore()->getCurrentCurrencyCode(),
             'rate'      => $this->getStore()->getBaseCurrency()->getRate($this->getStore()->getCurrentCurrencyCode()),
             'index'     => 'price',
-            'renderer'  => 'Magento_Adminhtml_Block_Sales_Order_Create_Search_Grid_Renderer_Price',
+            'renderer'  => 'Magento\Adminhtml\Block\Sales\Order\Create\Search\Grid\Renderer\Price',
         ));
 
         $this->addColumn('in_products', array(
@@ -190,7 +192,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Magento_Adm
             'filter'    => false,
             'sortable'  => false,
             'header'    => __('Quantity'),
-            'renderer'  => 'Magento_Adminhtml_Block_Sales_Order_Create_Search_Grid_Renderer_Qty',
+            'renderer'  => 'Magento\Adminhtml\Block\Sales\Order\Create\Search\Grid\Renderer\Qty',
             'name'      => 'qty',
             'inline_css'=> 'qty',
             'align'     => 'center',
@@ -218,7 +220,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Magento_Adm
     /*
      * Add custom options to product collection
      *
-     * return Magento_Adminhtml_Block_Widget_Grid
+     * return \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _afterLoadCollection() {
         $this->getCollection()->addOptionsToResult();

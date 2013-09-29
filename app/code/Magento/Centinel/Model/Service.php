@@ -11,7 +11,9 @@
 /**
  * 3D Secure Validation Model
  */
-class Magento_Centinel_Model_Service extends Magento_Object
+namespace Magento\Centinel\Model;
+
+class Service extends \Magento\Object
 {
     /**
      * Cmpi public keys
@@ -46,86 +48,86 @@ class Magento_Centinel_Model_Service extends Magento_Object
     /**
      * Validation api model
      *
-     * @var Magento_Centinel_Model_Api
+     * @var \Magento\Centinel\Model\Api
      */
     protected $_api;
 
     /**
      * Config
      *
-     * @var Magento_Centinel_Model_Config
+     * @var \Magento\Centinel\Model\Config
      */
     protected $_config;
 
     /**
      * Backend url
      *
-     * @var Magento_Core_Model_UrlInterface
+     * @var \Magento\Core\Model\UrlInterface
      */
     protected $_backendUrl;
 
     /**
      * Frontend url
      *
-     * @var Magento_Core_Model_UrlInterface
+     * @var \Magento\Core\Model\UrlInterface
      */
     protected $_frontendUrl;
 
     /**
      * Centinel session
      *
-     * @var Magento_Core_Model_Session_Abstract
+     * @var \Magento\Core\Model\Session\AbstractSession
      */
     protected $_centinelSession;
 
     /**
      * Session
      *
-     * @var Magento_Core_Model_Session
+     * @var \Magento\Core\Model\Session
      */
     protected $_session;
 
     /**
      * Store manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * State factory
      *
-     * @var Magento_Centinel_Model_StateFactory
+     * @var \Magento\Centinel\Model\StateFactory
      */
     protected $_stateFactory;
 
     /**
      * Validation state model
      *
-     * @var Magento_Centinel_Model_StateAbstract
+     * @var \Magento\Centinel\Model\StateAbstract
      */
     protected $_validationState;
 
     /**
-     * @param Magento_Centinel_Model_Config $config
-     * @param Magento_Centinel_Model_Api $api
-     * @param Magento_Core_Model_UrlInterface $backendUrl
-     * @param Magento_Core_Model_UrlInterface $frontendUrl
-     * @param Magento_Core_Model_Session_Abstract $centinelSession
-     * @param Magento_Core_Model_Session $session
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Centinel_Model_StateFactory $stateFactory
+     * @param \Magento\Centinel\Model\Config $config
+     * @param \Magento\Centinel\Model\Api $api
+     * @param \Magento\Core\Model\UrlInterface $backendUrl
+     * @param \Magento\Core\Model\UrlInterface $frontendUrl
+     * @param \Magento\Core\Model\Session\AbstractSession $centinelSession
+     * @param \Magento\Core\Model\Session $session
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Centinel\Model\StateFactory $stateFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Centinel_Model_Config $config,
-        Magento_Centinel_Model_Api $api,
-        Magento_Core_Model_UrlInterface $backendUrl,
-        Magento_Core_Model_UrlInterface $frontendUrl,
-        Magento_Core_Model_Session_Abstract $centinelSession,
-        Magento_Core_Model_Session $session,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Centinel_Model_StateFactory $stateFactory,
+        \Magento\Centinel\Model\Config $config,
+        \Magento\Centinel\Model\Api $api,
+        \Magento\Core\Model\UrlInterface $backendUrl,
+        \Magento\Core\Model\UrlInterface $frontendUrl,
+        \Magento\Core\Model\Session\AbstractSession $centinelSession,
+        \Magento\Core\Model\Session $session,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Centinel\Model\StateFactory $stateFactory,
         array $data = array()
     ) {
         $this->_config = $config;
@@ -142,7 +144,7 @@ class Magento_Centinel_Model_Service extends Magento_Object
     /**
      * Return value from section of centinel config
      *
-     * @return Magento_Centinel_Model_Config
+     * @return \Magento\Centinel\Model\Config
      */
     protected function _getConfig()
     {
@@ -190,7 +192,7 @@ class Magento_Centinel_Model_Service extends Magento_Object
     /**
      * Return validation api model
      *
-     * @return Magento_Centinel_Model_Api
+     * @return \Magento\Centinel\Model\Api
      */
     protected function _getApi()
     {
@@ -214,7 +216,7 @@ class Magento_Centinel_Model_Service extends Magento_Object
      * Return validation state model
      *
      * @param string $cardType
-     * @return Magento_Centinel_Model_StateAbstract
+     * @return \Magento\Centinel\Model\StateAbstract
      */
     protected function _getValidationState($cardType = null)
     {
@@ -245,7 +247,7 @@ class Magento_Centinel_Model_Service extends Magento_Object
      *
      * @param string $cardType
      * @param string $dataChecksum
-     * @return Magento_Centinel_Model_StateAbstract
+     * @return \Magento\Centinel\Model\StateAbstract
      */
     protected function _initValidationState($cardType, $dataChecksum)
     {
@@ -261,7 +263,7 @@ class Magento_Centinel_Model_Service extends Magento_Object
     /**
      * Process lookup validation and init new validation state model
      *
-     * @param Magento_Object $data
+     * @param \Magento\Object $data
      */
     public function lookup($data)
     {
@@ -285,13 +287,13 @@ class Magento_Centinel_Model_Service extends Magento_Object
     /**
      * Process authenticate validation
      *
-     * @param Magento_Object $data
+     * @param \Magento\Object $data
      */
     public function authenticate($data)
     {
         $validationState = $this->_getValidationState();
         if (!$validationState || $data->getTransactionId() != $validationState->getLookupTransactionId()) {
-            throw new Exception('Authentication impossible: transaction id or validation state is wrong.');
+            throw new \Exception('Authentication impossible: transaction id or validation state is wrong.');
         }
 
         $api = $this->_getApi();
@@ -308,8 +310,8 @@ class Magento_Centinel_Model_Service extends Magento_Object
      * This check is performed on payment information submission, as well as on placing order.
      * Workflow state is stored validation state model
      *
-     * @param Magento_Object $data
-     * @throws Magento_Core_Exception
+     * @param \Magento\Object $data
+     * @throws \Magento\Core\Exception
      */
     public function validate($data)
     {
@@ -332,12 +334,12 @@ class Magento_Centinel_Model_Service extends Magento_Object
         // check whether is authenticated before placing order
         if ($this->getIsPlaceOrder()) {
             if ($validationState->getChecksum() != $newChecksum) {
-                throw new Magento_Core_Exception(__('Payment information error. Please start over.'));
+                throw new \Magento\Core\Exception(__('Payment information error. Please start over.'));
             }
             if ($validationState->isAuthenticateSuccessful()) {
                 return;
             }
-            throw new Magento_Core_Exception(
+            throw new \Magento\Core\Exception(
                 __('Please verify the card with the issuer bank before placing the order.')
             );
         } else {
@@ -348,14 +350,14 @@ class Magento_Centinel_Model_Service extends Magento_Object
             if ($validationState->isLookupSuccessful()) {
                 return;
             }
-            throw new Magento_Core_Exception(__('This card has failed validation and cannot be used.'));
+            throw new \Magento\Core\Exception(__('This card has failed validation and cannot be used.'));
         }
     }
 
     /**
      * Reset validation state and drop api object
      *
-     * @return Magento_Centinel_Model_Service
+     * @return \Magento\Centinel\Model\Service
      */
     public function reset()
     {
@@ -404,7 +406,7 @@ class Magento_Centinel_Model_Service extends Magento_Object
     {
         $validationState = $this->_getValidationState();
         if (!$validationState && $this->shouldAuthenticate()) {
-            throw new Exception('Authentication impossible: validation state is wrong.');
+            throw new \Exception('Authentication impossible: validation state is wrong.');
         }
         $data = array(
             'acs_url' => $validationState->getLookupAcsUrl(),
@@ -439,7 +441,7 @@ class Magento_Centinel_Model_Service extends Magento_Object
             $map = $this->_cmpiMap;
         }
         if ($validationState = $this->_getValidationState()) {
-            $to = Magento_Object_Mapper::accumulateByMap($validationState, $to, $map);
+            $to = \Magento\Object\Mapper::accumulateByMap($validationState, $to, $map);
         }
         return $to;
     }

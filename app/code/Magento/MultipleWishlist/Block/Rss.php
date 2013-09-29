@@ -15,12 +15,14 @@
  * @package     Magento_MultipleWishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_MultipleWishlist_Block_Rss extends Magento_Rss_Block_Wishlist
+namespace Magento\MultipleWishlist\Block;
+
+class Rss extends \Magento\Rss\Block\Wishlist
 {
     /**
      * Retrieve Wishlist model
      *
-     * @return Magento_Wishlist_Model_Wishlist
+     * @return \Magento\Wishlist\Model\Wishlist
      */
     protected function _getWishlist()
     {
@@ -47,7 +49,7 @@ class Magento_MultipleWishlist_Block_Rss extends Magento_Rss_Block_Wishlist
     {
         $customer = $this->_getCustomer();
         if ($this->_getWishlist()->getCustomerId() !== $customer->getId()) {
-            /** @var Magento_Customer_Model_Customer $customer */
+            /** @var \Magento\Customer\Model\Customer $customer */
             $customer = $this->_customerFactory->create();
             $customer->load($this->_getWishlist()->getCustomerId());
         }

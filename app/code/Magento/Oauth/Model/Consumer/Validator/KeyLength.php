@@ -15,7 +15,9 @@
  * @package    Magento_Oauth
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Oauth_Model_Consumer_Validator_KeyLength extends Zend_Validate_StringLength
+namespace Magento\Oauth\Model\Consumer\Validator;
+
+class KeyLength extends \Zend_Validate_StringLength
 {
     /**
      * Key name
@@ -53,7 +55,7 @@ class Magento_Oauth_Model_Consumer_Validator_KeyLength extends Zend_Validate_Str
     /**
      * Init validation failure message template definitions
      *
-     * @return Magento_Oauth_Model_Consumer_Validator_KeyLength
+     * @return \Magento\Oauth\Model\Consumer\Validator\KeyLength
      */
     protected function _initMessageTemplates()
     {
@@ -80,7 +82,7 @@ class Magento_Oauth_Model_Consumer_Validator_KeyLength extends Zend_Validate_Str
      * Set length
      *
      * @param $length
-     * @return Magento_Oauth_Model_Consumer_Validator_KeyLength
+     * @return \Magento\Oauth\Model\Consumer\Validator\KeyLength
      */
     public function setLength($length)
     {
@@ -100,7 +102,7 @@ class Magento_Oauth_Model_Consumer_Validator_KeyLength extends Zend_Validate_Str
     }
 
     /**
-     * Defined by Zend_Validate_Interface
+     * Defined by \Zend_Validate_Interface
      *
      * Returns true if and only if the string length of $value is at least the min option and
      * no greater than the max option (when the max option is not null).
@@ -112,7 +114,7 @@ class Magento_Oauth_Model_Consumer_Validator_KeyLength extends Zend_Validate_Str
     {
         $result = parent::isValid($value);
         if (!$result && isset($this->_messages[self::INVALID])) {
-            throw new Exception($this->_messages[self::INVALID]);
+            throw new \Exception($this->_messages[self::INVALID]);
         }
         return $result;
     }
@@ -121,7 +123,7 @@ class Magento_Oauth_Model_Consumer_Validator_KeyLength extends Zend_Validate_Str
      * Set key name
      *
      * @param string $name
-     * @return Magento_Oauth_Model_Consumer_Validator_KeyLength
+     * @return \Magento\Oauth\Model\Consumer\Validator\KeyLength
      */
     public function setName($name)
     {

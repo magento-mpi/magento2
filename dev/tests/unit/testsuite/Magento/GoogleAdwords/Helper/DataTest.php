@@ -5,43 +5,45 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_GoogleAdwords_Helper_DataTest extends PHPUnit_Framework_TestCase
+namespace Magento\GoogleAdwords\Helper;
+
+class DataTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_configMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_configNodeMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_storeConfigMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_registryMock;
 
     /**
-     * @var Magento_GoogleAdwords_Helper_Data
+     * @var \Magento\GoogleAdwords\Helper\Data
      */
     protected $_helper;
 
     protected function setUp()
     {
-        $this->_configMock = $this->getMock('Magento_Core_Model_Config', array(), array(), '', false);
+        $this->_configMock = $this->getMock('Magento\Core\Model\Config', array(), array(), '', false);
         $this->_storeConfigMock = $this->getMock(
-            'Magento_Core_Model_Store_ConfigInterface', array(), array(), '', false
+            'Magento\Core\Model\Store\ConfigInterface', array(), array(), '', false
         );
-        $this->_registryMock = $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false);
+        $this->_registryMock = $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false);
 
-        $objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_helper = $objectManager->getObject('Magento_GoogleAdwords_Helper_Data', array(
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $this->_helper = $objectManager->getObject('Magento\GoogleAdwords\Helper\Data', array(
             'config' => $this->_configMock,
             'storeConfig' => $this->_storeConfigMock,
             'registry' => $this->_registryMock,
@@ -70,7 +72,7 @@ class Magento_GoogleAdwords_Helper_DataTest extends PHPUnit_Framework_TestCase
     public function testIsGoogleAdwordsActive($isActive, $returnConfigValue, $returnValue)
     {
         $this->_storeConfigMock->expects($this->any())->method('getConfigFlag')
-            ->with(Magento_GoogleAdwords_Helper_Data::XML_PATH_ACTIVE)
+            ->with(\Magento\GoogleAdwords\Helper\Data::XML_PATH_ACTIVE)
             ->will($this->returnValue($isActive));
         $this->_storeConfigMock->expects($this->any())->method('getConfig')
             ->with($this->isType('string'))
@@ -87,7 +89,7 @@ class Magento_GoogleAdwords_Helper_DataTest extends PHPUnit_Framework_TestCase
     {
         $languages = array('en', 'ru', 'uk');
         $this->_configMock->expects($this->once())->method('getValue')
-            ->with(Magento_GoogleAdwords_Helper_Data::XML_PATH_LANGUAGES, 'default')
+            ->with(\Magento\GoogleAdwords\Helper\Data::XML_PATH_LANGUAGES, 'default')
             ->will($this->returnValue($languages));
         $this->assertEquals($languages, $this->_helper->getLanguageCodes());
     }
@@ -111,7 +113,7 @@ class Magento_GoogleAdwords_Helper_DataTest extends PHPUnit_Framework_TestCase
     {
         $convertArray = array('zh_TW' => 'zh_Hant', 'iw' => 'he', 'zh_CN' => 'zh_Hans');
         $this->_configMock->expects($this->once())->method('getValue')
-            ->with(Magento_GoogleAdwords_Helper_Data::XML_PATH_LANGUAGE_CONVERT, 'default')
+            ->with(\Magento\GoogleAdwords\Helper\Data::XML_PATH_LANGUAGE_CONVERT, 'default')
             ->will($this->returnValue($convertArray));
         $this->assertEquals($returnLanguage, $this->_helper->convertLanguageCodeToLocaleCode($language));
     }
@@ -123,7 +125,7 @@ class Magento_GoogleAdwords_Helper_DataTest extends PHPUnit_Framework_TestCase
         $imgSrc = sprintf('https://www.googleadservices.com/pagead/conversion/%s/?label=%s&amp;guid=ON&amp;script=0',
             $conversionId, $label);
         $this->_configMock->expects($this->once())->method('getValue')
-            ->with(Magento_GoogleAdwords_Helper_Data::XML_PATH_CONVERSION_IMG_SRC, 'default')
+            ->with(\Magento\GoogleAdwords\Helper\Data::XML_PATH_CONVERSION_IMG_SRC, 'default')
             ->will($this->returnValue($imgSrc));
         $this->assertEquals($imgSrc, $this->_helper->getConversionImgSrc());
     }
@@ -132,7 +134,7 @@ class Magento_GoogleAdwords_Helper_DataTest extends PHPUnit_Framework_TestCase
     {
         $jsSrc = 'some-js-src';
         $this->_configMock->expects($this->once())->method('getValue')
-            ->with(Magento_GoogleAdwords_Helper_Data::XML_PATH_CONVERSION_JS_SRC)->will($this->returnValue($jsSrc));
+            ->with(\Magento\GoogleAdwords\Helper\Data::XML_PATH_CONVERSION_JS_SRC)->will($this->returnValue($jsSrc));
         $this->assertEquals($jsSrc, $this->_helper->getConversionJsSrc());
     }
 
@@ -142,13 +144,13 @@ class Magento_GoogleAdwords_Helper_DataTest extends PHPUnit_Framework_TestCase
     public function dataProviderForTestStoreConfig()
     {
         return array(
-            array('getConversionId', Magento_GoogleAdwords_Helper_Data::XML_PATH_CONVERSION_ID, 123),
-            array('getConversionLanguage', Magento_GoogleAdwords_Helper_Data::XML_PATH_CONVERSION_LANGUAGE, 'en'),
-            array('getConversionFormat', Magento_GoogleAdwords_Helper_Data::XML_PATH_CONVERSION_FORMAT, '2'),
-            array('getConversionColor', Magento_GoogleAdwords_Helper_Data::XML_PATH_CONVERSION_COLOR, 'ffffff'),
-            array('getConversionLabel', Magento_GoogleAdwords_Helper_Data::XML_PATH_CONVERSION_LABEL, 'Label'),
-            array('getConversionValueType', Magento_GoogleAdwords_Helper_Data::XML_PATH_CONVERSION_VALUE_TYPE, '1'),
-            array('getConversionValueConstant', Magento_GoogleAdwords_Helper_Data::XML_PATH_CONVERSION_VALUE, '0'),
+            array('getConversionId', \Magento\GoogleAdwords\Helper\Data::XML_PATH_CONVERSION_ID, 123),
+            array('getConversionLanguage', \Magento\GoogleAdwords\Helper\Data::XML_PATH_CONVERSION_LANGUAGE, 'en'),
+            array('getConversionFormat', \Magento\GoogleAdwords\Helper\Data::XML_PATH_CONVERSION_FORMAT, '2'),
+            array('getConversionColor', \Magento\GoogleAdwords\Helper\Data::XML_PATH_CONVERSION_COLOR, 'ffffff'),
+            array('getConversionLabel', \Magento\GoogleAdwords\Helper\Data::XML_PATH_CONVERSION_LABEL, 'Label'),
+            array('getConversionValueType', \Magento\GoogleAdwords\Helper\Data::XML_PATH_CONVERSION_VALUE_TYPE, '1'),
+            array('getConversionValueConstant', \Magento\GoogleAdwords\Helper\Data::XML_PATH_CONVERSION_VALUE, '0'),
         );
     }
 
@@ -170,10 +172,10 @@ class Magento_GoogleAdwords_Helper_DataTest extends PHPUnit_Framework_TestCase
     {
         $returnValue = 4.1;
         $this->_storeConfigMock->expects($this->any())->method('getConfig')
-            ->with(Magento_GoogleAdwords_Helper_Data::XML_PATH_CONVERSION_VALUE_TYPE)
-            ->will($this->returnValue(Magento_GoogleAdwords_Helper_Data::CONVERSION_VALUE_TYPE_DYNAMIC));
+            ->with(\Magento\GoogleAdwords\Helper\Data::XML_PATH_CONVERSION_VALUE_TYPE)
+            ->will($this->returnValue(\Magento\GoogleAdwords\Helper\Data::CONVERSION_VALUE_TYPE_DYNAMIC));
         $this->_registryMock->expects($this->once())->method('registry')
-            ->with(Magento_GoogleAdwords_Helper_Data::CONVERSION_VALUE_REGISTRY_NAME)
+            ->with(\Magento\GoogleAdwords\Helper\Data::CONVERSION_VALUE_REGISTRY_NAME)
             ->will($this->returnValue($returnValue));
 
         $this->assertEquals($returnValue, $this->_helper->getConversionValue());
@@ -186,7 +188,7 @@ class Magento_GoogleAdwords_Helper_DataTest extends PHPUnit_Framework_TestCase
     {
         return array(
             array(1.4, 1.4),
-            array('', Magento_GoogleAdwords_Helper_Data::CONVERSION_VALUE_DEFAULT),
+            array('', \Magento\GoogleAdwords\Helper\Data::CONVERSION_VALUE_DEFAULT),
         );
     }
 
@@ -198,11 +200,11 @@ class Magento_GoogleAdwords_Helper_DataTest extends PHPUnit_Framework_TestCase
     public function testGetConversionValueConstant($conversionValueConst, $returnValue)
     {
         $this->_storeConfigMock->expects($this->at(0))->method('getConfig')
-            ->with(Magento_GoogleAdwords_Helper_Data::XML_PATH_CONVERSION_VALUE_TYPE)
-            ->will($this->returnValue(Magento_GoogleAdwords_Helper_Data::CONVERSION_VALUE_TYPE_CONSTANT));
+            ->with(\Magento\GoogleAdwords\Helper\Data::XML_PATH_CONVERSION_VALUE_TYPE)
+            ->will($this->returnValue(\Magento\GoogleAdwords\Helper\Data::CONVERSION_VALUE_TYPE_CONSTANT));
         $this->_registryMock->expects($this->never())->method('registry');
         $this->_storeConfigMock->expects($this->at(1))->method('getConfig')
-            ->with(Magento_GoogleAdwords_Helper_Data::XML_PATH_CONVERSION_VALUE)
+            ->with(\Magento\GoogleAdwords\Helper\Data::XML_PATH_CONVERSION_VALUE)
             ->will($this->returnValue($conversionValueConst));
 
         $this->assertEquals($returnValue, $this->_helper->getConversionValue());

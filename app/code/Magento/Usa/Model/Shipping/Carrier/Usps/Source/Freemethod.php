@@ -9,8 +9,9 @@
  */
 
 
-class Magento_Usa_Model_Shipping_Carrier_Usps_Source_Freemethod
-    extends Magento_Usa_Model_Shipping_Carrier_Usps_Source_Method
+namespace Magento\Usa\Model\Shipping\Carrier\Usps\Source;
+
+class Freemethod extends \Magento\Usa\Model\Shipping\Carrier\Usps\Source\Method
 {
     public function toOptionArray()
     {

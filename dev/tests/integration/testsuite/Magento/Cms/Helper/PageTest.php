@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Cms_Helper_PageTest extends PHPUnit_Framework_TestCase
+namespace Magento\Cms\Helper;
+
+class PageTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @magentoAppIsolation enabled
@@ -17,25 +19,25 @@ class Magento_Cms_Helper_PageTest extends PHPUnit_Framework_TestCase
      */
     public function testRenderPage()
     {
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $arguments = array(
-            'request' => $objectManager->get('Magento_TestFramework_Request'),
-            'response' => $objectManager->get('Magento_TestFramework_Response')
+            'request' => $objectManager->get('Magento\TestFramework\Request'),
+            'response' => $objectManager->get('Magento\TestFramework\Response')
         );
-        $context = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Controller_Varien_Action_Context', $arguments);
-        $page = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Cms_Model_Page');
+        $context = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Controller\Varien\Action\Context', $arguments);
+        $page = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Cms\Model\Page');
         $page->load('page_design_blank', 'identifier'); // fixture
-        /** @var $pageHelper Magento_Cms_Helper_Page */
-        $pageHelper = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Cms_Helper_Page');
+        /** @var $pageHelper \Magento\Cms\Helper\Page */
+        $pageHelper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Cms\Helper\Page');
         $result = $pageHelper->renderPage(
-            Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Controller_Front_Action', array('context' => $context)),
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Controller\Front\Action', array('context' => $context)),
             $page->getId()
         );
-        $design = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Core_Model_View_DesignInterface');
+        $design = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Core\Model\View\DesignInterface');
         $this->assertEquals('magento_blank', $design->getDesignTheme()->getThemePath());
         $this->assertTrue($result);
     }

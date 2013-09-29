@@ -8,17 +8,19 @@
  * @license     {license_link}
  */
 
+namespace Magento\DesignEditor\Block\Adminhtml\Editor\Tools\QuickStyles;
+
 /**
  * Block that renders JS tab
  *
- * @method Magento_Core_Model_Theme getTheme()
+ * @method \Magento\Core\Model\Theme getTheme()
  * @method setTheme($theme)
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
-class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_QuickStyles_Tips
-    extends Magento_DesignEditor_Block_Adminhtml_Editor_Tools_QuickStyles_AbstractTab
+class Tips
+    extends \Magento\DesignEditor\Block\Adminhtml\Editor\Tools\QuickStyles\AbstractTab
 {
     /**
      * Tab form HTML identifier

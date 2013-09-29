@@ -8,10 +8,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\Sales\Block\Recurring\Profile\View;
+
 /**
  * Recurring profile view fees
  */
-class Magento_Sales_Block_Recurring_Profile_View_Fees extends Magento_Sales_Block_Recurring_Profile_View
+class Fees extends \Magento\Sales\Block\Recurring\Profile\View
 {
     /**
      * Prepare fees info
@@ -33,7 +35,7 @@ class Magento_Sales_Block_Recurring_Profile_View_Fees extends Magento_Sales_Bloc
             if ($value) {
                 $this->_addInfo(array(
                     'label' => $this->_profile->getFieldLabel($key),
-                    'value' => $this->helper('Magento_Core_Helper_Data')->formatCurrency($value, false),
+                    'value' => $this->helper('Magento\Core\Helper\Data')->formatCurrency($value, false),
                     'is_amount' => true,
                 ));
             }

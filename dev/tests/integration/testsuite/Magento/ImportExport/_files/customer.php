@@ -9,8 +9,8 @@
  * @license     {license_link}
  */
 //Create customer
-$customer = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Customer_Model_Customer');
+$customer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Customer\Model\Customer');
 $customer->setWebsiteId(1)
     ->setEntityId(1)
     ->setEntityTypeId(1)
@@ -26,8 +26,8 @@ $customer->setWebsiteId(1)
 $customer->isObjectNew(true);
 
 // Create address
-$address = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Customer_Model_Address');
+$address = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Customer\Model\Address');
 //  default_billing and default_shipping information would not be saved, it is needed only for simple check
 $address->addData(array(
     'firstname'         => 'Charles',
@@ -51,7 +51,7 @@ $customer->setDefaultBilling($address->getId());
 $customer->setDefaultShipping($address->getId());
 $customer->save();
 
-/** @var $objectManager Magento_TestFramework_ObjectManager */
-$objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-$objectManager->get('Magento_Core_Model_Registry')->unregister('_fixture/Magento_ImportExport_Customer');
-$objectManager->get('Magento_Core_Model_Registry')->register('_fixture/Magento_ImportExport_Customer', $customer);
+/** @var $objectManager \Magento\TestFramework\ObjectManager */
+$objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+$objectManager->get('Magento\Core\Model\Registry')->unregister('_fixture/Magento_ImportExport_Customer');
+$objectManager->get('Magento\Core\Model\Registry')->register('_fixture/Magento_ImportExport_Customer', $customer);

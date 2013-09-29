@@ -6,10 +6,12 @@
  * @license    {license_link}
  */
 
-class Magento_Test_Tools_Di_Code_Scanner_DirectoryScannerTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Tools\Di\Code\Scanner;
+
+class DirectoryScannerTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento\Tools\Di\Code\Scanner\DirectoryScanner
+     * @var \Magento\Tools\Di\Code\Scanner\DirectoryScanner
      */
     protected $_model;
 
@@ -20,7 +22,7 @@ class Magento_Test_Tools_Di_Code_Scanner_DirectoryScannerTest extends PHPUnit_Fr
 
     protected function setUp()
     {
-        $this->_model = new Magento\Tools\Di\Code\Scanner\DirectoryScanner();
+        $this->_model = new \Magento\Tools\Di\Code\Scanner\DirectoryScanner();
         $this->_testDir = str_replace('\\', '/', realpath(__DIR__ . '/../../') . '/_files');
     }
 

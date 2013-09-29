@@ -16,14 +16,16 @@
  * @package     Magento_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reports_Model_Resource_Product_Sold_Collection extends Magento_Reports_Model_Resource_Product_Collection
+namespace Magento\Reports\Model\Resource\Product\Sold;
+
+class Collection extends \Magento\Reports\Model\Resource\Product\Collection
 {
     /**
      * Set Date range to collection
      *
      * @param int $from
      * @param int $to
-     * @return Magento_Reports_Model_Resource_Product_Sold_Collection
+     * @return \Magento\Reports\Model\Resource\Product\Sold\Collection
      */
     public function setDateRange($from, $to)
     {
@@ -38,7 +40,7 @@ class Magento_Reports_Model_Resource_Product_Sold_Collection extends Magento_Rep
      * Set store filter to collection
      *
      * @param array $storeIds
-     * @return Magento_Reports_Model_Resource_Product_Sold_Collection
+     * @return \Magento\Reports\Model\Resource\Product\Sold\Collection
      */
     public function setStoreIds($storeIds)
     {
@@ -51,7 +53,7 @@ class Magento_Reports_Model_Resource_Product_Sold_Collection extends Magento_Rep
     /**
      * Add website product limitation
      *
-     * @return Magento_Reports_Model_Resource_Product_Sold_Collection
+     * @return \Magento\Reports\Model\Resource\Product\Sold\Collection
      */
     protected function _productLimitationJoinWebsite()
     {

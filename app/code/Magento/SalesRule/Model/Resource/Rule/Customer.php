@@ -16,7 +16,9 @@
  * @package     Magento_SalesRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_SalesRule_Model_Resource_Rule_Customer extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\SalesRule\Model\Resource\Rule;
+
+class Customer extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * constructor
@@ -30,10 +32,10 @@ class Magento_SalesRule_Model_Resource_Rule_Customer extends Magento_Core_Model_
     /**
      * Get rule usage record for a customer
      *
-     * @param Magento_SalesRule_Model_Rule_Customer $rule
+     * @param \Magento\SalesRule\Model\Rule\Customer $rule
      * @param int $customerId
      * @param int $ruleId
-     * @return Magento_SalesRule_Model_Resource_Rule_Customer
+     * @return \Magento\SalesRule\Model\Resource\Rule\Customer
      */
     public function loadByCustomerRule($rule, $customerId, $ruleId)
     {

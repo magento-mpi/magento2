@@ -10,7 +10,7 @@
 ?>
 <?php
 /**
- * @var $this Magento_Paypal_Block_Express_Shortcut
+ * @var $this \Magento\Paypal\Block\Express\Shortcut
  */
 ?>
 <p class="paypal-logo">
@@ -40,7 +40,7 @@ endif; ?>
                 "<?php echo $this->getViewFileUrl('Magento_Paypal::js/paypal-checkout.js') ?>",
                 function() {
                     $('.paypal-logo').paypalCheckout({
-                        confirmMessage: "<?php echo $this->helper('Magento_Core_Helper_Data')->jsQuoteEscape($this->getConfirmationMessage())?>",
+                        confirmMessage: "<?php echo $this->helper('Magento\Core\Helper\Data')->jsQuoteEscape($this->getConfirmationMessage())?>",
                         confirmUrl: "<?php echo !empty($confirmationUrl) ? $confirmationUrl : false ?>",
                         isCatalogProduct: "<?php echo !empty($isInCatalogProduct) ? $isInCatalogProduct : false ?>",
                         paypalCheckoutSelector: '#pp-checkout-url',

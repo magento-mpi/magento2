@@ -7,23 +7,25 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Resource_ConnectionFactory
+namespace Magento\Core\Model\Resource;
+
+class ConnectionFactory
 {
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @var Magento_Core_Model_Config_Local
+     * @var \Magento\Core\Model\Config\Local
      */
     protected $_localConfig;
 
     /**
-     * @param Magento_ObjectManager $objectManager
-     * @param Magento_Core_Model_Config_Local $localConfig
+     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Core\Model\Config\Local $localConfig
      */
-    public function __construct(Magento_ObjectManager $objectManager, Magento_Core_Model_Config_Local $localConfig)
+    public function __construct(\Magento\ObjectManager $objectManager, \Magento\Core\Model\Config\Local $localConfig)
     {
         $this->_objectManager = $objectManager;
         $this->_localConfig = $localConfig;
@@ -33,8 +35,8 @@ class Magento_Core_Model_Resource_ConnectionFactory
      * Create connection adapter instance
      *
      * @param string $connectionName
-     * @return Magento_DB_Adapter_Interface
-     * @throws InvalidArgumentException
+     * @return \Magento\DB\Adapter\AdapterInterface
+     * @throws \InvalidArgumentException
      */
     public function create($connectionName)
     {
@@ -44,13 +46,13 @@ class Magento_Core_Model_Resource_ConnectionFactory
         }
 
         if (!isset($connectionConfig['adapter'])) {
-            throw new InvalidArgumentException('Adapter is not set for connection "' . $connectionName . '"');
+            throw new \InvalidArgumentException('Adapter is not set for connection "' . $connectionName . '"');
         }
 
         $adapterInstance = $this->_objectManager->create($connectionConfig['adapter'], $connectionConfig);
 
-        if (!($adapterInstance instanceof Magento_Core_Model_Resource_ConnectionAdapterInterface)) {
-            throw new InvalidArgumentException('Trying to create wrong connection adapter');
+        if (!($adapterInstance instanceof \Magento\Core\Model\Resource\ConnectionAdapterInterface)) {
+            throw new \InvalidArgumentException('Trying to create wrong connection adapter');
         }
 
         return $adapterInstance->getConnection();

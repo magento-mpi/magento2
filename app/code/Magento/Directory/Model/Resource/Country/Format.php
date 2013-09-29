@@ -10,13 +10,15 @@
 
 
 /**
- * Directory country format resource model
+ * \Directory country format resource model
  *
  * @category    Magento
  * @package     Magento_Directory
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Directory_Model_Resource_Country_Format extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Directory\Model\Resource\Country;
+
+class Format extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Resource initialization
@@ -30,7 +32,7 @@ class Magento_Directory_Model_Resource_Country_Format extends Magento_Core_Model
     /**
      * Initialize unique fields
      *
-     * @return Magento_Directory_Model_Resource_Country_Format
+     * @return \Magento\Directory\Model\Resource\Country\Format
      */
     protected function _initUniqueFields()
     {

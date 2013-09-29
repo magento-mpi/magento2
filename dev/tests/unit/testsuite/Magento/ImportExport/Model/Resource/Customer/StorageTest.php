@@ -9,10 +9,12 @@
  * @license     {license_link}
  */
 
-class Magento_ImportExport_Model_Resource_Customer_StorageTest extends PHPUnit_Framework_TestCase
+namespace Magento\ImportExport\Model\Resource\Customer;
+
+class StorageTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_ImportExport_Model_Resource_Customer_Storage
+     * @var \Magento\ImportExport\Model\Resource\Customer\Storage
      */
     protected $_model;
 
@@ -28,7 +30,7 @@ class Magento_ImportExport_Model_Resource_Customer_StorageTest extends PHPUnit_F
 
     protected function setUp()
     {
-        $this->_model = new Magento_ImportExport_Model_Resource_Customer_Storage($this->_getModelDependencies());
+        $this->_model = new \Magento\ImportExport\Model\Resource\Customer\Storage($this->_getModelDependencies());
         $this->_model->load();
     }
 
@@ -44,15 +46,15 @@ class Magento_ImportExport_Model_Resource_Customer_StorageTest extends PHPUnit_F
      */
     protected function _getModelDependencies()
     {
-        $select = $this->getMock('Magento_DB_Select', array('from'), array(), '', false);
+        $select = $this->getMock('Magento\DB\Select', array('from'), array(), '', false);
         $select->expects($this->any())
             ->method('from')
             ->will($this->returnCallback(array($this, 'validateFrom')));
-        $customerCollection = $this->getMock('Magento_Customer_Model_Resource_Customer_Collection',
+        $customerCollection = $this->getMock('Magento\Customer\Model\Resource\Customer\Collection',
             array('load', 'removeAttributeToSelect', 'getResource', 'getSelect'), array(), '', false
         );
 
-        $resourceStub = new Magento_Object();
+        $resourceStub = new \Magento\Object();
         $resourceStub->setEntityTable($this->_entityTable);
         $customerCollection->expects($this->once())
             ->method('getResource')
@@ -79,11 +81,11 @@ class Magento_ImportExport_Model_Resource_Customer_StorageTest extends PHPUnit_F
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      *
-     * @param Magento_Data_Collection $collection
+     * @param \Magento\Data\Collection $collection
      * @param int $pageSize
      * @param array $callbacks
      */
-    public function iterate(Magento_Data_Collection $collection, $pageSize, array $callbacks)
+    public function iterate(\Magento\Data\Collection $collection, $pageSize, array $callbacks)
     {
         foreach ($collection as $customer) {
             foreach ($callbacks as $callback) {
@@ -103,7 +105,7 @@ class Magento_ImportExport_Model_Resource_Customer_StorageTest extends PHPUnit_F
     }
 
     /**
-     * @covers Magento_ImportExport_Model_Resource_Customer_Storage::load
+     * @covers \Magento\ImportExport\Model\Resource\Customer\Storage::load
      */
     public function testLoad()
     {
@@ -111,7 +113,7 @@ class Magento_ImportExport_Model_Resource_Customer_StorageTest extends PHPUnit_F
     }
 
     /**
-     * @covers Magento_ImportExport_Model_Resource_Customer_Storage::addCustomer
+     * @covers \Magento\ImportExport\Model\Resource\Customer\Storage::addCustomer
      */
     public function testAddCustomer()
     {
@@ -127,7 +129,7 @@ class Magento_ImportExport_Model_Resource_Customer_StorageTest extends PHPUnit_F
     }
 
     /**
-     * @covers Magento_ImportExport_Model_Resource_Customer_Storage::addCustomer
+     * @covers \Magento\ImportExport\Model\Resource\Customer\Storage::addCustomer
      */
     public function testGetCustomerId()
     {
@@ -141,11 +143,11 @@ class Magento_ImportExport_Model_Resource_Customer_StorageTest extends PHPUnit_F
     }
 
     /**
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     protected function _addCustomerToStorage()
     {
-        $customer = new Magento_Object(array(
+        $customer = new \Magento\Object(array(
             'id'         => 1,
             'website_id' => 1,
             'email'      => 'test@test.com'

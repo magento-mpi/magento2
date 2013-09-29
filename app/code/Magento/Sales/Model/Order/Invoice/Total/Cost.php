@@ -9,15 +9,17 @@
  */
 
 
-class Magento_Sales_Model_Order_Invoice_Total_Cost extends Magento_Sales_Model_Order_Invoice_Total_Abstract
+namespace Magento\Sales\Model\Order\Invoice\Total;
+
+class Cost extends \Magento\Sales\Model\Order\Invoice\Total\AbstractTotal
 {
     /**
      * Collect total cost of invoiced items
      *
-     * @param Magento_Sales_Model_Order_Invoice $invoice
-     * @return Magento_Sales_Model_Order_Invoice_Total_Cost
+     * @param \Magento\Sales\Model\Order\Invoice $invoice
+     * @return \Magento\Sales\Model\Order\Invoice\Total\Cost
      */
-    public function collect(Magento_Sales_Model_Order_Invoice $invoice)
+    public function collect(\Magento\Sales\Model\Order\Invoice $invoice)
     {
         $baseInvoiceTotalCost = 0;
         foreach ($invoice->getAllItems() as $item) {

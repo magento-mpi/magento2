@@ -11,34 +11,36 @@
 /**
  * RMA Grid
  */
-class Magento_Rma_Block_Adminhtml_Rma_Grid extends Magento_Backend_Block_Widget_Grid_Extended
+namespace Magento\Rma\Block\Adminhtml\Rma;
+
+class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
-     * @var Magento_Rma_Model_Resource_Rma_Grid_CollectionFactory
+     * @var \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory
      */
     protected $_collectionFactory;
 
     /**
-     * @var Magento_Rma_Model_RmaFactory
+     * @var \Magento\Rma\Model\RmaFactory
      */
     protected $_rmaFactory;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Url $urlModel
-     * @param Magento_Rma_Model_Resource_Rma_Grid_CollectionFactory $collectionFactory
-     * @param Magento_Rma_Model_RmaFactory $rmaFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory $collectionFactory
+     * @param \Magento\Rma\Model\RmaFactory $rmaFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Rma_Model_Resource_Rma_Grid_CollectionFactory $collectionFactory,
-        Magento_Rma_Model_RmaFactory $rmaFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Url $urlModel,
+        \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory $collectionFactory,
+        \Magento\Rma\Model\RmaFactory $rmaFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
         array $data = array()
     ) {
         $this->_collectionFactory = $collectionFactory;
@@ -61,7 +63,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Grid extends Magento_Backend_Block_Widget_
     /**
      * Prepare related item collection
      *
-     * @return Magento_Rma_Block_Adminhtml_Rma_Grid
+     * @return \Magento\Rma\Block\Adminhtml\Rma\Grid
      */
     protected function _prepareCollection()
     {
@@ -72,12 +74,12 @@ class Magento_Rma_Block_Adminhtml_Rma_Grid extends Magento_Backend_Block_Widget_
     /**
      * Configuring and setting collection
      *
-     * @return Magento_Rma_Block_Adminhtml_Rma_Grid
+     * @return \Magento\Rma\Block\Adminhtml\Rma\Grid
      */
     protected function _beforePrepareCollection()
     {
         if (!$this->getCollection()) {
-            /** @var $collection Magento_Rma_Model_Resource_Rma_Grid_Collection */
+            /** @var $collection \Magento\Rma\Model\Resource\Rma\Grid\Collection */
             $collection = $this->_collectionFactory->create();
             $this->setCollection($collection);
         }
@@ -87,7 +89,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Grid extends Magento_Backend_Block_Widget_
     /**
      * Prepare grid columns
      *
-     * @return Magento_Rma_Block_Adminhtml_Rma_Grid
+     * @return \Magento\Rma\Block\Adminhtml\Rma\Grid
      */
     protected function _prepareColumns()
     {
@@ -131,7 +133,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Grid extends Magento_Backend_Block_Widget_
             'header_css_class'  => 'col-name',
             'column_css_class'  => 'col-name'
         ));
-        /** @var $rmaModel Magento_Rma_Model_Rma */
+        /** @var $rmaModel \Magento\Rma\Model\Rma */
         $rmaModel = $this->_rmaFactory->create();
         $this->addColumn('status', array(
             'header'  => __('Status'),
@@ -168,7 +170,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Grid extends Magento_Backend_Block_Widget_
     /**
      * Prepare massaction
      *
-     * @return Magento_Rma_Block_Adminhtml_Rma_Grid
+     * @return \Magento\Rma\Block\Adminhtml\Rma\Grid
      */
     protected function _prepareMassaction()
     {

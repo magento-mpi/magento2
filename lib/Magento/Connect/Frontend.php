@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Connect_Frontend
+namespace Magento\Connect;
+
+class Frontend
 {
 
     /**
@@ -100,7 +102,7 @@ class Magento_Connect_Frontend
 
     /**
      * Save capture state
-     * @return Magento_Connect_Frontend
+     * @return \Magento\Connect\Frontend
      */
     public function pushCapture()
     {
@@ -110,7 +112,7 @@ class Magento_Connect_Frontend
 
     /**
      * Restore capture state
-     * @return Magento_Connect_Frontend
+     * @return \Magento\Connect\Frontend
      */
     public function popCapture()
     {
@@ -121,7 +123,7 @@ class Magento_Connect_Frontend
     /**
      * Set capture mode
      * @param bool $arg true by default
-     * @return Magento_Connect_Frontend
+     * @return \Magento\Connect\Frontend
      */
     public function setCapture($arg = true)
     {
@@ -161,7 +163,7 @@ class Magento_Connect_Frontend
     /**
      * Get instance of derived class
      *
-     * @param $class CLI for example will produce Magento_Connect_Frontend_CLI
+     * @param $class CLI for example will produce \Magento\Connect\Frontend\CLI
      * @return object
      */
     public static function getInstance($class)
@@ -184,7 +186,7 @@ class Magento_Connect_Frontend
 
     /**
      * Save silent mode
-     * @return Magento_Connect_Frontend
+     * @return \Magento\Connect\Frontend
      */
     public function pushSilent()
     {
@@ -194,7 +196,7 @@ class Magento_Connect_Frontend
 
     /**
      * Restore silent mode
-     * @return Magento_Connect_Frontend
+     * @return \Magento\Connect\Frontend
      */
     public function popSilent()
     {
@@ -205,7 +207,7 @@ class Magento_Connect_Frontend
     /**
      * Set silent mode
      * @param bool $value
-     * @return Magento_Connect_Frontend
+     * @return \Magento\Connect\Frontend
      */
     public function setSilent($value = true)
     {

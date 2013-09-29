@@ -15,22 +15,24 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Customer_Grid_Filter_Country
-    extends Magento_Adminhtml_Block_Widget_Grid_Column_Filter_Select
+namespace Magento\Adminhtml\Block\Customer\Grid\Filter;
+
+class Country
+    extends \Magento\Adminhtml\Block\Widget\Grid\Column\Filter\Select
 {
     /**
-     * @var Magento_Directory_Model_Resource_Country_CollectionFactory
+     * @var \Magento\Directory\Model\Resource\Country\CollectionFactory
      */
     protected $_collectionFactory;
 
     /**
-     * @param Magento_Directory_Model_Resource_Country_CollectionFactory $collectionFactory
-     * @param Magento_Backend_Block_Context $context
+     * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $collectionFactory
+     * @param \Magento\Backend\Block\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Directory_Model_Resource_Country_CollectionFactory $collectionFactory,
-        Magento_Backend_Block_Context $context,
+        \Magento\Directory\Model\Resource\Country\CollectionFactory $collectionFactory,
+        \Magento\Backend\Block\Context $context,
         array $data = array()
     ) {
         $this->_collectionFactory = $collectionFactory;

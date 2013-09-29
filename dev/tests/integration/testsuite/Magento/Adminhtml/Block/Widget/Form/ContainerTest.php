@@ -9,27 +9,29 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\Block\Widget\Form;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_Block_Widget_Form_ContainerTest extends PHPUnit_Framework_TestCase
+class ContainerTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetFormHtml()
     {
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        /** @var $layout Magento_Core_Model_Layout */
-        $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout');
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        /** @var $layout \Magento\Core\Model\Layout */
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout');
         // Create block with blocking _prepateLayout(), which is used by block to instantly add 'form' child
-        /** @var $block Magento_Adminhtml_Block_Widget_Form_Container */
-        $block = $this->getMock('Magento_Adminhtml_Block_Widget_Form_Container', array('_prepareLayout'),
+        /** @var $block \Magento\Adminhtml\Block\Widget\Form\Container */
+        $block = $this->getMock('Magento\Adminhtml\Block\Widget\Form\Container', array('_prepareLayout'),
             array(
-                $objectManager->create('Magento_Core_Helper_Data'),
-                $objectManager->create('Magento_Backend_Block_Template_Context'),
+                $objectManager->create('Magento\Core\Helper\Data'),
+                $objectManager->create('Magento\Backend\Block\Template\Context'),
             )
         );
 
         $layout->addBlock($block, 'block');
-        $form = $layout->addBlock('Magento_Core_Block_Text', 'form', 'block');
+        $form = $layout->addBlock('Magento\Core\Block\Text', 'form', 'block');
 
         $expectedHtml = '<b>html</b>';
         $this->assertNotEquals($expectedHtml, $block->getFormHtml());

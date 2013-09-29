@@ -15,27 +15,29 @@
  * @package    Magento_Page
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Page_Helper_Layout extends Magento_Core_Helper_Abstract
+namespace Magento\Page\Helper;
+
+class Layout extends \Magento\Core\Helper\AbstractHelper
 {
     /**
-     * @var Magento_Core_Model_Layout
+     * @var \Magento\Core\Model\Layout
      */
     protected $_layout;
 
     /**
-     * @var Magento_Page_Model_Config
+     * @var \Magento\Page\Model\Config
      */
     protected $_config;
 
     /**
-     * @param Magento_Page_Model_Config $config
-     * @param Magento_Core_Model_Layout $layout
-     * @param Magento_Core_Helper_Context $context
+     * @param \Magento\Page\Model\Config $config
+     * @param \Magento\Core\Model\Layout $layout
+     * @param \Magento\Core\Helper\Context $context
      */
     public function __construct(
-        Magento_Page_Model_Config $config,
-        Magento_Core_Model_Layout $layout,
-        Magento_Core_Helper_Context $context
+        \Magento\Page\Model\Config $config,
+        \Magento\Core\Model\Layout $layout,
+        \Magento\Core\Helper\Context $context
     ) {
         parent::__construct($context);
         $this->_layout = $layout;
@@ -46,7 +48,7 @@ class Magento_Page_Helper_Layout extends Magento_Core_Helper_Abstract
      * Apply page layout handle
      *
      * @param string $pageLayout
-     * @return Magento_Page_Helper_Layout
+     * @return \Magento\Page\Helper\Layout
      */
     public function applyHandle($pageLayout)
     {
@@ -67,7 +69,7 @@ class Magento_Page_Helper_Layout extends Magento_Core_Helper_Abstract
      * (for old design packages)
      *
      * @param string $pageLayout
-     * @return Magento_Page_Helper_Layout
+     * @return \Magento\Page\Helper\Layout
      */
     public function applyTemplate($pageLayout = null)
     {
@@ -94,7 +96,7 @@ class Magento_Page_Helper_Layout extends Magento_Core_Helper_Abstract
     /**
      * Retrieve current applied page layout
      *
-     * @return Magento_Object|boolean
+     * @return \Magento\Object|boolean
      */
     public function getCurrentPageLayout()
     {

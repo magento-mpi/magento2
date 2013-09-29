@@ -12,7 +12,7 @@
  * Create aggregation tables for updated_at fields
  */
 
-/** @var $installer Magento_Sales_Model_Resource_Setup */
+/** @var $installer \Magento\Sales\Model\Resource\Setup */
 $installer = $this;
 $connection = $installer->getConnection();
 $connection->createTable($connection->createTableByDdl(

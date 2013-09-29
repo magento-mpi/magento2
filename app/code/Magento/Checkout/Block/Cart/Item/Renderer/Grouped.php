@@ -15,7 +15,9 @@
  * @package     Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Checkout_Block_Cart_Item_Renderer_Grouped extends Magento_Checkout_Block_Cart_Item_Renderer
+namespace Magento\Checkout\Block\Cart\Item\Renderer;
+
+class Grouped extends \Magento\Checkout\Block\Cart\Item\Renderer
 {
     const GROUPED_PRODUCT_IMAGE = 'checkout/cart/grouped_product_image';
     const USE_PARENT_IMAGE      = 'parent';
@@ -23,7 +25,7 @@ class Magento_Checkout_Block_Cart_Item_Renderer_Grouped extends Magento_Checkout
     /**
      * Get item grouped product
      *
-     * @return Magento_Catalog_Model_Product
+     * @return \Magento\Catalog\Model\Product
      */
     public function getGroupedProduct()
     {
@@ -37,7 +39,7 @@ class Magento_Checkout_Block_Cart_Item_Renderer_Grouped extends Magento_Checkout
     /**
      * Get product thumbnail image
      *
-     * @return Magento_Catalog_Model_Product_Image
+     * @return \Magento\Catalog\Model\Product\Image
      */
     public function getProductThumbnail()
     {
@@ -47,7 +49,7 @@ class Magento_Checkout_Block_Cart_Item_Renderer_Grouped extends Magento_Checkout
             || ($this->_storeConfig->getConfig(self::GROUPED_PRODUCT_IMAGE) == self::USE_PARENT_IMAGE)) {
             $product = $this->getGroupedProduct();
         }
-        return $this->helper('Magento_Catalog_Helper_Image')->init($product, 'thumbnail');
+        return $this->helper('Magento\Catalog\Helper\Image')->init($product, 'thumbnail');
     }
 
     /**

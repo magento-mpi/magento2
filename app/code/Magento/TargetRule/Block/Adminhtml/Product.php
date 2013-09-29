@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_TargetRule_Block_Adminhtml_Product extends Magento_Backend_Block_Widget
+namespace Magento\TargetRule\Block\Adminhtml;
+
+class Product extends \Magento\Backend\Block\Widget
 {
     /**
      * Attributes is read only flag
@@ -20,44 +22,44 @@ class Magento_TargetRule_Block_Adminhtml_Product extends Magento_Backend_Block_W
     /**
      * Target rule data
      *
-     * @var Magento_TargetRule_Helper_Data
+     * @var \Magento\TargetRule\Helper\Data
      */
     protected $_targetRuleData = null;
 
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_TargetRule_Helper_Data $targetRuleData
+     * @param \Magento\TargetRule\Helper\Data $targetRuleData
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @var Magento_TargetRule_Model_Source_Position
+     * @var \Magento\TargetRule\Model\Source\Position
      */
     protected $_position;
 
     /**
-     * @param Magento_TargetRule_Model_Source_Position $position
-     * @param Magento_TargetRule_Helper_Data $targetRuleData
-     * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\TargetRule\Model\Source\Position $position
+     * @param \Magento\TargetRule\Helper\Data $targetRuleData
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_TargetRule_Model_Source_Position $position,
-        Magento_TargetRule_Helper_Data $targetRuleData,
-        Magento_Core_Model_StoreManager $storeManager,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\TargetRule\Model\Source\Position $position,
+        \Magento\TargetRule\Helper\Data $targetRuleData,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_position = $position;
@@ -77,10 +79,10 @@ class Magento_TargetRule_Block_Adminhtml_Product extends Magento_Backend_Block_W
         $listType = '';
         switch ($this->getFormPrefix()) {
             case 'related':
-                $listType = Magento_TargetRule_Model_Rule::RELATED_PRODUCTS;
+                $listType = \Magento\TargetRule\Model\Rule::RELATED_PRODUCTS;
                 break;
             case 'upsell':
-                $listType = Magento_TargetRule_Model_Rule::UP_SELLS;
+                $listType = \Magento\TargetRule\Model\Rule::UP_SELLS;
                 break;
         }
         return $listType;
@@ -89,7 +91,7 @@ class Magento_TargetRule_Block_Adminhtml_Product extends Magento_Backend_Block_W
     /**
      * Retrieve current edit product instance
      *
-     * @return Magento_Catalog_Model_Product
+     * @return \Magento\Catalog\Model\Product
      */
     public function getProduct()
     {
@@ -171,7 +173,7 @@ class Magento_TargetRule_Block_Adminhtml_Product extends Magento_Backend_Block_W
      * Set TargetRule Attributes is ReadOnly
      *
      * @param bool $flag
-     * @return Magento_TargetRule_Block_Adminhtml_Product
+     * @return \Magento\TargetRule\Block\Adminhtml\Product
      */
     public function setIsReadonly($flag)
     {

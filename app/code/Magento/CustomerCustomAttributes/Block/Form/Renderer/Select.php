@@ -16,6 +16,8 @@
  * @package     Magento_CustomerCustomAttributes
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CustomerCustomAttributes_Block_Form_Renderer_Select extends Magento_CustomAttribute_Block_Form_Renderer_Select
+namespace Magento\CustomerCustomAttributes\Block\Form\Renderer;
+
+class Select extends \Magento\CustomAttribute\Block\Form\Renderer\Select
 {
 }

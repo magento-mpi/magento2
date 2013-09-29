@@ -11,7 +11,9 @@
  * @license     {license_link}
  */
 
-class Magento_Test_Legacy_Magento_AdminGws_ConfigTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Legacy\Magento\AdminGws;
+
+class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @param string $file
@@ -20,7 +22,7 @@ class Magento_Test_Legacy_Magento_AdminGws_ConfigTest extends PHPUnit_Framework_
     public function testEventSubscriberFormat($file)
     {
         $xml = simplexml_load_file($file);
-        $nodes = $xml->xpath(Magento_Test_Integrity_Magento_AdminGws_ConfigTest::CLASSES_XPATH) ?: array();
+        $nodes = $xml->xpath(\Magento\Test\Integrity\Magento\AdminGws\ConfigTest::CLASSES_XPATH) ?: array();
         $errors = array();
         /** @var SimpleXMLElement $node */
         foreach ($nodes as $node) {
@@ -38,6 +40,6 @@ class Magento_Test_Legacy_Magento_AdminGws_ConfigTest extends PHPUnit_Framework_
      */
     public function configFileDataProvider()
     {
-        return Magento_TestFramework_Utility_Files::init()->getMainConfigFiles();
+        return \Magento\TestFramework\Utility\Files::init()->getMainConfigFiles();
     }
 }

@@ -15,26 +15,28 @@
  * @package     Magento_ScheduledImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_ScheduledImportExport_Model_Import extends Magento_ImportExport_Model_Import
-    implements Magento_ScheduledImportExport_Model_Scheduled_Operation_Interface
+namespace Magento\ScheduledImportExport\Model;
+
+class Import extends \Magento\ImportExport\Model\Import
+    implements \Magento\ScheduledImportExport\Model\Scheduled\Operation\OperationInterface
 {
     /**
-     * @var Magento_Index_Model_Indexer
+     * @var \Magento\Index\Model\Indexer
      */
     protected $_indexer;
 
     /**
-     * @param Magento_Index_Model_Indexer $indexer
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_ImportExport_Helper_Data $importExportData
-     * @param Magento_ImportExport_Model_Import_ConfigInterface $importConfig
+     * @param \Magento\Index\Model\Indexer $indexer
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\ImportExport\Helper\Data $importExportData
+     * @param \Magento\ImportExport\Model\Import\ConfigInterface $importConfig
      * @param array $data
      */
     public function __construct(
-        Magento_Index_Model_Indexer $indexer,
-        Magento_Core_Model_Logger $logger,
-        Magento_ImportExport_Helper_Data $importExportData,
-        Magento_ImportExport_Model_Import_ConfigInterface $importConfig,
+        \Magento\Index\Model\Indexer $indexer,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\ImportExport\Helper\Data $importExportData,
+        \Magento\ImportExport\Model\Import\ConfigInterface $importConfig,
         array $data = array()
     ) {
         $this->_indexer = $indexer;
@@ -44,7 +46,7 @@ class Magento_ScheduledImportExport_Model_Import extends Magento_ImportExport_Mo
     /**
      * Reindex indexes by process codes.
      *
-     * @return Magento_ScheduledImportExport_Model_Import
+     * @return \Magento\ScheduledImportExport\Model\Import
      */
     public function reindexAll()
     {
@@ -66,15 +68,15 @@ class Magento_ScheduledImportExport_Model_Import extends Magento_ImportExport_Mo
     /**
      * Run import through cron
      *
-     * @param Magento_ScheduledImportExport_Model_Scheduled_Operation $operation
+     * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation $operation
      * @return bool
      */
-    public function runSchedule(Magento_ScheduledImportExport_Model_Scheduled_Operation $operation)
+    public function runSchedule(\Magento\ScheduledImportExport\Model\Scheduled\Operation $operation)
     {
         $sourceFile = $operation->getFileSource($this);
         $result = false;
         if ($sourceFile) {
-            $result = $this->validateSource(Magento_ImportExport_Model_Import_Adapter::findAdapterFor($sourceFile));
+            $result = $this->validateSource(\Magento\ImportExport\Model\Import\Adapter::findAdapterFor($sourceFile));
         }
         $isAllowedForcedImport = $operation->getForceImport()
             && $this->getProcessedRowsCount() != $this->getInvalidRowsCount();
@@ -90,10 +92,10 @@ class Magento_ScheduledImportExport_Model_Import extends Magento_ImportExport_Mo
     /**
      * Initialize import instance from scheduled operation
      *
-     * @param Magento_ScheduledImportExport_Model_Scheduled_Operation $operation
-     * @return Magento_ScheduledImportExport_Model_Import
+     * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation $operation
+     * @return \Magento\ScheduledImportExport\Model\Import
      */
-    public function initialize(Magento_ScheduledImportExport_Model_Scheduled_Operation $operation)
+    public function initialize(\Magento\ScheduledImportExport\Model\Scheduled\Operation $operation)
     {
         $this->setData(array(
             'entity'                 => $operation->getEntityType(),

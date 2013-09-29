@@ -16,31 +16,33 @@
  * @package    Magento_Bundle
  * @module     Catalog
  */
-class Magento_Bundle_Block_Catalog_Product_View extends Magento_Catalog_Block_Product_View
+namespace Magento\Bundle\Block\Catalog\Product;
+
+class View extends \Magento\Catalog\Block\Product\View
 {
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_Core_Helper_String $coreString
-     * @param Magento_Tax_Helper_Data $taxData
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Core\Helper\String $coreString
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_StoreManager $storeManager,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_Core_Helper_String $coreString,
-        Magento_Tax_Helper_Data $taxData,
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Core\Helper\String $coreString,
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;
@@ -50,7 +52,7 @@ class Magento_Bundle_Block_Catalog_Product_View extends Magento_Catalog_Block_Pr
     /**
      * Get tier prices (formatted)
      *
-     * @param Magento_Catalog_Model_Product|null $product
+     * @param \Magento\Catalog\Model\Product|null $product
      * @return array
      */
     public function getTierPrices($product = null)

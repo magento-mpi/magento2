@@ -15,27 +15,29 @@
  * @package     Magento_Rma
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rma_Block_Adminhtml_Rma_Edit_Item_Form_Element_Textarea extends Magento_Data_Form_Element_Textarea
+namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Item\Form\Element;
+
+class Textarea extends \Magento\Data\Form\Element\Textarea
 {
     /**
      * Rma eav
      *
-     * @var Magento_Rma_Helper_Eav
+     * @var \Magento\Rma\Helper\Eav
      */
     protected $_rmaEav = null;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Data_Form_Element_Factory $factoryElement
-     * @param Magento_Data_Form_Element_CollectionFactory $factoryCollection
-     * @param Magento_Rma_Helper_Eav $rmaEav
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Data\Form\Element\Factory $factoryElement
+     * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
+     * @param \Magento\Rma\Helper\Eav $rmaEav
      * @param array $attributes
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Data_Form_Element_Factory $factoryElement,
-        Magento_Data_Form_Element_CollectionFactory $factoryCollection,
-        Magento_Rma_Helper_Eav $rmaEav,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Data\Form\Element\Factory $factoryElement,
+        \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
+        \Magento\Rma\Helper\Eav $rmaEav,
         array $attributes = array()
     ) {
         $this->_rmaEav = $rmaEav;

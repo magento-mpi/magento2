@@ -8,37 +8,39 @@
  * @license    {license_link}
  * @author Magento Core Team <core@magentocommerce.com>
  * @method string getNonce()
- * @method Magento_Oauth_Model_Nonce setNonce() setNonce(string $nonce)
+ * @method \Magento\Oauth\Model\Nonce setNonce() setNonce(string $nonce)
  * @method int getConsumerId()
- * @method Magento_Oauth_Model_Nonce setConsumerId() setConsumerId(int $consumerId)
+ * @method \Magento\Oauth\Model\Nonce setConsumerId() setConsumerId(int $consumerId)
  * @method string getTimestamp()
- * @method Magento_Oauth_Model_Nonce setTimestamp() setTimestamp(string $timestamp)
- * @method Magento_Oauth_Model_Resource_Nonce getResource()
- * @method Magento_Oauth_Model_Resource_Nonce _getResource()
+ * @method \Magento\Oauth\Model\Nonce setTimestamp() setTimestamp(string $timestamp)
+ * @method \Magento\Oauth\Model\Resource\Nonce getResource()
+ * @method \Magento\Oauth\Model\Resource\Nonce _getResource()
  */
-class Magento_Oauth_Model_Nonce extends Magento_Core_Model_Abstract
+namespace Magento\Oauth\Model;
+
+class Nonce extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Oauth data
      *
-     * @var Magento_Oauth_Helper_Service
+     * @var \Magento\Oauth\Helper\Service
      */
     protected $_oauthData = null;
 
     /**
-     * @param Magento_Oauth_Helper_Service $oauthData
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Oauth\Helper\Service $oauthData
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Oauth_Helper_Service $oauthData,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Oauth\Helper\Service $oauthData,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_oauthData = $oauthData;
@@ -52,13 +54,13 @@ class Magento_Oauth_Model_Nonce extends Magento_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('Magento_Oauth_Model_Resource_Nonce');
+        $this->_init('Magento\Oauth\Model\Resource\Nonce');
     }
 
     /**
      * "After save" actions
      *
-     * @return Magento_Oauth_Model_Nonce
+     * @return \Magento\Oauth\Model\Nonce
      */
     protected function _afterSave()
     {

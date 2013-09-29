@@ -9,7 +9,9 @@
  */
 
 
-class Magento_SalesRule_Exception extends Zend_Exception 
+namespace Magento\SalesRule;
+
+class Exception extends \Zend_Exception
 {
     
 }

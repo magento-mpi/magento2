@@ -15,23 +15,25 @@
  * @package    Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Checkout_Model_Observer
+namespace Magento\Checkout\Model;
+
+class Observer
 {
     public function unsetAll()
     {
-        Mage::getSingleton('Magento_Checkout_Model_Session')->unsetAll();
+        \Mage::getSingleton('Magento\Checkout\Model\Session')->unsetAll();
     }
 
     public function loadCustomerQuote()
     {
         try {
-            Mage::getSingleton('Magento_Checkout_Model_Session')->loadCustomerQuote();
+            \Mage::getSingleton('Magento\Checkout\Model\Session')->loadCustomerQuote();
         }
-        catch (Magento_Core_Exception $e) {
-            Mage::getSingleton('Magento_Checkout_Model_Session')->addError($e->getMessage());
+        catch (\Magento\Core\Exception $e) {
+            \Mage::getSingleton('Magento\Checkout\Model\Session')->addError($e->getMessage());
         }
-        catch (Exception $e) {
-            Mage::getSingleton('Magento_Checkout_Model_Session')->addException(
+        catch (\Exception $e) {
+            \Mage::getSingleton('Magento\Checkout\Model\Session')->addException(
                 $e,
                 __('Load customer quote error')
             );
@@ -41,9 +43,9 @@ class Magento_Checkout_Model_Observer
     public function salesQuoteSaveAfter($observer)
     {
         $quote = $observer->getEvent()->getQuote();
-        /* @var $quote Magento_Sales_Model_Quote */
+        /* @var $quote \Magento\Sales\Model\Quote */
         if ($quote->getIsCheckoutCart()) {
-            Mage::getSingleton('Magento_Checkout_Model_Session')->getQuoteId($quote->getId());
+            \Mage::getSingleton('Magento\Checkout\Model\Session')->getQuoteId($quote->getId());
         }
     }
 }

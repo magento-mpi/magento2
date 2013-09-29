@@ -15,7 +15,9 @@
  * @package    Magento_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backend_Model_Config_Backend_Currency_Cron extends Magento_Core_Model_Config_Value
+namespace Magento\Backend\Model\Config\Backend\Currency;
+
+class Cron extends \Magento\Core\Model\Config\Value
 {
 
     const CRON_STRING_PATH = 'crontab/jobs/currency_rates_update/schedule/cron_expr';
@@ -25,8 +27,8 @@ class Magento_Backend_Model_Config_Backend_Currency_Cron extends Magento_Core_Mo
         $time = $this->getData('groups/import/fields/time/value');
         $frequency = $this->getData('groups/import/fields/frequency/value');
 
-        $frequencyWeekly = Magento_Cron_Model_Config_Source_Frequency::CRON_WEEKLY;
-        $frequencyMonthly = Magento_Cron_Model_Config_Source_Frequency::CRON_MONTHLY;
+        $frequencyWeekly = \Magento\Cron\Model\Config\Source\Frequency::CRON_WEEKLY;
+        $frequencyMonthly = \Magento\Cron\Model\Config\Source\Frequency::CRON_MONTHLY;
 
         $cronExprArray = array(
             intval($time[1]),                                   # Minute
@@ -39,13 +41,13 @@ class Magento_Backend_Model_Config_Backend_Currency_Cron extends Magento_Core_Mo
         $cronExprString = join(' ', $cronExprArray);
 
         try {
-            Mage::getModel('Magento_Core_Model_Config_Value')
+            \Mage::getModel('Magento\Core\Model\Config\Value')
                 ->load(self::CRON_STRING_PATH, 'path')
                 ->setValue($cronExprString)
                 ->setPath(self::CRON_STRING_PATH)
                 ->save();
-        } catch (Exception $e) {
-            throw new Exception(__('We can\'t save the Cron expression.'));
+        } catch (\Exception $e) {
+            throw new \Exception(__('We can\'t save the Cron expression.'));
         }
     }
 

@@ -12,30 +12,32 @@
 /**
  * Core session model
  *
- * @todo extend from Magento_Core_Model_Session_Abstract
+ * @todo extend from \Magento\Core\Model\Session\AbstractSession
  *
  * @method null|bool getCookieShouldBeReceived()
- * @method Magento_Core_Model_Session setCookieShouldBeReceived(bool $flag)
- * @method Magento_Core_Model_Session unsCookieShouldBeReceived()
+ * @method \Magento\Core\Model\Session setCookieShouldBeReceived(bool $flag)
+ * @method \Magento\Core\Model\Session unsCookieShouldBeReceived()
  */
-class Magento_Core_Model_Session extends Magento_Core_Model_Session_Abstract
+namespace Magento\Core\Model;
+
+class Session extends \Magento\Core\Model\Session\AbstractSession
 {
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
     /**
-     * @param Magento_Core_Model_Session_Context $context
-     * @param Magento_Core_Helper_Data $coreData
+     * @param \Magento\Core\Model\Session\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
      * @param array $data
      * @param string $sessionName
      */
     public function __construct(
-        Magento_Core_Model_Session_Context $context,
-        Magento_Core_Helper_Data $coreData,
+        \Magento\Core\Model\Session\Context $context,
+        \Magento\Core\Helper\Data $coreData,
         array $data = array(),
         $sessionName = null
     ) {

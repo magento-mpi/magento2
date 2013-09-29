@@ -11,114 +11,116 @@
 /**
  * Order payment information
  *
- * @method Magento_Sales_Model_Resource_Order_Payment _getResource()
- * @method Magento_Sales_Model_Resource_Order_Payment getResource()
+ * @method \Magento\Sales\Model\Resource\Order\Payment _getResource()
+ * @method \Magento\Sales\Model\Resource\Order\Payment getResource()
  * @method int getParentId()
- * @method Magento_Sales_Model_Order_Payment setParentId(int $value)
+ * @method \Magento\Sales\Model\Order\Payment setParentId(int $value)
  * @method float getBaseShippingCaptured()
- * @method Magento_Sales_Model_Order_Payment setBaseShippingCaptured(float $value)
+ * @method \Magento\Sales\Model\Order\Payment setBaseShippingCaptured(float $value)
  * @method float getShippingCaptured()
- * @method Magento_Sales_Model_Order_Payment setShippingCaptured(float $value)
+ * @method \Magento\Sales\Model\Order\Payment setShippingCaptured(float $value)
  * @method float getAmountRefunded()
- * @method Magento_Sales_Model_Order_Payment setAmountRefunded(float $value)
+ * @method \Magento\Sales\Model\Order\Payment setAmountRefunded(float $value)
  * @method float getBaseAmountPaid()
- * @method Magento_Sales_Model_Order_Payment setBaseAmountPaid(float $value)
+ * @method \Magento\Sales\Model\Order\Payment setBaseAmountPaid(float $value)
  * @method float getAmountCanceled()
- * @method Magento_Sales_Model_Order_Payment setAmountCanceled(float $value)
+ * @method \Magento\Sales\Model\Order\Payment setAmountCanceled(float $value)
  * @method float getBaseAmountAuthorized()
- * @method Magento_Sales_Model_Order_Payment setBaseAmountAuthorized(float $value)
+ * @method \Magento\Sales\Model\Order\Payment setBaseAmountAuthorized(float $value)
  * @method float getBaseAmountPaidOnline()
- * @method Magento_Sales_Model_Order_Payment setBaseAmountPaidOnline(float $value)
+ * @method \Magento\Sales\Model\Order\Payment setBaseAmountPaidOnline(float $value)
  * @method float getBaseAmountRefundedOnline()
- * @method Magento_Sales_Model_Order_Payment setBaseAmountRefundedOnline(float $value)
+ * @method \Magento\Sales\Model\Order\Payment setBaseAmountRefundedOnline(float $value)
  * @method float getBaseShippingAmount()
- * @method Magento_Sales_Model_Order_Payment setBaseShippingAmount(float $value)
+ * @method \Magento\Sales\Model\Order\Payment setBaseShippingAmount(float $value)
  * @method float getShippingAmount()
- * @method Magento_Sales_Model_Order_Payment setShippingAmount(float $value)
+ * @method \Magento\Sales\Model\Order\Payment setShippingAmount(float $value)
  * @method float getAmountPaid()
- * @method Magento_Sales_Model_Order_Payment setAmountPaid(float $value)
+ * @method \Magento\Sales\Model\Order\Payment setAmountPaid(float $value)
  * @method float getAmountAuthorized()
- * @method Magento_Sales_Model_Order_Payment setAmountAuthorized(float $value)
+ * @method \Magento\Sales\Model\Order\Payment setAmountAuthorized(float $value)
  * @method float getBaseAmountOrdered()
- * @method Magento_Sales_Model_Order_Payment setBaseAmountOrdered(float $value)
+ * @method \Magento\Sales\Model\Order\Payment setBaseAmountOrdered(float $value)
  * @method float getBaseShippingRefunded()
- * @method Magento_Sales_Model_Order_Payment setBaseShippingRefunded(float $value)
+ * @method \Magento\Sales\Model\Order\Payment setBaseShippingRefunded(float $value)
  * @method float getShippingRefunded()
- * @method Magento_Sales_Model_Order_Payment setShippingRefunded(float $value)
+ * @method \Magento\Sales\Model\Order\Payment setShippingRefunded(float $value)
  * @method float getBaseAmountRefunded()
- * @method Magento_Sales_Model_Order_Payment setBaseAmountRefunded(float $value)
+ * @method \Magento\Sales\Model\Order\Payment setBaseAmountRefunded(float $value)
  * @method float getAmountOrdered()
- * @method Magento_Sales_Model_Order_Payment setAmountOrdered(float $value)
+ * @method \Magento\Sales\Model\Order\Payment setAmountOrdered(float $value)
  * @method float getBaseAmountCanceled()
- * @method Magento_Sales_Model_Order_Payment setBaseAmountCanceled(float $value)
+ * @method \Magento\Sales\Model\Order\Payment setBaseAmountCanceled(float $value)
  * @method int getQuotePaymentId()
- * @method Magento_Sales_Model_Order_Payment setQuotePaymentId(int $value)
+ * @method \Magento\Sales\Model\Order\Payment setQuotePaymentId(int $value)
  * @method string getAdditionalData()
- * @method Magento_Sales_Model_Order_Payment setAdditionalData(string $value)
+ * @method \Magento\Sales\Model\Order\Payment setAdditionalData(string $value)
  * @method string getCcExpMonth()
- * @method Magento_Sales_Model_Order_Payment setCcExpMonth(string $value)
+ * @method \Magento\Sales\Model\Order\Payment setCcExpMonth(string $value)
  * @method string getCcSsStartYear()
- * @method Magento_Sales_Model_Order_Payment setCcSsStartYear(string $value)
+ * @method \Magento\Sales\Model\Order\Payment setCcSsStartYear(string $value)
  * @method string getEcheckBankName()
- * @method Magento_Sales_Model_Order_Payment setEcheckBankName(string $value)
+ * @method \Magento\Sales\Model\Order\Payment setEcheckBankName(string $value)
  * @method string getMethod()
- * @method Magento_Sales_Model_Order_Payment setMethod(string $value)
+ * @method \Magento\Sales\Model\Order\Payment setMethod(string $value)
  * @method string getCcDebugRequestBody()
- * @method Magento_Sales_Model_Order_Payment setCcDebugRequestBody(string $value)
+ * @method \Magento\Sales\Model\Order\Payment setCcDebugRequestBody(string $value)
  * @method string getCcSecureVerify()
- * @method Magento_Sales_Model_Order_Payment setCcSecureVerify(string $value)
+ * @method \Magento\Sales\Model\Order\Payment setCcSecureVerify(string $value)
  * @method string getProtectionEligibility()
- * @method Magento_Sales_Model_Order_Payment setProtectionEligibility(string $value)
+ * @method \Magento\Sales\Model\Order\Payment setProtectionEligibility(string $value)
  * @method string getCcApproval()
- * @method Magento_Sales_Model_Order_Payment setCcApproval(string $value)
+ * @method \Magento\Sales\Model\Order\Payment setCcApproval(string $value)
  * @method string getCcLast4()
- * @method Magento_Sales_Model_Order_Payment setCcLast4(string $value)
+ * @method \Magento\Sales\Model\Order\Payment setCcLast4(string $value)
  * @method string getCcStatusDescription()
- * @method Magento_Sales_Model_Order_Payment setCcStatusDescription(string $value)
+ * @method \Magento\Sales\Model\Order\Payment setCcStatusDescription(string $value)
  * @method string getEcheckType()
- * @method Magento_Sales_Model_Order_Payment setEcheckType(string $value)
+ * @method \Magento\Sales\Model\Order\Payment setEcheckType(string $value)
  * @method string getCcDebugResponseSerialized()
- * @method Magento_Sales_Model_Order_Payment setCcDebugResponseSerialized(string $value)
+ * @method \Magento\Sales\Model\Order\Payment setCcDebugResponseSerialized(string $value)
  * @method string getCcSsStartMonth()
- * @method Magento_Sales_Model_Order_Payment setCcSsStartMonth(string $value)
+ * @method \Magento\Sales\Model\Order\Payment setCcSsStartMonth(string $value)
  * @method string getEcheckAccountType()
- * @method Magento_Sales_Model_Order_Payment setEcheckAccountType(string $value)
+ * @method \Magento\Sales\Model\Order\Payment setEcheckAccountType(string $value)
  * @method string getLastTransId()
- * @method Magento_Sales_Model_Order_Payment setLastTransId(string $value)
+ * @method \Magento\Sales\Model\Order\Payment setLastTransId(string $value)
  * @method string getCcCidStatus()
- * @method Magento_Sales_Model_Order_Payment setCcCidStatus(string $value)
+ * @method \Magento\Sales\Model\Order\Payment setCcCidStatus(string $value)
  * @method string getCcOwner()
- * @method Magento_Sales_Model_Order_Payment setCcOwner(string $value)
+ * @method \Magento\Sales\Model\Order\Payment setCcOwner(string $value)
  * @method string getCcType()
- * @method Magento_Sales_Model_Order_Payment setCcType(string $value)
+ * @method \Magento\Sales\Model\Order\Payment setCcType(string $value)
  * @method string getPoNumber()
- * @method Magento_Sales_Model_Order_Payment setPoNumber(string $value)
+ * @method \Magento\Sales\Model\Order\Payment setPoNumber(string $value)
  * @method string getCcExpYear()
- * @method Magento_Sales_Model_Order_Payment setCcExpYear(string $value)
+ * @method \Magento\Sales\Model\Order\Payment setCcExpYear(string $value)
  * @method string getCcStatus()
- * @method Magento_Sales_Model_Order_Payment setCcStatus(string $value)
+ * @method \Magento\Sales\Model\Order\Payment setCcStatus(string $value)
  * @method string getEcheckRoutingNumber()
- * @method Magento_Sales_Model_Order_Payment setEcheckRoutingNumber(string $value)
+ * @method \Magento\Sales\Model\Order\Payment setEcheckRoutingNumber(string $value)
  * @method string getAccountStatus()
- * @method Magento_Sales_Model_Order_Payment setAccountStatus(string $value)
+ * @method \Magento\Sales\Model\Order\Payment setAccountStatus(string $value)
  * @method string getAnetTransMethod()
- * @method Magento_Sales_Model_Order_Payment setAnetTransMethod(string $value)
+ * @method \Magento\Sales\Model\Order\Payment setAnetTransMethod(string $value)
  * @method string getCcDebugResponseBody()
- * @method Magento_Sales_Model_Order_Payment setCcDebugResponseBody(string $value)
+ * @method \Magento\Sales\Model\Order\Payment setCcDebugResponseBody(string $value)
  * @method string getCcSsIssue()
- * @method Magento_Sales_Model_Order_Payment setCcSsIssue(string $value)
+ * @method \Magento\Sales\Model\Order\Payment setCcSsIssue(string $value)
  * @method string getEcheckAccountName()
- * @method Magento_Sales_Model_Order_Payment setEcheckAccountName(string $value)
+ * @method \Magento\Sales\Model\Order\Payment setEcheckAccountName(string $value)
  * @method string getCcAvsStatus()
- * @method Magento_Sales_Model_Order_Payment setCcAvsStatus(string $value)
+ * @method \Magento\Sales\Model\Order\Payment setCcAvsStatus(string $value)
  * @method string getCcNumberEnc()
- * @method Magento_Sales_Model_Order_Payment setCcNumberEnc(string $value)
+ * @method \Magento\Sales\Model\Order\Payment setCcNumberEnc(string $value)
  * @method string getCcTransId()
- * @method Magento_Sales_Model_Order_Payment setCcTransId(string $value)
+ * @method \Magento\Sales\Model\Order\Payment setCcTransId(string $value)
  * @method string getAddressStatus()
- * @method Magento_Sales_Model_Order_Payment setAddressStatus(string $value)
+ * @method \Magento\Sales\Model\Order\Payment setAddressStatus(string $value)
  */
-class Magento_Sales_Model_Order_Payment extends Magento_Payment_Model_Info
+namespace Magento\Sales\Model\Order;
+
+class Payment extends \Magento\Payment\Model\Info
 {
     /**
      * Actions for payment when it triggered review state
@@ -132,14 +134,14 @@ class Magento_Sales_Model_Order_Payment extends Magento_Payment_Model_Info
     /**
      * Order model object
      *
-     * @var Magento_Sales_Model_Order
+     * @var \Magento\Sales\Model\Order
      */
     protected $_order;
 
     /**
      * Billing agreement instance that may be created during payment processing
      *
-     * @var Magento_Sales_Model_Billing_Agreement
+     * @var \Magento\Sales\Model\Billing\Agreement
      */
     protected $_billingAgreement = null;
 
@@ -169,63 +171,63 @@ class Magento_Sales_Model_Order_Payment extends Magento_Payment_Model_Info
     /**
      * Core event manager proxy
      *
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventManager = null;
 
     /**
-     * @var Magento_Sales_Model_Service_Order
+     * @var \Magento\Sales\Model\Service\Order
      */
     protected $_serviceOrderFactory;
 
     /**
-     * @var Magento_Sales_Model_Order_Payment_TransactionFactory
+     * @var \Magento\Sales\Model\Order\Payment\TransactionFactory
      */
     protected $_transactionFactory;
 
     /**
-     * @var Magento_Sales_Model_Resource_Order_Payment_Transaction_CollectionFactory
+     * @var \Magento\Sales\Model\Resource\Order\Payment\Transaction\CollectionFactory
      */
     protected $_transactionCollFactory;
 
     /**
-     * @var Magento_Sales_Model_Billing_AgreementFactory
+     * @var \Magento\Sales\Model\Billing\AgreementFactory
      */
     protected $_agreementFactory;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Payment_Helper_Data $paymentData
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Sales_Model_Service_Order $serviceOrderFactory
-     * @param Magento_Sales_Model_Order_Payment_TransactionFactory $transactionFactory
-     * @param Magento_Sales_Model_Resource_Order_Payment_Transaction_CollectionFactory $transactionCollFactory
-     * @param Magento_Sales_Model_Billing_AgreementFactory $agreementFactory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Payment\Helper\Data $paymentData
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Sales\Model\Service\Order $serviceOrderFactory
+     * @param \Magento\Sales\Model\Order\Payment\TransactionFactory $transactionFactory
+     * @param \Magento\Sales\Model\Resource\Order\Payment\Transaction\CollectionFactory $transactionCollFactory
+     * @param \Magento\Sales\Model\Billing\AgreementFactory $agreementFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Payment_Helper_Data $paymentData,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Sales_Model_Service_Order $serviceOrderFactory,
-        Magento_Sales_Model_Order_Payment_TransactionFactory $transactionFactory,
-        Magento_Sales_Model_Resource_Order_Payment_Transaction_CollectionFactory $transactionCollFactory,
-        Magento_Sales_Model_Billing_AgreementFactory $agreementFactory,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Payment\Helper\Data $paymentData,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Sales\Model\Service\Order $serviceOrderFactory,
+        \Magento\Sales\Model\Order\Payment\TransactionFactory $transactionFactory,
+        \Magento\Sales\Model\Resource\Order\Payment\Transaction\CollectionFactory $transactionCollFactory,
+        \Magento\Sales\Model\Billing\AgreementFactory $agreementFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
@@ -242,16 +244,16 @@ class Magento_Sales_Model_Order_Payment extends Magento_Payment_Model_Info
      */
     protected function _construct()
     {
-        $this->_init('Magento_Sales_Model_Resource_Order_Payment');
+        $this->_init('Magento\Sales\Model\Resource\Order\Payment');
     }
 
     /**
      * Declare order model object
      *
-     * @param   Magento_Sales_Model_Order $order
-     * @return  Magento_Sales_Model_Order_Payment
+     * @param   \Magento\Sales\Model\Order $order
+     * @return  \Magento\Sales\Model\Order\Payment
      */
-    public function setOrder(Magento_Sales_Model_Order $order)
+    public function setOrder(\Magento\Sales\Model\Order $order)
     {
         $this->_order = $order;
         return $this;
@@ -260,7 +262,7 @@ class Magento_Sales_Model_Order_Payment extends Magento_Payment_Model_Info
     /**
      * Retrieve order model object
      *
-     * @return Magento_Sales_Model_Order
+     * @return \Magento\Sales\Model\Order
      */
     public function getOrder()
     {
@@ -280,7 +282,7 @@ class Magento_Sales_Model_Order_Payment extends Magento_Payment_Model_Info
         // Check Authorization transaction state
         $authTransaction = $this->getAuthorizationTransaction();
         if ($authTransaction && $authTransaction->getIsClosed()) {
-            $orderTransaction = $this->_lookupTransaction(null, Magento_Sales_Model_Order_Payment_Transaction::TYPE_ORDER);
+            $orderTransaction = $this->_lookupTransaction(null, \Magento\Sales\Model\Order\Payment\Transaction::TYPE_ORDER);
             if (!$orderTransaction) {
                 return false;
             }
@@ -316,7 +318,7 @@ class Magento_Sales_Model_Order_Payment extends Magento_Payment_Model_Info
      * Authorize or authorize and capture payment on gateway, if applicable
      * This method is supposed to be called only when order is placed
      *
-     * @return Magento_Sales_Model_Order_Payment
+     * @return \Magento\Sales\Model\Order\Payment
      */
     public function place()
     {
@@ -331,8 +333,8 @@ class Magento_Sales_Model_Order_Payment extends Magento_Payment_Model_Info
         $methodInstance = $this->getMethodInstance();
         $methodInstance->setStore($order->getStoreId());
 
-        $orderState = Magento_Sales_Model_Order::STATE_NEW;
-        $stateObject = new Magento_Object();
+        $orderState = \Magento\Sales\Model\Order::STATE_NEW;
+        $stateObject = new \Magento\Object();
 
         /**
          * Do order payment validation on payment method level
@@ -346,16 +348,16 @@ class Magento_Sales_Model_Order_Payment extends Magento_Payment_Model_Info
                  */
                 $methodInstance->initialize($methodInstance->getConfigData('payment_action'), $stateObject);
             } else {
-                $orderState = Magento_Sales_Model_Order::STATE_PROCESSING;
+                $orderState = \Magento\Sales\Model\Order::STATE_PROCESSING;
                 switch ($action) {
-                    case Magento_Payment_Model_Method_Abstract::ACTION_ORDER:
+                    case \Magento\Payment\Model\Method\AbstractMethod::ACTION_ORDER:
                         $this->_order($order->getBaseTotalDue());
                         break;
-                    case Magento_Payment_Model_Method_Abstract::ACTION_AUTHORIZE:
+                    case \Magento\Payment\Model\Method\AbstractMethod::ACTION_AUTHORIZE:
                         $this->_authorize(true, $order->getBaseTotalDue()); // base amount will be set inside
                         $this->setAmountAuthorized($order->getTotalDue());
                         break;
-                    case Magento_Payment_Model_Method_Abstract::ACTION_AUTHORIZE_CAPTURE:
+                    case \Magento\Payment\Model\Method\AbstractMethod::ACTION_AUTHORIZE_CAPTURE:
                         $this->setAmountAuthorized($order->getTotalDue());
                         $this->setBaseAmountAuthorized($order->getBaseTotalDue());
                         $this->capture(null);
@@ -383,7 +385,7 @@ class Magento_Sales_Model_Order_Payment extends Magento_Payment_Model_Info
         $message = $order->getCustomerNote();
 
         // add message if order was put into review during authorization or capture
-        if ($order->getState() == Magento_Sales_Model_Order::STATE_PAYMENT_REVIEW) {
+        if ($order->getState() == \Magento\Sales\Model\Order::STATE_PAYMENT_REVIEW) {
             if ($message) {
                 $order->addStatusToHistory($order->getStatus(), $message, $isCustomerNotified);
             }
@@ -410,16 +412,16 @@ class Magento_Sales_Model_Order_Payment extends Magento_Payment_Model_Info
      *
      * TODO: eliminate logic duplication with registerCaptureNotification()
      *
-     * @param null|Magento_Sales_Model_Order_Invoice $invoice
-     * @throws Magento_Core_Exception
-     * @return Magento_Sales_Model_Order_Payment
+     * @param null|\Magento\Sales\Model\Order\Invoice $invoice
+     * @throws \Magento\Core\Exception
+     * @return \Magento\Sales\Model\Order\Payment
      */
     public function capture($invoice)
     {
         if (is_null($invoice)) {
             $invoice = $this->_invoice();
             $this->setCreatedInvoice($invoice);
-            return $this; // @see Magento_Sales_Model_Order_Invoice::capture()
+            return $this; // @see \Magento\Sales\Model\Order\Invoice::capture()
         }
         $amountToCapture = $this->_formatAmount($invoice->getBaseGrandTotal());
         $order = $this->getOrder();
@@ -432,7 +434,7 @@ class Magento_Sales_Model_Order_Payment extends Magento_Payment_Model_Info
         $this->_isCaptureFinal($paidWorkaround);
 
         $this->_generateTransactionId(
-            Magento_Sales_Model_Order_Payment_Transaction::TYPE_CAPTURE,
+            \Magento\Sales\Model\Order\Payment\Transaction::TYPE_CAPTURE,
             $this->getAuthorizationTransaction()
         );
 
@@ -453,21 +455,21 @@ class Magento_Sales_Model_Order_Payment extends Magento_Payment_Model_Info
             $this->getMethodInstance()->setStore($order->getStoreId())->capture($this, $amountToCapture);
 
             $transaction = $this->_addTransaction(
-                Magento_Sales_Model_Order_Payment_Transaction::TYPE_CAPTURE,
+                \Magento\Sales\Model\Order\Payment\Transaction::TYPE_CAPTURE,
                 $invoice,
                 true
             );
 
             if ($this->getIsTransactionPending()) {
                 $message = __('An amount of %1 will be captured after being approved at the payment gateway.', $this->_formatPrice($amountToCapture));
-                $state = Magento_Sales_Model_Order::STATE_PAYMENT_REVIEW;
+                $state = \Magento\Sales\Model\Order::STATE_PAYMENT_REVIEW;
                 if ($this->getIsFraudDetected()) {
-                    $status = Magento_Sales_Model_Order::STATUS_FRAUD;
+                    $status = \Magento\Sales\Model\Order::STATUS_FRAUD;
                 }
                 $invoice->setIsPaid(false);
             } else { // normal online capture: invoice is marked as "paid"
                 $message = __('Captured amount of %1 online', $this->_formatPrice($amountToCapture));
-                $state = Magento_Sales_Model_Order::STATE_PROCESSING;
+                $state = \Magento\Sales\Model\Order::STATE_PROCESSING;
                 $invoice->setIsPaid(true);
                 $this->_updateTotals(array('base_amount_paid_online' => $amountToCapture));
             }
@@ -481,7 +483,7 @@ class Magento_Sales_Model_Order_Payment extends Magento_Payment_Model_Info
             $this->getMethodInstance()->processInvoice($invoice, $this);
             return $this;
         }
-        throw new Magento_Core_Exception(
+        throw new \Magento\Core\Exception(
             __('The transaction "%1" cannot be captured yet.', $invoice->getTransactionId())
         );
     }
@@ -496,11 +498,11 @@ class Magento_Sales_Model_Order_Payment extends Magento_Payment_Model_Info
      * TODO: eliminate logic duplication with capture()
      *
      * @param float $amount
-     * @return Magento_Sales_Model_Order_Payment
+     * @return \Magento\Sales\Model\Order\Payment
      */
     public function registerCaptureNotification($amount)
     {
-        $this->_generateTransactionId(Magento_Sales_Model_Order_Payment_Transaction::TYPE_CAPTURE,
+        $this->_generateTransactionId(\Magento\Sales\Model\Order\Payment\Transaction::TYPE_CAPTURE,
             $this->getAuthorizationTransaction()
         );
 
@@ -523,28 +525,28 @@ class Magento_Sales_Model_Order_Payment extends Magento_Payment_Model_Info
         $status = true;
         if ($this->getIsTransactionPending()) {
             $message = __('An amount of %1 will be captured after being approved at the payment gateway.', $this->_formatPrice($amount));
-            $state = Magento_Sales_Model_Order::STATE_PAYMENT_REVIEW;
+            $state = \Magento\Sales\Model\Order::STATE_PAYMENT_REVIEW;
             if ($this->getIsFraudDetected()) {
                 $message = __('Order is suspended as its capture amount %1 is suspected to be fraudulent.', $this->_formatPrice($amount));
-                $status = Magento_Sales_Model_Order::STATUS_FRAUD;
+                $status = \Magento\Sales\Model\Order::STATUS_FRAUD;
             }
         } else {
             $message = __('Registered notification about captured amount of %1.', $this->_formatPrice($amount));
-            $state = Magento_Sales_Model_Order::STATE_PROCESSING;
+            $state = \Magento\Sales\Model\Order::STATE_PROCESSING;
             if ($this->getIsFraudDetected()) {
-                $state = Magento_Sales_Model_Order::STATE_PAYMENT_REVIEW;
+                $state = \Magento\Sales\Model\Order::STATE_PAYMENT_REVIEW;
                 $message = __('Order is suspended as its capture amount %1 is suspected to be fraudulent.', $this->_formatPrice($amount));
-                $status = Magento_Sales_Model_Order::STATUS_FRAUD;
+                $status = \Magento\Sales\Model\Order::STATUS_FRAUD;
             }
             // register capture for an existing invoice
-            if ($invoice && Magento_Sales_Model_Order_Invoice::STATE_OPEN == $invoice->getState()) {
+            if ($invoice && \Magento\Sales\Model\Order\Invoice::STATE_OPEN == $invoice->getState()) {
                 $invoice->pay();
                 $this->_updateTotals(array('base_amount_paid_online' => $amount));
                 $order->addRelatedObject($invoice);
             }
         }
 
-        $transaction = $this->_addTransaction(Magento_Sales_Model_Order_Payment_Transaction::TYPE_CAPTURE, $invoice, true);
+        $transaction = $this->_addTransaction(\Magento\Sales\Model\Order\Payment\Transaction::TYPE_CAPTURE, $invoice, true);
         $message = $this->_prependMessage($message);
         $message = $this->_appendTransactionToMessage($transaction, $message);
         $order->setState($state, $status, $message);
@@ -556,7 +558,7 @@ class Magento_Sales_Model_Order_Payment extends Magento_Payment_Model_Info
      *
      * @see self::_authorize()
      * @param float $amount
-     * @return Magento_Sales_Model_Order_Payment
+     * @return \Magento\Sales\Model\Order\Payment
      */
     public function registerAuthorizationNotification($amount)
     {
@@ -566,8 +568,8 @@ class Magento_Sales_Model_Order_Payment extends Magento_Payment_Model_Info
     /**
      * Register payment fact: update self totals from the invoice
      *
-     * @param Magento_Sales_Model_Order_Invoice $invoice
-     * @return Magento_Sales_Model_Order_Payment
+     * @param \Magento\Sales\Model\Order\Invoice $invoice
+     * @return \Magento\Sales\Model\Order\Payment
      */
     public function pay($invoice)
     {
@@ -584,8 +586,8 @@ class Magento_Sales_Model_Order_Payment extends Magento_Payment_Model_Info
     /**
      * Cancel specified invoice: update self totals from it
      *
-     * @param Magento_Sales_Model_Order_Invoice $invoice
-     * @return Magento_Sales_Model_Order_Payment
+     * @param \Magento\Sales\Model\Order\Invoice $invoice
+     * @return \Magento\Sales\Model\Order\Payment
      */
     public function cancelInvoice($invoice)
     {
@@ -603,7 +605,7 @@ class Magento_Sales_Model_Order_Payment extends Magento_Payment_Model_Info
      * Create new invoice with maximum qty for invoice for each item
      * register this invoice and capture
      *
-     * @return Magento_Sales_Model_Order_Invoice
+     * @return \Magento\Sales\Model\Order\Invoice
      */
     protected function _invoice()
     {
@@ -621,10 +623,10 @@ class Magento_Sales_Model_Order_Payment extends Magento_Payment_Model_Info
     /**
      * Check order payment void availability
      *
-     * @param Magento_Object $document
+     * @param \Magento\Object $document
      * @return bool
      */
-    public function canVoid(Magento_Object $document)
+    public function canVoid(\Magento\Object $document)
     {
         if (null === $this->_canVoidLookup) {
             $this->_canVoidLookup = (bool)$this->getMethodInstance()->canVoid($document);
@@ -640,10 +642,10 @@ class Magento_Sales_Model_Order_Payment extends Magento_Payment_Model_Info
      * Void payment online
      *
      * @see self::_void()
-     * @param Magento_Object $document
-     * @return Magento_Sales_Model_Order_Payment
+     * @param \Magento\Object $document
+     * @return \Magento\Sales\Model\Order\Payment
      */
-    public function void(Magento_Object $document)
+    public function void(\Magento\Object $document)
     {
         $this->_void(true);
         $this->_eventManager->dispatch('sales_order_payment_void', array('payment' => $this, 'invoice' => $document));
@@ -655,7 +657,7 @@ class Magento_Sales_Model_Order_Payment extends Magento_Payment_Model_Info
      *
      * @see self::_void()
      * @param float $amount
-     * @return Magento_Sales_Model_Payment
+     * @return \Magento\Sales\Model\Payment
      */
     public function registerVoidNotification($amount = null)
     {
@@ -670,16 +672,16 @@ class Magento_Sales_Model_Order_Payment extends Magento_Payment_Model_Info
      * Updates transactions hierarchy, if required
      * Updates payment totals, updates order status and adds proper comments
      *
-     * @param Magento_Sales_Model_Order_Creditmemo $creditmemo
-     * @return Magento_Sales_Model_Order_Payment
-     * @throws Exception|Magento_Core_Exception
+     * @param \Magento\Sales\Model\Order\Creditmemo $creditmemo
+     * @return \Magento\Sales\Model\Order\Payment
+     * @throws \Exception|\Magento\Core\Exception
      */
     public function refund($creditmemo)
     {
         $baseAmountToRefund = $this->_formatAmount($creditmemo->getBaseGrandTotal());
         $order = $this->getOrder();
 
-        $this->_generateTransactionId(Magento_Sales_Model_Order_Payment_Transaction::TYPE_REFUND);
+        $this->_generateTransactionId(\Magento\Sales\Model\Order\Payment\Transaction::TYPE_REFUND);
 
         // call refund from gateway if required
         $isOnline = false;
@@ -701,7 +703,7 @@ class Magento_Sales_Model_Order_Payment extends Magento_Payment_Model_Info
                         ->refund($this, $baseAmountToRefund)
                         ->processCreditmemo($creditmemo, $this)
                     ;
-                } catch (Magento_Core_Exception $e) {
+                } catch (\Magento\Core\Exception $e) {
                     if (!$captureTxn) {
                         $e->setMessage(' ' . __('If the invoice was created offline, try creating an offline credit memo.'), true);
                     }
@@ -721,7 +723,7 @@ class Magento_Sales_Model_Order_Payment extends Magento_Payment_Model_Info
 
         // update transactions and order state
         $transaction = $this->_addTransaction(
-            Magento_Sales_Model_Order_Payment_Transaction::TYPE_REFUND,
+            \Magento\Sales\Model\Order\Payment\Transaction::TYPE_REFUND,
             $creditmemo,
             $isOnline
         );
@@ -733,7 +735,7 @@ class Magento_Sales_Model_Order_Payment extends Magento_Payment_Model_Info
         }
         $message = $message = $this->_prependMessage($message);
         $message = $this->_appendTransactionToMessage($transaction, $message);
-        $order->setState(Magento_Sales_Model_Order::STATE_PROCESSING, true, $message);
+        $order->setState(\Magento\Sales\Model\Order::STATE_PROCESSING, true, $message);
 
         $this->_eventManager->dispatch('sales_order_payment_refund', array('payment' => $this, 'creditmemo' => $creditmemo));
         return $this;
@@ -749,12 +751,12 @@ class Magento_Sales_Model_Order_Payment extends Magento_Payment_Model_Info
      * TODO: implement logic of chargebacks reimbursements (via negative amount)
      *
      * @param float $amount
-     * @return Magento_Sales_Model_Order_Payment
+     * @return \Magento\Sales\Model\Order\Payment
      */
     public function registerRefundNotification($amount)
     {
         $notificationAmount = $amount;
-        $this->_generateTransactionId(Magento_Sales_Model_Order_Payment_Transaction::TYPE_REFUND,
+        $this->_generateTransactionId(\Magento\Sales\Model\Order\Payment\Transaction::TYPE_REFUND,
             $this->_lookupTransaction($this->getParentTransactionId())
         );
         if ($this->_isTransactionExists()) {
@@ -818,20 +820,20 @@ class Magento_Sales_Model_Order_Payment extends Magento_Payment_Model_Info
 
         $this->setCreatedCreditmemo($creditmemo);
         // update transactions and order state
-        $transaction = $this->_addTransaction(Magento_Sales_Model_Order_Payment_Transaction::TYPE_REFUND, $creditmemo);
+        $transaction = $this->_addTransaction(\Magento\Sales\Model\Order\Payment\Transaction::TYPE_REFUND, $creditmemo);
         $message = $this->_prependMessage(
             __('Registered notification about refunded amount of %1.', $this->_formatPrice($amount))
         );
         $message = $this->_appendTransactionToMessage($transaction, $message);
-        $order->setState(Magento_Sales_Model_Order::STATE_PROCESSING, true, $message);
+        $order->setState(\Magento\Sales\Model\Order::STATE_PROCESSING, true, $message);
         return $this;
     }
 
     /**
      * Cancel a creditmemo: substract its totals from the payment
      *
-     * @param Magento_Sales_Model_Order_Creditmemo $creditmemo
-     * @return Magento_Sales_Model_Order_Payment
+     * @param \Magento\Sales\Model\Order\Creditmemo $creditmemo
+     * @return \Magento\Sales\Model\Order\Payment
      */
     public function cancelCreditmemo($creditmemo)
     {
@@ -850,12 +852,12 @@ class Magento_Sales_Model_Order_Payment extends Magento_Payment_Model_Info
     /**
      * Order cancellation hook for payment method instance
      * Adds void transaction if needed
-     * @return Magento_Sales_Model_Order_Payment
+     * @return \Magento\Sales\Model\Order\Payment
      */
     public function cancel()
     {
         $isOnline = true;
-        if (!$this->canVoid(new Magento_Object())) {
+        if (!$this->canVoid(new \Magento\Object())) {
             $isOnline = false;
         }
 
@@ -895,7 +897,7 @@ class Magento_Sales_Model_Order_Payment extends Magento_Payment_Model_Info
     /**
      * Accept online a payment that is in review state
      *
-     * @return Magento_Sales_Model_Order_Payment
+     * @return \Magento\Sales\Model\Order\Payment
      */
     public function accept()
     {
@@ -906,7 +908,7 @@ class Magento_Sales_Model_Order_Payment extends Magento_Payment_Model_Info
     /**
      * Accept order with payment method instance
      *
-     * @return Magento_Sales_Model_Order_Payment
+     * @return \Magento\Sales\Model\Order\Payment
      */
     public function deny()
     {
@@ -921,8 +923,8 @@ class Magento_Sales_Model_Order_Payment extends Magento_Payment_Model_Info
      *
      * @param string $action
      * @param bool $isOnline
-     * @return Magento_Sales_Model_Order_Payment
-     * @throws Exception
+     * @return \Magento\Sales\Model\Order\Payment
+     * @throws \Exception
      */
     public function registerPaymentReviewAction($action, $isOnline)
     {
@@ -982,7 +984,7 @@ class Magento_Sales_Model_Order_Payment extends Magento_Payment_Model_Info
                 }
                 break;
             default:
-                throw new Exception('Not implemented.');
+                throw new \Exception('Not implemented.');
         }
         $message = $this->_prependMessage($message);
         if ($transactionId) {
@@ -998,7 +1000,7 @@ class Magento_Sales_Model_Order_Payment extends Magento_Payment_Model_Info
                 $this->_updateTotals(array('base_amount_paid_online' => $invoice->getBaseGrandTotal()));
                 $order->addRelatedObject($invoice);
             }
-            $order->setState(Magento_Sales_Model_Order::STATE_PROCESSING, true, $message);
+            $order->setState(\Magento\Sales\Model\Order::STATE_PROCESSING, true, $message);
         } elseif (false === $result) {
             if ($invoice) {
                 $invoice->cancel();
@@ -1016,7 +1018,7 @@ class Magento_Sales_Model_Order_Payment extends Magento_Payment_Model_Info
      * Updates payment totals, updates order status and adds proper comments
      *
      * @param float $amount
-     * @return Magento_Sales_Model_Order_Payment
+     * @return \Magento\Sales\Model\Order\Payment
      */
     protected function _order($amount)
     {
@@ -1025,7 +1027,7 @@ class Magento_Sales_Model_Order_Payment extends Magento_Payment_Model_Info
 
         // do ordering
         $order  = $this->getOrder();
-        $state  = Magento_Sales_Model_Order::STATE_PROCESSING;
+        $state  = \Magento\Sales\Model\Order::STATE_PROCESSING;
         $status = true;
         $this->getMethodInstance()->setStore($order->getStoreId())->order($this, $amount);
 
@@ -1036,16 +1038,16 @@ class Magento_Sales_Model_Order_Payment extends Magento_Payment_Model_Info
         // similar logic of "payment review" order as in capturing
         if ($this->getIsTransactionPending()) {
             $message = __('The order amount of %1 is pending approval on the payment gateway.', $this->_formatPrice($amount));
-            $state = Magento_Sales_Model_Order::STATE_PAYMENT_REVIEW;
+            $state = \Magento\Sales\Model\Order::STATE_PAYMENT_REVIEW;
             if ($this->getIsFraudDetected()) {
-                $status = Magento_Sales_Model_Order::STATUS_FRAUD;
+                $status = \Magento\Sales\Model\Order::STATUS_FRAUD;
             }
         } else {
             $message = __('Ordered amount of %1', $this->_formatPrice($amount));
         }
 
         // update transactions, order state and add comments
-        $transaction = $this->_addTransaction(Magento_Sales_Model_Order_Payment_Transaction::TYPE_ORDER);
+        $transaction = $this->_addTransaction(\Magento\Sales\Model\Order\Payment\Transaction::TYPE_ORDER);
         $message = $this->_prependMessage($message);
         $message = $this->_appendTransactionToMessage($transaction, $message);
         $order->setState($state, $status, $message);
@@ -1060,7 +1062,7 @@ class Magento_Sales_Model_Order_Payment extends Magento_Payment_Model_Info
      *
      * @param bool $isOnline
      * @param float $amount
-     * @return Magento_Sales_Model_Order_Payment
+     * @return \Magento\Sales\Model\Order\Payment
      */
     protected function _authorize($isOnline, $amount)
     {
@@ -1070,7 +1072,7 @@ class Magento_Sales_Model_Order_Payment extends Magento_Payment_Model_Info
 
         // do authorization
         $order  = $this->getOrder();
-        $state  = Magento_Sales_Model_Order::STATE_PROCESSING;
+        $state  = \Magento\Sales\Model\Order::STATE_PROCESSING;
         $status = true;
         if ($isOnline) {
             // invoke authorization on gateway
@@ -1080,16 +1082,16 @@ class Magento_Sales_Model_Order_Payment extends Magento_Payment_Model_Info
         // similar logic of "payment review" order as in capturing
         if ($this->getIsTransactionPending()) {
             $message = __('We will authorize %1 after the payment is approved at the payment gateway.', $this->_formatPrice($amount));
-            $state = Magento_Sales_Model_Order::STATE_PAYMENT_REVIEW;
+            $state = \Magento\Sales\Model\Order::STATE_PAYMENT_REVIEW;
             if ($this->getIsFraudDetected()) {
-                $status = Magento_Sales_Model_Order::STATUS_FRAUD;
+                $status = \Magento\Sales\Model\Order::STATUS_FRAUD;
             }
         } else {
             $message = __('Authorized amount of %1', $this->_formatPrice($amount));
         }
 
         // update transactions, order state and add comments
-        $transaction = $this->_addTransaction(Magento_Sales_Model_Order_Payment_Transaction::TYPE_AUTH);
+        $transaction = $this->_addTransaction(\Magento\Sales\Model\Order\Payment\Transaction::TYPE_AUTH);
         if ($order->isNominal()) {
             $message = $this->_prependMessage(__('An order with subscription items was registered.'));
         } else {
@@ -1105,7 +1107,7 @@ class Magento_Sales_Model_Order_Payment extends Magento_Payment_Model_Info
      * Public access to _authorize method
      * @param bool $isOnline
      * @param float $amount
-     * @return Magento_Sales_Model_Order_Payment
+     * @return \Magento\Sales\Model\Order\Payment
      */
     public function authorize($isOnline, $amount)
     {
@@ -1121,13 +1123,13 @@ class Magento_Sales_Model_Order_Payment extends Magento_Payment_Model_Info
      * @param bool $isOnline
      * @param float $amount
      * @param string $gatewayCallback
-     * @return Magento_Sales_Model_Order_Payment
+     * @return \Magento\Sales\Model\Order\Payment
      */
     protected function _void($isOnline, $amount = null, $gatewayCallback = 'void')
     {
         $order = $this->getOrder();
         $authTransaction = $this->getAuthorizationTransaction();
-        $this->_generateTransactionId(Magento_Sales_Model_Order_Payment_Transaction::TYPE_VOID, $authTransaction);
+        $this->_generateTransactionId(\Magento\Sales\Model\Order\Payment\Transaction::TYPE_VOID, $authTransaction);
         $this->setShouldCloseParentTransaction(true);
 
         // attempt to void
@@ -1152,22 +1154,22 @@ class Magento_Sales_Model_Order_Payment extends Magento_Payment_Model_Info
         }
 
         // update transactions, order state and add comments
-        $transaction = $this->_addTransaction(Magento_Sales_Model_Order_Payment_Transaction::TYPE_VOID, null, true);
+        $transaction = $this->_addTransaction(\Magento\Sales\Model\Order\Payment\Transaction::TYPE_VOID, null, true);
         $message = $this->hasMessage() ? $this->getMessage() : __('Voided authorization.');
         $message = $this->_prependMessage($message);
         if ($amount) {
             $message .= ' ' . __('Amount: %1.', $this->_formatPrice($amount));
         }
         $message = $this->_appendTransactionToMessage($transaction, $message);
-        $order->setState(Magento_Sales_Model_Order::STATE_PROCESSING, true, $message);
+        $order->setState(\Magento\Sales\Model\Order::STATE_PROCESSING, true, $message);
         $order->setDataChanges(true);
         return $this;
     }
 
 //    /**
 //     * TODO: implement this
-//     * @param Magento_Sales_Model_Order_Invoice $invoice
-//     * @return Magento_Sales_Model_Order_Payment
+//     * @param \Magento\Sales\Model\Order\Invoice $invoice
+//     * @return \Magento\Sales\Model\Order\Payment
 //     */
 //    public function cancelCapture($invoice = null)
 //    {
@@ -1191,9 +1193,9 @@ class Magento_Sales_Model_Order_Payment extends Magento_Payment_Model_Info
      * To make sure transaction object won't cause trouble before saving, use $failsafe = true
      *
      * @param string $type
-     * @param Magento_Sales_Model_Abstract $salesDocument
+     * @param \Magento\Sales\Model\AbstractModel $salesDocument
      * @param bool $failsafe
-     * @return null|Magento_Sales_Model_Order_Payment_Transaction
+     * @return null|\Magento\Sales\Model\Order\Payment\Transaction
      */
     protected function _addTransaction($type, $salesDocument = null, $failsafe = false)
     {
@@ -1233,7 +1235,7 @@ class Magento_Sales_Model_Order_Payment extends Magento_Payment_Model_Info
             $this->setLastTransId($transactionId);
             $this->setCreatedTransaction($transaction);
             $this->getOrder()->addRelatedObject($transaction);
-            if ($salesDocument && $salesDocument instanceof Magento_Sales_Model_Abstract) {
+            if ($salesDocument && $salesDocument instanceof \Magento\Sales\Model\AbstractModel) {
                 $salesDocument->setTransactionId($transactionId);
                 // TODO: linking transaction with the sales document
             }
@@ -1261,10 +1263,10 @@ class Magento_Sales_Model_Order_Payment extends Magento_Payment_Model_Info
      * Public access to _addTransaction method
      *
      * @param string $type
-     * @param Magento_Sales_Model_Abstract $salesDocument
+     * @param \Magento\Sales\Model\AbstractModel $salesDocument
      * @param bool $failsafe
      * @param bool|string $message
-     * @return null|Magento_Sales_Model_Order_Payment_Transaction
+     * @return null|\Magento\Sales\Model\Order\Payment\Transaction
      */
     public function addTransaction($type, $salesDocument = null, $failsafe = false, $message = false)
     {
@@ -1282,16 +1284,16 @@ class Magento_Sales_Model_Order_Payment extends Magento_Payment_Model_Info
     /**
      * Import details data of specified transaction
      *
-     * @param Magento_Sales_Model_Order_Payment_Transaction $transactionTo
-     * @return Magento_Sales_Model_Order_Payment
+     * @param \Magento\Sales\Model\Order\Payment\Transaction $transactionTo
+     * @return \Magento\Sales\Model\Order\Payment
      */
-    public function importTransactionInfo(Magento_Sales_Model_Order_Payment_Transaction $transactionTo)
+    public function importTransactionInfo(\Magento\Sales\Model\Order\Payment\Transaction $transactionTo)
     {
         $data = $this->getMethodInstance()
             ->setStore($this->getOrder()->getStoreId())
             ->fetchTransactionInfo($this, $transactionTo->getTxnId());
         if ($data) {
-            $transactionTo->setAdditionalInformation(Magento_Sales_Model_Order_Payment_Transaction::RAW_DETAILS, $data);
+            $transactionTo->setAdditionalInformation(\Magento\Sales\Model\Order\Payment\Transaction::RAW_DETAILS, $data);
         }
         return $this;
     }
@@ -1299,7 +1301,7 @@ class Magento_Sales_Model_Order_Payment extends Magento_Payment_Model_Info
     /**
      * Get the billing agreement, if any
      *
-     * @return Magento_Sales_Model_Billing_Agreement|null
+     * @return \Magento\Sales\Model\Billing\Agreement|null
      */
     public function getBillingAgreement()
     {
@@ -1339,7 +1341,7 @@ class Magento_Sales_Model_Order_Payment extends Magento_Payment_Model_Info
     /**
      * Append transaction ID (if any) message to the specified message
      *
-     * @param Magento_Sales_Model_Order_Payment_Transaction|null $transaction
+     * @param \Magento\Sales\Model\Order\Payment\Transaction|null $transaction
      * @param string $message
      * @return string
      */
@@ -1356,8 +1358,8 @@ class Magento_Sales_Model_Order_Payment extends Magento_Payment_Model_Info
      * Prepend a "prepared_message" that may be set to the payment instance before, to the specified message
      * Prepends value to the specified string or to the comment of specified order status history item instance
      *
-     * @param string|Magento_Sales_Model_Order_Status_History $messagePrependTo
-     * @return string|Magento_Sales_Model_Order_Status_History
+     * @param string|\Magento\Sales\Model\Order\Status\History $messagePrependTo
+     * @return string|\Magento\Sales\Model\Order\Status\History
      */
     protected function _prependMessage($messagePrependTo)
     {
@@ -1366,7 +1368,7 @@ class Magento_Sales_Model_Order_Payment extends Magento_Payment_Model_Info
             if (is_string($preparedMessage)) {
                 return $preparedMessage . ' ' . $messagePrependTo;
             } elseif (is_object($preparedMessage)
-                && ($preparedMessage instanceof Magento_Sales_Model_Order_Status_History)
+                && ($preparedMessage instanceof \Magento\Sales\Model\Order\Status\History)
             ) {
                 $comment = $preparedMessage->getComment() . ' ' . $messagePrependTo;
                 $preparedMessage->setComment($comment);
@@ -1404,7 +1406,7 @@ class Magento_Sales_Model_Order_Payment extends Magento_Payment_Model_Info
      *
      * @param string $txnId
      * @param bool|string $txnType
-     * @return Magento_Sales_Model_Order_Payment_Transaction|false
+     * @return \Magento\Sales\Model\Order\Payment\Transaction|false
      */
     protected function _lookupTransaction($txnId, $txnType = false)
     {
@@ -1414,8 +1416,8 @@ class Magento_Sales_Model_Order_Payment extends Magento_Payment_Model_Info
                     ->setOrderFilter($this->getOrder())
                     ->addPaymentIdFilter($this->getId())
                     ->addTxnTypeFilter($txnType)
-                    ->setOrder('created_at', Magento_Data_Collection::SORT_ORDER_DESC)
-                    ->setOrder('transaction_id', Magento_Data_Collection::SORT_ORDER_DESC);
+                    ->setOrder('created_at', \Magento\Data\Collection::SORT_ORDER_DESC)
+                    ->setOrder('transaction_id', \Magento\Data\Collection::SORT_ORDER_DESC);
                 foreach ($collection as $txn) {
                     $txn->setOrderPaymentObject($this);
                     $this->_transactionsLookup[$txn->getTxnId()] = $txn;
@@ -1443,7 +1445,7 @@ class Magento_Sales_Model_Order_Payment extends Magento_Payment_Model_Info
      *
      * @param string $txnId
      * @param bool|string $txnType
-     * @return Magento_Sales_Model_Order_Payment_Transaction|false
+     * @return \Magento\Sales\Model\Order\Payment\Transaction|false
      */
     public function lookupTransaction($txnId, $txnType = false)
     {
@@ -1452,7 +1454,7 @@ class Magento_Sales_Model_Order_Payment extends Magento_Payment_Model_Info
 
     /**
      * Lookup an authorization transaction using parent transaction id, if set
-     * @return Magento_Sales_Model_Order_Payment_Transaction|false
+     * @return \Magento\Sales\Model\Order\Payment\Transaction|false
      */
     public function getAuthorizationTransaction()
     {
@@ -1463,7 +1465,7 @@ class Magento_Sales_Model_Order_Payment extends Magento_Payment_Model_Info
         }
 
         if (!$txn) {
-            $txn = $this->_lookupTransaction(false, Magento_Sales_Model_Order_Payment_Transaction::TYPE_AUTH);
+            $txn = $this->_lookupTransaction(false, \Magento\Sales\Model\Order\Payment\Transaction::TYPE_AUTH);
         }
         return $txn;
     }
@@ -1471,7 +1473,7 @@ class Magento_Sales_Model_Order_Payment extends Magento_Payment_Model_Info
     /**
      * Lookup the transaction by id
      * @param string $transactionId
-     * @return Magento_Sales_Model_Order_Payment_Transaction|false
+     * @return \Magento\Sales\Model\Order\Payment\Transaction|false
      */
     public function getTransaction($transactionId)
     {
@@ -1483,7 +1485,7 @@ class Magento_Sales_Model_Order_Payment extends Magento_Payment_Model_Info
      * If no transactions were set before invoking, may generate an "offline" transaction id
      *
      * @param string $type
-     * @param bool|Magento_Sales_Model_Order_Payment_Transaction $transactionBasedOn
+     * @param bool|\Magento\Sales\Model\Order\Payment\Transaction $transactionBasedOn
      */
     protected function _generateTransactionId($type, $transactionBasedOn = false)
     {
@@ -1529,7 +1531,7 @@ class Magento_Sales_Model_Order_Payment extends Magento_Payment_Model_Info
     /**
      * Before object save manipulations
      *
-     * @return Magento_Sales_Model_Order_Payment
+     * @return \Magento\Sales\Model\Order\Payment
      */
     protected function _beforeSave()
     {
@@ -1595,7 +1597,7 @@ class Magento_Sales_Model_Order_Payment extends Magento_Payment_Model_Info
     /**
      * Reset transaction additional info property
      *
-     * @return Magento_Sales_Model_Order_Payment
+     * @return \Magento\Sales\Model\Order\Payment
      */
     public function resetTransactionAdditionalInfo()
     {
@@ -1607,7 +1609,7 @@ class Magento_Sales_Model_Order_Payment extends Magento_Payment_Model_Info
      * Return invoice model for transaction
      *
      * @param string $transactionId
-     * @return Magento_Sales_Model_Order_Invoice
+     * @return \Magento\Sales\Model\Order\Invoice
      */
     protected function _getInvoiceForTransactionId($transactionId)
     {
@@ -1618,7 +1620,7 @@ class Magento_Sales_Model_Order_Payment extends Magento_Payment_Model_Info
             }
         }
         foreach ($this->getOrder()->getInvoiceCollection() as $invoice) {
-            if ($invoice->getState() == Magento_Sales_Model_Order_Invoice::STATE_OPEN
+            if ($invoice->getState() == \Magento\Sales\Model\Order\Invoice::STATE_OPEN
                 && $invoice->load($invoice->getId())
             ) {
                 $invoice->setTransactionId($transactionId);

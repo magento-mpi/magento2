@@ -16,23 +16,25 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Widget_Block_Adminhtml_Widget_Chooser extends Magento_Backend_Block_Template
+namespace Magento\Widget\Block\Adminhtml\Widget;
+
+class Chooser extends \Magento\Backend\Block\Template
 {
     /**
-     * @var Magento_Data_Form_Element_Factory
+     * @var \Magento\Data\Form\Element\Factory
      */
     protected $_elementFactory;
 
     /**
-     * @param Magento_Data_Form_Element_Factory $elementFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
+     * @param \Magento\Data\Form\Element\Factory $elementFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Data_Form_Element_Factory $elementFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
+        \Magento\Data\Form\Element\Factory $elementFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_elementFactory = $elementFactory;
@@ -52,7 +54,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Chooser extends Magento_Backend_Bloc
     /**
      * Chooser form element getter
      *
-     * @return Magento_Data_Form_Element_Abstract
+     * @return \Magento\Data\Form\Element\AbstractElement
      */
     public function getElement()
     {
@@ -62,16 +64,16 @@ class Magento_Widget_Block_Adminhtml_Widget_Chooser extends Magento_Backend_Bloc
     /**
      * Convert Array config to Object
      *
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function getConfig()
     {
-        if ($this->_getData('config') instanceof Magento_Object) {
+        if ($this->_getData('config') instanceof \Magento\Object) {
             return $this->_getData('config');
         }
 
         $configArray = $this->_getData('config');
-        $config = new Magento_Object();
+        $config = new \Magento\Object();
         $this->setConfig($config);
         if (!is_array($configArray)) {
             return $this->_getData('config');
@@ -135,7 +137,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Chooser extends Magento_Backend_Bloc
     protected function _toHtml()
     {
         $element   = $this->getElement();
-        /* @var $fieldset Magento_Data_Form_Element_Fieldset */
+        /* @var $fieldset \Magento\Data\Form\Element\Fieldset */
         $fieldset  = $element->getForm()->getElement($this->getFieldsetId());
         $chooserId = $this->getUniqId();
         $config    = $this->getConfig();
@@ -157,7 +159,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Chooser extends Magento_Backend_Bloc
         }
 
         $buttons = $config->getButtons();
-        $chooseButton = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
+        $chooseButton = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')
             ->setType('button')
             ->setId($chooserId . 'control')
             ->setClass('btn-chooser')

@@ -7,18 +7,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Core\Model;
 
-class Magento_Core_Model_EncryptionFactory
+class EncryptionFactory
 {
     /**
-     * @var Magento_ObjectManager|null
+     * @var \Magento\ObjectManager|null
      */
     protected $_objectManager = null;
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
@@ -26,14 +27,14 @@ class Magento_Core_Model_EncryptionFactory
     /**
      * @param string $className
      * @param array $arguments
-     * @return Magento_Core_Model_EncryptionInterface
-     * @throws InvalidArgumentException
+     * @return \Magento\Core\Model\EncryptionInterface
+     * @throws \InvalidArgumentException
      */
     public function create($className, array $arguments = array())
     {
         $encryption = $this->_objectManager->create($className, $arguments);
-        if (!$encryption instanceof Magento_Core_Model_EncryptionInterface) {
-            throw new InvalidArgumentException("'{$className}' don't implement Magento_Core_Model_EncryptionInterface");
+        if (!$encryption instanceof \Magento\Core\Model\EncryptionInterface) {
+            throw new \InvalidArgumentException("'{$className}' don't implement \Magento\Core\Model\EncryptionInterface");
         }
         return $encryption;
     }

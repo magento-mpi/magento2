@@ -11,20 +11,22 @@
 /**
  * Payment method form base block
  */
-class Magento_Payment_Block_Form extends Magento_Core_Block_Template
+namespace Magento\Payment\Block;
+
+class Form extends \Magento\Core\Block\Template
 {
     /**
      * Retrieve payment method model
      *
-     * @return Magento_Payment_Model_Method_Abstract
-     * @throws Magento_Core_Exception
+     * @return \Magento\Payment\Model\Method\AbstractMethod
+     * @throws \Magento\Core\Exception
      */
     public function getMethod()
     {
         $method = $this->getData('method');
 
-        if (!($method instanceof Magento_Payment_Model_Method_Abstract)) {
-            throw new Magento_Core_Exception(__('We cannot retrieve the payment method model object.'));
+        if (!($method instanceof \Magento\Payment\Model\Method\AbstractMethod)) {
+            throw new \Magento\Core\Exception(__('We cannot retrieve the payment method model object.'));
         }
         return $method;
     }

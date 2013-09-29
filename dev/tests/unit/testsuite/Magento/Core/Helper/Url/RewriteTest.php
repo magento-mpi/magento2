@@ -10,30 +10,32 @@
  */
 
 /**
- * Test for Magento_Core_Helper_Url_RewriteTest
+ * Test for \Magento\Core\Helper\Url\RewriteTest
  */
-class Magento_Core_Helper_Url_RewriteTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Helper\Url;
+
+class RewriteTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Initialize helper
      */
     protected function setUp()
     {
-        $optionsModel = new Magento_Core_Model_Source_Urlrewrite_Options();
+        $optionsModel = new \Magento\Core\Model\Source\Urlrewrite\Options();
 
-        $coreRegisterMock = $this->getMock('Magento_Core_Model_Registry');
+        $coreRegisterMock = $this->getMock('Magento\Core\Model\Registry');
         $coreRegisterMock->expects($this->any())
             ->method('registry')
-            ->with('_singleton/Magento_Core_Model_Source_Urlrewrite_Options')
+            ->with('_singleton/Magento\Core\Model\Source\Urlrewrite\Options')
             ->will($this->returnValue($optionsModel));
 
-        $objectManagerMock = $this->getMockBuilder('Magento_ObjectManager')->getMock();
+        $objectManagerMock = $this->getMockBuilder('Magento\ObjectManager')->getMock();
         $objectManagerMock->expects($this->any())
             ->method('get')
-            ->with('Magento_Core_Model_Registry')
+            ->with('Magento\Core\Model\Registry')
             ->will($this->returnValue($coreRegisterMock));
 
-        Magento_Core_Model_ObjectManager::setInstance($objectManagerMock);
+        \Magento\Core\Model\ObjectManager::setInstance($objectManagerMock);
     }
 
     /**
@@ -43,10 +45,10 @@ class Magento_Core_Helper_Url_RewriteTest extends PHPUnit_Framework_TestCase
      */
     public function testHasRedirectOptions($option, $expected)
     {
-        $helper = new Magento_Core_Helper_Url_Rewrite(
-            $this->getMock('Magento_Core_Helper_Context', array(), array(), '', false, false)
+        $helper = new \Magento\Core\Helper\Url\Rewrite(
+            $this->getMock('Magento\Core\Helper\Context', array(), array(), '', false, false)
         );
-        $mockObject = new Magento_Object();
+        $mockObject = new \Magento\Object();
         $mockObject->setOptions($option);
         $this->assertEquals($expected, $helper->hasRedirectOptions($mockObject));
     }

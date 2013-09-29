@@ -9,13 +9,13 @@
  * @license     {license_link}
  */
 
-$objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+$objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 $cmsPageId     = 1;
 $rewriteUrl    = 'test_rewrite_path';
 
 // get CMS page
-/** @var $cmsPage Magento_Cms_Model_Page */
-$cmsPage = $objectManager->create('Magento_Cms_Model_Page');
+/** @var $cmsPage \Magento\Cms\Model\Page */
+$cmsPage = $objectManager->create('Magento\Cms\Model\Page');
 $cmsPage->load($cmsPageId);
 if ($cmsPage->isObjectNew()) {
     $cmsPage->setId($cmsPageId);
@@ -23,8 +23,8 @@ if ($cmsPage->isObjectNew()) {
 }
 
 // create URL rewrite
-/** @var $rewrite Magento_Core_Model_Url_Rewrite */
-$rewrite = $objectManager->create('Magento_Core_Model_Url_Rewrite');
+/** @var $rewrite \Magento\Core\Model\Url\Rewrite */
+$rewrite = $objectManager->create('Magento\Core\Model\Url\Rewrite');
 $rewrite->setIdPath('cms_page/' . $cmsPage->getId())
     ->setRequestPath($rewriteUrl)
     ->setTargetPath('cms/page/view/page_id/' . $cmsPage->getId())

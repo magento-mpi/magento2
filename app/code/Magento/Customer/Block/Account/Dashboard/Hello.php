@@ -9,12 +9,14 @@
  */
 
 
-class Magento_Customer_Block_Account_Dashboard_Hello extends Magento_Core_Block_Template
+namespace Magento\Customer\Block\Account\Dashboard;
+
+class Hello extends \Magento\Core\Block\Template
 {
 
     public function getCustomerName()
     {
-        return Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer()->getName();
+        return \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomer()->getName();
     }
 
 }

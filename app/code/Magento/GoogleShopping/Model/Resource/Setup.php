@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_GoogleShopping_Model_Resource_Setup extends Magento_Core_Model_Resource_Setup
+namespace Magento\GoogleShopping\Model\Resource;
+
+class Setup extends \Magento\Core\Model\Resource\Setup
 {
     /**
      * @var null
@@ -15,22 +17,22 @@ class Magento_GoogleShopping_Model_Resource_Setup extends Magento_Core_Model_Res
     /**
      * Config factory
      *
-     * @var Magento_GoogleShopping_Model_ConfigFactory
+     * @var \Magento\GoogleShopping\Model\ConfigFactory
      */
     protected $_configFactory;
 
     /**
-     * @param Magento_Core_Model_Resource_Setup_Context $context
-     * @param Magento_GoogleShopping_Model_ConfigFactory $configFactory
-     * @param Magento_GoogleShopping_Helper_Data $googleShoppingData
+     * @param \Magento\Core\Model\Resource\Setup\Context $context
+     * @param \Magento\GoogleShopping\Model\ConfigFactory $configFactory
+     * @param \Magento\GoogleShopping\Helper\Data $googleShoppingData
      * @param string $resourceName
      * @param string $moduleName
      * @param string $connectionName
      */
     public function __construct(
-        Magento_Core_Model_Resource_Setup_Context $context,
-        Magento_GoogleShopping_Model_ConfigFactory $configFactory,
-        Magento_GoogleShopping_Helper_Data $googleShoppingData,
+        \Magento\Core\Model\Resource\Setup\Context $context,
+        \Magento\GoogleShopping\Model\ConfigFactory $configFactory,
+        \Magento\GoogleShopping\Helper\Data $googleShoppingData,
         $resourceName,
         $moduleName = 'Magento_GoogleShopping',
         $connectionName = ''

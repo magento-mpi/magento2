@@ -9,14 +9,16 @@
  */
 
 
-class Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Element_Factory
+namespace Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Form\Element;
+
+class Factory
 {
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
@@ -26,7 +28,7 @@ class Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Element_Factory
      *
      * @param string $className
      * @param array $data
-     * @return Magento_Data_Form_Element_Abstract
+     * @return \Magento\Data\Form\Element\AbstractElement
      */
     public function create($className, array $data = array())
     {

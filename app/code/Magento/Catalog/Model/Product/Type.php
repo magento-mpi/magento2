@@ -11,7 +11,9 @@
 /**
  * Product type model
  */
-class Magento_Catalog_Model_Product_Type
+namespace Magento\Catalog\Model\Product;
+
+class Type
 {
     /**#@+
      * Available product types
@@ -31,15 +33,15 @@ class Magento_Catalog_Model_Product_Type
     /**
      * Default product type model
      */
-    const DEFAULT_TYPE_MODEL    = 'Magento_Catalog_Model_Product_Type_Simple';
+    const DEFAULT_TYPE_MODEL    = 'Magento\Catalog\Model\Product\Type\Simple';
 
     /**
      * Default price model
      */
-    const DEFAULT_PRICE_MODEL   = 'Magento_Catalog_Model_Product_Type_Price';
+    const DEFAULT_PRICE_MODEL   = 'Magento\Catalog\Model\Product\Type\Price';
 
     /**
-     * @var Magento_Catalog_Model_ProductTypes_ConfigInterface
+     * @var \Magento\Catalog\Model\ProductTypes\ConfigInterface
      */
     protected $_config;
 
@@ -72,9 +74,9 @@ class Magento_Catalog_Model_Product_Type
     protected $_typesPriority;
 
     /**
-     * @param Magento_Catalog_Model_ProductTypes_ConfigInterface $config
+     * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $config
      */
-    public function __construct(Magento_Catalog_Model_ProductTypes_ConfigInterface $config)
+    public function __construct(\Magento\Catalog\Model\ProductTypes\ConfigInterface $config)
     {
         $this->_config = $config;
     }
@@ -82,8 +84,8 @@ class Magento_Catalog_Model_Product_Type
     /**
      * Factory to product singleton product type instances
      *
-     * @param   Magento_Catalog_Model_Product $product
-     * @return  Magento_Catalog_Model_Product_Type_Abstract
+     * @param   \Magento\Catalog\Model\Product $product
+     * @return  \Magento\Catalog\Model\Product\Type\AbstractType
      */
     public function factory($product)
     {
@@ -97,8 +99,8 @@ class Magento_Catalog_Model_Product_Type
             $typeId = self::DEFAULT_TYPE;
         }
 
-        /** @var $typeModel Magento_Catalog_Model_Product_Type_Abstract */
-        $typeModel = Mage::getSingleton($typeModelName);
+        /** @var $typeModel \Magento\Catalog\Model\Product\Type\AbstractType */
+        $typeModel = \Mage::getSingleton($typeModelName);
         $typeModel->setConfig($types[$typeId]);
         return $typeModel;
     }
@@ -107,7 +109,7 @@ class Magento_Catalog_Model_Product_Type
      * Product type price model factory
      *
      * @param   string $productType
-     * @return  Magento_Catalog_Model_Product_Type_Price
+     * @return  \Magento\Catalog\Model\Product\Type\Price
      */
     public function priceFactory($productType)
     {
@@ -123,7 +125,7 @@ class Magento_Catalog_Model_Product_Type
             $priceModelName = self::DEFAULT_PRICE_MODEL;
         }
 
-        $this->_priceModels[$productType] = Mage::getModel($priceModelName);
+        $this->_priceModels[$productType] = \Mage::getModel($priceModelName);
         return $this->_priceModels[$productType];
     }
 

@@ -9,30 +9,32 @@
  */
 
 /**
- * @method Magento_GiftCardAccount_Model_Resource_Giftcardaccount _getResource()
- * @method Magento_GiftCardAccount_Model_Resource_Giftcardaccount getResource()
+ * @method \Magento\GiftCardAccount\Model\Resource\Giftcardaccount _getResource()
+ * @method \Magento\GiftCardAccount\Model\Resource\Giftcardaccount getResource()
  * @method string getCode()
- * @method Magento_GiftCardAccount_Model_Giftcardaccount setCode(string $value)
+ * @method \Magento\GiftCardAccount\Model\Giftcardaccount setCode(string $value)
  * @method int getStatus()
- * @method Magento_GiftCardAccount_Model_Giftcardaccount setStatus(int $value)
+ * @method \Magento\GiftCardAccount\Model\Giftcardaccount setStatus(int $value)
  * @method string getDateCreated()
- * @method Magento_GiftCardAccount_Model_Giftcardaccount setDateCreated(string $value)
+ * @method \Magento\GiftCardAccount\Model\Giftcardaccount setDateCreated(string $value)
  * @method string getDateExpires()
- * @method Magento_GiftCardAccount_Model_Giftcardaccount setDateExpires(string $value)
+ * @method \Magento\GiftCardAccount\Model\Giftcardaccount setDateExpires(string $value)
  * @method int getWebsiteId()
- * @method Magento_GiftCardAccount_Model_Giftcardaccount setWebsiteId(int $value)
+ * @method \Magento\GiftCardAccount\Model\Giftcardaccount setWebsiteId(int $value)
  * @method float getBalance()
- * @method Magento_GiftCardAccount_Model_Giftcardaccount setBalance(float $value)
+ * @method \Magento\GiftCardAccount\Model\Giftcardaccount setBalance(float $value)
  * @method int getState()
- * @method Magento_GiftCardAccount_Model_Giftcardaccount setState(int $value)
+ * @method \Magento\GiftCardAccount\Model\Giftcardaccount setState(int $value)
  * @method int getIsRedeemable()
- * @method Magento_GiftCardAccount_Model_Giftcardaccount setIsRedeemable(int $value)
+ * @method \Magento\GiftCardAccount\Model\Giftcardaccount setIsRedeemable(int $value)
  *
  * @category    Magento
  * @package     Magento_GiftCardAccount
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GiftCardAccount_Model_Giftcardaccount extends Magento_Core_Model_Abstract
+namespace Magento\GiftCardAccount\Model;
+
+class Giftcardaccount extends \Magento\Core\Model\AbstractModel
 {
     const STATUS_DISABLED = 0;
     const STATUS_ENABLED  = 1;
@@ -54,7 +56,7 @@ class Magento_GiftCardAccount_Model_Giftcardaccount extends Magento_Core_Model_A
      */
     protected $_requestedCode = false;
 
-    protected $_defaultPoolModelClass = 'Magento_GiftCardAccount_Model_Pool';
+    protected $_defaultPoolModelClass = 'Magento\GiftCardAccount\Model\Pool';
 
     /**
      * Static variable to contain codes, that were saved on previous steps in series of consecutive saves
@@ -67,33 +69,33 @@ class Magento_GiftCardAccount_Model_Giftcardaccount extends Magento_Core_Model_A
     /**
      * Gift card account data
      *
-     * @var Magento_GiftCardAccount_Helper_Data
+     * @var \Magento\GiftCardAccount\Helper\Data
      */
     protected $_giftCardAccountData = null;
 
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
-     * @param Magento_GiftCardAccount_Helper_Data $giftCardAccountData
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_GiftCardAccount_Model_Resource_Giftcardaccount $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\GiftCardAccount\Helper\Data $giftCardAccountData
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\GiftCardAccount\Model\Resource\Giftcardaccount $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_GiftCardAccount_Helper_Data $giftCardAccountData,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_GiftCardAccount_Model_Resource_Giftcardaccount $resource,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\GiftCardAccount\Helper\Data $giftCardAccountData,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\GiftCardAccount\Model\Resource\Giftcardaccount $resource,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_giftCardAccountData = $giftCardAccountData;
@@ -103,7 +105,7 @@ class Magento_GiftCardAccount_Model_Giftcardaccount extends Magento_Core_Model_A
 
     protected function _construct()
     {
-        $this->_init('Magento_GiftCardAccount_Model_Resource_Giftcardaccount');
+        $this->_init('Magento\GiftCardAccount\Model\Resource\Giftcardaccount');
     }
 
     protected function _beforeSave()
@@ -111,9 +113,9 @@ class Magento_GiftCardAccount_Model_Giftcardaccount extends Magento_Core_Model_A
         parent::_beforeSave();
 
         if (!$this->getId()) {
-            $now = Mage::app()->getLocale()->date()
-                ->setTimezone(Magento_Core_Model_LocaleInterface::DEFAULT_TIMEZONE)
-                ->toString(Magento_Date::DATE_INTERNAL_FORMAT);
+            $now = \Mage::app()->getLocale()->date()
+                ->setTimezone(\Magento\Core\Model\LocaleInterface::DEFAULT_TIMEZONE)
+                ->toString(\Magento\Date::DATE_INTERNAL_FORMAT);
 
             $this->setDateCreated($now);
             if (!$this->hasCode()) {
@@ -136,14 +138,14 @@ class Magento_GiftCardAccount_Model_Giftcardaccount extends Magento_Core_Model_A
             $this->setDateExpires(date('Y-m-d', strtotime("now +{$this->getLifetime()}days")));
         } else {
             if ($this->getDateExpires()) {
-                $expirationDate =  Mage::app()->getLocale()->date(
-                    $this->getDateExpires(), Magento_Date::DATE_INTERNAL_FORMAT,
+                $expirationDate =  \Mage::app()->getLocale()->date(
+                    $this->getDateExpires(), \Magento\Date::DATE_INTERNAL_FORMAT,
                     null, false);
-                $currentDate = Mage::app()->getLocale()->date(
-                    null, Magento_Date::DATE_INTERNAL_FORMAT,
+                $currentDate = \Mage::app()->getLocale()->date(
+                    null, \Magento\Date::DATE_INTERNAL_FORMAT,
                     null, false);
                 if ($expirationDate < $currentDate) {
-                    Mage::throwException(__('An expiration date must be in the future.'));
+                    \Mage::throwException(__('An expiration date must be in the future.'));
                 }
             } else {
                 $this->setDateExpires(null);
@@ -151,15 +153,15 @@ class Magento_GiftCardAccount_Model_Giftcardaccount extends Magento_Core_Model_A
         }
 
         if (!$this->getId() && !$this->hasHistoryAction()) {
-            $this->setHistoryAction(Magento_GiftCardAccount_Model_History::ACTION_CREATED);
+            $this->setHistoryAction(\Magento\GiftCardAccount\Model\History::ACTION_CREATED);
         }
 
         if (!$this->hasHistoryAction() && $this->getOrigData('balance') != $this->getBalance()) {
-            $this->setHistoryAction(Magento_GiftCardAccount_Model_History::ACTION_UPDATED)
+            $this->setHistoryAction(\Magento\GiftCardAccount\Model\History::ACTION_UPDATED)
                 ->setBalanceDelta($this->getBalance() - $this->getOrigData('balance'));
         }
         if ($this->getBalance() < 0) {
-            Mage::throwException(__('The balance cannot be less than zero.'));
+            \Mage::throwException(__('The balance cannot be less than zero.'));
         }
     }
 
@@ -168,7 +170,7 @@ class Magento_GiftCardAccount_Model_Giftcardaccount extends Magento_Core_Model_A
         if ($this->getIsNew()) {
             $this->getPoolModel()
                 ->setId($this->getCode())
-                ->setStatus(Magento_GiftCardAccount_Model_Pool_Abstract::STATUS_USED)
+                ->setStatus(\Magento\GiftCardAccount\Model\Pool\AbstractPool::STATUS_USED)
                 ->save();
             self::$_alreadySelectedIds[] = $this->getCode();
         }
@@ -179,7 +181,7 @@ class Magento_GiftCardAccount_Model_Giftcardaccount extends Magento_Core_Model_A
     /**
      * Generate and save gift card account code
      *
-     * @return Magento_GiftCardAccount_Model_Giftcardaccount
+     * @return \Magento\GiftCardAccount\Model\Giftcardaccount
      */
     protected function _defineCode()
     {
@@ -191,7 +193,7 @@ class Magento_GiftCardAccount_Model_Giftcardaccount extends Magento_Core_Model_A
      * Load gift card account model using specified code
      *
      * @param string $code
-     * @return Magento_GiftCardAccount_Model_Giftcardaccount
+     * @return \Magento\GiftCardAccount\Model\Giftcardaccount
      */
     public function loadByCode($code)
     {
@@ -205,14 +207,14 @@ class Magento_GiftCardAccount_Model_Giftcardaccount extends Magento_Core_Model_A
      * Add gift card to quote gift card storage
      *
      * @param bool $saveQuote
-     * @return Magento_GiftCardAccount_Model_Giftcardaccount
+     * @return \Magento\GiftCardAccount\Model\Giftcardaccount
      */
     public function addToCart($saveQuote = true, $quote = null)
     {
         if (is_null($quote)) {
             $quote = $this->_getCheckoutSession()->getQuote();
         }
-        $website = Mage::app()->getStore($quote->getStoreId())->getWebsite();
+        $website = \Mage::app()->getStore($quote->getStoreId())->getWebsite();
         if ($this->isValid(true, true, $website)) {
             $cards = $this->_giftCardAccountData->getCards($quote);
             if (!$cards) {
@@ -220,7 +222,7 @@ class Magento_GiftCardAccount_Model_Giftcardaccount extends Magento_Core_Model_A
             } else {
                 foreach ($cards as $one) {
                     if ($one['i'] == $this->getId()) {
-                        Mage::throwException(__('This gift card account is already in the quote.'));
+                        \Mage::throwException(__('This gift card account is already in the quote.'));
                     }
                 }
             }
@@ -244,8 +246,8 @@ class Magento_GiftCardAccount_Model_Giftcardaccount extends Magento_Core_Model_A
      * Remove gift card from quote gift card storage
      *
      * @param bool $saveQuote
-     * @param Magento_Sales_Model_Quote|null $quote
-     * @return Magento_GiftCardAccount_Model_Giftcardaccount
+     * @param \Magento\Sales\Model\Quote|null $quote
+     * @return \Magento\GiftCardAccount\Model\Giftcardaccount
      */
     public function removeFromCart($saveQuote = true, $quote = null)
     {
@@ -277,11 +279,11 @@ class Magento_GiftCardAccount_Model_Giftcardaccount extends Magento_Core_Model_A
     /**
      * Return checkout/session model singleton
      *
-     * @return Magento_Checkout_Model_Session
+     * @return \Magento\Checkout\Model\Session
      */
     protected function _getCheckoutSession()
     {
-        return Mage::getSingleton('Magento_Checkout_Model_Session');
+        return \Mage::getSingleton('Magento\Checkout\Model\Session');
     }
 
     /**
@@ -295,7 +297,7 @@ class Magento_GiftCardAccount_Model_Giftcardaccount extends Magento_Core_Model_A
             return false;
         }
 
-        $currentDate = strtotime(Mage::getModel('Magento_Core_Model_Date')->date('Y-m-d'));
+        $currentDate = strtotime(\Mage::getModel('Magento\Core\Model\Date')->date('Y-m-d'));
 
         if (strtotime($this->getDateExpires()) < $currentDate) {
             return true;
@@ -325,7 +327,7 @@ class Magento_GiftCardAccount_Model_Giftcardaccount extends Magento_Core_Model_A
             if ($websiteCheck === true) {
                 $websiteCheck = null;
             }
-            $website = Mage::app()->getWebsite($websiteCheck)->getId();
+            $website = \Mage::app()->getWebsite($websiteCheck)->getId();
             if ($this->getWebsiteId() != $website) {
                 $this->_throwException(
                     __('Please correct the gift card account website: %1.', $this->getWebsiteId())
@@ -373,7 +375,7 @@ class Magento_GiftCardAccount_Model_Giftcardaccount extends Magento_Core_Model_A
         if ($this->isValid(false, false, false, $amount)) {
             $this->setBalanceDelta(-$amount)
                 ->setBalance($this->getBalance() - $amount)
-                ->setHistoryAction(Magento_GiftCardAccount_Model_History::ACTION_USED);
+                ->setHistoryAction(\Magento\GiftCardAccount\Model\History::ACTION_USED);
         }
 
         return $this;
@@ -383,7 +385,7 @@ class Magento_GiftCardAccount_Model_Giftcardaccount extends Magento_Core_Model_A
      * Revert amount to gift card balance if order was not placed
      *
      * @param   float $amount
-     * @return  Magento_GiftCardAccount_Model_Giftcardaccount
+     * @return  \Magento\GiftCardAccount\Model\Giftcardaccount
      */
     public function revert($amount)
     {
@@ -392,7 +394,7 @@ class Magento_GiftCardAccount_Model_Giftcardaccount extends Magento_Core_Model_A
         if ($amount > 0 && $this->isValid(true, true, false, false)) {
             $this->setBalanceDelta($amount)
                 ->setBalance($this->getBalance() + $amount)
-                ->setHistoryAction(Magento_GiftCardAccount_Model_History::ACTION_UPDATED);
+                ->setHistoryAction(\Magento\GiftCardAccount\Model\History::ACTION_UPDATED);
         }
 
         return $this;
@@ -401,7 +403,7 @@ class Magento_GiftCardAccount_Model_Giftcardaccount extends Magento_Core_Model_A
     /**
      * Set state text on after load
      *
-     * @return Magento_GiftCardAccount_Model_Giftcardaccount
+     * @return \Magento\GiftCardAccount\Model\Giftcardaccount
      */
     public function _afterLoad()
     {
@@ -442,11 +444,11 @@ class Magento_GiftCardAccount_Model_Giftcardaccount extends Magento_Core_Model_A
     /**
      * Retreive pool model instance
      *
-     * @return Magento_GiftCardAccount_Model_Pool_Abstract
+     * @return \Magento\GiftCardAccount\Model\Pool\AbstractPool
      */
     public function getPoolModel()
     {
-        return Mage::getModel($this->getPoolModelClass());
+        return \Mage::getModel($this->getPoolModelClass());
     }
 
     /**
@@ -454,7 +456,7 @@ class Magento_GiftCardAccount_Model_Giftcardaccount extends Magento_Core_Model_A
      *
      * @param array $ids
      * @param int $state
-     * @return Magento_GiftCardAccount_Model_Giftcardaccount
+     * @return \Magento\GiftCardAccount\Model\Giftcardaccount
      */
     public function updateState($ids, $state)
     {
@@ -467,7 +469,7 @@ class Magento_GiftCardAccount_Model_Giftcardaccount extends Magento_Core_Model_A
     /**
      * Redeem gift card (-gca balance, +cb balance)
      *
-     * @return Magento_GiftCardAccount_Model_Giftcardaccount
+     * @return \Magento\GiftCardAccount\Model\Giftcardaccount
      */
     public function redeem($customerId = null)
     {
@@ -476,24 +478,24 @@ class Magento_GiftCardAccount_Model_Giftcardaccount extends Magento_Core_Model_A
                 $this->_throwException(sprintf('Gift card account %s is not redeemable.', $this->getId()));
             }
             if (is_null($customerId)) {
-                $customerId = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId();
+                $customerId = \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerId();
             }
             if (!$customerId) {
-                Mage::throwException(__('You supplied an invalid customer ID.'));
+                \Mage::throwException(__('You supplied an invalid customer ID.'));
             }
 
             $additionalInfo = __('Gift Card Redeemed: %1. For customer #%2.', $this->getCode(), $customerId);
 
-            $balance = Mage::getModel('Magento_CustomerBalance_Model_Balance')
+            $balance = \Mage::getModel('Magento\CustomerBalance\Model\Balance')
                 ->setCustomerId($customerId)
-                ->setWebsiteId(Mage::app()->getWebsite()->getId())
+                ->setWebsiteId(\Mage::app()->getWebsite()->getId())
                 ->setAmountDelta($this->getBalance())
                 ->setNotifyByEmail(false)
                 ->setUpdatedActionAdditionalInfo($additionalInfo)
                 ->save();
 
             $this->setBalanceDelta(-$this->getBalance())
-                ->setHistoryAction(Magento_GiftCardAccount_Model_History::ACTION_REDEEMED)
+                ->setHistoryAction(\Magento\GiftCardAccount\Model\History::ACTION_REDEEMED)
                 ->setBalance(0)
                 ->setCustomerId($customerId)
                 ->save();
@@ -508,9 +510,9 @@ class Magento_GiftCardAccount_Model_Giftcardaccount extends Magento_Core_Model_A
         $recipientEmail = $this->getRecipientEmail();
         $recipientStore = $this->getRecipientStore();
         if (is_null($recipientStore)) {
-            $recipientStore = Mage::app()->getWebsite($this->getWebsiteId())->getDefaultStore();
+            $recipientStore = \Mage::app()->getWebsite($this->getWebsiteId())->getDefaultStore();
         } else {
-            $recipientStore = Mage::app()->getStore($recipientStore);
+            $recipientStore = \Mage::app()->getStore($recipientStore);
         }
 
         $storeId = $recipientStore->getId();
@@ -518,9 +520,9 @@ class Magento_GiftCardAccount_Model_Giftcardaccount extends Magento_Core_Model_A
         $balance = $this->getBalance();
         $code = $this->getCode();
 
-        $balance = Mage::app()->getLocale()->currency($recipientStore->getBaseCurrencyCode())->toCurrency($balance);
+        $balance = \Mage::app()->getLocale()->currency($recipientStore->getBaseCurrencyCode())->toCurrency($balance);
 
-        $email = Mage::getModel('Magento_Core_Model_Email_Template')->setDesignConfig(array('store' => $storeId));
+        $email = \Mage::getModel('Magento\Core\Model\Email\Template')->setDesignConfig(array('store' => $storeId));
         $email->sendTransactional(
             $this->_coreStoreConfig->getConfig('giftcard/giftcardaccount_email/template', $storeId),
             $this->_coreStoreConfig->getConfig('giftcard/giftcardaccount_email/identity', $storeId),
@@ -538,7 +540,7 @@ class Magento_GiftCardAccount_Model_Giftcardaccount extends Magento_Core_Model_A
         $this->setEmailSent(false);
         if ($email->getSentSuccess()) {
             $this->setEmailSent(true)
-                ->setHistoryAction(Magento_GiftCardAccount_Model_History::ACTION_SENT)
+                ->setHistoryAction(\Magento\GiftCardAccount\Model\History::ACTION_SENT)
                 ->save();
         }
     }
@@ -564,13 +566,13 @@ class Magento_GiftCardAccount_Model_Giftcardaccount extends Magento_Core_Model_A
     /**
      * Obscure real exception message to prevent brute force attacks
      *
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      * @param string $realMessage
      * @param string $fakeMessage
      */
     protected function _throwException($realMessage, $fakeMessage = '')
     {
-        $e = Mage::exception('Magento_Core', $realMessage);
+        $e = \Mage::exception('Magento_Core', $realMessage);
         $this->_logger->logException($e);
         if (!$fakeMessage) {
             $fakeMessage = __('Please correct the gift card code.');

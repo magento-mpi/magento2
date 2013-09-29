@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_DesignEditor_Model_Url_NavigationModeTest extends PHPUnit_Framework_TestCase
+namespace Magento\DesignEditor\Model\Url;
+
+class NavigationModeTest extends \PHPUnit_Framework_TestCase
 {
     /**#@+
      * Test route params
@@ -20,17 +22,17 @@ class Magento_DesignEditor_Model_Url_NavigationModeTest extends PHPUnit_Framewor
     /**#@-*/
 
     /**
-     * @var Magento_DesignEditor_Model_Url_NavigationMode
+     * @var \Magento\DesignEditor\Model\Url\NavigationMode
      */
     protected $_model;
 
     /**
-     * @var Magento_DesignEditor_Helper_Data|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\DesignEditor\Helper\Data|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_helper;
 
     /**
-     * @var Magento_Core_Helper_Data|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Helper\Data|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_coreData;
 
@@ -41,18 +43,18 @@ class Magento_DesignEditor_Model_Url_NavigationModeTest extends PHPUnit_Framewor
 
     protected function setUp()
     {
-        $this->_helper = $this->getMock('Magento_DesignEditor_Helper_Data', array('getFrontName'),
+        $this->_helper = $this->getMock('Magento\DesignEditor\Helper\Data', array('getFrontName'),
             array(), '', false);
-        $this->_coreData = $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false);
-        $requestMock = $this->getMock('Magento_Core_Controller_Request_Http', array('getAlias'), array(), '', false);
+        $this->_coreData = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
+        $requestMock = $this->getMock('Magento\Core\Controller\Request\Http', array('getAlias'), array(), '', false);
         $requestMock->expects($this->any())->method('getAlias')->will($this->returnValueMap(array(
              array('editorMode', 'navigation'),
              array('themeId', 1)
         )));
-        $coreStoreConfig = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false);
+        $coreStoreConfig = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false);
 
-        $this->_model = new Magento_DesignEditor_Model_Url_NavigationMode(
-            $this->getMock('Magento_Core_Model_Url_SecurityInfoInterface'),
+        $this->_model = new \Magento\DesignEditor\Model\Url\NavigationMode(
+            $this->getMock('Magento\Core\Model\Url\SecurityInfoInterface'),
             $this->_helper,
             $coreStoreConfig,
             $this->_coreData,
@@ -73,7 +75,7 @@ class Magento_DesignEditor_Model_Url_NavigationModeTest extends PHPUnit_Framewor
             ->method('getFrontName')
             ->will($this->returnValue(self::FRONT_NAME));
 
-        $store = $this->getMock('Magento_Core_Model_Store',
+        $store = $this->getMock('Magento\Core\Model\Store',
             array('getBaseUrl', 'isAdmin', 'isAdminUrlSecure', 'isFrontUrlSecure', '__sleep', '__wakeup'),
             array(), '', false
         );

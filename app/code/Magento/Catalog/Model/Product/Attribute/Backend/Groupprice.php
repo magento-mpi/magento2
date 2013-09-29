@@ -16,17 +16,19 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Product_Attribute_Backend_Groupprice
-    extends Magento_Catalog_Model_Product_Attribute_Backend_Groupprice_Abstract
+namespace Magento\Catalog\Model\Product\Attribute\Backend;
+
+class Groupprice
+    extends \Magento\Catalog\Model\Product\Attribute\Backend\Groupprice\AbstractGroupprice
 {
     /**
      * Retrieve resource instance
      *
-     * @return Magento_Catalog_Model_Resource_Product_Attribute_Backend_Groupprice
+     * @return \Magento\Catalog\Model\Resource\Product\Attribute\Backend\Groupprice
      */
     protected function _getResource()
     {
-        return Mage::getResourceSingleton('Magento_Catalog_Model_Resource_Product_Attribute_Backend_Groupprice');
+        return \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Product\Attribute\Backend\Groupprice');
     }
 
     /**

@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/** @var $installer Magento_Catalog_Model_Resource_Setup */
+/** @var $installer \Magento\Catalog\Model\Resource\Setup */
 $installer = $this;
 $connection = $installer->getConnection();
 
@@ -29,17 +29,17 @@ $selectionPriceIndexerTables = array(
 
 foreach ($priceIndexerTables as $table) {
     $connection->addColumn($installer->getTable($table), 'group_price', array(
-        'type'      => Magento_DB_Ddl_Table::TYPE_DECIMAL,
+        'type'      => \Magento\DB\Ddl\Table::TYPE_DECIMAL,
         'length'    => '12,4',
         'comment'   => 'Group price',
     ));
     $connection->addColumn($installer->getTable($table), 'base_group_price', array(
-        'type'      => Magento_DB_Ddl_Table::TYPE_DECIMAL,
+        'type'      => \Magento\DB\Ddl\Table::TYPE_DECIMAL,
         'length'    => '12,4',
         'comment'   => 'Base Group Price',
     ));
     $connection->addColumn($installer->getTable($table), 'group_price_percent', array(
-        'type'      => Magento_DB_Ddl_Table::TYPE_DECIMAL,
+        'type'      => \Magento\DB\Ddl\Table::TYPE_DECIMAL,
         'length'    => '12,4',
         'comment'   => 'Group Price Percent',
     ));
@@ -47,7 +47,7 @@ foreach ($priceIndexerTables as $table) {
 
 foreach (array_merge($optionsPriceIndexerTables, $selectionPriceIndexerTables) as $table) {
     $connection->addColumn($installer->getTable($table), 'group_price', array(
-        'type'      => Magento_DB_Ddl_Table::TYPE_DECIMAL,
+        'type'      => \Magento\DB\Ddl\Table::TYPE_DECIMAL,
         'length'    => '12,4',
         'comment'   => 'Group price',
     ));
@@ -55,14 +55,14 @@ foreach (array_merge($optionsPriceIndexerTables, $selectionPriceIndexerTables) a
 
 foreach ($optionsPriceIndexerTables as $table) {
     $connection->addColumn($installer->getTable($table), 'alt_group_price', array(
-        'type'      => Magento_DB_Ddl_Table::TYPE_DECIMAL,
+        'type'      => \Magento\DB\Ddl\Table::TYPE_DECIMAL,
         'length'    => '12,4',
         'comment'   => 'Alt Group Price',
     ));
 }
 
-$applyTo = explode(',', $installer->getAttribute(Magento_Catalog_Model_Product::ENTITY, 'group_price', 'apply_to'));
+$applyTo = explode(',', $installer->getAttribute(\Magento\Catalog\Model\Product::ENTITY, 'group_price', 'apply_to'));
 if (!in_array('bundle', $applyTo)) {
     $applyTo[] = 'bundle';
-    $installer->updateAttribute(Magento_Catalog_Model_Product::ENTITY, 'group_price', 'apply_to', implode(',', $applyTo));
+    $installer->updateAttribute(\Magento\Catalog\Model\Product::ENTITY, 'group_price', 'apply_to', implode(',', $applyTo));
 }

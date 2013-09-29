@@ -14,7 +14,9 @@
  * @category   Magento
  * @package    Magento_Install
  */
-class Magento_Install_Model_Installer_Config extends Magento_Install_Model_Installer_Abstract
+namespace Magento\Install\Model\Installer;
+
+class Config extends \Magento\Install\Model\Installer\AbstractInstaller
 {
     const TMP_INSTALL_DATE_VALUE= 'd-d-d-d-d';
     const TMP_ENCRYPT_KEY_VALUE = 'k-k-k-k-k';
@@ -27,33 +29,33 @@ class Magento_Install_Model_Installer_Config extends Magento_Install_Model_Insta
     protected $_localConfigFile;
 
     /**
-     * @var Magento_Core_Controller_Request_Http
+     * @var \Magento\Core\Controller\Request\Http
      */
     protected $_request;
 
     /**
-     * @var Magento_Core_Model_Dir
+     * @var \Magento\Core\Model\Dir
      */
     protected $_dirs;
 
     protected $_configData = array();
 
     /**
-     * @var Magento_Filesystem
+     * @var \Magento\Filesystem
      */
     protected $_filesystem;
 
     /**
-     * @param Magento_Core_Controller_Request_Http $request
-     * @param Magento_Core_Model_Dir $dirs
-     * @param Magento_Filesystem $filesystem
+     * @param \Magento\Core\Controller\Request\Http $request
+     * @param \Magento\Core\Model\Dir $dirs
+     * @param \Magento\Filesystem $filesystem
      */
     public function __construct(
-        Magento_Core_Controller_Request_Http $request,
-        Magento_Core_Model_Dir $dirs,
-        Magento_Filesystem $filesystem
+        \Magento\Core\Controller\Request\Http $request,
+        \Magento\Core\Model\Dir $dirs,
+        \Magento\Filesystem $filesystem
     ) {
-        $this->_localConfigFile = $dirs->getDir(Magento_Core_Model_Dir::CONFIG) . DIRECTORY_SEPARATOR . 'local.xml';
+        $this->_localConfigFile = $dirs->getDir(\Magento\Core\Model\Dir::CONFIG) . DIRECTORY_SEPARATOR . 'local.xml';
         $this->_dirs = $dirs;
         $this->_request = $request;
         $this->_filesystem = $filesystem;
@@ -80,9 +82,9 @@ class Magento_Install_Model_Installer_Config extends Magento_Install_Model_Insta
         $data = $this->getConfigData();
 
         $defaults = array(
-            'root_dir' => $this->_dirs->getDir(Magento_Core_Model_Dir::ROOT),
-            'app_dir'  => $this->_dirs->getDir(Magento_Core_Model_Dir::APP),
-            'var_dir'  => $this->_dirs->getDir(Magento_Core_Model_Dir::VAR_DIR),
+            'root_dir' => $this->_dirs->getDir(\Magento\Core\Model\Dir::ROOT),
+            'app_dir'  => $this->_dirs->getDir(\Magento\Core\Model\Dir::APP),
+            'var_dir'  => $this->_dirs->getDir(\Magento\Core\Model\Dir::VAR_DIR),
             'base_url' => $this->_request->getDistroBaseUrl(),
         );
         foreach ($defaults as $index => $value) {
@@ -120,7 +122,7 @@ class Magento_Install_Model_Installer_Config extends Magento_Install_Model_Insta
 
         $this->_getInstaller()->getDataModel()->setConfigData($data);
 
-        $path = $this->_dirs->getDir(Magento_Core_Model_Dir::CONFIG) . DIRECTORY_SEPARATOR . 'local.xml.template';
+        $path = $this->_dirs->getDir(\Magento\Core\Model\Dir::CONFIG) . DIRECTORY_SEPARATOR . 'local.xml.template';
         $contents = $this->_filesystem->read($path);
         foreach ($data as $index => $value) {
             $contents = str_replace('{{' . $index . '}}', '<![CDATA[' . $value . ']]>', $contents);
@@ -132,7 +134,7 @@ class Magento_Install_Model_Installer_Config extends Magento_Install_Model_Insta
 
     public function getFormData()
     {
-        $uri = Zend_Uri::factory(Mage::getBaseUrl('web'));
+        $uri = \Zend_Uri::factory(\Mage::getBaseUrl('web'));
 
         $baseUrl = $uri->getUri();
         if ($uri->getScheme() !== 'https') {
@@ -142,7 +144,7 @@ class Magento_Install_Model_Installer_Config extends Magento_Install_Model_Insta
             $baseSecureUrl = $uri->getUri();
         }
 
-        $data = new Magento_Object();
+        $data = new \Magento\Object();
         $data->setDbHost('localhost')
             ->setDbName('magento')
             ->setDbUser('')
@@ -160,17 +162,17 @@ class Magento_Install_Model_Installer_Config extends Magento_Install_Model_Insta
      * Check validity of a base URL
      *
      * @param string $baseUrl
-     * @throws Exception
+     * @throws \Exception
      */
     protected function _checkUrl($baseUrl)
     {
         try {
-            $pubLibDir = $this->_dirs->getDir(Magento_Core_Model_Dir::PUB_LIB);
+            $pubLibDir = $this->_dirs->getDir(\Magento\Core\Model\Dir::PUB_LIB);
             $staticFile = $this->_findFirstFileRelativePath($pubLibDir, '/.+\.(html?|js|css|gif|jpe?g|png)$/');
-            $staticUrl = $baseUrl . $this->_dirs->getUri(Magento_Core_Model_Dir::PUB_LIB) . '/' . $staticFile;
-            $client = new Magento_HTTP_ZendClient($staticUrl);
+            $staticUrl = $baseUrl . $this->_dirs->getUri(\Magento\Core\Model\Dir::PUB_LIB) . '/' . $staticFile;
+            $client = new \Magento\HTTP\ZendClient($staticUrl);
             $response = $client->request('GET');
-        } catch (Exception $e){
+        } catch (\Exception $e){
             $this->_getInstaller()->getDataModel()->addError(
                 __('The URL "%1" is not accessible.', $baseUrl)
             );
@@ -180,7 +182,7 @@ class Magento_Install_Model_Installer_Config extends Magento_Install_Model_Insta
             $this->_getInstaller()->getDataModel()->addError(
                 __('The URL "%1" is invalid.', $baseUrl)
             );
-            Mage::throwException(__('Response from the server is invalid.'));
+            \Mage::throwException(__('Response from the server is invalid.'));
         }
     }
 

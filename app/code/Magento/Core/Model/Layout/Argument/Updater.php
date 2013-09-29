@@ -15,17 +15,19 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Layout_Argument_Updater
+namespace Magento\Core\Model\Layout\Argument;
+
+class Updater
 {
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
@@ -35,17 +37,17 @@ class Magento_Core_Model_Layout_Argument_Updater
      *
      * @param mixed $value
      * @param array $updaters
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      * @return mixed
      */
     public function applyUpdaters($value, array $updaters = array())
     {
         foreach ($updaters as $updater) {
-            /** @var Magento_Core_Model_Layout_Argument_UpdaterInterface $updaterInstance */
+            /** @var \Magento\Core\Model\Layout\Argument\UpdaterInterface $updaterInstance */
             $updaterInstance = $this->_objectManager->create($updater, array());
-            if (false === ($updaterInstance instanceof Magento_Core_Model_Layout_Argument_UpdaterInterface)) {
-                throw new InvalidArgumentException($updater
-                        . ' should implement Magento_Core_Model_Layout_Argument_UpdaterInterface'
+            if (false === ($updaterInstance instanceof \Magento\Core\Model\Layout\Argument\UpdaterInterface)) {
+                throw new \InvalidArgumentException($updater
+                        . ' should implement \Magento\Core\Model\Layout\Argument\UpdaterInterface'
                 );
             }
             $value = $updaterInstance->update($value);

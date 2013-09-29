@@ -15,27 +15,29 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Report_Product_Lowstock_Grid extends Magento_Backend_Block_Widget_Grid
+namespace Magento\Adminhtml\Block\Report\Product\Lowstock;
+
+class Grid extends \Magento\Backend\Block\Widget\Grid
 {
     /**
-     * @var Magento_Reports_Model_Resource_Product_Lowstock_CollectionFactory
+     * @var \Magento\Reports\Model\Resource\Product\Lowstock\CollectionFactory
      */
     protected $_lowstocksFactory;
 
     /**
-     * @param Magento_Reports_Model_Resource_Product_Lowstock_CollectionFactory $lowstocksFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Url $urlModel
+     * @param \Magento\Reports\Model\Resource\Product\Lowstock\CollectionFactory $lowstocksFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
      * @param array $data
      */
     public function __construct(
-        Magento_Reports_Model_Resource_Product_Lowstock_CollectionFactory $lowstocksFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Url $urlModel,
+        \Magento\Reports\Model\Resource\Product\Lowstock\CollectionFactory $lowstocksFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
         array $data = array()
     ) {
         $this->_lowstocksFactory = $lowstocksFactory;
@@ -43,7 +45,7 @@ class Magento_Adminhtml_Block_Report_Product_Lowstock_Grid extends Magento_Backe
     }
 
     /**
-     * @return Magento_Backend_Block_Widget_Grid
+     * @return \Magento\Backend\Block\Widget\Grid
      */
     protected function _prepareCollection()
     {
@@ -63,7 +65,7 @@ class Magento_Adminhtml_Block_Report_Product_Lowstock_Grid extends Magento_Backe
             $storeId = '';
         }
 
-        /** @var $collection Magento_Reports_Model_Resource_Product_Lowstock_Collection  */
+        /** @var $collection \Magento\Reports\Model\Resource\Product\Lowstock\Collection  */
         $collection = $this->_lowstocksFactory->create()
             ->addAttributeToSelect('*')
             ->setStoreId($storeId)
@@ -71,7 +73,7 @@ class Magento_Adminhtml_Block_Report_Product_Lowstock_Grid extends Magento_Backe
             ->joinInventoryItem('qty')
             ->useManageStockFilter($storeId)
             ->useNotifyStockQtyFilter($storeId)
-            ->setOrder('qty', Magento_Data_Collection::SORT_ORDER_ASC);
+            ->setOrder('qty', \Magento\Data\Collection::SORT_ORDER_ASC);
 
         if ($storeId) {
             $collection->addStoreFilter($storeId);

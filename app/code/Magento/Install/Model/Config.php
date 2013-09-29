@@ -15,16 +15,18 @@
  * @package    Magento_Install
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Install_Model_Config
+namespace Magento\Install\Model;
+
+class Config
 {
 
-    /** @var  Magento_Install_Model_Config_Data */
+    /** @var  \Magento\Install\Model\Config\Data */
     protected $_dataStorage;
 
     /**
-     * @param Magento_Install_Model_Config_Data $dataStorage
+     * @param \Magento\Install\Model\Config\Data $dataStorage
      */
-    public function __construct(Magento_Install_Model_Config_Data $dataStorage)
+    public function __construct(\Magento\Install\Model\Config\Data $dataStorage)
     {
         $this->_dataStorage = $dataStorage;
     }
@@ -32,7 +34,7 @@ class Magento_Install_Model_Config
     /**
      * Get array of wizard steps
      *
-     * array($index => Magento_Object)
+     * array($index => \Magento\Object)
      *
      * @return array
      */
@@ -41,7 +43,7 @@ class Magento_Install_Model_Config
         $data = $this->_dataStorage->get();
         $steps = array();
         foreach ($data['steps'] as $step) {
-            $stepObject = new Magento_Object($step);
+            $stepObject = new \Magento\Object($step);
             $steps[] = $stepObject;
         }
         return $steps;
@@ -93,7 +95,7 @@ class Magento_Install_Model_Config
             $data['filesystem_prerequisites']['writables'] : array();
         foreach ($items as $nodeKey => $item) {
             $value = $item;
-            $value['path'] = Mage::getBaseDir($nodeKey);
+            $value['path'] = \Mage::getBaseDir($nodeKey);
             $paths[$nodeKey] = $value;
         }
 

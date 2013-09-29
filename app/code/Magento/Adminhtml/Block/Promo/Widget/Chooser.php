@@ -11,27 +11,29 @@
 /**
  * Shopping cart price rule chooser
  */
-class Magento_Adminhtml_Block_Promo_Widget_Chooser extends Magento_Backend_Block_Widget_Grid_Extended
+namespace Magento\Adminhtml\Block\Promo\Widget;
+
+class Chooser extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
-     * @var Magento_SalesRule_Model_RuleFactory
+     * @var \Magento\SalesRule\Model\RuleFactory
      */
     protected $_salesRule;
 
     /**
-     * @param Magento_SalesRule_Model_RuleFactory $salesRule
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Url $urlModel
+     * @param \Magento\SalesRule\Model\RuleFactory $salesRule
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
      * @param array $data
      */
     public function __construct(
-        Magento_SalesRule_Model_RuleFactory $salesRule,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Url $urlModel,
+        \Magento\SalesRule\Model\RuleFactory $salesRule,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
         array $data = array()
     ) {
         $this->_salesRule = $salesRule;
@@ -52,15 +54,15 @@ class Magento_Adminhtml_Block_Promo_Widget_Chooser extends Magento_Backend_Block
     /**
      * Prepare chooser element HTML
      *
-     * @param Magento_Data_Form_Element_Abstract $element Form Element
-     * @return Magento_Data_Form_Element_Abstract
+     * @param \Magento\Data\Form\Element\AbstractElement $element Form Element
+     * @return \Magento\Data\Form\Element\AbstractElement
      */
-    public function prepareElementHtml(Magento_Data_Form_Element_Abstract $element)
+    public function prepareElementHtml(\Magento\Data\Form\Element\AbstractElement $element)
     {
         $uniqId = $this->_coreData->uniqHash($element->getId());
         $sourceUrl = $this->getUrl('*/promo_quote/chooser', array('uniq_id' => $uniqId));
 
-        $chooser = $this->getLayout()->createBlock('Magento_Widget_Block_Adminhtml_Widget_Chooser')
+        $chooser = $this->getLayout()->createBlock('Magento\Widget\Block\Adminhtml\Widget\Chooser')
             ->setElement($element)
             ->setConfig($this->getConfig())
             ->setFieldsetId($this->getFieldsetId())
@@ -102,7 +104,7 @@ class Magento_Adminhtml_Block_Promo_Widget_Chooser extends Magento_Backend_Block
     /**
      * Prepare rules collection
      *
-     * @return Magento_Adminhtml_Block_Widget_Grid
+     * @return \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _prepareCollection()
     {
@@ -119,7 +121,7 @@ class Magento_Adminhtml_Block_Promo_Widget_Chooser extends Magento_Backend_Block
     /**
      * Prepare columns for rules grid
      *
-     * @return Magento_Adminhtml_Block_Widget_Grid
+     * @return \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _prepareColumns()
     {

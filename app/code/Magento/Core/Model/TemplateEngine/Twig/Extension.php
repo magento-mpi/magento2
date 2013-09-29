@@ -7,34 +7,36 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_TemplateEngine_Twig_Extension extends Twig_Extension
+namespace Magento\Core\Model\TemplateEngine\Twig;
+
+class Extension extends \Twig_Extension
 {
     const MAGENTO = 'Magento';
 
     /**
-     * @var Magento_Core_Model_TemplateEngine_Twig_LayoutFunctions
+     * @var \Magento\Core\Model\TemplateEngine\Twig\LayoutFunctions
      */
     protected $_layoutFunctions;
 
     /**
-     * @var Magento_Core_Model_TemplateEngine_Twig_CommonFunctions
+     * @var \Magento\Core\Model\TemplateEngine\Twig\CommonFunctions
      */
     protected $_commonFunctions;
 
     /**
-     * @var Magento_Core_Model_TemplateEngine_BlockTrackerInterface
+     * @var \Magento\Core\Model\TemplateEngine\BlockTrackerInterface
      */
     private $_blockTracker;
 
     /**
      * Create new Extension
      *
-     * @param Magento_Core_Model_TemplateEngine_Twig_CommonFunctions $commonFunctions
-     * @param Magento_Core_Model_TemplateEngine_Twig_LayoutFunctions $layoutFunctions
+     * @param \Magento\Core\Model\TemplateEngine\Twig\CommonFunctions $commonFunctions
+     * @param \Magento\Core\Model\TemplateEngine\Twig\LayoutFunctions $layoutFunctions
      */
     public function __construct(
-        Magento_Core_Model_TemplateEngine_Twig_CommonFunctions $commonFunctions,
-        Magento_Core_Model_TemplateEngine_Twig_LayoutFunctions $layoutFunctions
+        \Magento\Core\Model\TemplateEngine\Twig\CommonFunctions $commonFunctions,
+        \Magento\Core\Model\TemplateEngine\Twig\LayoutFunctions $layoutFunctions
     ) {
         $this->_commonFunctions = $commonFunctions;
         $this->_layoutFunctions = $layoutFunctions;
@@ -72,7 +74,7 @@ class Magento_Core_Model_TemplateEngine_Twig_Extension extends Twig_Extension
     {
         $options = array('is_safe' => array('html'));
         return array(
-            new Twig_SimpleFilter('translate', array($this, 'translate'), $options),
+            new \Twig_SimpleFilter('translate', array($this, 'translate'), $options),
         );
     }
 
@@ -89,9 +91,9 @@ class Magento_Core_Model_TemplateEngine_Twig_Extension extends Twig_Extension
     /**
      * Sets the block tracker
      *
-     * @param Magento_Core_Model_TemplateEngine_BlockTrackerInterface $blockTracker
+     * @param \Magento\Core\Model\TemplateEngine\BlockTrackerInterface $blockTracker
      */
-    public function setBlockTracker(Magento_Core_Model_TemplateEngine_BlockTrackerInterface $blockTracker)
+    public function setBlockTracker(\Magento\Core\Model\TemplateEngine\BlockTrackerInterface $blockTracker)
     {
         $this->_blockTracker = $blockTracker;
         // Need to inject this dependency at runtime to avoid cyclical dependency

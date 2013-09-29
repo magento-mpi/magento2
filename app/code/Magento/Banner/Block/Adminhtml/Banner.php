@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Banner_Block_Adminhtml_Banner extends Magento_Adminhtml_Block_Widget_Grid_Container
+namespace Magento\Banner\Block\Adminhtml;
+
+class Banner extends \Magento\Adminhtml\Block\Widget\Grid\Container
 {
 
     /**

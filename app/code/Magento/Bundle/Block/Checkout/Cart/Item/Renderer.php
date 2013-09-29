@@ -15,29 +15,31 @@
  * @package     Magento_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Bundle_Block_Checkout_Cart_Item_Renderer extends Magento_Checkout_Block_Cart_Item_Renderer
+namespace Magento\Bundle\Block\Checkout\Cart\Item;
+
+class Renderer extends \Magento\Checkout\Block\Cart\Item\Renderer
 {
     protected $_configurationHelper = null;
 
     /**
      * Bundle catalog product configuration
      *
-     * @var Magento_Bundle_Helper_Catalog_Product_Configuration
+     * @var \Magento\Bundle\Helper\Catalog\Product\Configuration
      */
     protected $_bundleProdConfigur = null;
 
     /**
-     * @param Magento_Bundle_Helper_Catalog_Product_Configuration $bundleProdConfigur
-     * @param Magento_Catalog_Helper_Product_Configuration $ctlgProdConfigur
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
+     * @param \Magento\Bundle\Helper\Catalog\Product\Configuration $bundleProdConfigur
+     * @param \Magento\Catalog\Helper\Product\Configuration $ctlgProdConfigur
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Bundle_Helper_Catalog_Product_Configuration $bundleProdConfigur,
-        Magento_Catalog_Helper_Product_Configuration $ctlgProdConfigur,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
+        \Magento\Bundle\Helper\Catalog\Product\Configuration $bundleProdConfigur,
+        \Magento\Catalog\Helper\Product\Configuration $ctlgProdConfigur,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_bundleProdConfigur = $bundleProdConfigur;
@@ -66,7 +68,7 @@ class Magento_Bundle_Block_Checkout_Cart_Item_Renderer extends Magento_Checkout_
     /**
      * Obtain final price of selection in a bundle product
      *
-     * @param Magento_Catalog_Model_Product $selectionProduct
+     * @param \Magento\Catalog\Model\Product $selectionProduct
      * @return decimal
      */
     protected function _getSelectionFinalPrice($selectionProduct)

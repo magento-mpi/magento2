@@ -16,7 +16,9 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Dashboard_Totals extends Magento_Adminhtml_Block_Dashboard_Bar
+namespace Magento\Adminhtml\Block\Dashboard;
+
+class Totals extends \Magento\Adminhtml\Block\Dashboard\Bar
 {
     protected $_template = 'dashboard/totalbar.phtml';
 
@@ -30,7 +32,7 @@ class Magento_Adminhtml_Block_Dashboard_Totals extends Magento_Adminhtml_Block_D
             || $this->getRequest()->getParam('group');
         $period = $this->getRequest()->getParam('period', '24h');
 
-        /* @var $collection Magento_Reports_Model_Resource_Order_Collection */
+        /* @var $collection \Magento\Reports\Model\Resource\Order\Collection */
         $collection = $this->_collectionFactory->create()
             ->addCreateAtPeriodFilter($period)
             ->calculateTotals($isFilter);
@@ -45,7 +47,7 @@ class Magento_Adminhtml_Block_Dashboard_Totals extends Magento_Adminhtml_Block_D
             $collection->addFieldToFilter('store_id', array('in' => $storeIds));
         } elseif (!$collection->isLive()) {
             $collection->addFieldToFilter('store_id',
-                array('eq' => $this->_storeManager->getStore(Magento_Core_Model_Store::ADMIN_CODE)->getId())
+                array('eq' => $this->_storeManager->getStore(\Magento\Core\Model\Store::ADMIN_CODE)->getId())
             );
         }
 

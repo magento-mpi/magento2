@@ -15,6 +15,8 @@
  * @package    Magento_Widget
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Widget_Helper_Data extends Magento_Core_Helper_Abstract
+namespace Magento\Widget\Helper;
+
+class Data extends \Magento\Core\Helper\AbstractHelper
 {
 }

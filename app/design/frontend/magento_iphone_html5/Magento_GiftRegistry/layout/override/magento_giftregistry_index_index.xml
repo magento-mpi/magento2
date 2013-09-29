@@ -10,6 +10,6 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Customer GiftRegistry" type="page" parent="customer_account_index">
     <update handle="customer_account"/>
     <referenceContainer name="my.account.wrapper">
-        <block class="Magento_GiftRegistry_Block_Customer_List" name="giftregistry.customer.list" template="customer/list.phtml"/>
+        <block class="Magento\GiftRegistry\Block\Customer\ListCustomer" name="giftregistry.customer.list" template="customer/list.phtml"/>
     </referenceContainer>
 </layout>

@@ -11,28 +11,30 @@
 /**
  * Customer gift registry share block
  */
-class Magento_GiftRegistry_Block_Customer_Share
-    extends Magento_Customer_Block_Account_Dashboard
+namespace Magento\GiftRegistry\Block\Customer;
+
+class Share
+    extends \Magento\Customer\Block\Account\Dashboard
 {
     protected $_formData = null;
 
     /**
      * Gift registry data
      *
-     * @var Magento_GiftRegistry_Helper_Data
+     * @var \Magento\GiftRegistry\Helper\Data
      */
     protected $_giftRegistryData = null;
 
     /**
-     * @param Magento_GiftRegistry_Helper_Data $giftRegistryData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
+     * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_GiftRegistry_Helper_Data $giftRegistryData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
+        \Magento\GiftRegistry\Helper\Data $giftRegistryData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_giftRegistryData = $giftRegistryData;
@@ -89,7 +91,7 @@ class Magento_GiftRegistry_Block_Customer_Share
     public function getFormData($key)
     {
         if (is_null($this->_formData)) {
-            $this->_formData = Mage::getSingleton('Magento_Customer_Model_Session')
+            $this->_formData = \Mage::getSingleton('Magento\Customer\Model\Session')
                 ->getData('sharing_form', true);
         }
         if (!$this->_formData || !isset($this->_formData[$key])) {

@@ -14,28 +14,30 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Main_Formgroup
-    extends Magento_Backend_Block_Widget_Form_Generic
+namespace Magento\Adminhtml\Block\Catalog\Product\Attribute\Set\Main;
+
+class Formgroup
+    extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
-     * @var Magento_Eav_Model_Entity_TypeFactory
+     * @var \Magento\Eav\Model\Entity\TypeFactory
      */
     protected $_typeFactory;
 
     /**
-     * @param Magento_Eav_Model_Entity_TypeFactory $typeFactory
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
+     * @param \Magento\Eav\Model\Entity\TypeFactory $typeFactory
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Eav_Model_Entity_TypeFactory $typeFactory,
-        Magento_Core_Model_Registry $registry,
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
+        \Magento\Eav\Model\Entity\TypeFactory $typeFactory,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_typeFactory = $typeFactory;
@@ -44,7 +46,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Main_Formgroup
 
     protected function _prepareForm()
     {
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
 
         $fieldset = $form->addFieldset('set_fieldset', array('legend'=>__('Add New Group')));
@@ -59,7 +61,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Main_Formgroup
 
         $fieldset->addField('submit', 'note',
                             array(
-                                'text' => $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
+                                'text' => $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')
                                             ->setData(array(
                                                 'label'     => __('Add Group'),
                                                 'onclick'   => 'this.form.submit();',

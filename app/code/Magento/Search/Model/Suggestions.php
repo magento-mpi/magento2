@@ -15,18 +15,20 @@
  * @package    Magento_Search
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Search_Model_Suggestions
+namespace Magento\Search\Model;
+
+class Suggestions
 {
     /**
-     * @var Magento_Search_Model_Search_Layer
+     * @var \Magento\Search\Model\Search\Layer
      */
     protected $_searchLayer;
 
     /**
-     * @param Magento_Search_Model_Search_Layer $searchLayer
+     * @param \Magento\Search\Model\Search\Layer $searchLayer
      */
     function __construct(
-        Magento_Search_Model_Search_Layer $searchLayer
+        \Magento\Search\Model\Search\Layer $searchLayer
     ) {
         $this->_searchLayer = $searchLayer;
     }

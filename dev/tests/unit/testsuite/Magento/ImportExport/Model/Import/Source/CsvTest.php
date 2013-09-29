@@ -6,20 +6,22 @@
  * @license     {license_link}
  */
 
-class Magento_ImportExport_Model_Import_Source_CsvTest extends PHPUnit_Framework_TestCase
+namespace Magento\ImportExport\Model\Import\Source;
+
+class CsvTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @expectedException LogicException
+     * @expectedException \LogicException
      */
     public function testConstructException()
     {
-        new Magento_ImportExport_Model_Import_Source_Csv(__DIR__ . '/invalid_file');
+        new \Magento\ImportExport\Model\Import\Source\Csv(__DIR__ . '/invalid_file');
     }
 
     public function testConstructStream()
     {
         $stream = 'data://text/plain;base64,' . base64_encode("column1,column2\nvalue1,value2\n");
-        $model = new Magento_ImportExport_Model_Import_Source_Csv($stream);
+        $model = new \Magento\ImportExport\Model\Import\Source\Csv($stream);
         foreach ($model as $value) {
             $this->assertSame(array('column1' => 'value1', 'column2' => 'value2'), $value);
         }
@@ -33,7 +35,8 @@ class Magento_ImportExport_Model_Import_Source_CsvTest extends PHPUnit_Framework
      */
     public function testOptionalArgs($delimiter, $enclosure, $expectedColumns)
     {
-        $model = new Magento_ImportExport_Model_Import_Source_Csv(__DIR__ . '/_files/test.csv', $delimiter, $enclosure);
+        $model = new \Magento\ImportExport\Model\Import\Source\Csv(
+            __DIR__ . '/_files/test.csv', $delimiter, $enclosure);
         $this->assertSame($expectedColumns, $model->getColNames());
     }
 
@@ -51,7 +54,7 @@ class Magento_ImportExport_Model_Import_Source_CsvTest extends PHPUnit_Framework
 
     public function testRewind()
     {
-        $model = new Magento_ImportExport_Model_Import_Source_Csv(__DIR__ . '/_files/test.csv');
+        $model = new \Magento\ImportExport\Model\Import\Source\Csv(__DIR__ . '/_files/test.csv');
         $this->assertSame(-1, $model->key());
         $model->next();
         $this->assertSame(0, $model->key());

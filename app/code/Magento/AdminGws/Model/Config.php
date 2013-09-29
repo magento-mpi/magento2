@@ -7,18 +7,20 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_AdminGws_Model_Config extends Magento_Config_Data_Scoped implements Magento_AdminGws_Model_ConfigInterface
+namespace Magento\AdminGws\Model;
+
+class Config extends \Magento\Config\Data\Scoped implements \Magento\AdminGws\Model\ConfigInterface
 {
     /**
-     * @param Magento_AdminGws_Model_Config_Reader $reader
-     * @param Magento_Config_ScopeInterface $configScope
-     * @param Magento_Config_CacheInterface $cache
+     * @param \Magento\AdminGws\Model\Config\Reader $reader
+     * @param \Magento\Config\ScopeInterface $configScope
+     * @param \Magento\Config\CacheInterface $cache
      * @param string $cacheId
      */
     public function __construct(
-        Magento_AdminGws_Model_Config_Reader $reader,
-        Magento_Config_ScopeInterface $configScope,
-        Magento_Config_CacheInterface $cache,
+        \Magento\AdminGws\Model\Config\Reader $reader,
+        \Magento\Config\ScopeInterface $configScope,
+        \Magento\Config\CacheInterface $cache,
         $cacheId = 'admingws_config'
     ) {
         parent::__construct($reader, $configScope, $cache, $cacheId);

@@ -16,7 +16,9 @@
  * @package    Magento_VersionsCms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Preview_Revision extends Magento_Adminhtml_Block_Template
+namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Preview;
+
+class Revision extends \Magento\Adminhtml\Block\Template
 {
     /**
      * Retrieve id of currently selected revision
@@ -38,13 +40,13 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Preview_Revision extends Mage
      */
     public function getRevisions()
     {
-        /* var $collection Magento_VersionsCms_Model_Resource_Revision_Collection */
-        $collection = Mage::getModel('Magento_VersionsCms_Model_Page_Revision')->getCollection()
+        /* var $collection Magento\VersionsCms\Model\Resource\Revision\Collection */
+        $collection = \Mage::getModel('Magento\VersionsCms\Model\Page\Revision')->getCollection()
             ->addPageFilter($this->getRequest()->getParam('page_id'))
             ->joinVersions()
             ->addNumberSort()
-            ->addVisibilityFilter(Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getUser()->getId(),
-                Mage::getSingleton('Magento_VersionsCms_Model_Config')->getAllowedAccessLevel());
+            ->addVisibilityFilter(\Mage::getSingleton('Magento\Backend\Model\Auth\Session')->getUser()->getId(),
+                \Mage::getSingleton('Magento\VersionsCms\Model\Config')->getAllowedAccessLevel());
 
         $revisions = array();
 

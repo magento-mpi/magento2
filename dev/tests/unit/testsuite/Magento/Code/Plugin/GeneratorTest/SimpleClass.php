@@ -8,7 +8,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Code_Plugin_GeneratorTest_SimpleClass
+namespace Magento\Code\Plugin\GeneratorTest;
+
+class SimpleClass
 {
     /**
      * @return string

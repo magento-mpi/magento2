@@ -9,10 +9,12 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Resource_IteratorTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Resource;
+
+class IteratorTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Resource_Iterator
+     * @var \Magento\Core\Model\Resource\Iterator
      */
     protected $_model;
 
@@ -25,14 +27,14 @@ class Magento_Core_Model_Resource_IteratorTest extends PHPUnit_Framework_TestCas
 
     protected function setUp()
     {
-        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_Resource_Iterator');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Resource\Iterator');
     }
 
     public function testWalk()
     {
-        $collection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_Resource_Store_Collection');
+        $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Resource\Store\Collection');
         $this->_model->walk($collection->getSelect(), array(array($this, 'walkCallback')));
         $this->assertGreaterThan(0, $this->_callbackCounter);
     }
@@ -50,7 +52,7 @@ class Magento_Core_Model_Resource_IteratorTest extends PHPUnit_Framework_TestCas
     }
 
     /**
-     * @expectedException Magento_Core_Exception
+     * @expectedException \Magento\Core\Exception
      */
     public function testWalkException()
     {

@@ -11,64 +11,66 @@
 /**
  * Shipment packaging
  */
-class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Packaging extends Magento_Backend_Block_Template
+namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shipping;
+
+class Packaging extends \Magento\Backend\Block\Template
 {
     /**
      * Variable to store RMA instance
      *
-     * @var null|Magento_Rma_Model_Rma
+     * @var null|\Magento\Rma\Model\Rma
      */
     protected $_rma = null;
 
     /**
      * Rma data
      *
-     * @var Magento_Rma_Helper_Data
+     * @var \Magento\Rma\Helper\Data
      */
     protected $_rmaData = null;
 
     /**
      * Usa data
      *
-     * @var Magento_Usa_Helper_Data
+     * @var \Magento\Usa\Helper\Data
      */
     protected $_usaData = null;
     
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry;
 
     /**
-     * @var Magento_Sales_Model_OrderFactory
+     * @var \Magento\Sales\Model\OrderFactory
      */
     protected $_orderFactory;
 
     /**
-     * @var Magento_Usa_Model_Shipping_Carrier_Usps_Source_SizeFactory
+     * @var \Magento\Usa\Model\Shipping\Carrier\Usps\Source\SizeFactory
      */
     protected $_sizeFactory;
 
     /**
-     * @param Magento_Usa_Helper_Data $usaData
-     * @param Magento_Rma_Helper_Data $rmaData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Sales_Model_OrderFactory $orderFactory
-     * @param Magento_Usa_Model_Shipping_Carrier_Usps_Source_SizeFactory $sizeFactory
+     * @param \Magento\Usa\Helper\Data $usaData
+     * @param \Magento\Rma\Helper\Data $rmaData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Sales\Model\OrderFactory $orderFactory
+     * @param \Magento\Usa\Model\Shipping\Carrier\Usps\Source\SizeFactory $sizeFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Usa_Helper_Data $usaData,
-        Magento_Rma_Helper_Data $rmaData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Sales_Model_OrderFactory $orderFactory,
-        Magento_Usa_Model_Shipping_Carrier_Usps_Source_SizeFactory $sizeFactory,
+        \Magento\Usa\Helper\Data $usaData,
+        \Magento\Rma\Helper\Data $rmaData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Sales\Model\OrderFactory $orderFactory,
+        \Magento\Usa\Model\Shipping\Carrier\Usps\Source\SizeFactory $sizeFactory,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -82,7 +84,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Packaging extend
     /**
      * Declare rma instance
      *
-     * @return  Magento_Rma_Model_Item
+     * @return  \Magento\Rma\Model\Item
      */
     public function getRma()
     {
@@ -135,7 +137,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Packaging extend
 
         $countryRecipient = $this->_rmaData->getReturnAddressModel($storeId)->getCountryId();
         if ($carrier) {
-            $params = new Magento_Object(array(
+            $params = new \Magento\Object(array(
                 'method' => $this->getCarrierMethod(),
                 'country_shipper' => $address->getCountryId(),
                 'country_recipient' => $countryRecipient,
@@ -179,7 +181,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Packaging extend
             list($carrierCode, $methodCode) = explode('_', $code, 2);
             $carrier    = $this->_rmaData->getCarrier($carrierCode, $storeId);
             $countryId  = $this->_rmaData->getReturnAddressModel($storeId)->getCountryId();
-            $params = new Magento_Object(array('country_recipient' => $countryId));
+            $params = new \Magento\Object(array('country_recipient' => $countryId));
 
             if ($carrier && is_array($carrier->getDeliveryConfirmationTypes($params))) {
                 return $carrier->getDeliveryConfirmationTypes($params);
@@ -238,11 +240,11 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Packaging extend
             $carrier    = $this->_rmaData->getCarrier($carrierCode, $storeId);
             $countryId  = $this->_rmaData->getReturnAddressModel($storeId)->getCountryId();
 
-            /** @var $order Magento_Sales_Model_Order */
+            /** @var $order \Magento\Sales\Model\Order */
             $order = $this->_orderFactory->create()->load($this->getRma()->getOrderId());
             $shipperAddress = $order->getShippingAddress();
              if ($carrier) {
-                $params = new Magento_Object(array(
+                $params = new \Magento\Object(array(
                     'method'            => $methodCode,
                     'country_shipper'   => $shipperAddress->getCountryId(),
                     'country_recipient' => $countryId,
@@ -281,7 +283,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Packaging extend
      */
     public function getShippingCarrierUspsSourceSize()
     {
-        /** @var $size Magento_Usa_Model_Shipping_Carrier_Usps_Source_Size */
+        /** @var $size \Magento\Usa\Model\Shipping\Carrier\Usps\Source\Size */
         $size = $this->_sizeFactory->create();
         return $size->toOptionArray();
     }
@@ -301,12 +303,12 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Packaging extend
         $sizeEnabled    = false;
         $regular        = $this->getShippingCarrierUspsSourceSize();
         if ($carrier && isset($regular[0]['value'])) {
-            if ($regular[0]['value'] == Magento_Usa_Model_Shipping_Carrier_Usps::SIZE_LARGE
+            if ($regular[0]['value'] == \Magento\Usa\Model\Shipping\Carrier\Usps::SIZE_LARGE
                 && in_array(
                     key($this->getContainers()),
                     array(
-                        Magento_Usa_Model_Shipping_Carrier_Usps::CONTAINER_NONRECTANGULAR,
-                        Magento_Usa_Model_Shipping_Carrier_Usps::CONTAINER_VARIABLE,
+                        \Magento\Usa\Model\Shipping\Carrier\Usps::CONTAINER_NONRECTANGULAR,
+                        \Magento\Usa\Model\Shipping\Carrier\Usps::CONTAINER_VARIABLE,
                     )
                 )
             ) {
@@ -316,9 +318,9 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Packaging extend
             if (in_array(
                 key($this->getContainers()),
                 array(
-                    Magento_Usa_Model_Shipping_Carrier_Usps::CONTAINER_NONRECTANGULAR,
-                    Magento_Usa_Model_Shipping_Carrier_Usps::CONTAINER_RECTANGULAR,
-                    Magento_Usa_Model_Shipping_Carrier_Usps::CONTAINER_VARIABLE,
+                    \Magento\Usa\Model\Shipping\Carrier\Usps::CONTAINER_NONRECTANGULAR,
+                    \Magento\Usa\Model\Shipping\Carrier\Usps::CONTAINER_RECTANGULAR,
+                    \Magento\Usa\Model\Shipping\Carrier\Usps::CONTAINER_VARIABLE,
                 )
             )) {
                 $sizeEnabled = true;

@@ -9,10 +9,12 @@
  * @license     {license_link}
  */
 
-class Magento_Backend_Model_Menu_Builder_Command_UpdateTest extends PHPUnit_Framework_TestCase
+namespace Magento\Backend\Model\Menu\Builder\Command;
+
+class UpdateTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Backend_Model_Menu_Builder_Command_Update
+     * @var \Magento\Backend\Model\Menu\Builder\Command\Update
      */
     protected $_model;
 
@@ -22,7 +24,7 @@ class Magento_Backend_Model_Menu_Builder_Command_UpdateTest extends PHPUnit_Fram
 
     protected function setUp()
     {
-        $this->_model = new Magento_Backend_Model_Menu_Builder_Command_Update($this->_params);
+        $this->_model = new \Magento\Backend\Model\Menu\Builder\Command\Update($this->_params);
     }
 
     public function testExecuteFillsEmptyItemWithData()

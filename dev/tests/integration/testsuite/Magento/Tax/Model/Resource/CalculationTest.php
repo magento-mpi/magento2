@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Tax_Model_Resource_CalculationTest extends PHPUnit_Framework_TestCase
+namespace Magento\Tax\Model\Resource;
+
+class CalculationTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Test that Tax Rate applied only once
@@ -18,16 +20,16 @@ class Magento_Tax_Model_Resource_CalculationTest extends PHPUnit_Framework_TestC
      */
     public function testGetRate()
     {
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
-        $taxRule = $objectManager->get('Magento_Core_Model_Registry')
+        $taxRule = $objectManager->get('Magento\Core\Model\Registry')
             ->registry('_fixture/Magento_Tax_Model_Calculation_Rule');
         $customerTaxClasses = $taxRule->getTaxCustomerClass();
         $productTaxClasses = $taxRule->getTaxProductClass();
-        $taxRate =  $objectManager->get('Magento_Core_Model_Registry')
+        $taxRate =  $objectManager->get('Magento\Core\Model\Registry')
             ->registry('_fixture/Magento_Tax_Model_Calculation_Rate');
-        $data = new Magento_Object();
+        $data = new \Magento\Object();
         $data->setData(array(
             'country_id' => 'US',
             'region_id' => '12',
@@ -35,8 +37,8 @@ class Magento_Tax_Model_Resource_CalculationTest extends PHPUnit_Framework_TestC
             'customer_class_id' => $customerTaxClasses[0],
             'product_class_id' => $productTaxClasses[0]
         ));
-        $taxCalculation = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Tax_Model_Resource_Calculation');
+        $taxCalculation = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Tax\Model\Resource\Calculation');
         $this->assertEquals($taxRate->getRate(), $taxCalculation->getRate($data));
     }
 }

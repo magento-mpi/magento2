@@ -9,6 +9,6 @@
 -->
 <config>
     <event name="core_locale_set_locale">
-        <observer name="bind_locale" instance="Magento_Install_Model_Observer" method="bindLocale" />
+        <observer name="bind_locale" instance="Magento\Install\Model\Observer" method="bindLocale" />
     </event>
 </config>

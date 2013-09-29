@@ -9,26 +9,28 @@
  */
 
 
-class Magento_TargetRule_Model_Rule_Condition_Combine extends Magento_Rule_Model_Condition_Combine
+namespace Magento\TargetRule\Model\Rule\Condition;
+
+class Combine extends \Magento\Rule\Model\Condition\Combine
 {
     /**
-     * @var Magento_TargetRule_Model_Rule_Condition_Product_AttributesFactory
+     * @var \Magento\TargetRule\Model\Rule\Condition\Product\AttributesFactory
      */
     protected $_attributeFactory;
 
     /**
-     * @param Magento_TargetRule_Model_Rule_Condition_Product_AttributesFactory $attributesFactory
-     * @param Magento_Rule_Model_Condition_Context $context
+     * @param \Magento\TargetRule\Model\Rule\Condition\Product\AttributesFactory $attributesFactory
+     * @param \Magento\Rule\Model\Condition\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_TargetRule_Model_Rule_Condition_Product_AttributesFactory $attributesFactory,
-        Magento_Rule_Model_Condition_Context $context,
+        \Magento\TargetRule\Model\Rule\Condition\Product\AttributesFactory $attributesFactory,
+        \Magento\Rule\Model\Condition\Context $context,
         array $data = array()
     ) {
         $this->_attributeFactory = $attributesFactory;
         parent::__construct($context, $data);
-        $this->setType('Magento_TargetRule_Model_Rule_Condition_Combine');
+        $this->setType('Magento\TargetRule\Model\Rule\Condition\Combine');
     }
 
     /**
@@ -53,8 +55,8 @@ class Magento_TargetRule_Model_Rule_Condition_Combine extends Magento_Rule_Model
     /**
      * Collect validated attributes for Product Collection
      *
-     * @param Magento_Catalog_Model_Resource_Product_Collection $productCollection
-     * @return Magento_TargetRule_Model_Rule_Condition_Combine
+     * @param \Magento\Catalog\Model\Resource\Product\Collection $productCollection
+     * @return \Magento\TargetRule\Model\Rule\Condition\Combine
      */
     public function collectValidatedAttributes($productCollection)
     {

@@ -14,8 +14,9 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Usa_Model_Shipping_Carrier_Ups_Source_OriginShipment
-    extends Magento_Usa_Model_Shipping_Carrier_Ups_Source_Generic
+namespace Magento\Usa\Model\Shipping\Carrier\Ups\Source;
+
+class OriginShipment extends \Magento\Usa\Model\Shipping\Carrier\Ups\Source\Generic
 {
     /**
      * Carrier code

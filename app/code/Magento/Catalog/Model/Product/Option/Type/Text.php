@@ -15,19 +15,21 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Product_Option_Type_Text extends Magento_Catalog_Model_Product_Option_Type_Default
+namespace Magento\Catalog\Model\Product\Option\Type;
+
+class Text extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
 {
     /**
      * Core string
      *
-     * @var Magento_Core_Helper_String
+     * @var \Magento\Core\Helper\String
      */
     protected $_coreString = null;
 
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
@@ -37,15 +39,15 @@ class Magento_Catalog_Model_Product_Option_Type_Text extends Magento_Catalog_Mod
      * By default is looking for first argument as array and assigns it as object
      * attributes This behavior may change in child classes
      *
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Helper_String $coreString
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Helper\String $coreString
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Helper_String $coreString,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Helper\String $coreString,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
         array $data = array()
     ) {
         $this->_coreData = $coreData;
@@ -56,9 +58,9 @@ class Magento_Catalog_Model_Product_Option_Type_Text extends Magento_Catalog_Mod
     /**
      * Validate user input for option
      *
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      * @param array $values All product option values, i.e. array (option_id => mixed, option_id => mixed...)
-     * @return Magento_Catalog_Model_Product_Option_Type_Default
+     * @return \Magento\Catalog\Model\Product\Option\Type\DefaultType
      */
     public function validateUserValue($values)
     {
@@ -70,14 +72,14 @@ class Magento_Catalog_Model_Product_Option_Type_Text extends Magento_Catalog_Mod
         // Check requires option to have some value
         if (strlen($value) == 0 && $option->getIsRequire() && !$this->getSkipCheckRequiredOption()) {
             $this->setIsValid(false);
-            Mage::throwException(__('Please specify the product\'s required option(s).'));
+            \Mage::throwException(__('Please specify the product\'s required option(s).'));
         }
 
         // Check maximal length limit
         $maxCharacters = $option->getMaxCharacters();
         if ($maxCharacters > 0 && $this->_coreString->strlen($value) > $maxCharacters) {
             $this->setIsValid(false);
-            Mage::throwException(__('The text is too long.'));
+            \Mage::throwException(__('The text is too long.'));
         }
 
         $this->setUserValue($value);

@@ -15,7 +15,9 @@
  * @package    Magento_Search
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Search_Block_Catalog_Layer_Filter_Attribute extends Magento_Catalog_Block_Layer_Filter_Abstract
+namespace Magento\Search\Block\Catalog\Layer\Filter;
+
+class Attribute extends \Magento\Catalog\Block\Layer\Filter\AbstractFilter
 {
     /**
      * Set model name
@@ -23,13 +25,13 @@ class Magento_Search_Block_Catalog_Layer_Filter_Attribute extends Magento_Catalo
     protected function _construct()
     {
         parent::_construct();
-        $this->_filterModelName = 'Magento_Search_Model_Catalog_Layer_Filter_Attribute';
+        $this->_filterModelName = 'Magento\Search\Model\Catalog\Layer\Filter\Attribute';
     }
 
     /**
      * Set attribute model
      *
-     * @return Magento_Search_Block_Catalog_Layer_Filter_Attribute
+     * @return \Magento\Search\Block\Catalog\Layer\Filter\Attribute
      */
     protected function _prepareFilter()
     {
@@ -40,7 +42,7 @@ class Magento_Search_Block_Catalog_Layer_Filter_Attribute extends Magento_Catalo
     /**
      * Add params to faceted search
      *
-     * @return Magento_Search_Block_Catalog_Layer_Filter_Attribute
+     * @return \Magento\Search\Block\Catalog\Layer\Filter\Attribute
      */
     public function addFacetCondition()
     {
@@ -56,7 +58,7 @@ class Magento_Search_Block_Catalog_Layer_Filter_Attribute extends Magento_Catalo
     public function getItemsCount()
     {
         $attributeIsFilterable = $this->getAttributeModel()->getIsFilterable();
-        if ($attributeIsFilterable == Magento_Catalog_Model_Layer_Filter_Attribute::OPTIONS_ONLY_WITH_RESULTS) {
+        if ($attributeIsFilterable == \Magento\Catalog\Model\Layer\Filter\Attribute::OPTIONS_ONLY_WITH_RESULTS) {
             return parent::getItemsCount();
         }
 

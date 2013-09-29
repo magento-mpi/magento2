@@ -16,27 +16,29 @@
  * @package     Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Sales_Order_Create_Giftmessage extends Magento_Adminhtml_Block_Sales_Order_Create_Abstract
+namespace Magento\Adminhtml\Block\Sales\Order\Create;
+
+class Giftmessage extends \Magento\Adminhtml\Block\Sales\Order\Create\AbstractCreate
 {
     /**
-     * @var Magento_Adminhtml_Model_Giftmessage_Save
+     * @var \Magento\Adminhtml\Model\Giftmessage\Save
      */
     protected $_giftMessageSave;
 
     /**
-     * @param Magento_Adminhtml_Model_Giftmessage_Save $giftMessageSave
-     * @param Magento_Adminhtml_Model_Session_Quote $sessionQuote
-     * @param Magento_Adminhtml_Model_Sales_Order_Create $orderCreate
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
+     * @param \Magento\Adminhtml\Model\Giftmessage\Save $giftMessageSave
+     * @param \Magento\Adminhtml\Model\Session\Quote $sessionQuote
+     * @param \Magento\Adminhtml\Model\Sales\Order\Create $orderCreate
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Adminhtml_Model_Giftmessage_Save $giftMessageSave,
-        Magento_Adminhtml_Model_Session_Quote $sessionQuote,
-        Magento_Adminhtml_Model_Sales_Order_Create $orderCreate,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
+        \Magento\Adminhtml\Model\Giftmessage\Save $giftMessageSave,
+        \Magento\Adminhtml\Model\Session\Quote $sessionQuote,
+        \Magento\Adminhtml\Model\Sales\Order\Create $orderCreate,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_giftMessageSave = $giftMessageSave;
@@ -46,13 +48,13 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Giftmessage extends Magento_Adm
     /**
      * Generate form for editing of gift message for entity
      *
-     * @param Magento_Object $entity
+     * @param \Magento\Object $entity
      * @param string        $entityType
      * @return string
      */
-    public function getFormHtml(Magento_Object $entity, $entityType='quote') {
+    public function getFormHtml(\Magento\Object $entity, $entityType='quote') {
         return $this->getLayout()
-            ->createBlock('Magento_Adminhtml_Block_Sales_Order_Create_Giftmessage_Form')
+            ->createBlock('Magento\Adminhtml\Block\Sales\Order\Create\Giftmessage\Form')
             ->setEntity($entity)
             ->setEntityType($entityType)
             ->toHtml();
@@ -72,7 +74,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Giftmessage extends Magento_Adm
 
         foreach ($allItems as $item) {
             if($this->_getGiftmessageSaveModel()->getIsAllowedQuoteItem($item)
-               && $this->helper('Magento_GiftMessage_Helper_Message')->getIsMessagesAvailable('item',
+               && $this->helper('Magento\GiftMessage\Helper\Message')->getIsMessagesAvailable('item',
                         $item, $this->getStore())) {
                 // if item allowed
                 $items[] = $item;
@@ -89,7 +91,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Giftmessage extends Magento_Adm
     /**
      * Retrieve gift message save model
      *
-     * @return Magento_Adminhtml_Model_Giftmessage_Save
+     * @return \Magento\Adminhtml\Model\Giftmessage\Save
      */
     protected function _getGiftmessageSaveModel()
     {

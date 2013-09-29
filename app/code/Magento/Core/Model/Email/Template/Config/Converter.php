@@ -1,13 +1,15 @@
 <?php
 /**
- * Converter of email templates configuration from DOMDocument to array
+ * Converter of email templates configuration from \DOMDocument to array
  *
  * {license_notice}
  *
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Core_Model_Email_Template_Config_Converter implements Magento_Config_ConverterInterface
+namespace Magento\Core\Model\Email\Template\Config;
+
+class Converter implements \Magento\Config\ConverterInterface
 {
     /**
      * {@inheritdoc}
@@ -15,7 +17,7 @@ class Magento_Core_Model_Email_Template_Config_Converter implements Magento_Conf
     public function convert($source)
     {
         $result = array();
-        /** @var DOMNode $templateNode */
+        /** @var \DOMNode $templateNode */
         foreach ($source->documentElement->childNodes as $templateNode) {
             if ($templateNode->nodeType != XML_ELEMENT_NODE) {
                 continue;

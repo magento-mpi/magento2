@@ -11,8 +11,10 @@
 /**
  * Reminder rules edit form block
  */
-class Magento_Reminder_Block_Adminhtml_Reminder_Edit_Form
-    extends Magento_Backend_Block_Widget_Form_Generic
+namespace Magento\Reminder\Block\Adminhtml\Reminder\Edit;
+
+class Form
+    extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
      * Intialize form
@@ -29,11 +31,11 @@ class Magento_Reminder_Block_Adminhtml_Reminder_Edit_Form
     /**
      * Prepare edit form
      *
-     * @return Magento_Reminder_Block_Adminhtml_Reminder_Edit_Form
+     * @return \Magento\Reminder\Block\Adminhtml\Reminder\Edit\Form
      */
     protected function _prepareForm()
     {
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create(array(
             'attributes' => array(
                 'id' => 'edit_form',

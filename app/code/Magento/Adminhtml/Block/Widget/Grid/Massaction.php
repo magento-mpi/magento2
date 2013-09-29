@@ -14,7 +14,9 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  * @deprecated Moved to module Magento_Backend
  */
-class Magento_Adminhtml_Block_Widget_Grid_Massaction extends Magento_Adminhtml_Block_Widget_Grid_Massaction_Abstract
+namespace Magento\Adminhtml\Block\Widget\Grid;
+
+class Massaction extends \Magento\Adminhtml\Block\Widget\Grid\Massaction\AbstractMassaction
 {
 
 }

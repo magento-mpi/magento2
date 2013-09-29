@@ -15,19 +15,21 @@
  * @package    Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Eav_Model_Entity_Attribute_Backend_Time_Created extends Magento_Eav_Model_Entity_Attribute_Backend_Abstract
+namespace Magento\Eav\Model\Entity\Attribute\Backend\Time;
+
+class Created extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
 {
     /**
      * Set created date
      *
      * @param Magento_Core_Model_Object $object
-     * @return Magento_Eav_Model_Entity_Attribute_Backend_Time_Created
+     * @return \Magento\Eav\Model\Entity\Attribute\Backend\Time\Created
      */
     public function beforeSave($object)
     {
         $attributeCode = $this->getAttribute()->getAttributeCode();
         if ($object->isObjectNew() && is_null($object->getData($attributeCode))) {
-            $object->setData($attributeCode, Magento_Date::now());
+            $object->setData($attributeCode, \Magento\Date::now());
         }
 
         return $this;

@@ -14,11 +14,11 @@
         </action>
     </referenceBlock>
     <referenceContainer name="my.account.wrapper">
-        <block class="Magento_Sales_Block_Recurring_Profile_View_Data" name="sales.recurring.profile.view" template="recurring/profile/view.phtml">
+        <block class="Magento\Sales\Block\Recurring\Profile\View\Data" name="sales.recurring.profile.view" template="recurring/profile/view.phtml">
             <action method="setShouldPrepareInfoTabs">
                 <argument name="value" xsi:type="string">1</argument>
             </action>
-            <block class="Magento_Core_Block_Text" as="profile_info" name="sales.recurring.profile.view.tab.profile">
+            <block class="Magento\Core\Block\Text" as="profile_info" name="sales.recurring.profile.view.tab.profile">
                 <action method="addToParentGroup">
                     <argument name="value" xsi:type="string">info_tabs</argument>
                 </action>
@@ -30,7 +30,7 @@
                 </action>
             </block>
             <!-- not implemented
-            <block class="Magento_Core_Block_Text" as="history" name="sales.recurring.profile.view.tab.history">
+            <block class="Magento\Core\Block\Text" as="history" name="sales.recurring.profile.view.tab.history">
                 <action method="addToParentGroup">
                     <argument name="value" xsi:type="string">info_tabs</argument>
                 </action>
@@ -42,7 +42,7 @@
                 </action>
             </block>
             -->
-            <block class="Magento_Core_Block_Text" as="related_orders" name="sales.recurring.profile.view.tab.orders">
+            <block class="Magento\Core\Block\Text" as="related_orders" name="sales.recurring.profile.view.tab.orders">
                 <action method="addToParentGroup">
                     <argument name="value" xsi:type="string">info_tabs</argument>
                 </action>
@@ -54,7 +54,7 @@
                 </action>
             </block>
             <!-- not implemented
-            <block class="Magento_Core_Block_Text" as="vendor_info" name="sales.recurring.profile.view.tab.vendor">
+            <block class="Magento\Core\Block\Text" as="vendor_info" name="sales.recurring.profile.view.tab.vendor">
                 <action method="addToParentGroup">
                     <argument name="value" xsi:type="string">info_tabs</argument>
                 </action>

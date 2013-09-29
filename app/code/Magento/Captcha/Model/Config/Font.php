@@ -15,20 +15,22 @@
  * @package    Magento_Captcha
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Captcha_Model_Config_Font implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Captcha\Model\Config;
+
+class Font implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
      * Captcha data
      *
-     * @var Magento_Captcha_Helper_Data
+     * @var \Magento\Captcha\Helper\Data
      */
     protected $_captchaData = null;
 
     /**
-     * @param Magento_Captcha_Helper_Data $captchaData
+     * @param \Magento\Captcha\Helper\Data $captchaData
      */
     public function __construct(
-        Magento_Captcha_Helper_Data $captchaData
+        \Magento\Captcha\Helper\Data $captchaData
     ) {
         $this->_captchaData = $captchaData;
     }

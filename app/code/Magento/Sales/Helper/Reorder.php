@@ -11,32 +11,34 @@
 /**
  * Sales module base helper
  */
-class Magento_Sales_Helper_Reorder extends Magento_Core_Helper_Data
+namespace Magento\Sales\Helper;
+
+class Reorder extends \Magento\Core\Helper\Data
 {
     const XML_PATH_SALES_REORDER_ALLOW = 'sales/reorder/allow';
 
     /**
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Helper_Http $coreHttp
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_Config $config
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_Encryption $encryptor
-     * @param Magento_Customer_Model_Session $customerSession
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Helper\Http $coreHttp
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\Encryption $encryptor
+     * @param \Magento\Customer\Model\Session $customerSession
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Helper_Http $coreHttp,
-        Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Config $config,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_Encryption $encryptor,
-        Magento_Customer_Model_Session $customerSession
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Helper\Http $coreHttp,
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\Config $config,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\Encryption $encryptor,
+        \Magento\Customer\Model\Session $customerSession
     ) {
         $this->_customerSession = $customerSession;
         parent::__construct($eventManager, $coreHttp, $context, $config, $coreStoreConfig, $encryptor);
@@ -53,7 +55,7 @@ class Magento_Sales_Helper_Reorder extends Magento_Core_Helper_Data
     /**
      * Check if reorder is allowed for given store
      *
-     * @param Magento_Core_Model_Store|int|null $store
+     * @param \Magento\Core\Model\Store|int|null $store
      * @return bool
      */
     public function isAllowed($store = null)
@@ -65,10 +67,10 @@ class Magento_Sales_Helper_Reorder extends Magento_Core_Helper_Data
     }
 
     /**
-     * @param Magento_Sales_Model_Order $order
+     * @param \Magento\Sales\Model\Order $order
      * @return bool
      */
-    public function canReorder(Magento_Sales_Model_Order $order)
+    public function canReorder(\Magento\Sales\Model\Order $order)
     {
         if (!$this->isAllowed($order->getStore())) {
             return false;

@@ -9,8 +9,9 @@
  */
 
 
-class Magento_Usa_Model_Shipping_Carrier_Usps_Source_Container
-    extends Magento_Usa_Model_Shipping_Carrier_Usps_Source_Generic
+namespace Magento\Usa\Model\Shipping\Carrier\Usps\Source;
+
+class Container extends \Magento\Usa\Model\Shipping\Carrier\Usps\Source\Generic
 {
     /**
      * Carrier code

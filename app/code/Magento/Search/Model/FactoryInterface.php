@@ -6,7 +6,9 @@
  * @license     {license_link}
  */
 
-interface Magento_Search_Model_FactoryInterface
+namespace Magento\Search\Model;
+
+interface FactoryInterface
 {
     /**
      * Return search client
@@ -19,7 +21,7 @@ interface Magento_Search_Model_FactoryInterface
     /**
      * Return search adapter
      *
-     * @return Magento_Search_Model_AdapterInterface
+     * @return \Magento\Search\Model\AdapterInterface
      */
     public function createAdapter();
 }

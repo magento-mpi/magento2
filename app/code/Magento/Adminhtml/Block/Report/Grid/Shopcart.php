@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Report_Grid_Shopcart extends Magento_Backend_Block_Widget_Grid_Extended
+namespace Magento\Adminhtml\Block\Report\Grid;
+
+class Shopcart extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
      * stores current currency code
@@ -31,7 +33,7 @@ class Magento_Adminhtml_Block_Report_Grid_Shopcart extends Magento_Backend_Block
      * storeIds setter
      *
      * @param  array $storeIds
-     * @return Magento_Adminhtml_Block_Report_Grid_Shopcart_Abstract
+     * @return \Magento\Adminhtml\Block\Report\Grid\Shopcart\AbstractShopcart
      */
     public function setStoreIds($storeIds)
     {
@@ -58,7 +60,7 @@ class Magento_Adminhtml_Block_Report_Grid_Shopcart extends Magento_Backend_Block
     /**
      * Get currency rate (base to given currency)
      *
-     * @param string|Magento_Directory_Model_Currency $currencyCode
+     * @param string|\Magento\Directory\Model\Currency $currencyCode
      * @return double
      */
     public function getRate($toCurrency)

@@ -9,32 +9,34 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\Block\Customer\Edit\Tab\View;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_Block_Customer_Edit_Tab_View_AccordionTest extends PHPUnit_Framework_TestCase
+class AccordionTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Adminhtml_Block_Customer_Edit_Tab_View_Accordion
+     * @var \Magento\Adminhtml\Block\Customer\Edit\Tab\View\Accordion
      */
     protected $_block;
 
     protected function setUp()
     {
         parent::setUp();
-        /** @var $customer Magento_Customer_Model_Customer */
-        $customer = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Customer_Model_Customer');
+        /** @var $customer \Magento\Customer\Model\Customer */
+        $customer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Customer\Model\Customer');
         $customer->load(1);
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $objectManager->get('Magento_Core_Model_Registry')->register('current_customer', $customer);
-        /** @var $layout Magento_Core_Model_Layout */
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $objectManager->get('Magento\Core\Model\Registry')->register('current_customer', $customer);
+        /** @var $layout \Magento\Core\Model\Layout */
         $layout = $objectManager->create(
-            'Magento_Core_Model_Layout',
-            array('area' => Magento_Core_Model_App_Area::AREA_ADMINHTML)
+            'Magento\Core\Model\Layout',
+            array('area' => \Magento\Core\Model\App\Area::AREA_ADMINHTML)
         );
-        $this->_block = $layout->createBlock('Magento_Adminhtml_Block_Customer_Edit_Tab_View_Accordion');
+        $this->_block = $layout->createBlock('Magento\Adminhtml\Block\Customer\Edit\Tab\View\Accordion');
     }
 
     /**

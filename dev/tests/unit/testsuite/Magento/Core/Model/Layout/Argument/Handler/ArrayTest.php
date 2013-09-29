@@ -10,25 +10,27 @@
  */
 
 /**
- * Test class for Magento_Core_Model_Layout_Argument_Handler_Array
+ * Test class for \Magento\Core\Model\Layout\Argument\Handler\ArrayHandler
  */
-class Magento_Core_Model_Layout_Argument_Handler_ArrayTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Layout\Argument\Handler;
+
+class ArrayTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Layout_Argument_Handler_Array
+     * @var \Magento\Core\Model\Layout\Argument\Handler\ArrayHandler
      */
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_factoryMock;
 
     protected function setUp()
     {
-        $this->_factoryMock = $this->getMock('Magento_Core_Model_Layout_Argument_HandlerFactory', array(), array(),
+        $this->_factoryMock = $this->getMock('Magento\Core\Model\Layout\Argument\HandlerFactory', array(), array(),
             '', false);
-        $this->_model = new Magento_Core_Model_Layout_Argument_Handler_Array($this->_factoryMock);
+        $this->_model = new \Magento\Core\Model\Layout\Argument\Handler\ArrayHandler($this->_factoryMock);
     }
 
     /**
@@ -40,7 +42,7 @@ class Magento_Core_Model_Layout_Argument_Handler_ArrayTest extends PHPUnit_Frame
     {
         $getHandlerCallback = function ($type) use ($expected) {
             $handlerModel = $this->getMock(
-                'Magento_Core_Model_Layout_Argument_HandlerInterface',
+                'Magento\Core\Model\Layout\Argument\HandlerInterface',
                 array(),
                 array(),
                 '',
@@ -104,7 +106,7 @@ class Magento_Core_Model_Layout_Argument_Handler_ArrayTest extends PHPUnit_Frame
     }
 
     /**
-     * @param Magento_Core_Model_Layout_Element $node
+     * @param \Magento\Core\Model\Layout\Element $node
      * @param $expected array
      * @dataProvider parseDataProvider
      */
@@ -112,7 +114,7 @@ class Magento_Core_Model_Layout_Argument_Handler_ArrayTest extends PHPUnit_Frame
     {
         $getHandlerCallback = function ($type) {
             $handlerModel = $this->getMock(
-                'Magento_Core_Model_Layout_Argument_HandlerInterface',
+                'Magento\Core\Model\Layout\Argument\HandlerInterface',
                 array(),
                 array(),
                 '',
@@ -140,7 +142,7 @@ class Magento_Core_Model_Layout_Argument_Handler_ArrayTest extends PHPUnit_Frame
     {
         $layout = simplexml_load_file(
             __DIR__ . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'arguments.xml',
-            'Magento_Core_Model_Layout_Element'
+            'Magento\Core\Model\Layout\Element'
         );
 
         return array(
@@ -159,7 +161,7 @@ class Magento_Core_Model_Layout_Argument_Handler_ArrayTest extends PHPUnit_Frame
                 $layout->xpath('//argument[@name="testArrayWithUpdater"]'),
                 array(
                     'type' => 'array',
-                    'updaters' => array('Magento_SalesArchive_Model_Order_Grid_Massaction_ItemsUpdater'),
+                    'updaters' => array('Magento\SalesArchive\Model\Order\Grid\Massaction\ItemsUpdater'),
                     'value' => array(
                         'add' => 'array',
                     ),

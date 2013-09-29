@@ -15,17 +15,19 @@
  * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reward_Model_Source_Website implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Reward\Model\Source;
+
+class Website implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
-     * @var Magento_Core_Model_System_Store
+     * @var \Magento\Core\Model\System\Store
      */
     protected $_store;
 
     /**
-     * @param Magento_Core_Model_System_Store $store
+     * @param \Magento\Core\Model\System\Store $store
      */
-    public function __construct(Magento_Core_Model_System_Store $store)
+    public function __construct(\Magento\Core\Model\System\Store $store)
     {
         $this->_store = $store;
     }

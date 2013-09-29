@@ -17,7 +17,9 @@
  * @package     Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Customer_Model_Attribute_Data_Postcode extends Magento_Eav_Model_Attribute_Data_Text
+namespace Magento\Customer\Model\Attribute\Data;
+
+class Postcode extends \Magento\Eav\Model\Attribute\Data\Text
 {
     /**
      * Validate postal/zip code
@@ -29,18 +31,18 @@ class Magento_Customer_Model_Attribute_Data_Postcode extends Magento_Eav_Model_A
     /**
      * Directory data
      *
-     * @var Magento_Directory_Helper_Data
+     * @var \Magento\Directory\Helper\Data
      */
     protected $_directoryData = null;
 
     /**
-     * @param Magento_Directory_Helper_Data $directoryData
-     * @param Magento_Core_Helper_String $coreString
+     * @param \Magento\Directory\Helper\Data $directoryData
+     * @param \Magento\Core\Helper\String $coreString
      * @param array $arguments
      */
     public function __construct(
-        Magento_Directory_Helper_Data $directoryData,
-        Magento_Core_Helper_String $coreString,
+        \Magento\Directory\Helper\Data $directoryData,
+        \Magento\Core\Helper\String $coreString,
         array $arguments = array()
     ) {
         $this->_directoryData = $directoryData;

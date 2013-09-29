@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category   Magento
- * @package    Magento_Pear
+ * @package    \Magento\Pear
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -12,9 +12,10 @@
  * Pear package routines
  * *
  * @category   Magento
- * @package    Magento_Pear
+ * @package    \Magento\Pear
  * @author      Magento Core Team <core@magentocommerce.com>
  */
+namespace Magento;
 
 // Looks like PEAR is being developed without E_NOTICE (1.7.0RC1)
 error_reporting(E_ALL & ~E_NOTICE);
@@ -51,7 +52,9 @@ if (strpos($_includePath, $_pearPhpDir) === false) {
 require_once __DIR__ . "/Pear/Frontend.php";
 require_once __DIR__ . "/Pear/Package.php";
 
-class Magento_Pear
+
+require_once dirname(__FILE__) . "/Pear/Package.php";
+class Pear
 {
     protected $_config;
 
@@ -145,7 +148,7 @@ class Magento_Pear
     public function getRegistry($redirectOnChange=true)
     {
         if (!$this->_registry) {
-            $this->_registry = new Magento_Pear_Registry($this->getPearDir().DS.'php');
+            $this->_registry = new \Magento\Pear\Registry($this->getPearDir().DS.'php');
 
             $changed = false;
             foreach ($this->getMagentoChannels() as $channel) {
@@ -156,7 +159,7 @@ class Magento_Pear
             }
 
             if ($changed) {
-                $this->_registry = new Magento_Pear_Registry($this->getPearDir().DS.'php');
+                $this->_registry = new \Magento\Pear\Registry($this->getPearDir().DS.'php');
             }
 //            if ($changed && self::$reloadOnRegistryUpdate && empty($_GET['pear_registry'])) {
 //                echo "TEST:";
@@ -172,7 +175,7 @@ class Magento_Pear
     public function getFrontend()
     {
         if (!$this->_frontend) {
-            $this->_frontend = new Magento_Pear_Frontend;
+            $this->_frontend = new \Magento\Pear\Frontend;
         }
         return $this->_frontend;
     }
@@ -216,7 +219,7 @@ class Magento_Pear
     /**
      * Run PEAR command with html output console style
      *
-     * @param array|Magento_Object $runParams command, options, params,
+     * @param array|\Magento\Object $runParams command, options, params,
      *        comment, success_callback, failure_callback
      */
     public function runHtmlConsole($runParams)
@@ -227,14 +230,14 @@ class Magento_Pear
         $oldLogStream = $fe->getLogStream();
         $fe->setLogStream('stdout');
 
-        if ($runParams instanceof Magento_Object) {
+        if ($runParams instanceof \Magento\Object) {
             $run = $runParams;
         } elseif (is_array($runParams)) {
-            $run = new Magento_Object($runParams);
+            $run = new \Magento\Object($runParams);
         } elseif (is_string($runParams)) {
-            $run = new Magento_Object(array('title'=>$runParams));
+            $run = new \Magento\Object(array('title'=>$runParams));
         } else {
-            throw Magento_Exception("Invalid run parameters");
+            throw \Magento\Exception("Invalid run parameters");
         }
 ?>
 <html><head><style type="text/css">

@@ -16,7 +16,9 @@
  * @package     Magento_GiftRegistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GiftRegistry_Model_Resource_Item_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\GiftRegistry\Model\Resource\Item;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * List of product IDs
@@ -31,14 +33,14 @@ class Magento_GiftRegistry_Model_Resource_Item_Collection extends Magento_Core_M
      */
     protected function _construct()
     {
-        $this->_init('Magento_GiftRegistry_Model_Item', 'Magento_GiftRegistry_Model_Resource_Item');
+        $this->_init('Magento\GiftRegistry\Model\Item', 'Magento\GiftRegistry\Model\Resource\Item');
     }
 
     /**
      * Add gift registry filter to collection
      *
      * @param int $entityId
-     * @return Magento_GiftRegistry_Model_Resource_Item_Collection
+     * @return \Magento\GiftRegistry\Model\Resource\Item\Collection
      */
     public function addRegistryFilter($entityId)
     {
@@ -54,7 +56,7 @@ class Magento_GiftRegistry_Model_Resource_Item_Collection extends Magento_Core_M
      * Add product filter to collection
      *
      * @param int $productId
-     * @return Magento_GiftRegistry_Model_Resource_Item_Collection
+     * @return \Magento\GiftRegistry\Model\Resource\Item\Collection
      */
     public function addProductFilter($productId)
     {
@@ -69,7 +71,7 @@ class Magento_GiftRegistry_Model_Resource_Item_Collection extends Magento_Core_M
      * Add item filter to collection
      *
      * @param int|array $itemId
-     * @return Magento_GiftRegistry_Model_Resource_Item_Collection
+     * @return \Magento\GiftRegistry\Model\Resource\Item\Collection
      */
     public function addItemFilter($itemId)
     {
@@ -85,7 +87,7 @@ class Magento_GiftRegistry_Model_Resource_Item_Collection extends Magento_Core_M
     /**
      * After load processing
      *
-     * @return Magento_GiftRegistry_Model_Resource_Item_Collection
+     * @return \Magento\GiftRegistry\Model\Resource\Item\Collection
      */
     protected function _afterLoad()
     {
@@ -101,12 +103,12 @@ class Magento_GiftRegistry_Model_Resource_Item_Collection extends Magento_Core_M
     /**
      * Assign options to items
      *
-     * @return Magento_GiftRegistry_Model_Resource_Item_Collection
+     * @return \Magento\GiftRegistry\Model\Resource\Item\Collection
      */
     protected function _assignOptions()
     {
         $itemIds = array_keys($this->_items);
-        $optionCollection = Mage::getModel('Magento_GiftRegistry_Model_Item_Option')->getCollection()
+        $optionCollection = \Mage::getModel('Magento\GiftRegistry\Model\Item\Option')->getCollection()
             ->addItemFilter($itemIds);
         foreach ($this as $item) {
             $item->setOptions($optionCollection->getOptionsByItem($item));
@@ -120,7 +122,7 @@ class Magento_GiftRegistry_Model_Resource_Item_Collection extends Magento_Core_M
     /**
      * Assign products to items and their options
      *
-     * @return Magento_GiftRegistry_Model_Resource_Item_Collection
+     * @return \Magento\GiftRegistry\Model\Resource\Item\Collection
      */
     protected function _assignProducts()
     {
@@ -130,10 +132,10 @@ class Magento_GiftRegistry_Model_Resource_Item_Collection extends Magento_Core_M
         }
         $this->_productIds = array_merge($this->_productIds, $productIds);
 
-        $productCollection = Mage::getModel('Magento_Catalog_Model_Product')->getCollection()
-            ->setStoreId(Mage::app()->getStore()->getId())
+        $productCollection = \Mage::getModel('Magento\Catalog\Model\Product')->getCollection()
+            ->setStoreId(\Mage::app()->getStore()->getId())
             ->addIdFilter($this->_productIds)
-            ->addAttributeToSelect(Mage::getSingleton('Magento_Sales_Model_Quote_Config')->getProductAttributes())
+            ->addAttributeToSelect(\Mage::getSingleton('Magento\Sales\Model\Quote\Config')->getProductAttributes())
             ->addStoreFilter()
             ->addUrlRewrite()
             ->addOptionsToResult();
@@ -159,7 +161,7 @@ class Magento_GiftRegistry_Model_Resource_Item_Collection extends Magento_Core_M
     /**
      * Update items custom price (Depends on custom options)
      *
-     * @return Magento_GiftRegistry_Model_Resource_Item_Collection
+     * @return \Magento\GiftRegistry\Model\Resource\Item\Collection
      */
     public function updateItemAttributes()
     {

@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Test_Integrity_Modular_Magento_Core_EmailTemplateConfigFilesTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Integrity\Modular\Magento\Core;
+
+class EmailTemplateConfigFilesTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Test that email template configuration file matches the format
@@ -16,7 +18,7 @@ class Magento_Test_Integrity_Modular_Magento_Core_EmailTemplateConfigFilesTest e
     public function testFileFormat($file)
     {
         $schemaFile = BP . '/app/code/Magento/Core/etc/email_templates_file.xsd';
-        $dom = new Magento_Config_Dom(file_get_contents($file));
+        $dom = new \Magento\Config\Dom(file_get_contents($file));
         $result = $dom->validate($schemaFile, $errors);
         $this->assertTrue($result, print_r($errors, true));
     }
@@ -26,7 +28,7 @@ class Magento_Test_Integrity_Modular_Magento_Core_EmailTemplateConfigFilesTest e
      */
     public function fileFormatDataProvider()
     {
-        return Magento_TestFramework_Utility_Files::init()->getConfigFiles('email_templates.xml');
+        return \Magento\TestFramework\Utility\Files::init()->getConfigFiles('email_templates.xml');
     }
 
     /**
@@ -37,9 +39,9 @@ class Magento_Test_Integrity_Modular_Magento_Core_EmailTemplateConfigFilesTest e
      */
     public function testTemplateReference($templateId)
     {
-        /** @var Magento_Core_Model_Email_Template_Config $emailConfig */
-        $emailConfig =  Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_Email_Template_Config');
+        /** @var \Magento\Core\Model\Email\Template\Config $emailConfig */
+        $emailConfig =  \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Email\Template\Config');
         $templateFilename = $emailConfig->getTemplateFilename($templateId);
         $this->assertFileExists($templateFilename, 'Email template file, specified in the configuration, must exist');
     }
@@ -50,9 +52,9 @@ class Magento_Test_Integrity_Modular_Magento_Core_EmailTemplateConfigFilesTest e
     public function templateReferenceDataProvider()
     {
         $data = array();
-        /** @var Magento_Core_Model_Email_Template_Config $emailConfig */
-        $emailConfig =  Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_Email_Template_Config');
+        /** @var \Magento\Core\Model\Email\Template\Config $emailConfig */
+        $emailConfig =  \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Email\Template\Config');
         foreach ($emailConfig->getAvailableTemplates() as $templateId) {
             $data[$templateId] = array($templateId);
         }
@@ -64,14 +66,14 @@ class Magento_Test_Integrity_Modular_Magento_Core_EmailTemplateConfigFilesTest e
      */
     public function testMergedFormat()
     {
-        $validationState = $this->getMock('Magento_Config_ValidationStateInterface');
+        $validationState = $this->getMock('Magento\Config\ValidationStateInterface');
         $validationState->expects($this->any())->method('isValidated')->will($this->returnValue(true));
-        /** @var Magento_Core_Model_Email_Template_Config_Reader $reader */
-        $reader = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_Email_Template_Config_Reader', array('validationState' => $validationState));
+        /** @var \Magento\Core\Model\Email\Template\Config\Reader $reader */
+        $reader = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Email\Template\Config\Reader', array('validationState' => $validationState));
         try {
             $reader->read();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->fail('Merged email templates configuration does not pass XSD validation: ' . $e->getMessage());
         }
     }

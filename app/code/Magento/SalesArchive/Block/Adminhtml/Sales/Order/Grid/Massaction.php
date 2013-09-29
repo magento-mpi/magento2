@@ -12,26 +12,28 @@
  *  Add sales archiving to order's grid view massaction
  *  @deprecated
  */
-class Magento_SalesArchive_Block_Adminhtml_Sales_Order_Grid_Massaction
-    extends Magento_Adminhtml_Block_Widget_Grid_Massaction_Abstract
+namespace Magento\SalesArchive\Block\Adminhtml\Sales\Order\Grid;
+
+class Massaction
+    extends \Magento\Adminhtml\Block\Widget\Grid\Massaction\AbstractMassaction
 {
     /**
-     * @var Magento_SalesArchive_Model_Config
+     * @var \Magento\SalesArchive\Model\Config
      */
     protected $_configModel;
 
     /**
-     * @param Magento_Backend_Helper_Data $backendData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_SalesArchive_Model_Config $configModel
+     * @param \Magento\Backend\Helper\Data $backendData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\SalesArchive\Model\Config $configModel
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Helper_Data $backendData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_SalesArchive_Model_Config $configModel,
+        \Magento\Backend\Helper\Data $backendData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\SalesArchive\Model\Config $configModel,
         array $data = array()
     ) {
         $this->_configModel = $configModel;
@@ -42,7 +44,7 @@ class Magento_SalesArchive_Block_Adminhtml_Sales_Order_Grid_Massaction
     /**
      * Before rendering html operations
      *
-     * @return Magento_SalesArchive_Block_Adminhtml_Sales_Order_Grid_Massaction
+     * @return \Magento\SalesArchive\Block\Adminhtml\Sales\Order\Grid\Massaction
      */
     protected function _beforeToHtml()
     {

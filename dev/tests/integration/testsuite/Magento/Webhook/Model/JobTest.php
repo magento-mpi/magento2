@@ -1,15 +1,19 @@
 <?php
 /**
- * Magento_Webhook_Model_Job
- *
- * @magentoDbIsolation enabled
+ * \Magento\Webhook\Model\Job
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_JobTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webhook\Model;
+
+/**
+ *
+ * @magentoDbIsolation enabled
+ */
+class JobTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * mock endpoint url
@@ -19,24 +23,24 @@ class Magento_Webhook_Model_JobTest extends PHPUnit_Framework_TestCase
     const FAILURE_RESPONSE = 404;
 
     /**
-     * @var Magento_Webhook_Model_Job
+     * @var \Magento\Webhook\Model\Job
      */
     protected $_job;
 
     protected function setUp()
     {
-        $this->_job = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_Webhook_Model_Job');
+        $this->_job = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Webhook\Model\Job');
     }
 
     public function testConstruct()
     {
-        $event = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Webhook_Model_Event')
+        $event = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webhook\Model\Event')
             ->setDataChanges(true)
             ->save();
         $eventId = $event->getId();
-        $subscription = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Webhook_Model_Subscription')
+        $subscription = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webhook\Model\Subscription')
             ->setDataChanges(true)
             ->save();
         $subscriptionId = $subscription->getId();
@@ -51,8 +55,8 @@ class Magento_Webhook_Model_JobTest extends PHPUnit_Framework_TestCase
 
     public function testGetEventById()
     {
-        $eventId = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Webhook_Model_Event')
+        $eventId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webhook\Model\Event')
             ->setDataChanges(true)
             ->save()
             ->getId();
@@ -62,8 +66,8 @@ class Magento_Webhook_Model_JobTest extends PHPUnit_Framework_TestCase
 
     public function testGetEvent()
     {
-        $event = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Webhook_Model_Event')
+        $event = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webhook\Model\Event')
             ->setDataChanges(true)
             ->save();
         $this->_job->setData('event', $event);
@@ -72,8 +76,8 @@ class Magento_Webhook_Model_JobTest extends PHPUnit_Framework_TestCase
 
     public function testGetSubscriptionById()
     {
-        $subscriptionId = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Webhook_Model_Subscription')
+        $subscriptionId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webhook\Model\Subscription')
             ->setDataChanges(true)
             ->save()
             ->getId();
@@ -83,8 +87,8 @@ class Magento_Webhook_Model_JobTest extends PHPUnit_Framework_TestCase
 
     public function testGetSubscription()
     {
-        $subscription = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Webhook_Model_Subscription')
+        $subscription = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webhook\Model\Subscription')
             ->setDataChanges(true)
             ->save();
         $this->_job->setData('subscription', $subscription);
@@ -99,13 +103,13 @@ class Magento_Webhook_Model_JobTest extends PHPUnit_Framework_TestCase
 
     public function testHandleResponseSuccess()
     {
-        $subscriptionId = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Webhook_Model_Subscription')
+        $subscriptionId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webhook\Model\Subscription')
             ->setDataChanges(true)
             ->save()
             ->getId();
-        $eventId = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Webhook_Model_Event')
+        $eventId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webhook\Model\Event')
             ->setDataChanges(true)
             ->save()
             ->getId();
@@ -113,27 +117,27 @@ class Magento_Webhook_Model_JobTest extends PHPUnit_Framework_TestCase
         $this->_job->setData('event_id', $eventId);
 
         $this->_job->complete();
-        $this->assertEquals(Magento_PubSub_JobInterface::STATUS_SUCCEEDED, $this->_job->getStatus());
+        $this->assertEquals(\Magento\PubSub\JobInterface::STATUS_SUCCEEDED, $this->_job->getStatus());
     }
 
     public function testHandleResponseRetry()
     {
-        $subscriptionId = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Webhook_Model_Subscription')
+        $subscriptionId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webhook\Model\Subscription')
             ->setDataChanges(true)
             ->save()
             ->getId();
         $this->_job->setData('subscription_id', $subscriptionId);
 
-        $eventId = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Webhook_Model_Event')
+        $eventId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webhook\Model\Event')
             ->setDataChanges(true)
             ->save()
             ->getId();
         $this->_job->setData('event_id', $eventId);
 
         $this->_job->handleFailure();
-        $this->assertEquals(Magento_PubSub_JobInterface::STATUS_RETRY, $this->_job->getStatus());
+        $this->assertEquals(\Magento\PubSub\JobInterface::STATUS_RETRY, $this->_job->getStatus());
     }
 
     public function testHandleFailure()
@@ -141,11 +145,11 @@ class Magento_Webhook_Model_JobTest extends PHPUnit_Framework_TestCase
         $count = 1;
         while ($count <= 8) {
             $this->_job->handleFailure();
-            $this->assertEquals(Magento_PubSub_JobInterface::STATUS_RETRY, $this->_job->getStatus());
+            $this->assertEquals(\Magento\PubSub\JobInterface::STATUS_RETRY, $this->_job->getStatus());
             $this->assertEquals($count, $this->_job->getRetryCount());
             $count++;
         }
         $this->_job->handleFailure();
-        $this->assertEquals(Magento_PubSub_JobInterface::STATUS_FAILED, $this->_job->getStatus());
+        $this->assertEquals(\Magento\PubSub\JobInterface::STATUS_FAILED, $this->_job->getStatus());
     }
 }

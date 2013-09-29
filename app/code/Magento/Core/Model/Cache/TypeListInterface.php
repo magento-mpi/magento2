@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Magento_Core_Model_Cache_TypeListInterface
+namespace Magento\Core\Model\Cache;
+
+interface TypeListInterface
 {
     /**
      * Get information about all declared cache types

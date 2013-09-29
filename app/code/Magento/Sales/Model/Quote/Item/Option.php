@@ -11,26 +11,28 @@
 /**
  * Item option model
  *
- * @method Magento_Sales_Model_Resource_Quote_Item_Option _getResource()
- * @method Magento_Sales_Model_Resource_Quote_Item_Option getResource()
+ * @method \Magento\Sales\Model\Resource\Quote\Item\Option _getResource()
+ * @method \Magento\Sales\Model\Resource\Quote\Item\Option getResource()
  * @method int getItemId()
- * @method Magento_Sales_Model_Quote_Item_Option setItemId(int $value)
+ * @method \Magento\Sales\Model\Quote\Item\Option setItemId(int $value)
  * @method int getProductId()
- * @method Magento_Sales_Model_Quote_Item_Option setProductId(int $value)
+ * @method \Magento\Sales\Model\Quote\Item\Option setProductId(int $value)
  * @method string getCode()
- * @method Magento_Sales_Model_Quote_Item_Option setCode(string $value)
- * @method Magento_Sales_Model_Quote_Item_Option setValue(string $value)
+ * @method \Magento\Sales\Model\Quote\Item\Option setCode(string $value)
+ * @method \Magento\Sales\Model\Quote\Item\Option setValue(string $value)
  */
-class Magento_Sales_Model_Quote_Item_Option extends Magento_Core_Model_Abstract
-    implements Magento_Catalog_Model_Product_Configuration_Item_Option_Interface
+namespace Magento\Sales\Model\Quote\Item;
+
+class Option extends \Magento\Core\Model\AbstractModel
+    implements \Magento\Catalog\Model\Product\Configuration\Item\Option\OptionInterface
 {
     /**
-     * @var Magento_Sales_Model_Quote_Item
+     * @var \Magento\Sales\Model\Quote\Item
      */
     protected $_item;
 
     /**
-     * @var Magento_Catalog_Model_Product
+     * @var \Magento\Catalog\Model\Product
      */
     protected $_product;
 
@@ -39,7 +41,7 @@ class Magento_Sales_Model_Quote_Item_Option extends Magento_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('Magento_Sales_Model_Resource_Quote_Item_Option');
+        $this->_init('Magento\Sales\Model\Resource\Quote\Item\Option');
     }
 
     /**
@@ -59,8 +61,8 @@ class Magento_Sales_Model_Quote_Item_Option extends Magento_Core_Model_Abstract
     /**
      * Set quote item
      *
-     * @param   Magento_Sales_Model_Quote_Item $item
-     * @return  Magento_Sales_Model_Quote_Item_Option
+     * @param   \Magento\Sales\Model\Quote\Item $item
+     * @return  \Magento\Sales\Model\Quote\Item\Option
      */
     public function setItem($item)
     {
@@ -72,7 +74,7 @@ class Magento_Sales_Model_Quote_Item_Option extends Magento_Core_Model_Abstract
     /**
      * Get option item
      *
-     * @return Magento_Sales_Model_Quote_Item
+     * @return \Magento\Sales\Model\Quote\Item
      */
     public function getItem()
     {
@@ -82,8 +84,8 @@ class Magento_Sales_Model_Quote_Item_Option extends Magento_Core_Model_Abstract
     /**
      * Set option product
      *
-     * @param   Magento_Catalog_Model_Product $product
-     * @return  Magento_Sales_Model_Quote_Item_Option
+     * @param   \Magento\Catalog\Model\Product $product
+     * @return  \Magento\Sales\Model\Quote\Item\Option
      */
     public function setProduct($product)
     {
@@ -95,7 +97,7 @@ class Magento_Sales_Model_Quote_Item_Option extends Magento_Core_Model_Abstract
     /**
      * Get option product
      *
-     * @return Magento_Catalog_Model_Product
+     * @return \Magento\Catalog\Model\Product
      */
     public function getProduct()
     {
@@ -115,7 +117,7 @@ class Magento_Sales_Model_Quote_Item_Option extends Magento_Core_Model_Abstract
     /**
      * Initialize item identifier before save data
      *
-     * @return Magento_Sales_Model_Quote_Item_Option
+     * @return \Magento\Sales\Model\Quote\Item\Option
      */
     protected function _beforeSave()
     {
@@ -128,7 +130,7 @@ class Magento_Sales_Model_Quote_Item_Option extends Magento_Core_Model_Abstract
     /**
      * Clone option object
      *
-     * @return Magento_Sales_Model_Quote_Item_Option
+     * @return \Magento\Sales\Model\Quote\Item\Option
      */
     public function __clone()
     {

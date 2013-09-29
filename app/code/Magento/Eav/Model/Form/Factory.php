@@ -8,20 +8,22 @@
  * @license     {license_link}
  */
 
+namespace Magento\Eav\Model\Form;
+
 /**
  * EAV form object factory
  */
-class Magento_Eav_Model_Form_Factory
+class Factory
 {
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
@@ -31,15 +33,15 @@ class Magento_Eav_Model_Form_Factory
      *
      * @param string $form
      * @param array $data
-     * @throws InvalidArgumentException
-     * @return Magento_Eav_Model_Form
+     * @throws \InvalidArgumentException
+     * @return \Magento\Eav\Model\Form
      */
     public function create($form, array $data = array())
     {
         $formInstance = $this->_objectManager->create($form, $data);
-        if (false == ($formInstance instanceof Magento_Eav_Model_Form)) {
-            throw new InvalidArgumentException(
-                $form . ' is not instance of Magento_Eav_Model_Form'
+        if (false == ($formInstance instanceof \Magento\Eav\Model\Form)) {
+            throw new \InvalidArgumentException(
+                $form . ' is not instance of \Magento\Eav\Model\Form'
             );
         }
         return $formInstance;

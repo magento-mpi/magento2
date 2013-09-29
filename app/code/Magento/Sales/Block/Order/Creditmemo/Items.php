@@ -11,25 +11,27 @@
 /**
  * Sales order view items block
  */
-class Magento_Sales_Block_Order_Creditmemo_Items extends Magento_Sales_Block_Items_Abstract
+namespace Magento\Sales\Block\Order\Creditmemo;
+
+class Items extends \Magento\Sales\Block\Items\AbstractItems
 {
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -39,7 +41,7 @@ class Magento_Sales_Block_Order_Creditmemo_Items extends Magento_Sales_Block_Ite
     /**
      * Retrieve current order model instance
      *
-     * @return Magento_Sales_Model_Order
+     * @return \Magento\Sales\Model\Order
      */
     public function getOrder()
     {
@@ -67,7 +69,7 @@ class Magento_Sales_Block_Order_Creditmemo_Items extends Magento_Sales_Block_Ite
     /**
      * Get creditmemo totals block html
      *
-     * @param   Magento_Sales_Model_Order_Creditmemo $creditmemo
+     * @param   \Magento\Sales\Model\Order\Creditmemo $creditmemo
      * @return  string
      */
     public function getTotalsHtml($creditmemo)
@@ -84,7 +86,7 @@ class Magento_Sales_Block_Order_Creditmemo_Items extends Magento_Sales_Block_Ite
     /**
      * Get html of creditmemo comments block
      *
-     * @param   Magento_Sales_Model_Order_Creditmemo $creditmemo
+     * @param   \Magento\Sales\Model\Order\Creditmemo $creditmemo
      * @return  string
      */
     public function getCommentsHtml($creditmemo)

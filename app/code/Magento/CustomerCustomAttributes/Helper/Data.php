@@ -15,35 +15,37 @@
  * @category   Magento
  * @package    Magento_CustomerCustomAttributes
  */
-class Magento_CustomerCustomAttributes_Helper_Data extends Magento_CustomAttribute_Helper_Data
+namespace Magento\CustomerCustomAttributes\Helper;
+
+class Data extends \Magento\CustomAttribute\Helper\Data
 {
     /**
      * Customer customer
      *
-     * @var Magento_CustomerCustomAttributes_Helper_Customer
+     * @var \Magento\CustomerCustomAttributes\Helper\Customer
      */
     protected $_customerCustomer = null;
 
     /**
      * Customer address
      *
-     * @var Magento_CustomerCustomAttributes_Helper_Address
+     * @var \Magento\CustomerCustomAttributes\Helper\Address
      */
     protected $_customerAddress = null;
 
     /**
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_CustomerCustomAttributes_Helper_Address $customerAddress
-     * @param Magento_CustomerCustomAttributes_Helper_Customer $customerCustomer
-     * @param Magento_Eav_Model_Config $eavConfig
-     * @param Magento_Core_Helper_Context $context
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\CustomerCustomAttributes\Helper\Address $customerAddress
+     * @param \Magento\CustomerCustomAttributes\Helper\Customer $customerCustomer
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Core\Helper\Context $context
      */
     public function __construct(
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_CustomerCustomAttributes_Helper_Address $customerAddress,
-        Magento_CustomerCustomAttributes_Helper_Customer $customerCustomer,
-        Magento_Eav_Model_Config $eavConfig,
-        Magento_Core_Helper_Context $context
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\CustomerCustomAttributes\Helper\Address $customerAddress,
+        \Magento\CustomerCustomAttributes\Helper\Customer $customerCustomer,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Core\Helper\Context $context
     ) {
         $this->_customerAddress = $customerAddress;
         $this->_customerCustomer = $customerCustomer;
@@ -53,21 +55,21 @@ class Magento_CustomerCustomAttributes_Helper_Data extends Magento_CustomAttribu
     /**
      * Return available customer attribute form as select options
      *
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     public function getAttributeFormOptions()
     {
-        throw new Magento_Core_Exception(__('Use helper with defined EAV entity.'));
+        throw new \Magento\Core\Exception(__('Use helper with defined EAV entity.'));
     }
 
     /**
      * Default attribute entity type code
      *
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     protected function _getEntityTypeCode()
     {
-        throw new Magento_Core_Exception(__('Use helper with defined EAV entity.'));
+        throw new \Magento\Core\Exception(__('Use helper with defined EAV entity.'));
     }
 
     /**

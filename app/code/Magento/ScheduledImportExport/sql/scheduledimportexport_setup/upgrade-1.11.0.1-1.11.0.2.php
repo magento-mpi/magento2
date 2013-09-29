@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/** @var $installer Magento_Core_Model_Resource_Setup */
+/** @var $installer \Magento\Core\Model\Resource\Setup */
 $installer = $this;
 
 $installer->getConnection()
@@ -16,7 +16,7 @@ $installer->getConnection()
         $installer->getTable('magento_scheduled_operations'),
         'entity_subtype',
         array(
-            'type'     => Magento_DB_Ddl_Table::TYPE_TEXT,
+            'type'     => \Magento\DB\Ddl\Table::TYPE_TEXT,
             'length'   => 50,
             'comment'  => 'Sub Entity',
             'nullable' => true

@@ -9,15 +9,17 @@
  */
 
 
-class Magento_Sales_Model_Order_Creditmemo_Total_Subtotal extends Magento_Sales_Model_Order_Creditmemo_Total_Abstract
+namespace Magento\Sales\Model\Order\Creditmemo\Total;
+
+class Subtotal extends \Magento\Sales\Model\Order\Creditmemo\Total\AbstractTotal
 {
     /**
      * Collect Creditmemo subtotal
      *
-     * @param   Magento_Sales_Model_Order_Creditmemo $creditmemo
-     * @return  Magento_Sales_Model_Order_Creditmemo_Total_Subtotal
+     * @param   \Magento\Sales\Model\Order\Creditmemo $creditmemo
+     * @return  \Magento\Sales\Model\Order\Creditmemo\Total\Subtotal
      */
-    public function collect(Magento_Sales_Model_Order_Creditmemo $creditmemo)
+    public function collect(\Magento\Sales\Model\Order\Creditmemo $creditmemo)
     {
         $subtotal       = 0;
         $baseSubtotal   = 0;

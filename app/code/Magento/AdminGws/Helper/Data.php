@@ -12,7 +12,9 @@
  * Admin GWS helper
  *
  */
-class Magento_AdminGws_Helper_Data extends Magento_Core_Helper_Abstract
+namespace Magento\AdminGws\Helper;
+
+class Data extends \Magento\Core\Helper\AbstractHelper
 {
     /**
      * Transform comma-separeated ids string into array

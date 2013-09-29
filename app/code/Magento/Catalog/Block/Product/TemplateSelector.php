@@ -15,25 +15,27 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Block_Product_TemplateSelector extends Magento_Core_Block_Template
+namespace Magento\Catalog\Block\Product;
+
+class TemplateSelector extends \Magento\Core\Block\Template
 {
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -50,15 +52,15 @@ class Magento_Catalog_Block_Product_TemplateSelector extends Magento_Core_Block_
     {
         $product = $this->_coreRegistry->registry('product');
         $entityType = $product->getResource()->getEntityType();
-        $labelPart = Mage::getResourceHelper('Magento_Core')->addLikeEscape($labelPart, array('position' => 'any'));
-        $collection = Mage::getResourceModel('Magento_Eav_Model_Resource_Entity_Attribute_Set_Collection')
+        $labelPart = \Mage::getResourceHelper('Magento_Core')->addLikeEscape($labelPart, array('position' => 'any'));
+        $collection = \Mage::getResourceModel('Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection')
             ->setEntityTypeFilter($entityType->getId())
             ->addFieldToFilter('attribute_set_name', array('like' => $labelPart))
             ->addFieldToSelect('attribute_set_id', 'id')
             ->addFieldToSelect('attribute_set_name', 'label')
             ->setOrder(
                 'attribute_set_name',
-                Magento_Eav_Model_Resource_Entity_Attribute_Set_Collection::SORT_ORDER_ASC
+                \Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection::SORT_ORDER_ASC
         );
         return $collection->getData();
     }

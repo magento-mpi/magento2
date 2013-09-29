@@ -5,34 +5,36 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Search_Model_Resource_Search_Grid_Collection
-    extends Magento_CatalogSearch_Model_Resource_Query_Collection
+namespace Magento\Search\Model\Resource\Search\Grid;
+
+class Collection
+    extends \Magento\CatalogSearch\Model\Resource\Query\Collection
 {
     /**
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_registryManager;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_EntityFactory $entityFactory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_CatalogSearch_Model_Resource_Helper $resourceHelper
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Resource_Db_Abstract $resource
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\CatalogSearch\Model\Resource\Helper $resourceHelper
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Logger $logger,
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_EntityFactory $entityFactory,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_CatalogSearch_Model_Resource_Helper $resourceHelper,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\CatalogSearch\Model\Resource\Helper $resourceHelper,
+        \Magento\Core\Model\Registry $registry,
         $resource = null
     ) {
         $this->_registryManager = $registry;
@@ -41,7 +43,7 @@ class Magento_Search_Model_Resource_Search_Grid_Collection
     }
 
     /**
-     * @return Magento_Search_Model_Resource_Search_Grid_Collection
+     * @return \Magento\Search\Model\Resource\Search\Grid\Collection
      */
     protected function _initSelect()
     {
@@ -56,7 +58,7 @@ class Magento_Search_Model_Resource_Search_Grid_Collection
     /**
      *  Retrieve a value from registry by a key
      *
-     * @return Magento_CatalogSearch_Model_Query
+     * @return \Magento\CatalogSearch\Model\Query
      */
     public function getQuery()
     {

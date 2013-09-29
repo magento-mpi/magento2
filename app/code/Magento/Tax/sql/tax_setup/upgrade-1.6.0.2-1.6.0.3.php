@@ -9,7 +9,7 @@
  */
 
 $installer = $this;
-/* @var $installer Magento_Tax_Model_Resource_Setup */
+/* @var $installer \Magento\Tax\Model\Resource\Setup */
 
 /**
  * Add new field to 'sales_order_tax_item'
@@ -19,7 +19,7 @@ $installer->getConnection()
         $installer->getTable('sales_order_tax_item'),
         'tax_percent',
         array(
-            'TYPE'      => Magento_DB_Ddl_Table::TYPE_DECIMAL,
+            'TYPE'      => \Magento\DB\Ddl\Table::TYPE_DECIMAL,
             'SCALE'     => 4,
             'PRECISION' => 12,
             'NULLABLE'  => false,

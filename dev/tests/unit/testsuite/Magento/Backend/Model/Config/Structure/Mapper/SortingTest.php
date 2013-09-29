@@ -9,16 +9,18 @@
  * @license     {license_link}
  */
 
-class Magento_Backend_Model_Config_Structure_Mapper_SortingTest extends PHPUnit_Framework_TestCase
+namespace Magento\Backend\Model\Config\Structure\Mapper;
+
+class SortingTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Backend_Model_Config_Structure_Mapper_Sorting
+     * @var \Magento\Backend\Model\Config\Structure\Mapper\Sorting
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = new Magento_Backend_Model_Config_Structure_Mapper_Sorting();
+        $this->_model = new \Magento\Backend\Model\Config\Structure\Mapper\Sorting();
     }
 
     public function testMap()

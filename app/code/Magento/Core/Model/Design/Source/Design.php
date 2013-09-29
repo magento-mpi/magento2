@@ -11,17 +11,19 @@
 /**
  * Source model for eav attribute custom_design
  */
-class Magento_Core_Model_Design_Source_Design extends Magento_Eav_Model_Entity_Attribute_Source_Abstract
+namespace Magento\Core\Model\Design\Source;
+
+class Design extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
 {
     /**
-     * @var Magento_Core_Model_Theme_Label
+     * @var \Magento\Core\Model\Theme\Label
      */
     protected $_themeLabel;
 
     /**
-     * @param Magento_Core_Model_Theme_Label $themeLabel
+     * @param \Magento\Core\Model\Theme\Label $themeLabel
      */
-    public function __construct(Magento_Core_Model_Theme_Label $themeLabel)
+    public function __construct(\Magento\Core\Model\Theme\Label $themeLabel)
     {
         $this->_themeLabel = $themeLabel;
     }

@@ -8,50 +8,50 @@
  */
 -->
 <config>
-    <type name="Magento_Webhook_Model_Resource_Subscription">
+    <type name="Magento\Webhook\Model\Resource\Subscription">
         <param name="config">
-            <instance type="Magento_Core_Model_Config" />
+            <instance type="Magento\Core\Model\Config" />
         </param>
     </type>
-    <type name="Magento_Outbound_Formatter_Factory">
+    <type name="Magento\Outbound\Formatter\Factory">
         <param name="formatterMap">
             <value>
-                <json>Magento_Outbound_Formatter_Json</json>
+                <json>Magento\Outbound\Formatter\Json</json>
             </value>
         </param>
     </type>
-    <type name="Magento_Webhook_Model_Source_Format">
+    <type name="Magento\Webhook\Model\Source\Format">
         <param name="formats">
             <value>
                 <json>JSON</json>
             </value>
         </param>
     </type>
-    <type name="Magento_Outbound_Authentication_Factory">
+    <type name="Magento\Outbound\Authentication\Factory">
         <param name="authenticationMap">
             <value>
-                <hmac>Magento_Outbound_Authentication_Hmac</hmac>
+                <hmac>Magento\Outbound\Authentication\Hmac</hmac>
             </value>
         </param>
     </type>
-    <type name="Magento_Webhook_Model_Source_Authentication">
+    <type name="Magento\Webhook\Model\Source\Authentication">
         <param name="authenticationTypes">
             <value>
                 <hmac>HMAC SHA256</hmac>
             </value>
         </param>
     </type>
-    <type name="Magento_Webhook_Model_Endpoint" shared="false" />
-    <preference for="Magento_PubSub_Event_QueueReaderInterface" type="Magento_Webhook_Model_Event_QueueReader" />
-    <preference for="Magento_PubSub_Event_QueueWriterInterface" type="Magento_Webhook_Model_Event_QueueWriter" />
-    <preference for="Magento_PubSub_Event_FactoryInterface" type="Magento_Webhook_Model_Event_Factory" />
-    <preference for="Magento_PubSub_Job_FactoryInterface" type="Magento_Webhook_Model_Job_Factory" />
-    <preference for="Magento_PubSub_Subscription_CollectionInterface" type="Magento_Webhook_Model_Resource_Subscription_Collection" />
-    <preference for="Magento_Outbound_Message_FactoryInterface" type="Magento_Outbound_Message_Factory" />
-    <preference for="Magento_PubSub_Job_QueueReaderInterface" type="Magento_Webhook_Model_Job_QueueReader" />
-    <preference for="Magento_PubSub_Job_QueueWriterInterface" type="Magento_Webhook_Model_Job_QueueWriter" />
-    <preference for="Magento_Outbound_TransportInterface" type="Magento_Outbound_Transport_Http" />
-    <preference for="Magento_Outbound_MessageInterface" type="Magento_Outbound_Message" />
-    <preference for="Magento_PubSub_Message_DispatcherAsyncInterface" type="Magento_PubSub_Message_DispatcherAsync" />
-    <preference for="Magento_Webhook_Service_SubscriptionV1Interface" type="Magento_Webhook_Service_SubscriptionV1" />
+    <type name="Magento\Webhook\Model\Endpoint" shared="false" />
+    <preference for="Magento\PubSub\Event\QueueReaderInterface" type="Magento\Webhook\Model\Event\QueueReader" />
+    <preference for="Magento\PubSub\Event\QueueWriterInterface" type="Magento\Webhook\Model\Event\QueueWriter" />
+    <preference for="Magento\PubSub\Event\FactoryInterface" type="Magento\Webhook\Model\Event\Factory" />
+    <preference for="Magento\PubSub\Job\FactoryInterface" type="Magento\Webhook\Model\Job\Factory" />
+    <preference for="Magento\PubSub\Subscription\CollectionInterface" type="Magento\Webhook\Model\Resource\Subscription\Collection" />
+    <preference for="Magento\Outbound\Message\FactoryInterface" type="Magento\Outbound\Message\Factory" />
+    <preference for="Magento\PubSub\Job\QueueReaderInterface" type="Magento\Webhook\Model\Job\QueueReader" />
+    <preference for="Magento\PubSub\Job\QueueWriterInterface" type="Magento\Webhook\Model\Job\QueueWriter" />
+    <preference for="Magento\Outbound\TransportInterface" type="Magento\Outbound\Transport\Http" />
+    <preference for="Magento\Outbound\MessageInterface" type="Magento\Outbound\Message" />
+    <preference for="Magento\PubSub\Message\DispatcherAsyncInterface" type="Magento\PubSub\Message\DispatcherAsync" />
+    <preference for="Magento\Webhook\Service\SubscriptionV1Interface" type="Magento\Webhook\Service\SubscriptionV1" />
 </config>

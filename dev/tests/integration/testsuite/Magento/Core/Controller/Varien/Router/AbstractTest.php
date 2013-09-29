@@ -9,24 +9,26 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Controller_Varien_Router_AbstractTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Controller\Varien\Router;
+
+class AbstractTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Controller_Varien_Router_Abstract
+     * @var \Magento\Core\Controller\Varien\Router\AbstractRouter
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = $this->getMockForAbstractClass('Magento_Core_Controller_Varien_Router_Abstract', array(), '',
-            false
+        $this->_model = $this->getMockForAbstractClass('Magento\Core\Controller\Varien\Router\AbstractRouter',
+            array(), '', false
         );
     }
 
     public function testGetSetFront()
     {
-        $expected = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Controller_Varien_Front');
+        $expected = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Controller\Varien\Front');
         $this->assertNull($this->_model->getFront());
         $this->_model->setFront($expected);
         $this->assertSame($expected, $this->_model->getFront());

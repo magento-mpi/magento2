@@ -11,7 +11,9 @@
 /**
  * Viewed products container
  */
-class Magento_FullPageCache_Model_Container_Viewedproducts extends Magento_FullPageCache_Model_Container_Abstract
+namespace Magento\FullPageCache\Model\Container;
+
+class Viewedproducts extends \Magento\FullPageCache\Model\Container\AbstractContainer
 {
     const COOKIE_NAME = 'VIEWED_PRODUCT_IDS';
 
@@ -41,7 +43,7 @@ class Magento_FullPageCache_Model_Container_Viewedproducts extends Magento_FullP
         if ($cacheId && $productIds) {
             sort($productIds);
             $cacheId = 'CONTAINER_' . md5($cacheId . implode('_', $productIds)
-                . $this->_getCookieValue(Magento_Core_Model_Store::COOKIE_CURRENCY, ''));
+                . $this->_getCookieValue(\Magento\Core\Model\Store::COOKIE_CURRENCY, ''));
             return $cacheId;
         }
         return false;

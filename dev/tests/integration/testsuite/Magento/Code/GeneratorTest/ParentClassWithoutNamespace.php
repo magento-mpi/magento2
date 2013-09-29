@@ -9,9 +9,11 @@
  * @license     {license_link}
  */
 
-use Zend\Code\Generator\DocBlockGenerator;
+namespace Magento\Code\GeneratorTest;
 
-class Magento_Code_GeneratorTest_ParentClassWithoutNamespace
+use \Zend\Code\Generator\DocBlockGenerator;
+
+class ParentClassWithoutNamespace
 {
     /**
      * Public parent method

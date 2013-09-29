@@ -9,18 +9,20 @@
  * @license     {license_link}
  */
 
+namespace Magento\VersionsCms\Controller\Adminhtml\Cms\Page;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_VersionsCms_Controller_Adminhtml_Cms_Page_RevisionTest extends Magento_Backend_Utility_Controller
+class RevisionTest extends \Magento\Backend\Utility\Controller
 {
     /**
      * @magentoDataFixture Magento/Cms/_files/pages.php
      */
     public function testPreviewAction()
     {
-        /** @var $page Magento_Cms_Model_Page */
-        $page = $this->_objectManager->create('Magento_Cms_Model_Page');
+        /** @var $page \Magento\Cms\Model\Page */
+        $page = $this->_objectManager->create('Magento\Cms\Model\Page');
         $page->load('page100', 'identifier'); // fixture cms/page
         $this->getRequest()->setPost('page_id', $page->getId());
         $this->dispatch('backend/admin/cms_page_revision/preview/');
@@ -35,12 +37,12 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Page_RevisionTest extends Mag
      */
     public function testDropAction()
     {
-        $storeId = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Core_Model_StoreManagerInterface')->getAnyStoreView(); // fixture design_change
+        $storeId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Core\Model\StoreManagerInterface')->getAnyStoreView(); // fixture design_change
         $this->getRequest()->setParam('preview_selected_store', $storeId);
 
-        /** @var $page Magento_Cms_Model_Page */
-        $page = $this->_objectManager->create('Magento_Cms_Model_Page');
+        /** @var $page \Magento\Cms\Model\Page */
+        $page = $this->_objectManager->create('Magento\Cms\Model\Page');
         $page->load('page100', 'identifier'); // fixture cms/page
         $this->getRequest()->setPost('page_id', $page->getId());
 

@@ -5,17 +5,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Checkout_Block_Cart_SidebarTest extends PHPUnit_Framework_TestCase
+namespace Magento\Checkout\Block\Cart;
+
+class SidebarTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Checkout_Block_Cart_Sidebar
+     * @var \Magento\Checkout\Block\Cart\Sidebar
      */
     protected $_block;
 
     protected function setUp()
     {
-        $this->_block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
-            ->createBlock('Magento_Checkout_Block_Cart_Sidebar');
+        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            ->createBlock('Magento\Checkout\Block\Cart\Sidebar');
     }
 
     public function testGetCacheKeyInfo()
@@ -25,7 +27,7 @@ class Magento_Checkout_Block_Cart_SidebarTest extends PHPUnit_Framework_TestCase
             'default',
             $this->_block->getTemplateFile(),
             'template' => null,
-            'item_renders' => 'default|Magento_Checkout_Block_Cart_Item_Renderer|cart/item/default.phtml',
+            'item_renders' => 'default|Magento\Checkout\Block\Cart\Item\Renderer|cart/item/default.phtml',
         ), $this->_block->getCacheKeyInfo());
     }
 }

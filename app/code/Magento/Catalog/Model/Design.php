@@ -16,7 +16,9 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Design extends Magento_Core_Model_Abstract
+namespace Magento\Catalog\Model;
+
+class Design extends \Magento\Core\Model\AbstractModel
 {
     const APPLY_FOR_PRODUCT     = 1;
     const APPLY_FOR_CATEGORY    = 2;
@@ -24,24 +26,24 @@ class Magento_Catalog_Model_Design extends Magento_Core_Model_Abstract
     /**
      * Design package instance
      *
-     * @var Magento_Core_Model_View_DesignInterface
+     * @var \Magento\Core\Model\View\DesignInterface
      */
     protected $_design = null;
 
     /**
-     * @param Magento_Core_Model_View_DesignInterface $design
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Core\Model\View\DesignInterface $design
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_View_DesignInterface $design,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Core\Model\View\DesignInterface $design,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_design = $design;
@@ -53,7 +55,7 @@ class Magento_Catalog_Model_Design extends Magento_Core_Model_Abstract
      *
      * @param string $design
      * @return $this
-     * @return Magento_Catalog_Model_Design
+     * @return \Magento\Catalog\Model\Design
      */
     public function applyCustomDesign($design)
     {
@@ -64,12 +66,12 @@ class Magento_Catalog_Model_Design extends Magento_Core_Model_Abstract
     /**
      * Get custom layout settings
      *
-     * @param Magento_Catalog_Model_Category|Magento_Catalog_Model_Product $object
-     * @return Magento_Object
+     * @param \Magento\Catalog\Model\Category|\Magento\Catalog\Model\Product $object
+     * @return \Magento\Object
      */
     public function getDesignSettings($object)
     {
-        if ($object instanceof Magento_Catalog_Model_Product) {
+        if ($object instanceof \Magento\Catalog\Model\Product) {
             $currentCategory = $object->getCategory();
         } else {
             $currentCategory = $object;
@@ -80,7 +82,7 @@ class Magento_Catalog_Model_Design extends Magento_Core_Model_Abstract
             $category = $currentCategory->getParentDesignCategory($currentCategory);
         }
 
-        if ($object instanceof Magento_Catalog_Model_Product) {
+        if ($object instanceof \Magento\Catalog\Model\Product) {
             if ($category && $category->getCustomApplyToProducts()) {
                 return $this->_mergeSettings($this->_extractSettings($category), $this->_extractSettings($object));
             } else {
@@ -94,18 +96,18 @@ class Magento_Catalog_Model_Design extends Magento_Core_Model_Abstract
     /**
      * Extract custom layout settings from category or product object
      *
-     * @param Magento_Catalog_Model_Category|Magento_Catalog_Model_Product $object
-     * @return Magento_Object
+     * @param \Magento\Catalog\Model\Category|\Magento\Catalog\Model\Product $object
+     * @return \Magento\Object
      */
     protected function _extractSettings($object)
     {
-        $settings = new Magento_Object;
+        $settings = new \Magento\Object;
         if (!$object) {
             return $settings;
         }
         $date = $object->getCustomDesignDate();
         if (array_key_exists('from', $date) && array_key_exists('to', $date)
-            && Mage::app()->getLocale()->isStoreDateInInterval(null, $date['from'], $date['to'])) {
+            && \Mage::app()->getLocale()->isStoreDateInInterval(null, $date['from'], $date['to'])) {
                 $settings->setCustomDesign($object->getCustomDesign())
                     ->setPageLayout($object->getPageLayout())
                     ->setLayoutUpdates((array)$object->getCustomLayoutUpdate());
@@ -116,9 +118,9 @@ class Magento_Catalog_Model_Design extends Magento_Core_Model_Abstract
     /**
      * Merge custom design settings
      *
-     * @param Magento_Object $categorySettings
-     * @param Magento_Object $productSettings
-     * @return Magento_Object
+     * @param \Magento\Object $categorySettings
+     * @param \Magento\Object $productSettings
+     * @return \Magento\Object
      */
     protected function _mergeSettings($categorySettings, $productSettings)
     {

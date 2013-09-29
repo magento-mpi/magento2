@@ -15,43 +15,45 @@
  * @package    Magento_Authorizenet
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Authorizenet_Controller_Directpost_Payment extends Magento_Core_Controller_Front_Action
+namespace Magento\Authorizenet\Controller\Directpost;
+
+class Payment extends \Magento\Core\Controller\Front\Action
 {
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Core_Controller_Varien_Action_Context $context
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
-        Magento_Core_Controller_Varien_Action_Context $context,
-        Magento_Core_Model_Registry $coreRegistry
+        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
     }
 
     /**
-     * @return Magento_Checkout_Model_Session
+     * @return \Magento\Checkout\Model\Session
      */
     protected function _getCheckout()
     {
-        return $this->_objectManager->get('Magento_Checkout_Model_Session');
+        return $this->_objectManager->get('Magento\Checkout\Model\Session');
     }
 
     /**
      * Get session model
      *
-     * @return Magento_Authorizenet_Model_Directpost_Session
+     * @return \Magento\Authorizenet\Model\Directpost\Session
      */
     protected function _getDirectPostSession()
     {
-        return $this->_objectManager->get('Magento_Authorizenet_Model_Directpost_Session');
+        return $this->_objectManager->get('Magento\Authorizenet\Model\Directpost\Session');
     }
 
     /**
@@ -63,7 +65,7 @@ class Magento_Authorizenet_Controller_Directpost_Payment extends Magento_Core_Co
         $params = array();
         $data = $this->getRequest()->getPost();
         /* @var $paymentMethod Magento_Authorizenet_Model_DirectPost */
-        $paymentMethod = $this->_objectManager->create('Magento_Authorizenet_Model_Directpost');
+        $paymentMethod = $this->_objectManager->create('Magento\Authorizenet\Model\Directpost');
 
         $result = array();
         if (!empty($data['x_invoice_num'])) {
@@ -76,12 +78,12 @@ class Magento_Authorizenet_Controller_Directpost_Payment extends Magento_Core_Co
             }
             $paymentMethod->process($data);
             $result['success'] = 1;
-        } catch (Magento_Core_Exception $e) {
-            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+        } catch (\Magento\Core\Exception $e) {
+            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
             $result['success'] = 0;
             $result['error_msg'] = $e->getMessage();
-        } catch (Exception $e) {
-            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+        } catch (\Exception $e) {
+            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
             $result['success'] = 0;
             $result['error_msg'] = __('We couldn\'t process your order right now. Please try again later.');
         }
@@ -94,7 +96,7 @@ class Magento_Authorizenet_Controller_Directpost_Payment extends Magento_Core_Co
             }
             $result['controller_action_name'] = $data['controller_action_name'];
             $result['is_secure'] = isset($data['is_secure']) ? $data['is_secure'] : false;
-            $params['redirect'] = $this->_objectManager->get('Magento_Authorizenet_Helper_Data')
+            $params['redirect'] = $this->_objectManager->get('Magento\Authorizenet\Helper\Data')
                 ->getRedirectIframeUrl($result);
         }
 
@@ -116,7 +118,7 @@ class Magento_Authorizenet_Controller_Directpost_Payment extends Magento_Core_Co
             && isset($redirectParams['controller_action_name'])
         ) {
             $this->_getDirectPostSession()->unsetData('quote_id');
-            $params['redirect_parent'] = $this->_objectManager->get('Magento_Authorizenet_Helper_Data')
+            $params['redirect_parent'] = $this->_objectManager->get('Magento\Authorizenet\Helper\Data')
                 ->getSuccessOrderUrl($redirectParams);
         }
         if (!empty($redirectParams['error_msg'])) {
@@ -145,7 +147,7 @@ class Magento_Authorizenet_Controller_Directpost_Payment extends Magento_Core_Co
         $paymentParam = $this->getRequest()->getParam('payment');
         $controller = $this->getRequest()->getParam('controller');
         if (isset($paymentParam['method'])) {
-            $params = $this->_objectManager->get('Magento_Authorizenet_Helper_Data')
+            $params = $this->_objectManager->get('Magento\Authorizenet\Helper\Data')
                 ->getSaveOrderUrlParams($controller);
             $this->_getDirectPostSession()->setQuoteId($this->_getCheckout()->getQuote()->getId());
             $this->_forward(
@@ -159,7 +161,7 @@ class Magento_Authorizenet_Controller_Directpost_Payment extends Magento_Core_Co
                 'error_messages' => __('Please choose a payment method.'),
                 'goto_section'   => 'payment'
             );
-            $this->getResponse()->setBody($this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($result));
+            $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result));
         }
     }
 
@@ -170,7 +172,7 @@ class Magento_Authorizenet_Controller_Directpost_Payment extends Magento_Core_Co
     public function returnQuoteAction()
     {
         $this->_returnCustomerQuote();
-        $this->getResponse()->setBody($this->_objectManager->get('Magento_Core_Helper_Data')
+        $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')
             ->jsonEncode(array('success' => 1)));
     }
 
@@ -184,10 +186,10 @@ class Magento_Authorizenet_Controller_Directpost_Payment extends Magento_Core_Co
     {
         $incrementId = $this->_getDirectPostSession()->getLastOrderIncrementId();
         if ($incrementId && $this->_getDirectPostSession()->isCheckoutOrderIncrementIdExist($incrementId)) {
-            /* @var $order Magento_Sales_Model_Order */
-            $order = $this->_objectManager->create('Magento_Sales_Model_Order')->loadByIncrementId($incrementId);
+            /* @var $order \Magento\Sales\Model\Order */
+            $order = $this->_objectManager->create('Magento\Sales\Model\Order')->loadByIncrementId($incrementId);
             if ($order->getId()) {
-                $quote = $this->_objectManager->create('Magento_Sales_Model_Quote')
+                $quote = $this->_objectManager->create('Magento\Sales\Model\Quote')
                     ->load($order->getQuoteId());
                 if ($quote->getId()) {
                     $quote->setIsActive(1)

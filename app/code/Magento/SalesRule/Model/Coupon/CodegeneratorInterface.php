@@ -9,7 +9,9 @@
  */
 
 
-interface Magento_SalesRule_Model_Coupon_CodegeneratorInterface
+namespace Magento\SalesRule\Model\Coupon;
+
+interface CodegeneratorInterface
 {
     /**
      * Retrieve generated code

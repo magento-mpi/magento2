@@ -14,7 +14,9 @@
  * @category    Magento
  * @package     Magento_Gdata
  */
-class Magento_Gdata_Gshopping_Extension_Tax extends Zend_Gdata_App_Extension_Element
+namespace Magento\Gdata\Gshopping\Extension;
+
+class Tax extends \Zend_Gdata_App_Extension_Element
 {
     /**
      * @var string The XML namespace prefix
@@ -36,11 +38,11 @@ class Magento_Gdata_Gshopping_Extension_Tax extends Zend_Gdata_App_Extension_Ele
      */
     public function __construct(array $taxInfo = array())
     {
-        $this->registerAllNamespaces(Magento_Gdata_Gshopping_Content::$namespaces);
+        $this->registerAllNamespaces(\Magento\Gdata\Gshopping\Content::$namespaces);
         parent::__construct('tax', $this->_rootNamespace, $this->lookupNamespace($this->_rootNamespace));
         $this->_taxInfo = $taxInfo;
         foreach ($taxInfo as $key => $value) {
-            $this->_extensionElements[] = new Zend_Gdata_App_Extension_Element(
+            $this->_extensionElements[] = new \Zend_Gdata_App_Extension_Element(
                 $key,
                 $this->_rootNamespace,
                 $this->_rootNamespaceURI,
@@ -61,11 +63,11 @@ class Magento_Gdata_Gshopping_Extension_Tax extends Zend_Gdata_App_Extension_Ele
     }
 
     /**
-     * Given a child DOMNode, tries to determine how to map the data into
+     * Given a child \DOMNode, tries to determine how to map the data into
      * object instance members.  If no mapping is defined, Extension_Element
      * objects are created and stored in an array.
      *
-     * @param DOMNode $child The DOMNode needed to be handled
+     * @param \DOMNode $child The \DOMNode needed to be handled
      */
     protected function takeChildFromDOM($child)
     {

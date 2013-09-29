@@ -16,20 +16,22 @@
  * @package     Magento_Rma
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rma_Model_Observer
+namespace Magento\Rma\Model;
+
+class Observer
 {
     /**
      * Rma data
      *
-     * @var Magento_Rma_Helper_Data
+     * @var \Magento\Rma\Helper\Data
      */
     protected $_rmaData = null;
 
     /**
-     * @param Magento_Rma_Helper_Data $rmaData
+     * @param \Magento\Rma\Helper\Data $rmaData
      */
     public function __construct(
-        Magento_Rma_Helper_Data $rmaData
+        \Magento\Rma\Helper\Data $rmaData
     ) {
         $this->_rmaData = $rmaData;
     }
@@ -37,12 +39,12 @@ class Magento_Rma_Model_Observer
     /**
      * Add rma availability option to options column in customer's order grid
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
-    public function addRmaOption(Magento_Event_Observer $observer)
+    public function addRmaOption(\Magento\Event\Observer $observer)
     {
         $renderer = $observer->getEvent()->getRenderer();
-        /** @var $row Magento_Sales_Model_Order */
+        /** @var $row \Magento\Sales\Model\Order */
         $row = $observer->getEvent()->getRow();
 
         if ($this->_rmaData->canCreateRma($row, true)) {

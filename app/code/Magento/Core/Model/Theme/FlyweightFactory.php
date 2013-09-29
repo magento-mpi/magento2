@@ -11,29 +11,31 @@
 /**
  * Theme factory
  */
-class Magento_Core_Model_Theme_FlyweightFactory
+namespace Magento\Core\Model\Theme;
+
+class FlyweightFactory
 {
     /**
      * Object Manager
      *
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @var Magento_Core_Model_Theme[]
+     * @var \Magento\Core\Model\Theme[]
      */
     protected $_themes = array();
 
     /**
-     * @var Magento_Core_Model_Theme[]
+     * @var \Magento\Core\Model\Theme[]
      */
     protected $_themesByPath = array();
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
@@ -43,17 +45,17 @@ class Magento_Core_Model_Theme_FlyweightFactory
      *
      * @param string|int $themeKey
      * @param string $area
-     * @return Magento_Core_Model_Theme|null
-     * @throws InvalidArgumentException
+     * @return \Magento\Core\Model\Theme|null
+     * @throws \InvalidArgumentException
      */
-    public function create($themeKey, $area = Magento_Core_Model_View_DesignInterface::DEFAULT_AREA)
+    public function create($themeKey, $area = \Magento\Core\Model\View\DesignInterface::DEFAULT_AREA)
     {
         if (is_numeric($themeKey)) {
             $themeModel = $this->_loadById($themeKey);
         } elseif (is_string($themeKey)) {
             $themeModel = $this->_loadByPath($themeKey, $area);
         } else {
-            throw new InvalidArgumentException('Incorrect theme identification key');
+            throw new \InvalidArgumentException('Incorrect theme identification key');
         }
         if (!$themeModel->getId()) {
             return null;
@@ -66,7 +68,7 @@ class Magento_Core_Model_Theme_FlyweightFactory
      * Load theme by id
      *
      * @param int $themeId
-     * @return Magento_Core_Model_Theme
+     * @return \Magento\Core\Model\Theme
      */
     protected function _loadById($themeId)
     {
@@ -74,8 +76,8 @@ class Magento_Core_Model_Theme_FlyweightFactory
             return $this->_themes[$themeId];
         }
 
-        /** @var $themeModel Magento_Core_Model_Theme */
-        $themeModel = $this->_objectManager->create('Magento_Core_Model_Theme');
+        /** @var $themeModel \Magento\Core\Model\Theme */
+        $themeModel = $this->_objectManager->create('Magento\Core\Model\Theme');
         $themeModel->load($themeId);
         return $themeModel;
     }
@@ -85,17 +87,17 @@ class Magento_Core_Model_Theme_FlyweightFactory
      *
      * @param string $themePath
      * @param string $area
-     * @return Magento_Core_Model_Theme
+     * @return \Magento\Core\Model\Theme
      */
     protected function _loadByPath($themePath, $area)
     {
-        $fullPath = $area . Magento_Core_Model_ThemeInterface::PATH_SEPARATOR . $themePath;
+        $fullPath = $area . \Magento\Core\Model\ThemeInterface::PATH_SEPARATOR . $themePath;
         if (isset($this->_themesByPath[$fullPath])) {
             return $this->_themesByPath[$fullPath];
         }
 
-        /** @var $themeCollection Magento_Core_Model_Resource_Theme_Collection */
-        $themeCollection = $this->_objectManager->create('Magento_Core_Model_Resource_Theme_Collection');
+        /** @var $themeCollection \Magento\Core\Model\Resource\Theme\Collection */
+        $themeCollection = $this->_objectManager->create('Magento\Core\Model\Resource\Theme\Collection');
         $themeModel = $themeCollection->getThemeByFullPath($fullPath);
         return $themeModel;
     }
@@ -103,10 +105,10 @@ class Magento_Core_Model_Theme_FlyweightFactory
     /**
      * Add theme to shared collection
      *
-     * @param Magento_Core_Model_Theme $themeModel
+     * @param \Magento\Core\Model\Theme $themeModel
      * @return $this
      */
-    protected function _addTheme(Magento_Core_Model_Theme $themeModel)
+    protected function _addTheme(\Magento\Core\Model\Theme $themeModel)
     {
         if ($themeModel->getId()) {
             $this->_themes[$themeModel->getId()] = $themeModel;

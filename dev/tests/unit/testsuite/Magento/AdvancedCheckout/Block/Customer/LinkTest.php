@@ -5,29 +5,30 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\AdvancedCheckout\Block\Customer;
 
-class Magento_AdvancedCheckout_Block_Customer_LinkTest extends PHPUnit_Framework_TestCase
+class LinkTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_TestFramework_Helper_ObjectManager
+     * @var \Magento\TestFramework\Helper\ObjectManager
      */
     protected $_objectManagerHelper;
 
     protected function setUp()
     {
-        $this->_objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $this->_objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
     }
 
     public function testToHtml()
     {
-        /** @var Magento_AdvancedCheckout_Helper_Data|PHPUnit_Framework_MockObject_MockObject $customerHelper */
-        $customerHelper = $this->getMockBuilder('Magento_AdvancedCheckout_Helper_Data')
+        /** @var \Magento\AdvancedCheckout\Helper\Data|\PHPUnit_Framework_MockObject_MockObject $customerHelper */
+        $customerHelper = $this->getMockBuilder('Magento\AdvancedCheckout\Helper\Data')
             ->disableOriginalConstructor()
             ->getMock();
 
-        /** @var Magento_Invitation_Block_Link $block */
+        /** @var \Magento\Invitation\Block\Link $block */
         $block = $this->_objectManagerHelper->getObject(
-            'Magento_AdvancedCheckout_Block_Customer_Link',
+            'Magento\AdvancedCheckout\Block\Customer\Link',
             array(
                 'customerHelper' => $customerHelper,
             )

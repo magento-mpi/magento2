@@ -10,28 +10,30 @@
  */
 
 /**
- * Test class for Magento_ImportExport_Model_Import_EntityAbstract
+ * Test class for \Magento\ImportExport\Model\Import\EntityAbstract
  */
-class Magento_ImportExport_Model_Import_EntityAbstractTest extends PHPUnit_Framework_TestCase
+namespace Magento\ImportExport\Model\Import;
+
+class EntityAbstractTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Test for method _saveValidatedBunches()
      */
     public function testSaveValidatedBunches()
     {
-        $source = new Magento_ImportExport_Model_Import_Source_Csv(
+        $source = new \Magento\ImportExport\Model\Import\Source\Csv(
             __DIR__ . '/Entity/Eav/_files/customers_for_validation_test.csv'
         );
         $source->rewind();
         $expected = $source->current();
 
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $coreData = $objectManager->get('Magento_Core_Helper_Data');
-        $coreString = $objectManager->get('Magento_Core_Helper_String');
-        $storeConfig = $objectManager->get('Magento_Core_Model_Store_Config');
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $coreData = $objectManager->get('Magento\Core\Helper\Data');
+        $coreString = $objectManager->get('Magento\Core\Helper\String');
+        $storeConfig = $objectManager->get('Magento\Core\Model\Store\Config');
         
-        /** @var $model Magento_ImportExport_Model_Import_EntityAbstract|PHPUnit_Framework_MockObject_MockObject */
-        $model = $this->getMockForAbstractClass('Magento_ImportExport_Model_Import_EntityAbstract', array(
+        /** @var $model \Magento\ImportExport\Model\Import\EntityAbstract|PHPUnit_Framework_MockObject_MockObject */
+        $model = $this->getMockForAbstractClass('Magento\ImportExport\Model\Import\EntityAbstract', array(
             $coreData, $coreString, $storeConfig
         ));
         $model->expects($this->any())
@@ -43,11 +45,11 @@ class Magento_ImportExport_Model_Import_EntityAbstractTest extends PHPUnit_Frame
 
         $model->setSource($source);
 
-        $method = new ReflectionMethod($model, '_saveValidatedBunches');
+        $method = new \ReflectionMethod($model, '_saveValidatedBunches');
         $method->setAccessible(true);
         $method->invoke($model);
 
-        $dataSourceModel = Magento_ImportExport_Model_Import::getDataSourceModel();
+        $dataSourceModel = \Magento\ImportExport\Model\Import::getDataSourceModel();
         $this->assertCount(1, $dataSourceModel->getIterator());
 
         $bunch = $dataSourceModel->getNextBunch();

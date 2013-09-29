@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Test_Integrity_Theme_TemplateFilesTest extends Magento_TestFramework_TestCase_IntegrityAbstract
+namespace Magento\Test\Integrity\Theme;
+
+class TemplateFilesTest extends \Magento\TestFramework\TestCase\IntegrityAbstract
 {
     /**
      * Note that data provider is not used in conventional way in order to not overwhelm test statistics
@@ -34,11 +36,11 @@ class Magento_Test_Integrity_Theme_TemplateFilesTest extends Magento_TestFramewo
                 'module'   => $module
             );
             try {
-                $templateFilename = Magento_TestFramework_Helper_Bootstrap::getObjectmanager()
-                    ->get('Magento_Core_Model_View_FileSystem')
+                $templateFilename = \Magento\TestFramework\Helper\Bootstrap::getObjectmanager()
+                    ->get('Magento\Core\Model\View\FileSystem')
                     ->getFilename($file, $params);
                 $this->assertFileExists($templateFilename);
-            } catch (PHPUnit_Framework_ExpectationFailedException $e) {
+            } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
                 $invalidTemplates[] = "File \"$templateFilename\" does not exist." . PHP_EOL
                     . "Parameters: {$area}/{$themeId} {$module}::{$file}" . PHP_EOL
                     . 'Layout update: ' . $xml;
@@ -54,9 +56,9 @@ class Magento_Test_Integrity_Theme_TemplateFilesTest extends Magento_TestFramewo
 
         $themes = $this->_getDesignThemes();
         foreach ($themes as $theme) {
-            /** @var Magento_Core_Model_Layout_Merge $layoutUpdate */
-            $layoutUpdate = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_Layout_Merge', array('theme' => $theme));
+            /** @var \Magento\Core\Model\Layout\Merge $layoutUpdate */
+            $layoutUpdate = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Layout\Merge', array('theme' => $theme));
             $layoutTemplates = $this->_getLayoutTemplates($layoutUpdate->getFileLayoutUpdatesXml());
             foreach ($layoutTemplates as $templateData) {
                 $templates[] = array_merge(array($theme->getArea(), $theme->getId()), $templateData);
@@ -69,7 +71,7 @@ class Magento_Test_Integrity_Theme_TemplateFilesTest extends Magento_TestFramewo
     /**
      * Get templates list that are defined in layout
      *
-     * @param  SimpleXMLElement $layoutXml
+     * @param  \SimpleXMLElement $layoutXml
      * @return array
      */
     protected function _getLayoutTemplates($layoutXml)
@@ -122,7 +124,7 @@ class Magento_Test_Integrity_Theme_TemplateFilesTest extends Magento_TestFramewo
     /**
      * Get module name based on block definition in xml layout
      *
-     * @param  SimpleXMLElement $xmlNode
+     * @param  \SimpleXMLElement $xmlNode
      * @return string
      */
     protected function _getBlockModule($xmlNode)

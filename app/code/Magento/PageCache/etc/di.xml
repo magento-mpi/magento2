@@ -8,12 +8,12 @@
  */
 -->
 <config>
-    <type name="Magento_PageCache_Helper_Data">
+    <type name="Magento\PageCache\Helper\Data">
         <param name="cacheControls">
             <value>
                 <zendPageCache>
                     <class>
-                       Magento_PageCache_Model_Control_Zend
+                       \Magento\PageCache\Model\Control\Zend
                     </class>
                     <label>
                         Zend Full Page Cache

@@ -12,7 +12,9 @@
 /**
  * Mysql resource data model
  */
-class Magento_Install_Model_Installer_Db_Mysql4 extends Magento_Install_Model_Installer_Db_Abstract
+namespace Magento\Install\Model\Installer\Db;
+
+class Mysql4 extends \Magento\Install\Model\Installer\Db\AbstractDb
 {
     /**
      * Retrieve DB server version
@@ -44,13 +46,13 @@ class Magento_Install_Model_Installer_Db_Mysql4 extends Magento_Install_Model_In
     /**
      * Clean database
      *
-     * @return Magento_Install_Model_Installer_Db_Abstract
+     * @return \Magento\Install\Model\Installer\Db\AbstractDb
      */
     public function cleanUpDatabase()
     {
-        /** @var $resourceModel Magento_Core_Model_Resource */
-        $resourceModel = Mage::getModel('Magento_Core_Model_Resource');
-        $connection = $resourceModel->getConnection(Magento_Core_Model_Config_Resource::DEFAULT_SETUP_CONNECTION);
+        /** @var $resourceModel \Magento\Core\Model\Resource */
+        $resourceModel = \Mage::getModel('Magento\Core\Model\Resource');
+        $connection = $resourceModel->getConnection(\Magento\Core\Model\Config\Resource::DEFAULT_SETUP_CONNECTION);
         $connectionConfig = $connection->getConfig();
         $connection->query('DROP DATABASE IF EXISTS ' . $connectionConfig['dbname']);
         $connection->query('CREATE DATABASE ' . $connectionConfig['dbname']);

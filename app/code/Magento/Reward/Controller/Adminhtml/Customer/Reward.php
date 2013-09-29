@@ -16,17 +16,19 @@
  * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reward_Controller_Adminhtml_Customer_Reward extends Magento_Adminhtml_Controller_Action
+namespace Magento\Reward\Controller\Adminhtml\Customer;
+
+class Reward extends \Magento\Adminhtml\Controller\Action
 {
     /**
      * Check if module functionality enabled
      *
-     * @return Magento_Reward_Controller_Adminhtml_Reward_Rate
+     * @return \Magento\Reward\Controller\Adminhtml\Reward\Rate
      */
     public function preDispatch()
     {
         parent::preDispatch();
-        if (!$this->_objectManager->get('Magento_Reward_Helper_Data')->isEnabled()
+        if (!$this->_objectManager->get('Magento\Reward\Helper\Data')->isEnabled()
             && $this->getRequest()->getActionName() != 'noroute'
         ) {
             $this->_forward('noroute');
@@ -61,11 +63,11 @@ class Magento_Reward_Controller_Adminhtml_Customer_Reward extends Magento_Adminh
         $customerId = $this->getRequest()->getParam('id', 0);
         if ($customerId) {
             try {
-                $this->_objectManager->create('Magento_Reward_Model_Reward')
+                $this->_objectManager->create('Magento\Reward\Model\Reward')
                     ->deleteOrphanPointsByCustomer($customerId);
                 $this->_getSession()
                     ->addSuccess(__('You removed the orphan points.'));
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             }
         }
@@ -79,6 +81,6 @@ class Magento_Reward_Controller_Adminhtml_Customer_Reward extends Magento_Adminh
      */
     protected function _isAllowed()
     {
-        return $this->_authorization->isAllowed(Magento_Reward_Helper_Data::XML_PATH_PERMISSION_BALANCE);
+        return $this->_authorization->isAllowed(\Magento\Reward\Helper\Data::XML_PATH_PERMISSION_BALANCE);
     }
 }

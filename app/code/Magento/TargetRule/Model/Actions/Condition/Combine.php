@@ -9,34 +9,36 @@
  */
 
 
-class Magento_TargetRule_Model_Actions_Condition_Combine extends Magento_Rule_Model_Condition_Combine
+namespace Magento\TargetRule\Model\Actions\Condition;
+
+class Combine extends \Magento\Rule\Model\Condition\Combine
 {
     /**
-     * @var Magento_TargetRule_Model_Actions_Condition_Product_AttributesFactory
+     * @var \Magento\TargetRule\Model\Actions\Condition\Product\AttributesFactory
      */
     protected $_attributeFactory;
 
     /**
-     * @var Magento_TargetRule_Model_Actions_Condition_Product_SpecialFactory
+     * @var \Magento\TargetRule\Model\Actions\Condition\Product\SpecialFactory
      */
     protected $_specialFactory;
 
     /**
-     * @param Magento_TargetRule_Model_Actions_Condition_Product_AttributesFactory $attributeFactory
-     * @param Magento_TargetRule_Model_Actions_Condition_Product_SpecialFactory $specialFactory
-     * @param Magento_Rule_Model_Condition_Context $context
+     * @param \Magento\TargetRule\Model\Actions\Condition\Product\AttributesFactory $attributeFactory
+     * @param \Magento\TargetRule\Model\Actions\Condition\Product\SpecialFactory $specialFactory
+     * @param \Magento\Rule\Model\Condition\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_TargetRule_Model_Actions_Condition_Product_AttributesFactory $attributeFactory,
-        Magento_TargetRule_Model_Actions_Condition_Product_SpecialFactory $specialFactory,
-        Magento_Rule_Model_Condition_Context $context,
+        \Magento\TargetRule\Model\Actions\Condition\Product\AttributesFactory $attributeFactory,
+        \Magento\TargetRule\Model\Actions\Condition\Product\SpecialFactory $specialFactory,
+        \Magento\Rule\Model\Condition\Context $context,
         array $data = array()
     ) {
         $this->_attributeFactory = $attributeFactory;
         $this->_specialFactory = $specialFactory;
         parent::__construct($context, $data);
-        $this->setType('Magento_TargetRule_Model_Actions_Condition_Combine');
+        $this->setType('Magento\TargetRule\Model\Actions\Condition\Combine');
     }
 
     /**
@@ -58,10 +60,10 @@ class Magento_TargetRule_Model_Actions_Condition_Combine extends Magento_Rule_Mo
     /**
      * Retrieve SELECT WHERE condition for product collection
      *
-     * @param Magento_Catalog_Model_Resource_Product_Collection $collection
-     * @param Magento_TargetRule_Model_Index $object
+     * @param \Magento\Catalog\Model\Resource\Product\Collection $collection
+     * @param \Magento\TargetRule\Model\Index $object
      * @param array $bind
-     * @return Zend_Db_Expr
+     * @return \Zend_Db_Expr
      */
     public function getConditionForCollection($collection, $object, &$bind)
     {
@@ -77,7 +79,7 @@ class Magento_TargetRule_Model_Actions_Condition_Combine extends Magento_Rule_Mo
         }
 
         if ($conditions) {
-            return new Zend_Db_Expr(sprintf('(%s)', join($aggregator, $conditions)));
+            return new \Zend_Db_Expr(sprintf('(%s)', join($aggregator, $conditions)));
         }
 
         return false;

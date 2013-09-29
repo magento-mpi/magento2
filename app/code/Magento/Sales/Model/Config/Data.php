@@ -11,16 +11,18 @@
 /**
  * Sales configuration data container
  */
-class Magento_Sales_Model_Config_Data extends Magento_Config_Data
+namespace Magento\Sales\Model\Config;
+
+class Data extends \Magento\Config\Data
 {
     /**
-     * @param Magento_Sales_Model_Config_Reader $reader
-     * @param Magento_Config_CacheInterface $cache
+     * @param \Magento\Sales\Model\Config\Reader $reader
+     * @param \Magento\Config\CacheInterface $cache
      * @param string $cacheId
      */
     public function __construct(
-        Magento_Sales_Model_Config_Reader $reader,
-        Magento_Config_CacheInterface $cache,
+        \Magento\Sales\Model\Config\Reader $reader,
+        \Magento\Config\CacheInterface $cache,
         $cacheId = 'sales_totals_config_cache'
     ) {
         parent::__construct($reader, $cache, $cacheId);

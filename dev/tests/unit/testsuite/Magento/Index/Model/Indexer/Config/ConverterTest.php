@@ -5,26 +5,28 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Index_Model_Indexer_Config_ConverterTest extends PHPUnit_Framework_TestCase
+namespace Magento\Index\Model\Indexer\Config;
+
+class ConverterTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Index_Model_Indexer_Config_Converter
+     * @var \Magento\Index\Model\Indexer\Config\Converter
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = new Magento_Index_Model_Indexer_Config_Converter();
+        $this->_model = new \Magento\Index\Model\Indexer\Config\Converter();
     }
 
     /**
-     * @covers Magento_Index_Model_Indexer_Config_Converter::convert
+     * @covers \Magento\Index\Model\Indexer\Config\Converter::convert
      */
     public function testConvert()
     {
         $basePath = realpath(__DIR__) . '/_files/';
         $path = $basePath . 'indexers.xml';
-        $domDocument = new DOMDocument();
+        $domDocument = new \DOMDocument();
         $domDocument->load($path);
         $expectedData = include($basePath . 'indexers.php');
         $this->assertEquals($expectedData, $this->_model->convert($domDocument));

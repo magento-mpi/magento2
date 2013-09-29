@@ -7,10 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Config_Primary extends Magento_Core_Model_Config_Base
+namespace Magento\Core\Model\Config;
+
+class Primary extends \Magento\Core\Model\Config\Base
 {
     /**
-     * @var Magento_Core_Model_Config_Loader_Primary
+     * @var \Magento\Core\Model\Config\Loader\Primary
      */
     protected $_loader;
 
@@ -24,35 +26,35 @@ class Magento_Core_Model_Config_Primary extends Magento_Core_Model_Config_Base
     /**
      * Directory list
      *
-     * @var Magento_Core_Model_Dir
+     * @var \Magento\Core\Model\Dir
      */
     protected $_dir;
 
     /**
      * @param string $baseDir
      * @param array $params
-     * @param Magento_Core_Model_Dir $dir
-     * @param Magento_Core_Model_Config_LoaderInterface $loader
+     * @param \Magento\Core\Model\Dir $dir
+     * @param \Magento\Core\Model\Config\LoaderInterface $loader
      */
     public function __construct(
         $baseDir,
         array $params,
-        Magento_Core_Model_Dir $dir = null,
-        Magento_Core_Model_Config_LoaderInterface $loader = null
+        \Magento\Core\Model\Dir $dir = null,
+        \Magento\Core\Model\Config\LoaderInterface $loader = null
     ) {
         parent::__construct('<config/>');
         $this->_params = $params;
-        $this->_dir = $dir ?: new Magento_Core_Model_Dir(
+        $this->_dir = $dir ?: new \Magento\Core\Model\Dir(
             $baseDir,
-            $this->getParam(Magento_Core_Model_App::PARAM_APP_URIS, array()),
-            $this->getParam(Magento_Core_Model_App::PARAM_APP_DIRS, array())
+            $this->getParam(\Magento\Core\Model\App::PARAM_APP_URIS, array()),
+            $this->getParam(\Magento\Core\Model\App::PARAM_APP_DIRS, array())
         );
-        Magento_Autoload_IncludePath::addIncludePath(array(
-            $this->_dir->getDir(Magento_Core_Model_Dir::GENERATION)
+        \Magento\Autoload\IncludePath::addIncludePath(array(
+            $this->_dir->getDir(\Magento\Core\Model\Dir::GENERATION)
         ));
 
-        $this->_loader = $loader ?: new Magento_Core_Model_Config_Loader_Primary(
-            $this->_dir->getDir(Magento_Core_Model_Dir::CONFIG)
+        $this->_loader = $loader ?: new \Magento\Core\Model\Config\Loader\Primary(
+            $this->_dir->getDir(\Magento\Core\Model\Dir::CONFIG)
         );
         $this->_loader->load($this);
     }
@@ -82,7 +84,7 @@ class Magento_Core_Model_Config_Primary extends Magento_Core_Model_Config_Base
     /**
      * Retrieve directories
      *
-     * @return Magento_Core_Model_Dir
+     * @return \Magento\Core\Model\Dir
      */
     public function getDirectories()
     {
@@ -109,9 +111,9 @@ class Magento_Core_Model_Config_Primary extends Magento_Core_Model_Config_Base
         if (isset($pathInfo['path'])) {
             return $pathInfo['path'];
         } else if (isset($pathInfo['relativePath'])) {
-            return $this->_dir->getDir(Magento_Core_Model_Dir::ROOT) . DIRECTORY_SEPARATOR . $pathInfo['relativePath'];
+            return $this->_dir->getDir(\Magento\Core\Model\Dir::ROOT) . DIRECTORY_SEPARATOR . $pathInfo['relativePath'];
         } else {
-            return $this->_dir->getDir(Magento_Core_Model_Dir::DI);
+            return $this->_dir->getDir(\Magento\Core\Model\Dir::DI);
         }
     }
 
@@ -128,26 +130,26 @@ class Magento_Core_Model_Config_Primary extends Magento_Core_Model_Config_Base
     /**
      * Configure object manager
      *
-     * Magento_Core_Model_ObjectManager $objectManager
+     * \Magento\Core\Model\ObjectManager $objectManager
      */
-    public function configure(Magento_Core_Model_ObjectManager $objectManager)
+    public function configure(\Magento\Core\Model\ObjectManager $objectManager)
     {
-        Magento_Profiler::start('initial');
+        \Magento\Profiler::start('initial');
 
         $objectManager->configure(array(
-            'Magento_Core_Model_Config_Loader_Local' => array(
+            'Magento\Core\Model\Config\Loader\Local' => array(
                 'parameters' => array(
-                    'configDirectory' => $this->_dir->getDir(Magento_Core_Model_Dir::CONFIG),
+                    'configDirectory' => $this->_dir->getDir(\Magento\Core\Model\Dir::CONFIG),
                 )
             ),
-            'Magento_Core_Model_Cache_Frontend_Factory' => array(
+            'Magento\Core\Model\Cache\Frontend\Factory' => array(
                 'parameters' => array(
                     'decorators' => $this->_getCacheFrontendDecorators(),
                 )
             ),
         ));
 
-        Magento_Profiler::stop('initial');
+        \Magento\Profiler::stop('initial');
     }
 
     /**
@@ -160,13 +162,13 @@ class Magento_Core_Model_Config_Primary extends Magento_Core_Model_Config_Base
         $result = array();
         // mark all cache entries with a special tag to be able to clean only cache belonging to the application
         $result[] = array(
-            'class' => 'Magento_Cache_Frontend_Decorator_TagScope',
+            'class' => 'Magento\Cache\Frontend\Decorator\TagScope',
             'parameters' => array('tag' => 'MAGE'),
         );
-        if (Magento_Profiler::isEnabled()) {
+        if (\Magento\Profiler::isEnabled()) {
             $result[] = array(
-                'class' => 'Magento_Cache_Frontend_Decorator_Profiler',
-                'parameters' => array('backendPrefixes' => array('Zend_Cache_Backend_', 'Magento_Cache_Backend_')),
+                'class' => 'Magento\Cache\Frontend\Decorator\Profiler',
+                'parameters' => array('backendPrefixes' => array('Zend_Cache_Backend_', 'Magento\Cache\Backend\\')),
             );
         }
         return $result;

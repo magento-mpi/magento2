@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_AdvancedCheckout_Exception extends Magento_Core_Exception
+namespace Magento\AdvancedCheckout;
+
+class Exception extends \Magento\Core\Exception
 {
 
 }

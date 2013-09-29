@@ -7,30 +7,32 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Session_Context implements Magento_ObjectManager_ContextInterface
+namespace Magento\Core\Model\Session;
+
+class Context implements \Magento\ObjectManager\ContextInterface
 {
     /**
-     * @var Magento_Core_Model_Session_Validator
+     * @var \Magento\Core\Model\Session\Validator
      */
     protected $_validator;
 
     /**
-     * @var Magento_Core_Model_Logger
+     * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
 
     /**
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventManager;
 
     /**
-     * @var Magento_Core_Helper_Http
+     * @var \Magento\Core\Helper\Http
      */
     protected $_httpHelper;
 
     /**
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_storeConfig;
 
@@ -57,22 +59,22 @@ class Magento_Core_Model_Session_Context implements Magento_ObjectManager_Contex
     protected $sidMap;
 
     /**
-     * @param Magento_Core_Model_Session_Validator $validator
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Helper_Http $coreHttp
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param \Magento\Core\Model\Session\Validator $validator
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Helper\Http $coreHttp
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param $saveMethod
      * @param null $savePath
      * @param null $cacheLimiter
      * @param array $sidMap
      */
     public function __construct(
-        Magento_Core_Model_Session_Validator $validator,
-        Magento_Core_Model_Logger $logger,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Helper_Http $coreHttp,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
+        \Magento\Core\Model\Session\Validator $validator,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Helper\Http $coreHttp,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
         $saveMethod,
         $savePath = null,
         $cacheLimiter = null,
@@ -90,7 +92,7 @@ class Magento_Core_Model_Session_Context implements Magento_ObjectManager_Contex
     }
 
     /**
-     * @return \Magento_Core_Model_Event_Manager
+     * @return \Magento\Core\Model\Event\Manager
      */
     public function getEventManager()
     {
@@ -98,7 +100,7 @@ class Magento_Core_Model_Session_Context implements Magento_ObjectManager_Contex
     }
 
     /**
-     * @return \Magento_Core_Helper_Http
+     * @return \Magento\Core\Helper\Http
      */
     public function getHttpHelper()
     {
@@ -106,7 +108,7 @@ class Magento_Core_Model_Session_Context implements Magento_ObjectManager_Contex
     }
 
     /**
-     * @return \Magento_Core_Model_Logger
+     * @return \Magento\Core\Model\Logger
      */
     public function getLogger()
     {
@@ -114,7 +116,7 @@ class Magento_Core_Model_Session_Context implements Magento_ObjectManager_Contex
     }
 
     /**
-     * @return \Magento_Core_Model_Store_Config
+     * @return \Magento\Core\Model\Store\Config
      */
     public function getStoreConfig()
     {
@@ -122,7 +124,7 @@ class Magento_Core_Model_Session_Context implements Magento_ObjectManager_Contex
     }
 
     /**
-     * @return \Magento_Core_Model_Session_Validator
+     * @return \Magento\Core\Model\Session\Validator
      */
     public function getValidator()
     {

@@ -10,5 +10,5 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <update handle="formkey"/>
     <update handle="adminhtml_webapi_role_edit_tab_users_grid_block"/>
-    <block class="Magento_Backend_Block_Widget_Grid_Container" name="webapi.role.edit.tab.users.grid.container" template="Magento_Backend::widget/grid/container/empty.phtml" output="1"/>
+    <block class="Magento\Backend\Block\Widget\Grid\Container" name="webapi.role.edit.tab.users.grid.container" template="Magento_Backend::widget/grid/container/empty.phtml" output="1"/>
 </layout>

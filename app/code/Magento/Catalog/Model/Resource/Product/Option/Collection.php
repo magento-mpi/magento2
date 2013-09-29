@@ -16,21 +16,23 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Resource_Product_Option_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Catalog\Model\Resource\Product\Option;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Resource initialization
      */
     protected function _construct()
     {
-        $this->_init('Magento_Catalog_Model_Product_Option', 'Magento_Catalog_Model_Resource_Product_Option');
+        $this->_init('Magento\Catalog\Model\Product\Option', 'Magento\Catalog\Model\Resource\Product\Option');
     }
 
     /**
      * Adds title, price & price_type attributes to result
      *
      * @param int $storeId
-     * @return Magento_Catalog_Model_Resource_Product_Option_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Option\Collection
      */
     public function getOptions($storeId)
     {
@@ -44,7 +46,7 @@ class Magento_Catalog_Model_Resource_Product_Option_Collection extends Magento_C
      * Add title to result
      *
      * @param int $storeId
-     * @return Magento_Catalog_Model_Resource_Product_Option_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Option\Collection
      */
     public function addTitleToResult($storeId)
     {
@@ -68,7 +70,7 @@ class Magento_Catalog_Model_Resource_Product_Option_Collection extends Magento_C
                     'store_title'   => 'title',
                     'title'         => $titleExpr
                 ))
-            ->where('default_option_title.store_id = ?', Magento_Catalog_Model_Abstract::DEFAULT_STORE_ID);
+            ->where('default_option_title.store_id = ?', \Magento\Catalog\Model\AbstractModel::DEFAULT_STORE_ID);
 
         return $this;
     }
@@ -77,7 +79,7 @@ class Magento_Catalog_Model_Resource_Product_Option_Collection extends Magento_C
      * Add price to result
      *
      * @param int $storeId
-     * @return Magento_Catalog_Model_Resource_Product_Option_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Option\Collection
      */
     public function addPriceToResult($storeId)
     {
@@ -100,7 +102,7 @@ class Magento_Catalog_Model_Resource_Product_Option_Collection extends Magento_C
                 'default_option_price.option_id = main_table.option_id AND '
                     . $adapter->quoteInto(
                         'default_option_price.store_id = ?',
-                        Magento_Catalog_Model_Abstract::DEFAULT_STORE_ID
+                        \Magento\Catalog\Model\AbstractModel::DEFAULT_STORE_ID
                     ),
                 array(
                     'default_price' => 'price',
@@ -124,12 +126,12 @@ class Magento_Catalog_Model_Resource_Product_Option_Collection extends Magento_C
      * Add value to result
      *
      * @param int $storeId
-     * @return Magento_Catalog_Model_Resource_Product_Option_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Option\Collection
      */
     public function addValuesToResult($storeId = null)
     {
         if ($storeId === null) {
-            $storeId = Mage::app()->getStore()->getId();
+            $storeId = \Mage::app()->getStore()->getId();
         }
         $optionIds = array();
         foreach ($this as $option) {
@@ -137,7 +139,7 @@ class Magento_Catalog_Model_Resource_Product_Option_Collection extends Magento_C
         }
         if (!empty($optionIds)) {
             /** @var $values Magento_Catalog_Model_Option_Value_Collection */
-            $values = Mage::getModel('Magento_Catalog_Model_Product_Option_Value')
+            $values = \Mage::getModel('Magento\Catalog\Model\Product\Option\Value')
                 ->getCollection()
                 ->addTitleToResult($storeId)
                 ->addPriceToResult($storeId)
@@ -160,8 +162,8 @@ class Magento_Catalog_Model_Resource_Product_Option_Collection extends Magento_C
     /**
      * Add product_id filter to select
      *
-     * @param array|Magento_Catalog_Model_Product|int $product
-     * @return Magento_Catalog_Model_Resource_Product_Option_Collection
+     * @param array|\Magento\Catalog\Model\Product|int $product
+     * @return \Magento\Catalog\Model\Resource\Product\Option\Collection
      */
     public function addProductToFilter($product)
     {
@@ -169,7 +171,7 @@ class Magento_Catalog_Model_Resource_Product_Option_Collection extends Magento_C
             $this->addFieldToFilter('product_id', '');
         } elseif (is_array($product)) {
             $this->addFieldToFilter('product_id', array('in' => $product));
-        } elseif ($product instanceof Magento_Catalog_Model_Product) {
+        } elseif ($product instanceof \Magento\Catalog\Model\Product) {
             $this->addFieldToFilter('product_id', $product->getId());
         } else {
             $this->addFieldToFilter('product_id', $product);
@@ -182,7 +184,7 @@ class Magento_Catalog_Model_Resource_Product_Option_Collection extends Magento_C
      * Add is_required filter to select
      *
      * @param bool $required
-     * @return Magento_Catalog_Model_Resource_Product_Option_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Option\Collection
      */
     public function addRequiredFilter($required = true)
     {
@@ -194,7 +196,7 @@ class Magento_Catalog_Model_Resource_Product_Option_Collection extends Magento_C
      * Add filtering by option ids
      *
      * @param mixed $optionIds
-     * @return Magento_Catalog_Model_Resource_Product_Option_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Option\Collection
      */
     public function addIdsToFilter($optionIds)
     {
@@ -205,7 +207,7 @@ class Magento_Catalog_Model_Resource_Product_Option_Collection extends Magento_C
     /**
      * Call of protected method reset
      *
-     * @return Magento_Catalog_Model_Resource_Product_Option_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Option\Collection
      */
     public function reset()
     {

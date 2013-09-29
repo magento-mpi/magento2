@@ -9,34 +9,36 @@
  */
 
 
-class Magento_Install_Controller_Action extends Magento_Core_Controller_Varien_Action
+namespace Magento\Install\Controller;
+
+class Action extends \Magento\Core\Controller\Varien\Action
 {
     /**
-     * @var Magento_Core_Model_Config_Scope
+     * @var \Magento\Core\Model\Config\Scope
      */
     protected $_configScope;
 
     /**
-     * @var Magento_Core_Model_View_DesignInterface
+     * @var \Magento\Core\Model\View\DesignInterface
      */
     protected $_viewDesign;
 
     /**
-     * @var Magento_Core_Model_Theme_CollectionFactory
+     * @var \Magento\Core\Model\Theme\CollectionFactory
      */
     protected $_collectionFactory;
 
     /**
-     * @param Magento_Core_Controller_Varien_Action_Context $context
-     * @param Magento_Core_Model_Config_Scope $configScope
-     * @param Magento_Core_Model_View_DesignInterface $viewDesign
-     * @param Magento_Core_Model_Theme_CollectionFactory $collectionFactory
+     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\Core\Model\Config\Scope $configScope
+     * @param \Magento\Core\Model\View\DesignInterface $viewDesign
+     * @param \Magento\Core\Model\Theme\CollectionFactory $collectionFactory
      */
     public function __construct(
-        Magento_Core_Controller_Varien_Action_Context $context,
-        Magento_Core_Model_Config_Scope $configScope,
-        Magento_Core_Model_View_DesignInterface $viewDesign,
-        Magento_Core_Model_Theme_CollectionFactory $collectionFactory
+        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\Core\Model\Config\Scope $configScope,
+        \Magento\Core\Model\View\DesignInterface $viewDesign,
+        \Magento\Core\Model\Theme\CollectionFactory $collectionFactory
     ) {
         $this->_configScope = $configScope;
         $this->_viewDesign = $viewDesign;
@@ -55,16 +57,16 @@ class Magento_Install_Controller_Action extends Magento_Core_Controller_Varien_A
     /**
      * Initialize area and design
      *
-     * @return Magento_Install_Controller_Action
+     * @return \Magento\Install\Controller\Action
      */
     protected function _initDesign()
     {
         $areaCode = $this->getLayout()->getArea();
-        $area = Mage::app()->getArea($areaCode);
-        $area->load(Magento_Core_Model_App_Area::PART_CONFIG);
+        $area = \Mage::app()->getArea($areaCode);
+        $area->load(\Magento\Core\Model\App\Area::PART_CONFIG);
         $this->_initDefaultTheme($areaCode);
         $area->detectDesign($this->getRequest());
-        $area->load(Magento_Core_Model_App_Area::PART_TRANSLATE);
+        $area->load(\Magento\Core\Model\App\Area::PART_TRANSLATE);
         return $this;
     }
 
@@ -72,12 +74,13 @@ class Magento_Install_Controller_Action extends Magento_Core_Controller_Varien_A
      * Initialize theme
      *
      * @param string $areaCode
-     * @return Magento_Install_Controller_Action
+     * @return \Magento\Install\Controller\Action
      */
     protected function _initDefaultTheme($areaCode)
     {
-        /** @var $themesCollection Magento_Core_Model_Theme_Collection */
+        /** @var $themesCollection \Magento\Core\Model\Theme\Collection */
         $themesCollection = $this->_collectionFactory->create();
+        /** @var $themesCollection \Magento\Core\Model\Theme\Collection */
         $themeModel = $themesCollection->addDefaultPattern($areaCode)
             ->addFilter('theme_path', $this->_viewDesign->getConfigurationDesignTheme($areaCode))
             ->getFirstItem();

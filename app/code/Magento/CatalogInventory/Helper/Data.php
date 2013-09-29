@@ -11,7 +11,9 @@
 /**
  * Catalo
  */
-class Magento_CatalogInventory_Helper_Data extends Magento_Core_Helper_Abstract
+namespace Magento\CatalogInventory\Helper;
+
+class Data extends \Magento\Core\Helper\AbstractHelper
 {
     const XML_PATH_SHOW_OUT_OF_STOCK    = 'cataloginventory/options/show_out_of_stock';
     const XML_PATH_ITEM_AUTO_RETURN     = 'cataloginventory/item_options/auto_return';
@@ -34,26 +36,26 @@ class Magento_CatalogInventory_Helper_Data extends Magento_Core_Helper_Abstract
     protected static $_isQtyTypeIds;
 
     /**
-     * @var Magento_Catalog_Model_ProductTypes_ConfigInterface
+     * @var \Magento\Catalog\Model\ProductTypes\ConfigInterface
      */
     protected $_config;
 
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Catalog_Model_ProductTypes_ConfigInterface $config
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $config
      */
     public function __construct(
-        Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Catalog_Model_ProductTypes_ConfigInterface $config
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Catalog\Model\ProductTypes\ConfigInterface $config
     ) {
         $this->_config = $config;
         $this->_coreStoreConfig = $coreStoreConfig;

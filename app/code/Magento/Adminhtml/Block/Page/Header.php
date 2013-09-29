@@ -15,34 +15,36 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Page_Header extends Magento_Adminhtml_Block_Template
+namespace Magento\Adminhtml\Block\Page;
+
+class Header extends \Magento\Adminhtml\Block\Template
 {
     protected $_template = 'page/header.phtml';
 
     /**
      * Backend data
      *
-     * @var Magento_Backend_Helper_Data
+     * @var \Magento\Backend\Helper\Data
      */
     protected $_backendData = null;
 
     /**
-     * @var Magento_Backend_Model_Auth_Session
+     * @var \Magento\Backend\Model\Auth\Session
      */
     protected $_authSession;
 
     /**
-     * @param Magento_Backend_Model_Auth_Session $authSession
-     * @param Magento_Backend_Helper_Data $backendData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
+     * @param \Magento\Backend\Model\Auth\Session $authSession
+     * @param \Magento\Backend\Helper\Data $backendData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Model_Auth_Session $authSession,
-        Magento_Backend_Helper_Data $backendData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
+        \Magento\Backend\Model\Auth\Session $authSession,
+        \Magento\Backend\Helper\Data $backendData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_backendData = $backendData;

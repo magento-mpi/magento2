@@ -16,7 +16,9 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Resource_Config extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Core\Model\Resource;
+
+class Config extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Define main table
@@ -34,7 +36,7 @@ class Magento_Core_Model_Resource_Config extends Magento_Core_Model_Resource_Db_
      * @param string $value
      * @param string $scope
      * @param int $scopeId
-     * @return Magento_Core_Model_Resource_Config
+     * @return \Magento\Core\Model\Resource\Config
      */
     public function saveConfig($path, $value, $scope, $scopeId)
     {
@@ -68,7 +70,7 @@ class Magento_Core_Model_Resource_Config extends Magento_Core_Model_Resource_Db_
      * @param string $path
      * @param string $scope
      * @param int $scopeId
-     * @return Magento_Core_Model_Resource_Config
+     * @return \Magento\Core\Model\Resource\Config
      */
     public function deleteConfig($path, $scope, $scopeId)
     {

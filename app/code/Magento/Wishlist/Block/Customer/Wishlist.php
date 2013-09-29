@@ -16,31 +16,33 @@
  * @package    Magento_Wishlist
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Wishlist_Block_Customer_Wishlist extends Magento_Wishlist_Block_Abstract
+namespace Magento\Wishlist\Block\Customer;
+
+class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
 {
     /**
-     * @var Magento_Catalog_Helper_Product_ConfigurationPool
+     * @var \Magento\Catalog\Helper\Product\ConfigurationPool
      */
     protected $_helperPool;
 
     /**
-     * @param Magento_Catalog_Helper_Product_ConfigurationPool $helperPool
-     * @param Magento_Wishlist_Helper_Data $wishlistData
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_Tax_Helper_Data $taxData
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
+     * @param \Magento\Catalog\Helper\Product\ConfigurationPool $helperPool
+     * @param \Magento\Wishlist\Helper\Data $wishlistData
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Catalog_Helper_Product_ConfigurationPool $helperPool,
-        Magento_Wishlist_Helper_Data $wishlistData,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_Tax_Helper_Data $taxData,
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
+        \Magento\Catalog\Helper\Product\ConfigurationPool $helperPool,
+        \Magento\Wishlist\Helper\Data $wishlistData,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_helperPool = $helperPool;
@@ -50,8 +52,8 @@ class Magento_Wishlist_Block_Customer_Wishlist extends Magento_Wishlist_Block_Ab
     /**
      * Add wishlist conditions to collection
      *
-     * @param  Magento_Wishlist_Model_Resource_Item_Collection $collection
-     * @return Magento_Wishlist_Block_Customer_Wishlist
+     * @param  \Magento\Wishlist\Model\Resource\Item\Collection $collection
+     * @return \Magento\Wishlist\Block\Customer\Wishlist
      */
     protected function _prepareCollection($collection)
     {
@@ -62,7 +64,7 @@ class Magento_Wishlist_Block_Customer_Wishlist extends Magento_Wishlist_Block_Ab
     /**
      * Preparing global layout
      *
-     * @return Magento_Wishlist_Block_Customer_Wishlist
+     * @return \Magento\Wishlist\Block\Customer\Wishlist
      */
     protected function _prepareLayout()
     {
@@ -88,7 +90,7 @@ class Magento_Wishlist_Block_Customer_Wishlist extends Magento_Wishlist_Block_Ab
      *
      * @deprecated after 1.6.2.0
      * @param null|array $optionCfg
-     * @return Magento_Wishlist_Block_Customer_Wishlist
+     * @return \Magento\Wishlist\Block\Customer\Wishlist
      */
     public function setOptionsRenderCfgs($optionCfg)
     {
@@ -114,7 +116,7 @@ class Magento_Wishlist_Block_Customer_Wishlist extends Magento_Wishlist_Block_Ab
      * @param string $productType
      * @param string $helperName
      * @param null|string $template
-     * @return Magento_Wishlist_Block_Customer_Wishlist
+     * @return \Magento\Wishlist\Block\Customer\Wishlist
      */
     public function addOptionsRenderCfg($productType, $helperName, $template = null)
     {
@@ -144,10 +146,10 @@ class Magento_Wishlist_Block_Customer_Wishlist extends Magento_Wishlist_Block_Ab
      * Returns html for showing item options
      *
      * @deprecated after 1.6.2.0
-     * @param Magento_Wishlist_Model_Item $item
+     * @param \Magento\Wishlist\Model\Item $item
      * @return string
      */
-    public function getDetailsHtml(Magento_Wishlist_Model_Item $item)
+    public function getDetailsHtml(\Magento\Wishlist\Model\Item $item)
     {
         $cfg = $this->getOptionsRenderCfg($item->getProduct()->getTypeId());
         if (!$cfg) {
@@ -178,10 +180,10 @@ class Magento_Wishlist_Block_Customer_Wishlist extends Magento_Wishlist_Block_Ab
      * Returns qty to show visually to user
      *
      * @deprecated after 1.6.2.0
-     * @param Magento_Wishlist_Model_Item $item
+     * @param \Magento\Wishlist\Model\Item $item
      * @return float
      */
-    public function getAddToCartQty(Magento_Wishlist_Model_Item $item)
+    public function getAddToCartQty(\Magento\Wishlist\Model\Item $item)
     {
         $qty = $this->getQty($item);
         return $qty ? $qty : 1;

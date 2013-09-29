@@ -5,22 +5,24 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_AdminGws_Model_Plugin_CategoryResourceTest extends PHPUnit_Framework_TestCase
+namespace Magento\AdminGws\Model\Plugin;
+
+class CategoryResourceTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_AdminGws_Model_Plugin_CategoryResource
+     * @var \Magento\AdminGws\Model\Plugin\CategoryResource
      */
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_roleMock;
 
     protected function setUp()
     {
-        $this->_roleMock = $this->getMock('Magento_AdminGws_Model_Role', array(), array(), '', false);
-        $this->_model = new Magento_AdminGws_Model_Plugin_CategoryResource($this->_roleMock);
+        $this->_roleMock = $this->getMock('Magento\AdminGws\Model\Role', array(), array(), '', false);
+        $this->_model = new \Magento\AdminGws\Model\Plugin\CategoryResource($this->_roleMock);
     }
 
     public function testBeforeChangeParentDoesNotCheckCategoryAccessWhenRoleIsNotRestricted()
@@ -36,7 +38,7 @@ class Magento_AdminGws_Model_Plugin_CategoryResourceTest extends PHPUnit_Framewo
     /**
      * @param boolean $hasParentPathAccess
      * @param boolean $hasCurrentPathAccess
-     * @expectedException Magento_Core_Exception
+     * @expectedException \Magento\Core\Exception
      * @expectedExceptionMessage You need more permissions to save this item.
      * @dataProvider beforeChangeParentThrowsExceptionWhenAccessIsRestrictedDataProvider
      */
@@ -48,12 +50,12 @@ class Magento_AdminGws_Model_Plugin_CategoryResourceTest extends PHPUnit_Framewo
             ->method('getIsAll')
             ->will($this->returnValue(false));
 
-        $currentCategory = $this->getMock('Magento_Catalog_Model_Category', array(), array(), '', false);
+        $currentCategory = $this->getMock('Magento\Catalog\Model\Category', array(), array(), '', false);
         $currentCategory->expects($this->any())
             ->method('getData')
             ->with('path', null)
             ->will($this->returnValue('current/path'));
-        $parentCategory = $this->getMock('Magento_Catalog_Model_Category', array(), array(), '', false);
+        $parentCategory = $this->getMock('Magento\Catalog\Model\Category', array(), array(), '', false);
         $parentCategory->expects($this->any())
             ->method('getData')
             ->with('path', null)
@@ -83,12 +85,12 @@ class Magento_AdminGws_Model_Plugin_CategoryResourceTest extends PHPUnit_Framewo
             ->method('getIsAll')
             ->will($this->returnValue(false));
 
-        $parentCategory = $this->getMock('Magento_Catalog_Model_Category', array(), array(), '', false);
+        $parentCategory = $this->getMock('Magento\Catalog\Model\Category', array(), array(), '', false);
         $parentCategory->expects($this->any())
             ->method('getData')
             ->with('path', null)
             ->will($this->returnValue('parent/path'));
-        $currentCategory = $this->getMock('Magento_Catalog_Model_Category', array(), array(), '', false);
+        $currentCategory = $this->getMock('Magento\Catalog\Model\Category', array(), array(), '', false);
         $currentCategory->expects($this->any())
             ->method('getData')
             ->with('path', null)

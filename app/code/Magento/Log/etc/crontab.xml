@@ -8,5 +8,5 @@
  */
 -->
 <config>
-    <job name="log_clean" instance="Magento_Log_Model_Cron" method="logClean" />
+    <job name="log_clean" instance="Magento\Log\Model\Cron" method="logClean" />
 </config>

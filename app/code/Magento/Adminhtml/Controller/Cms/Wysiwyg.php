@@ -15,7 +15,9 @@
  * @package     Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Controller_Cms_Wysiwyg extends Magento_Adminhtml_Controller_Action
+namespace Magento\Adminhtml\Controller\Cms;
+
+class Wysiwyg extends \Magento\Adminhtml\Controller\Action
 {
     /**
      * Template directives callback
@@ -25,17 +27,17 @@ class Magento_Adminhtml_Controller_Cms_Wysiwyg extends Magento_Adminhtml_Control
     public function directiveAction()
     {
         $directive = $this->getRequest()->getParam('___directive');
-        $directive = $this->_objectManager->get('Magento_Core_Helper_Data')->urlDecode($directive);
-        $url = $this->_objectManager->create('Magento_Core_Model_Email_Template_Filter')->filter($directive);
-        $image = $this->_objectManager->get('Magento_Core_Model_Image_AdapterFactory')->create();
+        $directive = $this->_objectManager->get('Magento\Core\Helper\Data')->urlDecode($directive);
+        $url = $this->_objectManager->create('Magento\Core\Model\Email\Template\Filter')->filter($directive);
+        $image = $this->_objectManager->get('Magento\Core\Model\Image\AdapterFactory')->create();
         $response = $this->getResponse();
         try {
             $image->open($url);
             $response->setHeader('Content-Type', $image->getMimeType())->setBody($image->getImage());
-        } catch (Exception $e) {
-            $image->open($this->_objectManager->get('Magento_Cms_Model_Wysiwyg_Config')->getSkinImagePlaceholderUrl());
+        } catch (\Exception $e) {
+            $image->open($this->_objectManager->get('Magento\Cms\Model\Wysiwyg\Config')->getSkinImagePlaceholderUrl());
             $response->setHeader('Content-Type', $image->getMimeType())->setBody($image->getImage());
-            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
         }
     }
 }

@@ -8,15 +8,15 @@
  */
 -->
 <config>
-    <virtualType name="Magento_GiftWrapping_Model_StatusOptions" type="Magento_Backend_Model_Config_Source_Statuses_Options">
+    <virtualType name="Magento\GiftWrapping\Model\StatusOptions" type="Magento\Backend\Model\Config\Source\Statuses\Options">
         <param name="helper">
-            <instance type="Magento_GiftWrapping_Helper_Data" />
+            <instance type="Magento\GiftWrapping\Helper\Data" />
         </param>
     </virtualType>
-    <type name="Magento_Core_Model_Db_Updater">
+    <type name="Magento\Core\Model\Db\Updater">
         <param name="resourceList">
             <value>
-                <giftwrapping_setup>Magento_GiftWrapping_Model_Resource_Setup</giftwrapping_setup>
+                <giftwrapping_setup>Magento\GiftWrapping\Model\Resource\Setup</giftwrapping_setup>
             </value>
         </param>
     </type>

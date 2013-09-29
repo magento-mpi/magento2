@@ -12,7 +12,9 @@
 /**
  * Abstract database handler for integration tests
  */
-abstract class Magento_TestFramework_Db_DbAbstract
+namespace Magento\TestFramework\Db;
+
+abstract class DbAbstract
 {
     /**
      * DB host name
@@ -50,7 +52,7 @@ abstract class Magento_TestFramework_Db_DbAbstract
     protected $_varPath = '';
 
     /**
-     * @var Magento_Shell
+     * @var \Magento\Shell
      */
     protected $_shell;
 
@@ -62,13 +64,13 @@ abstract class Magento_TestFramework_Db_DbAbstract
      * @param string $password
      * @param string $schema
      * @param string $varPath
-     * @param Magento_Shell $shell
-     * @throws Magento_Exception
+     * @param \Magento\Shell $shell
+     * @throws \Magento\Exception
      */
-    public function __construct($host, $user, $password, $schema, $varPath, Magento_Shell $shell)
+    public function __construct($host, $user, $password, $schema, $varPath, \Magento\Shell $shell)
     {
         if (!is_dir($varPath) || !is_writable($varPath)) {
-            throw new Magento_Exception("The specified '$varPath' is not a directory or not writable.");
+            throw new \Magento\Exception("The specified '$varPath' is not a directory or not writable.");
         }
         $this->_host = $host;
         $this->_user = $user;

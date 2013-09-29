@@ -11,17 +11,19 @@
 /**
  * System configuration object factory
  */
-class Magento_Backend_Model_Config_Factory
+namespace Magento\Backend\Model\Config;
+
+class Factory
 {
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
@@ -30,10 +32,10 @@ class Magento_Backend_Model_Config_Factory
      * Create new config object
      *
      * @param array $data
-     * @return Magento_Backend_Model_Config
+     * @return \Magento\Backend\Model\Config
      */
     public function create(array $data = array())
     {
-        return $this->_objectManager->create('Magento_Backend_Model_Config', $data);
+        return $this->_objectManager->create('Magento\Backend\Model\Config', $data);
     }
 }

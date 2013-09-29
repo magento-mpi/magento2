@@ -12,7 +12,9 @@
 /**
  * Block of links in Order view page
  */
-class Magento_Sales_Block_Order_Info_Buttons extends Magento_Core_Block_Template
+namespace Magento\Sales\Block\Order\Info;
+
+class Buttons extends \Magento\Core\Block\Template
 {
     /**
      * @var string
@@ -22,27 +24,27 @@ class Magento_Sales_Block_Order_Info_Buttons extends Magento_Core_Block_Template
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Customer_Model_Session $customerSession
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Customer\Model\Session $customerSession
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Customer_Model_Session $customerSession,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Customer\Model\Session $customerSession,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -53,7 +55,7 @@ class Magento_Sales_Block_Order_Info_Buttons extends Magento_Core_Block_Template
     /**
      * Retrieve current order model instance
      *
-     * @return Magento_Sales_Model_Order
+     * @return \Magento\Sales\Model\Order
      */
     public function getOrder()
     {
@@ -63,7 +65,7 @@ class Magento_Sales_Block_Order_Info_Buttons extends Magento_Core_Block_Template
     /**
      * Get url for printing order
      *
-     * @param Magento_Sales_Model_Order $order
+     * @param \Magento\Sales\Model\Order $order
      * @return string
      */
     public function getPrintUrl($order)
@@ -77,7 +79,7 @@ class Magento_Sales_Block_Order_Info_Buttons extends Magento_Core_Block_Template
     /**
      * Get url for reorder action
      *
-     * @param Magento_Sales_Model_Order $order
+     * @param \Magento\Sales\Model\Order $order
      * @return string
      */
     public function getReorderUrl($order)

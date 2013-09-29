@@ -16,35 +16,37 @@
  * @package    Magento_CatalogSearch
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CatalogSearch_Model_Config_Backend_Search_Type extends Magento_Core_Model_Config_Value
+namespace Magento\CatalogSearch\Model\Config\Backend\Search;
+
+class Type extends \Magento\Core\Model\Config\Value
 {
     /**
      * Catalog search fulltext
      *
-     * @var Magento_CatalogSearch_Model_Fulltext
+     * @var \Magento\CatalogSearch\Model\Fulltext
      */
     protected $_catalogSearchFulltext;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Core_Model_Config $config
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
-     * @param Magento_CatalogSearch_Model_Fulltext $catalogSearchFulltext
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\CatalogSearch\Model\Fulltext $catalogSearchFulltext
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_StoreManager $storeManager,
-        Magento_Core_Model_Config $config,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
-        Magento_CatalogSearch_Model_Fulltext $catalogSearchFulltext,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\Config $config,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\CatalogSearch\Model\Fulltext $catalogSearchFulltext,
         array $data = array()
     ) {
         $this->_catalogSearchFulltext = $catalogSearchFulltext;
@@ -54,13 +56,13 @@ class Magento_CatalogSearch_Model_Config_Backend_Search_Type extends Magento_Cor
     /**
      * After change Catalog Search Type process
      *
-     * @return Magento_CatalogSearch_Model_Config_Backend_Search_Type|Magento_Core_Model_Abstract
+     * @return \Magento\CatalogSearch\Model\Config\Backend\Search\Type|\Magento\Core\Model\AbstractModel
      */
     protected function _afterSave()
     {
         $newValue = $this->getValue();
         $oldValue = $this->_config->getValue(
-            Magento_CatalogSearch_Model_Fulltext::XML_PATH_CATALOG_SEARCH_TYPE,
+            \Magento\CatalogSearch\Model\Fulltext::XML_PATH_CATALOG_SEARCH_TYPE,
             $this->getScope(),
             $this->getScopeId()
         );

@@ -15,6 +15,8 @@
  * @package     Magento_Wishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Wishlist_Block_Customer_Wishlist_Item_Column_Image extends Magento_Wishlist_Block_Customer_Wishlist_Item_Column
+namespace Magento\Wishlist\Block\Customer\Wishlist\Item\Column;
+
+class Image extends \Magento\Wishlist\Block\Customer\Wishlist\Item\Column
 {
 }

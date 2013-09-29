@@ -7,7 +7,9 @@
  * @copyright {copyright}
  * @license {license_link}
  */
-class Magento_GoogleOptimizer_Block_Code_Product extends Magento_GoogleOptimizer_Block_CodeAbstract
+namespace Magento\GoogleOptimizer\Block\Code;
+
+class Product extends \Magento\GoogleOptimizer\Block\CodeAbstract
 {
     /**
      * @var Entity name in registry

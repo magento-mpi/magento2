@@ -5,7 +5,9 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Test_Di_Child_A extends Magento_Test_Di_Child
+namespace Magento\Test\Di\Child;
+
+class A extends \Magento\Test\Di\Child
 {
 
 }

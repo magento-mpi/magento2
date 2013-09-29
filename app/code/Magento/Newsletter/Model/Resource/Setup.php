@@ -9,25 +9,27 @@
 /**
  * Newsletter resource setup
  */
-class Magento_Newsletter_Model_Resource_Setup extends Magento_Core_Model_Resource_Setup
+namespace Magento\Newsletter\Model\Resource;
+
+class Setup extends \Magento\Core\Model\Resource\Setup
 {
     /**
      * Resource setup model
      *
-     * @var Magento_Core_Model_Resource_Setup_Migration
+     * @var \Magento\Core\Model\Resource\Setup\Migration
      */
     protected $_setupMigration;
 
     /**
-     * @param Magento_Core_Model_Resource_Setup_Context $context
-     * @param Magento_Core_Model_Resource_Setup_MigrationFactory $setupMigrationFactory
+     * @param \Magento\Core\Model\Resource\Setup\Context $context
+     * @param \Magento\Core\Model\Resource\Setup\MigrationFactory $setupMigrationFactory
      * @param string $resourceName
      * @param string $moduleName
      * @param string $connectionName
      */
     public function __construct(
-        Magento_Core_Model_Resource_Setup_Context $context,
-        Magento_Core_Model_Resource_Setup_MigrationFactory $setupMigrationFactory,
+        \Magento\Core\Model\Resource\Setup\Context $context,
+        \Magento\Core\Model\Resource\Setup\MigrationFactory $setupMigrationFactory,
         $resourceName,
         $moduleName = 'Magento_Newsletter',
         $connectionName = ''
@@ -42,7 +44,7 @@ class Magento_Newsletter_Model_Resource_Setup extends Magento_Core_Model_Resourc
     /**
      * Get block factory
      *
-     * @return Magento_Core_Model_Resource_Setup_Migration
+     * @return \Magento\Core\Model\Resource\Setup\Migration
      */
     public function getSetupMigration()
     {

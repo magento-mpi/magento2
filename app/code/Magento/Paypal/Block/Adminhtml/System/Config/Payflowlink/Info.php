@@ -11,8 +11,9 @@
 /**
  * Renderer for Payflow Link information
  */
-class Magento_Paypal_Block_Adminhtml_System_Config_Payflowlink_Info
-    extends Magento_Backend_Block_System_Config_Form_Field
+namespace Magento\Paypal\Block\Adminhtml\System\Config\Payflowlink;
+
+class Info extends \Magento\Backend\Block\System\Config\Form\Field
 {
     /**
      * Template path
@@ -24,10 +25,10 @@ class Magento_Paypal_Block_Adminhtml_System_Config_Payflowlink_Info
     /**
      * Render fieldset html
      *
-     * @param Magento_Data_Form_Element_Abstract $element
+     * @param \Magento\Data\Form\Element\AbstractElement $element
      * @return string
      */
-    public function render(Magento_Data_Form_Element_Abstract $element)
+    public function render(\Magento\Data\Form\Element\AbstractElement $element)
     {
         $columns = ($this->getRequest()->getParam('website') || $this->getRequest()->getParam('store')) ? 5 : 4;
         return $this->_decorateRowHtml($element, "<td colspan='$columns'>" . $this->toHtml() . '</td>');

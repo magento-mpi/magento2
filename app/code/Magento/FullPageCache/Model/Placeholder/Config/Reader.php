@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_FullPageCache_Model_Placeholder_Config_Reader extends Magento_Config_Reader_Filesystem
+namespace Magento\FullPageCache\Model\Placeholder\Config;
+
+class Reader extends \Magento\Config\Reader\Filesystem
 {
     /**
      * List of id attributes for merge
@@ -19,22 +21,22 @@ class Magento_FullPageCache_Model_Placeholder_Config_Reader extends Magento_Conf
     );
 
     /**
-     * @param Magento_Config_FileResolverInterface $fileResolver
-     * @param Magento_FullPageCache_Model_Placeholder_Config_Converter $converter
-     * @param Magento_Config_ValidationStateInterface $validationState
-     * @param Magento_FullPageCache_Model_Placeholder_Config_SchemaLocator $schemaLocator
+     * @param \Magento\Config\FileResolverInterface $fileResolver
+     * @param \Magento\FullPageCache\Model\Placeholder\Config\Converter $converter
+     * @param \Magento\Config\ValidationStateInterface $validationState
+     * @param \Magento\FullPageCache\Model\Placeholder\Config\SchemaLocator $schemaLocator
      * @param string $fileName
      * @param array $idAttributes
      * @param string $domDocumentClass
      */
     public function __construct(
-        Magento_Config_FileResolverInterface $fileResolver,
-        Magento_FullPageCache_Model_Placeholder_Config_Converter $converter,
-        Magento_FullPageCache_Model_Placeholder_Config_SchemaLocator $schemaLocator,
-        Magento_Config_ValidationStateInterface $validationState,
+        \Magento\Config\FileResolverInterface $fileResolver,
+        \Magento\FullPageCache\Model\Placeholder\Config\Converter $converter,
+        \Magento\FullPageCache\Model\Placeholder\Config\SchemaLocator $schemaLocator,
+        \Magento\Config\ValidationStateInterface $validationState,
         $fileName = 'placeholders.xml',
         $idAttributes = array(),
-        $domDocumentClass = 'Magento_Config_Dom'
+        $domDocumentClass = 'Magento\Config\Dom'
     ) {
         parent::__construct(
             $fileResolver, $converter, $schemaLocator, $validationState, $fileName, $idAttributes, $domDocumentClass

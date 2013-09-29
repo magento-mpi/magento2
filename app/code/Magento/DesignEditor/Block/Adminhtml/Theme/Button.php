@@ -11,7 +11,9 @@
 /**
  * Button widget
  */
-class Magento_DesignEditor_Block_Adminhtml_Theme_Button extends Magento_Core_Block_Template
+namespace Magento\DesignEditor\Block\Adminhtml\Theme;
+
+class Button extends \Magento\Core\Block\Template
 {
     /**
      * Define block template
@@ -73,7 +75,7 @@ class Magento_DesignEditor_Block_Adminhtml_Theme_Button extends Magento_Core_Blo
      */
     protected function _attributesToHtml($attributes)
     {
-        $helper = $this->helper('Magento_Backend_Helper_Data');
+        $helper = $this->helper('Magento\Backend\Helper\Data');
         $html = '';
         foreach ($attributes as $attributeKey => $attributeValue) {
             if ($attributeValue !== null && $attributeValue !== '') {

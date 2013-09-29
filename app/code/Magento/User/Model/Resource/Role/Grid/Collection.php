@@ -16,7 +16,9 @@
  * @package     Magento_User
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_User_Model_Resource_Role_Grid_Collection extends Magento_User_Model_Resource_Role_Collection
+namespace Magento\User\Model\Resource\Role\Grid;
+
+class Collection extends \Magento\User\Model\Resource\Role\Collection
 {
     /**
      * Prepare select for load

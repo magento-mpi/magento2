@@ -8,35 +8,35 @@
  */
 -->
 <config>
-    <type name="Magento_Checkout_Helper_Data">
+    <type name="Magento\Checkout\Helper\Data">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
-    <type name="Magento_Checkout_Model_Cart_Api">
+    <type name="Magento\Checkout\Model\Cart\Api">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
-    <type name="Magento_Checkout_Model_Cart">
+    <type name="Magento\Checkout\Model\Cart">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
-    <type name="Magento_Checkout_Model_Type_Multishipping">
+    <type name="Magento\Checkout\Model\Type\Multishipping">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
-    <type name="Magento_Checkout_Model_Type_Onepage">
+    <type name="Magento\Checkout\Model\Type\Onepage">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
-    <type name="Magento_Core_Model_Db_Updater">
+    <type name="Magento\Core\Model\Db\Updater">
         <param name="resourceList">
             <value>
-                <checkout_setup>Magento_Checkout_Model_Resource_Setup</checkout_setup>
+                <checkout_setup>Magento\Checkout\Model\Resource\Setup</checkout_setup>
             </value>
         </param>
     </type>

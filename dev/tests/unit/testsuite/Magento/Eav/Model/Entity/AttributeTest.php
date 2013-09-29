@@ -9,17 +9,19 @@
  * @license     {license_link}
  */
 
-class Magento_Eav_Model_Entity_AttributeTest extends PHPUnit_Framework_TestCase
+namespace Magento\Eav\Model\Entity;
+
+class AttributeTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Attribute model to be tested
-     * @var Magento_Eav_Model_Entity_Attribute|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Eav\Model\Entity\Attribute|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = $this->getMock('Magento_Eav_Model_Entity_Attribute', null, array(), '', false);
+        $this->_model = $this->getMock('Magento\Eav\Model\Entity\Attribute', null, array(), '', false);
     }
 
     protected function tearDown()

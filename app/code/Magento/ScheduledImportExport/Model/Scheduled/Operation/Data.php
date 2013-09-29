@@ -15,7 +15,9 @@
  * @package     Magento_ScheduledImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_ScheduledImportExport_Model_Scheduled_Operation_Data
+namespace Magento\ScheduledImportExport\Model\Scheduled\Operation;
+
+class Data
 {
     /**
      * Pending status constant
@@ -23,22 +25,22 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation_Data
     const STATUS_PENDING = 2;
 
     /**
-     * @var Magento_ImportExport_Model_Import_ConfigInterface
+     * @var \Magento\ImportExport\Model\Import\ConfigInterface
      */
     protected $_importConfig;
 
     /**
-     * @var Magento_ImportExport_Model_Export_ConfigInterface
+     * @var \Magento\ImportExport\Model\Export\ConfigInterface
      */
     protected $_exportConfig;
 
     /**
-     * @param Magento_ImportExport_Model_Import_ConfigInterface $importConfig
-     * @param Magento_ImportExport_Model_Export_ConfigInterface $exportConfig
+     * @param \Magento\ImportExport\Model\Import\ConfigInterface $importConfig
+     * @param \Magento\ImportExport\Model\Export\ConfigInterface $exportConfig
      */
     public function __construct(
-        Magento_ImportExport_Model_Import_ConfigInterface $importConfig,
-        Magento_ImportExport_Model_Export_ConfigInterface $exportConfig
+        \Magento\ImportExport\Model\Import\ConfigInterface $importConfig,
+        \Magento\ImportExport\Model\Export\ConfigInterface $exportConfig
     ) {
         $this->_importConfig = $importConfig;
         $this->_exportConfig = $exportConfig;
@@ -78,11 +80,11 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation_Data
     public function getFrequencyOptionArray()
     {
         return array(
-            Magento_Cron_Model_Config_Source_Frequency::CRON_DAILY
+            \Magento\Cron\Model\Config\Source\Frequency::CRON_DAILY
                 => __('Daily'),
-            Magento_Cron_Model_Config_Source_Frequency::CRON_WEEKLY
+            \Magento\Cron\Model\Config\Source\Frequency::CRON_WEEKLY
                 => __('Weekly'),
-            Magento_Cron_Model_Config_Source_Frequency::CRON_MONTHLY
+            \Magento\Cron\Model\Config\Source\Frequency::CRON_MONTHLY
                 => __('Monthly'),
         );
     }

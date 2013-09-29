@@ -16,7 +16,9 @@
  * @package    Magento_VersionsCms
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Magento_Backend_Block_Widget_Form_Generic
+namespace Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Edit;
+
+class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
      * Currently selected store in store switcher
@@ -35,26 +37,26 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Magent
     /**
      * Cms hierarchy
      *
-     * @var Magento_VersionsCms_Helper_Hierarchy
+     * @var \Magento\VersionsCms\Helper\Hierarchy
      */
     protected $_cmsHierarchy = null;
 
     /**
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_VersionsCms_Helper_Hierarchy $cmsHierarchy
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Data_Form_Factory $formFactory,
-        Magento_VersionsCms_Helper_Hierarchy $cmsHierarchy,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_cmsHierarchy = $cmsHierarchy;
@@ -70,11 +72,11 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Magent
     /**
      * Prepare form before rendering HTML
      *
-     * @return Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_Form
+     * @return \Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Edit\Form
      */
     protected function _prepareForm()
     {
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create(array(
             'attributes' => array(
                 'id'        => 'edit_form',
@@ -156,7 +158,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Magent
             'value'     => __('Preview is not available.'),
         ));
 
-        $yesNoOptions = Mage::getSingleton('Magento_Backend_Model_Config_Source_Yesno')->toOptionArray();
+        $yesNoOptions = \Mage::getSingleton('Magento\Backend\Model\Config\Source\Yesno')->toOptionArray();
 
         /**
          * Define field set with elements for root nodes
@@ -202,7 +204,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Magent
                 'label'     => __('Chapter/Section'),
                 'title'     => __('Chapter/Section'),
                 'name'      => 'meta_chapter_section',
-                'values'    => Mage::getSingleton('Magento_VersionsCms_Model_Source_Hierarchy_Menu_Chapter')->toOptionArray(),
+                'values'    => \Mage::getSingleton('Magento\VersionsCms\Model\Source\Hierarchy\Menu\Chapter')->toOptionArray(),
                 'onchange'  => 'hierarchyNodes.nodeChanged()',
                 'container_id' => 'field_meta_chapter_section',
                 'note'      => __('Defines this node as Chapter/Section'),
@@ -220,8 +222,8 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Magent
         $pagerFieldset->addField('pager_visibility', 'select', array(
             'label'     => __('Enable Pagination'),
             'name'      => 'pager_visibility',
-            'values'    => Mage::getSingleton('Magento_VersionsCms_Model_Source_Hierarchy_Visibility')->toOptionArray(),
-            'value'     => Magento_VersionsCms_Helper_Hierarchy::METADATA_VISIBILITY_PARENT,
+            'values'    => \Mage::getSingleton('Magento\VersionsCms\Model\Source\Hierarchy\Visibility')->toOptionArray(),
+            'value'     => \Magento\VersionsCms\Helper\Hierarchy::METADATA_VISIBILITY_PARENT,
             'onchange'  => "hierarchyNodes.metadataChanged('pager_visibility', 'pager_fieldset')",
             'tabindex'  => '70'
         ));
@@ -272,7 +274,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Magent
         $menuFieldset->addField('menu_layout', 'select', array(
             'label'     => __('Menu Layout'),
             'name'      => 'menu_layout',
-            'values'    => Mage::getSingleton('Magento_VersionsCms_Model_Source_Hierarchy_Menu_Layout')->toOptionArray(true),
+            'values'    => \Mage::getSingleton('Magento\VersionsCms\Model\Source\Hierarchy\Menu\Layout')->toOptionArray(true),
             'onchange'   => "hierarchyNodes.nodeChanged()",
             'container_id' => 'field_menu_layout',
             'tabindex'  => '115'
@@ -303,7 +305,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Magent
             'label'     => __('List Type'),
             'title'     => __('List Type'),
             'name'      => 'menu_ordered',
-            'values'    => Mage::getSingleton('Magento_VersionsCms_Model_Source_Hierarchy_Menu_Listtype')->toOptionArray(),
+            'values'    => \Mage::getSingleton('Magento\VersionsCms\Model\Source\Hierarchy\Menu\Listtype')->toOptionArray(),
             'onchange'  => 'hierarchyNodes.menuListTypeChanged()',
             'container_id' => 'field_menu_ordered',
             'tabindex'  => '140'
@@ -312,7 +314,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Magent
             'label'     => __('List Style'),
             'title'     => __('List Style'),
             'name'      => 'menu_list_type',
-            'values'    => Mage::getSingleton('Magento_VersionsCms_Model_Source_Hierarchy_Menu_Listmode')->toOptionArray(),
+            'values'    => \Mage::getSingleton('Magento\VersionsCms\Model\Source\Hierarchy\Menu\Listmode')->toOptionArray(),
             'onchange'  => 'hierarchyNodes.nodeChanged()',
             'container_id' => 'field_menu_list_type',
             'tabindex'  => '150'
@@ -362,7 +364,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Magent
             'onclick'   => 'hierarchyNodes.pageGridAddSelected()',
             'class'     => 'add'
         );
-        return $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
+        return $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')
             ->setData($addButtonData)->toHtml();
     }
 
@@ -374,19 +376,19 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Magent
     public function getPagePropertiesButtons()
     {
         $buttons = array();
-        $buttons[] = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')->setData(array(
+        $buttons[] = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')->setData(array(
             'id'        => 'delete_node_button',
             'label'     => __('Remove from tree.'),
             'onclick'   => 'hierarchyNodes.deleteNodePage()',
             'class'     => 'delete'
         ))->toHtml();
-        $buttons[] = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')->setData(array(
+        $buttons[] = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')->setData(array(
             'id'        => 'cancel_node_button',
             'label'     => __('Cancel'),
             'onclick'   => 'hierarchyNodes.cancelNodePage()',
             'class'     => 'cancel'
         ))->toHtml();
-        $buttons[] = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')->setData(array(
+        $buttons[] = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')->setData(array(
             'id'        => 'save_node_button',
             'label'     => __('Save'),
             'onclick'   => 'hierarchyNodes.saveNodePage()',
@@ -403,7 +405,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Magent
      */
     public function getTreeButtonsHtml()
     {
-        return $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')->setData(array(
+        return $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')->setData(array(
             'id'        => 'new_node_button',
             'label'     => __('Add Node...'),
             'onclick'   => 'hierarchyNodes.newNodePage()',
@@ -419,7 +421,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Magent
      */
     public function getNodesJson()
     {
-        /** @var $nodeModel Magento_VersionsCms_Model_Hierarchy_Node */
+        /** @var $nodeModel \Magento\VersionsCms\Model\Hierarchy\Node */
         $nodeModel = $this->_coreRegistry->registry('current_hierarchy_node');
         $this->setData('current_scope', $nodeModel->getScope());
         $this->setData('current_scope_id', $nodeModel->getScopeId());
@@ -457,7 +459,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Magent
      * Check if passed node available for store in case this node representation of page.
      * If node does not represent page then method will return true.
      *
-     * @param Magento_VersionsCms_Model_Hierarchy_Node $node
+     * @param \Magento\VersionsCms\Model\Hierarchy\Node $node
      * @param null|int $store
      * @return bool
      */
@@ -546,19 +548,19 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Magent
     /**
      * Get current store view if available, or get any in current scope
      *
-     * @return Magento_Core_Model_Store
+     * @return \Magento\Core\Model\Store
      */
     protected function _getStore()
     {
         $store = null;
         if ($this->_currentStore) {
-            $store = Mage::app()->getStore($this->_currentStore);
-        } elseif ($this->getCurrentScope() == Magento_VersionsCms_Model_Hierarchy_Node::NODE_SCOPE_WEBSITE) {
-            $store = Mage::app()->getWebsite($this->getCurrentScopeId())->getDefaultStore();
+            $store = \Mage::app()->getStore($this->_currentStore);
+        } elseif ($this->getCurrentScope() == \Magento\VersionsCms\Model\Hierarchy\Node::NODE_SCOPE_WEBSITE) {
+            $store = \Mage::app()->getWebsite($this->getCurrentScopeId())->getDefaultStore();
         }
 
         if (!$store) {
-            $store = Mage::app()->getAnyStoreView();
+            $store = \Mage::app()->getAnyStoreView();
         }
 
         return $store;
@@ -611,7 +613,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Magent
      */
     public function getListModesJson()
     {
-        $listModes = Mage::getSingleton('Magento_VersionsCms_Model_Source_Hierarchy_Menu_Listmode')->toOptionArray();
+        $listModes = \Mage::getSingleton('Magento\VersionsCms\Model\Source\Hierarchy\Menu\Listmode')->toOptionArray();
         $result = array();
         foreach ($listModes as $type => $label) {
             if ($type == '') {
@@ -704,10 +706,10 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Magent
      * Retrieve lock model
      *
      * @deprecated since 1.12.0.0
-     * @return Magento_VersionsCms_Model_Hierarchy_Lock
+     * @return \Magento\VersionsCms\Model\Hierarchy\Lock
      */
     protected function _getLockModel()
     {
-        return Mage::getSingleton('Magento_VersionsCms_Model_Hierarchy_Lock');
+        return \Mage::getSingleton('Magento\VersionsCms\Model\Hierarchy\Lock');
     }
 }

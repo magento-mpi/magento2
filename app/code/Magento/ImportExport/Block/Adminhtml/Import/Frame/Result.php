@@ -15,7 +15,9 @@
  * @package     Magento_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_ImportExport_Block_Adminhtml_Import_Frame_Result extends Magento_Adminhtml_Block_Template
+namespace Magento\ImportExport\Block\Adminhtml\Import\Frame;
+
+class Result extends \Magento\Adminhtml\Block\Template
 {
     /**
      * JavaScript actions for response.
@@ -49,7 +51,7 @@ class Magento_ImportExport_Block_Adminhtml_Import_Frame_Result extends Magento_A
      * @param string $actionName
      * @param string $elementId
      * @param mixed $value OPTIONAL
-     * @return Magento_ImportExport_Block_Adminhtml_Import_Frame_Result
+     * @return \Magento\ImportExport\Block\Adminhtml\Import\Frame\Result
      */
     public function addAction($actionName, $elementId, $value = null)
     {
@@ -73,7 +75,7 @@ class Magento_ImportExport_Block_Adminhtml_Import_Frame_Result extends Magento_A
      * Add error message.
      *
      * @param string $message Error message
-     * @return Magento_ImportExport_Block_Adminhtml_Import_Frame_Result
+     * @return \Magento\ImportExport\Block\Adminhtml\Import\Frame\Result
      */
     public function addError($message)
     {
@@ -92,7 +94,7 @@ class Magento_ImportExport_Block_Adminhtml_Import_Frame_Result extends Magento_A
      *
      * @param mixed $message Message text
      * @param boolean $appendImportButton OPTIONAL Append import button to message?
-     * @return Magento_ImportExport_Block_Adminhtml_Import_Frame_Result
+     * @return \Magento\ImportExport\Block\Adminhtml\Import\Frame\Result
      */
     public function addNotice($message, $appendImportButton = false)
     {
@@ -111,7 +113,7 @@ class Magento_ImportExport_Block_Adminhtml_Import_Frame_Result extends Magento_A
      *
      * @param mixed $message Message text
      * @param boolean $appendImportButton OPTIONAL Append import button to message?
-     * @return Magento_ImportExport_Block_Adminhtml_Import_Frame_Result
+     * @return \Magento\ImportExport\Block\Adminhtml\Import\Frame\Result
      */
     public function addSuccess($message, $appendImportButton = false)
     {
@@ -133,7 +135,7 @@ class Magento_ImportExport_Block_Adminhtml_Import_Frame_Result extends Magento_A
     public function getImportButtonHtml()
     {
         return '&nbsp;&nbsp;<button onclick="varienImport.startImport(\'' . $this->getImportStartUrl()
-            . '\', \'' . Magento_ImportExport_Model_Import::FIELD_NAME_SOURCE_FILE . '\');" class="scalable save"'
+            . '\', \'' . \Magento\ImportExport\Model\Import::FIELD_NAME_SOURCE_FILE . '\');" class="scalable save"'
             . ' type="button"><span><span><span>' . __('Import') . '</span></span></span></button>';
     }
 
@@ -164,8 +166,8 @@ class Magento_ImportExport_Block_Adminhtml_Import_Frame_Result extends Magento_A
      */
     public function getMessagesHtml()
     {
-        /** @var $messagesBlock Magento_Core_Block_Messages */
-        $messagesBlock = $this->_layout->createBlock('Magento_Core_Block_Messages');
+        /** @var $messagesBlock \Magento\Core\Block\Messages */
+        $messagesBlock = $this->_layout->createBlock('Magento\Core\Block\Messages');
 
         foreach ($this->_messages as $priority => $messages) {
             $method = "add{$priority}";

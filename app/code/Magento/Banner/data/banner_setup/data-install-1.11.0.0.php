@@ -9,7 +9,7 @@
  */
 
 /**
- * @var Magento_Banner_Model_Resource_Setup $install
+ * @var \Magento\Banner\Model\Resource\Setup $install
  */
 $install = $this;
 
@@ -32,7 +32,7 @@ $banners = array(
     )
 );
 
-/** @var $theme Magento_Core_Model_Theme */
+/** @var $theme \Magento\Core\Model\Theme */
 $theme = $install->getThemeCollection()->getThemeByFullPath('frontend/magento_fixed_width');
 
 foreach ($banners as $sortOrder => $bannerData) {
@@ -63,7 +63,7 @@ foreach ($banners as $sortOrder => $bannerData) {
             'unique_id'    => $install->getCoreData()->uniqHash()
         ))
         ->addData(array(
-            'instance_type' => 'Magento_Banner_Block_Widget_Banner',
+            'instance_type' => 'Magento\Banner\Block\Widget\Banner',
             'theme_id'      => $theme->getId(),
             'title'         => $bannerData[1],
             'sort_order'    => $sortOrder

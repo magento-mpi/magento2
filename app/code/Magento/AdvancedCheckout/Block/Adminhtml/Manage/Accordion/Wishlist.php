@@ -15,8 +15,10 @@
  * @package    Magento_AdvancedCheckout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Wishlist
-    extends Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Abstract
+namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion;
+
+class Wishlist
+    extends \Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion\AbstractAccordion
 {
     /**
      * Collection field name for using in controls
@@ -37,28 +39,28 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Wishlist
     /**
      * Wishlist item factory
      *
-     * @var Magento_Wishlist_Model_ItemFactory
+     * @var \Magento\Wishlist\Model\ItemFactory
      */
     protected $_itemFactory = null;
 
     /**
-     * @param Magento_Data_CollectionFactory $collectionFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Url $urlModel
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_Wishlist_Model_ItemFactory $itemFactory
+     * @param \Magento\Data\CollectionFactory $collectionFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Wishlist\Model\ItemFactory $itemFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Data_CollectionFactory $collectionFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Url $urlModel,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_Wishlist_Model_ItemFactory $itemFactory,
+        \Magento\Data\CollectionFactory $collectionFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Wishlist\Model\ItemFactory $itemFactory,
         array $data = array()
     ) {
         parent::__construct($collectionFactory, $coreData, $context, $storeManager, $urlModel, $coreRegistry, $data);
@@ -95,7 +97,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Wishlist
     /**
      * Create wishlist item collection
      *
-     * @return Magento_Wishlist_Model_Resource_Item_Collection
+     * @return \Magento\Wishlist\Model\Resource\Item\Collection
      */
     protected function _createItemsCollection()
     {
@@ -105,7 +107,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Wishlist
     /**
      * Return items collection
      *
-     * @return Magento_Wishlist_Model_Resource_Item_Collection
+     * @return \Magento\Wishlist\Model\Resource\Item\Collection
      */
     public function getItemsCollection()
     {
@@ -149,13 +151,13 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Wishlist
      * Add columns with controls to manage added products and their quantity
      * Uses inherited methods, but modifies Qty column to change renderer
      *
-     * @return Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Wishlist
+     * @return \Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion\Wishlist
      */
     protected function _addControlColumns()
     {
         parent::_addControlColumns();
         $this->getColumn('qty')->addData(array(
-            'renderer' => 'Magento_AdvancedCheckout_Block_Adminhtml_Manage_Grid_Renderer_Wishlist_Qty'
+            'renderer' => 'Magento\AdvancedCheckout\Block\Adminhtml\Manage\Grid\Renderer\Wishlist\Qty'
         ));
 
         return $this;

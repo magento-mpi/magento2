@@ -15,7 +15,9 @@
  * @package    Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Customer_Block_Form_Edit extends Magento_Customer_Block_Account_Dashboard
+namespace Magento\Customer\Block\Form;
+
+class Edit extends \Magento\Customer\Block\Account\Dashboard
 {
 
 }

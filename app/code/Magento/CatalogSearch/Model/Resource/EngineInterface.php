@@ -11,7 +11,9 @@
 /**
  * CatalogSearch Index Engine Interface
  */
-interface Magento_CatalogSearch_Model_Resource_EngineInterface
+namespace Magento\CatalogSearch\Model\Resource;
+
+interface EngineInterface
 {
     /**
      * Add entity data to fulltext search table
@@ -20,7 +22,7 @@ interface Magento_CatalogSearch_Model_Resource_EngineInterface
      * @param int $storeId
      * @param array $index
      * @param string $entity 'product'|'cms'
-     * @return Magento_CatalogSearch_Model_Resource_EngineInterface
+     * @return \Magento\CatalogSearch\Model\Resource\EngineInterface
      */
     public function saveEntityIndex($entityId, $storeId, $index, $entity = 'product');
 
@@ -30,7 +32,7 @@ interface Magento_CatalogSearch_Model_Resource_EngineInterface
      * @param int $storeId
      * @param array $entityIndexes
      * @param string $entity 'product'|'cms'
-     * @return Magento_CatalogSearch_Model_Resource_EngineInterface
+     * @return \Magento\CatalogSearch\Model\Resource\EngineInterface
      */
     public function saveEntityIndexes($storeId, $entityIndexes, $entity = 'product');
 
@@ -54,7 +56,7 @@ interface Magento_CatalogSearch_Model_Resource_EngineInterface
      * @param int $storeId
      * @param int $entityId
      * @param string $entity 'product'|'cms'
-     * @return Magento_CatalogSearch_Model_Resource_EngineInterface
+     * @return \Magento\CatalogSearch\Model\Resource\EngineInterface
      */
     public function cleanIndex($storeId = null, $entityId = null, $entity = 'product');
 
@@ -70,28 +72,28 @@ interface Magento_CatalogSearch_Model_Resource_EngineInterface
     /**
      * Return resource model for the full text search
      *
-     * @return Magento_Core_Model_Resource_Abstract
+     * @return \Magento\Core\Model\Resource\AbstractResource
      */
     public function getResource();
 
     /**
      * Return resource collection model for the full text search
      *
-     * @return Magento_Data_Collection_Db
+     * @return \Magento\Data\Collection\Db
      */
     public function getResourceCollection();
 
     /**
      * Retrieve fulltext search result data collection
      *
-     * @return Magento_Catalog_Model_Resource_Product_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Collection
      */
     public function getResultCollection();
 
     /**
      * Retrieve advanced search result data collection
      *
-     * @return Magento_Catalog_Model_Resource_Product_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Collection
      */
     public function getAdvancedResultCollection();
 

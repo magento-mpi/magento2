@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 ?>
-<?php /** @var $this Magento_Checkout_Block_Onepage_Shipping_Method_Available */ ?>
+<?php /** @var $this \Magento\Checkout\Block\Onepage\Shipping\Method\Available */ ?>
 <?php $_shippingRateGroups = $this->getShippingRates(); ?>
 <?php if (!$_shippingRateGroups): ?>
     <p><?php echo __('Sorry, no quotes are available for this order.') ?></p>
@@ -31,10 +31,10 @@
                         <input name="shipping_method" type="radio" value="<?php echo $_rate->getCode() ?>" id="s_method_<?php echo $_rate->getCode() ?>"<?php if($_rate->getCode()===$this->getAddressShippingMethod()) echo ' checked="checked"' ?> class="radio"/>
                         <?php endif; ?>
                         <label for="s_method_<?php echo $_rate->getCode() ?>"><?php echo $this->escapeHtml($_rate->getMethodTitle()) ?>
-                        <?php $_excl = $this->getShippingPrice($_rate->getPrice(), $this->helper('Magento_Tax_Helper_Data')->displayShippingPriceIncludingTax()); ?>
+                        <?php $_excl = $this->getShippingPrice($_rate->getPrice(), $this->helper('Magento\Tax\Helper\Data')->displayShippingPriceIncludingTax()); ?>
                         <?php $_incl = $this->getShippingPrice($_rate->getPrice(), true); ?>
                         <?php echo $_excl; ?>
-                        <?php if ($this->helper('Magento_Tax_Helper_Data')->displayShippingBothPrices() && $_incl != $_excl): ?>
+                        <?php if ($this->helper('Magento\Tax\Helper\Data')->displayShippingBothPrices() && $_incl != $_excl): ?>
                             (<?php echo __('Incl. Tax'); ?> <?php echo $_incl; ?>)
                         <?php endif; ?>
                         </label>

@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Log_Model_EntryPoint_Shell extends Magento_Core_Model_EntryPointAbstract
+namespace Magento\Log\Model\EntryPoint;
+
+class Shell extends \Magento\Core\Model\AbstractEntryPoint
 {
     /**
      * Filename of the entry point script
@@ -15,14 +17,14 @@ class Magento_Log_Model_EntryPoint_Shell extends Magento_Core_Model_EntryPointAb
     protected $_entryFileName;
 
     /**
-     * @param Magento_Core_Model_Config_Primary $config
+     * @param \Magento\Core\Model\Config\Primary $config
      * @param string $entryFileName  filename of the entry point script
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
     public function __construct(
-        Magento_Core_Model_Config_Primary $config,
+        \Magento\Core\Model\Config\Primary $config,
         $entryFileName,
-        Magento_ObjectManager $objectManager = null
+        \Magento\ObjectManager $objectManager = null
     ) {
         parent::__construct($config, $objectManager);
         $this->_entryFileName = $entryFileName;
@@ -33,8 +35,8 @@ class Magento_Log_Model_EntryPoint_Shell extends Magento_Core_Model_EntryPointAb
      */
     protected function _processRequest()
     {
-        /** @var $shell Magento_Log_Model_Shell */
-        $shell = $this->_objectManager->create('Magento_Log_Model_Shell', array('entryPoint' => $this->_entryFileName));
+        /** @var $shell \Magento\Log\Model\Shell */
+        $shell = $this->_objectManager->create('Magento\Log\Model\Shell', array('entryPoint' => $this->_entryFileName));
         $shell->run();
     }
 }

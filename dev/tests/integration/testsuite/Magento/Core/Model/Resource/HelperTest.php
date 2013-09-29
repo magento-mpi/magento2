@@ -9,26 +9,28 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Resource_HelperTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Resource;
+
+class HelperTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Resource_Helper
+     * @var \Magento\Core\Model\Resource\Helper
      */
     protected $_model;
 
     /**
-     * @var Magento_DB_Select
+     * @var \Magento\DB\Select
      */
     protected $_select;
 
     protected function setUp()
     {
-        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create(
-            'Magento_Core_Model_Resource_Helper',
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Core\Model\Resource\Helper',
             array('modulePrefix' => 'core')
         );
-        $collection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_Resource_Store_Collection');
+        $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Resource\Store\Collection');
         $this->_select = $collection->getSelect();
     }
 

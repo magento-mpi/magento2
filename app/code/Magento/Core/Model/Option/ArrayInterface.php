@@ -15,7 +15,9 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-interface Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Core\Model\Option;
+
+interface ArrayInterface
 {
     /**
      * Return option array

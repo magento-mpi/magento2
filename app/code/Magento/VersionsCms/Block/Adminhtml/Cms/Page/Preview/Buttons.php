@@ -16,12 +16,14 @@
  * @package    Magento_VersionsCms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Preview_Buttons extends Magento_Adminhtml_Block_Widget_Container
+namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Preview;
+
+class Buttons extends \Magento\Adminhtml\Block\Widget\Container
 {
     /**
      * Adding two main buttons
      *
-     * @return Magento_VersionsCms_Block_Adminhtml_Cms_Page_Preview_Buttons
+     * @return \Magento\VersionsCms\Block\Adminhtml\Cms\Page\Preview\Buttons
      */
     protected function _construct()
     {
@@ -34,7 +36,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Preview_Buttons extends Magen
                 'onclick' => 'preview()'
             ));
 
-        if (Mage::getSingleton('Magento_VersionsCms_Model_Config')->canCurrentUserPublishRevision()) {
+        if (\Mage::getSingleton('Magento\VersionsCms\Model\Config')->canCurrentUserPublishRevision()) {
             $this->_addButton('publish', array(
                 'id' => 'preview-buttons-publish',
                 'label' => 'Publish',

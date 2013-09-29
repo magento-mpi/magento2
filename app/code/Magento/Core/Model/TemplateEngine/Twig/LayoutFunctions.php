@@ -7,21 +7,23 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_TemplateEngine_Twig_LayoutFunctions
+namespace Magento\Core\Model\TemplateEngine\Twig;
+
+class LayoutFunctions
 {
 
     /**
-     * @var Magento_Core_Model_Layout
+     * @var \Magento\Core\Model\Layout
      */
     private $_layout;
 
     /**
-     * @var Magento_Core_Model_TemplateEngine_BlockTrackerInterface
+     * @var \Magento\Core\Model\TemplateEngine\BlockTrackerInterface
      */
     private $_blockTracker;
 
     public function __construct(
-        Magento_Core_Model_Layout $layout
+        \Magento\Core\Model\Layout $layout
     ) {
         $this->_layout = $layout;
     }
@@ -29,9 +31,9 @@ class Magento_Core_Model_TemplateEngine_Twig_LayoutFunctions
     /**
      * Sets the block tracker that is needed for dynamically determining the child html at runtime
      *
-     * @param Magento_Core_Model_TemplateEngine_BlockTrackerInterface $blockTracker
+     * @param \Magento\Core\Model\TemplateEngine\BlockTrackerInterface $blockTracker
      */
-    public function setBlockTracker(Magento_Core_Model_TemplateEngine_BlockTrackerInterface $blockTracker)
+    public function setBlockTracker(\Magento\Core\Model\TemplateEngine\BlockTrackerInterface $blockTracker)
     {
         $this->_blockTracker = $blockTracker;
     }
@@ -45,16 +47,16 @@ class Magento_Core_Model_TemplateEngine_Twig_LayoutFunctions
     {
         $options = array('is_safe' => array('html'));
         return array(
-            new Twig_SimpleFunction('getBlockData', array($this, 'getBlockData'), $options),
-            new Twig_SimpleFunction('getMessagesHtml',
+            new \Twig_SimpleFunction('getBlockData', array($this, 'getBlockData'), $options),
+            new \Twig_SimpleFunction('getMessagesHtml',
                 array($this->_layout->getMessagesBlock(), 'getGroupedHtml'), $options),
-            new Twig_SimpleFunction('executeRenderer', array($this->_layout, 'executeRenderer'), $options),
-            new Twig_SimpleFunction('getChildHtml', array($this, 'getChildHtml'), $options),
-            new Twig_SimpleFunction('getGroupChildNames', array($this, 'getGroupChildNames'), $options),
-            new Twig_SimpleFunction('getBlockNameByAlias', array($this, 'getBlockNameByAlias'), $options),
-            new Twig_SimpleFunction('createBlock', array($this->_layout, 'createBlock')),
-            new Twig_SimpleFunction('getElementAlias', array($this->_layout, 'getElementAlias'), $options),
-            new Twig_SimpleFunction('renderElement', array($this->_layout, 'renderElement'), $options),
+            new \Twig_SimpleFunction('executeRenderer', array($this->_layout, 'executeRenderer'), $options),
+            new \Twig_SimpleFunction('getChildHtml', array($this, 'getChildHtml'), $options),
+            new \Twig_SimpleFunction('getGroupChildNames', array($this, 'getGroupChildNames'), $options),
+            new \Twig_SimpleFunction('getBlockNameByAlias', array($this, 'getBlockNameByAlias'), $options),
+            new \Twig_SimpleFunction('createBlock', array($this->_layout, 'createBlock')),
+            new \Twig_SimpleFunction('getElementAlias', array($this->_layout, 'getElementAlias'), $options),
+            new \Twig_SimpleFunction('renderElement', array($this->_layout, 'renderElement'), $options),
         );
     }
 

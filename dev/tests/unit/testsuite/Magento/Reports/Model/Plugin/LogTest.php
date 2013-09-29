@@ -5,48 +5,50 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Reports_Model_Plugin_LogTest extends PHPUnit_Framework_TestCase
+namespace Magento\Reports\Model\Plugin;
+
+class LogTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Reports_Model_Plugin_Log
+     * @var \Magento\Reports\Model\Plugin\Log
      */
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_reportEventMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_cmpProductIdxMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_viewProductIdxMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_logResourceMock;
 
     protected function setUp()
     {
         $this->_reportEventMock = $this->getMock(
-            'Magento_Reports_Model_Event', array(), array(), '', false
+            'Magento\Reports\Model\Event', array(), array(), '', false
         );
         $this->_cmpProductIdxMock = $this->getMock(
-            'Magento_Reports_Model_Product_Index_Compared', array(), array(), '', false
+            'Magento\Reports\Model\Product\Index\Compared', array(), array(), '', false
         );
         $this->_viewProductIdxMock = $this->getMock(
-            'Magento_Reports_Model_Product_Index_Viewed', array(), array(), '', false
+            'Magento\Reports\Model\Product\Index\Viewed', array(), array(), '', false
         );
 
-        $this->_logResourceMock = $this->getMock('Magento_Log_Model_Resource_Log', array(), array(), '', false);
+        $this->_logResourceMock = $this->getMock('Magento\Log\Model\Resource\Log', array(), array(), '', false);
 
-        $this->_model = new Magento_Reports_Model_Plugin_Log(
+        $this->_model = new \Magento\Reports\Model\Plugin\Log(
             $this->_reportEventMock,
             $this->_cmpProductIdxMock,
             $this->_viewProductIdxMock
@@ -54,7 +56,7 @@ class Magento_Reports_Model_Plugin_LogTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Magento_Reports_Model_Plugin_Log::afterClean
+     * @covers \Magento\Reports\Model\Plugin\Log::afterClean
      */
     public function testAfterClean()
     {

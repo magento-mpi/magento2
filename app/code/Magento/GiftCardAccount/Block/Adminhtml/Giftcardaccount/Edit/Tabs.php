@@ -8,25 +8,27 @@
  * @license     {license_link}
  */
 
-class Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tabs extends Magento_Adminhtml_Block_Widget_Tabs
+namespace Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit;
+
+class Tabs extends \Magento\Adminhtml\Block\Widget\Tabs
 {
     /**
      * Core registry
      *
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -46,7 +48,7 @@ class Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tabs extends 
         $this->addTab('info', array(
             'label'     => __('Information'),
             'content'   => $this->getLayout()->createBlock(
-                'Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Info'
+                'Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tab\Info'
             )->initForm()->toHtml(),
             'active'    => true
         ));
@@ -54,7 +56,7 @@ class Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tabs extends 
         $this->addTab('send', array(
             'label'     => __('Send Gift Card'),
             'content'   => $this->getLayout()->createBlock(
-                'Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Send'
+                'Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tab\Send'
             )->initForm()->toHtml(),
         ));
 
@@ -63,7 +65,7 @@ class Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tabs extends 
             $this->addTab('history', array(
                 'label'     => __('History'),
                 'content'   => $this->getLayout()->createBlock(
-                    'Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_History'
+                    'Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tab\History'
                 )->toHtml(),
             ));
         }

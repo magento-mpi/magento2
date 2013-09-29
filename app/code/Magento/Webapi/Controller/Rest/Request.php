@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Controller_Rest_Request extends Magento_Webapi_Controller_Request
+namespace Magento\Webapi\Controller\Rest;
+
+class Request extends \Magento\Webapi\Controller\Request
 {
     /**
      * Character set which must be used in request.
@@ -20,28 +22,28 @@ class Magento_Webapi_Controller_Rest_Request extends Magento_Webapi_Controller_R
     /** @var string */
     protected $_serviceType;
 
-    /** @var Magento_Webapi_Controller_Rest_Request_DeserializerInterface */
+    /** @var \Magento\Webapi\Controller\Rest\Request\DeserializerInterface */
     protected $_deserializer;
 
     /** @var array */
     protected $_bodyParams;
 
-    /** @var Magento_Webapi_Controller_Rest_Request_Deserializer_Factory */
+    /** @var \Magento\Webapi\Controller\Rest\Request\Deserializer\Factory */
     protected $_deserializerFactory;
 
-    /** @var Magento_Core_Model_App */
+    /** @var \Magento\Core\Model\App */
     protected $_application;
 
     /**
      * Initialize dependencies.
      *
-     * @param Magento_Core_Model_App $application
-     * @param Magento_Webapi_Controller_Rest_Request_Deserializer_Factory $deserializerFactory
+     * @param \Magento\Core\Model\App $application
+     * @param \Magento\Webapi\Controller\Rest\Request\Deserializer\Factory $deserializerFactory
      * @param string|null $uri
      */
     public function __construct(
-        Magento_Core_Model_App $application,
-        Magento_Webapi_Controller_Rest_Request_Deserializer_Factory $deserializerFactory,
+        \Magento\Core\Model\App $application,
+        \Magento\Webapi\Controller\Rest\Request\Deserializer\Factory $deserializerFactory,
         $uri = null
     ) {
         parent::__construct($application, $uri);
@@ -51,7 +53,7 @@ class Magento_Webapi_Controller_Rest_Request extends Magento_Webapi_Controller_R
     /**
      * Get request deserializer.
      *
-     * @return Magento_Webapi_Controller_Rest_Request_DeserializerInterface
+     * @return \Magento\Webapi\Controller\Rest\Request\DeserializerInterface
      */
     protected function _getDeserializer()
     {
@@ -115,21 +117,21 @@ class Magento_Webapi_Controller_Rest_Request extends Magento_Webapi_Controller_R
      * Get Content-Type of request.
      *
      * @return string
-     * @throws Magento_Webapi_Exception
+     * @throws \Magento\Webapi\Exception
      */
     public function getContentType()
     {
         $headerValue = $this->getHeader('Content-Type');
 
         if (!$headerValue) {
-            throw new Magento_Webapi_Exception(__('Content-Type header is empty.'));
+            throw new \Magento\Webapi\Exception(__('Content-Type header is empty.'));
         }
         if (!preg_match('~^([a-z\d/\-+.]+)(?:; *charset=(.+))?$~Ui', $headerValue, $matches)) {
-            throw new Magento_Webapi_Exception(__('Content-Type header is invalid.'));
+            throw new \Magento\Webapi\Exception(__('Content-Type header is invalid.'));
         }
         // request encoding check if it is specified in header
         if (isset($matches[2]) && self::REQUEST_CHARSET != strtolower($matches[2])) {
-            throw new Magento_Webapi_Exception(__('UTF-8 is the only supported charset.'));
+            throw new \Magento\Webapi\Exception(__('UTF-8 is the only supported charset.'));
         }
 
         return $matches[1];
@@ -139,12 +141,12 @@ class Magento_Webapi_Controller_Rest_Request extends Magento_Webapi_Controller_R
      * Retrieve current HTTP method.
      *
      * @return string
-     * @throws Magento_Webapi_Exception
+     * @throws \Magento\Webapi\Exception
      */
     public function getHttpMethod()
     {
         if (!$this->isGet() && !$this->isPost() && !$this->isPut() && !$this->isDelete()) {
-            throw new Magento_Webapi_Exception(__('Request method is invalid.'));
+            throw new \Magento\Webapi\Exception(__('Request method is invalid.'));
         }
         return $this->getMethod();
     }
@@ -159,8 +161,8 @@ class Magento_Webapi_Controller_Rest_Request extends Magento_Webapi_Controller_R
         $requestBody = array();
 
         $httpMethod = $this->getHttpMethod();
-        if ($httpMethod == Magento_Webapi_Model_Rest_Config::HTTP_METHOD_POST
-            || $httpMethod == Magento_Webapi_Model_Rest_Config::HTTP_METHOD_PUT
+        if ($httpMethod == \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST
+            || $httpMethod == \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT
         ) {
             $requestBody = $this->getBodyParams();
         }

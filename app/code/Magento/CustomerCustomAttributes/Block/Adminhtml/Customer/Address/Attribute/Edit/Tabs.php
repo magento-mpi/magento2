@@ -16,8 +16,10 @@
  * @package     Magento_CustomerCustomAttributes
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Address_Attribute_Edit_Tabs
-    extends Magento_Adminhtml_Block_Widget_Tabs
+namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Address\Attribute\Edit;
+
+class Tabs
+    extends \Magento\Adminhtml\Block\Widget\Tabs
 {
     /**
      * Initialize edit tabs

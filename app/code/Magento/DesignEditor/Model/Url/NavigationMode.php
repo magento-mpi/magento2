@@ -11,12 +11,14 @@
 /**
  * Navigation mode design editor url model
  */
-class Magento_DesignEditor_Model_Url_NavigationMode extends Magento_Core_Model_Url
+namespace Magento\DesignEditor\Model\Url;
+
+class NavigationMode extends \Magento\Core\Model\Url
 {
     /**
      * VDE helper
      *
-     * @var Magento_DesignEditor_Helper_Data
+     * @var \Magento\DesignEditor\Helper\Data
      */
     protected $_helper;
 
@@ -35,17 +37,17 @@ class Magento_DesignEditor_Model_Url_NavigationMode extends Magento_Core_Model_U
     protected $_themeId;
 
     /**
-     * @param Magento_Core_Model_Url_SecurityInfoInterface $securityInfo
-     * @param Magento_DesignEditor_Helper_Data $helper
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Helper_Data $coreData
+     * @param \Magento\Core\Model\Url\SecurityInfoInterface $securityInfo
+     * @param \Magento\DesignEditor\Helper\Data $helper
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Helper\Data $coreData
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Url_SecurityInfoInterface $securityInfo,
-        Magento_DesignEditor_Helper_Data $helper,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Helper_Data $coreData,
+        \Magento\Core\Model\Url\SecurityInfoInterface $securityInfo,
+        \Magento\DesignEditor\Helper\Data $helper,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Helper\Data $coreData,
         array $data = array()
     ) {
         $this->_helper = $helper;

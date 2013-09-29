@@ -7,19 +7,21 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Locale_Hierarchy_Config extends Magento_Config_Data
+namespace Magento\Core\Model\Locale\Hierarchy;
+
+class Config extends \Magento\Config\Data
 {
     /**
      * Configuration data reader
      *
-     * @var Magento_Core_Model_Locale_Hierarchy_Config_Reader
+     * @var \Magento\Core\Model\Locale\Hierarchy\Config\Reader
      */
     protected $_reader;
 
     /**
      * Configuration cache model
      *
-     * @var Magento_Config_CacheInterface
+     * @var \Magento\Config\CacheInterface
      */
     protected $_cache;
 
@@ -31,13 +33,13 @@ class Magento_Core_Model_Locale_Hierarchy_Config extends Magento_Config_Data
     protected $_cacheId;
 
     /**
-     * @param Magento_Config_ReaderInterface $reader
-     * @param Magento_Config_CacheInterface $cache
+     * @param \Magento\Config\ReaderInterface $reader
+     * @param \Magento\Config\CacheInterface $cache
      * @param string $cacheId
      */
     public function __construct(
-        Magento_Config_ReaderInterface $reader,
-        Magento_Config_CacheInterface $cache,
+        \Magento\Config\ReaderInterface $reader,
+        \Magento\Config\CacheInterface $cache,
         $cacheId = 'local_hierarchy_cache'
     ) {
         parent::__construct($reader, $cache, $cacheId);

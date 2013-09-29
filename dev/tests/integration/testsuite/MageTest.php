@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
-class MageTest extends PHPUnit_Framework_TestCase
+class MageTest extends \PHPUnit_Framework_TestCase
 {
     public function testIsInstalled()
     {
-        $this->assertTrue(Mage::isInstalled());
+        $this->assertTrue(\Mage::isInstalled());
     }
 
     /**
@@ -23,7 +23,7 @@ class MageTest extends PHPUnit_Framework_TestCase
      */
     public function testGetModel($classId, $expectedClassName)
     {
-        $this->assertInstanceOf($expectedClassName, Mage::getModel($classId));
+        $this->assertInstanceOf($expectedClassName, \Mage::getModel($classId));
     }
 
     /**
@@ -32,7 +32,7 @@ class MageTest extends PHPUnit_Framework_TestCase
     public function getModelDataProvider()
     {
         return array(
-            array('Magento_Core_Model_Config', 'Magento_Core_Model_Config')
+            array('Magento\Core\Model\Config', 'Magento\Core\Model\Config')
         );
     }
 
@@ -43,7 +43,7 @@ class MageTest extends PHPUnit_Framework_TestCase
      */
     public function testGetResourceModel($classId, $expectedClassName)
     {
-        $this->assertInstanceOf($expectedClassName, Mage::getResourceModel($classId));
+        $this->assertInstanceOf($expectedClassName, \Mage::getResourceModel($classId));
     }
 
     /**
@@ -52,7 +52,7 @@ class MageTest extends PHPUnit_Framework_TestCase
     public function getResourceModelDataProvider()
     {
         return array(
-            array('Magento_Core_Model_Resource_Config', 'Magento_Core_Model_Resource_Config')
+            array('Magento\Core\Model\Resource\Config', 'Magento\Core\Model\Resource\Config')
         );
     }
 
@@ -63,7 +63,7 @@ class MageTest extends PHPUnit_Framework_TestCase
      */
     public function testGetResourceHelper($module, $expectedClassName)
     {
-        $this->assertInstanceOf($expectedClassName, Mage::getResourceHelper($module));
+        $this->assertInstanceOf($expectedClassName, \Mage::getResourceHelper($module));
     }
 
     /**
@@ -72,7 +72,7 @@ class MageTest extends PHPUnit_Framework_TestCase
     public function getResourceHelperDataProvider()
     {
         return array(
-            array('Magento_Core', 'Magento_Core_Model_Resource_Helper_Abstract')
+            array('Magento_Core', 'Magento\Core\Model\Resource\Helper\AbstractHelper')
         );
     }
 }

@@ -7,12 +7,14 @@
  */
 
 /**
- * Magento_Cache_Core test case
+ * \Magento\Cache\Core test case
  */
-class Magento_Cache_CoreTest extends PHPUnit_Framework_TestCase
+namespace Magento\Cache;
+
+class CoreTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Cache_Core
+     * @var \Magento\Cache\Core
      */
     protected $_core;
 
@@ -22,10 +24,10 @@ class Magento_Cache_CoreTest extends PHPUnit_Framework_TestCase
     protected static $_cacheStorage = array();
 
     /**
-     * Selected mock of Zend_Cache_Backend_File to have extended
-     * Zend_Cache_Backend and implemented Zend_Cache_Backend_Interface
+     * Selected mock of \Zend_Cache_Backend_File to have extended
+     * \Zend_Cache_Backend and implemented \Zend_Cache_Backend_Interface
      *
-     * @var Zend_Cache_Backend_File
+     * @var \Zend_Cache_Backend_File
      */
     protected $_mockBackend;
 
@@ -41,20 +43,20 @@ class Magento_Cache_CoreTest extends PHPUnit_Framework_TestCase
 
     public function testSetBackendDefault()
     {
-        $core = new Magento_Cache_Core();
+        $core = new \Magento\Cache\Core();
         $core->setBackend($this->_mockBackend);
 
-        $this->assertNotInstanceOf('Magento_Cache_Backend_Decorator_DecoratorAbstract', $core->getBackend());
+        $this->assertNotInstanceOf('Magento\Cache\Backend\Decorator\DecoratorAbstract', $core->getBackend());
         $this->assertEquals($this->_mockBackend, $core->getBackend());
     }
 
     /**
      * @dataProvider setBackendExceptionProvider
-     * @expectedException Zend_Cache_Exception
+     * @expectedException \Zend_Cache_Exception
      */
     public function testSetBackendException($decorators)
     {
-        $core = new Magento_Cache_Core(array('backend_decorators' => $decorators));
+        $core = new \Magento\Cache\Core(array('backend_decorators' => $decorators));
         $core->setBackend($this->_mockBackend);
     }
 
@@ -74,7 +76,7 @@ class Magento_Cache_CoreTest extends PHPUnit_Framework_TestCase
         $backendMock = $this->getMock('Zend_Cache_Backend_BlackHole');
         $backendMock->expects($this->never())
             ->method('save');
-        $frontend = new Magento_Cache_Core(array('disable_save' => true));
+        $frontend = new \Magento\Cache\Core(array('disable_save' => true));
         $frontend->setBackend($backendMock);
         $result = $frontend->save('data', 'id');
         $this->assertTrue($result);

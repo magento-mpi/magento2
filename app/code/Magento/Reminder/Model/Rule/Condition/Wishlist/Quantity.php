@@ -11,8 +11,10 @@
 /**
  * Wishlist items quantity condition
  */
-class Magento_Reminder_Model_Rule_Condition_Wishlist_Quantity
-    extends Magento_Reminder_Model_Condition_Abstract
+namespace Magento\Reminder\Model\Rule\Condition\Wishlist;
+
+class Quantity
+    extends \Magento\Reminder\Model\Condition\AbstractCondition
 {
     /**
      * @var string
@@ -20,13 +22,13 @@ class Magento_Reminder_Model_Rule_Condition_Wishlist_Quantity
     protected $_inputType = 'numeric';
 
     /**
-     * @param Magento_Rule_Model_Condition_Context $context
+     * @param \Magento\Rule\Model\Condition\Context $context
      * @param array $data
      */
-    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
+    public function __construct(\Magento\Rule\Model\Condition\Context $context, array $data = array())
     {
         parent::__construct($context, $data);
-        $this->setType('Magento_Reminder_Model_Rule_Condition_Wishlist_Quantity');
+        $this->setType('Magento\Reminder\Model\Rule\Condition\Wishlist\Quantity');
         $this->setValue(null);
     }
 
@@ -57,8 +59,8 @@ class Magento_Reminder_Model_Rule_Condition_Wishlist_Quantity
      * Get SQL select
      *
      * @param $customer
-     * @param int | Zend_Db_Expr $website
-     * @return Magento_DB_Select
+     * @param int | \Zend_Db_Expr $website
+     * @return \Magento\DB\Select
      */
     public function getConditionsSql($customer, $website)
     {
@@ -73,7 +75,7 @@ class Magento_Reminder_Model_Rule_Condition_Wishlist_Quantity
         );
 
         $select = $this->getResource()->createSelect();
-        $select->from(array('item' => $wishlistItemTable), array(new Zend_Db_Expr($result)));
+        $select->from(array('item' => $wishlistItemTable), array(new \Zend_Db_Expr($result)));
 
         $select->joinInner(
             array('list' => $wishlistTable),

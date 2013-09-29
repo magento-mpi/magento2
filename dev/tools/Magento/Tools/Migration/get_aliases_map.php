@@ -35,7 +35,7 @@ if (isset($options['p'])) {
     $magentoBaseDir = $options['p'];
 }
 
-$utilityFiles = new Magento_TestFramework_Utility_Files($magentoBaseDir);
+$utilityFiles = new Magento\TestFramework\Utility\Files($magentoBaseDir);
 $map = array();
 $compositeModules = getFilesCombinedArray(__DIR__ . '/AliasesMap', '/^composite_modules_.*\.php$/');
 // PHP code
@@ -75,7 +75,7 @@ $classType = 'Block';
 $layouts = $utilityFiles->getLayoutFiles(array(), false);
 foreach ($layouts as $file) {
     $xml = simplexml_load_file($file);
-    $classes = Magento_TestFramework_Utility_Classes::collectLayoutClasses($xml);
+    $classes = \Magento\TestFramework\Utility\Classes::collectLayoutClasses($xml);
     $factoryNames = array_filter($classes, 'isFactoryName');
     if (!$factoryNames) {
         continue;

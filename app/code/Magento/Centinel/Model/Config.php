@@ -11,12 +11,14 @@
 /**
  * Config centinel model
  */
-class Magento_Centinel_Model_Config
+namespace Magento\Centinel\Model;
+
+class Config
 {
     /**
      * Store id or store model
      *
-     * @var int|Magento_Core_Model_Store
+     * @var int|\Magento\Core\Model\Store
      */
     protected $_store = false;
 
@@ -30,31 +32,31 @@ class Magento_Centinel_Model_Config
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
-     * @var Magento_Core_Model_Config
+     * @var \Magento\Core\Model\Config
      */
     protected $_coreConfig;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_Config $coreConfig
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\Config $coreConfig
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_Config $coreConfig
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\Config $coreConfig
     ) {
         $this->_coreData = $coreData;
         $this->_coreStoreConfig = $coreStoreConfig;
@@ -64,8 +66,8 @@ class Magento_Centinel_Model_Config
     /**
      * Set store to congif model
      *
-     * @param int|Magento_Core_Model_Store $store
-     * @return Magento_Centinel_Model_Config
+     * @param int|\Magento\Core\Model\Store $store
+     * @return \Magento\Centinel\Model\Config
      */
     public function setStore($store)
     {
@@ -76,7 +78,7 @@ class Magento_Centinel_Model_Config
     /**
      * Return store
      *
-     * @return int|Magento_Core_Model_Store
+     * @return int|\Magento\Core\Model\Store
      */
     public function getStore()
     {

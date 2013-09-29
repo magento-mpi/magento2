@@ -5,7 +5,9 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-class Magento_FirstModule_Helper_Helper
+namespace Magento\FirstModule\Helper;
+
+class Helper
 {
     /**
      * @return void

@@ -10,12 +10,14 @@
  * @license     {license_link}
  */
 
-class Magento_FullPageCache_Model_Processor_Restriction
-    implements Magento_FullPageCache_Model_Processor_RestrictionInterface
+namespace Magento\FullPageCache\Model\Processor;
+
+class Restriction
+    implements \Magento\FullPageCache\Model\Processor\RestrictionInterface
 {
 
     /**
-     * @var Magento_Core_Model_Cache_StateInterface
+     * @var \Magento\Core\Model\Cache\StateInterface
      */
     protected $_cacheState;
 
@@ -29,17 +31,17 @@ class Magento_FullPageCache_Model_Processor_Restriction
     /**
      * Application environment
      *
-     * @var Magento_FullPageCache_Model_Environment
+     * @var \Magento\FullPageCache\Model\Environment
      */
     protected $_environment;
 
     /**
-     * @param Magento_Core_Model_Cache_StateInterface $cacheState
-     * @param Magento_FullPageCache_Model_Environment $environment
+     * @param \Magento\Core\Model\Cache\StateInterface $cacheState
+     * @param \Magento\FullPageCache\Model\Environment $environment
      */
     public function __construct(
-        Magento_Core_Model_Cache_StateInterface $cacheState,
-        Magento_FullPageCache_Model_Environment $environment
+        \Magento\Core\Model\Cache\StateInterface $cacheState,
+        \Magento\FullPageCache\Model\Environment $environment
     ) {
         $this->_cacheState = $cacheState;
         $this->_environment = $environment;
@@ -61,7 +63,9 @@ class Magento_FullPageCache_Model_Processor_Restriction
             return false;
         }
 
-        if ($this->_environment->hasCookie(self::NO_CACHE_COOKIE)) {
+        if ($this->_environment->hasCookie(
+              \Magento\FullPageCache\Model\Processor\RestrictionInterface::NO_CACHE_COOKIE)
+        ) {
             return false;
         }
 
@@ -69,7 +73,7 @@ class Magento_FullPageCache_Model_Processor_Restriction
             return false;
         }
 
-        if ($this->_environment->hasQuery(Magento_Core_Model_Session_Abstract::SESSION_ID_QUERY_PARAM)) {
+        if ($this->_environment->hasQuery(\Magento\Core\Model\Session\AbstractSession::SESSION_ID_QUERY_PARAM)) {
             return false;
         }
 

@@ -11,7 +11,9 @@
 
 
 
-class Magento_Catalog_Exception extends Zend_Exception 
+namespace Magento\Catalog;
+
+class Exception extends \Zend_Exception
 {
     
 }

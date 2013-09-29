@@ -16,7 +16,9 @@
  * @package     Magento_Paypal
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Paypal_Model_Resource_Report_Settlement extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Paypal\Model\Resource\Report;
+
+class Settlement extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Table name
@@ -38,10 +40,10 @@ class Magento_Paypal_Model_Resource_Report_Settlement extends Magento_Core_Model
     /**
      * Save report rows collected in settlement model
      *
-     * @param Magento_Paypal_Model_Report_Settlement $object
-     * @return Magento_Paypal_Model_Resource_Report_Settlement
+     * @param \Magento\Paypal\Model\Report\Settlement $object
+     * @return \Magento\Paypal\Model\Resource\Report\Settlement
      */
-    protected function _afterSave(Magento_Core_Model_Abstract $object)
+    protected function _afterSave(\Magento\Core\Model\AbstractModel $object)
     {
         $rows = $object->getRows();
         if (is_array($rows)) {
@@ -52,16 +54,16 @@ class Magento_Paypal_Model_Resource_Report_Settlement extends Magento_Core_Model
                 if ($reportId) {
                     $adapter->delete($this->_rowsTable, array('report_id = ?' => $reportId));
                 }
-                /** @var $date Magento_Core_Model_Date */
-                $date = Mage::getSingleton('Magento_Core_Model_Date');
+                /** @var $date \Magento\Core\Model\Date */
+                $date = \Mage::getSingleton('Magento\Core\Model\Date');
 
                 foreach ($rows as $key => $row) {
                     /*
                      * Converting dates
                      */
-                    $completionDate = new Zend_Date($rows[$key]['transaction_completion_date']);
+                    $completionDate = new \Zend_Date($rows[$key]['transaction_completion_date']);
                     $rows[$key]['transaction_completion_date'] = $date->date(null, $completionDate->getTimestamp());
-                    $initiationDate = new Zend_Date($rows[$key]['transaction_initiation_date']);
+                    $initiationDate = new \Zend_Date($rows[$key]['transaction_initiation_date']);
                     $rows[$key]['transaction_initiation_date'] = $date->date(null, $initiationDate->getTimestamp());
                     /*
                      * Converting numeric
@@ -76,7 +78,7 @@ class Magento_Paypal_Model_Resource_Report_Settlement extends Magento_Core_Model
                     $adapter->insertMultiple($this->_rowsTable, $rows);
                 }
                 $adapter->commit();
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $adapter->rollback();
             }
         }
@@ -87,12 +89,12 @@ class Magento_Paypal_Model_Resource_Report_Settlement extends Magento_Core_Model
     /**
      * Check if report with same account and report date already fetched
      *
-     * @param Magento_Paypal_Model_Report_Settlement $report
+     * @param \Magento\Paypal\Model\Report\Settlement $report
      * @param string $accountId
      * @param string $reportDate
-     * @return Magento_Paypal_Model_Resource_Report_Settlement
+     * @return \Magento\Paypal\Model\Resource\Report\Settlement
      */
-    public function loadByAccountAndDate(Magento_Paypal_Model_Report_Settlement $report, $accountId, $reportDate)
+    public function loadByAccountAndDate(\Magento\Paypal\Model\Report\Settlement $report, $accountId, $reportDate)
     {
         $adapter = $this->_getReadAdapter();
         $select  = $adapter->select()

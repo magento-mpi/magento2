@@ -10,18 +10,18 @@
 <config>
     <totals>
         <total name="subtotal">
-            <model>Magento_Tax_Model_Sales_Pdf_Subtotal</model>
+            <model>Magento\Tax\Model\Sales\Pdf\Subtotal</model>
         </total>
         <total name="shipping">
-            <model>Magento_Tax_Model_Sales_Pdf_Shipping</model>
+            <model>Magento\Tax\Model\Sales\Pdf\Shipping</model>
         </total>
         <total name="grand_total">
-            <model>Magento_Tax_Model_Sales_Pdf_Grandtotal</model>
+            <model>Magento\Tax\Model\Sales\Pdf\Grandtotal</model>
         </total>
         <total name="tax">
             <title translate="true">Tax</title>
             <source_field>tax_amount</source_field>
-            <model>Magento_Tax_Model_Sales_Pdf_Tax</model>
+            <model>Magento\Tax\Model\Sales\Pdf\Tax</model>
             <font_size>7</font_size>
             <display_zero>0</display_zero>
             <sort_order>300</sort_order>

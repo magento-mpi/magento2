@@ -9,7 +9,9 @@
 /**
  * Dummy object to test creation of decorators for cache frontend
  */
-class Magento_Core_Model_Cache_Frontend_FactoryTest_CacheDecoratorDummy extends Magento_Cache_Frontend_Decorator_Bare
+namespace Magento\Core\Model\Cache\Frontend\FactoryTest;
+
+class CacheDecoratorDummy extends \Magento\Cache\Frontend\Decorator\Bare
 {
     /**
      * @var array
@@ -17,10 +19,10 @@ class Magento_Core_Model_Cache_Frontend_FactoryTest_CacheDecoratorDummy extends 
     protected $_params;
 
     /**
-     * @param Magento_Cache_FrontendInterface $frontend
+     * @param \Magento\Cache\FrontendInterface $frontend
      * @param array $params
      */
-    public function __construct(Magento_Cache_FrontendInterface $frontend, array $params)
+    public function __construct(\Magento\Cache\FrontendInterface $frontend, array $params)
     {
         parent::__construct($frontend);
         $this->_params = $params;

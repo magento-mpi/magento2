@@ -9,14 +9,16 @@
  */
 
 /**
- * Factory class for Magento_Usa_Model_Shipping_Carrier_Abstract
+ * Factory class for \Magento\Usa\Model\Shipping\Carrier\AbstractCarrier
  */
-class Magento_Rma_Model_CarrierFactory
+namespace Magento\Rma\Model;
+
+class CarrierFactory
 {
     /**
      * Object Manager instance
      *
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
@@ -25,7 +27,7 @@ class Magento_Rma_Model_CarrierFactory
      *
      * @param \Magento_ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
@@ -35,14 +37,14 @@ class Magento_Rma_Model_CarrierFactory
      *
      * @param string $className
      * @param array $data
-     * @return Magento_Usa_Model_Shipping_Carrier_Abstract
-     * @throws InvalidArgumentException
+     * @return \Magento\Usa\Model\Shipping\Carrier\AbstractCarrier
+     * @throws \InvalidArgumentException
      */
     public function create($className, array $data = array())
     {
         $carrier =  $this->_objectManager->create($className, $data);
-        if ($carrier instanceof Magento_Usa_Model_Shipping_Carrier_Abstract) {
-            throw new InvalidArgumentException("{$className} don't extend Magento_Usa_Model_Shipping_Carrier_Abstract");
+        if ($carrier instanceof \Magento\Usa\Model\Shipping\Carrier\AbstractCarrier) {
+            throw new \InvalidArgumentException("{$className} don't extend \Magento\Usa\Model\Shipping\Carrier\AbstractCarrier");
         }
         return $carrier;
     }

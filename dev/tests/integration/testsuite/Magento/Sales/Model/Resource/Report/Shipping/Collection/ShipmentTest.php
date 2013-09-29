@@ -6,17 +6,19 @@
  * @license     {license_link}
  */
 
-class Magento_Sales_Model_Resource_Report_Shipping_Collection_ShipmentTest extends PHPUnit_Framework_TestCase
+namespace Magento\Sales\Model\Resource\Report\Shipping\Collection;
+
+class ShipmentTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Sales_Model_Resource_Report_Shipping_Collection_Shipment
+     * @var \Magento\Sales\Model\Resource\Report\Shipping\Collection\Shipment
      */
     private $_collection;
 
     protected function setUp()
     {
-        $this->_collection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Sales_Model_Resource_Report_Shipping_Collection_Shipment');
+        $this->_collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Sales\Model\Resource\Report\Shipping\Collection\Shipment');
         $this->_collection
             ->setPeriod('day')
             ->setDateRange(null, null)
@@ -38,7 +40,7 @@ class Magento_Sales_Model_Resource_Report_Shipping_Collection_ShipmentTest exten
             ),
         );
         $actualResult = array();
-        /** @var Magento_Adminhtml_Model_Report_Item $reportItem */
+        /** @var \Magento\Adminhtml\Model\Report\Item $reportItem */
         foreach ($this->_collection->getItems() as $reportItem) {
             $actualResult[] = array_intersect_key($reportItem->getData(), $expectedResult[0]);
         }

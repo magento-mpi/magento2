@@ -15,7 +15,9 @@
  * @package    Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Block_Order_Creditmemo extends Magento_Sales_Block_Order_Creditmemo_Items
+namespace Magento\Sales\Block\Order;
+
+class Creditmemo extends \Magento\Sales\Block\Order\Creditmemo\Items
 {
     /**
      * @var string
@@ -23,22 +25,22 @@ class Magento_Sales_Block_Order_Creditmemo extends Magento_Sales_Block_Order_Cre
     protected $_template = 'order/creditmemo.phtml';
 
     /**
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Customer_Model_Session $customerSession
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Customer\Model\Session $customerSession
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Customer_Model_Session $customerSession,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Customer\Model\Session $customerSession,
         array $data = array()
     ) {
         $this->_customerSession = $customerSession;
@@ -53,7 +55,7 @@ class Magento_Sales_Block_Order_Creditmemo extends Magento_Sales_Block_Order_Cre
         }
         $this->setChild(
             'payment_info',
-            $this->helper('Magento_Payment_Helper_Data')->getInfoBlock($this->getOrder()->getPayment())
+            $this->helper('Magento\Payment\Helper\Data')->getInfoBlock($this->getOrder()->getPayment())
         );
     }
 
@@ -68,7 +70,7 @@ class Magento_Sales_Block_Order_Creditmemo extends Magento_Sales_Block_Order_Cre
     /**
      * Retrieve current order model instance
      *
-     * @return Magento_Sales_Model_Order
+     * @return \Magento\Sales\Model\Order
      */
     public function getOrder()
     {

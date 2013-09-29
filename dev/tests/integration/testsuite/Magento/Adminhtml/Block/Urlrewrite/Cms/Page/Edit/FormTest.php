@@ -9,25 +9,27 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\Block\Urlrewrite\Cms\Page\Edit;
+
 /**
- * Test for Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_FormTest
+ * Test for \Magento\Adminhtml\Block\Urlrewrite\Cms\Page\Edit\FormTest
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_FormTest extends PHPUnit_Framework_TestCase
+class FormTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Get form instance
      *
      * @param array $args
-     * @return Magento_Data_Form
+     * @return \Magento\Data\Form
      */
     protected function _getFormInstance($args = array())
     {
-        /** @var $layout Magento_Core_Model_Layout */
-        $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout');
-        /** @var $block Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_Form */
+        /** @var $layout \Magento\Core\Model\Layout */
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout');
+        /** @var $block \Magento\Adminhtml\Block\Urlrewrite\Cms\Page\Edit\Form */
         $block = $layout->createBlock(
-            'Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_Form', 'block', array('data' => $args)
+            'Magento\Adminhtml\Block\Urlrewrite\Cms\Page\Edit\Form', 'block', array('data' => $args)
         );
         $block->setTemplate(null);
         $block->toHtml();
@@ -37,7 +39,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_FormTest extends PHPUnit_
     /**
      * Check _formPostInit set expected fields values
      *
-     * @covers Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_Form::_formPostInit
+     * @covers \Magento\Adminhtml\Block\Urlrewrite\Cms\Page\Edit\Form::_formPostInit
      *
      * @dataProvider formPostInitDataProvider
      *
@@ -53,8 +55,8 @@ class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_FormTest extends PHPUnit_
     {
         $args = array();
         if ($cmsPageData) {
-            $args['cms_page'] = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create(
-                'Magento_Cms_Model_Page', array('data' => $cmsPageData)
+            $args['cms_page'] = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+                'Magento\Cms\Model\Page', array('data' => $cmsPageData)
             );
         }
         $form = $this->_getFormInstance($args);
@@ -105,7 +107,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_FormTest extends PHPUnit_
      * @magentoAppIsolation enabled
      * @magentoDataFixture Magento/Core/_files/store.php
      *
-     * @expectedException Magento_Core_Model_Store_Exception
+     * @expectedException \Magento\Core\Model\Store\Exception
      * @expectedExceptionMessage Chosen cms page does not associated with any website.
      */
     public function testGetEntityStoresProductStoresException()
@@ -137,11 +139,11 @@ class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_FormTest extends PHPUnit_
      * Get CMS page model mock
      *
      * @param $stores
-     * @return PHPUnit_Framework_MockObject_MockObject|Magento_Cms_Model_Page
+     * @return \PHPUnit_Framework_MockObject_MockObject|\Magento\Cms\Model\Page
      */
     protected function _getCmsPageWithStoresMock($stores)
     {
-        $resourceMock = $this->getMockBuilder('Magento_Cms_Model_Resource_Page')
+        $resourceMock = $this->getMockBuilder('Magento\Cms\Model\Resource\Page')
             ->setMethods(array('lookupStoreIds'))
             ->disableOriginalConstructor()
             ->getMock();
@@ -149,7 +151,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_FormTest extends PHPUnit_
             ->method('lookupStoreIds')
             ->will($this->returnValue($stores));
 
-        $cmsPageMock = $this->getMockBuilder('Magento_Cms_Model_Page')
+        $cmsPageMock = $this->getMockBuilder('Magento\Cms\Model\Page')
             ->setMethods(array('getResource', 'getId'))
             ->disableOriginalConstructor()
             ->getMock();

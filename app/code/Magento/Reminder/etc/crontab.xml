@@ -8,7 +8,7 @@
  */
 -->
 <config>
-    <job name="send_notification" instance="Magento_Reminder_Model_Observer" method="scheduledNotification">
+    <job name="send_notification" instance="Magento\Reminder\Model\Observer" method="scheduledNotification">
         <schedule>*/15 * * * *</schedule>
     </job>
 </config>

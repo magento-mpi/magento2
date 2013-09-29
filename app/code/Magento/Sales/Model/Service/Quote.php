@@ -11,19 +11,21 @@
 /**
  * Quote submit service model
  */
-class Magento_Sales_Model_Service_Quote
+namespace Magento\Sales\Model\Service;
+
+class Quote
 {
     /**
      * Quote object
      *
-     * @var Magento_Sales_Model_Quote
+     * @var \Magento\Sales\Model\Quote
      */
     protected $_quote;
 
     /**
      * Quote convert object
      *
-     * @var Magento_Sales_Model_Convert_Quote
+     * @var \Magento\Sales\Model\Convert\Quote
      */
     protected $_convertor;
 
@@ -44,7 +46,7 @@ class Magento_Sales_Model_Service_Quote
     /**
      * Order that may be created during submission
      *
-     * @var Magento_Sales_Model_Order
+     * @var \Magento\Sales\Model\Order
      */
     protected $_order = null;
 
@@ -58,35 +60,35 @@ class Magento_Sales_Model_Service_Quote
     /**
      * Core event manager proxy
      *
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventManager = null;
 
     /**
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
 
     /**
-     * @var Magento_Core_Model_Resource_TransactionFactory
+     * @var \Magento\Core\Model\Resource\TransactionFactory
      */
     protected $_transactionFactory;
 
     /**
      * Class constructor
      *
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Sales_Model_Quote $quote
-     * @param Magento_Sales_Model_Convert_QuoteFactory $convertQuoteFactory
-     * @param Magento_Customer_Model_Session $customerSession
-     * @param Magento_Core_Model_Resource_TransactionFactory $transactionFactory
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Sales\Model\Quote $quote
+     * @param \Magento\Sales\Model\Convert\QuoteFactory $convertQuoteFactory
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Core\Model\Resource\TransactionFactory $transactionFactory
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Sales_Model_Quote $quote,
-        Magento_Sales_Model_Convert_QuoteFactory $convertQuoteFactory,
-        Magento_Customer_Model_Session $customerSession,
-        Magento_Core_Model_Resource_TransactionFactory $transactionFactory
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Sales\Model\Quote $quote,
+        \Magento\Sales\Model\Convert\QuoteFactory $convertQuoteFactory,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Core\Model\Resource\TransactionFactory $transactionFactory
     ) {
         $this->_eventManager = $eventManager;
         $this->_quote = $quote;
@@ -98,10 +100,10 @@ class Magento_Sales_Model_Service_Quote
     /**
      * Quote convertor declaration
      *
-     * @param   Magento_Sales_Model_Convert_Quote $convertor
-     * @return  Magento_Sales_Model_Service_Quote
+     * @param   \Magento\Sales\Model\Convert\Quote $convertor
+     * @return  \Magento\Sales\Model\Service\Quote
      */
-    public function setConvertor(Magento_Sales_Model_Convert_Quote $convertor)
+    public function setConvertor(\Magento\Sales\Model\Convert\Quote $convertor)
     {
         $this->_convertor = $convertor;
         return $this;
@@ -110,7 +112,7 @@ class Magento_Sales_Model_Service_Quote
     /**
      * Get assigned quote object
      *
-     * @return Magento_Sales_Model_Quote
+     * @return \Magento\Sales\Model\Quote
      */
     public function getQuote()
     {
@@ -121,7 +123,7 @@ class Magento_Sales_Model_Service_Quote
      * Specify additional order data
      *
      * @param array $data
-     * @return Magento_Sales_Model_Service_Quote
+     * @return \Magento\Sales\Model\Service\Quote
      */
     public function setOrderData(array $data)
     {
@@ -132,8 +134,8 @@ class Magento_Sales_Model_Service_Quote
     /**
      * Submit the quote. Quote submit process will create the order based on quote data
      *
-     * @return Magento_Sales_Model_Order
-     * @throws Exception
+     * @return \Magento\Sales\Model\Order
+     * @throws \Exception
      */
     public function submitOrder()
     {
@@ -202,7 +204,7 @@ class Magento_Sales_Model_Service_Quote
                 'order' => $order,
                 'quote' => $quote
             ));
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             if (!$this->_customerSession->isLoggedIn()) {
                 // reset customer ID's on exception, because customer not saved
                 $quote->getCustomer()->setId(null);
@@ -210,7 +212,7 @@ class Magento_Sales_Model_Service_Quote
 
             //reset order ID's on exception, because order not saved
             $order->setId(null);
-            /** @var $item Magento_Sales_Model_Order_Item */
+            /** @var $item \Magento\Sales\Model\Order\Item */
             foreach ($order->getItemsCollection() as $item) {
                 $item->setOrderId(null);
                 $item->setItemId(null);
@@ -255,7 +257,7 @@ class Magento_Sales_Model_Service_Quote
         try {
             $this->submitNominalItems();
             $this->_shouldInactivateQuote = $inactivateQuoteOld;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_shouldInactivateQuote = $inactivateQuoteOld;
             throw $e;
         }
@@ -280,7 +282,7 @@ class Magento_Sales_Model_Service_Quote
     /**
      * Get an order that may had been created during submission
      *
-     * @return Magento_Sales_Model_Order
+     * @return \Magento\Sales\Model\Order
      */
     public function getOrder()
     {
@@ -290,7 +292,7 @@ class Magento_Sales_Model_Service_Quote
     /**
      * Inactivate quote
      *
-     * @return Magento_Sales_Model_Service_Quote
+     * @return \Magento\Sales\Model\Service\Quote
      */
     protected function _inactivateQuote()
     {
@@ -303,8 +305,8 @@ class Magento_Sales_Model_Service_Quote
     /**
      * Validate quote data before converting to order
      *
-     * @return Magento_Sales_Model_Service_Quote
-     * @throws Magento_Core_Exception
+     * @return \Magento\Sales\Model\Service\Quote
+     * @throws \Magento\Core\Exception
      */
     protected function _validate()
     {
@@ -312,26 +314,26 @@ class Magento_Sales_Model_Service_Quote
             $address = $this->getQuote()->getShippingAddress();
             $addressValidation = $address->validate();
             if ($addressValidation !== true) {
-                throw new Magento_Core_Exception(
+                throw new \Magento\Core\Exception(
                     __('Please check the shipping address information. %1', implode(' ', $addressValidation))
                 );
             }
             $method= $address->getShippingMethod();
             $rate  = $address->getShippingRateByCode($method);
             if (!$this->getQuote()->isVirtual() && (!$method || !$rate)) {
-                throw new Magento_Core_Exception(__('Please specify a shipping method.'));
+                throw new \Magento\Core\Exception(__('Please specify a shipping method.'));
             }
         }
 
         $addressValidation = $this->getQuote()->getBillingAddress()->validate();
         if ($addressValidation !== true) {
-            throw new Magento_Core_Exception(
+            throw new \Magento\Core\Exception(
                 __('Please check the billing address information. %1', implode(' ', $addressValidation))
             );
         }
 
         if (!($this->getQuote()->getPayment()->getMethod())) {
-            throw new Magento_Core_Exception(__('Please select a valid payment method.'));
+            throw new \Magento\Core\Exception(__('Please select a valid payment method.'));
         }
 
         return $this;
@@ -340,14 +342,14 @@ class Magento_Sales_Model_Service_Quote
     /**
      * Submit recurring payment profiles
      *
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     protected function _submitRecurringPaymentProfiles()
     {
         $profiles = $this->_quote->prepareRecurringPaymentProfiles();
         foreach ($profiles as $profile) {
             if (!$profile->isValid()) {
-                throw new Magento_Core_Exception($profile->getValidationErrors(true, true));
+                throw new \Magento\Core\Exception($profile->getValidationErrors(true, true));
             }
             $profile->submit();
         }

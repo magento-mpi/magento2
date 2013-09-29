@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Config_DomTest extends PHPUnit_Framework_TestCase
+namespace Magento\Config;
+
+class DomTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @param string $xmlFile
@@ -23,7 +25,7 @@ class Magento_Config_DomTest extends PHPUnit_Framework_TestCase
         $xml = file_get_contents(__DIR__ . "/_files/dom/{$xmlFile}");
         $newXml = file_get_contents(__DIR__ . "/_files/dom/{$newXmlFile}");
         $expectedXml = file_get_contents(__DIR__ . "/_files/dom/{$expectedXmlFile}");
-        $config = new Magento_Config_Dom($xml, $ids);
+        $config = new \Magento\Config\Dom($xml, $ids);
         $config->merge($newXml);
         $this->assertXmlStringEqualsXmlString($expectedXml, $config->getDom()->saveXML());
     }
@@ -59,13 +61,13 @@ class Magento_Config_DomTest extends PHPUnit_Framework_TestCase
      * @param string $xmlFile
      * @param string $newXmlFile
      * @dataProvider mergeExceptionDataProvider
-     * @expectedException Magento_Exception
+     * @expectedException \Magento\Exception
      */
     public function testMergeException($xmlFile, $newXmlFile)
     {
         $xml = file_get_contents(__DIR__ . "/_files/dom/{$xmlFile}");
         $newXml = file_get_contents(__DIR__ . "/_files/dom/{$newXmlFile}");
-        $config = new Magento_Config_Dom($xml, array());
+        $config = new \Magento\Config\Dom($xml, array());
         $config->merge($newXml);
     }
 
@@ -86,7 +88,7 @@ class Magento_Config_DomTest extends PHPUnit_Framework_TestCase
      */
     public function testValidate($xml, array $expectedErrors)
     {
-        $dom = new Magento_Config_Dom($xml);
+        $dom = new \Magento\Config\Dom($xml);
         $actualResult = $dom->validate(__DIR__ . '/_files/sample.xsd', $actualErrors);
         $this->assertEquals(empty($expectedErrors), $actualResult);
         $this->assertEquals($expectedErrors, $actualErrors);
@@ -114,21 +116,21 @@ class Magento_Config_DomTest extends PHPUnit_Framework_TestCase
         $xml = '<root><unknown_node/></root>';
         $errorFormat = 'Error: `%message%`';
         $expectedErrors = array("Error: `Element 'unknown_node': This element is not expected. Expected is ( node ).`");
-        $dom = new Magento_Config_Dom($xml, array(), null, $errorFormat);
+        $dom = new \Magento\Config\Dom($xml, array(), null, $errorFormat);
         $actualResult = $dom->validate(__DIR__ . '/_files/sample.xsd', $actualErrors);
         $this->assertFalse($actualResult);
         $this->assertEquals($expectedErrors, $actualErrors);
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Error format '%message%,%unknown%' contains unsupported placeholders
      */
     public function testValidateCustomErrorFormatInvalid()
     {
         $xml = '<root><unknown_node/></root>';
         $errorFormat = '%message%,%unknown%';
-        $dom = new Magento_Config_Dom($xml, array(), null, $errorFormat);
+        $dom = new \Magento\Config\Dom($xml, array(), null, $errorFormat);
         $dom->validate(__DIR__ . '/_files/sample.xsd');
     }
 }

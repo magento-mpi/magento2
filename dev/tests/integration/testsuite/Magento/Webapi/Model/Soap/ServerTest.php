@@ -7,41 +7,43 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Model_Soap_ServerTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webapi\Model\Soap;
+
+class ServerTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var Magento_Core_Model_Config */
+    /** @var \Magento\Core\Model\Config */
     protected $_configMock;
 
-    /** @var Magento_Webapi_Controller_Soap_Request */
+    /** @var \Magento\Webapi\Controller\Soap\Request */
     protected $_requestMock;
 
-    /** @var Magento_DomDocument_Factory */
+    /** @var \Magento\DomDocument\Factory */
     protected $_domDocumentFactory;
 
-    /** @var Magento_Core_Model_Store */
+    /** @var \Magento\Core\Model\Store */
     protected $_storeMock;
 
-    /** @var Magento_Core_Model_StoreManagerInterface */
+    /** @var \Magento\Core\Model\StoreManagerInterface */
     protected $_storeManagerMock;
 
-    /** @var Magento_Webapi_Model_Soap_Server_Factory */
+    /** @var \Magento\Webapi\Model\Soap\Server\Factory */
     protected $_soapServerFactory;
 
     protected function setUp()
     {
-        $this->_storeManagerMock = $this->getMockBuilder('Magento_Core_Model_StoreManager')
+        $this->_storeManagerMock = $this->getMockBuilder('Magento\Core\Model\StoreManager')
             ->disableOriginalConstructor()->getMock();
-        $this->_storeMock = $this->getMockBuilder('Magento_Core_Model_Store')
+        $this->_storeMock = $this->getMockBuilder('Magento\Core\Model\Store')
             ->disableOriginalConstructor()->getMock();
-        $this->_configMock = $this->getMockBuilder('Magento_Core_Model_Config')
+        $this->_configMock = $this->getMockBuilder('Magento\Core\Model\Config')
             ->disableOriginalConstructor()->getMock();
         $this->_storeManagerMock->expects($this->any())
             ->method('getStore')->will($this->returnValue($this->_storeMock));
-        $this->_requestMock = $this->getMockBuilder('Magento_Webapi_Controller_Soap_Request')
+        $this->_requestMock = $this->getMockBuilder('Magento\Webapi\Controller\Soap\Request')
             ->disableOriginalConstructor()->getMock();
-        $this->_domDocumentFactory = $this->getMockBuilder('Magento_DomDocument_Factory')
+        $this->_domDocumentFactory = $this->getMockBuilder('Magento\DomDocument\Factory')
             ->disableOriginalConstructor()->getMock();
-        $this->_soapServerFactory = $this->getMockBuilder('Magento_Webapi_Model_Soap_Server_Factory')
+        $this->_soapServerFactory = $this->getMockBuilder('Magento\Webapi\Model\Soap\Server\Factory')
             ->disableOriginalConstructor()->getMock();
 
         parent::setUp();
@@ -56,7 +58,7 @@ class Magento_Webapi_Model_Soap_ServerTest extends PHPUnit_Framework_TestCase
         /** Mock getConfig method to return true. */
         $this->_storeMock->expects($this->once())->method('getConfig')->will($this->returnValue(true));
         /** Create SOAP server object. */
-        $server = new Magento_Webapi_Model_Soap_Server(
+        $server = new \Magento\Webapi\Model\Soap\Server(
             $this->_configMock,
             $this->_requestMock,
             $this->_domDocumentFactory,
@@ -76,7 +78,7 @@ class Magento_Webapi_Model_Soap_ServerTest extends PHPUnit_Framework_TestCase
         /** Mock getConfig method to return false. */
         $this->_storeMock->expects($this->once())->method('getConfig')->will($this->returnValue(false));
         /** Create SOAP server object. */
-        $server = new Magento_Webapi_Model_Soap_Server(
+        $server = new \Magento\Webapi\Model\Soap\Server(
             $this->_configMock,
             $this->_requestMock,
             $this->_domDocumentFactory,

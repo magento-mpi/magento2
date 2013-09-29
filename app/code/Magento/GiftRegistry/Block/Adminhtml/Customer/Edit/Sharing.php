@@ -8,13 +8,15 @@
  * @license     {license_link}
  */
 
-class Magento_GiftRegistry_Block_Adminhtml_Customer_Edit_Sharing
-    extends Magento_Backend_Block_Widget_Form_Generic
+namespace Magento\GiftRegistry\Block\Adminhtml\Customer\Edit;
+
+class Sharing
+    extends \Magento\Backend\Block\Widget\Form\Generic
 {
 
     protected function _prepareForm()
     {
-        /** @var Magento_Data_Form $form */
+        /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create(array(
             'attributes' => array(
                 'id' => 'edit_form',
@@ -36,12 +38,12 @@ class Magento_GiftRegistry_Block_Adminhtml_Customer_Edit_Sharing
             'note'     => 'Enter list of emails, comma-separated.'
         ));
 
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!\Mage::app()->isSingleStoreMode()) {
             $fieldset->addField('store_id', 'select', array(
                 'label'    => __('Send From'),
                 'required' => true,
                 'name'     => 'store_id',
-                'values'   => Mage::getSingleton('Magento_Core_Model_System_Store')->getStoreValuesForForm()
+                'values'   => \Mage::getSingleton('Magento\Core\Model\System\Store')->getStoreValuesForForm()
             ));
         }
 
@@ -76,7 +78,7 @@ class Magento_GiftRegistry_Block_Adminhtml_Customer_Edit_Sharing
      */
     public function getShareButton()
     {
-        return $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
+        return $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')
             ->addData(array(
                 'id'      => '',
                 'label'   => __('Share Gift Registry'),

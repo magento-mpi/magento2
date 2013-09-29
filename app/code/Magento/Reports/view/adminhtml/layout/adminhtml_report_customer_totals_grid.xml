@@ -12,7 +12,7 @@
     <referenceBlock name="adminhtml.report.grid">
         <arguments>
             <argument name="id" xsi:type="string">gridTotalsCustomer</argument>
-            <argument name="dataSource" xsi:type="object">Magento_Reports_Model_Resource_Customer_Totals_Collection_Initial</argument>
+            <argument name="dataSource" xsi:type="object">Magento\Reports\Model\Resource\Customer\Totals\Collection\Initial</argument>
         </arguments>
     </referenceBlock>
     <referenceBlock name="adminhtml.report.grid.export">

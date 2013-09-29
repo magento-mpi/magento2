@@ -15,10 +15,12 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Customer_Edit_Tab_Wishlist_Grid_Renderer_Description extends Magento_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
+namespace Magento\Adminhtml\Block\Customer\Edit\Tab\Wishlist\Grid\Renderer;
+
+class Description extends \Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
 
-    public function render(Magento_Object $row)
+    public function render(\Magento\Object $row)
     {
         return nl2br(htmlspecialchars($row->getData($this->getColumn()->getIndex())));
     }

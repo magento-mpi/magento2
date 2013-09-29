@@ -15,8 +15,10 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Product_Attribute_Source_Msrp_Type_Price
-    extends Magento_Catalog_Model_Product_Attribute_Source_Msrp_Type
+namespace Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type;
+
+class Price
+    extends \Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type
 {
     /**
      * Get value from the store configuration settings
@@ -26,15 +28,15 @@ class Magento_Catalog_Model_Product_Attribute_Source_Msrp_Type_Price
     /**
      * Core data
      *
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreData = null;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
+     * @param \Magento\Core\Helper\Data $coreData
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData
+        \Magento\Core\Helper\Data $coreData
     ) {
         $this->_coreData = $coreData;
     }
@@ -75,7 +77,7 @@ class Magento_Catalog_Model_Product_Attribute_Source_Msrp_Type_Price
             $column['type']     = $attributeType;
             $column['is_null']  = true;
         } else {
-            $column['type']     = Mage::getResourceHelper('Magento_Eav')->getDdlTypeByColumnType($attributeType);
+            $column['type']     = \Mage::getResourceHelper('Magento_Eav')->getDdlTypeByColumnType($attributeType);
             $column['nullable'] = true;
         }
 
@@ -86,11 +88,11 @@ class Magento_Catalog_Model_Product_Attribute_Source_Msrp_Type_Price
      * Retrieve select for flat attribute update
      *
      * @param int $store
-     * @return Magento_DB_Select|null
+     * @return \Magento\DB\Select|null
      */
     public function getFlatUpdateSelect($store)
     {
-        return Mage::getResourceModel('Magento_Eav_Model_Resource_Entity_Attribute')
+        return \Mage::getResourceModel('Magento\Eav\Model\Resource\Entity\Attribute')
             ->getFlatUpdateSelect($this->getAttribute(), $store);
     }
 }

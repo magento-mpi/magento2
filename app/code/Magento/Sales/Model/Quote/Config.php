@@ -5,17 +5,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Sales_Model_Quote_Config
+namespace Magento\Sales\Model\Quote;
+
+class Config
 {
     /**
-     * @var Magento_Catalog_Model_Attribute_Config
+     * @var \Magento\Catalog\Model\Attribute\Config
      */
     private $_attributeConfig;
 
     /**
-     * @param Magento_Catalog_Model_Attribute_Config $attributeConfig
+     * @param \Magento\Catalog\Model\Attribute\Config $attributeConfig
      */
-    public function __construct(Magento_Catalog_Model_Attribute_Config $attributeConfig)
+    public function __construct(\Magento\Catalog\Model\Attribute\Config $attributeConfig)
     {
         $this->_attributeConfig = $attributeConfig;
     }

@@ -15,12 +15,14 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Sales_Order_Invoice_Create_Form extends Magento_Adminhtml_Block_Sales_Order_Abstract
+namespace Magento\Adminhtml\Block\Sales\Order\Invoice\Create;
+
+class Form extends \Magento\Adminhtml\Block\Sales\Order\AbstractOrder
 {
     /**
      * Retrieve invoice order
      *
-     * @return Magento_Sales_Model_Order
+     * @return \Magento\Sales\Model\Order
      */
     public function getOrder()
     {
@@ -30,7 +32,7 @@ class Magento_Adminhtml_Block_Sales_Order_Invoice_Create_Form extends Magento_Ad
     /**
      * Retrieve source
      *
-     * @return Magento_Sales_Model_Order_Invoice
+     * @return \Magento\Sales\Model\Order\Invoice
      */
     public function getSource()
     {
@@ -40,7 +42,7 @@ class Magento_Adminhtml_Block_Sales_Order_Invoice_Create_Form extends Magento_Ad
     /**
      * Retrieve invoice model instance
      *
-     * @return Magento_Sales_Model_Order_Invoice
+     * @return \Magento\Sales\Model\Order\Invoice
      */
     public function getInvoice()
     {
@@ -49,7 +51,7 @@ class Magento_Adminhtml_Block_Sales_Order_Invoice_Create_Form extends Magento_Ad
 
     protected function _prepareLayout()
     {
-        $trackingBlock = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Sales_Order_Invoice_Create_Tracking');
+        $trackingBlock = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Sales\Order\Invoice\Create\Tracking');
         $this->setChild('tracking', $trackingBlock);
         return parent::_prepareLayout();
     }

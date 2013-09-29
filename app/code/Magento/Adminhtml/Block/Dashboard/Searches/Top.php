@@ -16,29 +16,31 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Dashboard_Searches_Top extends Magento_Adminhtml_Block_Dashboard_Grid
+namespace Magento\Adminhtml\Block\Dashboard\Searches;
+
+class Top extends \Magento\Adminhtml\Block\Dashboard\Grid
 {
     protected $_collection;
 
     /**
-     * @var Magento_CatalogSearch_Model_Resource_Query_CollectionFactory
+     * @var \Magento\CatalogSearch\Model\Resource\Query\CollectionFactory
      */
     protected $_queriesFactory;
 
     /**
-     * @param Magento_CatalogSearch_Model_Resource_Query_CollectionFactory $queriesFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Url $urlModel
+     * @param \Magento\CatalogSearch\Model\Resource\Query\CollectionFactory $queriesFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
      * @param array $data
      */
     public function __construct(
-        Magento_CatalogSearch_Model_Resource_Query_CollectionFactory $queriesFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Url $urlModel,
+        \Magento\CatalogSearch\Model\Resource\Query\CollectionFactory $queriesFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
         array $data = array()
     ) {
         $this->_queriesFactory = $queriesFactory;
@@ -82,7 +84,7 @@ class Magento_Adminhtml_Block_Dashboard_Searches_Top extends Magento_Adminhtml_B
             'header'    => __('Search Term'),
             'sortable'  => false,
             'index'     => 'name',
-            'renderer'  => 'Magento_Adminhtml_Block_Dashboard_Searches_Renderer_Searchquery',
+            'renderer'  => 'Magento\Adminhtml\Block\Dashboard\Searches\Renderer\Searchquery',
         ));
 
         $this->addColumn('num_results', array(

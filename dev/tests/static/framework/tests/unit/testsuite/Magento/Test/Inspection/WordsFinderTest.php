@@ -9,17 +9,19 @@
  * @license     {license_link}
  */
 
-class Magento_Test_Inspection_WordsFinderTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Inspection;
+
+class WordsFinderTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @param string $configFile
      * @param string $baseDir
-     * @expectedException Magento_TestFramework_Inspection_Exception
+     * @expectedException \Magento\TestFramework\Inspection\Exception
      * @dataProvider constructorExceptionDataProvider
      */
     public function testConstructorException($configFile, $baseDir)
     {
-        new Magento_TestFramework_Inspection_WordsFinder($configFile, $baseDir);
+        new \Magento\TestFramework\Inspection\WordsFinder($configFile, $baseDir);
     }
 
     public function constructorExceptionDataProvider()
@@ -57,7 +59,8 @@ class Magento_Test_Inspection_WordsFinderTest extends PHPUnit_Framework_TestCase
      */
     public function testFindWords($configFiles, $file, $expected)
     {
-        $wordsFinder = new Magento_TestFramework_Inspection_WordsFinder($configFiles, __DIR__ . '/_files/words_finder');
+        $wordsFinder = new \Magento\TestFramework\Inspection\WordsFinder($configFiles,
+            __DIR__ . '/_files/words_finder');
         $actual = $wordsFinder->findWords($file);
         $this->assertEquals($expected, $actual);
     }

@@ -9,15 +9,17 @@
  * @license     {license_link}
  */
 
+namespace Magento\ImportExport\Model\Export\Entity\Eav\Customer;
+
 /**
  * Test for customer address export model
  *
  * @magentoDataFixture Magento/ImportExport/_files/customer_with_addresses.php
  */
-class Magento_ImportExport_Model_Export_Entity_Eav_Customer_AddressTest extends PHPUnit_Framework_TestCase
+class AddressTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_ImportExport_Model_Export_Entity_Eav_Customer_Address
+     * @var \Magento\ImportExport\Model\Export\Entity\Eav\Customer\Address
      */
     protected $_model;
 
@@ -31,12 +33,12 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer_AddressTest extends 
     protected function setUp()
     {
         parent::setUp();
-        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_ImportExport_Model_Export_Entity_Eav_Customer_Address');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\ImportExport\Model\Export\Entity\Eav\Customer\Address');
 
-        $websites = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Core_Model_StoreManagerInterface')->getWebsites(true);
-        /** @var $website Magento_Core_Model_Website */
+        $websites = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Core\Model\StoreManagerInterface')->getWebsites(true);
+        /** @var $website \Magento\Core\Model\Website */
         foreach ($websites as $website) {
             $this->_websites[$website->getId()] = $website->getCode();
         }
@@ -47,25 +49,25 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer_AddressTest extends 
      */
     public function testExport()
     {
-        $websiteCode  = Magento_ImportExport_Model_Export_Entity_Eav_Customer_Address::COLUMN_WEBSITE;
-        $emailCode    = Magento_ImportExport_Model_Export_Entity_Eav_Customer_Address::COLUMN_EMAIL;
-        $entityIdCode = Magento_ImportExport_Model_Export_Entity_Eav_Customer_Address::COLUMN_ADDRESS_ID;
+        $websiteCode  = \Magento\ImportExport\Model\Export\Entity\Eav\Customer\Address::COLUMN_WEBSITE;
+        $emailCode    = \Magento\ImportExport\Model\Export\Entity\Eav\Customer\Address::COLUMN_EMAIL;
+        $entityIdCode = \Magento\ImportExport\Model\Export\Entity\Eav\Customer\Address::COLUMN_ADDRESS_ID;
 
         $expectedAttributes = array();
-        /** @var $collection Magento_Customer_Model_Resource_Address_Attribute_Collection */
-        $collection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Customer_Model_Resource_Address_Attribute_Collection');
-        /** @var $attribute Magento_Customer_Model_Attribute */
+        /** @var $collection \Magento\Customer\Model\Resource\Address\Attribute\Collection */
+        $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Customer\Model\Resource\Address\Attribute\Collection');
+        /** @var $attribute \Magento\Customer\Model\Attribute */
         foreach ($collection as $attribute) {
             $expectedAttributes[] = $attribute->getAttributeCode();
         }
 
         // Get customer default addresses column name to customer attribute mapping array.
         $defaultAddressMap
-            = Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address::getDefaultAddressAttributeMapping();
+            = \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::getDefaultAddressAttributeMapping();
 
-        $this->_model->setWriter(Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_ImportExport_Model_Export_Adapter_Csv'));
+        $this->_model->setWriter(\Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\ImportExport\Model\Export\Adapter\Csv'));
         $this->_model->setParameters(array());
 
         $data = $this->_csvToArray($this->_model->export(), $entityIdCode);
@@ -78,15 +80,15 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer_AddressTest extends 
 
         $this->assertNotEmpty($data['data'], 'No data was exported');
 
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
         // Get addresses
-        /** @var $customers Magento_Customer_Model_Customer[] */
-        $customers = $objectManager->get('Magento_Core_Model_Registry')
+        /** @var $customers \Magento\Customer\Model\Customer[] */
+        $customers = $objectManager->get('Magento\Core\Model\Registry')
             ->registry('_fixture/Magento_ImportExport_Customers_Array');
         foreach ($customers as $customer) {
-            /** @var $address Magento_Customer_Model_Address */
+            /** @var $address \Magento\Customer\Model\Address */
             foreach ($customer->getAddresses() as $address) {
                 // Check unique key
                 $data['data'][$address->getId()][$websiteCode] = $this->_websites[$customer->getWebsiteId()];
@@ -138,10 +140,10 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer_AddressTest extends 
      */
     public function testExportWithFilter($genderFilterValue)
     {
-        $entityIdCode = Magento_ImportExport_Model_Export_Entity_Eav_Customer_Address::COLUMN_ADDRESS_ID;
+        $entityIdCode = \Magento\ImportExport\Model\Export\Entity\Eav\Customer\Address::COLUMN_ADDRESS_ID;
 
-        $this->_model->setWriter(Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_ImportExport_Model_Export_Adapter_Csv'));
+        $this->_model->setWriter(\Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\ImportExport\Model\Export\Adapter\Csv'));
 
         $filterData = array(
             'export_filter' => array(
@@ -151,12 +153,12 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer_AddressTest extends 
 
         $this->_model->setParameters($filterData);
 
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
         // Get expected address count
-        /** @var $customers Magento_Customer_Model_Customer[] */
-        $customers = $objectManager->get('Magento_Core_Model_Registry')
+        /** @var $customers \Magento\Customer\Model\Customer[] */
+        $customers = $objectManager->get('Magento\Core\Model\Registry')
             ->registry('_fixture/Magento_ImportExport_Customers_Array');
         $expectedCount = 0;
         foreach ($customers as $customer) {
@@ -183,7 +185,7 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer_AddressTest extends 
      */
     public function testGetAttributeCollection()
     {
-        $this->assertInstanceOf('Magento_Customer_Model_Resource_Address_Attribute_Collection',
+        $this->assertInstanceOf('Magento\Customer\Model\Resource\Address\Attribute\Collection',
             $this->_model->getAttributeCollection()
         );
     }

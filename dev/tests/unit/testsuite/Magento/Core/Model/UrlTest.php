@@ -10,29 +10,31 @@
  */
 
 /**
- * Test class for Magento_Core_Model_Url
+ * Test class for \Magento\Core\Model\Url
  */
-class Magento_Core_Model_UrlTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model;
+
+class UrlTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Url
+     * @var \Magento\Core\Model\Url
      */
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_securityInfoMock;
 
     protected function setUp()
     {
-        $coreStoreConfig = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false);
+        $coreStoreConfig = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false);
         
-        $this->_securityInfoMock = $this->getMock('Magento_Core_Model_Url_SecurityInfoInterface');
-        $this->_model = new Magento_Core_Model_Url(
+        $this->_securityInfoMock = $this->getMock('Magento\Core\Model\Url\SecurityInfoInterface');
+        $this->_model = new \Magento\Core\Model\Url(
             $this->_securityInfoMock,
             $coreStoreConfig,
-            $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false, false)
+            $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false, false)
         );
     }
 
@@ -64,8 +66,8 @@ class Magento_Core_Model_UrlTest extends PHPUnit_Framework_TestCase
         $controllerName = 'controllerName';
         $actionName = 'actionName';
 
-        $backendData = $this->getMock('Magento_Backend_Helper_Data', array(), array(), '', false);
-        $requestMock = $this->getMockForAbstractClass('Magento_Core_Controller_Request_Http',
+        $backendData = $this->getMock('Magento\Backend\Helper\Data', array(), array(), '', false);
+        $requestMock = $this->getMockForAbstractClass('Magento\Core\Controller\Request\Http',
             array($backendData), '', false, false, true,
             array('getRequestedRouteName', 'getRequestedControllerName', 'getRequestedActionName'));
 

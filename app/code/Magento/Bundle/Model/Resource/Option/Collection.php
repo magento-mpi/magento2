@@ -16,7 +16,9 @@
  * @package     Magento_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Bundle_Model_Resource_Option_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Bundle\Model\Resource\Option;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * All item ids cache
@@ -38,14 +40,14 @@ class Magento_Bundle_Model_Resource_Option_Collection extends Magento_Core_Model
      */
     protected function _construct()
     {
-        $this->_init('Magento_Bundle_Model_Option', 'Magento_Bundle_Model_Resource_Option');
+        $this->_init('Magento\Bundle\Model\Option', 'Magento\Bundle\Model\Resource\Option');
     }
 
     /**
      * Joins values to options
      *
      * @param int $storeId
-     * @return Magento_Bundle_Model_Resource_Option_Collection
+     * @return \Magento\Bundle\Model\Resource\Option\Collection
      */
     public function joinValues($storeId)
     {
@@ -80,7 +82,7 @@ class Magento_Bundle_Model_Resource_Option_Collection extends Magento_Core_Model
      * Sets product id filter
      *
      * @param int $productId
-     * @return Magento_Bundle_Model_Resource_Option_Collection
+     * @return \Magento\Bundle\Model\Resource\Option\Collection
      */
     public function setProductIdFilter($productId)
     {
@@ -91,7 +93,7 @@ class Magento_Bundle_Model_Resource_Option_Collection extends Magento_Core_Model
     /**
      * Sets order by position
      *
-     * @return Magento_Bundle_Model_Resource_Option_Collection
+     * @return \Magento\Bundle\Model\Resource\Option\Collection
      */
     public function setPositionOrder()
     {
@@ -105,7 +107,7 @@ class Magento_Bundle_Model_Resource_Option_Collection extends Magento_Core_Model
      * stripBefore - indicates to reload
      * appendAll - indicates do we need to filter by saleable and required custom options
      *
-     * @param Magento_Bundle_Model_Resource_Selection_Collection $selectionsCollection
+     * @param \Magento\Bundle\Model\Resource\Selection\Collection $selectionsCollection
      * @param bool $stripBefore
      * @param bool $appendAll
      * @return array
@@ -136,7 +138,7 @@ class Magento_Bundle_Model_Resource_Option_Collection extends Magento_Core_Model
     /**
      * Removes appended selections before
      *
-     * @return Magento_Bundle_Model_Resource_Option_Collection
+     * @return \Magento\Bundle\Model\Resource\Option\Collection
      */
     protected function _stripSelections()
     {
@@ -151,7 +153,7 @@ class Magento_Bundle_Model_Resource_Option_Collection extends Magento_Core_Model
      * Sets filter by option id
      *
      * @param array|int $ids
-     * @return Magento_Bundle_Model_Resource_Option_Collection
+     * @return \Magento\Bundle\Model\Resource\Option\Collection
      */
     public function setIdFilter($ids)
     {
@@ -166,7 +168,7 @@ class Magento_Bundle_Model_Resource_Option_Collection extends Magento_Core_Model
     /**
      * Reset all item ids cache
      *
-     * @return Magento_Bundle_Model_Resource_Option_Collection
+     * @return \Magento\Bundle\Model\Resource\Option\Collection
      */
     public function resetAllIds()
     {

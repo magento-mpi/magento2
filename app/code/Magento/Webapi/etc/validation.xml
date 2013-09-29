@@ -15,15 +15,15 @@
             <rule name="form">
                 <property_constraints>
                     <property name="company_name">
-                        <constraint class="Magento_Validator_StringLength">
+                        <constraint class="Magento\Validator\StringLength">
                             <argument>
                                 <option name="max">250</option>
                             </argument>
                         </constraint>
                     </property>
                     <property name="contact_email">
-                        <constraint class="Magento_Validator_EmailAddress"/>
-                        <constraint class="Magento_Validator_StringLength">
+                        <constraint class="Magento\Validator\EmailAddress"/>
+                        <constraint class="Magento\Validator\StringLength">
                             <argument>
                                 <option name="min">1</option>
                                 <option name="max">250</option>
@@ -31,7 +31,7 @@
                         </constraint>
                     </property>
                     <property name="api_key">
-                        <constraint class="Magento_Validator_StringLength">
+                        <constraint class="Magento\Validator\StringLength">
                             <argument>
                                 <option name="min">1</option>
                                 <option name="max">250</option>
@@ -39,7 +39,7 @@
                         </constraint>
                     </property>
                     <property name="secret">
-                        <constraint class="Magento_Validator_StringLength">
+                        <constraint class="Magento\Validator\StringLength">
                             <argument>
                                 <option name="min">1</option>
                                 <option name="max">250</option>
@@ -67,7 +67,7 @@
             <rule name="form">
                 <property_constraints>
                     <property name="role_name">
-                        <constraint class="Magento_Validator_StringLength">
+                        <constraint class="Magento\Validator\StringLength">
                             <argument>
                                 <option name="min">1</option>
                                 <option name="max">250</option>

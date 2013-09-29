@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/** @var $installer Magento_Core_Model_Resource_Setup */
+/** @var $installer \Magento\Core\Model\Resource\Setup */
 $installer = $this;
 $installer->startSetup();
 
@@ -207,7 +207,7 @@ $map = array(
 );
 
 $tableName = $installer->getTable('admin_rule');
-/** @var Magento_DB_Adapter_Interface $connection */
+/** @var \Magento\DB\Adapter\AdapterInterface $connection */
 $connection = $installer->getConnection();
 
 $select = $connection->select();

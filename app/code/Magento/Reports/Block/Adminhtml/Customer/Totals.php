@@ -16,7 +16,9 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Reports_Block_Adminhtml_Customer_Totals extends Magento_Backend_Block_Widget_Grid_Container
+namespace Magento\Reports\Block\Adminhtml\Customer;
+
+class Totals extends \Magento\Backend\Block\Widget\Grid\Container
 {
     protected $_blockGroup = 'Magento_Reports';
 

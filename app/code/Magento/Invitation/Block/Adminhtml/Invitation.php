@@ -14,7 +14,9 @@
  * @category   Magento
  * @package    Magento_Invitation
  */
-class Magento_Invitation_Block_Adminhtml_Invitation extends Magento_Backend_Block_Widget_Grid_Container
+namespace Magento\Invitation\Block\Adminhtml;
+
+class Invitation extends \Magento\Backend\Block\Widget\Grid\Container
 {
     /**
      * Initialize invitation manage page

@@ -15,7 +15,9 @@
  * @package     Magento_Cms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Cms_Model_Wysiwyg_Config extends Magento_Object
+namespace Magento\Cms\Model\Wysiwyg;
+
+class Config extends \Magento\Object
 {
     /**
      * Wysiwyg behaviour
@@ -26,43 +28,43 @@ class Magento_Cms_Model_Wysiwyg_Config extends Magento_Object
     const IMAGE_DIRECTORY = 'wysiwyg';
 
     /**
-     * @var Magento_AuthorizationInterface
+     * @var \Magento\AuthorizationInterface
      */
     protected $_authorization;
 
     /**
-     * @var Magento_Core_Model_View_Url
+     * @var \Magento\Core\Model\View\Url
      */
     protected $_viewUrl;
 
     /**
-     * @var Magento_Core_Model_Variable_Config
+     * @var \Magento\Core\Model\Variable\Config
      */
     protected $_variableConfig;
 
     /**
-     * @var Magento_Widget_Model_Widget_Config
+     * @var \Magento\Widget\Model\Widget\Config
      */
     protected $_widgetConfig;
 
     /**
      * Cms data
      *
-     * @var Magento_Cms_Helper_Data
+     * @var \Magento\Cms\Helper\Data
      */
     protected $_cmsData = null;
 
     /**
      * Core event manager proxy
      *
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventManager = null;
 
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_ConfigInterface
+     * @var \Magento\Core\Model\Store\ConfigInterface
      */
     protected $_coreStoreConfig;
 
@@ -72,31 +74,31 @@ class Magento_Cms_Model_Wysiwyg_Config extends Magento_Object
     protected $_windowSize;
 
     /**
-     * @var Magento_Backend_Model_Url
+     * @var \Magento\Backend\Model\Url
      */
     protected $_backendUrl;
 
     /**
-     * @param Magento_Backend_Model_Url $backendUrl
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Cms_Helper_Data $cmsData
-     * @param Magento_AuthorizationInterface $authorization
-     * @param Magento_Core_Model_View_Url $viewUrl
-     * @param Magento_Core_Model_Variable_Config $variableConfig
-     * @param Magento_Widget_Model_Widget_Config $widgetConfig
-     * @param Magento_Core_Model_Store_ConfigInterface $coreStoreConfig
+     * @param \Magento\Backend\Model\Url $backendUrl
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Cms\Helper\Data $cmsData
+     * @param \Magento\AuthorizationInterface $authorization
+     * @param \Magento\Core\Model\View\Url $viewUrl
+     * @param \Magento\Core\Model\Variable\Config $variableConfig
+     * @param \Magento\Widget\Model\Widget\Config $widgetConfig
+     * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
      * @param array $windowSize
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Model_Url $backendUrl,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Cms_Helper_Data $cmsData,
-        Magento_AuthorizationInterface $authorization,
-        Magento_Core_Model_View_Url $viewUrl,
-        Magento_Core_Model_Variable_Config $variableConfig,
-        Magento_Widget_Model_Widget_Config $widgetConfig,
-        Magento_Core_Model_Store_ConfigInterface $coreStoreConfig,
+        \Magento\Backend\Model\Url $backendUrl,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Cms\Helper\Data $cmsData,
+        \Magento\AuthorizationInterface $authorization,
+        \Magento\Core\Model\View\Url $viewUrl,
+        \Magento\Core\Model\Variable\Config $variableConfig,
+        \Magento\Widget\Model\Widget\Config $widgetConfig,
+        \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
         array $windowSize = array(),
         array $data = array()
     ) {
@@ -113,7 +115,7 @@ class Magento_Cms_Model_Wysiwyg_Config extends Magento_Object
     }
 
     /**
-     * Return Wysiwyg config as Magento_Object
+     * Return Wysiwyg config as \Magento\Object
      *
      * Config options description:
      *
@@ -125,12 +127,12 @@ class Magento_Cms_Model_Wysiwyg_Config extends Magento_Object
      * files_browser_*:         Files Browser (media, images) settings
      * encode_directives:       Encode template directives with JS or not
      *
-     * @param array|Magento_Object $data Magento_Object constructor params to override default config values
-     * @return Magento_Object
+     * @param array|\Magento\Object $data \Magento\Object constructor params to override default config values
+     * @return \Magento\Object
      */
     public function getConfig($data = array())
     {
-        $config = new Magento_Object();
+        $config = new \Magento\Object();
         $viewUrl = $this->_viewUrl;
 
         $config->setData(array(
