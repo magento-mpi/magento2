@@ -42,7 +42,7 @@ class Magento_Checkout_Model_Resource_Setup extends Magento_Eav_Model_Entity_Set
         $connectionName = ''
     ) {
         $this->_customerAddress = $customerAddress;
-        parent::__construct($context, $cache, $attrGrCollFactory, $resourceName, $moduleName, $connectionName)
+        parent::__construct($context, $cache, $attrGrCollFactory, $resourceName, $moduleName, $connectionName);
     }
 
     /**
