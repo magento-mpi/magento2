@@ -75,6 +75,11 @@ class Magento_Reports_Model_Resource_Customer_Collection extends Magento_Custome
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
      * @param Magento_Core_Model_EntityFactory $entityFactory
+     * @param Magento_Eav_Model_Config $eavConfig
+     * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Eav_Model_EntityFactory $eavEntityFactory
+     * @param Magento_Eav_Model_Resource_Helper $resourceHelper
+     * @param Magento_Eav_Model_Factory_Helper $helperFactory
      * @param Magento_Core_Model_Fieldset_Config $fieldsetConfig
      * @param Magento_Sales_Model_QuoteFactory $quoteFactory
      * @param Magento_Sales_Model_Resource_Quote_Item_CollectionFactory $quoteItemFactory
@@ -84,11 +89,19 @@ class Magento_Reports_Model_Resource_Customer_Collection extends Magento_Custome
         Magento_Core_Model_Logger $logger,
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
         Magento_Core_Model_EntityFactory $entityFactory,
+        Magento_Eav_Model_Config $eavConfig,
+        Magento_Core_Model_Resource $resource,
+        Magento_Eav_Model_EntityFactory $eavEntityFactory,
+        Magento_Eav_Model_Resource_Helper $resourceHelper,
+        Magento_Eav_Model_Factory_Helper $helperFactory,
         Magento_Core_Model_Fieldset_Config $fieldsetConfig,
         Magento_Sales_Model_QuoteFactory $quoteFactory,
         Magento_Sales_Model_Resource_Quote_Item_CollectionFactory $quoteItemFactory
-    ) {
-        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $fieldsetConfig);
+    )
+    {
+        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $eavConfig,
+            $resource, $eavEntityFactory, $resourceHelper, $helperFactory, $fieldsetConfig
+        );
         $this->_quoteFactory = $quoteFactory;
         $this->_quoteItemFactory = $quoteItemFactory;
     }
