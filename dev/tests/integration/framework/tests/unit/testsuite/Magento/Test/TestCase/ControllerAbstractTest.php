@@ -28,8 +28,8 @@ class Magento_Test_TestCase_ControllerAbstractTest extends Magento_TestFramework
         ;
         $session = new Magento_Object(array('messages' => $messagesCollection));
         $request = new Magento_TestFramework_Request(
-            $this->getMock('Magento_Backend_Helper_Data', [], [], 'Magento_Backend_Helper_DataProxy', false),
-            $this->getMock('Magento_Core_Model_StoreManager', [], [], '', false)
+            $this->getMock('Magento_Core_Model_StoreManager', [], [], '', false),
+            $this->getMock('Magento_Backend_Helper_Data', [], [], 'Magento_Backend_Helper_DataProxy', false)
         );
         $response = new Magento_TestFramework_Response(
             $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false)

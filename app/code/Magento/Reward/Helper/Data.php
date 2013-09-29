@@ -56,11 +56,6 @@ class Magento_Reward_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_locale;
 
     /**
-     * @var Magento_Core_Model_UrlFactory
-     */
-    protected $_urlFactory;
-
-    /**
      * @var Magento_Reward_Model_Resource_Reward_Rate_CollectionFactory
      */
     protected $_ratesFactory;
@@ -71,7 +66,6 @@ class Magento_Reward_Helper_Data extends Magento_Core_Helper_Abstract
      * @param Magento_Core_Model_Store_Config $storeConfig
      * @param Magento_Core_Model_Config $config
      * @param Magento_Core_Model_Locale $locale
-     * @param Magento_Core_Model_UrlFactory $urlFactory
      * @param Magento_Reward_Model_Resource_Reward_Rate_CollectionFactory $ratesFactory
      */
     public function __construct(
@@ -80,14 +74,12 @@ class Magento_Reward_Helper_Data extends Magento_Core_Helper_Abstract
         Magento_Core_Model_Store_Config $storeConfig,
         Magento_Core_Model_Config $config,
         Magento_Core_Model_Locale $locale,
-        Magento_Core_Model_UrlFactory $urlFactory,
         Magento_Reward_Model_Resource_Reward_Rate_CollectionFactory $ratesFactory
     ) {
         $this->_storeManager = $storeManager;
         $this->_storeConfig = $storeConfig;
         $this->_config = $config;
         $this->_locale = $locale;
-        $this->_urlFactory = $urlFactory;
         $this->_ratesFactory = $ratesFactory;
         parent::__construct($context);
     }
@@ -250,7 +242,7 @@ class Magento_Reward_Helper_Data extends Magento_Core_Helper_Abstract
     public function getLandingPageUrl()
     {
         $pageIdentifier = $this->_storeConfig->getConfig(self::XML_PATH_LANDING_PAGE);
-        return $this->_urlFactory->create()->getUrl('', array('_direct' => $pageIdentifier));
+        return $this->_urlBuilder->getUrl('', array('_direct' => $pageIdentifier));
     }
 
     /**

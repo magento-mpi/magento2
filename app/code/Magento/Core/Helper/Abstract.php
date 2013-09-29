@@ -52,14 +52,9 @@ abstract class Magento_Core_Helper_Abstract
     protected $_app;
 
     /**
-     * @var Magento_Core_Model_UrlFactory
+     * @var Magento_Core_Model_UrlInterface
      */
-    protected $_urlFactory;
-
-    /**
-     * @var Magento_Core_Model_Url
-     */
-    protected $_urlModel;
+    protected $_urlBuilder;
 
     /**
      * @param Magento_Core_Helper_Context $context
@@ -71,8 +66,7 @@ abstract class Magento_Core_Helper_Abstract
         $this->_logger = $context->getLogger();
         $this->_request = $context->getRequest();
         $this->_app = $context->getApp();
-        $this->_urlFactory = $context->getUrlFactory();
-        $this->_urlModel = $context->getUrlModel();
+        $this->_urlBuilder = $context->getUrlBuilder();
     }
 
     /**
@@ -296,7 +290,7 @@ abstract class Magento_Core_Helper_Abstract
      */
     protected function _getUrl($route, $params = array())
     {
-        return $this->_urlFactory->create()->getUrl($route, $params);
+        return $this->_urlBuilder->getUrl($route, $params);
     }
 
     /**
@@ -319,7 +313,7 @@ abstract class Magento_Core_Helper_Abstract
     public function urlDecode($url)
     {
         $url = base64_decode(strtr($url, '-_,', '+/='));
-        return $this->_urlModel->sessionUrlVar($url);
+        return $this->_urlBuilder->sessionUrlVar($url);
     }
 
     /**

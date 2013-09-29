@@ -360,7 +360,7 @@
         </param>
     </type>
     <type name="Magento_Core_Helper_Context">
-        <param name="urlModel">
+        <param name="urlBuilder">
             <instance type="Magento_Core_Model_Url_Proxy" />
         </param>
     </type>

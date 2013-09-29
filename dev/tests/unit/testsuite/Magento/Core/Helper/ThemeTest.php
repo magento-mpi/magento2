@@ -433,8 +433,12 @@ class Magento_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
     protected function _getTheme($themeId, $themeArea)
     {
         /** @var $theme Magento_Core_Model_Theme|PHPUnit_Framework_MockObject_MockObject */
-        $theme = $this->getMock('Magento_Core_Model_Theme',
-            array('getThemeId', 'getArea', 'getThemeTitle'), array(), '', false
+        $theme = $this->getMock(
+            'Magento_Core_Model_Theme',
+            array('getThemeId', 'getArea', 'getThemeTitle', '__wakeup'),
+            array(),
+            '',
+            false
         );
         $theme->expects($this->any())
             ->method('getThemeId')
