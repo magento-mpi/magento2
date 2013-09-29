@@ -2,8 +2,9 @@
 /**
  * Test for \Magento\Index\Model\Indexer
  *
- * We have to implement it in \Magento\Catalog module, because \Magento\Index module doesn't implement any index processes
- * and also the original \Magento\Index\Model\Indexer is not coverable with unit tests in current implementation
+ * We have to implement it in \Magento\Catalog module, because \Magento\Index module
+ * does not implement any index processes and also the original \Magento\Index\Model\Indexer
+ * is not able to be covered with unit tests in current implementation
  *
  * {license_notice}
  *

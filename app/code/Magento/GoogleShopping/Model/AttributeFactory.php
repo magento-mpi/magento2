@@ -56,10 +56,12 @@ class AttributeFactory
             /** @var \Magento\GoogleShopping\Model\Attribute\DefaultAttribute $attributeModel */
             $attributeModel = $this->_objectManager->create($modelName);
             if (!$attributeModel) {
-                $attributeModel = $this->_objectManager->create('Magento\GoogleShopping\Model\Attribute\DefaultAttribute');
+                $attributeModel = $this->_objectManager
+                    ->create('Magento\GoogleShopping\Model\Attribute\DefaultAttribute');
             }
         } catch (\Exception $e) {
-            $attributeModel = $this->_objectManager->create('Magento\GoogleShopping\Model\Attribute\DefaultAttribute');
+            $attributeModel = $this->_objectManager
+                ->create('Magento\GoogleShopping\Model\Attribute\DefaultAttribute');
         }
 
         $attributeModel->setName($name);

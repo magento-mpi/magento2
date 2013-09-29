@@ -18,8 +18,8 @@
 namespace Magento\Adminhtml\Block\Catalog\Product\Edit;
 
 /**
-* @SuppressWarnings(PHPMD.DepthOfInheritance)
-*/
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
+ */
 class NewCategory extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**

@@ -42,7 +42,8 @@ class IndexTest extends \Magento\TestFramework\TestCase\ControllerAbstract
     protected function _logout()
     {
         $this->_auth->logout();
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Backend\Model\Url')->turnOnSecretKey();
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Backend\Model\Url')->turnOnSecretKey();
     }
 
     /**

@@ -29,7 +29,7 @@ class Test
      * @param ModelFactory $factory
      * @param array $data
      */
-    public function test(ModelFactory $factory, array $data = array())
+    public function testHelper(ModelFactory $factory, array $data = array())
     {
         $factory->create('Magento_SomeModule_BlockFactory', array('data' => $data));
     }

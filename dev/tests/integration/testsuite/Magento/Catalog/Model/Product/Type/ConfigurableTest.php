@@ -169,7 +169,7 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
     {
         $ids = $this->_model->getUsedProductIds($this->_product);
         $this->assertInternalType('array', $ids);
-        $this->assertTrue(2 === count($ids)); // impossible to check actual IDs, because they are dynamic in the fixture
+        $this->assertTrue(2 === count($ids)); // impossible to check actual IDs, they are dynamic in the fixture
     }
 
     public function testGetUsedProducts()
@@ -325,7 +325,8 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(
             \Magento\Catalog\Model\Product\Type\AbstractType::CALCULATE_PARENT, $result['product_calculations']
         );
-        $this->assertEquals(\Magento\Catalog\Model\Product\Type\AbstractType::SHIPMENT_TOGETHER, $result['shipment_type']);
+        $this->assertEquals(\Magento\Catalog\Model\Product\Type\AbstractType::SHIPMENT_TOGETHER,
+            $result['shipment_type']);
     }
 
     /**

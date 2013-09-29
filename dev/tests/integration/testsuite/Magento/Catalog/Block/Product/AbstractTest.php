@@ -44,7 +44,8 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         if (!self::$_isStubClass) {
-            $this->getMockForAbstractClass('Magento\Catalog\Block\Product\AbstractProduct', array(), self::STUB_CLASS, false);
+            $this->getMockForAbstractClass('Magento\Catalog\Block\Product\AbstractProduct', array(),
+                self::STUB_CLASS, false);
             self::$_isStubClass = true;
         }
 

@@ -30,7 +30,8 @@ class DataTest extends \PHPUnit_Framework_TestCase
     {
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Config\Scope')
             ->setCurrentScope(\Magento\Core\Model\App\Area::AREA_ADMINHTML);
-        $this->_helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Backend\Helper\Data');
+        $this->_helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Backend\Helper\Data');
     }
 
     protected function tearDown()
@@ -60,7 +61,8 @@ class DataTest extends \PHPUnit_Framework_TestCase
     protected function _logout()
     {
         $this->_auth->logout();
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Backend\Model\Url')->turnOnSecretKey();
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Backend\Model\Url')->turnOnSecretKey();
     }
 
     /**
@@ -106,7 +108,8 @@ class DataTest extends \PHPUnit_Framework_TestCase
          * perform logout
          */
         $auth->logout();
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Backend\Model\Url')->turnOnSecretKey();
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Backend\Model\Url')->turnOnSecretKey();
 
         $this->assertFalse($this->_helper->getCurrentUserId());
     }

@@ -129,7 +129,8 @@ class FormTest extends \PHPUnit_Framework_TestCase
             $storeElement->getRenderer());
 
         // Check store elements has expected values
-        $storesList = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\System\Store')
+        $storesList = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Core\Model\System\Store')
             ->getStoreValuesForForm();
         $this->assertInternalType('array', $storeElement->getValues());
         $this->assertNotEmpty($storeElement->getValues());

@@ -12,7 +12,8 @@
  * Block for Catalog Category URL rewrites editing
  *
  * @method \Magento\Catalog\Model\Category getCategory()
- * @method \Magento\Adminhtml\Block\Urlrewrite\Catalog\Product\Edit setCategory(\Magento\Catalog\Model\Category $category)
+ * @method
+ * \Magento\Adminhtml\Block\Urlrewrite\Catalog\Product\Edit setCategory(\Magento\Catalog\Model\Category $category)
  * @method \Magento\Catalog\Model\Product getProduct()
  * @method \Magento\Adminhtml\Block\Urlrewrite\Catalog\Product\Edit setProduct(\Magento\Catalog\Model\Product $product)
  * @method bool getIsCategoryMode()

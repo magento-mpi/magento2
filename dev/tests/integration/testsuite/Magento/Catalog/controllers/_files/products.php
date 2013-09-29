@@ -11,7 +11,8 @@
 
 // Copy images to tmp media path
 /** @var \Magento\Catalog\Model\Product\Media\Config $config */
-$config = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Catalog\Model\Product\Media\Config');
+$config = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->get('Magento\Catalog\Model\Product\Media\Config');
 $baseTmpMediaPath = $config->getBaseTmpMediaPath();
 
 /** @var \Magento\Filesystem $filesystem */

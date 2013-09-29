@@ -11,7 +11,8 @@
 
 $store = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
     ->create('Magento\Core\Model\Store');
-$websiteId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
+$websiteId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->get('Magento\Core\Model\StoreManagerInterface')
     ->getWebsite()->getId();
 $groupId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
     ->getWebsite()->getDefaultGroupId();
