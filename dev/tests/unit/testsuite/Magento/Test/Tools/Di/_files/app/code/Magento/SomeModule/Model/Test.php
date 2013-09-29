@@ -9,7 +9,7 @@ namespace Magento\SomeModule\Model;
 
 
 /**
- *@SuppressWarnings(PHPMD.ConstructorWithNameAsEnclosingClass)
+ * @SuppressWarnings(PHPMD.ConstructorWithNameAsEnclosingClass)
  */
 class Test
 {

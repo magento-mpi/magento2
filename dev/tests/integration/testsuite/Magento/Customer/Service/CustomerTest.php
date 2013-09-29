@@ -510,8 +510,8 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         ));
 
         $callbackCount = 0;
-        $callback = function ($actualCustomer, $actualData, $actualAddresses) use ($customer, $customerData,
-        $addressData, &$callbackCount
+        $callback = function ($actualCustomer, $actualData, $actualAddresses) use (
+            $customer, $customerData, $addressData, &$callbackCount
             ) {
             $callbackCount++;
             // Remove updated_at as in afterSave updated_at may be changed
