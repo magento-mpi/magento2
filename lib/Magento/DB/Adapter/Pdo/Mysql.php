@@ -327,7 +327,7 @@ class Magento_DB_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements 
         }
 
         if (!isset($this->_config['host'])) {
-            throw new Zend_Db_Adapter_Exception('No host configured to connect to');
+            throw new Zend_Db_Adapter_Exception('No host configured to connect to' . mageDebugBacktrace(true));
         }
 
         if (strpos($this->_config['host'], '/') !== false) {
