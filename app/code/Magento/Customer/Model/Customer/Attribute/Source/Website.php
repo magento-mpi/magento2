@@ -35,6 +35,7 @@ class Magento_Customer_Model_Customer_Attribute_Source_Website extends Magento_E
         Magento_Core_Model_System_Store $store
     ) {
         parent::__construct($coreData, $attrOptCollFactory, $attrOptionFactory);
+        $this->_store = $store;
     }
 
     public function getAllOptions()
