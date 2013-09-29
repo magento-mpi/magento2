@@ -70,6 +70,7 @@ class Magento_Install_Model_Installer_Db extends Magento_Install_Model_Installer
         $data = $this->_getCheckedData($data);
 
         try {
+            /** @var Magento_Install_Model_Installer_Db_Mysql4 $resource */
             $resource = $this->_getDbResource();
             $resource->setConfig($data);
 
@@ -88,8 +89,8 @@ class Magento_Install_Model_Installer_Db extends Magento_Install_Model_Installer
             }
 
             $version    = $resource->getVersion();
-            $requiredVersion = isset($this->_dbConfig[$dbModel]['min_version'])
-                ? $this->_dbConfig[$dbModel]['min_version']
+            $requiredVersion = isset($this->_dbConfig['mysql4']['min_version'])
+                ? $this->_dbConfig['mysql4']['min_version']
                 : 0;
 
             // check DB server version
