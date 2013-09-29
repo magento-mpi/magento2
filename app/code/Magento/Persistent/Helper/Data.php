@@ -79,22 +79,13 @@ class Magento_Persistent_Helper_Data extends Magento_Core_Helper_Data
         Magento_Checkout_Helper_Data $checkoutData,
         Magento_Persistent_Helper_Session $persistentSession,
         $dbCompatibleMode = true
-    ) {
+    )
+    {
         $this->_coreUrl = $coreUrl;
         $this->_checkoutData = $checkoutData;
         $this->_persistentSession = $persistentSession;
-        parent::__construct(
-            $eventManager,
-            $coreHttp,
-            $context,
-            $config,
-            $coreStoreConfig,
-            $storeManager,
-            $locale,
-            $dateModel,
-            $appState,
-            $encryptor,
-            $dbCompatibleMode
+        parent::__construct($context, $eventManager, $coreHttp, $config, $coreStoreConfig, $storeManager,
+            $locale, $dateModel, $appState, $encryptor, $dbCompatibleMode
         );
     }
 

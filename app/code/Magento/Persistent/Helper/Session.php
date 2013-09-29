@@ -95,23 +95,14 @@ class Magento_Persistent_Helper_Session extends Magento_Core_Helper_Data
         Magento_Customer_Model_CustomerFactory $customerFactory,
         Magento_Persistent_Model_SessionFactory $sessionFactory,
         $dbCompatibleMode = true
-    ) {
+    )
+    {
         $this->_persistentData = $persistentData;
         $this->_checkoutSession = $checkoutSession;
         $this->_customerFactory = $customerFactory;
         $this->_sessionFactory = $sessionFactory;
-        parent::__construct(
-            $eventManager,
-            $coreHttp,
-            $context,
-            $config,
-            $coreStoreConfig,
-            $storeManager,
-            $locale,
-            $dateModel,
-            $appState,
-            $encryptor,
-            $dbCompatibleMode
+        parent::__construct($context, $eventManager, $coreHttp, $config, $coreStoreConfig, $storeManager,
+            $locale, $dateModel, $appState, $encryptor, $dbCompatibleMode
         );
     }
 

@@ -42,7 +42,7 @@ class Magento_Customer_Model_Resource_Setup extends Magento_Eav_Model_Entity_Set
         $connectionName = ''
     ) {
         $this->_eavConfig = $eavConfig;
-        parent::__construct($context, $resourceName, $moduleName, $connectionName, $cache, $attrGrCollFactory);
+        parent::__construct($context, $cache, $attrGrCollFactory, $resourceName, $moduleName, $connectionName);
     }
 
     /**

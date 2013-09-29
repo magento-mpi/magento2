@@ -49,20 +49,11 @@ class Magento_CurrencySymbol_Helper_Data extends Magento_Core_Helper_Data
         Magento_Core_Model_Encryption $encryptor,
         Magento_CurrencySymbol_Model_System_Currencysymbol_Factory $symbolFactory,
         $dbCompatibleMode = true
-    ) {
+    )
+    {
         $this->_symbolFactory = $symbolFactory;
-        parent::__construct(
-            $eventManager,
-            $coreHttp,
-            $context,
-            $config,
-            $coreStoreConfig,
-            $storeManager,
-            $locale,
-            $dateModel,
-            $appState,
-            $encryptor,
-            $dbCompatibleMode
+        parent::__construct($context, $eventManager, $coreHttp, $config, $coreStoreConfig, $storeManager,
+            $locale, $dateModel, $appState, $encryptor, $dbCompatibleMode
         );
     }
 

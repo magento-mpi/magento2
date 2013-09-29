@@ -97,25 +97,16 @@ class Magento_Sales_Helper_Guest extends Magento_Core_Helper_Data
         Magento_Core_Model_Session $coreSession,
         Magento_Sales_Model_OrderFactory $orderFactory,
         $dbCompatibleMode = true
-    ) {
+    )
+    {
         $this->_coreRegistry = $coreRegistry;
         $this->_customerSession = $customerSession;
         $this->_coreCookie = $coreCookie;
         $this->_coreApp = $coreApp;
         $this->_coreSession = $coreSession;
         $this->_orderFactory = $orderFactory;
-        parent::__construct(
-            $eventManager,
-            $coreHttp,
-            $context,
-            $config,
-            $coreStoreConfig,
-            $storeManager,
-            $locale,
-            $dateModel,
-            $appState,
-            $encryptor,
-            $dbCompatibleMode
+        parent::__construct($context, $eventManager, $coreHttp, $config, $coreStoreConfig, $storeManager,
+            $locale, $dateModel, $appState, $encryptor, $dbCompatibleMode
         );
     }
 

@@ -58,21 +58,12 @@ class Magento_Connect_Helper_Data extends Magento_Core_Helper_Data
         Magento_Filesystem $filesystem,
         Magento_Core_Model_Dir $dirs,
         $dbCompatibleMode = true
-    ) {
+    )
+    {
         $this->_filesystem = $filesystem;
         $this->_dirs = $dirs;
-        parent::__construct(
-            $eventManager,
-            $coreHttp,
-            $context,
-            $config,
-            $coreStoreConfig,
-            $storeManager,
-            $locale,
-            $dateModel,
-            $appState,
-            $encryptor,
-            $dbCompatibleMode
+        parent::__construct($context, $eventManager, $coreHttp, $config, $coreStoreConfig, $storeManager,
+            $locale, $dateModel, $appState, $encryptor, $dbCompatibleMode
         );
     }
 

@@ -47,20 +47,11 @@ class Magento_Sales_Helper_Reorder extends Magento_Core_Helper_Data
         Magento_Core_Model_Encryption $encryptor,
         Magento_Customer_Model_Session $customerSession,
         $dbCompatibleMode = true
-    ) {
+    )
+    {
         $this->_customerSession = $customerSession;
-        parent::__construct(
-            $eventManager,
-            $coreHttp,
-            $context,
-            $config,
-            $coreStoreConfig,
-            $storeManager,
-            $locale,
-            $dateModel,
-            $appState,
-            $encryptor,
-            $dbCompatibleMode
+        parent::__construct($context, $eventManager, $coreHttp, $config, $coreStoreConfig, $storeManager,
+            $locale, $dateModel, $appState, $encryptor, $dbCompatibleMode
         );
     }
 

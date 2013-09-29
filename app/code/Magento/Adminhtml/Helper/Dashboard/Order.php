@@ -45,20 +45,11 @@ class Magento_Adminhtml_Helper_Dashboard_Order extends Magento_Adminhtml_Helper_
         Magento_Core_Model_Encryption $encryptor,
         Magento_Reports_Model_Resource_Order_Collection $orderCollection,
         $dbCompatibleMode = true
-    ) {
+    )
+    {
         $this->_orderCollection = $orderCollection;
-        parent::__construct(
-            $eventManager,
-            $coreHttp,
-            $context,
-            $config,
-            $coreStoreConfig,
-            $storeManager,
-            $locale,
-            $dateModel,
-            $appState,
-            $encryptor,
-            $dbCompatibleMode
+        parent::__construct($context, $eventManager, $coreHttp, $config, $coreStoreConfig, $storeManager,
+            $locale, $dateModel, $appState, $encryptor, $dbCompatibleMode
         );
     }
 

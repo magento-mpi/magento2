@@ -42,6 +42,7 @@ class Magento_ScheduledImportExport_Helper_Data extends Magento_ImportExport_Hel
      * @param Magento_Core_Model_Date $dateModel
      * @param Magento_Core_Model_App_State $appState
      * @param Magento_Core_Model_Encryption $encryptor
+     * @param Magento_File_Size $fileSize
      * @param Magento_CustomerBalance_Helper_Data $customerBalanceData
      * @param Magento_Reward_Helper_Data $rewardData
      * @param bool $dbCompatibleMode
@@ -57,24 +58,16 @@ class Magento_ScheduledImportExport_Helper_Data extends Magento_ImportExport_Hel
         Magento_Core_Model_Date $dateModel,
         Magento_Core_Model_App_State $appState,
         Magento_Core_Model_Encryption $encryptor,
+        Magento_File_Size $fileSize,
         Magento_CustomerBalance_Helper_Data $customerBalanceData,
         Magento_Reward_Helper_Data $rewardData,
         $dbCompatibleMode = true
-    ) {
+    )
+    {
         $this->_customerBalanceData = $customerBalanceData;
         $this->_rewardData = $rewardData;
-        parent::__construct(
-            $eventManager,
-            $coreHttp,
-            $context,
-            $config,
-            $coreStoreConfig,
-            $storeManager,
-            $locale,
-            $dateModel,
-            $appState,
-            $encryptor,
-            $dbCompatibleMode
+        parent::__construct($context, $eventManager, $coreHttp, $config, $coreStoreConfig, $storeManager,
+            $locale, $dateModel, $appState, $encryptor, $fileSize, $dbCompatibleMode
         );
     }
 
