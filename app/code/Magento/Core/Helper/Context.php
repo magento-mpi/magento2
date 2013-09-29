@@ -70,7 +70,7 @@ class Magento_Core_Helper_Context implements Magento_ObjectManager_ContextInterf
      * @param Magento_Core_Model_ModuleManager $moduleManager
      * @param Magento_Core_Controller_Request_HttpProxy $httpRequest
      * @param Magento_Core_Model_Cache_Config $cacheConfig
-     * @param Magento_Core_Model_EncryptionFactory $encyptorFactory
+     * @param Magento_Core_Model_EncryptionFactory $encryptorFactory
      * @param Magento_Core_Model_Fieldset_Config $fieldsetConfig
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_App $app
@@ -83,7 +83,7 @@ class Magento_Core_Helper_Context implements Magento_ObjectManager_ContextInterf
         Magento_Core_Model_ModuleManager $moduleManager,
         Magento_Core_Controller_Request_HttpProxy $httpRequest,
         Magento_Core_Model_Cache_Config $cacheConfig,
-        Magento_Core_Model_EncryptionFactory $encyptorFactory,
+        Magento_Core_Model_EncryptionFactory $encryptorFactory,
         Magento_Core_Model_Fieldset_Config $fieldsetConfig,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Model_App $app,
@@ -94,7 +94,7 @@ class Magento_Core_Helper_Context implements Magento_ObjectManager_ContextInterf
         $this->_moduleManager = $moduleManager;
         $this->_httpRequest = $httpRequest;
         $this->_cacheConfig = $cacheConfig;
-        $this->_encryptorFactory = $encyptorFactory;
+        $this->_encryptorFactory = $encryptorFactory;
         $this->_fieldsetConfig = $fieldsetConfig;
         $this->_eventManager = $eventManager;
         $this->_logger = $logger;
