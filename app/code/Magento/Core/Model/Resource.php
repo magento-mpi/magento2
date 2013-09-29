@@ -63,7 +63,6 @@ class Magento_Core_Model_Resource
 
     /**
      * @param Magento_Core_Model_CacheInterface $cache
-     * @param Magento_Core_Model_Dir $dirs
      * @param Magento_Core_Model_AppInterface $app
      * @param Magento_Core_Model_Config_ResourceInterface $resourceConfig
      * @param Magento_Core_Model_Resource_ConnectionFactory $adapterFactory
@@ -71,14 +70,12 @@ class Magento_Core_Model_Resource
      */
     public function __construct(
         Magento_Core_Model_CacheInterface $cache,
-        Magento_Core_Model_Dir $dirs,
         Magento_Core_Model_AppInterface $app,
         Magento_Core_Model_Config_ResourceInterface $resourceConfig,
         Magento_Core_Model_Resource_ConnectionFactory $adapterFactory,
         $tablePrefix = ''
     ) {
         $this->_cache = $cache;
-        $this->_dirs = $dirs;
         $this->_app = $app;
         $this->_resourceConfig = $resourceConfig;
         $this->_connectionFactory = $adapterFactory;
