@@ -126,7 +126,7 @@ class Magento_Test_Block_Adminhtml extends PHPUnit_Framework_TestCase
             $viewFileSystemMock,
             $templateFactoryMock,
             $authorizationMock,
-            $appMock
+            $appMock,
             $backendSessionMock,
             $this->_localeMock
         );

@@ -97,6 +97,7 @@ class Magento_Eav_Model_Entity_Setup extends Magento_Core_Model_Resource_Setup
     public function getAttributeGroupCollectionFactory()
     {
         return $this->_attrGrCollFactory->create();
+    }
 
     /**
      * Clean cache
