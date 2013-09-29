@@ -47,7 +47,7 @@ class Magento_Validator_ConfigTest extends PHPUnit_Framework_TestCase
             'Magento_Validator_Config',
             array(
                 'configFiles' => $files,
-                'builderFactory' => new Magento_Validator_IniversalFactory(new Magento_ObjectManager_ObjectManager()),
+                'builderFactory' => new Magento_Validator_UniversalFactory(new Magento_ObjectManager_ObjectManager()),
             )
         );
     }
