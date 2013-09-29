@@ -64,6 +64,13 @@ class Magento_Backup_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_dir;
 
     /**
+     * Index resource process collection factory
+     *
+     * @var Magento_Index_Model_Resource_Process_CollectionFactory
+     */
+    protected $_processFactory;
+
+    /**
      * Construct
      *
      * @param Magento_Core_Helper_Context $context
@@ -72,6 +79,7 @@ class Magento_Backup_Helper_Data extends Magento_Core_Helper_Abstract
      * @param Magento_Core_Model_Cache_Config $cacheConfig
      * @param Magento_Core_Model_Cache_TypeListInterface $cacheTypeList
      * @param Magento_Core_Model_Dir $dir
+     * @param Magento_Index_Model_Resource_Process_CollectionFactory $processFactory
      */
     public function __construct(
         Magento_Core_Helper_Context $context,
@@ -79,7 +87,8 @@ class Magento_Backup_Helper_Data extends Magento_Core_Helper_Abstract
         Magento_AuthorizationInterface $authorization,
         Magento_Core_Model_Cache_Config $cacheConfig,
         Magento_Core_Model_Cache_TypeListInterface $cacheTypeList,
-        Magento_Core_Model_Dir $dir
+        Magento_Core_Model_Dir $dir,
+        Magento_Index_Model_Resource_Process_CollectionFactory $processFactory
     ) {
         parent::__construct($context);
         $this->_authorization = $authorization;
@@ -309,7 +318,7 @@ class Magento_Backup_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function invalidateIndexer()
     {
-        foreach (Mage::getResourceModel('Magento_Index_Model_Resource_Process_Collection') as $process) {
+        foreach ($this->_processFactory->create() as $process) {
             $process->changeStatus(Magento_Index_Model_Process::STATUS_REQUIRE_REINDEX);
         }
         return $this;

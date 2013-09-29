@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <resource name="resourceName" extends="anotherResourceName" />
+    <resource name="otherResourceName" connection="connectionName" />
+    <resource name="defaultSetup" connection="customConnection" />
+</config>

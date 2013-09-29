@@ -10,15 +10,6 @@
  */
 -->
 <config>
-    <global>
-        <resources>
-            <contacts_setup>
-                <setup>
-                    <module>Magento_Contacts</module>
-                </setup>
-            </contacts_setup>
-        </resources>
-    </global>
     <default>
         <contacts>
             <contacts>

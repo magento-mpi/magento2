@@ -20,12 +20,12 @@ class Magento_Sales_Model_Quote_Address_Total_Tax extends Magento_Sales_Model_Qu
      *
      * @var Magento_Tax_Helper_Data
      */
-    protected $_taxData = null;
+    protected $_taxData;
 
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var Magento_Core_Model_Store_ConfigInterface
      */
     protected $_coreStoreConfig;
 
@@ -36,12 +36,12 @@ class Magento_Sales_Model_Quote_Address_Total_Tax extends Magento_Sales_Model_Qu
 
     /**
      * @param Magento_Tax_Helper_Data $taxData
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Store_ConfigInterface $coreStoreConfig
      * @param Magento_Tax_Model_Calculation $calculation
      */
     public function __construct(
         Magento_Tax_Helper_Data $taxData,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Store_ConfigInterface $coreStoreConfig,
         Magento_Tax_Model_Calculation $calculation
     ) {
         $this->_taxData = $taxData;

@@ -50,14 +50,30 @@ abstract class Magento_ImportExport_Model_Abstract extends Magento_Object
     protected $_logger;
 
     /**
-     * Constructor
-     *
+     * @var Magento_Core_Model_Dir
+     */
+    protected $_dir;
+
+    /**
+     * @var Magento_Core_Model_Log_AdapterFactory
+     */
+    protected $_adapterFactory;
+
+    /**
      * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Core_Model_Dir $dir
+     * @param Magento_Core_Model_Log_AdapterFactory $adapterFactory
      * @param array $data
      */
-    public function __construct(Magento_Core_Model_Logger $logger, array $data = array())
-    {
+    public function __construct(
+        Magento_Core_Model_Logger $logger,
+        Magento_Core_Model_Dir $dir,
+        Magento_Core_Model_Log_AdapterFactory $adapterFactory,
+        array $data = array()
+    ) {
         $this->_logger = $logger;
+        $this->_dir = $dir;
+        $this->_adapterFactory = $adapterFactory;
         parent::__construct($data);
     }
 
@@ -87,14 +103,14 @@ abstract class Magento_ImportExport_Model_Abstract extends Magento_Object
                 $this->getOperationType(),
                 $this->getEntity()
             ));
-            $dirPath = Mage::getBaseDir('var') . DS . Magento_ImportExport_Model_Scheduled_Operation::LOG_DIRECTORY
+            $dirPath = $this->_dir->getDir('var') . DS . Magento_ImportExport_Model_Scheduled_Operation::LOG_DIRECTORY
                 . $dirName;
             if (!is_dir($dirPath)) {
                 mkdir($dirPath, 0777, true);
             }
             $fileName = substr(strstr(Magento_ImportExport_Model_Scheduled_Operation::LOG_DIRECTORY, DS), 1)
                 . $dirName . $fileName . '.log';
-            $this->_logInstance = Mage::getModel('Magento_Core_Model_Log_Adapter', array('fileName' => $fileName))
+            $this->_logInstance = $this->_adapterFactory->create(array('fileName' => $fileName))
                 ->setFilterDataKeys($this->_debugReplacePrivateDataKeys);
         }
         $this->_logInstance->log($debugData);

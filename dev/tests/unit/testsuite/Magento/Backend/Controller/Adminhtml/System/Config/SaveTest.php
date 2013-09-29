@@ -71,7 +71,7 @@ class Magento_Backend_Controller_Adminhtml_System_Config_SaveTest extends PHPUni
             array('addSuccess', 'addException'), array(), '', false, false
         );
 
-        $this->_authMock = $this->getMock('Magento_Backend_Model_Auth_Session',
+        $this->_authMock = $this->getMock('Magento_Backend_Model_Auth',
             array('getUser'), array(), '', false, false
         );
 
@@ -95,6 +95,7 @@ class Magento_Backend_Controller_Adminhtml_System_Config_SaveTest extends PHPUni
             'session' => $this->_sessionMock,
             'helper' => $helperMock,
             'eventManager' => $this->_eventManagerMock,
+            'auth' => $this->_authMock
         );
 
         $context = $helper->getObject('Magento_Backend_Controller_Context', $arguments);
@@ -104,7 +105,6 @@ class Magento_Backend_Controller_Adminhtml_System_Config_SaveTest extends PHPUni
             array(
                 $context,
                 $configStructureMock,
-                $this->_authMock,
                 $this->_configFactoryMock,
                 $this->_cacheMock,
                 null,

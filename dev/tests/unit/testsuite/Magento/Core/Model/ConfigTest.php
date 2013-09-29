@@ -1,7 +1,5 @@
 <?php
 /**
- * Magento_Core_Model_Config
- * 
  * {license_notice}
  *
  * @category    Magento
@@ -40,28 +38,24 @@ class Magento_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $xml = '<config>
-                    <global>
-                        <areas>
-                            <adminhtml>
-                                <base_controller>base_controller</base_controller>
-                                <routers>
-                                    <admin>
-                                        <class>class</class>
-                                    </admin>
-                                </routers>
-                                <frontName>backend</frontName>
-                            </adminhtml>
-                        </areas>
-                        <resources>
-                            <module_setup>
-                                <setup>
-                                    <module>Module</module>
-                                    <class>Module_Model_Resource_Setup</class>
-                                </setup>
-                            </module_setup>
-                        </resources>
-                    </global>
+                    <default>
+                        <first>
+                            <custom>
+                                <node>value</node>
+                            </custom>
+                        </first>
+                    </default>
                 </config>';
+
+        $areas = array('adminhtml' => array(
+            'base_controller' => 'base_controller',
+            'routers' => array(
+                'admin' => array(
+                    'class' => 'class'
+                )
+            ),
+            'frontName' => 'backend'
+        ));
 
         $configBase = new Magento_Core_Model_Config_Base($xml);
         $this->_objectManagerMock = $this->getMock('Magento_Core_Model_ObjectManager', array(), array(), '', false);
@@ -71,7 +65,6 @@ class Magento_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
         $this->_configScopeMock = $this->getMock('Magento_Config_ScopeInterface');
         $this->_moduleListMock = $this->getMock('Magento_Core_Model_ModuleListInterface');
         $this->_sectionPoolMock = $this->getMock('Magento_Core_Model_Config_SectionPool', array(), array(), '', false);
-        $coreStoreConfig = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false);
 
         $this->_model = new Magento_Core_Model_Config(
             $this->_objectManagerMock,
@@ -80,7 +73,7 @@ class Magento_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
             $this->_moduleListMock,
             $this->_configScopeMock,
             $this->_sectionPoolMock,
-            $coreStoreConfig
+            $areas
         );
     }
     public function testSetNodeData()
@@ -93,28 +86,10 @@ class Magento_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
 
     public function testGetNode()
     {
-        $this->assertInstanceOf('Magento_Core_Model_Config_Element', $this->_model->getNode(
-            'global/resources/module_setup/setup/module'));
-    }
-
-    public function testGetAreas()
-    {
-        $expected = array(
-            'adminhtml' => array(
-                'base_controller' => 'base_controller',
-                'routers' => array(
-                    'admin' => array(
-                        'class' => 'class'
-                    ),
-                ),
-                'frontName' => 'backend',
-            ),
+        $this->assertInstanceOf(
+            'Magento_Core_Model_Config_Element',
+            $this->_model->getNode('default/first/custom/node')
         );
-
-        $areaCode = 'adminhtml';
-        $this->_configScopeMock->expects($this->any())
-            ->method('getCurrentScope')->will($this->returnValue($areaCode));
-        $this->assertEquals($expected, $this->_model->getAreas());
     }
 
     public function testSetValue()

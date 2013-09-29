@@ -8,11 +8,8 @@
  * @license     {license_link}
  */
 
-
 /**
  * Tax Total Row Renderer
- *
- * @author Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Tax_Block_Checkout_Tax extends Magento_Checkout_Block_Total_Default
 {

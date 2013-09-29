@@ -10,25 +10,4 @@
  */
 -->
 <config>
-    <global>
-        <areas>
-            <webapi_rest>
-                <frontName>rest</frontName>
-                <front_controller>Magento_Webapi_Controller_Rest</front_controller>
-                <request_object>Magento_Webapi_Controller_Rest_Request</request_object>
-            </webapi_rest>
-            <webapi_soap>
-                <frontName>soap</frontName>
-                <front_controller>Magento_Webapi_Controller_Soap</front_controller>
-                <request_object>Magento_Webapi_Controller_Soap_Request</request_object>
-            </webapi_soap>
-        </areas>
-        <resources>
-            <webapi_setup>
-                <setup>
-                    <module>Magento_Webapi</module>
-                </setup>
-            </webapi_setup>
-        </resources>
-    </global>
 </config>

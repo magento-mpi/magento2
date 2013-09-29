@@ -10,6 +10,11 @@
  * @SuppressWarnings(PHPMD.ExcessiveParameterList)
  */
 
+/**
+ * Class Magento_Backend_Controller_Router_Default
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class Magento_Backend_Controller_Router_Default extends Magento_Core_Controller_Varien_Router_Base
 {
     /**
@@ -45,32 +50,54 @@ class Magento_Backend_Controller_Router_Default extends Magento_Core_Controller_
     protected $_defaultRouteId;
 
     /**
+     * @var Magento_Core_Model_App_State
+     */
+    protected $_appState;
+
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Core_Model_Url
+     */
+    protected $_url;
+
+    /**
      * @param Magento_Backend_Helper_Data $backendData
      * @param Magento_Core_Controller_Varien_Action_Factory $controllerFactory
      * @param Magento_Filesystem $filesystem
      * @param Magento_Core_Model_App $app
+     * @param Magento_Core_Model_App_State $appState
      * @param Magento_Core_Model_Config_Scope $configScope
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_Route_Config $routeConfig
-     * @param string $areaCode
-     * @param string $baseController
-     * @param string $routerId
-     * @param string $defaultRouteId
-     * @throws InvalidArgumentException
+     * @param Magento_Core_Model_Url_SecurityInfoInterface $securityInfo
+     * @param Magento_Core_Model_Config $config
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Url $url
+     * @param Magento_Core_Model_App_State $appState
+     * @param $areaCode
+     * @param $baseController
+     * @param $routerId
+     * @param $defaultRouteId
      *
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     * @throws InvalidArgumentException
      */
     public function __construct(
         Magento_Backend_Helper_Data $backendData,
         Magento_Core_Controller_Varien_Action_Factory $controllerFactory,
         Magento_Filesystem $filesystem,
         Magento_Core_Model_App $app,
+        Magento_Core_Model_App_State $appState,
         Magento_Core_Model_Config_Scope $configScope,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_Route_Config $routeConfig,
         Magento_Core_Model_Url_SecurityInfoInterface $securityInfo,
         Magento_Core_Model_Config $config,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Url $url,
-        Magento_Core_Model_StoreManager $storeManager,
         Magento_Core_Model_App_State $appState,
         $areaCode,
         $baseController,
@@ -94,8 +121,10 @@ class Magento_Backend_Controller_Router_Default extends Magento_Core_Controller_
             $routerId,
             $defaultRouteId
         );
-
         $this->_backendData = $backendData;
+        $this->_appState = $appState;
+        $this->_storeManager = $storeManager;
+        $this->_url = $url;
         $this->_areaFrontName = $this->_backendData->getAreaFrontName();
         $this->_defaultRouteId = $defaultRouteId;
         if (empty($this->_areaFrontName)) {
@@ -161,9 +190,10 @@ class Magento_Backend_Controller_Router_Default extends Magento_Core_Controller_
      */
     protected function _afterModuleMatch()
     {
-        if (!Mage::isInstalled()) {
-            Mage::app()->getFrontController()->getResponse()
-                ->setRedirect(Mage::getUrl('install'))
+        if (!$this->_appState->isInstalled()) {
+            $this->_app->getFrontController()
+                ->getResponse()
+                ->setRedirect($this->_url->getUrl('install'))
                 ->sendResponse();
             exit;
         }
@@ -205,7 +235,7 @@ class Magento_Backend_Controller_Router_Default extends Magento_Core_Controller_
      */
     protected function _getCurrentSecureUrl($request)
     {
-        return Mage::app()->getStore(Magento_Core_Model_AppInterface::ADMIN_STORE_ID)
+        return $this->_storeManager->getStore(Magento_Core_Model_AppInterface::ADMIN_STORE_ID)
             ->getBaseUrl('link', true) . ltrim($request->getPathInfo(), '/');
     }
 

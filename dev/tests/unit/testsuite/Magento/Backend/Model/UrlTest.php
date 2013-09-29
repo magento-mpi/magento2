@@ -57,6 +57,11 @@ class Magento_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
      */
     protected $_requestMock;
 
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_authSessionMock;
+
     protected function setUp()
     {
         $this->_menuMock = $this->getMock('Magento_Backend_Model_Menu', array(), array(), '', false);
@@ -92,18 +97,17 @@ class Magento_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
         $this->_coreDataMock = $this->getMock('Magento_Core_Helper_Data', array('getHash'), array(), '', false);
         $this->_coreDataMock->expects($this->any())->method('getHash')->will($this->returnArgument(0));
 
-        $securityInfoMock = $this->getMock('Magento_Core_Model_Url_SecurityInfoInterface');
-
-        $this->_model = new Magento_Backend_Model_Url(
-            $securityInfoMock,
-            $this->_storeConfigMock,
-            $helperMock,
-            $this->_coreSessionMock,
-            $this->_menuConfigMock,
-            $this->_coreDataMock,
-            $this->getMock('Magento_Core_Model_App', array(), array(), '', false),
-            $this->getMock('Magento_Core_Model_StoreManager', array(), array(), '', false)
-        );
+        $this->_authSessionMock = $this->getMock('Magento_Backend_Model_Auth_Session', array(), array(),
+            'Magento_Backend_Model_Auth_SessionProxy', false, false);
+        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $this->_model = $helper->getObject('Magento_Backend_Model_Url', array(
+            'coreStoreConfig' => $this->_storeConfigMock,
+            'backendHelper'   => $helperMock,
+            'coreSession'     => $this->_coreSessionMock,
+            'menuConfig'      => $this->_menuConfigMock,
+            'coreData'        => $this->_coreDataMock,
+            'authSession'     => $this->_authSessionMock
+        ));
 
         $this->_requestMock = $this->getMock('Magento_Core_Controller_Request_Http', array(), array(), '', false);
         $this->_model->setRequest($this->_requestMock);
@@ -171,19 +175,11 @@ class Magento_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
         $helperMock->expects($this->once())->method('getAreaFrontName')
             ->will($this->returnValue($this->_areaFrontName));
 
-        $securityInfoMock = $this->getMock('Magento_Core_Model_Url_SecurityInfoInterface');
-
-        $urlModel = new Magento_Backend_Model_Url(
-            $securityInfoMock,
-            $this->_storeConfigMock,
-            $helperMock,
-            $this->_coreSessionMock,
-            $this->_menuConfigMock,
-            $this->_coreDataMock,
-            $this->getMock('Magento_Core_Model_App', array(), array(), '', false),
-            $this->getMock('Magento_Core_Model_StoreManager', array(), array(), '', false)
-        );
-
+        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $urlModel = $helper->getObject('Magento_Backend_Model_Url', array(
+            'backendHelper'   => $helperMock,
+            'authSession'     => $this->_authSessionMock
+        ));
         $urlModel->getAreaFrontName();
     }
 
@@ -211,18 +207,11 @@ class Magento_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
         $helperMock->expects($this->once())->method('getAreaFrontName')
             ->will($this->returnValue(''));
 
-        $securityInfoMock = $this->getMock('Magento_Core_Model_Url_SecurityInfoInterface');
-
-        $urlModel = new Magento_Backend_Model_Url(
-            $securityInfoMock,
-            $this->_storeConfigMock,
-            $helperMock,
-            $this->_coreSessionMock,
-            $this->_menuConfigMock,
-            $this->_coreDataMock,
-            $this->getMock('Magento_Core_Model_App', array(), array(), '', false),
-            $this->getMock('Magento_Core_Model_StoreManager', array(), array(), '', false)
-        );
+        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $urlModel = $helper->getObject('Magento_Backend_Model_Url', array(
+            'backendHelper'   => $helperMock,
+            'authSession'     => $this->_authSessionMock
+        ));
 
         $moduleFrontName = 'moduleFrontName';
         $controllerName = 'controllerName';

@@ -25,47 +25,17 @@ class Magento_Cms_Model_Resource_Setup extends Magento_Core_Model_Resource_Setup
      */
     protected $_pageFactory;
 
-    /**
-     * @param Magento_Cms_Model_BlockFactory $blockFactory
-     * @param Magento_Cms_Model_PageFactory $pageFactory
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Config_Resource $resourcesConfig
-     * @param Magento_Core_Model_Config $config
-     * @param Magento_Core_Model_ModuleListInterface $moduleList
-     * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
-     * @param Magento_Core_Model_Resource_Resource $resourceResource
-     * @param Magento_Core_Model_Resource_Theme_CollectionFactory $themeResourceFactory
-     * @param Magento_Core_Model_Theme_CollectionFactory $themeFactory
-     * @param Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory
-     * @param $resourceName
-     *
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
-     */
     public function __construct(
+        Magento_Core_Model_Resource_Setup_Context $context,
         Magento_Cms_Model_BlockFactory $blockFactory,
         Magento_Cms_Model_PageFactory $pageFactory,
-        Magento_Core_Model_Logger $logger,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Config_Resource $resourcesConfig,
-        Magento_Core_Model_Config $config,
-        Magento_Core_Model_ModuleListInterface $moduleList,
-        Magento_Core_Model_Resource $resource,
-        Magento_Core_Model_Config_Modules_Reader $modulesReader,
-        Magento_Core_Model_Resource_Resource $resourceResource,
-        Magento_Core_Model_Resource_Theme_CollectionFactory $themeResourceFactory,
-        Magento_Core_Model_Theme_CollectionFactory $themeFactory,
-        Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory,
-        $resourceName
+        $resourceName,
+        $moduleName = 'Magento_Cms',
+        $connectionName = ''
     ) {
-        parent::__construct(
-            $logger, $eventManager, $resourcesConfig, $config, $moduleList, $resource, $modulesReader,
-            $resourceResource, $themeResourceFactory, $themeFactory, $migrationFactory, $resourceName
-        );
-
         $this->_blockFactory = $blockFactory;
         $this->_pageFactory = $pageFactory;
+        parent::__construct($context, $resourceName, $moduleName, $connectionName);
     }
 
     /**

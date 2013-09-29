@@ -10,15 +10,6 @@
  */
 -->
 <config>
-    <global>
-        <resources>
-            <payment_setup>
-                <setup>
-                    <module>Magento_Payment</module>
-                </setup>
-            </payment_setup>
-        </resources>
-    </global>
     <default>
         <payment>
             <ccsave>

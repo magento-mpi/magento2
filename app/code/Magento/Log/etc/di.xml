@@ -29,5 +29,12 @@
         <param name="eventManager">
             <instance type="Magento_Core_Model_Event_Manager_Proxy" />
         </param>
+        <param name="ignores">
+            <value>
+                <install>install</install>
+                <adminhtml>adminhtml</adminhtml>
+                <admin>admin</admin>
+            </value>
+        </param>
     </type>
 </config>

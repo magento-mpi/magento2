@@ -15,39 +15,6 @@ class Magento_MultipleWishlist_Block_Customer_Wishlist_Item_Column_Management
     extends Magento_Wishlist_Block_Customer_Wishlist_Item_Column
 {
     /**
-     * Customer session
-     *
-     * @var Magento_Customer_Model_Session
-     */
-    protected $_customerSession;
-
-    /**
-     * Construct
-     *
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_Wishlist_Helper_Data $wishlistData
-     * @param Magento_Tax_Helper_Data $taxData
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Customer_Model_Session $customerSession
-     * @param array $data
-     */
-    public function __construct(
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_Wishlist_Helper_Data $wishlistData,
-        Magento_Tax_Helper_Data $taxData,
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Customer_Model_Session $customerSession,
-        array $data = array()
-    ) {
-        $this->_customerSession = $customerSession;
-        parent::__construct($coreRegistry, $wishlistData, $taxData, $catalogData, $coreData, $context, $data);
-    }
-
-    /**
      * Render block
      *
      * @return bool

@@ -60,6 +60,21 @@ abstract class Magento_Backend_Controller_ActionAbstract extends Magento_Core_Co
     protected $_translator;
 
     /**
+     * @var Magento_Backend_Model_Auth
+     */
+    protected $_auth;
+
+    /**
+     * @var Magento_Backend_Model_Url
+     */
+    protected $_backendUrl;
+
+    /**
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $_locale;
+
+    /**
      * @param Magento_Backend_Controller_Context $context
      */
     public function __construct(Magento_Backend_Controller_Context $context)
@@ -69,6 +84,9 @@ abstract class Magento_Backend_Controller_ActionAbstract extends Magento_Core_Co
         $this->_session = $context->getSession();
         $this->_authorization = $context->getAuthorization();
         $this->_translator = $context->getTranslator();
+        $this->_auth = $context->getAuth();
+        $this->_backendUrl = $context->getBackendUrl();
+        $this->_locale = $context->getLocale();
     }
 
     protected function _isAllowed()
@@ -226,11 +244,11 @@ abstract class Magento_Backend_Controller_ActionAbstract extends Magento_Core_Co
         $_isValidFormKey = true;
         $_isValidSecretKey = true;
         $_keyErrorMsg = '';
-        if (Mage::getSingleton('Magento_Backend_Model_Auth_Session')->isLoggedIn()) {
+        if ($this->_auth->isLoggedIn()) {
             if ($this->getRequest()->isPost()) {
                 $_isValidFormKey = $this->_validateFormKey();
                 $_keyErrorMsg = __('Invalid Form Key. Please refresh the page.');
-            } elseif (Mage::getSingleton('Magento_Backend_Model_Url')->useSecretKey()) {
+            } elseif ($this->_backendUrl->useSecretKey()) {
                 $_isValidSecretKey = $this->_validateSecretKey();
                 $_keyErrorMsg = __('You entered an invalid Secret Key. Please refresh the page.');
             }
@@ -244,7 +262,7 @@ abstract class Magento_Backend_Controller_ActionAbstract extends Magento_Core_Co
                     'message' => $_keyErrorMsg
                 )));
             } else {
-                $this->_redirect(Mage::getSingleton('Magento_Backend_Model_Url')->getStartupPageUrl());
+                $this->_redirect($this->_backendUrl->getStartupPageUrl());
             }
             return false;
         }
@@ -265,7 +283,7 @@ abstract class Magento_Backend_Controller_ActionAbstract extends Magento_Core_Co
         }
 
         if (is_null($this->_getSession()->getLocale())) {
-            $this->_getSession()->setLocale(Mage::app()->getLocale()->getLocaleCode());
+            $this->_getSession()->setLocale($this->_locale->getLocaleCode());
         }
 
         return $this;
@@ -273,8 +291,6 @@ abstract class Magento_Backend_Controller_ActionAbstract extends Magento_Core_Co
 
     /**
      * Fire predispatch events, execute extra logic after predispatch
-     *
-     * @return void
      */
     protected function _firePreDispatchEvents()
     {
@@ -289,11 +305,7 @@ abstract class Magento_Backend_Controller_ActionAbstract extends Magento_Core_Co
      */
     protected function _initAuthentication()
     {
-        /** @var $auth Magento_Backend_Model_Auth */
-        $auth = Mage::getSingleton('Magento_Backend_Model_Auth');
-
         $request = $this->getRequest();
-
         $requestedActionName = $request->getActionName();
         $openActions = array(
             'forgotpassword',
@@ -305,14 +317,14 @@ abstract class Magento_Backend_Controller_ActionAbstract extends Magento_Core_Co
         if (in_array($requestedActionName, $openActions)) {
             $request->setDispatched(true);
         } else {
-            if ($auth->getUser()) {
-                $auth->getUser()->reload();
+            if ($this->_auth->getUser()) {
+                $this->_auth->getUser()->reload();
             }
-            if (!$auth->isLoggedIn()) {
+            if (!$this->_auth->isLoggedIn()) {
                 $this->_processNotLoggedInUser($request);
             }
         }
-        $auth->getAuthStorage()->refreshAcl();
+        $this->_auth->getAuthStorage()->refreshAcl();
         return $this;
     }
 
@@ -364,7 +376,7 @@ abstract class Magento_Backend_Controller_ActionAbstract extends Magento_Core_Co
         $this->getRequest()->setPost('login', null);
 
         try {
-            Mage::getSingleton('Magento_Backend_Model_Auth')->login($username, $password);
+            $this->_auth->login($username, $password);
         } catch (Magento_Backend_Model_Auth_Exception $e) {
             if (!$this->getRequest()->getParam('messageSent')) {
                 $this->_session->addError($e->getMessage());
@@ -384,12 +396,9 @@ abstract class Magento_Backend_Controller_ActionAbstract extends Magento_Core_Co
     {
         $requestUri = null;
 
-        /** @var $urlModel Magento_Backend_Model_Url */
-        $urlModel = Mage::getSingleton('Magento_Backend_Model_Url');
-
         // Checks, whether secret key is required for admin access or request uri is explicitly set
-        if ($urlModel->useSecretKey()) {
-            $requestUri = $urlModel->getUrl('*/*/*', array('_current' => true));
+        if ($this->_backendUrl->useSecretKey()) {
+            $requestUri = $this->_backendUrl->getUrl('*/*/*', array('_current' => true));
         } elseif ($this->getRequest()) {
             $requestUri = $this->getRequest()->getRequestUri();
         }
@@ -406,7 +415,7 @@ abstract class Magento_Backend_Controller_ActionAbstract extends Magento_Core_Co
     public function deniedAction()
     {
         $this->getResponse()->setHeader('HTTP/1.1', '403 Forbidden');
-        if (!Mage::getSingleton('Magento_Backend_Model_Auth_Session')->isLoggedIn()) {
+        if (!$this->_auth->isLoggedIn()) {
             $this->_redirect('*/auth/login');
             return;
         }
@@ -508,7 +517,7 @@ abstract class Magento_Backend_Controller_ActionAbstract extends Magento_Core_Co
         }
 
         $secretKey = $this->getRequest()->getParam(Magento_Backend_Model_Url::SECRET_KEY_PARAM_NAME, null);
-        if (!$secretKey || $secretKey != Mage::getSingleton('Magento_Backend_Model_Url')->getSecretKey()) {
+        if (!$secretKey || $secretKey != $this->_backendUrl->getSecretKey()) {
             return false;
         }
         return true;
@@ -545,9 +554,8 @@ abstract class Magento_Backend_Controller_ActionAbstract extends Magento_Core_Co
     protected function _prepareDownloadResponse($fileName, $content, $contentType = 'application/octet-stream',
         $contentLength = null
     ) {
-        $session = Mage::getSingleton('Magento_Backend_Model_Auth_Session');
-        if ($session->isFirstPageAfterLogin()) {
-            $this->_redirect(Mage::getSingleton('Magento_Backend_Model_Url')->getStartupPageUrl());
+        if ($this->_auth->getAuthStorage()->isFirstPageAfterLogin()) {
+            $this->_redirect($this->_backendUrl->getStartupPageUrl());
             return $this;
         }
         return parent::_prepareDownloadResponse($fileName, $content, $contentType, $contentLength);

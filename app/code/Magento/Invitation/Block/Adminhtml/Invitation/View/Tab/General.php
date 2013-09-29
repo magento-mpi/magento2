@@ -24,20 +24,52 @@ class Magento_Invitation_Block_Adminhtml_Invitation_View_Tab_General extends Mag
      *
      * @var Magento_Invitation_Helper_Data
      */
-    protected $_invitationData = null;
+    protected $_invitationData;
     
     /**
      * Core registry
      *
      * @var Magento_Core_Model_Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
+
+    /**
+     * Application locale
+     *
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * Customer Factory
+     *
+     * @var Magento_Customer_Model_CustomerFactory
+     */
+    protected $_customerFactory;
+
+    /**
+     * Customer Group Factory
+     *
+     * @var Magento_Customer_Model_GroupFactory
+     */
+    protected $_groupFactory;
+
+    /**
+     * Store Manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
 
     /**
      * @param Magento_Invitation_Helper_Data $invitationData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_Customer_Model_CustomerFactory $customerFactory
+     * @param Magento_Customer_Model_GroupFactory $groupFactory
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
@@ -45,11 +77,19 @@ class Magento_Invitation_Block_Adminhtml_Invitation_View_Tab_General extends Mag
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_LocaleInterface $locale,
+        Magento_Customer_Model_CustomerFactory $customerFactory,
+        Magento_Customer_Model_GroupFactory $groupFactory,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
-        $this->_invitationData = $invitationData;
         parent::__construct($coreData, $context, $data);
+        $this->_invitationData = $invitationData;
+        $this->_locale = $locale;
+        $this->_customerFactory = $customerFactory;
+        $this->_groupFactory = $groupFactory;
+        $this->_storeManager = $storeManager;
     }
 
     /**
@@ -133,7 +173,7 @@ class Magento_Invitation_Block_Adminhtml_Invitation_View_Tab_General extends Mag
     public function formatDate($date = null, $format = 'short', $showTime = false)
     {
         if (is_string($date)) {
-            $date = Mage::app()->getLocale()->date($date, Magento_Date::DATETIME_INTERNAL_FORMAT);
+            $date = $this->_locale->date($date, Magento_Date::DATETIME_INTERNAL_FORMAT);
         }
 
         return parent::formatDate($date, $format, $showTime);
@@ -148,7 +188,7 @@ class Magento_Invitation_Block_Adminhtml_Invitation_View_Tab_General extends Mag
     {
         if (!$this->hasData('referral')) {
             if ($this->getInvitation()->getReferralId()) {
-                $referral = Mage::getModel('Magento_Customer_Model_Customer')->load(
+                $referral = $this->_customerFactory->create()->load(
                     $this->getInvitation()->getReferralId()
                 );
             } else {
@@ -170,7 +210,7 @@ class Magento_Invitation_Block_Adminhtml_Invitation_View_Tab_General extends Mag
     {
         if (!$this->hasData('customer')) {
             if ($this->getInvitation()->getCustomerId()) {
-                $customer = Mage::getModel('Magento_Customer_Model_Customer')->load(
+                $customer = $this->_customerFactory->create()->load(
                     $this->getInvitation()->getCustomerId()
                 );
             } else {
@@ -191,7 +231,7 @@ class Magento_Invitation_Block_Adminhtml_Invitation_View_Tab_General extends Mag
     public function getCustomerGroupCollection()
     {
         if (!$this->hasData('customer_groups_collection')) {
-            $groups = Mage::getModel('Magento_Customer_Model_Group')->getCollection()
+            $groups = $this->_groupFactory->create()->getCollection()
                 ->addFieldToFilter('customer_group_id', array('gt'=> 0))
                 ->load();
             $this->setData('customer_groups_collection', $groups);
@@ -230,7 +270,7 @@ class Magento_Invitation_Block_Adminhtml_Invitation_View_Tab_General extends Mag
      */
     public function getWebsiteName()
     {
-        return Mage::app()->getStore($this->getInvitation()->getStoreId())
+        return $this->_storeManager->getStore($this->getInvitation()->getStoreId())
             ->getWebsite()->getName();
     }
 
@@ -241,7 +281,7 @@ class Magento_Invitation_Block_Adminhtml_Invitation_View_Tab_General extends Mag
      */
     public function getStoreName()
     {
-        return Mage::app()->getStore($this->getInvitation()->getStoreId())
+        return $this->_storeManager->getStore($this->getInvitation()->getStoreId())
             ->getName();
     }
 
@@ -253,8 +293,8 @@ class Magento_Invitation_Block_Adminhtml_Invitation_View_Tab_General extends Mag
     public function getInvitationUrl()
     {
         if (!$this->getInvitation()->canBeAccepted(
-            Mage::app()->getStore($this->getInvitation()->getStoreId())->getWebsiteId())) {
-            return false;
+            $this->_storeManager->getStore($this->getInvitation()->getStoreId())->getWebsiteId())) {
+                return false;
         }
         return $this->_invitationData->getInvitationUrl($this->getInvitation());
     }

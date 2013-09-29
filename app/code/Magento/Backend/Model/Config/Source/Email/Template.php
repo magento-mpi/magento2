@@ -19,17 +19,25 @@ class Magento_Backend_Model_Config_Source_Email_Template extends Magento_Object
     private $_emailConfig;
 
     /**
+     * @var Magento_Core_Model_Resource_Email_Template_CollectionFactory
+     */
+    protected $_templatesFactory;
+
+    /**
      * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Core_Model_Resource_Email_Template_CollectionFactory $templatesFactory
      * @param Magento_Core_Model_Email_Template_Config $emailConfig
      * @param array $data
      */
     public function __construct(
         Magento_Core_Model_Registry $coreRegistry,
+        Magento_Core_Model_Resource_Email_Template_CollectionFactory $templatesFactory,
         Magento_Core_Model_Email_Template_Config $emailConfig,
         array $data = array()
     ) {
         parent::__construct($data);
         $this->_coreRegistry = $coreRegistry;
+        $this->_templatesFactory = $templatesFactory;
         $this->_emailConfig = $emailConfig;
     }
 
@@ -40,10 +48,10 @@ class Magento_Backend_Model_Config_Source_Email_Template extends Magento_Object
      */
     public function toOptionArray()
     {
-        /** @var Magento_Core_Model_Resource_Email_Template_Collection $collection */
+        /** @var $collection Magento_Core_Model_Resource_Email_Template_Collection */
         if (!$collection = $this->_coreRegistry->registry('config_system_email_template')) {
-            $collection = Mage::getResourceModel('Magento_Core_Model_Resource_Email_Template_Collection')
-                ->load();
+            $collection = $this->_templatesFactory->create();
+            $collection->load();
             $this->_coreRegistry->register('config_system_email_template', $collection);
         }
         $options = $collection->toOptionArray();

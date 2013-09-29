@@ -11,12 +11,45 @@
 class Magento_GiftRegistry_Block_Adminhtml_Customer_Grid extends Magento_Adminhtml_Block_Widget_Grid
 {
     /**
+     * @var Magento_GiftRegistry_Model_EntityFactory
+     */
+    protected $entityFactory;
+
+    /**
+     * @var Magento_Core_Model_System_Store
+     */
+    protected $systemStore;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Url $urlModel
+     * @param Magento_GiftRegistry_Model_EntityFactory $entityFactory
+     * @param Magento_Core_Model_System_Store $systemStore
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Url $urlModel,
+        Magento_GiftRegistry_Model_EntityFactory $entityFactory,
+        Magento_Core_Model_System_Store $systemStore,
+        array $data = array()
+    ) {
+        $this->entityFactory = $entityFactory;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+
+        $this->systemStore = $systemStore;
+    }
+
+    /**
      * Set default sort
      */
     protected function _construct()
     {
         parent::_construct();
-
         $this->setId('customerGrid');
         $this->setUseAjax(true);
         $this->setDefaultSort('registry_id');
@@ -31,7 +64,7 @@ class Magento_GiftRegistry_Block_Adminhtml_Customer_Grid extends Magento_Adminht
     protected function _prepareCollection()
     {
         /** @var $collection Magento_GiftRegistry_Model_Resource_Entity_Collection */
-        $collection = Mage::getModel('Magento_GiftRegistry_Model_Entity')->getCollection();
+        $collection = $this->entityFactory->create()->getCollection();
         $collection->filterByCustomerId($this->getRequest()->getParam('id'));
         $collection->addRegistryInfo();
 
@@ -91,12 +124,12 @@ class Magento_GiftRegistry_Block_Adminhtml_Customer_Grid extends Magento_Adminht
             )
         ));
 
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!$this->_storeManager->isSingleStoreMode()) {
             $this->addColumn('website_id', array(
                 'header' => __('Website'),
                 'index'  => 'website_id',
                 'type'   => 'options',
-                'options' => Mage::getSingleton('Magento_Core_Model_System_Store')->getWebsiteOptionHash()
+                'options' => $this->systemStore->getWebsiteOptionHash()
             ));
         }
 

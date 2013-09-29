@@ -18,6 +18,49 @@
 class Magento_Checkout_Block_Cart extends Magento_Checkout_Block_Cart_Abstract
 {
     /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Catalog_Model_Resource_Url
+     */
+    protected $_catalogUrlBuilder;
+
+    /**
+     * @var Magento_Core_Model_UrlInterface
+     */
+    protected $_urlBuilder;
+
+    /**
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Catalog_Model_Resource_Url $catalogUrlBuilder
+     * @param Magento_Core_Model_UrlInterface $urlBuilder
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Checkout_Model_Session $checkoutSession
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Checkout_Model_Session $checkoutSession,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Catalog_Model_Resource_Url $catalogUrlBuilder,
+        Magento_Core_Model_UrlInterface $urlBuilder,
+        array $data = array()
+    ) {
+        $this->_storeManager = $storeManager;
+        $this->_catalogUrlBuilder = $catalogUrlBuilder;
+        $this->_urlBuilder = $urlBuilder;
+        parent::__construct($catalogData, $coreData, $context, $customerSession, $checkoutSession, $data);
+    }
+
+    /**
      * Prepare Quote Item Product URLs
      *
      */
@@ -41,7 +84,7 @@ class Magento_Checkout_Block_Cart extends Magento_Checkout_Block_Cart_Abstract
                 $product = $option->getProduct();
             }
 
-            if ($item->getStoreId() != Mage::app()->getStore()->getId()
+            if ($item->getStoreId() != $this->_storeManager->getStore()->getId()
                 && !$item->getRedirectUrl()
                 && !$product->isVisibleInSiteVisibility())
             {
@@ -50,8 +93,7 @@ class Magento_Checkout_Block_Cart extends Magento_Checkout_Block_Cart_Abstract
         }
 
         if ($products) {
-            $products = Mage::getResourceSingleton('Magento_Catalog_Model_Resource_Url')
-                ->getRewriteByProductStore($products);
+            $products = $this->_catalogUrlBuilder->getRewriteByProductStore($products);
             foreach ($this->getItems() as $item) {
                 $product    = $item->getProduct();
                 $option     = $item->getOptionByCode('product_type');
@@ -67,45 +109,63 @@ class Magento_Checkout_Block_Cart extends Magento_Checkout_Block_Cart_Abstract
         }
     }
 
+    /**
+     * @return bool
+     */
     public function hasError()
     {
         return $this->getQuote()->getHasError();
     }
 
+    /**
+     * @return int
+     */
     public function getItemsSummaryQty()
     {
         return $this->getQuote()->getItemsSummaryQty();
     }
 
+    /**
+     * @return bool
+     */
     public function isWishlistActive()
     {
         $isActive = $this->_getData('is_wishlist_active');
         if ($isActive === null) {
             $isActive = $this->_storeConfig->getConfig('wishlist/general/active')
-                && Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn();
+                && $this->_customerSession->isLoggedIn();
             $this->setIsWishlistActive($isActive);
         }
         return $isActive;
     }
 
+    /**
+     * @return string
+     */
     public function getCheckoutUrl()
     {
         return $this->getUrl('checkout/onepage', array('_secure'=>true));
     }
 
+    /**
+     * @return mixed
+     */
     public function getContinueShoppingUrl()
     {
         $url = $this->getData('continue_shopping_url');
         if (is_null($url)) {
-            $url = Mage::getSingleton('Magento_Checkout_Model_Session')->getContinueShoppingUrl(true);
+            $url = $this->_checkoutSession->getContinueShoppingUrl(true);
             if (!$url) {
-                $url = Mage::getUrl();
+                $url = $this->_urlBuilder->getUrl();
             }
             $this->setData('continue_shopping_url', $url);
         }
         return $url;
     }
 
+    /**
+     * @return bool
+     */
     public function getIsVirtual()
     {
         return $this->helper('Magento_Checkout_Helper_Cart')->getIsVirtualQuote();
@@ -131,12 +191,13 @@ class Magento_Checkout_Block_Cart extends Magento_Checkout_Block_Cart_Abstract
      *
      * @param string $name Block name in layout
      * @return string
+     * @throws Magento_Core_Exception
      */
     public function getMethodHtml($name)
     {
         $block = $this->getLayout()->getBlock($name);
         if (!$block) {
-            Mage::throwException(__('Invalid method: %1', $name));
+            throw new Magento_Core_Exception(__('Invalid method: %1', $name));
         }
         return $block->toHtml();
     }

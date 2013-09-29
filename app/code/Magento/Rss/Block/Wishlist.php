@@ -41,10 +41,6 @@ class Magento_Rss_Block_Wishlist extends Magento_Wishlist_Block_Abstract
      */
     protected $_customerFactory;
 
-    /**
-     * @var Magento_Customer_Model_Session
-     */
-    protected $_customerSession;
 
     /**
      * @var Magento_Rss_Model_RssFactory
@@ -58,9 +54,11 @@ class Magento_Rss_Block_Wishlist extends Magento_Wishlist_Block_Abstract
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Catalog_Model_ProductFactory $productFactory
      * @param Magento_Wishlist_Model_WishlistFactory $wishlistFactory
      * @param Magento_Customer_Model_CustomerFactory $customerFactory
-     * @param Magento_Customer_Model_Session $customerSession
      * @param Magento_Rss_Model_RssFactory $rssFactory
      * @param array $data
      */
@@ -71,17 +69,19 @@ class Magento_Rss_Block_Wishlist extends Magento_Wishlist_Block_Abstract
         Magento_Catalog_Helper_Data $catalogData,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Catalog_Model_ProductFactory $productFactory,
         Magento_Wishlist_Model_WishlistFactory $wishlistFactory,
         Magento_Customer_Model_CustomerFactory $customerFactory,
-        Magento_Customer_Model_Session $customerSession,
         Magento_Rss_Model_RssFactory $rssFactory,
         array $data = array()
     ) {
         $this->_wishlistFactory = $wishlistFactory;
         $this->_customerFactory = $customerFactory;
-        $this->_customerSession = $customerSession;
         $this->_rssFactory = $rssFactory;
-        parent::__construct($coreRegistry, $wishlistData, $taxData, $catalogData, $coreData, $context, $data);
+        parent::__construct($coreRegistry, $wishlistData, $taxData, $catalogData, $coreData, $context, $storeManager,
+            $customerSession, $productFactory, $data);
     }
 
     /**

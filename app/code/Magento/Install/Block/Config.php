@@ -21,6 +21,35 @@ class Magento_Install_Block_Config extends Magento_Install_Block_Abstract
     protected $_template = 'config.phtml';
 
     /**
+     * Install installer config
+     *
+     * @var Magento_Install_Model_Installer_Config
+     */
+    protected $_installerConfig = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Install_Model_Installer $installer
+     * @param Magento_Install_Model_Wizard $installWizard
+     * @param Magento_Core_Model_Session_Generic $session
+     * @param Magento_Install_Model_Installer_Config $installerConfig
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        Magento_Install_Model_Installer $installer,
+        Magento_Install_Model_Wizard $installWizard,
+        Magento_Core_Model_Session_Generic $session,
+        Magento_Install_Model_Installer_Config $installerConfig,
+        array $data = array()
+    ) {
+        parent::__construct($coreData, $context, $installer, $installWizard, $session, $data);
+        $this->_installerConfig = $installerConfig;
+    }
+
+    /**
      * Retrieve form data post url
      *
      * @return string
@@ -39,9 +68,9 @@ class Magento_Install_Block_Config extends Magento_Install_Block_Abstract
     {
         $data = $this->getData('form_data');
         if (is_null($data)) {
-            $data = Mage::getSingleton('Magento_Install_Model_Session')->getConfigData(true);
+            $data = $this->_session->getConfigData(true);
             if (empty($data)) {
-                $data = Mage::getModel('Magento_Install_Model_Installer_Config')->getFormData();
+                $data = $this->_installerConfig->getFormData();
             } else {
                 $data = new Magento_Object($data);
             }
@@ -55,7 +84,7 @@ class Magento_Install_Block_Config extends Magento_Install_Block_Abstract
      */
     public function getSkipUrlValidation()
     {
-        return Mage::getSingleton('Magento_Install_Model_Session')->getSkipUrlValidation();
+        return $this->_session->getSkipUrlValidation();
     }
 
     /**
@@ -63,7 +92,7 @@ class Magento_Install_Block_Config extends Magento_Install_Block_Abstract
      */
     public function getSkipBaseUrlValidation()
     {
-        return Mage::getSingleton('Magento_Install_Model_Session')->getSkipBaseUrlValidation();
+        return $this->_session->getSkipBaseUrlValidation();
     }
 
     /**

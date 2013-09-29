@@ -28,14 +28,21 @@ return array(
     array('CHECKOUT_METHOD_GUEST'),
     array('CHECKOUT_METHOD_REGISTER'),
     array('CHECKSUM_KEY_NAME'),
-    array('CONFIG_TEMPLATE_INSTALL_DATE', 'Magento_Core_Model_Config',
-        'Magento_Core_Model_Config_Primary::CONFIG_TEMPLATE_INSTALL_DATE'
-    ),
+    array('CONFIG_TEMPLATE_INSTALL_DATE'),
     array('CONFIG_XML_PATH_DEFAULT_PRODUCT_TAX_GROUP'),
     array('CONFIG_XML_PATH_DISPLAY_FULL_SUMMARY'),
     array('CONFIG_XML_PATH_DISPLAY_TAX_COLUMN'),
     array('CONFIG_XML_PATH_DISPLAY_ZERO_TAX'),
     array('CONFIG_XML_PATH_SHOW_IN_CATALOG'),
+    array('DEFAULT_SETUP_RESOURCE', 'Mage_Core_Model_Resource',
+        'Magento_Core_Model_Config_Resource::DEFAULT_SETUP_CONNECTION'
+    ),
+    array('DEFAULT_READ_RESOURCE', 'Mage_Core_Model_Resource',
+        'Magento_Core_Model_Config_Resource::DEFAULT_READ_CONNECTION'
+    ),
+    array('DEFAULT_WRITE_RESOURCE', 'Mage_Core_Model_Resource',
+        'Magento_Core_Model_Config_Resource::DEFAULT_WRITE_CONNECTION'
+    ),
     array('DEFAULT_CURRENCY', 'Magento_Core_Model_Locale', 'Magento_Core_Model_LocaleInterface::DEFAULT_CURRENCY'),
     array('DEFAULT_ERROR_HANDLER', 'Magento_Core_Model_App'),
     array('DEFAULT_ERROR_HANDLER', 'Mage'),
@@ -220,7 +227,17 @@ return array(
     array('CONFIG_KEY_ENTITIES', 'Magento_ImportExport_Model_Export'),
     array('CONFIG_KEY_FORMATS', 'Magento_ImportExport_Model_Export'),
     array('CONFIG_KEY_ENTITIES', 'Magento_ImportExport_Model_Import'),
-    array('REGEX_RUN_MODEL'),
-    array('XML_PATH_FRONT_NAME'),
-    array('XML_PATH_DISABLED_CACHE_TYPES'),
+    array('REGEX_RUN_MODEL', 'Magento_Cron_Model_Observer'),
+    array('XML_PATH_FRONT_NAME', 'Magento_DesignEditor_Helper_Data'),
+    array('XML_PATH_DISABLED_CACHE_TYPES', 'Magento_DesignEditor_Helper_Data'),
+    array('XML_PATH_ENCRYPTION_MODEL', 'Magento_Core_Helper_Data'),
+    array('CONFIG_KEY_PATH_TO_MAP_FILE', 'Magento_Core_Model_Resource_Setup_Migration'),
+    array('XML_PATH_IGNORE_DEV_MODE', 'Magento_Core_Model_Db_UpdaterInterface'),
+    array('XML_PATH_SKIP_PROCESS_MODULES_UPDATES', 'Magento_Core_Model_Db_UpdaterInterface'),
+    array('XML_NODE_SESSION_SAVE', 'Magento_Core_Model_Session_Abstract',
+        'Magento_Core_Model_Session_Abstract::PARAM_SESSION_SAVE_METHOD'
+    ),
+    array('XML_NODE_SESSION_SAVE_PATH', 'Magento_Core_Model_Session_Abstract',
+        'Magento_Core_Model_Session_Abstract::PARAM_SESSION_SAVE_PATH'
+    ),
 );

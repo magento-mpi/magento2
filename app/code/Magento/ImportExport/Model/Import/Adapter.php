@@ -28,17 +28,17 @@ class Magento_ImportExport_Model_Import_Adapter
     public static function factory($type, $options = null)
     {
         if (!is_string($type) || !$type) {
-            Mage::throwException(__('The adapter type must be a non empty string.'));
+            throw new Magento_Core_Exception(__('The adapter type must be a non empty string.'));
         }
         $adapterClass = 'Magento_ImportExport_Model_Import_Source_' . ucfirst(strtolower($type));
 
         if (!class_exists($adapterClass)) {
-            Mage::throwException("'{$type}' file extension is not supported");
+            throw new Magento_Core_Exception("'{$type}' file extension is not supported");
         }
         $adapter = new $adapterClass($options);
 
         if (! $adapter instanceof Magento_ImportExport_Model_Import_SourceAbstract) {
-            Mage::throwException(
+            throw new Magento_Core_Exception(
                 __('Adapter must be an instance of Magento_ImportExport_Model_Import_SourceAbstract')
             );
         }

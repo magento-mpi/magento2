@@ -10,10 +10,6 @@
 
 /**
  * Form fieldset renderer
- *
- * @category   Magento
- * @package    Magento_Backend
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element
     extends Magento_Backend_Block_Widget_Form_Renderer_Fieldset_Element
@@ -57,6 +53,8 @@ class Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element
      */
     public function getHintHtml()
     {
-        return Mage::getBlockSingleton('Magento_Backend_Block_Store_Switcher')->getHintHtml();
+        /** @var $storeSwitcher Magento_Backend_Block_Store_Switcher */
+        $storeSwitcher = $this->_layout->getBlockSingleton('Magento_Backend_Block_Store_Switcher');
+        return $storeSwitcher->getHintHtml();
     }
 }

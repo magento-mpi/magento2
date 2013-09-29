@@ -30,17 +30,22 @@ class Magento_Paypal_Block_Adminhtml_System_Config_Fieldset_Store
     protected $_coreConfig;
 
     /**
-     * Constructor
-     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Config $coreConfig
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Config $coreConfig,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         parent::__construct(
@@ -49,6 +54,7 @@ class Magento_Paypal_Block_Adminhtml_System_Config_Fieldset_Store
             $data
         );
         $this->_coreConfig = $coreConfig;
+        $this->_storeManager = $storeManager;
     }
 
     /**
@@ -59,7 +65,7 @@ class Magento_Paypal_Block_Adminhtml_System_Config_Fieldset_Store
      */
     public function render(Magento_Data_Form_Element_Abstract $element)
     {
-        $html = Mage::getModel('Magento_Core_Model_StoreManagerInterface')->isSingleStoreMode() ? '' : $this->toHtml();
+        $html = $this->_storeManager->isSingleStoreMode() ? '' : $this->toHtml();
         return $html;
     }
 
@@ -83,7 +89,7 @@ class Magento_Paypal_Block_Adminhtml_System_Config_Fieldset_Store
         $website = $this->getRequest()->getParam('website');
         $disabledMethods = array();
         foreach ($methods as $methodId => $methodPath) {
-            $isEnabled = (int)  $this->_coreConfig->getValue($methodPath, 'website', $website);
+            $isEnabled = (int)$this->_coreConfig->getValue($methodPath, 'website', $website);
             if ($isEnabled === 0) {
                 $disabledMethods[$methodId] = $isEnabled;
             }

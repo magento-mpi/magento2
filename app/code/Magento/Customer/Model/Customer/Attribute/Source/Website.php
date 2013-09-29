@@ -17,10 +17,23 @@
  */
 class Magento_Customer_Model_Customer_Attribute_Source_Website extends Magento_Eav_Model_Entity_Attribute_Source_Table
 {
+    /**
+     * @var Magento_Core_Model_System_Store
+     */
+    protected $_store;
+
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Model_System_Store $store
+    ) {
+        $this->_store = $store;
+        parent::__construct($coreData);
+    }
+
     public function getAllOptions()
     {
         if (!$this->_options) {
-            $this->_options = Mage::getSingleton('Magento_Core_Model_System_Store')->getWebsiteValuesForForm(true, true);
+            $this->_options = $this->_store->getWebsiteValuesForForm(true, true);
         }
 
         return $this->_options;

@@ -23,17 +23,25 @@ class Magento_Paypal_Helper_Data extends Magento_Core_Helper_Abstract
      *
      * @var Magento_Core_Helper_Data
      */
-    protected $_coreData = null;
+    protected $_coreData;
+
+    /**
+     * @var Magento_Sales_Model_Billing_AgreementFactory
+     */
+    protected $_agreementFactory;
 
     /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Helper_Context $context
+     * @param Magento_Sales_Model_Billing_AgreementFactory $agreementFactory
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
-        Magento_Core_Helper_Context $context
+        Magento_Core_Helper_Context $context,
+        Magento_Sales_Model_Billing_AgreementFactory $agreementFactory
     ) {
         $this->_coreData = $coreData;
+        $this->_agreementFactory = $agreementFactory;
         parent::__construct($context);
     }
 
@@ -49,7 +57,7 @@ class Magento_Paypal_Helper_Data extends Magento_Core_Helper_Abstract
         if (null === self::$_shouldAskToCreateBillingAgreement) {
             self::$_shouldAskToCreateBillingAgreement = false;
             if ($customerId && $config->shouldAskToCreateBillingAgreement()) {
-                if (Mage::getModel('Magento_Sales_Model_Billing_Agreement')->needToCreateForCustomer($customerId)) {
+                if ($this->_agreementFactory->create()->needToCreateForCustomer($customerId)) {
                     self::$_shouldAskToCreateBillingAgreement = true;
                 }
             }

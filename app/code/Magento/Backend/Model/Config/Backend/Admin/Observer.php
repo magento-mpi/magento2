@@ -15,25 +15,49 @@ class Magento_Backend_Model_Config_Backend_Admin_Observer
      *
      * @var Magento_Backend_Helper_Data
      */
-    protected $_backendData = null;
+    protected $_backendData;
 
     /**
      * Core registry
      *
      * @var Magento_Core_Model_Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
+
+    /**
+     * @var Magento_Backend_Model_Auth_Session
+     */
+    protected $_authSession;
+
+    /**
+     * @var Magento_Core_Model_App
+     */
+    protected $_app;
+
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
 
     /**
      * @param Magento_Backend_Helper_Data $backendData
      * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Backend_Model_Auth_Session $authSession
+     * @param Magento_Core_Model_App $app
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      */
     public function __construct(
         Magento_Backend_Helper_Data $backendData,
-        Magento_Core_Model_Registry $coreRegistry
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_Backend_Model_Auth_Session $authSession,
+        Magento_Core_Model_App $app,
+        Magento_Core_Model_StoreManagerInterface $storeManager
     ) {
         $this->_backendData = $backendData;
         $this->_coreRegistry = $coreRegistry;
+        $this->_authSession = $authSession;
+        $this->_app = $app;
+        $this->_storeManager = $storeManager;
     }
 
     /**
@@ -47,15 +71,13 @@ class Magento_Backend_Model_Config_Backend_Admin_Observer
             return;
         }
 
-        /** @var $adminSession Magento_Backend_Model_Auth_Session */
-        $adminSession = Mage::getSingleton('Magento_Backend_Model_Auth_Session');
-        $adminSession->unsetAll();
-        $adminSession->getCookie()->delete($adminSession->getSessionName());
+        $this->_authSession->unsetAll();
+        $this->_authSession->getCookie()->delete($this->_authSession->getSessionName());
 
         $route = $this->_backendData->getAreaFrontName();
 
-        Mage::app()->getResponse()
-            ->setRedirect(Mage::getBaseUrl() . $route)
+        $this->_app->getResponse()
+            ->setRedirect($this->_storeManager->getStore()->getBaseUrl() . $route)
             ->sendResponse();
         exit(0);
     }

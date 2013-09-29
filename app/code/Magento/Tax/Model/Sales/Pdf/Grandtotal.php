@@ -11,6 +11,29 @@
 class Magento_Tax_Model_Sales_Pdf_Grandtotal extends Magento_Sales_Model_Order_Pdf_Total_Default
 {
     /**
+     * @var Magento_Tax_Model_Config
+     */
+    protected $_taxConfig;
+
+    /**
+     * @param Magento_Tax_Helper_Data $taxHelper
+     * @param Magento_Tax_Model_Calculation $taxCalculation
+     * @param Magento_Tax_Model_Config $taxConfig
+     * @param Magento_Tax_Model_Resource_Sales_Order_Tax_CollectionFactory $ordersFactory
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Tax_Helper_Data $taxHelper,
+        Magento_Tax_Model_Calculation $taxCalculation,
+        Magento_Tax_Model_Config $taxConfig,
+        Magento_Tax_Model_Resource_Sales_Order_Tax_CollectionFactory $ordersFactory,
+        array $data = array()
+    ) {
+        $this->_taxConfig = $taxConfig;
+        parent::__construct($taxHelper, $taxCalculation, $ordersFactory, $data);
+    }
+
+    /**
      * Check if tax amount should be included to grandtotals block
      * array(
      *  $index => array(
@@ -24,8 +47,7 @@ class Magento_Tax_Model_Sales_Pdf_Grandtotal extends Magento_Sales_Model_Order_P
     public function getTotalsForDisplay()
     {
         $store = $this->getOrder()->getStore();
-        $config= Mage::getSingleton('Magento_Tax_Model_Config');
-        if (!$config->displaySalesTaxWithGrandTotal($store)) {
+        if (!$this->_taxConfig->displaySalesTaxWithGrandTotal($store)) {
             return parent::getTotalsForDisplay();
         }
         $amount = $this->getOrder()->formatPriceTxt($this->getAmount());
@@ -41,7 +63,7 @@ class Magento_Tax_Model_Sales_Pdf_Grandtotal extends Magento_Sales_Model_Order_P
             'font_size' => $fontSize
         ));
 
-        if ($config->displaySalesFullSummary($store)) {
+        if ($this->_taxConfig->displaySalesFullSummary($store)) {
            $totals = array_merge($totals, $this->getFullTaxInfo());
         }
 

@@ -8,13 +8,8 @@
  * @license     {license_link}
  */
 
-
 /**
  * Adminhtml abstract  dashboard helper.
- *
- * @category   Magento
- * @package    Magento_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 abstract class Magento_Adminhtml_Helper_Dashboard_Abstract extends Magento_Core_Helper_Data
 {

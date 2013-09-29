@@ -8,12 +8,8 @@
  * @license     {license_link}
  */
 
-
 /**
- * Admihtml Manage Cms Hierarchy Controller
- *
- * @category   Magento
- * @package    Magento_VersionsCms
+ * Adminhtml Manage Cms Hierarchy Controller
  */
 class Magento_VersionsCms_Controller_Adminhtml_Cms_Hierarchy extends Magento_Adminhtml_Controller_Action
 {
@@ -50,24 +46,32 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Hierarchy extends Magento_Adm
      *
      * @var Magento_Core_Model_Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
+
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
 
     /**
      * @param Magento_Backend_Controller_Context $context
      * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      */
     public function __construct(
         Magento_Backend_Controller_Context $context,
-        Magento_Core_Model_Registry $coreRegistry
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_Core_Model_StoreManagerInterface $storeManager
     ) {
         $this->_coreRegistry = $coreRegistry;
+        $this->_storeManager = $storeManager;
         parent::__construct($context);
     }
 
     /**
      * Controller pre dispatch method
      *
-     * @return Magento_VersionsCms_HierarchyController
+     * @return Magento_VersionsCms_Controller_Adminhtml_Cms_Hierarchy
      */
     public function preDispatch()
     {
@@ -82,8 +86,6 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Hierarchy extends Magento_Adm
 
     /**
      * Init scope and scope code by website and store for actions
-     *
-     * @return null
      */
     protected function _initScope()
     {
@@ -92,14 +94,14 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Hierarchy extends Magento_Adm
 
         if (!is_null($this->_website)) {
             $this->_scope = Magento_VersionsCms_Model_Hierarchy_Node::NODE_SCOPE_WEBSITE;
-            $website = Mage::app()->getWebsite($this->_website);
+            $website = $this->_storeManager->getWebsite($this->_website);
             $this->_scopeId = $website->getId();
             $this->_website = $website->getCode();
         }
 
         if (!is_null($this->_store)) {
             $this->_scope = Magento_VersionsCms_Model_Hierarchy_Node::NODE_SCOPE_STORE;
-            $store = Mage::app()->getStore($this->_store);
+            $store = $this->_storeManager->getStore($this->_store);
             $this->_scopeId = $store->getId();
             $this->_store = $store->getCode();
         }
@@ -108,16 +110,14 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Hierarchy extends Magento_Adm
     /**
      * Load layout, set active menu and breadcrumbs
      *
-     * @return Magento_VersionsCms_HierarchyController
+     * @return Magento_VersionsCms_Controller_Adminhtml_Cms_Hierarchy
      */
     protected function _initAction()
     {
         $this->loadLayout()
             ->_setActiveMenu('Magento_VersionsCms::versionscms_page_hierarchy')
-            ->_addBreadcrumb(__('CMS'),
-                __('CMS'))
-            ->_addBreadcrumb(__('CMS Page Trees'),
-                __('CMS Page Trees'));
+            ->_addBreadcrumb(__('CMS'), __('CMS'))
+            ->_addBreadcrumb(__('CMS Page Trees'), __('CMS Page Trees'));
         return $this;
     }
 
@@ -156,7 +156,7 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Hierarchy extends Magento_Adm
 
         $this->_initScope();
 
-        $nodeModel = Mage::getModel('Magento_VersionsCms_Model_Hierarchy_Node', array('data' =>
+        $nodeModel = $this->_objectManager->create('Magento_VersionsCms_Model_Hierarchy_Node', array('data' =>
                 array('scope' => $this->_scope, 'scope_id' => $this->_scopeId)));
 
         // restore data if exists
@@ -168,14 +168,11 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Hierarchy extends Magento_Adm
 
         $this->_coreRegistry->register('current_hierarchy_node', $nodeModel);
 
-        $this->_initAction()
-            ->renderLayout();
+        $this->_initAction()->renderLayout();
     }
 
     /**
      * Delete hierarchy from one or several scopes
-     *
-     * @return null
      */
     public function deleteAction()
     {
@@ -191,7 +188,7 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Hierarchy extends Magento_Adm
             }
             try {
                 /* @var $nodeModel Magento_VersionsCms_Model_Hierarchy_Node */
-                $nodeModel = Mage::getModel('Magento_VersionsCms_Model_Hierarchy_Node');
+                $nodeModel = $this->_objectManager->create('Magento_VersionsCms_Model_Hierarchy_Node');
                 foreach (array_unique($scopes) as $value) {
                     list ($scope, $scopeId) = $this->_getScopeData($value);
                     $nodeModel->setScope($scope);
@@ -215,8 +212,6 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Hierarchy extends Magento_Adm
 
     /**
      * Copy hierarchy from one scope to other scopes
-     *
-     * @return null
      */
     public function copyAction()
     {
@@ -224,7 +219,7 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Hierarchy extends Magento_Adm
         $scopes = $this->getRequest()->getParam('scopes');
         if ($this->getRequest()->isPost() && is_array($scopes) && !empty($scopes)) {
             /** @var $nodeModel Magento_VersionsCms_Model_Hierarchy_Node */
-            $nodeModel = Mage::getModel('Magento_VersionsCms_Model_Hierarchy_Node', array(
+            $nodeModel = $this->_objectManager->create('Magento_VersionsCms_Model_Hierarchy_Node', array(
                 'data' => array('scope'    => $this->_scope,
                                 'scope_id' => $this->_scopeId)
             ));
@@ -259,15 +254,13 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Hierarchy extends Magento_Adm
 
     /**
      * Save changes
-     *
-     * @return null
      */
     public function saveAction()
     {
         $this->_initScope();
         if ($this->getRequest()->isPost()) {
             /** @var $node Magento_VersionsCms_Model_Hierarchy_Node */
-            $node       = Mage::getModel('Magento_VersionsCms_Model_Hierarchy_Node', array(
+            $node = $this->_objectManager->create('Magento_VersionsCms_Model_Hierarchy_Node', array(
                 'data' => array('scope'    => $this->_scope,
                                 'scope_id' => $this->_scopeId)
             ));
@@ -280,8 +273,9 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Hierarchy extends Magento_Adm
                 } else {
                     if (!empty($data['nodes_data'])) {
                         try{
-                            $nodesData = $this->_objectManager->get('Magento_Core_Helper_Data')->jsonDecode($data['nodes_data']);
-                        }catch (Zend_Json_Exception $e){
+                            $nodesData = $this->_objectManager->get('Magento_Core_Helper_Data')
+                                ->jsonDecode($data['nodes_data']);
+                        } catch (Zend_Json_Exception $e) {
                             $nodesData = array();
                         }
                     } else {
@@ -312,9 +306,7 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Hierarchy extends Magento_Adm
                 }
 
                 $hasError = false;
-                $this->_getSession()->addSuccess(
-                    __('You have saved the hierarchy.')
-                );
+                $this->_getSession()->addSuccess(__('You have saved the hierarchy.'));
             } catch (Magento_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
@@ -352,7 +344,7 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Hierarchy extends Magento_Adm
      */
     protected function _getLockModel()
     {
-        return Mage::getSingleton('Magento_VersionsCms_Model_Hierarchy_Lock');
+        return $this->_objectManager->get('Magento_VersionsCms_Model_Hierarchy_Lock');
     }
 
     /**

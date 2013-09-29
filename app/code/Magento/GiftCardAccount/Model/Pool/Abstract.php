@@ -22,6 +22,7 @@ abstract class Magento_GiftCardAccount_Model_Pool_Abstract extends Magento_Core_
      * Return first free code
      *
      * @return string
+     * @throws Magento_Core_Exception
      */
     public function shift()
     {
@@ -34,7 +35,7 @@ abstract class Magento_GiftCardAccount_Model_Pool_Abstract extends Magento_Core_
         }
         $collection->load();
         if (!$items = $collection->getItems()) {
-            Mage::throwException(__('No codes left in the pool.'));
+            throw new Magento_Core_Exception(__('No codes left in the pool.'));
         }
 
         $item = array_shift($items);

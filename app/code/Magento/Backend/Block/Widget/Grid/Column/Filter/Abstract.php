@@ -10,21 +10,35 @@
 
 /**
  * Grid column filter block
- *
- * @category   Magento
- * @package    Magento_Backend
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Backend_Block_Widget_Grid_Column_Filter_Abstract extends Magento_Backend_Block_Abstract
     implements Magento_Backend_Block_Widget_Grid_Column_Filter_Interface
 {
-
     /**
      * Column related to filter
      *
      * @var Magento_Backend_Block_Widget_Grid_Column
      */
     protected $_column;
+
+    /**
+     * @var Magento_Core_Model_Resource_Helper
+     */
+    protected $_resourceHelper;
+
+    /**
+     * @param Magento_Backend_Block_Context $context
+     * @param Magento_Core_Model_Resource_Helper $resourceHelper
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Context $context,
+        Magento_Core_Model_Resource_Helper $resourceHelper,
+        array $data = array()
+    ) {
+        $this->_resourceHelper = $resourceHelper;
+        parent::__construct($context, $data);
+    }
 
     /**
      * Set column related to filter
@@ -86,8 +100,7 @@ class Magento_Backend_Block_Widget_Grid_Column_Filter_Abstract extends Magento_B
      */
     public function getCondition()
     {
-        $helper = Mage::getResourceHelper('Magento_Core');
-        $likeExpression = $helper->addLikeEscape($this->getValue(), array('position' => 'any'));
+        $likeExpression = $this->_resourceHelper->addLikeEscape($this->getValue(), array('position' => 'any'));
         return array('like' => $likeExpression);
     }
 

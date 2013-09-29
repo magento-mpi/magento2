@@ -15,13 +15,27 @@ class Magento_Reminder_Model_Rule_Condition_Wishlist_Subselection
     extends Magento_Reminder_Model_Condition_Combine_Abstract
 {
     /**
+     * Subcombine Factory
+     *
+     * @var Magento_Reminder_Model_Rule_Condition_Wishlist_SubcombineFactory
+     */
+    protected $_subcombineFactory;
+
+    /**
      * @param Magento_Rule_Model_Condition_Context $context
+     * @param Magento_Reminder_Model_Resource_Rule $ruleResource
+     * @param Magento_Reminder_Model_Rule_Condition_Wishlist_SubcombineFactory $subcombineFactory
      * @param array $data
      */
-    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
-    {
-        parent::__construct($context, $data);
+    public function __construct(
+        Magento_Rule_Model_Condition_Context $context,
+        Magento_Reminder_Model_Resource_Rule $ruleResource,
+        Magento_Reminder_Model_Rule_Condition_Wishlist_SubcombineFactory $subcombineFactory,
+        array $data = array()
+    ) {
+        parent::__construct($context, $ruleResource, $data);
         $this->setType('Magento_Reminder_Model_Rule_Condition_Wishlist_Subselection');
+        $this->_subcombineFactory = $subcombineFactory;
     }
 
     /**
@@ -31,8 +45,7 @@ class Magento_Reminder_Model_Rule_Condition_Wishlist_Subselection
      */
     public function getNewChildSelectOptions()
     {
-        return Mage::getModel('Magento_Reminder_Model_Rule_Condition_Wishlist_Subcombine')
-            ->getNewChildSelectOptions();
+        return $this->_subcombineFactory->create()->getNewChildSelectOptions();
     }
 
     /**

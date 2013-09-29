@@ -18,6 +18,11 @@
             <instance type="Magento_Core_Model_Event_Manager_Proxy" />
         </param>
     </type>
+    <type name="Magento_Adminhtml_Helper_Dashboard_Data">
+        <param name="installDate">
+            <value type="argument">Magento_Core_Model_App_State::PARAM_INSTALL_DATE</value>
+        </param>
+    </type>
     <type name="Magento_Adminhtml_Block_Rating_Edit_Tab_Form">
         <param name="session">
             <instance type="Magento_Adminhtml_Model_Session" />

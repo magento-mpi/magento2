@@ -9,7 +9,7 @@
  */
 
 /**
- * Paypal expess checkout shortcut link
+ * Paypal express checkout shortcut link
  */
 class Magento_Paypal_Block_Express_Shortcut extends Magento_Core_Block_Template
 {
@@ -52,21 +52,46 @@ class Magento_Paypal_Block_Express_Shortcut extends Magento_Core_Block_Template
      *
      * @var Magento_Core_Model_Registry
      */
-    protected $_coreRegistry = null;
-    
+    protected $_coreRegistry;
+
     /**
      * Payment data
      *
      * @var Magento_Payment_Helper_Data
      */
-    protected $_paymentData = null;
+    protected $_paymentData;
 
     /**
      * Paypal data
      *
      * @var Magento_Paypal_Helper_Data
      */
-    protected $_paypalData = null;
+    protected $_paypalData;
+
+    /**
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @var Magento_Paypal_Model_ConfigFactory
+     */
+    protected $_paypalConfigFactory;
+
+    /**
+     * @var Magento_Checkout_Model_Session
+     */
+    protected $_checkoutSession;
+
+    /**
+     * @var Magento_Paypal_Model_Express_Checkout_Factory
+     */
+    protected $_checkoutFactory;
 
     /**
      * @param Magento_Paypal_Helper_Data $paypalData
@@ -74,6 +99,11 @@ class Magento_Paypal_Block_Express_Shortcut extends Magento_Core_Block_Template
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Paypal_Model_ConfigFactory $paypalConfigFactory
+     * @param Magento_Checkout_Model_Session $checkoutSession
+     * @param Magento_Paypal_Model_Express_Checkout_Factory $checkoutFactory
      * @param array $data
      */
     public function __construct(
@@ -82,22 +112,34 @@ class Magento_Paypal_Block_Express_Shortcut extends Magento_Core_Block_Template
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_LocaleInterface $locale,
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Paypal_Model_ConfigFactory $paypalConfigFactory,
+        Magento_Checkout_Model_Session $checkoutSession,
+        Magento_Paypal_Model_Express_Checkout_Factory $checkoutFactory,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
         $this->_paypalData = $paypalData;
         $this->_paymentData = $paymentData;
+        $this->_locale = $locale;
+        $this->_customerSession = $customerSession;
+        $this->_paypalConfigFactory = $paypalConfigFactory;
+        $this->_checkoutSession = $checkoutSession;
+        $this->_checkoutFactory = $checkoutFactory;
         parent::__construct($coreData, $context, $data);
     }
 
+    /**
+     * @return Magento_Core_Block_Abstract
+     */
     protected function _beforeToHtml()
     {
         $result = parent::_beforeToHtml();
         $params = array($this->_paymentMethodCode);
-        $config = Mage::getModel('Magento_Paypal_Model_Config', array('params' => $params));
+        $config = $this->_paypalConfigFactory->create(array('params' => $params));
         $isInCatalog = $this->getIsInCatalogProduct();
-        $quote = ($isInCatalog || '' == $this->getIsQuoteAllowed())
-            ? null : Mage::getSingleton('Magento_Checkout_Model_Session')->getQuote();
+        $quote = ($isInCatalog || '' == $this->getIsQuoteAllowed()) ? null : $this->_checkoutSession->getQuote();
 
         // check visibility on cart or product page
         $context = $isInCatalog ? 'visible_on_product' : 'visible_on_cart';
@@ -139,7 +181,7 @@ class Magento_Paypal_Block_Express_Shortcut extends Magento_Core_Block_Template
 
         // use static image if in catalog
         if ($isInCatalog || null === $quote) {
-            $this->setImageUrl($config->getExpressCheckoutShortcutImageUrl(Mage::app()->getLocale()->getLocaleCode()));
+            $this->setImageUrl($config->getExpressCheckoutShortcutImageUrl($this->_locale->getLocaleCode()));
         } else {
             $parameters = array(
                 'params' => array(
@@ -147,12 +189,12 @@ class Magento_Paypal_Block_Express_Shortcut extends Magento_Core_Block_Template
                     'config' => $config,
                 ),
             );
-            $checkoutModel = Mage::getModel($this->_checkoutType, $parameters);
+            $checkoutModel = $this->_checkoutFactory->create($this->_checkoutType, $parameters);
             $this->setImageUrl($checkoutModel->getCheckoutShortcutImageUrl());
         }
 
         // ask whether to create a billing agreement
-        $customerId = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId(); // potential issue for caching
+        $customerId = $this->_customerSession->getCustomerId(); // potential issue for caching
         if ($this->_paypalData->shouldAskToCreateBillingAgreement($config, $customerId)) {
             $this->setConfirmationUrl($this->getUrl($this->_startAction,
                 array(Magento_Paypal_Model_Express_Checkout::PAYMENT_INFO_TRANSPORT_BILLING_AGREEMENT => 1)

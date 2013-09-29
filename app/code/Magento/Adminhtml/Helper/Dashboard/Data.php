@@ -10,16 +10,50 @@
 
 /**
  * Data helper for dashboard
- *
- * @category   Magento
- * @package    Magento_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 class Magento_Adminhtml_Helper_Dashboard_Data extends Magento_Core_Helper_Data
 {
     protected $_locale = null;
     protected $_stores = null;
+
+    /**
+     * @var Magento_Core_Model_StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @var string
+     */
+    protected $_installDate;
+
+    /**
+     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Helper_Http $coreHttp
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Config $config
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Encryption $encryptor
+     * @param string $installDate
+     * @param bool $dbCompatibleMode      
+     */
+    public function __construct(
+        Magento_Core_Model_StoreManager $storeManager,
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Helper_Http $coreHttp,
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Config $config,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Encryption $encryptor,
+        $installDate,
+        $dbCompatibleMode = true
+    ) {
+        $this->_storeManager = $storeManager;
+        $this->_installDate = $installDate;
+        parent::__construct($eventManager, $coreHttp, $context, $config, $coreStoreConfig, 
+            $encryptor, $dbCompatibleMode
+        );
+    }
 
     /**
      * Retrieve stores configured in system.
@@ -70,7 +104,7 @@ class Magento_Adminhtml_Helper_Dashboard_Data extends Magento_Core_Helper_Data
      */
     public function getChartDataHash($data)
     {
-        $secret = (string)$this->_config->getNode(Magento_Core_Model_Config_Primary::XML_PATH_INSTALL_DATE);
+        $secret = $this->_installDate;
         return md5($data . $secret);
     }
 }

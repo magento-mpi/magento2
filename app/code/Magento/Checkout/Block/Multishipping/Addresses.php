@@ -23,18 +23,26 @@ class Magento_Checkout_Block_Multishipping_Addresses extends Magento_Sales_Block
     protected $_filterGridFactory;
 
     /**
+     * @var Magento_Checkout_Model_Type_Multishipping
+     */
+    protected $_multishipping;
+
+    /**
      * @param Magento_Filter_Object_GridFactory $filterGridFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Checkout_Model_Type_Multishipping $multishipping
      * @param array $data
      */
     public function __construct(
         Magento_Filter_Object_GridFactory $filterGridFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
+        Magento_Checkout_Model_Type_Multishipping $multishipping,
         array $data = array()
     ) {
         $this->_filterGridFactory = $filterGridFactory;
+        $this->_multishipping = $multishipping;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -45,20 +53,28 @@ class Magento_Checkout_Block_Multishipping_Addresses extends Magento_Sales_Block
      */
     public function getCheckout()
     {
-        return Mage::getSingleton('Magento_Checkout_Model_Type_Multishipping');
+        return $this->_multishipping;
     }
 
+    /**
+     * @return $this
+     */
     protected function _prepareLayout()
     {
-        if ($headBlock = $this->getLayout()->getBlock('head')) {
+        $headBlock = $this->getLayout()->getBlock('head');
+        if ($headBlock) {
             $headBlock->setTitle(__('Ship to Multiple Addresses') . ' - ' . $headBlock->getDefaultTitle());
         }
         return parent::_prepareLayout();
     }
 
+    /**
+     * @return array
+     */
     public function getItems()
     {
         $items = $this->getCheckout()->getQuoteShippingAddressesItems();
+        /** @var Magento_Filter_Object_Grid $itemsFilter */
         $itemsFilter = $this->_filterGridFactory->create();
         $itemsFilter->addFilter(new Magento_Filter_Sprintf('%d'), 'qty');
         return $itemsFilter->filter($items);
@@ -67,7 +83,8 @@ class Magento_Checkout_Block_Multishipping_Addresses extends Magento_Sales_Block
     /**
      * Retrieve HTML for addresses dropdown
      *
-     * @param  $item
+     * @param $item
+     * @param int $index
      * @return string
      */
     public function getAddressesHtmlSelect($item, $index)
@@ -103,36 +120,59 @@ class Magento_Checkout_Block_Multishipping_Addresses extends Magento_Sales_Block
         return $options;
     }
 
+    /**
+     * @return Magento_Customer_Model_Customer
+     */
     public function getCustomer()
     {
         return $this->getCheckout()->getCustomerSession()->getCustomer();
     }
 
+    /**
+     * @param $item
+     * @return string
+     */
     public function getItemUrl($item)
     {
-        return $this->getUrl('catalog/product/view/id/'.$item->getProductId());
+        return $this->getUrl('catalog/product/view/id/' . $item->getProductId());
     }
 
+    /**
+     * @param $item
+     * @return string
+     */
     public function getItemDeleteUrl($item)
     {
-        return $this->getUrl('*/*/removeItem', array('address'=>$item->getQuoteAddressId(), 'id'=>$item->getId()));
+        return $this->getUrl('*/*/removeItem', array('address' => $item->getQuoteAddressId(), 'id' => $item->getId()));
     }
 
+    /**
+     * @return string
+     */
     public function getPostActionUrl()
     {
         return $this->getUrl('*/*/addressesPost');
     }
 
+    /**
+     * @return string
+     */
     public function getNewAddressUrl()
     {
-        return Mage::getUrl('*/multishipping_address/newShipping');
+        return $this->getUrl('*/multishipping_address/newShipping');
     }
 
+    /**
+     * @return string
+     */
     public function getBackUrl()
     {
-        return Mage::getUrl('*/cart/');
+        return $this->getUrl('*/cart/');
     }
 
+    /**
+     * @return bool
+     */
     public function isContinueDisabled()
     {
         return !$this->getCheckout()->validateMinimumAmount();

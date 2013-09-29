@@ -10,43 +10,6 @@
  */
 -->
 <config>
-    <global>
-        <resources>
-            <customerbalance_setup>
-                <setup>
-                    <module>Magento_CustomerBalance</module>
-                    <class>Magento_CustomerBalance_Model_Resource_Setup</class>
-                </setup>
-            </customerbalance_setup>
-        </resources>
-        <sales>
-            <quote>
-                <totals>
-                    <customerbalance>
-                        <class>Magento_CustomerBalance_Model_Total_Quote_Customerbalance</class>
-                        <after>weee,discount,tax,tax_subtotal,grand_total</after>
-                        <renderer>Magento_CustomerBalance_Block_Checkout_Total</renderer>
-                    </customerbalance>
-                </totals>
-            </quote>
-            <order_invoice>
-                <totals>
-                    <customerbalance>
-                        <class>Magento_CustomerBalance_Model_Total_Invoice_Customerbalance</class>
-                        <after>grand_total</after>
-                    </customerbalance>
-                </totals>
-            </order_invoice>
-            <order_creditmemo>
-                <totals>
-                    <customerbalance>
-                        <class>Magento_CustomerBalance_Model_Total_Creditmemo_Customerbalance</class>
-                        <after>weee,discount,tax,grand_total</after>
-                    </customerbalance>
-                </totals>
-            </order_creditmemo>
-        </sales>
-    </global>
     <default>
         <customer>
             <magento_customerbalance>

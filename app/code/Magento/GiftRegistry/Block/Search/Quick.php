@@ -17,6 +17,11 @@
 class Magento_GiftRegistry_Block_Search_Quick extends Magento_Core_Block_Template
 {
     /**
+     * @var Magento_GiftRegistry_Model_TypeFactory
+     */
+    protected $typeFactory;
+
+    /**
      * Gift registry data
      *
      * @var Magento_GiftRegistry_Helper_Data
@@ -24,19 +29,31 @@ class Magento_GiftRegistry_Block_Search_Quick extends Magento_Core_Block_Templat
     protected $_giftRegistryData = null;
 
     /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $storeManager;
+
+    /**
      * @param Magento_GiftRegistry_Helper_Data $giftRegistryData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_GiftRegistry_Model_TypeFactory $typeFactory
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
         Magento_GiftRegistry_Helper_Data $giftRegistryData,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
+        Magento_GiftRegistry_Model_TypeFactory $typeFactory,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         $this->_giftRegistryData = $giftRegistryData;
+        $this->typeFactory = $typeFactory;
         parent::__construct($coreData, $context, $data);
+
+        $this->storeManager = $storeManager;
     }
 
     /**
@@ -56,8 +73,8 @@ class Magento_GiftRegistry_Block_Search_Quick extends Magento_Core_Block_Templat
      */
     public function getTypesCollection()
     {
-        return Mage::getModel('Magento_GiftRegistry_Model_Type')->getCollection()
-            ->addStoreData(Mage::app()->getStore()->getId())
+        return $this->typeFactory->create()->getCollection()
+            ->addStoreData($this->storeManager->getStore()->getId())
             ->applyListedFilter()
             ->applySortOrder();
     }

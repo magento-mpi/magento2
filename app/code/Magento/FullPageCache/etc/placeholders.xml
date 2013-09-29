@@ -64,10 +64,6 @@
         <container instance="Magento_FullPageCache_Model_Container_Wishlistlinks" />
         <block instance="Magento_Wishlist_Block_Link" />
     </placeholder>
-    <placeholder name="poll_activepoll" code="POLL" cacheLifeTime="86400">
-        <container instance="Magento_FullPageCache_Model_Container_Sidebar_Poll" />
-        <block instance="Magento_Poll_Block_ActivePoll" />
-    </placeholder>
     <placeholder name="widget_magento_banner" code="WIDGET_ENTERPRISE_BANNER" cacheLifeTime="86400">
         <container instance="Magento_FullPageCache_Model_Container_Banner" />
         <block instance="Magento_Banner_Block_Widget_Banner" />

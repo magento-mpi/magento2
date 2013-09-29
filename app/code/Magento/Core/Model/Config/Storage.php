@@ -10,26 +10,16 @@
 class Magento_Core_Model_Config_Storage extends Magento_Core_Model_Config_StorageAbstract
 {
     /**
-     * Resource configuration
-     *
-     * @var Magento_Core_Model_Config_Resource
-     */
-    protected $_resourcesConfig;
-
-    /**
      * @param Magento_Core_Model_Config_Cache $cache
      * @param Magento_Core_Model_Config_Loader $loader
      * @param Magento_Core_Model_Config_BaseFactory $factory
-     * @param Magento_Core_Model_Config_Resource $resourcesConfig
      */
     public function __construct(
         Magento_Core_Model_Config_Cache $cache,
         Magento_Core_Model_Config_Loader $loader,
-        Magento_Core_Model_Config_BaseFactory $factory,
-        Magento_Core_Model_Config_Resource $resourcesConfig
+        Magento_Core_Model_Config_BaseFactory $factory
     ) {
         parent::__construct($cache, $loader, $factory);
-        $this->_resourcesConfig = $resourcesConfig;
     }
 
     /**
@@ -45,11 +35,6 @@ class Magento_Core_Model_Config_Storage extends Magento_Core_Model_Config_Storag
             $this->_loader->load($config);
             $this->_cache->save($config);
         }
-        /*
-         * Update resource configuration when total configuration is loaded.
-         * Required until resource model is refactored.
-         */
-        $this->_resourcesConfig->setConfig($config);
         return $config;
     }
 

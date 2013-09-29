@@ -14,21 +14,63 @@ class Magento_Shipping_Model_Carrier_Tablerate
     implements Magento_Shipping_Model_Carrier_Interface
 {
 
+    /**
+     * @var string
+     */
     protected $_code = 'tablerate';
+
+    /**
+     * @var bool
+     */
     protected $_isFixed = true;
+
+    /**
+     * @var string
+     */
     protected $_default_condition_name = 'package_weight';
 
+    /**
+     * @var array
+     */
     protected $_conditionNames = array();
 
     /**
+     * @var Magento_Shipping_Model_Rate_ResultFactory
+     */
+    protected $_rateResultFactory;
+
+    /**
+     * @var Magento_Shipping_Model_Rate_Result_MethodFactory
+     */
+    protected $_resultMethodFactory;
+
+    /**
+     * @var Magento_Shipping_Model_Resource_Carrier_TablerateFactory
+     */
+    protected $_tablerateFactory;
+
+    /**
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Shipping_Model_Rate_ResultFactory $rateResultFactory
+     * @param Magento_Shipping_Model_Rate_Result_ErrorFactory $rateErrorFactory
+     * @param Magento_Core_Model_Log_AdapterFactory $logAdapterFactory
+     * @param Magento_Shipping_Model_Rate_Result_MethodFactory $resultMethodFactory
+     * @param Magento_Shipping_Model_Resource_Carrier_TablerateFactory $tablerateFactory
      * @param array $data
      */
     public function __construct(
         Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Shipping_Model_Rate_Result_ErrorFactory $rateErrorFactory,
+        Magento_Core_Model_Log_AdapterFactory $logAdapterFactory,
+        Magento_Shipping_Model_Rate_ResultFactory $rateResultFactory,
+        Magento_Shipping_Model_Rate_Result_MethodFactory $resultMethodFactory,
+        Magento_Shipping_Model_Resource_Carrier_TablerateFactory $tablerateFactory,
         array $data = array()
     ) {
-        parent::__construct($coreStoreConfig, $data);
+        $this->_rateResultFactory = $rateResultFactory;
+        $this->_resultMethodFactory = $resultMethodFactory;
+        $this->_tablerateFactory = $tablerateFactory;
+        parent::__construct($coreStoreConfig, $rateErrorFactory, $logAdapterFactory, $data);
         foreach ($this->getCode('condition_name') as $k => $v) {
             $this->_conditionNames[] = $k;
         }
@@ -100,14 +142,16 @@ class Magento_Shipping_Model_Carrier_Tablerate
         $request->setPackageWeight($request->getFreeMethodWeight());
         $request->setPackageQty($oldQty - $freeQty);
 
-        $result = Mage::getModel('Magento_Shipping_Model_Rate_Result');
+        /** @var Magento_Shipping_Model_Rate_Result $result */
+        $result = $this->_rateResultFactory->create();
         $rate = $this->getRate($request);
 
         $request->setPackageWeight($oldWeight);
         $request->setPackageQty($oldQty);
 
         if (!empty($rate) && $rate['price'] >= 0) {
-            $method = Mage::getModel('Magento_Shipping_Model_Rate_Result_Method');
+            /** @var Magento_Shipping_Model_Rate_Result_Method $method */
+            $method = $this->_resultMethodFactory->create();
 
             $method->setCarrier('tablerate');
             $method->setCarrierTitle($this->getConfigData('title'));
@@ -130,11 +174,21 @@ class Magento_Shipping_Model_Carrier_Tablerate
         return $result;
     }
 
+    /**
+     * @param Magento_Shipping_Model_Rate_Request $request
+     * @return array|bool
+     */
     public function getRate(Magento_Shipping_Model_Rate_Request $request)
     {
-        return Mage::getResourceModel('Magento_Shipping_Model_Resource_Carrier_Tablerate')->getRate($request);
+        return $this->_tablerateFactory->create()->getRate($request);
     }
 
+    /**
+     * @param string $type
+     * @param string $code
+     * @return array
+     * @throws Magento_Shipping_Exception
+     */
     public function getCode($type, $code='')
     {
         $codes = array(
@@ -154,15 +208,15 @@ class Magento_Shipping_Model_Carrier_Tablerate
         );
 
         if (!isset($codes[$type])) {
-            throw Mage::exception('Magento_Shipping', __('Please correct Table Rate code type: %1.', $type));
+            throw new Magento_Shipping_Exception( __('Please correct Table Rate code type: %1.', $type));
         }
 
-        if (''===$code) {
+        if ('' === $code) {
             return $codes[$type];
         }
 
         if (!isset($codes[$type][$code])) {
-            throw Mage::exception('Magento_Shipping', __('Please correct Table Rate code for type %1: %2.', $type, $code));
+            throw new Magento_Shipping_Exception(__('Please correct Table Rate code for type %1: %2.', $type, $code));
         }
 
         return $codes[$type][$code];

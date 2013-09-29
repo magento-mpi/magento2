@@ -10,10 +10,6 @@
 
 /**
  * Backend system config array field renderer
- *
- * @category   Magento
- * @package    Magento_Backend
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Backend_Block_System_Config_Form_Field_Regexceptions
     extends Magento_Backend_Block_System_Config_Form_Field_Array_Abstract
@@ -24,10 +20,16 @@ class Magento_Backend_Block_System_Config_Form_Field_Regexceptions
     protected $_elementFactory;
 
     /**
+     * @var Magento_Core_Model_Theme_LabelFactory
+     */
+    protected $_labelFactory;
+
+    /**
      * @param Magento_Data_Form_Element_Factory $elementFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_App $application
+     * @param Magento_Core_Model_Theme_LabelFactory $labelFactory
      * @param array $data
      */
     public function __construct(
@@ -35,9 +37,11 @@ class Magento_Backend_Block_System_Config_Form_Field_Regexceptions
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_App $application,
+        Magento_Core_Model_Theme_LabelFactory $labelFactory,
         array $data = array()
     ) {
         $this->_elementFactory = $elementFactory;
+        $this->_labelFactory = $labelFactory;
         parent::__construct($coreData, $context, $application, $data);
     }
 
@@ -69,7 +73,7 @@ class Magento_Backend_Block_System_Config_Form_Field_Regexceptions
     {
         if ($columnName == 'value' && isset($this->_columns[$columnName])) {
             /** @var $label Magento_Core_Model_Theme_Label */
-            $label = Mage::getModel('Magento_Core_Model_Theme_Label');
+            $label = $this->_labelFactory->create();
             $options = $label->getLabelsCollection(__('-- No Theme --'));
             $element = $this->_elementFactory->create('select');
             $element

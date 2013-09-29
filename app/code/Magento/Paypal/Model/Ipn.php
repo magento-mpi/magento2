@@ -15,38 +15,36 @@ class Magento_Paypal_Model_Ipn
 {
     /**
      * Default log filename
-     *
-     * @var string
      */
     const DEFAULT_LOG_FILE = 'paypal_unknown_ipn.log';
 
-    /*
+    /**
      * @param Magento_Sales_Model_Order
      */
-    protected $_order = null;
+    protected $_order;
 
-    /*
+    /**
      * Recurring profile instance
      *
      * @var Magento_Sales_Model_Recurring_Profile
      */
-    protected $_recurringProfile = null;
+    protected $_recurringProfile;
 
     /**
-     *
      * @var Magento_Paypal_Model_Config
      */
-    protected $_config = null;
+    protected $_config;
 
     /**
      * PayPal info instance
      *
      * @var Magento_Paypal_Model_Info
      */
-    protected $_info = null;
+    protected $_info;
 
     /**
      * IPN request data
+     *
      * @var array
      */
     protected $_request = array();
@@ -57,6 +55,50 @@ class Magento_Paypal_Model_Ipn
      * @var array
      */
     protected $_debugData = array();
+
+    /**
+     * @var Magento_Sales_Model_OrderFactory
+     */
+    protected $_orderFactory;
+
+    /**
+     * @var Magento_Core_Controller_Response_Http
+     */
+    protected $_responseHttp;
+
+    /**
+     * @var Magento_Paypal_Model_ConfigFactory
+     */
+    protected $_configFactory;
+
+    /**
+     * @var Magento_Sales_Model_Recurring_ProfileFactory
+     */
+    protected $_profileFactory;
+
+    /**
+     * @param Magento_Sales_Model_OrderFactory $orderFactory
+     * @param Magento_Core_Controller_Response_Http $responseHttp
+     * @param Magento_Paypal_Model_ConfigFactory $configFactory
+     * @param Magento_Sales_Model_Recurring_ProfileFactory $profileFactory
+     * @param Magento_Paypal_Model_Info $paypalInfo
+     * @param Magento_Core_Model_Log_AdapterFactory $logAdapterFactory
+     */
+    public function __construct(
+        Magento_Sales_Model_OrderFactory $orderFactory,
+        Magento_Core_Controller_Response_Http $responseHttp,
+        Magento_Paypal_Model_ConfigFactory $configFactory,
+        Magento_Sales_Model_Recurring_ProfileFactory $profileFactory,
+        Magento_Paypal_Model_Info $paypalInfo,
+        Magento_Core_Model_Log_AdapterFactory $logAdapterFactory
+    ) {
+        $this->_orderFactory = $orderFactory;
+        $this->_responseHttp = $responseHttp;
+        $this->_configFactory = $configFactory;
+        $this->_profileFactory = $profileFactory;
+        $this->_info = $paypalInfo;
+        $this->_logAdapterFactory = $logAdapterFactory;
+    }
 
     /**
      * IPN request data getter
@@ -111,6 +153,7 @@ class Magento_Paypal_Model_Ipn
      * Post back to PayPal to check whether this request is a valid one
      *
      * @param Zend_Http_Client_Adapter_Interface $httpAdapter
+     * @throws Exception
      */
     protected function _postBack(Zend_Http_Client_Adapter_Interface $httpAdapter)
     {
@@ -148,19 +191,17 @@ class Magento_Paypal_Model_Ipn
         if (empty($this->_order)) {
             // get proper order
             $id = $this->_request['invoice'];
-            $this->_order = Mage::getModel('Magento_Sales_Model_Order')->loadByIncrementId($id);
+            $this->_order = $this->_orderFactory->create()->loadByIncrementId($id);
             if (!$this->_order->getId()) {
                 $this->_debugData['exception'] = sprintf('Wrong order ID: "%s".', $id);
                 $this->_debug();
-                Mage::app()->getResponse()
-                    ->setHeader('HTTP/1.1','503 Service Unavailable')
-                    ->sendResponse();
+                $this->_responseHttp->setHeader('HTTP/1.1','503 Service Unavailable')->sendResponse();
                 exit;
             }
             // re-initialize config with the method code and store id
             $method = $this->_order->getPayment()->getMethod();
             $parameters = array('params' => array($method, $this->_order->getStoreId()));
-            $this->_config = Mage::getModel('Magento_Paypal_Model_Config', $parameters);
+            $this->_config = $this->_configFactory->create($parameters);
             if (!$this->_config->isMethodActive($method) || !$this->_config->isMethodAvailable()) {
                 throw new Exception(sprintf('Method "%s" is not available.', $method));
             }
@@ -181,7 +222,7 @@ class Magento_Paypal_Model_Ipn
         if (empty($this->_recurringProfile)) {
             // get proper recurring profile
             $internalReferenceId = $this->_request['rp_invoice_id'];
-            $this->_recurringProfile = Mage::getModel('Magento_Sales_Model_Recurring_Profile')
+            $this->_recurringProfile = $this->_profileFactory->create()
                 ->loadByInternalReferenceId($internalReferenceId);
             if (!$this->_recurringProfile->getId()) {
                 throw new Exception(
@@ -191,7 +232,7 @@ class Magento_Paypal_Model_Ipn
             // re-initialize config with the method code and store id
             $methodCode = $this->_recurringProfile->getMethodCode();
             $parameters = array('params' => array($methodCode, $this->_recurringProfile->getStoreId()));
-            $this->_config = Mage::getModel('Magento_Paypal_Model_Config', $parameters);
+            $this->_config = $this->_configFactory->create($parameters);
             if (!$this->_config->isMethodActive($methodCode) || !$this->_config->isMethodAvailable()) {
                 throw new Exception(sprintf('Method "%s" is not available.', $methodCode));
             }
@@ -215,11 +256,9 @@ class Magento_Paypal_Model_Ipn
                 $receiverEmail = $this->getRequestData('receiver_email');
             }
             if (strtolower($merchantEmail) != strtolower($receiverEmail)) {
-                throw new Exception(
-                    sprintf(
-                        'The requested %s and configured %s merchant emails do not match.', $receiverEmail, $merchantEmail
-                    )
-                );
+                throw new Exception(sprintf(
+                    'The requested %s and configured %s merchant emails do not match.', $receiverEmail, $merchantEmail
+                ));
             }
         }
     }
@@ -233,7 +272,6 @@ class Magento_Paypal_Model_Ipn
     {
         $this->_order = null;
         $this->_getOrder();
-        $this->_info = Mage::getSingleton('Magento_Paypal_Model_Info');
         try {
             // Handle payment_status
             $transactionType = isset($this->_request['txn_type']) ? $this->_request['txn_type'] : null;
@@ -251,6 +289,7 @@ class Magento_Paypal_Model_Ipn
                 //handle new transaction created
                 default:
                     $this->_registerTransaction();
+                    break;
             }
         } catch (Magento_Core_Exception $e) {
             $comment = $this->_createIpnComment(__('Note: %1', $e->getMessage()), true);
@@ -306,8 +345,8 @@ class Magento_Paypal_Model_Ipn
             ->getBaseCurrency()
             ->formatTxt($this->_request['mc_gross'] + $this->_request['mc_fee']);
         $paymentStatus = $this->_filterPaymentStatus(isset($this->_request['payment_status'])
-                ? $this->_request['payment_status']
-                : null
+            ? $this->_request['payment_status']
+            : null
         );
         $orderStatus = ($paymentStatus == Magento_Paypal_Model_Info::PAYMENTSTATUS_REVERSED)
             ? Magento_Paypal_Model_Info::ORDER_STATUS_REVERSED
@@ -440,9 +479,10 @@ class Magento_Paypal_Model_Ipn
         $order->save();
 
         // notify customer
-        if ($invoice = $payment->getCreatedInvoice()) {
+        $invoice = $payment->getCreatedInvoice();
+        if ($invoice) {
             $message = __('You notified customer about invoice #%1.', $invoice->getIncrementId());
-            $comment = $order->sendNewOrderEmail()->addStatusHistoryComment($message)
+            $order->sendNewOrderEmail()->addStatusHistoryComment($message)
                 ->setIsCustomerNotified(true)
                 ->save();
         }
@@ -521,13 +561,12 @@ class Magento_Paypal_Model_Ipn
 
         // TODO: there is no way to close a capture right now
 
-        if ($creditmemo = $payment->getCreatedCreditmemo()) {
+        $creditmemo = $payment->getCreatedCreditmemo();
+        if ($creditmemo) {
             $creditmemo->sendEmail();
-            $comment = $this->_order->addStatusHistoryComment(
-                    __('You notified customer about creditmemo #%1.', $creditmemo->getIncrementId())
-                )
-                ->setIsCustomerNotified(true)
-                ->save();
+            $this->_order->addStatusHistoryComment(
+                __('You notified customer about creditmemo #%1.', $creditmemo->getIncrementId())
+            )->setIsCustomerNotified(true)->save();
         }
     }
 
@@ -606,7 +645,6 @@ class Magento_Paypal_Model_Ipn
     }
 
     /**
-     * TODO
      * The status "Processed" is used when all Masspayments are successful
      */
     protected function _registerMasspaymentsSuccess()
@@ -641,7 +679,6 @@ class Magento_Paypal_Model_Ipn
      * Map payment information from IPN to payment object
      * Returns true if there were changes in information
      *
-     * @param Magento_Payment_Model_Info $payment
      * @return bool
      */
     protected function _importPaymentInformation()
@@ -733,15 +770,14 @@ class Magento_Paypal_Model_Ipn
 
     /**
      * Log debug data to file
-     *
-     * @param mixed $debugData
      */
     protected function _debug()
     {
         if ($this->_config && $this->_config->debug) {
-            $file = $this->_config->getMethodCode() ? "payment_{$this->_config->getMethodCode()}.log"
+            $file = $this->_config->getMethodCode()
+                ? "payment_{$this->_config->getMethodCode()}.log"
                 : self::DEFAULT_LOG_FILE;
-            Mage::getModel('Magento_Core_Model_Log_Adapter', array('fileName' => $file))->log($this->_debugData);
+            $this->_logAdapterFactory->create(array('fileName' => $file))->log($this->_debugData);
         }
     }
 }

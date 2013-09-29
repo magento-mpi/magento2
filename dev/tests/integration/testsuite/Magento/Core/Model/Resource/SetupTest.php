@@ -20,7 +20,7 @@ class Magento_Core_Model_Resource_SetupTest extends PHPUnit_Framework_TestCase
     {
         $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->create('Magento_Core_Model_Resource_Setup',
-            array('resourceName' => 'default_setup')
+            array('resourceName' => 'default_setup', 'moduleName' => 'Magento_Core')
         );
     }
 

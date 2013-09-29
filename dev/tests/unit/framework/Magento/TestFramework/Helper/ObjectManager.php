@@ -180,11 +180,23 @@ class Magento_TestFramework_Helper_ObjectManager
                 $defaultValue =  $parameter->getDefaultValue();
             }
 
-            if ($parameter->getClass()) {
-                $argClassName =  $parameter->getClass()->getName();
+            try {
+                if ($parameter->getClass()) {
+                    $argClassName =  $parameter->getClass()->getName();
+                }
+                $object = $this->_createArgumentMock($argClassName, $arguments);
+            } catch (ReflectionException $e) {
+                $parameterString = $parameter->__toString();
+                $firstPosition = strpos($parameterString, '<required>');
+                if ($firstPosition !== false) {
+                    $parameterString = substr($parameterString, $firstPosition + 11);
+                    $parameterString = substr($parameterString, 0, strpos($parameterString, ' '));
+                    $object = $this->_testObject->getMock(
+                        $parameterString, array(), array(), 'Dummy_Mock_' . $parameterString, false
+                    );
+                }
             }
 
-            $object = $this->_createArgumentMock($argClassName, $arguments);
             $constructArguments[$parameterName] = null === $object ? $defaultValue : $object;
         }
         return $constructArguments;

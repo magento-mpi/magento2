@@ -29,21 +29,32 @@ class Magento_Checkout_Block_Onepage_Shipping_Method_Available extends Magento_C
     protected $_taxData = null;
 
     /**
-     * @param Magento_Tax_Helper_Data $taxData
      * @param Magento_Core_Model_Cache_Type_Config $configCacheType
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Checkout_Model_Session $resourceSession
+     * @param Magento_Directory_Model_Resource_Country_CollectionFactory $countryCollFactory
+     * @param Magento_Directory_Model_Resource_Region_CollectionFactory $regionCollFactory
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Tax_Helper_Data $taxData
      * @param array $data
      */
     public function __construct(
-        Magento_Tax_Helper_Data $taxData,
         Magento_Core_Model_Cache_Type_Config $configCacheType,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Checkout_Model_Session $resourceSession,
+        Magento_Directory_Model_Resource_Country_CollectionFactory $countryCollFactory,
+        Magento_Directory_Model_Resource_Region_CollectionFactory $regionCollFactory,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Tax_Helper_Data $taxData,
         array $data = array()
     ) {
         $this->_taxData = $taxData;
-        parent::__construct($configCacheType, $coreData, $context, $data);
+        parent::__construct($configCacheType, $coreData, $context, $customerSession, $resourceSession,
+            $countryCollFactory, $regionCollFactory, $storeManager, $data);
     }
 
     public function getShippingRates()

@@ -19,6 +19,42 @@
 class Magento_GiftRegistry_Model_Resource_Entity_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
+     * @var Magento_GiftRegistry_Model_Attribute_Config
+     */
+    protected $attributeConfig;
+
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $storeManager;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Core_Model_EntityFactory $entityFactory
+     * @param Magento_GiftRegistry_Model_Attribute_Config $attributeConfig
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_GiftRegistry_Model_Resource_HelperFactory $helperFactory
+     * @param Magento_Core_Model_Resource_Db_Abstract $resource
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_Logger $logger,
+        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Core_Model_EntityFactory $entityFactory,
+        Magento_GiftRegistry_Model_Attribute_Config $attributeConfig,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_GiftRegistry_Model_Resource_HelperFactory $helperFactory,
+        Magento_Core_Model_Resource_Db_Abstract $resource = null
+    ) {
+        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
+        $this->attributeConfig = $attributeConfig;
+        $this->storeManager = $storeManager;
+        $this->helperFactory = $helperFactory;
+    }
+
+    /**
      * Collection initialization
      *
      */
@@ -115,8 +151,8 @@ class Magento_GiftRegistry_Model_Resource_Entity_Collection extends Magento_Core
             ->from($this->getTable('magento_giftregistry_person'), array('entity_id'))
             ->group('entity_id');
 
-        /** @var Magento_Core_Model_Resource_Helper_Mysql4 $helper */
-        $helper = Mage::getResourceHelper('Magento_Core');
+        /** @var Magento_Core_Model_Resource_Helper $helper */
+        $helper = $this->helperFactory->create();
         $helper->addGroupConcatColumn($select, 'registrants', array('firstname', 'lastname'), ', ', ' ');
 
         $this->getSelect()->joinLeft(
@@ -141,7 +177,7 @@ class Magento_GiftRegistry_Model_Resource_Entity_Collection extends Magento_Core
         $select->from(array('m' => $this->getMainTable()), array('*'))
             ->where('m.is_public = ?', 1)
             ->where('m.is_active = ?', 1)
-            ->where('m.website_id = ?', (int)Mage::app()->getStore()->getWebsiteId());
+            ->where('m.website_id = ?', (int)$this->storeManager->getStore()->getWebsiteId());
 
         /*
          * Join registry type store label
@@ -154,7 +190,7 @@ class Magento_GiftRegistry_Model_Resource_Entity_Collection extends Magento_Core
         $typeExpr = $adapter->getCheckSql('i2.label IS NULL', 'i1.label', 'i2.label');
         $select->joinLeft(
             array('i2' => $this->getTable('magento_giftregistry_type_info')),
-            $adapter->quoteInto('i2.type_id = m.type_id AND i2.store_id = ?', (int)Mage::app()->getStore()->getId()),
+            $adapter->quoteInto('i2.type_id = m.type_id AND i2.store_id = ?', (int)$this->storeManager->getStore()->getId()),
             array('type' => $typeExpr)
         );
 
@@ -199,8 +235,7 @@ class Magento_GiftRegistry_Model_Resource_Entity_Collection extends Magento_Core
         /*
          * Apply search filters by static attributes
          */
-        /** @var $config Magento_GiftRegistry_Model_Attribute_Config */
-        $config = Mage::getSingleton('Magento_GiftRegistry_Model_Attribute_Config');
+        $config = $this->attributeConfig;
         $staticCodes = $config->getStaticTypesCodes();
         foreach ($staticCodes as $code) {
             if (!empty($params[$code])) {

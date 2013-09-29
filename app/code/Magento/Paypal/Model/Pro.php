@@ -9,15 +9,13 @@
  */
 
 /**
- * PayPal Website Payments Pro implementation for payment method instaces
+ * PayPal Website Payments Pro implementation for payment method instances
  * This model was created because right now PayPal Direct and PayPal Express payment methods cannot have same abstract
  */
 class Magento_Paypal_Model_Pro
 {
     /**
      * Possible payment review actions (for FMF only)
-     *
-     * @var string
      */
     const PAYMENT_REVIEW_ACCEPT = 'accept';
     const PAYMENT_REVIEW_DENY = 'deny';
@@ -27,21 +25,21 @@ class Magento_Paypal_Model_Pro
      *
      * @var Magento_Paypal_Model_Config
      */
-    protected $_config = null;
+    protected $_config;
 
     /**
      * API instance
      *
      * @var Magento_Paypal_Model_Api_Nvp
      */
-    protected $_api = null;
+    protected $_api;
 
     /**
      * PayPal info object
      *
      * @var Magento_Paypal_Model_Info
      */
-    protected $_infoInstance = null;
+    protected $_infoInstance;
 
     /**
      * API model type
@@ -58,10 +56,41 @@ class Magento_Paypal_Model_Pro
     protected $_configType = 'Magento_Paypal_Model_Config';
 
     /**
+     * @var Magento_Paypal_Model_Config_Factory
+     */
+    protected $_configFactory;
+
+    /**
+     * @var Magento_Paypal_Model_Api_Type_Factory
+     */
+    protected $_apiFactory;
+
+    /**
+     * @var Magento_Paypal_Model_InfoFactory
+     */
+    protected $_infoFactory;
+
+    /**
+     * @param Magento_Paypal_Model_Config_Factory $configFactory
+     * @param Magento_Paypal_Model_Api_Type_Factory $apiFactory
+     * @param Magento_Paypal_Model_InfoFactory $infoFactory
+     */
+    public function __construct(
+        Magento_Paypal_Model_Config_Factory $configFactory,
+        Magento_Paypal_Model_Api_Type_Factory $apiFactory,
+        Magento_Paypal_Model_InfoFactory $infoFactory
+    ) {
+        $this->_configFactory = $configFactory;
+        $this->_apiFactory = $apiFactory;
+        $this->_infoFactory = $infoFactory;
+    }
+
+    /**
      * Payment method code setter. Also instantiates/updates config
      *
      * @param string $code
      * @param int|null $storeId
+     * @return $this
      */
     public function setMethod($code, $storeId = null)
     {
@@ -70,7 +99,7 @@ class Magento_Paypal_Model_Pro
             if (null !== $storeId) {
                 $params[] = $storeId;
             }
-            $this->_config = Mage::getModel($this->_configType, array('params' => $params));
+            $this->_config = $this->_configFactory->create($this->_configType, array('params' => $params));
         } else {
             $this->_config->setMethod($code);
             if (null !== $storeId) {
@@ -85,6 +114,7 @@ class Magento_Paypal_Model_Pro
      *
      * @param Magento_Paypal_Model_Config $instace
      * @param int $storeId
+     * @return $this
      */
     public function setConfig(Magento_Paypal_Model_Config $instace, $storeId = null)
     {
@@ -114,7 +144,7 @@ class Magento_Paypal_Model_Pro
     public function getApi()
     {
         if (null === $this->_api) {
-            $this->_api = Mage::getModel($this->_apiType);
+            $this->_api = $this->_apiFactory->create($this->_apiType);
         }
         $this->_api->setConfigObject($this->_config);
         return $this->_api;
@@ -140,7 +170,7 @@ class Magento_Paypal_Model_Pro
     public function getInfo()
     {
         if (null === $this->_infoInstance) {
-            $this->_infoInstance = Mage::getModel('Magento_Paypal_Model_Info');
+            $this->_infoInstance = $this->_infoFactory->create();
         }
         return $this->_infoInstance;
     }
@@ -148,7 +178,7 @@ class Magento_Paypal_Model_Pro
     /**
      * Transfer transaction/payment information from API instance to order payment
      *
-     * @param Magento_Paypal_Model_Api_Abstract $from
+     * @param \Magento_Object|\Magento_Paypal_Model_Api_Abstract $from
      * @param Magento_Payment_Model_Info $to
      * @return Magento_Paypal_Model_Pro
      */
@@ -182,15 +212,17 @@ class Magento_Paypal_Model_Pro
      * Void transaction
      *
      * @param Magento_Object $payment
+     * @throws Magento_Core_Exception
      */
     public function void(Magento_Object $payment)
     {
-        if ($authTransactionId = $this->_getParentTransactionId($payment)) {
+        $authTransactionId = $this->_getParentTransactionId($payment);
+        if ($authTransactionId) {
             $api = $this->getApi();
             $api->setPayment($payment)->setAuthorizationId($authTransactionId)->callDoVoid();
             $this->importPaymentInfo($api, $payment);
         } else {
-            Mage::throwException(__('You need an authorization transaction to void.'));
+            throw new Magento_Core_Exception(__('You need an authorization transaction to void.'));
         }
     }
 
@@ -213,9 +245,8 @@ class Magento_Paypal_Model_Pro
             ->setIsCaptureComplete($payment->getShouldCloseParentTransaction())
             ->setAmount($amount)
             ->setCurrencyCode($payment->getOrder()->getBaseCurrencyCode())
-            ->setInvNum($payment->getOrder()->getIncrementId())
+            ->setInvNum($payment->getOrder()->getIncrementId());
             // TODO: pass 'NOTE' to API
-        ;
 
         $api->callDoCapture();
         $this->_importCaptureResultToPayment($api, $payment);
@@ -226,6 +257,7 @@ class Magento_Paypal_Model_Pro
      *
      * @param Magento_Object $payment
      * @param float $amount
+     * @throws Magento_Core_Exception
      */
     public function refund(Magento_Object $payment, $amount)
     {
@@ -236,8 +268,7 @@ class Magento_Paypal_Model_Pro
             $api->setPayment($payment)
                 ->setTransactionId($captureTxnId)
                 ->setAmount($amount)
-                ->setCurrencyCode($order->getBaseCurrencyCode())
-            ;
+                ->setCurrencyCode($order->getBaseCurrencyCode());
             $canRefundMore = $payment->getCreditmemo()->getInvoice()->canRefund();
             $isFullRefund = !$canRefundMore
                 && (0 == ((float)$order->getBaseTotalOnlineRefunded() + (float)$order->getBaseTotalOfflineRefunded()));
@@ -247,7 +278,7 @@ class Magento_Paypal_Model_Pro
             $api->callRefundTransaction();
             $this->_importRefundResultToPayment($api, $payment, $canRefundMore);
         } else {
-            Mage::throwException(__('We can\'t issue a refund transaction because there is no capture transaction.'));
+            throw new Magento_Core_Exception(__('We can\'t issue a refund transaction because there is no capture transaction.'));
         }
     }
 
@@ -346,12 +377,12 @@ class Magento_Paypal_Model_Pro
         if (strlen($refId) > 127) { //  || !preg_match('/^[a-z\d\s]+$/i', $refId)
             $errors[] = __('The merchant\'s reference ID format is not supported.');
         }
-        $scheduleDescr = $profile->getScheduleDescription(); // up to 127 single-byte alphanumeric
+        $profile->getScheduleDescription(); // up to 127 single-byte alphanumeric
         if (strlen($refId) > 127) { //  || !preg_match('/^[a-z\d\s]+$/i', $scheduleDescr)
             $errors[] = __('The schedule description is too long.');
         }
         if ($errors) {
-            Mage::throwException(implode(' ', $errors));
+            throw new Magento_Core_Exception(implode(' ', $errors));
         }
     }
 
@@ -455,8 +486,7 @@ class Magento_Paypal_Model_Pro
     {
         $payment->setTransactionId($api->getRefundTransactionId())
                 ->setIsTransactionClosed(1) // refund initiated by merchant
-                ->setShouldCloseParentTransaction(!$canRefundMore)
-            ;
+                ->setShouldCloseParentTransaction(!$canRefundMore);
         $this->importPaymentInfo($api, $payment);
     }
 

@@ -8,45 +8,62 @@
  * @license     {license_link}
  */
 
-
-class Magento_Sales_Model_Config
+/**
+ * Sales total nodes config model
+ */
+class Magento_Sales_Model_Config implements Magento_Sales_Model_ConfigInterface
 {
-    const XML_PATH_ORDER_STATES = 'global/sales/order/states';
-
     /**
-     * @var Magento_Core_Model_Config
-     */
-    protected $_coreConfig;
-
-    /**
-     * Constructor
+     * Modules configuration model
      *
-     * @param Magento_Core_Model_Config $coreConfig
+     * @var Magento_Sales_Model_Config_Data
      */
-    public function __construct(
-        Magento_Core_Model_Config $coreConfig
-    ) {
-        $this->_coreConfig = $coreConfig;
+    protected $_dataContainer;
+
+    /**
+     * @param Magento_Sales_Model_Config_Data $dataContainer
+     */
+    public function __construct(Magento_Sales_Model_Config_Data $dataContainer)
+    {
+        $this->_dataContainer = $dataContainer;
     }
 
     /**
-     * Retrieve order statuses for state
+     * Retrieve renderer for area from config
      *
-     * @param string $state
+     * @param string $section
+     * @param string $group
+     * @param string $code
+     * @param string $area
      * @return array
      */
-    public function getOrderStatusesForState($state)
+    public function getTotalsRenderer($section, $group, $code, $area)
     {
-        $states = $this->_coreConfig->getNode(self::XML_PATH_ORDER_STATES);
-        if (!isset($states->$state) || !isset($states->$state->statuses)) {
-           return array();
-        }
+        $path = implode('/', array($section, $group, $code, 'renderers', $area));
+        return $this->_dataContainer->get($path);
+    }
 
-        $statuses = array();
+    /**
+     * Retrieve totals for group
+     * e.g. quote, nominal_totals, etc
+     *
+     * @param string $section
+     * @param string $group
+     * @return array
+     */
+    public function getGroupTotals($section, $group)
+    {
+        $path = implode('/', array($section, $group));
+        return $this->_dataContainer->get($path);
+    }
 
-        foreach ($states->$state->statuses->children() as $status => $node) {
-            $statuses[] = $status;
-        }
-        return $statuses;
+    /**
+     * Get available product types
+     *
+     * @return array
+     */
+    public function getAvailableProductTypes()
+    {
+        return $this->_dataContainer->get('order/available_product_types');
     }
 }

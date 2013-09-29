@@ -10,10 +10,6 @@
 
 /**
  * Adminhtml dashboard helper for orders
- *
- * @category   Magento
- * @package    Magento_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Adminhtml_Helper_Dashboard_Order extends Magento_Adminhtml_Helper_Dashboard_Abstract
 {
@@ -23,30 +19,32 @@ class Magento_Adminhtml_Helper_Dashboard_Order extends Magento_Adminhtml_Helper_
     protected $_orderCollection;
 
     /**
-     * @param Magento_Reports_Model_Resource_Order_Collection $orderCollection
+     * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Helper_Http $coreHttp
-     * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Config $config
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_StoreManager $storeManager
      * @param Magento_Core_Model_Locale $locale
      * @param Magento_Core_Model_Date $dateModel
      * @param Magento_Core_Model_App_State $appState
-     * @param Magento_Core_Model_Config_Resource $configResource
+     * @param Magento_Core_Model_Encryption $encryptor
+     * @param Magento_Reports_Model_Resource_Order_Collection $orderCollection
+     * @param bool $dbCompatibleMode
      */
     public function __construct(
-        Magento_Reports_Model_Resource_Order_Collection $orderCollection,
+        Magento_Core_Helper_Context $context,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Helper_Http $coreHttp,
-        Magento_Core_Helper_Context $context,
         Magento_Core_Model_Config $config,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_StoreManager $storeManager,
         Magento_Core_Model_Locale $locale,
         Magento_Core_Model_Date $dateModel,
         Magento_Core_Model_App_State $appState,
-        Magento_Core_Model_Config_Resource $configResource
+        Magento_Core_Model_Encryption $encryptor,
+        Magento_Reports_Model_Resource_Order_Collection $orderCollection,
+        $dbCompatibleMode = true
     ) {
         $this->_orderCollection = $orderCollection;
         parent::__construct(
@@ -59,7 +57,8 @@ class Magento_Adminhtml_Helper_Dashboard_Order extends Magento_Adminhtml_Helper_
             $locale,
             $dateModel,
             $appState,
-            $configResource
+            $encryptor,
+            $dbCompatibleMode
         );
     }
 

@@ -14,34 +14,41 @@
  */
 class Magento_Pbridge_Model_Payment_Method_Paypal_Pro extends Magento_Paypal_Model_Pro
 {
-
     /**
      * Payment Bridge Payment Method Instance
      *
      * @var Magento_Pbridge_Model_Payment_Method_Pbridge
      */
-    protected $_pbridgeMethodInstance = null;
+    protected $_pbridgeMethodInstance;
 
     /**
      * Paypal pbridge payment method
+     *
      * @var Magento_Pbridge_Model_Payment_Method_Paypal
      */
-    protected $_pbridgePaymentMethod = null;
+    protected $_pbridgePaymentMethod;
 
     /**
      * Payment data
      *
      * @var Magento_Payment_Helper_Data
      */
-    protected $_paymentData = null;
+    protected $_paymentData;
 
     /**
+     * @param Magento_Paypal_Model_Config_Factory $configFactory
+     * @param Magento_Paypal_Model_Api_Type_Factory $apiFactory
+     * @param Magento_Paypal_Model_InfoFactory $infoFactory
      * @param Magento_Payment_Helper_Data $paymentData
      */
     public function __construct(
+        Magento_Paypal_Model_Config_Factory $configFactory,
+        Magento_Paypal_Model_Api_Type_Factory $apiFactory,
+        Magento_Paypal_Model_InfoFactory $infoFactory,
         Magento_Payment_Helper_Data $paymentData
     ) {
         $this->_paymentData = $paymentData;
+        parent::__construct($configFactory, $apiFactory, $infoFactory);
     }
 
     /**
@@ -93,6 +100,7 @@ class Magento_Pbridge_Model_Payment_Method_Paypal_Pro extends Magento_Paypal_Mod
      *
      * @param Magento_Object $payment
      * @param float $amount
+     * @return \Magento_Object|\Magento_Payment_Model_Abstract|void
      */
     public function refund(Magento_Object $payment, $amount)
     {
@@ -112,11 +120,12 @@ class Magento_Pbridge_Model_Payment_Method_Paypal_Pro extends Magento_Paypal_Mod
      * Refund a capture transaction
      *
      * @param Magento_Object $payment
+     * @return \Magento_Payment_Model_Abstract|null
      */
     public function void(Magento_Object $payment)
     {
         $result = $this->getPbridgeMethodInstance()->void($payment);
-        Mage::getModel('Magento_Paypal_Model_Info')->importToPayment(new Magento_Object($result), $payment);
+        $this->_infoFactory->create()->importToPayment(new Magento_Object($result), $payment);
         return $result;
     }
 
@@ -129,7 +138,7 @@ class Magento_Pbridge_Model_Payment_Method_Paypal_Pro extends Magento_Paypal_Mod
     {
         if (!$payment->getOrder()->getInvoiceCollection()->count()) {
             $result = $this->getPbridgeMethodInstance()->void($payment);
-            Mage::getModel('Magento_Paypal_Model_Info')->importToPayment(new Magento_Object($result), $payment);
+            $this->_infoFactory->create()->importToPayment(new Magento_Object($result), $payment);
         }
     }
 }

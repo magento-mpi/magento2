@@ -22,20 +22,7 @@ class Magento_Core_Model_Session_AbstractTest extends PHPUnit_Framework_TestCase
         /** @var Magento_Core_Model_Session_Abstract _model */
         $this->_model = $this->getMockForAbstractClass('Magento_Core_Model_Session_Abstract',
             array(
-                $objectManager->get('Magento_Core_Model_Session_Validator'),
-                $objectManager->get('Magento_Core_Model_Logger'),
-                $objectManager->get('Magento_Core_Model_Event_Manager'),
-                $objectManager->get('Magento_Core_Helper_Http'),
-                $objectManager->get('Magento_Core_Model_Store_Config'),
-                $objectManager->get('Magento_Core_Model_Config'),
-                $objectManager->get('Magento_Core_Model_Message_CollectionFactory'),
-                $objectManager->get('Magento_Core_Model_Message'),
-                $objectManager->get('Magento_Core_Model_Cookie'),
-                $objectManager->get('Magento_Core_Controller_Request_Http'),
-                $objectManager->get('Magento_Core_Model_App_State'),
-                $objectManager->get('Magento_Core_Model_StoreManager'),
-                $objectManager->get('Magento_Core_Model_Dir'),
-                $objectManager->get('Magento_Core_Model_Url_Proxy'),
+                $objectManager->get('Magento_Core_Model_Session_Context')
             ));
     }
 

@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <section name="quote">
+        <group name="totals">
+            <item name="reward" instance="Magento_Reward_Model_Total_Quote_Reward" sort_order="650">
+                <renderer name="frontend" instance="Magento_Reward_Block_Checkout_Total"/>
+            </item>
+        </group>
+    </section>
+    <section name="order_invoice">
+        <group name="totals">
+            <item name="reward" instance="Magento_Reward_Model_Total_Invoice_Reward" sort_order="450"/>
+        </group>
+    </section>
+    <section name="order_creditmemo">
+        <group name="totals">
+            <item name="reward" instance="Magento_Reward_Model_Total_Creditmemo_Reward" sort_order="500"/>
+        </group>
+    </section>
+</config>

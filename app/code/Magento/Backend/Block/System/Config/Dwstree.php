@@ -9,11 +9,7 @@
  */
 
 /**
- * admin customer left menu
- *
- * @category   Magento
- * @package    Magento_Backend
- * @author      Magento Core Team <core@magentocommerce.com>
+ * Admin customer left menu
  */
 class Magento_Backend_Block_System_Config_Dwstree extends Magento_Backend_Block_Widget_Tabs
 {
@@ -25,16 +21,18 @@ class Magento_Backend_Block_System_Config_Dwstree extends Magento_Backend_Block_
     /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Backend_Model_Auth_Session $authSession
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
+        Magento_Backend_Model_Auth_Session $authSession,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         array $data = array()
     ) {
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($coreData, $context, $authSession, $data);
         $this->_storeManager = $storeManager;
     }
 

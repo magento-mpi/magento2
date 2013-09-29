@@ -13,10 +13,17 @@
  */
 class Magento_Paypal_Model_Direct extends Magento_Payment_Model_Method_Cc
 {
+    /**
+     * @var string
+     */
     protected $_code  = Magento_Paypal_Model_Config::METHOD_WPP_DIRECT;
-    protected $_infoBlockType = 'Magento_Paypal_Block_Payment_Info';
 
     /**
+     * @var string
+     */
+    protected $_infoBlockType = 'Magento_Paypal_Block_Payment_Info';
+
+    /**#@+
      * Availability options
      */
     protected $_isGateway               = true;
@@ -32,13 +39,14 @@ class Magento_Paypal_Model_Direct extends Magento_Payment_Model_Method_Cc
     protected $_canSaveCc = false;
     protected $_canFetchTransactionInfo = true;
     protected $_canReviewPayment        = true;
+    /**#@-*/
 
     /**
      * Website Payments Pro instance
      *
      * @var Magento_Paypal_Model_Pro
      */
-    protected $_pro = null;
+    protected $_pro;
 
     /**
      * Website Payments Pro instance type
@@ -48,8 +56,31 @@ class Magento_Paypal_Model_Direct extends Magento_Payment_Model_Method_Cc
     protected $_proType = 'Magento_Paypal_Model_Pro';
 
     /**
-     * Construct
-     *
+     * @var Magento_Paypal_Model_Method_ProTypeFactory
+     */
+    protected $_proTypeFactory;
+
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Core_Model_UrlInterface
+     */
+    protected $_urlBuilder;
+
+    /**
+     * @var Magento_Core_Controller_Request_Http
+     */
+    protected $_requestHttp;
+
+    /**
+     * @var Magento_Paypal_Model_CartFactory
+     */
+    protected $_cartFactory;
+
+    /**
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
@@ -58,7 +89,14 @@ class Magento_Paypal_Model_Direct extends Magento_Payment_Model_Method_Cc
      * @param Magento_Core_Model_Log_AdapterFactory $logAdapterFactory
      * @param Magento_Core_Model_LocaleInterface $locale
      * @param Magento_Centinel_Model_Service $centinelService
+     * @param Magento_Paypal_Model_Method_ProTypeFactory $proTypeFactory
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_UrlInterface $urlBuilder
+     * @param Magento_Core_Controller_Request_Http $requestHttp
+     * @param Magento_Paypal_Model_CartFactory $cartFactory
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Magento_Core_Model_Logger $logger,
@@ -69,15 +107,35 @@ class Magento_Paypal_Model_Direct extends Magento_Payment_Model_Method_Cc
         Magento_Core_Model_Log_AdapterFactory $logAdapterFactory,
         Magento_Core_Model_LocaleInterface $locale,
         Magento_Centinel_Model_Service $centinelService,
+        Magento_Paypal_Model_Method_ProTypeFactory $proTypeFactory,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_UrlInterface $urlBuilder,
+        Magento_Core_Controller_Request_Http $requestHttp,
+        Magento_Paypal_Model_CartFactory $cartFactory,
         array $data = array()
     ) {
-        parent::__construct($logger, $eventManager, $coreStoreConfig, $moduleList, $paymentData, $logAdapterFactory,
-            $locale, $centinelService, $data);
+        parent::__construct(
+            $logger,
+            $eventManager,
+            $coreStoreConfig,
+            $moduleList,
+            $paymentData,
+            $logAdapterFactory,
+            $locale,
+            $centinelService,
+            $data
+        );
+        $this->_proTypeFactory = $proTypeFactory;
+        $this->_storeManager = $storeManager;
+        $this->_urlBuilder = $urlBuilder;
+        $this->_requestHttp = $requestHttp;
+        $this->_cartFactory = $cartFactory;
+
         $proInstance = array_shift($data);
         if ($proInstance && ($proInstance instanceof Magento_Paypal_Model_Pro)) {
             $this->_pro = $proInstance;
         } else {
-            $this->_pro = Mage::getModel($this->_proType);
+            $this->_pro = $this->_proTypeFactory->create($this->_proType);
         }
         $this->_pro->setMethod($this->_code);
     }
@@ -87,12 +145,13 @@ class Magento_Paypal_Model_Direct extends Magento_Payment_Model_Method_Cc
      * Also updates store ID in config object
      *
      * @param Magento_Core_Model_Store|int $store
+     * @return $this
      */
     public function setStore($store)
     {
         $this->setData('store', $store);
         if (null === $store) {
-            $store = Mage::app()->getStore()->getId();
+            $store = $this->_storeManager->getStore()->getId();
         }
         $this->_pro->getConfig()->setStoreId(is_object($store) ? $store->getId() : $store);
         return $this;
@@ -175,7 +234,8 @@ class Magento_Paypal_Model_Direct extends Magento_Payment_Model_Method_Cc
     /**
      * Authorize payment
      *
-     * @param Magento_Sales_Model_Order_Payment $payment
+     * @param \Magento_Object|\Magento_Sales_Model_Order_Payment $payment
+     * @param float $amount
      * @return Magento_Paypal_Model_Direct
      */
     public function authorize(Magento_Object $payment, $amount)
@@ -186,7 +246,7 @@ class Magento_Paypal_Model_Direct extends Magento_Payment_Model_Method_Cc
     /**
      * Void payment
      *
-     * @param Magento_Sales_Model_Order_Payment $payment
+     * @param \Magento_Object|\Magento_Sales_Model_Order_Payment $payment
      * @return Magento_Paypal_Model_Direct
      */
     public function void(Magento_Object $payment)
@@ -198,7 +258,8 @@ class Magento_Paypal_Model_Direct extends Magento_Payment_Model_Method_Cc
     /**
      * Capture payment
      *
-     * @param Magento_Sales_Model_Order_Payment $payment
+     * @param \Magento_Object|\Magento_Sales_Model_Order_Payment $payment
+     * @param float $amount
      * @return Magento_Paypal_Model_Direct
      */
     public function capture(Magento_Object $payment, $amount)
@@ -212,7 +273,8 @@ class Magento_Paypal_Model_Direct extends Magento_Payment_Model_Method_Cc
     /**
      * Refund capture
      *
-     * @param Magento_Sales_Model_Order_Payment $payment
+     * @param \Magento_Object|\Magento_Sales_Model_Order_Payment $payment
+     * @param float $amount
      * @return Magento_Paypal_Model_Direct
      */
     public function refund(Magento_Object $payment, $amount)
@@ -224,7 +286,7 @@ class Magento_Paypal_Model_Direct extends Magento_Payment_Model_Method_Cc
     /**
      * Cancel payment
      *
-     * @param Magento_Sales_Model_Order_Payment $payment
+     * @param \Magento_Object|\Magento_Sales_Model_Order_Payment $payment
      * @return Magento_Paypal_Model_Direct
      */
     public function cancel(Magento_Object $payment)
@@ -237,7 +299,7 @@ class Magento_Paypal_Model_Direct extends Magento_Payment_Model_Method_Cc
     /**
      * Whether payment can be reviewed
      *
-     * @param Magento_Sales_Model_Order_Payment $payment
+     * @param \Magento_Payment_Model_Info|\Magento_Sales_Model_Order_Payment $payment
      * @return bool
      */
     public function canReviewPayment(Magento_Payment_Model_Info $payment)
@@ -248,7 +310,7 @@ class Magento_Paypal_Model_Direct extends Magento_Payment_Model_Method_Cc
     /**
      * Attempt to accept a pending payment
      *
-     * @param Magento_Sales_Model_Order_Payment $payment
+     * @param \Magento_Payment_Model_Info|\Magento_Sales_Model_Order_Payment $payment
      * @return bool
      */
     public function acceptPayment(Magento_Payment_Model_Info $payment)
@@ -260,7 +322,7 @@ class Magento_Paypal_Model_Direct extends Magento_Payment_Model_Method_Cc
     /**
      * Attempt to deny a pending payment
      *
-     * @param Magento_Sales_Model_Order_Payment $payment
+     * @param \Magento_Payment_Model_Info|\Magento_Sales_Model_Order_Payment $payment
      * @return bool
      */
     public function denyPayment(Magento_Payment_Model_Info $payment)
@@ -307,20 +369,20 @@ class Magento_Paypal_Model_Direct extends Magento_Payment_Model_Method_Cc
         $order = $payment->getOrder();
         $api = $this->_pro->getApi()
             ->setPaymentAction($this->_pro->getConfig()->paymentAction)
-            ->setIpAddress(Mage::app()->getRequest()->getClientIp(false))
+            ->setIpAddress($this->_requestHttp->getClientIp(false))
             ->setAmount($amount)
             ->setCurrencyCode($order->getBaseCurrencyCode())
             ->setInvNum($order->getIncrementId())
             ->setEmail($order->getCustomerEmail())
-            ->setNotifyUrl(Mage::getUrl('paypal/ipn/'))
+            ->setNotifyUrl($this->_urlBuilder->getUrl('paypal/ipn/'))
             ->setCreditCardType($payment->getCcType())
             ->setCreditCardNumber($payment->getCcNumber())
             ->setCreditCardExpirationDate(
                 $this->_getFormattedCcExpirationDate($payment->getCcExpMonth(), $payment->getCcExpYear())
             )
             ->setCreditCardCvv2($payment->getCcCid())
-            ->setMaestroSoloIssueNumber($payment->getCcSsIssue())
-        ;
+            ->setMaestroSoloIssueNumber($payment->getCcSsIssue());
+
         if ($payment->getCcSsStartMonth() && $payment->getCcSsStartYear()) {
             $year = sprintf('%02d', substr($payment->getCcSsStartYear(), -2, 2));
             $api->setMaestroSoloIssueDate(
@@ -341,9 +403,8 @@ class Magento_Paypal_Model_Direct extends Magento_Payment_Model_Method_Cc
 
         // add line items
         $parameters = array('params' => array($order));
-        $api->setPaypalCart(Mage::getModel('Magento_Paypal_Model_Cart', $parameters))
-            ->setIsLineItemsEnabled($this->_pro->getConfig()->lineItemsEnabled)
-        ;
+        $api->setPaypalCart($this->_cartFactory->create($parameters))
+            ->setIsLineItemsEnabled($this->_pro->getConfig()->lineItemsEnabled);
 
         // call api and import transaction and other payment information
         $api->callDoDirectPayment();

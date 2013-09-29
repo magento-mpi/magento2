@@ -3,14 +3,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GoogleShopping
  * @copyright   {copyright}
  * @license     {license_link}
  */
 -->
 <config>
-    <virtualType name="Magento_GoogleShopping_Model_Resource_Helper" type="Magento_Core_Model_Resource_Helper_Mysql4">
+    <virtualType name="Magento_GoogleShopping_Model_Resource_Helper" type="Magento_Core_Model_Resource_Helper">
         <param name="modulePrefix">
             <value>Core</value>
         </param>
@@ -18,6 +16,13 @@
     <type name="Magento_GoogleShopping_Model_Resource_Item_Collection">
         <param name="resourceHelper">
             <instance type="Magento_GoogleShopping_Model_Resource_Helper" />
+        </param>
+    </type>
+    <type name="Magento_Core_Model_Db_Updater">
+        <param name="resourceList">
+            <value>
+                <googleshopping_setup>Magento_GoogleShopping_Model_Resource_Setup</googleshopping_setup>
+            </value>
         </param>
     </type>
 </config>

@@ -8,13 +8,8 @@
  * @license     {license_link}
  */
 
-
 /**
  * Cms page revision collection
- *
- * @category    Magento
- * @package     Magento_VersionsCms
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_VersionsCms_Model_Resource_Page_Revision_Collection
     extends Magento_VersionsCms_Model_Resource_Page_Collection_Abstract

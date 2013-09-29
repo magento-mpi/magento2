@@ -34,7 +34,7 @@ abstract class Magento_Wishlist_Controller_Abstract extends Magento_Core_Control
     {
         if (!$this->_localFilter) {
             $this->_localFilter = new Zend_Filter_LocalizedToNormalized(
-                array('locale' => Mage::app()->getLocale()->getLocaleCode())
+                array('locale' => $this->_objectManager->get('Magento_Core_Model_LocaleInterface')->getLocaleCode())
             );
         }
         $qty = $this->_localFilter->filter((float)$qty);
@@ -62,14 +62,14 @@ abstract class Magento_Wishlist_Controller_Abstract extends Magento_Core_Control
             $this->_forward('noRoute');
             return ;
         }
-        $isOwner    = $wishlist->isOwner(Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId());
+        $isOwner    = $wishlist->isOwner($this->_objectManager->get('Magento_Customer_Model_Session')->getCustomerId());
 
         $messages   = array();
         $addedItems = array();
         $notSalable = array();
         $hasOptions = array();
 
-        $cart       = Mage::getSingleton('Magento_Checkout_Model_Cart');
+        $cart       = $this->_objectManager->get('Magento_Checkout_Model_Cart');
         $collection = $wishlist->getItemCollection()
                 ->setVisibilityFilter();
 
@@ -110,7 +110,8 @@ abstract class Magento_Wishlist_Controller_Abstract extends Magento_Core_Control
         if ($isOwner) {
             $indexUrl = $this->_objectManager->get('Magento_Wishlist_Helper_Data')->getListUrl($wishlist->getId());
         } else {
-            $indexUrl = Mage::getUrl('wishlist/shared', array('code' => $wishlist->getSharingCode()));
+            $indexUrl = $this->_objectManager->create('Magento_Core_Model_Url')
+                ->getUrl('wishlist/shared', array('code' => $wishlist->getSharingCode()));
         }
         if ($this->_objectManager->get('Magento_Checkout_Helper_Cart')->getShouldRedirectToCart()) {
             $redirectUrl = $this->_objectManager->get('Magento_Checkout_Helper_Cart')->getCartUrl();
@@ -145,7 +146,7 @@ abstract class Magento_Wishlist_Controller_Abstract extends Magento_Core_Control
                 }
                 $redirectUrl = $item->getProductUrl();
             } else {
-                $wishlistSession = Mage::getSingleton('Magento_Wishlist_Model_Session');
+                $wishlistSession = $this->_objectManager->get('Magento_Wishlist_Model_Session');
                 foreach ($messages as $message) {
                     $wishlistSession->addError($message);
                 }
@@ -159,7 +160,8 @@ abstract class Magento_Wishlist_Controller_Abstract extends Magento_Core_Control
                 $wishlist->save();
             }
             catch (Exception $e) {
-                Mage::getSingleton('Magento_Wishlist_Model_Session')->addError(__('We can\'t update wish list.'));
+                $this->_objectManager->get('Magento_Wishlist_Model_Session')
+                    ->addError(__('We can\'t update wish list.'));
                 $redirectUrl = $indexUrl;
             }
 
@@ -168,7 +170,7 @@ abstract class Magento_Wishlist_Controller_Abstract extends Magento_Core_Control
                 $products[] = '"' . $product->getName() . '"';
             }
 
-            Mage::getSingleton('Magento_Checkout_Model_Session')->addSuccess(
+            $this->_objectManager->get('Magento_Checkout_Model_Session')->addSuccess(
                 __('%1 product(s) have been added to shopping cart: %2.', count($addedItems), join(', ', $products))
             );
         }

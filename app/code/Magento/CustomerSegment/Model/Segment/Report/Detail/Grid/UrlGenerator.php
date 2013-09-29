@@ -16,12 +16,15 @@ class Magento_CustomerSegment_Model_Segment_Report_Detail_Grid_UrlGenerator
     protected $_registryManager;
 
     /**
+     * @param Magento_Backend_Model_UrlProxy $backendUrl
      * @param Magento_Core_Model_Registry $registry
      */
-    public function __construct(Magento_Core_Model_Registry $registry)
-    {
+    public function __construct(
+        Magento_Backend_Model_UrlProxy $backendUrl,
+        Magento_Core_Model_Registry $registry
+    ) {
         $this->_registryManager = $registry;
-        parent::__construct();
+        parent::__construct($backendUrl);
     }
 
     /**

@@ -269,7 +269,6 @@ class Magento_Test_Legacy_LayoutTest extends PHPUnit_Framework_TestCase
             'setPageTitle',
             'setParentType',
             'setPaypalActionPrefix',
-            'setPollTemplate',
             'setPosition',
             'setPositioned',
             'setRewardMessage',

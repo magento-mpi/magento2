@@ -11,6 +11,35 @@
 class Magento_Backend_Block_System_Config_Switcher extends Magento_Backend_Block_Template
 {
     /**
+     * @var Magento_Core_Model_System_Store
+     */
+    protected $_systemStore;
+
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_System_Store $systemStore
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_System_Store $systemStore,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        array $data = array()
+    ) {
+        $this->_systemStore = $systemStore;
+        $this->_storeManager = $storeManager;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * @return Magento_Core_Block_Abstract
      */
     protected function _prepareLayout()
@@ -30,9 +59,6 @@ class Magento_Backend_Block_System_Config_Switcher extends Magento_Backend_Block
         $curWebsite = $this->getRequest()->getParam('website');
         $curStore   = $this->getRequest()->getParam('store');
 
-        $storeModel = Mage::getSingleton('Magento_Core_Model_System_Store');
-        /* @var $storeModel Magento_Core_Model_System_Store */
-
         $options = array();
         $options['default'] = array(
             'label'    => __('Default Config'),
@@ -41,8 +67,10 @@ class Magento_Backend_Block_System_Config_Switcher extends Magento_Backend_Block
             'style'    => 'background:#ccc; font-weight:bold;',
         );
 
-        foreach ($storeModel->getWebsiteCollection() as $website) {
-            $options = $this->_processWebsite($storeModel, $website, $section, $curStore, $curWebsite, $options);
+        foreach ($this->_systemStore->getWebsiteCollection() as $website) {
+            $options = $this->_processWebsite(
+                $this->_systemStore, $website, $section, $curStore, $curWebsite, $options
+            );
         }
 
         return $options;
@@ -123,7 +151,9 @@ class Magento_Backend_Block_System_Config_Switcher extends Magento_Backend_Block
      */
     public function getHintHtml()
     {
-        return Mage::getBlockSingleton('Magento_Backend_Block_Store_Switcher')->getHintHtml();
+        /** @var $storeSwitcher Magento_Backend_Block_Store_Switcher */
+        $storeSwitcher = $this->_layout->getBlockSingleton('Magento_Backend_Block_Store_Switcher');
+        return $storeSwitcher->getHintHtml();
     }
 
     /**
@@ -133,7 +163,7 @@ class Magento_Backend_Block_System_Config_Switcher extends Magento_Backend_Block
      */
     protected function _toHtml()
     {
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!$this->_storeManager->isSingleStoreMode()) {
             return parent::_toHtml();
         }
         return '';

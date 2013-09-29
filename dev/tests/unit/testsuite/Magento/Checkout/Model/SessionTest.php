@@ -26,38 +26,26 @@ class Magento_Checkout_Model_SessionTest extends PHPUnit_Framework_TestCase
         $orderFactory->expects($this->once())
             ->method('create')
             ->will($this->returnValue($orderMock));
-        $coreHttp = $this->getMock('Magento_Core_Helper_Http', array(), array(), '', false);
 
-        $eventManager = $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false);
-        $logger = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
+        $messageCollFactory = $this->getMockBuilder('Magento_Core_Model_Message_CollectionFactory')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $quoteFactory = $this->getMockBuilder('Magento_Sales_Model_QuoteFactory')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-        $validatorMock = $this->getMock('Magento_Core_Model_Session_Validator', array(), array(), '', false);
-
-        $coreStoreConfig = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false);
-        $coreConfig = $this->getMock('Magento_Core_Model_Config', array(), array(), '', false);
-        /** @var Magento_Checkout_Model_Session $session */
-        $session = $this->getMock(
+        $objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
+        $constructArguments = $objectManager->getConstructArguments(
             'Magento_Checkout_Model_Session',
-            array('init'),
             array(
-                $orderFactory,
-                $validatorMock,
-                $logger,
-                $eventManager,
-                $coreHttp,
-                $coreStoreConfig,
-                $coreConfig,
-                $this->getMock('Magento_Core_Model_Message_CollectionFactory', array(), array(), '', false),
-                $this->getMock('Magento_Core_Model_Message', array(), array(), '', false),
-                $this->getMock('Magento_Core_Model_Cookie', array(), array(), '', false),
-                $this->getMock('Magento_Core_Controller_Request_Http', array(), array(), '', false),
-                $this->getMock('Magento_Core_Model_App_State', array(), array(), '', false),
-                $this->getMock('Magento_Core_Model_StoreManager', array(), array(), '', false),
-                $this->getMock('Magento_Core_Model_Dir', array(), array(), '', false),
-                $this->getMock('Magento_Core_Model_Url', array(), array(), '', false),
-            ),
-            ''
+                 'context' => $this->getMock('Magento_Core_Model_Session_Context', array(), array(), '', false),
+                 'orderFactory' => $orderFactory,
+                 'messageCollFactory' => $messageCollFactory,
+                 'quoteFactory' => $quoteFactory,
+            )
         );
+        /** @var Magento_Checkout_Model_Session $session */
+        $session = $this->getMock('Magento_Checkout_Model_Session', array('init'), $constructArguments);
         $session->setLastRealOrderId($orderId);
 
         $this->assertSame($orderMock, $session->getLastRealOrder());

@@ -93,6 +93,9 @@ class Magento_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCa
      */
     public function testGetLayout($controllerClass, $expectedArea)
     {
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App')
+            ->loadArea($expectedArea);
+
         $this->_objectManager->get('Magento_Core_Model_Config_Scope')->setCurrentScope($expectedArea);
         /** @var $controller Magento_Core_Controller_Varien_Action */
         $controller = $this->_objectManager->create($controllerClass);

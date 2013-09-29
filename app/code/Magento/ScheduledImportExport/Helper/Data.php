@@ -32,39 +32,50 @@ class Magento_ScheduledImportExport_Helper_Data extends Magento_ImportExport_Hel
     protected $_customerBalanceData = null;
 
     /**
-     * @param Magento_CustomerBalance_Helper_Data $customerBalanceData
-     * @param Magento_Reward_Helper_Data $rewardData
+     * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Helper_Http $coreHttp
-     * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Config $config
-     * @param Magento_File_Size $fileSize
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_StoreManager $storeManager
      * @param Magento_Core_Model_Locale $locale
      * @param Magento_Core_Model_Date $dateModel
      * @param Magento_Core_Model_App_State $appState
-     * @param Magento_Core_Model_Config_Resource $configResource
+     * @param Magento_Core_Model_Encryption $encryptor
+     * @param Magento_CustomerBalance_Helper_Data $customerBalanceData
+     * @param Magento_Reward_Helper_Data $rewardData
+     * @param bool $dbCompatibleMode
      */
     public function __construct(
-        Magento_CustomerBalance_Helper_Data $customerBalanceData,
-        Magento_Reward_Helper_Data $rewardData,
+        Magento_Core_Helper_Context $context,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Helper_Http $coreHttp,
-        Magento_Core_Helper_Context $context,
         Magento_Core_Model_Config $config,
-        Magento_File_Size $fileSize,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_StoreManager $storeManager,
         Magento_Core_Model_Locale $locale,
         Magento_Core_Model_Date $dateModel,
         Magento_Core_Model_App_State $appState,
-        Magento_Core_Model_Config_Resource $configResource
+        Magento_Core_Model_Encryption $encryptor,
+        Magento_CustomerBalance_Helper_Data $customerBalanceData,
+        Magento_Reward_Helper_Data $rewardData,
+        $dbCompatibleMode = true
     ) {
         $this->_customerBalanceData = $customerBalanceData;
         $this->_rewardData = $rewardData;
-        parent::__construct($eventManager, $coreHttp, $context, $config, $coreStoreConfig, $storeManager, $locale,
-            $dateModel, $appState, $configResource, $fileSize);
+        parent::__construct(
+            $eventManager,
+            $coreHttp,
+            $context,
+            $config,
+            $coreStoreConfig,
+            $storeManager,
+            $locale,
+            $dateModel,
+            $appState,
+            $encryptor,
+            $dbCompatibleMode
+        );
     }
 
     /**

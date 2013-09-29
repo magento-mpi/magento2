@@ -99,6 +99,7 @@ class Magento_Review_Controller_Product extends Magento_Core_Controller_Front_Ac
      * @param Magento_Rating_Model_RatingFactory $ratingFactory
      * @param Magento_Core_Model_Session $session
      * @param Magento_Catalog_Model_Design $catalogDesign
+     * @param Magento_Core_Model_Session_Generic $reviewSession
      */
     public function __construct(
         Magento_Core_Controller_Varien_Action_Context $context,
@@ -112,13 +113,13 @@ class Magento_Review_Controller_Product extends Magento_Core_Controller_Front_Ac
         Magento_Review_Model_ReviewFactory $reviewFactory,
         Magento_Rating_Model_RatingFactory $ratingFactory,
         Magento_Core_Model_Session $session,
-        Magento_Catalog_Model_Design $catalogDesign
+        Magento_Catalog_Model_Design $catalogDesign,
+        Magento_Core_Model_Session_Generic $reviewSession
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_customerSession = $customerSession;
         $this->_urlModel = $urlModel;
-        /** @todo Should be fixed in scope of MAGETWO-14639 */
-        $this->_reviewSession = Magento_Core_Model_ObjectManager::getInstance()->get('Magento_Review_Model_Session');
+        $this->_reviewSession = $reviewSession;
         $this->_storeManager = $storeManager;
         $this->_categoryFactory = $categoryFactory;
         $this->_logger = $logger;

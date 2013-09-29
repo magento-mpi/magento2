@@ -1,3 +1,15 @@
+* Removed the Poll module including references and dependencies to/on it.
+* Removed from configuration XML files and implemented into di the following nodes:
+  * Skip_process_modules_updates
+  * external_cache
+  * ignoredModules
+  * migration
+  * helpers
+* Altered format of `giftregistry.xml` and added `giftregistry.xsd` to allow for validation of XML files.
+* Vde segment was moved from config.xml to di.xml
+* Covered XSDs with unit tests;
+* Removed config/global/resources and config/global/resource nodes from config.xml files;
+* Removed empty module setup models. Core resource setup model is used as a default setup model now;
 * Configuration improvements:
   * Introduced scoped configuration model - Magento_Config_Data_Scoped and non-scoped one - Magento_Config_Data;
   * Import/Export configuration was moved from config.xml to import.xml and export.xml files with new format;
@@ -140,6 +152,7 @@
   * Eliminated Mage:: static methods in Magento_Usa
   * Eliminated Mage:: static methods in Magento_ProductAlert
   * Eliminated Mage:: static methods in Magento_Directory
+  * Eliminated Mage:: static methods in Magento_Paygate
   * Eliminated Mage:: static methods in Magento_SalesRule
   * Eliminated Mage:: static methods in Magento_Sales
   * Eliminated Mage:: static methods in Magento_Rule
@@ -298,9 +311,6 @@
      * Improved UI for working with webhooks in Magento backend
      * Improved test coverage
   * Removed support of callbacks from the framework
-  * Removed "translate" node from configuration XML files
-  * Added I18n tools for translation dictionary generation and language package generation
-  * Eliminated Mage::helper and Mage::dispatchEvent in code
 * GitHub requests:
   * [#71](https://github.com/magento/magento2/pull/71) -- Add event prefix for Cms blocks
   * [#108](https://github.com/magento/magento2/pull/108) -- Fix issue with `PHP_VERSION` on Ubuntu servers

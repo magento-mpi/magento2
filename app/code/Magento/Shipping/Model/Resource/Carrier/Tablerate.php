@@ -90,22 +90,55 @@ class Magento_Shipping_Model_Resource_Carrier_Tablerate extends Magento_Core_Mod
      * @var Magento_Core_Model_Logger
      */
     protected $_logger;
-    
+
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Shipping_Model_Carrier_Tablerate
+     */
+    protected $_carrierTablerate;
+
+    /**
+     * @var Magento_Directory_Model_Resource_Country_CollectionFactory
+     */
+    protected $_countryCollFactory;
+
+    /**
+     * @var Magento_Directory_Model_Resource_Region_CollectionFactory
+     */
+    protected $_regionCollFactory;
+
+
     /**
      * Class constructor
      *
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Model_Resource $resource
      * @param Magento_Core_Model_Config $coreConfig
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Shipping_Model_Carrier_Tablerate $carrierTablerate
+     * @param Magento_Directory_Model_Resource_Country_CollectionFactory $countryCollFactory
+     * @param Magento_Directory_Model_Resource_Region_CollectionFactory $regionCollFactory
      */
     public function __construct(
         Magento_Core_Model_Logger $logger,
         Magento_Core_Model_Resource $resource,
-        Magento_Core_Model_Config $coreConfig
+        Magento_Core_Model_Config $coreConfig,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Shipping_Model_Carrier_Tablerate $carrierTablerate,
+        Magento_Directory_Model_Resource_Country_CollectionFactory $countryCollFactory,
+        Magento_Directory_Model_Resource_Region_CollectionFactory $regionCollFactory
     ) {
         parent::__construct($resource);
         $this->_coreConfig = $coreConfig;
         $this->_logger = $logger;
+        $this->_storeManager = $storeManager;
+        $this->_carrierTablerate = $carrierTablerate;
+        $this->_countryCollFactory = $countryCollFactory;
+        $this->_regionCollFactory = $regionCollFactory;
     }
 
     /**
@@ -122,7 +155,7 @@ class Magento_Shipping_Model_Resource_Carrier_Tablerate extends Magento_Core_Mod
      * Return table rate array or false by rate request
      *
      * @param Magento_Shipping_Model_Rate_Request $request
-     * @return array|boolean
+     * @return array|bool
      */
     public function getRate(Magento_Shipping_Model_Rate_Request $request)
     {
@@ -202,7 +235,7 @@ class Magento_Shipping_Model_Resource_Carrier_Tablerate extends Magento_Core_Mod
         }
 
         $csvFile = $_FILES['groups']['tmp_name']['tablerate']['fields']['import']['value'];
-        $website = Mage::app()->getWebsite($object->getScopeId());
+        $website = $this->_storeManager->getWebsite($object->getScopeId());
 
         $this->_importWebsiteId     = (int)$website->getId();
         $this->_importUniqueHash    = array();
@@ -218,7 +251,7 @@ class Magento_Shipping_Model_Resource_Carrier_Tablerate extends Magento_Core_Mod
         $headers = $io->streamReadCsv();
         if ($headers === false || count($headers) < 5) {
             $io->streamClose();
-            Mage::throwException(__('Please correct Table Rates File Format.'));
+            throw new Magento_Core_Exception(__('Please correct Table Rates File Format.'));
         }
 
         if ($object->getData('groups/tablerate/fields/condition_name/inherit') == '1') {
@@ -267,19 +300,19 @@ class Magento_Shipping_Model_Resource_Carrier_Tablerate extends Magento_Core_Mod
         } catch (Magento_Core_Exception $e) {
             $adapter->rollback();
             $io->streamClose();
-            Mage::throwException($e->getMessage());
+            throw new Magento_Core_Exception($e->getMessage());
         } catch (Exception $e) {
             $adapter->rollback();
             $io->streamClose();
             $this->_logger->logException($e);
-            Mage::throwException(__('Something went wrong while importing table rates.'));
+            throw new Magento_Core_Exception(__('Something went wrong while importing table rates.'));
         }
 
         $adapter->commit();
 
         if ($this->_importErrors) {
             $error = __('We couldn\'t import this file because of these errors: %1', implode(" \n", $this->_importErrors));
-            Mage::throwException($error);
+            throw new Magento_Core_Exception($error);
         }
 
         return $this;
@@ -300,7 +333,7 @@ class Magento_Shipping_Model_Resource_Carrier_Tablerate extends Magento_Core_Mod
         $this->_importIso3Countries = array();
 
         /** @var $collection Magento_Directory_Model_Resource_Country_Collection */
-        $collection = Mage::getResourceModel('Magento_Directory_Model_Resource_Country_Collection');
+        $collection = $this->_countryCollFactory->create();
         foreach ($collection->getData() as $row) {
             $this->_importIso2Countries[$row['iso2_code']] = $row['country_id'];
             $this->_importIso3Countries[$row['iso3_code']] = $row['country_id'];
@@ -323,7 +356,7 @@ class Magento_Shipping_Model_Resource_Carrier_Tablerate extends Magento_Core_Mod
         $this->_importRegions = array();
 
         /** @var $collection Magento_Directory_Model_Resource_Region_Collection */
-        $collection = Mage::getResourceModel('Magento_Directory_Model_Resource_Region_Collection');
+        $collection = $this->_regionCollFactory->create();
         foreach ($collection->getData() as $row) {
             $this->_importRegions[$row['country_id']][$row['code']] = (int)$row['region_id'];
         }
@@ -340,7 +373,7 @@ class Magento_Shipping_Model_Resource_Carrier_Tablerate extends Magento_Core_Mod
     protected function _getConditionFullName($conditionName)
     {
         if (!isset($this->_conditionFullNames[$conditionName])) {
-            $name = Mage::getSingleton('Magento_Shipping_Model_Carrier_Tablerate')->getCode('condition_name_short', $conditionName);
+            $name = $this->_carrierTablerate->getCode('condition_name_short', $conditionName);
             $this->_conditionFullNames[$conditionName] = $name;
         }
 

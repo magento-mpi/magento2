@@ -15,14 +15,25 @@ class Magento_Paypal_Model_System_Config_Source_RequireBillingAddress
     implements Magento_Core_Model_Option_ArrayInterface
 {
     /**
+     * @var Magento_Paypal_Model_ConfigFactory
+     */
+    protected $_configFactory;
+
+    /**
+     * @param Magento_Paypal_Model_ConfigFactory $configFactory
+     */
+    public function __construct(Magento_Paypal_Model_ConfigFactory $configFactory)
+    {
+        $this->_configFactory = $configFactory;
+    }
+
+    /**
      * Options getter
      *
      * @return array
      */
     public function toOptionArray()
     {
-        /** @var $configModel Magento_Paypal_Model_Config */
-        $configModel = Mage::getModel('Magento_Paypal_Model_Config');
-        return $configModel->getRequireBillingAddressOptions();
+        return $this->_configFactory->create()->getRequireBillingAddressOptions();
     }
 }

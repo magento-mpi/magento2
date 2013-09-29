@@ -14,6 +14,35 @@
 class Magento_GiftRegistry_Block_Customer_Items extends Magento_Catalog_Block_Product_Abstract
 {
     /**
+     * Gift registry item factory
+     *
+     * @var Magento_GiftRegistry_Model_ItemFactory
+     */
+    protected $itemFactory = null;
+
+    /**
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Tax_Helper_Data $taxData
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_GiftRegistry_Model_ItemFactory $itemFactory
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_Tax_Helper_Data $taxData,
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        Magento_GiftRegistry_Model_ItemFactory $itemFactory,
+        array $data = array()
+    ) {
+        $this->itemFactory = $itemFactory;
+        parent::__construct($coreRegistry, $taxData, $catalogData, $coreData, $context, $data);
+    }
+
+    /**
      * Return gift registry form header
      */
     public function getFormHeader()
@@ -29,8 +58,7 @@ class Magento_GiftRegistry_Block_Customer_Items extends Magento_Catalog_Block_Pr
     public function getItemCollection()
     {
         if (!$this->hasItemCollection()) {
-            $attributes = Mage::getSingleton('Magento_Catalog_Model_Config')->getProductAttributes();
-            $collection = Mage::getModel('Magento_GiftRegistry_Model_Item')->getCollection()
+            $collection = $this->itemFactory->create()->getCollection()
                 ->addRegistryFilter($this->getEntity()->getId());
             $this->setData('item_collection', $collection);
         }

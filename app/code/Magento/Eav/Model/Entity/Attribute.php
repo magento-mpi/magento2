@@ -58,7 +58,7 @@ class Magento_Eav_Model_Entity_Attribute extends Magento_Eav_Model_Entity_Attrib
      * @param Magento_Eav_Model_Config $eavConfig
      * @param Magento_Eav_Model_Entity_TypeFactory $eavTypeFactory
      * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Eav_Model_Resource_Helper_Mysql4 $resourceHelper
+     * @param Magento_Eav_Model_Resource_Helper $resourceHelper
      * @param Magento_Eav_Model_Factory_Helper $factoryHelper
      * @param Magento_Core_Model_LocaleInterface $locale
      * @param Magento_Catalog_Model_ProductFactory $catalogProductFactory
@@ -73,7 +73,7 @@ class Magento_Eav_Model_Entity_Attribute extends Magento_Eav_Model_Entity_Attrib
         Magento_Eav_Model_Config $eavConfig,
         Magento_Eav_Model_Entity_TypeFactory $eavTypeFactory,
         Magento_Core_Model_StoreManager $storeManager,
-        Magento_Eav_Model_Resource_Helper_Mysql4 $resourceHelper,
+        Magento_Eav_Model_Resource_Helper $resourceHelper,
         Magento_Eav_Model_Factory_Helper $factoryHelper,
         Magento_Core_Model_LocaleInterface $locale,
         Magento_Catalog_Model_ProductFactory $catalogProductFactory,

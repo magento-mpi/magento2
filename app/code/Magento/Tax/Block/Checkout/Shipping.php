@@ -10,13 +10,47 @@
 
 /**
  * Subtotal Total Row Renderer
- *
- * @author Magento Core Team <core@magentocommerce.com>
  */
-
 class Magento_Tax_Block_Checkout_Shipping extends Magento_Checkout_Block_Total_Default
 {
+    /**
+     * Template path
+     *
+     * @var string
+     */
     protected $_template = 'checkout/shipping.phtml';
+
+    /**
+     * @var Magento_Tax_Model_Config
+     */
+    protected $_taxConfig;
+
+    /**
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Sales_Model_Config $salesConfig
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Checkout_Model_Session $checkoutSession
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Tax_Model_Config $taxConfig
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        Magento_Sales_Model_Config $salesConfig,
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Checkout_Model_Session $checkoutSession,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Tax_Model_Config $taxConfig,
+        array $data = array()
+    ) {
+        $this->_taxConfig = $taxConfig;
+        parent::__construct($catalogData, $coreData, $context, $salesConfig, $customerSession, $checkoutSession,
+            $storeManager, $data);
+    }
 
     /**
      * Check if we need display shipping include and exclude tax
@@ -25,7 +59,7 @@ class Magento_Tax_Block_Checkout_Shipping extends Magento_Checkout_Block_Total_D
      */
     public function displayBoth()
     {
-        return Mage::getSingleton('Magento_Tax_Model_Config')->displayCartShippingBoth($this->getStore());
+        return $this->_taxConfig->displayCartShippingBoth($this->getStore());
     }
 
     /**
@@ -35,7 +69,7 @@ class Magento_Tax_Block_Checkout_Shipping extends Magento_Checkout_Block_Total_D
      */
     public function displayIncludeTax()
     {
-        return Mage::getSingleton('Magento_Tax_Model_Config')->displayCartShippingInclTax($this->getStore());
+        return $this->_taxConfig->displayCartShippingInclTax($this->getStore());
     }
 
     /**

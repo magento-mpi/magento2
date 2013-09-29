@@ -19,4 +19,11 @@
             <instance type="Magento_Authorization_Proxy" />
         </param>
     </type>
+    <type name="Magento_Core_Model_Db_Updater">
+        <param name="resourceList">
+            <value>
+                <versionscms_setup>Magento_VersionsCms_Model_Resource_Setup</versionscms_setup>
+            </value>
+        </param>
+    </type>
 </config>

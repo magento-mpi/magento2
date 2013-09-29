@@ -10,10 +10,6 @@
 
 /**
  * HSS iframe block
- *
- * @category   Magento
- * @package    Magento_Paypal
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Paypal_Block_Iframe extends Magento_Payment_Block_Form
 {
@@ -45,12 +41,42 @@ class Magento_Paypal_Block_Iframe extends Magento_Payment_Block_Form
      */
     protected $_block;
 
-
+    /**
+     * @var string
+     */
     protected $_template = 'hss/js.phtml';
 
     /**
+     * @var Magento_Sales_Model_OrderFactory
+     */
+    protected $_orderFactory;
+
+    /**
+     * @var Magento_Checkout_Model_Session
+     */
+    protected $_checkoutSession;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Sales_Model_OrderFactory $orderFactory
+     * @param Magento_Checkout_Model_Session $checkoutSession
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        Magento_Sales_Model_OrderFactory $orderFactory,
+        Magento_Checkout_Model_Session $checkoutSession,
+        array $data = array()
+    ) {
+        $this->_orderFactory = $orderFactory;
+        $this->_checkoutSession = $checkoutSession;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Internal constructor
-     *
      */
     protected function _construct()
     {
@@ -75,6 +101,7 @@ class Magento_Paypal_Block_Iframe extends Magento_Payment_Block_Form
      * Get current block instance
      *
      * @return Magento_Paypal_Block_Iframe
+     * @throws Magento_Core_Exception
      */
     protected function _getBlock()
     {
@@ -84,7 +111,7 @@ class Magento_Paypal_Block_Iframe extends Magento_Payment_Block_Form
                     . str_replace(' ', '_', ucwords(str_replace('_', ' ', $this->_paymentMethodCode)))
                     . '_Iframe');
             if (!$this->_block instanceof Magento_Paypal_Block_Iframe) {
-                Mage::throwException('Invalid block type');
+                throw new Magento_Core_Exception('Invalid block type');
             }
         }
 
@@ -100,8 +127,7 @@ class Magento_Paypal_Block_Iframe extends Magento_Payment_Block_Form
     {
         if (!$this->_order) {
             $incrementId = $this->_getCheckout()->getLastRealOrderId();
-            $this->_order = Mage::getModel('Magento_Sales_Model_Order')
-                ->loadByIncrementId($incrementId);
+            $this->_order = $this->_orderFactory->create()->loadByIncrementId($incrementId);
         }
         return $this->_order;
     }
@@ -113,7 +139,7 @@ class Magento_Paypal_Block_Iframe extends Magento_Payment_Block_Form
      */
     protected function _getCheckout()
     {
-        return Mage::getSingleton('Magento_Checkout_Model_Session');
+        return $this->_checkoutSession;
     }
 
     /**
@@ -123,9 +149,10 @@ class Magento_Paypal_Block_Iframe extends Magento_Payment_Block_Form
      */
     protected function _beforeToHtml()
     {
-        if ($this->_getOrder()->getId() &&
-            $this->_getOrder()->getQuoteId() == $this->_getCheckout()->getLastQuoteId() &&
-            $this->_paymentMethodCode) {
+        if ($this->_getOrder()->getId()
+            && $this->_getOrder()->getQuoteId() == $this->_getCheckout()->getLastQuoteId()
+            && $this->_paymentMethodCode
+        ) {
             $this->_shouldRender = true;
         }
 
@@ -161,10 +188,11 @@ class Magento_Paypal_Block_Iframe extends Magento_Payment_Block_Form
     protected function _isAfterPaymentSave()
     {
         $quote = $this->_getCheckout()->getQuote();
-        if ($quote->getPayment()->getMethod() == $this->_paymentMethodCode &&
-            $quote->getIsActive() &&
-            $this->getTemplate() &&
-            $this->getRequest()->getActionName() == 'savePayment') {
+        if ($quote->getPayment()->getMethod() == $this->_paymentMethodCode
+            && $quote->getIsActive()
+            && $this->getTemplate()
+            && $this->getRequest()->getActionName() == 'savePayment'
+        ) {
             return true;
         }
 

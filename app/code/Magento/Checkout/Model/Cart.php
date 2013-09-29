@@ -46,17 +46,65 @@ class Magento_Checkout_Model_Cart extends Magento_Object implements Magento_Chec
     protected $_coreStoreConfig;
 
     /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Catalog_Model_ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * @var Magento_Checkout_Model_Resource_Cart
+     */
+    protected $_resourceCart;
+
+    /**
+     * @var Magento_Checkout_Model_Session
+     */
+    protected $_checkoutSession;
+
+    /**
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @var Magento_Core_Model_Message
+     */
+    protected $_message;
+
+    /**
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Catalog_Model_ProductFactory $productFactory
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Checkout_Model_Resource_Cart $resourceCart
+     * @param Magento_Checkout_Model_Session $checkoutSession
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Core_Model_Message $message
      * @param array $data
      */
     public function __construct(
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Catalog_Model_ProductFactory $productFactory,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Checkout_Model_Resource_Cart $resourceCart,
+        Magento_Checkout_Model_Session $checkoutSession,
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Core_Model_Message $message,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
         $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_productFactory = $productFactory;
+        $this->_storeManager = $storeManager;
+        $this->_resourceCart = $resourceCart;
+        $this->_checkoutSession = $checkoutSession;
+        $this->_customerSession = $customerSession;
+        $this->_message = $message;
         parent::__construct($data);
     }
 
@@ -67,7 +115,7 @@ class Magento_Checkout_Model_Cart extends Magento_Object implements Magento_Chec
      */
     protected function _getResource()
     {
-        return Mage::getResourceSingleton('Magento_Checkout_Model_Resource_Cart');
+        return $this->_resourceCart;
     }
 
     /**
@@ -77,7 +125,7 @@ class Magento_Checkout_Model_Cart extends Magento_Object implements Magento_Chec
      */
     public function getCheckoutSession()
     {
-        return Mage::getSingleton('Magento_Checkout_Model_Session');
+        return $this->_checkoutSession;
     }
 
     /**
@@ -87,7 +135,7 @@ class Magento_Checkout_Model_Cart extends Magento_Object implements Magento_Chec
      */
     public function getCustomerSession()
     {
-        return Mage::getSingleton('Magento_Customer_Model_Session');
+        return $this->_customerSession;
     }
 
     /**
@@ -129,7 +177,7 @@ class Magento_Checkout_Model_Cart extends Magento_Object implements Magento_Chec
     public function getQuote()
     {
         if (!$this->hasData('quote')) {
-            $this->setData('quote', $this->getCheckoutSession()->getQuote());
+            $this->setData('quote', $this->_checkoutSession->getQuote());
         }
         return $this->_getData('quote');
     }
@@ -155,9 +203,9 @@ class Magento_Checkout_Model_Cart extends Magento_Object implements Magento_Chec
     {
         $quote = $this->getQuote()->setCheckoutMethod('');
 
-        if ($this->getCheckoutSession()->getCheckoutState() !== Magento_Checkout_Model_Session::CHECKOUT_STATE_BEGIN) {
+        if ($this->_checkoutSession->getCheckoutState() !== Magento_Checkout_Model_Session::CHECKOUT_STATE_BEGIN) {
             $quote->removeAllAddresses()->removePayment();
-            $this->getCheckoutSession()->resetCheckout();
+            $this->_checkoutSession->resetCheckout();
         }
 
         if (!$quote->hasItems()) {
@@ -179,8 +227,8 @@ class Magento_Checkout_Model_Cart extends Magento_Object implements Magento_Chec
     {
         /* @var $orderItem Magento_Sales_Model_Order_Item */
         if (is_null($orderItem->getParentItem())) {
-            $product = Mage::getModel('Magento_Catalog_Model_Product')
-                ->setStoreId(Mage::app()->getStore()->getId())
+            $product = $this->_productFactory->create()
+                ->setStoreId($this->_storeManager->getStore()->getId())
                 ->load($orderItem->getProductId());
             if (!$product->getId()) {
                 return $this;
@@ -204,6 +252,7 @@ class Magento_Checkout_Model_Cart extends Magento_Object implements Magento_Chec
      *
      * @param   mixed $productInfo
      * @return  Magento_Catalog_Model_Product
+     * @throws Magento_Core_Exception
      */
     protected function _getProduct($productInfo)
     {
@@ -211,17 +260,17 @@ class Magento_Checkout_Model_Cart extends Magento_Object implements Magento_Chec
         if ($productInfo instanceof Magento_Catalog_Model_Product) {
             $product = $productInfo;
         } elseif (is_int($productInfo) || is_string($productInfo)) {
-            $product = Mage::getModel('Magento_Catalog_Model_Product')
-                ->setStoreId(Mage::app()->getStore()->getId())
+            $product = $this->_productFactory->create()
+                ->setStoreId($this->_storeManager->getStore()->getId())
                 ->load($productInfo);
         }
-        $currentWebsiteId = Mage::app()->getStore()->getWebsiteId();
+        $currentWebsiteId = $this->_storeManager->getStore()->getWebsiteId();
         if (!$product
             || !$product->getId()
             || !is_array($product->getWebsiteIds())
             || !in_array($currentWebsiteId, $product->getWebsiteIds())
         ) {
-            Mage::throwException(__('We can\'t find the product.'));
+            throw new Magento_Core_Exception(__('We can\'t find the product.'));
         }
         return $product;
     }
@@ -252,9 +301,10 @@ class Magento_Checkout_Model_Cart extends Magento_Object implements Magento_Chec
     /**
      * Add product to shopping cart (quote)
      *
-     * @param   int|Magento_Catalog_Model_Product $productInfo
-     * @param   mixed $requestInfo
-     * @return  Magento_Checkout_Model_Cart
+     * @param int|Magento_Catalog_Model_Product $productInfo
+     * @param mixed $requestInfo
+     * @return Magento_Checkout_Model_Cart
+     * @throws Magento_Core_Exception
      */
     public function addProduct($productInfo, $requestInfo=null)
     {
@@ -277,7 +327,7 @@ class Magento_Checkout_Model_Cart extends Magento_Object implements Magento_Chec
             try {
                 $result = $this->getQuote()->addProduct($product, $request);
             } catch (Magento_Core_Exception $e) {
-                $this->getCheckoutSession()->setUseNotice(false);
+                $this->_checkoutSession->setUseNotice(false);
                 $result = $e->getMessage();
             }
             /**
@@ -290,21 +340,21 @@ class Magento_Checkout_Model_Cart extends Magento_Object implements Magento_Chec
                         array('_query' => array('startcustomization' => 1))
                     )
                     : $product->getProductUrl();
-                $this->getCheckoutSession()->setRedirectUrl($redirectUrl);
-                if ($this->getCheckoutSession()->getUseNotice() === null) {
-                    $this->getCheckoutSession()->setUseNotice(true);
+                $this->_checkoutSession->setRedirectUrl($redirectUrl);
+                if ($this->_checkoutSession->getUseNotice() === null) {
+                    $this->_checkoutSession->setUseNotice(true);
                 }
-                Mage::throwException($result);
+                throw new Magento_Core_Exception($result);
             }
         } else {
-            Mage::throwException(__('The product does not exist.'));
+            throw new Magento_Core_Exception(__('The product does not exist.'));
         }
 
         $this->_eventManager->dispatch('checkout_cart_product_add_after', array(
             'quote_item' => $result,
             'product' => $product,
         ));
-        $this->getCheckoutSession()->setLastAddedProductId($productId);
+        $this->_checkoutSession->setLastAddedProductId($productId);
         return $this;
     }
 
@@ -338,12 +388,12 @@ class Magento_Checkout_Model_Cart extends Magento_Object implements Magento_Chec
             }
 
             if (!$allAvailable) {
-                $this->getCheckoutSession()->addError(
+                $this->_checkoutSession->addError(
                     __("We don't have some of the products you want.")
                 );
             }
             if (!$allAdded) {
-                $this->getCheckoutSession()->addError(
+                $this->_checkoutSession->addError(
                     __("We don't have as many of some products as you want.")
                 );
             }
@@ -400,14 +450,13 @@ class Magento_Checkout_Model_Cart extends Magento_Object implements Magento_Chec
      *
      * @param   array $data
      * @return  Magento_Checkout_Model_Cart
+     * @throws Magento_Core_Exception
      */
     public function updateItems($data)
     {
         $this->_eventManager->dispatch('checkout_cart_update_items_before', array('cart'=>$this, 'info'=>$data));
 
-        /* @var $messageFactory Magento_Core_Model_Message */
-        $messageFactory = Mage::getSingleton('Magento_Core_Model_Message');
-        $session = $this->getCheckoutSession();
+        $session = $this->_checkoutSession;
         $qtyRecalculatedFlag = false;
         foreach ($data as $itemId => $itemInfo) {
             $item = $this->getQuote()->getItemById($itemId);
@@ -427,12 +476,12 @@ class Magento_Checkout_Model_Cart extends Magento_Object implements Magento_Chec
                 $itemInQuote = $this->getQuote()->getItemById($item->getId());
 
                 if (!$itemInQuote && $item->getHasError()) {
-                    Mage::throwException($item->getMessage());
+                    throw new Magento_Core_Exception($item->getMessage());
                 }
 
                 if (isset($itemInfo['before_suggest_qty']) && ($itemInfo['before_suggest_qty'] != $qty)) {
                     $qtyRecalculatedFlag = true;
-                    $message = $messageFactory->notice(__('Quantity was recalculated from %1 to %2', $itemInfo['before_suggest_qty'], $qty));
+                    $message = $this->_message->notice(__('Quantity was recalculated from %1 to %2', $itemInfo['before_suggest_qty'], $qty));
                     $session->addQuoteItemMessage($item->getId(), $message);
                 }
             }
@@ -473,7 +522,7 @@ class Magento_Checkout_Model_Cart extends Magento_Object implements Magento_Chec
         $this->getQuote()->getShippingAddress()->setCollectShippingRates(true);
         $this->getQuote()->collectTotals();
         $this->getQuote()->save();
-        $this->getCheckoutSession()->setQuoteId($this->getQuote()->getId());
+        $this->_checkoutSession->setQuoteId($this->getQuote()->getId());
         /**
          * Cart save usually called after changes with cart items.
          */
@@ -500,9 +549,11 @@ class Magento_Checkout_Model_Cart extends Magento_Object implements Magento_Chec
         return $this;
     }
 
+    /**
+     * @return array|null
+     */
     public function getProductIds()
     {
-        $quoteId = Mage::getSingleton('Magento_Checkout_Model_Session')->getQuoteId();
         if (null === $this->_productIds) {
             $this->_productIds = array();
             if ($this->getSummaryQty()>0) {
@@ -522,14 +573,14 @@ class Magento_Checkout_Model_Cart extends Magento_Object implements Magento_Chec
      */
     public function getSummaryQty()
     {
-        $quoteId = Mage::getSingleton('Magento_Checkout_Model_Session')->getQuoteId();
+        $quoteId = $this->_checkoutSession->getQuoteId();
 
         //If there is no quote id in session trying to load quote
         //and get new quote id. This is done for cases when quote was created
         //not by customer (from backend for example).
-        if (!$quoteId && Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()) {
-            $quote = Mage::getSingleton('Magento_Checkout_Model_Session')->getQuote();
-            $quoteId = Mage::getSingleton('Magento_Checkout_Model_Session')->getQuoteId();
+        if (!$quoteId && $this->_customerSession->isLoggedIn()) {
+            $quote = $this->_checkoutSession->getQuote();
+            $quoteId = $this->_checkoutSession->getQuoteId();
         }
 
         if ($quoteId && $this->_summaryQty === null) {
@@ -567,19 +618,20 @@ class Magento_Checkout_Model_Cart extends Magento_Object implements Magento_Chec
      * $requestInfo - either qty (int) or buyRequest in form of array or Magento_Object
      * $updatingParams - information on how to perform update, passed to Quote->updateItem() method
      *
+     * @see Magento_Sales_Model_Quote::updateItem()
+     *
      * @param int $itemId
      * @param int|array|Magento_Object $requestInfo
      * @param null|array|Magento_Object $updatingParams
      * @return Magento_Sales_Model_Quote_Item|string
-     *
-     * @see Magento_Sales_Model_Quote::updateItem()
+     * @throws Magento_Core_Exception
      */
     public function updateItem($itemId, $requestInfo = null, $updatingParams = null)
     {
         try {
             $item = $this->getQuote()->getItemById($itemId);
             if (!$item) {
-                Mage::throwException(__('This quote item does not exist.'));
+                throw new Magento_Core_Exception(__('This quote item does not exist.'));
             }
             $productId = $item->getProduct()->getId();
             $product = $this->_getProduct($productId);
@@ -598,7 +650,7 @@ class Magento_Checkout_Model_Cart extends Magento_Object implements Magento_Chec
 
             $result = $this->getQuote()->updateItem($itemId, $request, $updatingParams);
         } catch (Magento_Core_Exception $e) {
-            $this->getCheckoutSession()->setUseNotice(false);
+            $this->_checkoutSession->setUseNotice(false);
             $result = $e->getMessage();
         }
 
@@ -606,17 +658,17 @@ class Magento_Checkout_Model_Cart extends Magento_Object implements Magento_Chec
          * We can get string if updating process had some errors
          */
         if (is_string($result)) {
-            if ($this->getCheckoutSession()->getUseNotice() === null) {
-                $this->getCheckoutSession()->setUseNotice(true);
+            if ($this->_checkoutSession->getUseNotice() === null) {
+                $this->_checkoutSession->setUseNotice(true);
             }
-            Mage::throwException($result);
+            throw new Magento_Core_Exception($result);
         }
 
         $this->_eventManager->dispatch('checkout_cart_product_update_after', array(
             'quote_item' => $result,
             'product' => $product
         ));
-        $this->getCheckoutSession()->setLastAddedProductId($productId);
+        $this->_checkoutSession->setLastAddedProductId($productId);
         return $result;
     }
 }

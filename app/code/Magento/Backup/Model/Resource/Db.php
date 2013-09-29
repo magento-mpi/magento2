@@ -29,19 +29,22 @@ class Magento_Backup_Model_Resource_Db
     /**
      * Backup resource helper
      *
-     * @var Magento_Backup_Model_Resource_Helper_Mysql4
+     * @var Magento_Backup_Model_Resource_HelperFactory
      */
     protected $_resourceHelper;
 
     /**
      * Initialize Backup DB resource model
      *
-     * @param Magento_Backup_Model_Resource_Helper_Mysql4 $resourceHelper
+     * @param Magento_Backup_Model_Resource_HelperFactory $resHelperFactory
+     * @param Magento_Core_Model_Resource $resource
      */
-    public function __construct(Magento_Backup_Model_Resource_Helper_Mysql4 $resourceHelper)
-    {
-        $this->_resourceHelper = $resourceHelper;
-        $this->_write = Mage::getSingleton('Magento_Core_Model_Resource')->getConnection('backup_write');
+    public function __construct(
+        Magento_Backup_Model_Resource_HelperFactory $resHelperFactory,
+        Magento_Core_Model_Resource $resource
+    ) {
+        $this->_resourceHelper = $resHelperFactory->create();
+        $this->_write = $resource->getConnection('backup_write');
     }
 
     /**

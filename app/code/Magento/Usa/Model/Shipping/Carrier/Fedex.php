@@ -120,7 +120,6 @@ class Magento_Usa_Model_Shipping_Carrier_Fedex
      * @param Magento_Usa_Model_Simplexml_ElementFactory $xmlElFactory
      * @param Magento_Shipping_Model_Rate_ResultFactory $rateFactory
      * @param Magento_Shipping_Model_Rate_Result_MethodFactory $rateMethodFactory
-     * @param Magento_Shipping_Model_Rate_Result_ErrorFactory $rateErrorFactory
      * @param Magento_Shipping_Model_Tracking_ResultFactory $trackFactory
      * @param Magento_Shipping_Model_Tracking_Result_ErrorFactory $trackErrorFactory
      * @param Magento_Shipping_Model_Tracking_Result_StatusFactory $trackStatusFactory
@@ -129,6 +128,8 @@ class Magento_Usa_Model_Shipping_Carrier_Fedex
      * @param Magento_Directory_Model_CurrencyFactory $currencyFactory
      * @param Magento_Directory_Helper_Data $directoryData
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Shipping_Model_Rate_Result_ErrorFactory $rateErrorFactory
+     * @param Magento_Core_Model_Log_AdapterFactory $logAdapterFactory
      * @param array $data
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -140,7 +141,6 @@ class Magento_Usa_Model_Shipping_Carrier_Fedex
         Magento_Usa_Model_Simplexml_ElementFactory $xmlElFactory,
         Magento_Shipping_Model_Rate_ResultFactory $rateFactory,
         Magento_Shipping_Model_Rate_Result_MethodFactory $rateMethodFactory,
-        Magento_Shipping_Model_Rate_Result_ErrorFactory $rateErrorFactory,
         Magento_Shipping_Model_Tracking_ResultFactory $trackFactory,
         Magento_Shipping_Model_Tracking_Result_ErrorFactory $trackErrorFactory,
         Magento_Shipping_Model_Tracking_Result_StatusFactory $trackStatusFactory,
@@ -149,14 +149,16 @@ class Magento_Usa_Model_Shipping_Carrier_Fedex
         Magento_Directory_Model_CurrencyFactory $currencyFactory,
         Magento_Directory_Helper_Data $directoryData,
         Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Shipping_Model_Rate_Result_ErrorFactory $rateErrorFactory,
+        Magento_Core_Model_Log_AdapterFactory $logAdapterFactory,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;
         $this->_productCollFactory = $productCollFactory;
         parent::__construct(
-            $xmlElFactory, $rateFactory, $rateMethodFactory, $rateErrorFactory,
-            $trackFactory, $trackErrorFactory, $trackStatusFactory, $regionFactory,
-            $countryFactory, $currencyFactory, $directoryData, $coreStoreConfig, $data
+            $xmlElFactory, $rateFactory, $rateMethodFactory, $trackFactory, $trackErrorFactory, $trackStatusFactory,
+            $regionFactory, $countryFactory, $currencyFactory, $directoryData, $coreStoreConfig, $rateErrorFactory,
+            $logAdapterFactory, $data
         );
         $wsdlBasePath = $configReader->getModuleDir('etc', 'Magento_Usa')  . DS . 'wsdl' . DS . 'FedEx' . DS;
         $this->_shipServiceWsdl = $wsdlBasePath . 'ShipService_v10.wsdl';

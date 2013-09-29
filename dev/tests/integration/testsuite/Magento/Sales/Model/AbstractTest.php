@@ -27,7 +27,7 @@ class Magento_Sales_Model_AbstractTest extends PHPUnit_Framework_TestCase
     public function testAfterCommitCallbackOrderGridNotInvoked()
     {
         $adapter = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Resource')
-            ->getConnection('write');
+            ->getConnection('core_write');
         $this->assertEquals(0, $adapter->getTransactionLevel(), 'This test must be outside a transaction.');
 
         $localOrderModel = Magento_TestFramework_Helper_Bootstrap::getObjectManager()

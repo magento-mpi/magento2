@@ -18,6 +18,67 @@
 class Magento_Checkout_Block_Onepage_Success extends Magento_Core_Block_Template
 {
     /**
+     * @var Magento_Checkout_Model_Session
+     */
+    protected $_checkoutSession;
+
+    /**
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @var Magento_Sales_Model_OrderFactory
+     */
+    protected $_orderFactory;
+
+    /**
+     * @var Magento_Sales_Model_Billing_AgreementFactory
+     */
+    protected $_agreementFactory;
+
+    /**
+     * @var Magento_Sales_Model_Resource_Recurring_Profile_Collection
+     */
+    protected $_profileCollFactory;
+
+    /**
+     * @var Magento_Sales_Model_Order_Config
+     */
+    protected $_orderConfig;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Checkout_Model_Session $checkoutSession
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Sales_Model_OrderFactory $orderFactory
+     * @param Magento_Sales_Model_Billing_AgreementFactory $agreementFactory
+     * @param Magento_Sales_Model_Resource_Recurring_Profile_Collection $profileCollFactory
+     * @param Magento_Sales_Model_Order_Config $orderConfig
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        Magento_Checkout_Model_Session $checkoutSession,
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Sales_Model_OrderFactory $orderFactory,
+        Magento_Sales_Model_Billing_AgreementFactory $agreementFactory,
+        Magento_Sales_Model_Resource_Recurring_Profile_Collection $profileCollFactory,
+        Magento_Sales_Model_Order_Config $orderConfig,
+        array $data = array()
+    ) {
+        $this->_checkoutSession = $checkoutSession;
+        $this->_customerSession = $customerSession;
+        $this->_orderFactory = $orderFactory;
+        $this->_agreementFactory = $agreementFactory;
+        $this->_profileCollFactory = $profileCollFactory;
+        $this->_orderConfig = $orderConfig;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * See if the order has state, visible on frontend
      *
      * @return bool
@@ -31,6 +92,7 @@ class Magento_Checkout_Block_Onepage_Success extends Magento_Core_Block_Template
      * Getter for recurring profile view page
      *
      * @param $profile
+     * @return string
      */
     public function getProfileUrl(Magento_Object $profile)
     {
@@ -53,18 +115,17 @@ class Magento_Checkout_Block_Onepage_Success extends Magento_Core_Block_Template
      */
     protected function _prepareLastOrder()
     {
-        $orderId = Mage::getSingleton('Magento_Checkout_Model_Session')->getLastOrderId();
+        $orderId = $this->_checkoutSession->getLastOrderId();
         if ($orderId) {
-            $order = Mage::getModel('Magento_Sales_Model_Order')->load($orderId);
+            $order = $this->_orderFactory->create()->load($orderId);
             if ($order->getId()) {
-                $isVisible = !in_array($order->getState(),
-                    Mage::getSingleton('Magento_Sales_Model_Order_Config')->getInvisibleOnFrontStates());
+                $isVisible = !in_array($order->getState(), $this->_orderConfig->getInvisibleOnFrontStates());
                 $this->addData(array(
                     'is_order_visible' => $isVisible,
                     'view_order_url' => $this->getUrl('sales/order/view/', array('order_id' => $orderId)),
                     'print_url' => $this->getUrl('sales/order/print', array('order_id'=> $orderId)),
                     'can_print_order' => $isVisible,
-                    'can_view_order'  => Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn() && $isVisible,
+                    'can_view_order'  => $this->_customerSession->isLoggedIn() && $isVisible,
                     'order_id'  => $order->getIncrementId(),
                 ));
             }
@@ -76,10 +137,10 @@ class Magento_Checkout_Block_Onepage_Success extends Magento_Core_Block_Template
      */
     protected function _prepareLastBillingAgreement()
     {
-        $agreementId = Mage::getSingleton('Magento_Checkout_Model_Session')->getLastBillingAgreementId();
-        $customerId = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId();
+        $agreementId = $this->_checkoutSession->getLastBillingAgreementId();
+        $customerId = $this->_customerSession->getCustomerId();
         if ($agreementId && $customerId) {
-            $agreement = Mage::getModel('Magento_Sales_Model_Billing_Agreement')->load($agreementId);
+            $agreement = $this->_agreementFactory->create()->load($agreementId);
             if ($agreement->getId() && $customerId == $agreement->getCustomerId()) {
                 $this->addData(array(
                     'agreement_ref_id' => $agreement->getReferenceId(),
@@ -96,9 +157,9 @@ class Magento_Checkout_Block_Onepage_Success extends Magento_Core_Block_Template
      */
     protected function _prepareLastRecurringProfiles()
     {
-        $profileIds = Mage::getSingleton('Magento_Checkout_Model_Session')->getLastRecurringProfileIds();
+        $profileIds = $this->_checkoutSession->getLastRecurringProfileIds();
         if ($profileIds && is_array($profileIds)) {
-            $collection = Mage::getModel('Magento_Sales_Model_Recurring_Profile')->getCollection()
+            $collection = $this->_profileCollFactory->create()->getCollection()
                 ->addFieldToFilter('profile_id', array('in' => $profileIds))
             ;
             $profiles = array();
@@ -107,7 +168,7 @@ class Magento_Checkout_Block_Onepage_Success extends Magento_Core_Block_Template
             }
             if ($profiles) {
                 $this->setRecurringProfiles($profiles);
-                if (Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()) {
+                if ($this->_customerSession->isLoggedIn()) {
                     $this->setCanViewProfiles(true);
                 }
             }

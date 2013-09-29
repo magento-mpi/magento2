@@ -26,6 +26,64 @@ abstract class Magento_Reports_Model_Product_Index_Abstract extends Magento_Core
     protected $_countCacheKey;
 
     /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Log_Model_Visitor
+     */
+    protected $_logVisitor;
+
+    /**
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @var Magento_Core_Model_Session_Generic
+     */
+    protected $_reportSession;
+
+    /**
+     * @var Magento_Catalog_Model_Product_Visibility
+     */
+    protected $_productVisibility;
+
+    /**
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Log_Model_Visitor $logVisitor
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Core_Model_Session_Generic $reportSession
+     * @param Magento_Catalog_Model_Product_Visibility $productVisibility
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Log_Model_Visitor $logVisitor,
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Core_Model_Session_Generic $reportSession,
+        Magento_Catalog_Model_Product_Visibility $productVisibility,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        $this->_storeManager = $storeManager;
+
+        $this->_logVisitor = $logVisitor;
+        $this->_customerSession = $customerSession;
+        $this->_reportSession = $reportSession;
+        $this->_productVisibility = $productVisibility;
+    }
+
+    /**
      * Prepare customer/visitor, store data before save
      *
      * @return Magento_Reports_Model_Product_Index_Abstract
@@ -62,7 +120,7 @@ abstract class Magento_Reports_Model_Product_Index_Abstract extends Magento_Core
         if ($this->hasData('visitor_id')) {
             return $this->getData('visitor_id');
         }
-        return Mage::getSingleton('Magento_Log_Model_Visitor')->getId();
+        return $this->_logVisitor->getId();
     }
 
     /**
@@ -77,7 +135,7 @@ abstract class Magento_Reports_Model_Product_Index_Abstract extends Magento_Core
         if ($this->hasData('customer_id')) {
             return $this->getData('customer_id');
         }
-        return Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId();
+        return $this->_customerSession->getCustomerId();
     }
 
     /**
@@ -92,7 +150,7 @@ abstract class Magento_Reports_Model_Product_Index_Abstract extends Magento_Core
         if ($this->hasData('store_id')) {
             return $this->getData('store_id');
         }
-        return Mage::app()->getStore()->getId();
+        return $this->_storeManager->getStore()->getId();
     }
 
     /**
@@ -134,7 +192,7 @@ abstract class Magento_Reports_Model_Product_Index_Abstract extends Magento_Core
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('Magento_Reports_Model_Session');
+        return $this->_reportSession;
     }
 
     /**
@@ -147,7 +205,7 @@ abstract class Magento_Reports_Model_Product_Index_Abstract extends Magento_Core
         $collection = $this->getCollection()
             ->setCustomerId($this->getCustomerId())
             ->addIndexFilter()
-            ->setVisibility(Mage::getSingleton('Magento_Catalog_Model_Product_Visibility')->getVisibleInSiteIds());
+            ->setVisibility($this->_productVisibility->getVisibleInSiteIds());
 
         $count = $collection->getSize();
         $this->_getSession()->setData($this->_countCacheKey, $count);

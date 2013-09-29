@@ -8,12 +8,8 @@
  * @license     {license_link}
  */
 
-
 /**
  * CMS Hierarchy Menu source model for Layouts
- *
- * @category   Magento
- * @package    Magento_VersionsCms
  */
 class Magento_VersionsCms_Model_Source_Hierarchy_Menu_Layout implements Magento_Core_Model_Option_ArrayInterface
 {

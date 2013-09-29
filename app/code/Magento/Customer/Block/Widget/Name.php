@@ -159,7 +159,7 @@ class Magento_Customer_Block_Widget_Name extends Magento_Customer_Block_Widget_A
             return parent::_getAttribute($attributeCode);
         }
 
-        $attribute = Mage::getSingleton('Magento_Eav_Model_Config')->getAttribute('customer_address', $attributeCode);
+        $attribute = $this->_eavConfig->getAttribute('customer_address', $attributeCode);
 
         if ($this->getForceUseCustomerRequiredAttributes() && $attribute && !$attribute->getIsRequired()) {
             $customerAttribute = parent::_getAttribute($attributeCode);

@@ -12,7 +12,6 @@
 /**
  * Wishlist item model
  *
- * @method Magento_Wishlist_Model_Resource_Item _getResource()
  * @method Magento_Wishlist_Model_Resource_Item getResource()
  * @method int getWishlistId()
  * @method Magento_Wishlist_Model_Item setWishlistId(int $value)
@@ -85,6 +84,71 @@ class Magento_Wishlist_Model_Item extends Magento_Core_Model_Abstract
     protected $_flagOptionsSaved = null;
 
     /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Core_Model_Date
+     */
+    protected $_date;
+
+    /**
+     * @var Magento_Catalog_Model_ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * @var Magento_Catalog_Model_Resource_Url
+     */
+    protected $_catalogUrl;
+
+    /**
+     * @var Magento_Wishlist_Model_Item_OptionFactory
+     */
+    protected $_wishlistOptFactory;
+
+    /**
+     * @var Magento_Wishlist_Model_Resource_Item_Option_CollectionFactory
+     */
+    protected $_wishlOptCollFactory;
+
+    /**
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Date $date
+     * @param Magento_Catalog_Model_ProductFactory $productFactory
+     * @param Magento_Catalog_Model_Resource_Url $catalogUrl
+     * @param Magento_Wishlist_Model_Item_OptionFactory $wishlistOptFactory
+     * @param Magento_Wishlist_Model_Resource_Item_Option_CollectionFactory $wishlOptCollFactory
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Date $date,
+        Magento_Catalog_Model_ProductFactory $productFactory,
+        Magento_Catalog_Model_Resource_Url $catalogUrl,
+        Magento_Wishlist_Model_Item_OptionFactory $wishlistOptFactory,
+        Magento_Wishlist_Model_Resource_Item_Option_CollectionFactory $wishlOptCollFactory,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_storeManager = $storeManager;
+        $this->_date = $date;
+        $this->_productFactory = $productFactory;
+        $this->_catalogUrl = $catalogUrl;
+        $this->_wishlistOptFactory = $wishlistOptFactory;
+        $this->_wishlOptCollFactory = $wishlOptCollFactory;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Initialize resource model
      *
      */
@@ -141,13 +205,14 @@ class Magento_Wishlist_Model_Item extends Magento_Core_Model_Abstract
      *
      * @param   Magento_Wishlist_Model_Item_Option $option
      * @return  Magento_Wishlist_Model_Item
+     * @throws Magento_Core_Exception
      */
     protected function _addOptionCode($option)
     {
         if (!isset($this->_optionsByCode[$option->getCode()])) {
             $this->_optionsByCode[$option->getCode()] = $option;
         } else {
-            Mage::throwException(__('An item option with code %1 already exists.', $option->getCode()));
+            throw new Magento_Core_Exception(__('An item option with code %1 already exists.', $option->getCode()));
         }
         return $this;
     }
@@ -225,10 +290,10 @@ class Magento_Wishlist_Model_Item extends Magento_Core_Model_Abstract
     public function validate()
     {
         if (!$this->getWishlistId()) {
-            Mage::throwException(__('We can\'t specify a wish list.'));
+            throw new Magento_Core_Exception(__('We can\'t specify a wish list.'));
         }
         if (!$this->getProductId()) {
-            Mage::throwException(__('Cannot specify product.'));
+            throw new Magento_Core_Exception(__('Cannot specify product.'));
         }
 
         return true;
@@ -248,12 +313,12 @@ class Magento_Wishlist_Model_Item extends Magento_Core_Model_Abstract
 
         // set current store id if it is not defined
         if (is_null($this->getStoreId())) {
-            $this->setStoreId(Mage::app()->getStore()->getId());
+            $this->setStoreId($this->_storeManager->getStore()->getId());
         }
 
         // set current date if added at data is not defined
         if (is_null($this->getAddedAt())) {
-            $this->setAddedAt(Mage::getSingleton('Magento_Core_Model_Date')->gmtDate());
+            $this->setAddedAt($this->_date->gmtDate());
         }
 
         return $this;
@@ -288,10 +353,10 @@ class Magento_Wishlist_Model_Item extends Magento_Core_Model_Abstract
         $product = $this->_getData('product');
         if (is_null($product)) {
             if (!$this->getProductId()) {
-                Mage::throwException(__('Cannot specify product.'));
+                throw new Magento_Core_Exception(__('Cannot specify product.'));
             }
 
-            $product = Mage::getModel('Magento_Catalog_Model_Product')
+            $product = $this->_productFactory->create()
                 ->setStoreId($this->getStoreId())
                 ->load($this->getProductId());
 
@@ -331,7 +396,7 @@ class Magento_Wishlist_Model_Item extends Magento_Core_Model_Abstract
             if ($product->getStoreId() == $storeId) {
                 return false;
             }
-            $urlData = Mage::getResourceSingleton('Magento_Catalog_Model_Resource_Url')
+            $urlData = $this->_catalogUrl
                 ->getRewriteByProductStore(array($product->getId() => $storeId));
             if (!isset($urlData[$product->getId()])) {
                 return false;
@@ -577,20 +642,21 @@ class Magento_Wishlist_Model_Item extends Magento_Core_Model_Abstract
      *
      * @param   Magento_Wishlist_Model_Item_Option $option
      * @return  Magento_Wishlist_Model_Item
+     * @throws Magento_Core_Exception
      */
     public function addOption($option)
     {
         if (is_array($option)) {
-            $option = Mage::getModel('Magento_Wishlist_Model_Item_Option')->setData($option)
+            $option = $this->_wishlistOptFactory->create()->setData($option)
                 ->setItem($this);
         } else if ($option instanceof Magento_Wishlist_Model_Item_Option) {
             $option->setItem($this);
         } else if ($option instanceof Magento_Object) {
-            $option = Mage::getModel('Magento_Wishlist_Model_Item_Option')->setData($option->getData())
+            $option = $this->_wishlistOptFactory->create()->setData($option->getData())
                ->setProduct($option->getProduct())
                ->setItem($this);
         } else {
-            Mage::throwException(__('Invalid item option format.'));
+            throw new Magento_Core_Exception(__('Invalid item option format.'));
         }
 
         $exOption = $this->getOptionByCode($option->getCode());
@@ -691,8 +757,7 @@ class Magento_Wishlist_Model_Item extends Magento_Core_Model_Abstract
             return $this;
         }
 
-        $options = Mage::getResourceModel('Magento_Wishlist_Model_Resource_Item_Option_Collection')
-            ->addItemFilter($this);
+        $options = $this->_wishlOptCollFactory->addItemFilter($this);
         if ($optionsFilter) {
             $options->addFieldToFilter('code', $optionsFilter);
         }

@@ -25,10 +25,13 @@ class Magento_ImportExport_Model_Export_EntityAbstractTest extends PHPUnit_Frame
 
         /** @var Magento_TestFramework_ObjectManager  $objectManager */
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-
-        $storeConfig = $objectManager->get('Magento_Core_Model_Store_Config');
         $this->_model = $this->getMockForAbstractClass(
-            'Magento_ImportExport_Model_Export_EntityAbstract', array($storeConfig)
+            'Magento_ImportExport_Model_Export_EntityAbstract', array(
+                $objectManager->get('Magento_Core_Model_Store_Config'),
+                $objectManager->get('Magento_Core_Model_App'),
+                $objectManager->get('Magento_ImportExport_Model_Export_Factory'),
+                $objectManager->get('Magento_ImportExport_Model_Resource_CollectionByPagesIteratorFactory'),
+            )
         );
     }
 
@@ -73,11 +76,9 @@ class Magento_ImportExport_Model_Export_EntityAbstractTest extends PHPUnit_Frame
      */
     public function testFilterAttributeCollection()
     {
-        /** @var $model Stub_Magento_ImportExport_Model_Export_EntityAbstract */
-        $model = $this->getMockForAbstractClass('Stub_Magento_ImportExport_Model_Export_EntityAbstract');
         $collection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->create('Magento_Customer_Model_Resource_Attribute_Collection');
-        $collection = $model->filterAttributeCollection($collection);
+        $collection = $this->_model->filterAttributeCollection($collection);
         /**
          * Check that disabled attributes is not existed in attribute collection
          */
@@ -86,7 +87,7 @@ class Magento_ImportExport_Model_Export_EntityAbstractTest extends PHPUnit_Frame
         foreach ($collection as $attribute) {
             $existedAttributes[] = $attribute->getAttributeCode();
         }
-        $disabledAttributes = $model->getDisabledAttributes();
+        $disabledAttributes = $this->_model->getDisabledAttributes();
         foreach ($disabledAttributes as $attributeCode) {
             $this->assertNotContains(
                 $attributeCode,
@@ -103,13 +104,14 @@ class Magento_ImportExport_Model_Export_EntityAbstractTest extends PHPUnit_Frame
 abstract class Stub_Magento_ImportExport_Model_Export_EntityAbstract
     extends Magento_ImportExport_Model_Export_EntityAbstract
 {
-    public function __construct()
-    {
-        /** @var Magento_TestFramework_ObjectManager  $objectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-
-        $storeConfig = $objectManager->get('Magento_Core_Model_Store_Config');
-        parent::__construct($storeConfig);
+    public function __construct(
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_App $app,
+        Magento_ImportExport_Model_Export_Factory $collectionFactory,
+        Magento_ImportExport_Model_Resource_CollectionByPagesIteratorFactory $resourceColFactory,
+        array $data = array()
+    ) {
+        parent::__construct($coreStoreConfig, $app, $collectionFactory, $resourceColFactory, $data);
         $this->_disabledAttrs = array('default_billing', 'default_shipping');
     }
 }

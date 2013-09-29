@@ -40,7 +40,7 @@ class Magento_Catalog_Model_Resource_Product extends Magento_Catalog_Model_Resou
         Magento_Eav_Model_Config $eavConfig,
         Magento_Eav_Model_Entity_Attribute_Set $attrSetEntity,
         Magento_Core_Model_LocaleInterface $locale,
-        Magento_Eav_Model_Resource_Helper_Mysql4 $resourceHelper,
+        Magento_Eav_Model_Resource_Helper $resourceHelper,
         Magento_Eav_Model_Factory_Helper $helperFactory,
         $data = array()
     ) {

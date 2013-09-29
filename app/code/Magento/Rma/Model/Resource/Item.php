@@ -57,7 +57,7 @@ class Magento_Rma_Model_Resource_Item extends Magento_Eav_Model_Entity_Abstract
      * @param Magento_Eav_Model_Config $eavConfig
      * @param Magento_Eav_Model_Entity_Attribute_Set $attrSetEntity
      * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Eav_Model_Resource_Helper_Mysql4 $resourceHelper
+     * @param Magento_Eav_Model_Resource_Helper $resourceHelper
      * @param Magento_Eav_Model_Factory_Helper $helperFactory
      * @param Magento_Rma_Helper_Data $rmaData
      * @param Magento_Sales_Model_Resource_Order_Item_CollectionFactory $ordersFactory
@@ -69,7 +69,7 @@ class Magento_Rma_Model_Resource_Item extends Magento_Eav_Model_Entity_Abstract
         Magento_Eav_Model_Config $eavConfig,
         Magento_Eav_Model_Entity_Attribute_Set $attrSetEntity,
         Magento_Core_Model_LocaleInterface $locale,
-        Magento_Eav_Model_Resource_Helper_Mysql4 $resourceHelper,
+        Magento_Eav_Model_Resource_Helper $resourceHelper,
         Magento_Eav_Model_Factory_Helper $helperFactory,
         Magento_Rma_Helper_Data $rmaData,
         Magento_Sales_Model_Resource_Order_Item_CollectionFactory $ordersFactory,

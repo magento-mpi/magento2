@@ -10,15 +10,6 @@
  */
 -->
 <config>
-    <global>
-        <resources>
-            <invitation_setup>
-                <setup>
-                    <module>Magento_Invitation</module>
-                </setup>
-            </invitation_setup>
-        </resources>
-    </global>
     <default>
         <magento_invitation>
             <email>

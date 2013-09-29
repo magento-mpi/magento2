@@ -33,7 +33,7 @@ class Magento_Eav_Model_Entity extends Magento_Eav_Model_Entity_Abstract
      * @param Magento_Eav_Model_Config $eavConfig
      * @param Magento_Eav_Model_Entity_Attribute_Set $attrSetEntity
      * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Eav_Model_Resource_Helper_Mysql4 $resourceHelper
+     * @param Magento_Eav_Model_Resource_Helper $resourceHelper
      * @param Magento_Eav_Model_Factory_Helper $helperFactory
      * @param Magento_Core_Model_Resource $coreResource
      * @param array $data
@@ -43,7 +43,7 @@ class Magento_Eav_Model_Entity extends Magento_Eav_Model_Entity_Abstract
         Magento_Eav_Model_Config $eavConfig,
         Magento_Eav_Model_Entity_Attribute_Set $attrSetEntity,
         Magento_Core_Model_LocaleInterface $locale,
-        Magento_Eav_Model_Resource_Helper_Mysql4 $resourceHelper,
+        Magento_Eav_Model_Resource_Helper $resourceHelper,
         Magento_Eav_Model_Factory_Helper $helperFactory,
         Magento_Core_Model_Resource $coreResource,
         $data = array()

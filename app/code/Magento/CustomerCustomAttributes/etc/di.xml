@@ -21,4 +21,11 @@
             <instance type="Magento_CustomerCustomAttributes_Helper_Data_Proxy" />
         </param>
     </type>
+    <type name="Magento_Core_Model_Db_Updater">
+        <param name="resourceList">
+            <value>
+                <customercustomattributes_setup>Magento_Customer_Model_Resource_Setup</customercustomattributes_setup>
+            </value>
+        </param>
+    </type>
 </config>

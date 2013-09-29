@@ -129,9 +129,9 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
     protected $_eventManager = null;
 
     /**
-     * @var Magento_Core_Model_Config
+     * @var Magento_Sales_Model_Config
      */
-    protected $_coreConfig;
+    protected $_salesConfig;
 
     /**
      * @var Magento_ObjectManager
@@ -143,7 +143,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_Core_Model_Config $coreConfig
+     * @param Magento_Sales_Model_Config $salesConfig
      * @param Magento_Adminhtml_Model_Session_Quote $sessionQuote
      * @param Magento_Core_Model_Logger $logger
      * @param array $data
@@ -153,7 +153,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Model_Registry $coreRegistry,
-        Magento_Core_Model_Config $coreConfig,
+        Magento_Sales_Model_Config $salesConfig,
         Magento_Adminhtml_Model_Session_Quote $sessionQuote,
         Magento_Core_Model_Logger $logger,
         array $data = array()
@@ -162,7 +162,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
         $this->_eventManager = $eventManager;
         $this->_coreData = $coreData;
         $this->_coreRegistry = $coreRegistry;
-        $this->_coreConfig = $coreConfig;
+        $this->_salesConfig = $salesConfig;
         $this->_logger = $logger;
         parent::__construct($data);
         $this->_session = $sessionQuote;
@@ -321,10 +321,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
 
         /* Initialize catalog rule data with new session values */
         $this->initRuleData();
-        foreach ($order->getItemsCollection(
-            array_keys($this->_coreConfig->getNode('adminhtml/sales/order/create/available_product_types')->asArray()),
-            true
-        ) as $orderItem) {
+        foreach ($order->getItemsCollection($this->_salesConfig->getAvailableProductTypes(), true) as $orderItem) {
             /* @var $orderItem Magento_Sales_Model_Order_Item */
             if (!$orderItem->getParentItem()) {
                 $qty = $orderItem->getQtyOrdered();
@@ -1057,7 +1054,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
 
     protected function _parseCustomPrice($price)
     {
-        $price = $this->_objectManager->get('Magento_Core_Model_LocaleInterface')->getLocale()->getNumber($price);
+        $price = $this->_objectManager->get('Magento_Core_Model_LocaleInterface')->getNumber($price);
         $price = $price > 0 ? $price : 0;
         return $price;
     }

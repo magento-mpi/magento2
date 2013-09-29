@@ -18,6 +18,36 @@
 class Magento_Invitation_Model_Adminhtml_System_Config_Backend_Limited
     extends Magento_Core_Model_Config_Value
 {
+    /**
+     * Admin Session
+     *
+     * @var Magento_Adminhtml_Model_Session
+     */
+    protected $_session;
+
+    /**
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Model_Config $config
+     * @param Magento_Adminhtml_Model_Session $session
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_StoreManager $storeManager,
+        Magento_Core_Model_Config $config,
+        Magento_Adminhtml_Model_Session $session,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        parent::__construct($context, $registry, $storeManager, $config, $resource, $resourceCollection, $data);
+        $this->_session = $session;
+    }
 
     /**
      * Validating entered value if it will be 0 (unlimited)
@@ -39,8 +69,9 @@ class Magento_Invitation_Model_Adminhtml_System_Config_Backend_Limited
 
             }
             $this->setValue($value);
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addNotice(
-                __('Please correct the value for "%1" parameter, otherwise we\'ll use the saved value instead.', $parameter)
+            $this->_session->addNotice(
+                __('Please correct the value for "%1" parameter, otherwise we\'ll use the saved value instead.',
+                    $parameter)
             );
         }
         return $this;

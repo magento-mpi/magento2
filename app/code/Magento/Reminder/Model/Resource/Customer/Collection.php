@@ -33,7 +33,7 @@ class Magento_Reminder_Model_Resource_Customer_Collection extends Magento_Custom
      * @param Magento_Eav_Model_Config $eavConfig
      * @param Magento_Core_Model_Resource $resource
      * @param Magento_Eav_Model_EntityFactory $eavEntityFactory
-     * @param Magento_Eav_Model_Resource_Helper_Mysql4 $resourceHelper
+     * @param Magento_Eav_Model_Resource_Helper $resourceHelper
      * @param Magento_Eav_Model_Factory_Helper $helperFactory
      * @param Magento_Core_Model_Fieldset_Config $fieldsetConfig
      * @param Magento_Core_Model_Registry $coreRegistry
@@ -46,7 +46,7 @@ class Magento_Reminder_Model_Resource_Customer_Collection extends Magento_Custom
         Magento_Eav_Model_Config $eavConfig,
         Magento_Core_Model_Resource $resource,
         Magento_Eav_Model_EntityFactory $eavEntityFactory,
-        Magento_Eav_Model_Resource_Helper_Mysql4 $resourceHelper,
+        Magento_Eav_Model_Resource_Helper $resourceHelper,
         Magento_Eav_Model_Factory_Helper $helperFactory,
         Magento_Core_Model_Fieldset_Config $fieldsetConfig,
         Magento_Core_Model_Registry $coreRegistry

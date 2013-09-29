@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/** @var $installer Magento_GiftRegistry_Model_Resource_Setup */
+/** @var $installer Magento_Sales_Model_Resource_Setup */
 $installer = $this;
 
 $typesData = array(
@@ -39,7 +39,7 @@ $typesData = array(
 );
 
 foreach ($typesData as $data) {
-    Mage::getModel('Magento_GiftRegistry_Model_Type')
+    $this->typeFactory->create()
         ->addData($data)
         ->setStoreId($data['store_id'])
         ->save();

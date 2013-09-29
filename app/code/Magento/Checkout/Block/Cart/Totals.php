@@ -15,33 +15,46 @@ class Magento_Checkout_Block_Cart_Totals extends Magento_Checkout_Block_Cart_Abs
     protected $_totals = null;
 
     /**
-     * @var Magento_Core_Model_Config
+     * @var Magento_Sales_Model_Config
      */
-    protected $_coreConfig;
+    protected $_salesConfig;
 
     /**
-     * Constructor
-     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Core_Model_Config $coreConfig
+     * @param Magento_Sales_Model_Config $salesConfig
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Checkout_Model_Session $checkoutSession
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
         Magento_Catalog_Helper_Data $catalogData,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
-        Magento_Core_Model_Config $coreConfig,
+        Magento_Sales_Model_Config $salesConfig,
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Checkout_Model_Session $checkoutSession,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
         array $data = array()
     ) {
+        $this->_salesConfig = $salesConfig;
+        $this->_storeManager = $storeManager;
         parent::__construct(
             $catalogData,
             $coreData,
             $context,
+            $customerSession,
+            $checkoutSession,
             $data
         );
-        $this->_coreConfig = $coreConfig;
+
     }
 
     public function getTotals()
@@ -63,10 +76,11 @@ class Magento_Checkout_Block_Cart_Totals extends Magento_Checkout_Block_Cart_Abs
         $blockName = $code . '_total_renderer';
         $block = $this->getLayout()->getBlock($blockName);
         if (!$block) {
-            $block = $this->_defaultRenderer;
-            $config = $this->_coreConfig->getNode("global/sales/quote/totals/{$code}/renderer");
-            if ($config) {
-                $block = (string) $config;
+            $renderer = $this->_salesConfig->getTotalsRenderer('quote', 'totals', $code, 'frontend');
+            if (!empty($renderer)) {
+                $block = $renderer;
+            } else {
+                $block = $this->_defaultRenderer;
             }
 
             $block = $this->getLayout()->createBlock($block, $blockName);
@@ -134,7 +148,7 @@ class Magento_Checkout_Block_Cart_Totals extends Magento_Checkout_Block_Cart_Abs
         $firstTotal = reset($this->_totals);
         if ($firstTotal) {
             $total = $firstTotal->getAddress()->getBaseGrandTotal();
-            return Mage::app()->getStore()->getBaseCurrency()->format($total, array(), true);
+            return $this->_storeManager->getStore()->getBaseCurrency()->format($total, array(), true);
         }
         return '-';
     }
@@ -151,7 +165,7 @@ class Magento_Checkout_Block_Cart_Totals extends Magento_Checkout_Block_Cart_Abs
         }
 
         if (null === $this->_quote) {
-            $this->_quote = $this->getCheckout()->getQuote();
+            $this->_quote = $this->_checkoutSession->getQuote();
         }
         return $this->_quote;
     }

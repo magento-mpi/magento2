@@ -10,15 +10,6 @@
  */
 -->
 <config>
-    <global>
-        <resources>
-            <sitemap_setup>
-                <setup>
-                    <module>Magento_Sitemap</module>
-                </setup>
-            </sitemap_setup>
-        </resources>
-    </global>
     <default>
         <sitemap>
             <limit>

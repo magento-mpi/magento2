@@ -71,17 +71,24 @@ class Magento_Core_Model_ObjectManager extends Magento_ObjectManager_ObjectManag
             $definitions
         );
 
-        $appMode = $primaryConfig
-            ->getParam(Magento_Core_Model_App::PARAM_MODE, Magento_Core_Model_App_State::MODE_DEFAULT);
-        $factory = new Magento_ObjectManager_Factory_Factory($config, $this, $definitions, $primaryConfig->getParams());
+        $localConfig = new Magento_Core_Model_Config_Local(new Magento_Core_Model_Config_Loader_Local(
+            $primaryConfig->getDirectories()->getDir(Magento_Core_Model_Dir::CONFIG),
+            $primaryConfig->getParam(Magento_Core_Model_App::PARAM_CUSTOM_LOCAL_CONFIG),
+            $primaryConfig->getParam(Magento_Core_Model_App::PARAM_CUSTOM_LOCAL_FILE)
+        ));
+        $appMode = $primaryConfig->getParam(Magento_Core_Model_App::PARAM_MODE, Magento_Core_Model_App_State::MODE_DEFAULT);
+        $factory = new Magento_ObjectManager_Factory_Factory($config, $this, $definitions, array_replace(
+            $localConfig->getParams(),
+            $primaryConfig->getParams()
+        ));
 
+        $sharedInstances['Magento_Core_Model_Config_Local'] = $localConfig;
         $sharedInstances['Magento_Core_Model_Config_Primary'] = $primaryConfig;
         $sharedInstances['Magento_Core_Model_Dir'] = $primaryConfig->getDirectories();
         $sharedInstances['Magento_Core_Model_ObjectManager'] = $this;
 
         parent::__construct($factory, $config, $sharedInstances);
         $primaryConfig->configure($this);
-
         self::setInstance($this);
 
         Magento_Profiler::start('global_primary');
@@ -146,6 +153,7 @@ class Magento_Core_Model_ObjectManager extends Magento_ObjectManager_ObjectManag
         ));
         $this->_config->setCache($this->get('Magento_Core_Model_ObjectManager_ConfigCache'));
         $this->configure($this->get('Magento_Core_Model_ObjectManager_ConfigLoader')->load('global'));
+        $this->get('Magento_Core_Model_Resource')->setConfig($this->get('Magento_Core_Model_Config_Resource'));
 
         self::setInstance($this);
     }

@@ -11,10 +11,6 @@
 
 /**
  * Tax Calculation Resource Model
- *
- * @category    Magento
- * @package     Magento_Tax
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Tax_Model_Resource_Calculation extends Magento_Core_Model_Resource_Db_Abstract
 {
@@ -37,21 +33,27 @@ class Magento_Tax_Model_Resource_Calculation extends Magento_Core_Model_Resource
      *
      * @var Magento_Tax_Helper_Data
      */
-    protected $_taxData = null;
+    protected $_taxData;
+
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
 
     /**
      * Class constructor
      *
-     *
-     *
-     * @param Magento_Tax_Helper_Data $taxData
+     * @param Magento_Tax_Helper_DataProxy $taxData
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Resource $resource
      */
     public function __construct(
-        Magento_Tax_Helper_Data $taxData,
+        Magento_Tax_Helper_DataProxy $taxData,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Resource $resource
     ) {
         $this->_taxData = $taxData;
+        $this->_storeManager = $storeManager;
         parent::__construct($resource);
     }
 
@@ -237,7 +239,7 @@ class Magento_Tax_Model_Resource_Calculation extends Magento_Core_Model_Resource
     protected function _getRates($request)
     {
         // Extract params that influence our SELECT statement and use them to create cache key
-        $storeId = Mage::app()->getStore($request->getStore())->getId();
+        $storeId = $this->_storeManager->getStore($request->getStore())->getId();
         $customerClassId = $request->getCustomerClassId();
         $countryId = $request->getCountryId();
         $regionId = $request->getRegionId();

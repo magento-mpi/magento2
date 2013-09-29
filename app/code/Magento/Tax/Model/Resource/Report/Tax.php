@@ -8,16 +8,42 @@
  * @license     {license_link}
  */
 
-
 /**
  * Tax report resource model
- *
- * @category    Magento
- * @package     Magento_Tax
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Tax_Model_Resource_Report_Tax extends Magento_Reports_Model_Resource_Report_Abstract
 {
+    /**
+     * @var Magento_Tax_Model_Resource_Report_Tax_CreatedatFactory
+     */
+    protected $_createdAtFactory;
+
+    /**
+     * @var Magento_Tax_Model_Resource_Report_Tax_UpdatedatFactory
+     */
+    protected $_updatedAtFactory;
+
+    /**
+     * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_Reports_Model_FlagFactory $reportsFlagFactory
+     * @param Magento_Tax_Model_Resource_Report_Tax_CreatedatFactory $createdAtFactory
+     * @param Magento_Tax_Model_Resource_Report_Tax_UpdatedatFactory $updatedAtFactory
+     */
+    public function __construct(
+        Magento_Core_Model_Logger $logger,
+        Magento_Core_Model_Resource $resource,
+        Magento_Core_Model_LocaleInterface $locale,
+        Magento_Reports_Model_FlagFactory $reportsFlagFactory,
+        Magento_Tax_Model_Resource_Report_Tax_CreatedatFactory $createdAtFactory,
+        Magento_Tax_Model_Resource_Report_Tax_UpdatedatFactory $updatedAtFactory
+    ) {
+        $this->_createdAtFactory = $createdAtFactory;
+        $this->_updatedAtFactory = $updatedAtFactory;
+        parent::__construct($logger, $resource, $locale, $reportsFlagFactory);
+    }
+
     /**
      * Resource initialization
      */
@@ -35,8 +61,13 @@ class Magento_Tax_Model_Resource_Report_Tax extends Magento_Reports_Model_Resour
      */
     public function aggregate($from = null, $to = null)
     {
-        Mage::getResourceModel('Magento_Tax_Model_Resource_Report_Tax_Createdat')->aggregate($from, $to);
-        Mage::getResourceModel('Magento_Tax_Model_Resource_Report_Tax_Updatedat')->aggregate($from, $to);
+        /** @var $createdAt Magento_Tax_Model_Resource_Report_Tax_Createdat */
+        $createdAt = $this->_createdAtFactory->create();
+        /** @var $updatedAt Magento_Tax_Model_Resource_Report_Tax_Updatedat */
+        $updatedAt = $this->_updatedAtFactory->create();
+
+        $createdAt->aggregate($from, $to);
+        $updatedAt->aggregate($from, $to);
         $this->_setFlagData(Magento_Reports_Model_Flag::REPORT_TAX_FLAG_CODE);
 
         return $this;

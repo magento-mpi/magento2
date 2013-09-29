@@ -19,6 +19,33 @@
 class Magento_Customer_Model_Resource_Setup extends Magento_Eav_Model_Entity_Setup
 {
     /**
+     * @var Magento_Eav_Model_Config
+     */
+    protected $_eavConfig;
+
+    /**
+     * @param Magento_Core_Model_Resource_Setup_Context $context
+     * @param Magento_Core_Model_CacheInterface $cache
+     * @param Magento_Eav_Model_Resource_Entity_Attribute_Group_CollectionFactory $attrGrCollFactory
+     * @param Magento_Eav_Model_Config $eavConfig
+     * @param Magento_Core_Model_CacheInterface $resourceName
+     * @param string $moduleName
+     * @param string $connectionName
+     */
+    public function __construct(
+        Magento_Core_Model_Resource_Setup_Context $context,
+        Magento_Core_Model_CacheInterface $cache,
+        Magento_Eav_Model_Resource_Entity_Attribute_Group_CollectionFactory $attrGrCollFactory,
+        Magento_Eav_Model_Config $eavConfig,
+        $resourceName,
+        $moduleName = 'Magento_Customer',
+        $connectionName = ''
+    ) {
+        $this->_eavConfig = $eavConfig;
+        parent::__construct($context, $resourceName, $moduleName, $connectionName, $cache, $attrGrCollFactory);
+    }
+
+    /**
      * Prepare customer attribute values to save in additional table
      *
      * @param array $attr
@@ -448,5 +475,13 @@ class Magento_Customer_Model_Resource_Setup extends Magento_Eav_Model_Entity_Set
             )
         );
         return $entities;
+    }
+
+    /**
+     * @return Magento_Eav_Model_Config
+     */
+    public function getEavConfig()
+    {
+        return $this->_eavConfig;
     }
 }

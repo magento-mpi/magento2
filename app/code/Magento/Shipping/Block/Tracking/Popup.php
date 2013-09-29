@@ -15,21 +15,31 @@ class Magento_Shipping_Block_Tracking_Popup extends Magento_Core_Block_Template
      *
      * @var Magento_Core_Model_Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
+
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $_locale;
 
     /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_LocaleInterface $locale
      * @param array $data
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_LocaleInterface $locale,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
+        $this->_locale = $locale;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -66,10 +76,8 @@ class Magento_Shipping_Block_Tracking_Popup extends Magento_Core_Block_Template
      */
     public function formatDeliveryDate($date)
     {
-        /* @var $locale Magento_Core_Model_LocaleInterface */
-        $locale = Mage::app()->getLocale();
-        $format = $locale->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM);
-        return $locale->date(strtotime($date), Zend_Date::TIMESTAMP, null, false)
+        $format = $this->_locale->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM);
+        return $this->_locale->date(strtotime($date), Zend_Date::TIMESTAMP, null, false)
             ->toString($format);
     }
 
@@ -86,11 +94,8 @@ class Magento_Shipping_Block_Tracking_Popup extends Magento_Core_Block_Template
             $time = $date . ' ' . $time;
         }
 
-        /* @var $locale Magento_Core_Model_LocaleInterface */
-        $locale = Mage::app()->getLocale();
-
-        $format = $locale->getTimeFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
-        return $locale->date(strtotime($time), Zend_Date::TIMESTAMP, null, false)
+        $format = $this->_locale->getTimeFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
+        return $this->_locale->date(strtotime($time), Zend_Date::TIMESTAMP, null, false)
             ->toString($format);
     }
 

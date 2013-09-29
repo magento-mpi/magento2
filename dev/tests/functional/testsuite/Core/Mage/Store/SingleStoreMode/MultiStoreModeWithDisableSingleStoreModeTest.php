@@ -377,26 +377,6 @@ class Core_Mage_Store_SingleStoreMode_MultiStoreModeWithDisableSingleStoreModeTe
     }
 
     /**
-     * <p>All references to Website-Store-Store View are displayed in the Polls area</p>
-     *
-     * @test
-     * @TestLinkId TL-MAGE-6222
-     */
-    public function verificationPolls()
-    {
-        $this->markTestIncomplete('CMS Poll module is disabled');
-        $this->navigate('poll_manager');
-        $this->assertTrue($this->controlIsPresent('button', 'add_new_poll'),
-            'There is no "Add New Poll" button on the page');
-        $this->clickButton('add_new_poll');
-        $this->assertTrue($this->controlIsPresent('multiselect', 'visible_in'),
-            'There is no "Visible In" selector on the page');
-        $this->clickButton('back');
-        $this->assertTrue($this->controlIsPresent('dropdown', 'filter_visible_in'),
-            'There is no "Visible In" dropdown on the page');
-    }
-
-    /**
      * <p>Scope Selector is displayed on the Dashboard page.</p>
      *
      * @test

@@ -14,6 +14,16 @@
 class Magento_GiftRegistry_Block_Form_Element extends Magento_Core_Block_Template
 {
     /**
+     * @var Magento_Directory_Model_Country
+     */
+    protected $country;
+
+    /**
+     * @var Magento_Directory_Model_RegionFactory
+     */
+    protected $region;
+
+    /**
      * @var Magento_Core_Model_Cache_Type_Config
      */
     protected $_configCacheType;
@@ -22,19 +32,43 @@ class Magento_GiftRegistry_Block_Form_Element extends Magento_Core_Block_Templat
     protected $_regionCollection;
 
     /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $storeManager;
+
+    /**
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $locale;
+
+    /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param Magento_Core_Model_Cache_Type_Config $configCacheType
+     * @param Magento_Directory_Model_Country $country
+     * @param Magento_Directory_Model_RegionFactory $region
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_LocaleInterface $locale
      * @param array $data
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         Magento_Core_Model_Cache_Type_Config $configCacheType,
+        Magento_Directory_Model_Country $country,
+        Magento_Directory_Model_RegionFactory $region,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_LocaleInterface $locale,
         array $data = array()
     ) {
         $this->_configCacheType = $configCacheType;
+        $this->country = $country;
+        $this->region = $region;
+
         parent::__construct($coreData, $context, $data);
+
+        $this->storeManager = $storeManager;
+        $this->locale = $locale;
     }
 
 
@@ -46,7 +80,7 @@ class Magento_GiftRegistry_Block_Form_Element extends Magento_Core_Block_Templat
     protected function _getCountryCollection()
     {
         if (!$this->_countryCollection) {
-            $this->_countryCollection = Mage::getSingleton('Magento_Directory_Model_Country')->getResourceCollection()
+            $this->_countryCollection = $this->country->getResourceCollection()
                 ->loadByStore();
         }
         return $this->_countryCollection;
@@ -61,7 +95,7 @@ class Magento_GiftRegistry_Block_Form_Element extends Magento_Core_Block_Templat
     protected function _getRegionCollection($country = null)
     {
         if (!$this->_regionCollection) {
-            $this->_regionCollection = Mage::getModel('Magento_Directory_Model_Region')->getResourceCollection()
+            $this->_regionCollection = $this->region->create()->getResourceCollection()
                 ->addCountryFilter($country)
                 ->load();
         }
@@ -77,7 +111,7 @@ class Magento_GiftRegistry_Block_Form_Element extends Magento_Core_Block_Templat
     protected function _getCountryOptions()
     {
         $options  = false;
-        $cacheId = 'DIRECTORY_COUNTRY_SELECT_STORE_' . Mage::app()->getStore()->getCode();
+        $cacheId = 'DIRECTORY_COUNTRY_SELECT_STORE_' . $this->storeManager->getStore()->getCode();
         if ($optionsCache = $this->_configCacheType->load($cacheId)) {
             $options = unserialize($optionsCache);
         }
@@ -213,7 +247,7 @@ class Magento_GiftRegistry_Block_Form_Element extends Magento_Core_Block_Templat
             ->setValue($value)
             ->setClass('datetime-picker input-text' . $class)
             ->setImage($this->getViewFileUrl('Magento_Core::calendar.gif'))
-            ->setDateFormat(Mage::app()->getLocale()->getDateFormat($formatType));
+            ->setDateFormat($this->locale->getDateFormat($formatType));
         return $calendar->getHtml();
     }
 

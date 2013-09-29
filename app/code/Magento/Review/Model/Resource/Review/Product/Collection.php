@@ -75,7 +75,7 @@ class Magento_Review_Model_Resource_Review_Product_Collection extends Magento_Ca
      * @param Magento_Eav_Model_Config $eavConfig
      * @param Magento_Core_Model_Resource $coreResource
      * @param Magento_Eav_Model_EntityFactory $eavEntityFactory
-     * @param Magento_Eav_Model_Resource_Helper_Mysql4 $resourceHelper
+     * @param Magento_Eav_Model_Resource_Helper $resourceHelper
      * @param Magento_Eav_Model_Factory_Helper $helperFactory
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Catalog_Helper_Product_Flat $catalogProductFlat
@@ -95,7 +95,7 @@ class Magento_Review_Model_Resource_Review_Product_Collection extends Magento_Ca
         Magento_Eav_Model_Config $eavConfig,
         Magento_Core_Model_Resource $coreResource,
         Magento_Eav_Model_EntityFactory $eavEntityFactory,
-        Magento_Eav_Model_Resource_Helper_Mysql4 $resourceHelper,
+        Magento_Eav_Model_Resource_Helper $resourceHelper,
         Magento_Eav_Model_Factory_Helper $helperFactory,
         Magento_Catalog_Helper_Data $catalogData,
         Magento_Catalog_Helper_Product_Flat $catalogProductFlat,

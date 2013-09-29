@@ -42,8 +42,16 @@ class Magento_GiftCardAccount_Model_Pool extends Magento_GiftCardAccount_Model_P
     protected $_giftCardCodeParams = array();
 
     /**
+     * Store Manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager = null;
+
+    /**
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $giftCardCodeParams
@@ -52,13 +60,15 @@ class Magento_GiftCardAccount_Model_Pool extends Magento_GiftCardAccount_Model_P
     public function __construct(
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $giftCardCodeParams = array(),
         array $data = array()
     ) {
-        $this->_giftCardCodeParams = $giftCardCodeParams;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        $this->_storeManager = $storeManager;
+        $this->_giftCardCodeParams = $giftCardCodeParams;
     }
 
 
@@ -67,18 +77,24 @@ class Magento_GiftCardAccount_Model_Pool extends Magento_GiftCardAccount_Model_P
         $this->_init('Magento_GiftCardAccount_Model_Resource_Pool');
     }
 
+    /**
+     * Generate Pool
+     *
+     * @return Magento_GiftCardAccount_Model_Pool
+     * @throws Magento_Core_Exception
+     */
     public function generatePool()
     {
         $this->cleanupFree();
 
-        $website = Mage::app()->getWebsite($this->getWebsiteId());
+        $website = $this->_storeManager->getWebsite($this->getWebsiteId());
         $size = $website->getConfig(self::XML_CONFIG_POOL_SIZE);
 
         for ($i=0; $i<$size;$i++) {
             $attempt = 0;
             do {
                 if ($attempt>=self::CODE_GENERATION_ATTEMPTS) {
-                    Mage::throwException(__('We were unable to create full code pool size. Please check settings and try again.'));
+                    throw new Magento_Core_Exception(__('We were unable to create full code pool size. Please check settings and try again.'));
                 }
                 $code = $this->_generateCode();
                 $attempt++;
@@ -96,7 +112,7 @@ class Magento_GiftCardAccount_Model_Pool extends Magento_GiftCardAccount_Model_P
      */
     public function applyCodesGeneration()
     {
-        $website = Mage::app()->getWebsite($this->getWebsiteId());
+        $website = $this->_storeManager->getWebsite($this->getWebsiteId());
         $threshold = $website->getConfig(self::XML_CONFIG_POOL_THRESHOLD);
         if ($this->getPoolUsageInfo()->getFree() < $threshold) {
             $this->generatePool();
@@ -111,7 +127,7 @@ class Magento_GiftCardAccount_Model_Pool extends Magento_GiftCardAccount_Model_P
      */
     protected function _generateCode()
     {
-        $website = Mage::app()->getWebsite($this->getWebsiteId());
+        $website = $this->_storeManager->getWebsite($this->getWebsiteId());
 
         $format  = $website->getConfig(self::XML_CONFIG_CODE_FORMAT);
         if (!$format) {

@@ -138,15 +138,32 @@ abstract class Magento_ImportExport_Model_Export_Entity_Abstract
     protected $_writer;
 
     /**
-     * Constructor.
-     *
-     * @return void
+     * @var Magento_Core_Model_LocaleInterface
      */
-    public function __construct()
-    {
+    protected $_localeInterface;
+
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param Magento_Core_Model_LocaleInterface $localeInterface
+     * @param Magento_Eav_Model_Config $config
+     * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     */
+    public function __construct(
+        Magento_Core_Model_LocaleInterface $localeInterface,
+        Magento_Eav_Model_Config $config,
+        Magento_Core_Model_Resource $resource,
+        Magento_Core_Model_StoreManagerInterface $storeManager
+    ) {
+        $this->_localeInterface = $localeInterface;
+        $this->_storeManager = $storeManager;
         $entityCode = $this->getEntityTypeCode();
-        $this->_entityTypeId = Mage::getSingleton('Magento_Eav_Model_Config')->getEntityType($entityCode)->getEntityTypeId();
-        $this->_connection   = Mage::getSingleton('Magento_Core_Model_Resource')->getConnection('write');
+        $this->_entityTypeId = $config->getEntityType($entityCode)->getEntityTypeId();
+        $this->_connection   = $resource->getConnection('write');
     }
 
     /**
@@ -156,7 +173,7 @@ abstract class Magento_ImportExport_Model_Export_Entity_Abstract
      */
     protected function _initStores()
     {
-        foreach (Mage::app()->getStores(true) as $store) {
+        foreach ($this->_storeManager->getStores(true) as $store) {
             $this->_storeIdToCode[$store->getId()] = $store->getCode();
         }
         ksort($this->_storeIdToCode); // to ensure that 'admin' store (ID is zero) goes first
@@ -463,7 +480,7 @@ abstract class Magento_ImportExport_Model_Export_Entity_Abstract
     public function getWriter()
     {
         if (!$this->_writer) {
-            Mage::throwException(__('Please specify writer.'));
+            throw new Magento_Core_Exception(__('Please specify writer.'));
         }
         return $this->_writer;
     }

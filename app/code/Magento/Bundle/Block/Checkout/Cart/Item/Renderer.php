@@ -27,21 +27,23 @@ class Magento_Bundle_Block_Checkout_Cart_Item_Renderer extends Magento_Checkout_
     protected $_bundleProdConfigur = null;
 
     /**
-     * @param Magento_Bundle_Helper_Catalog_Product_Configuration $bundleProdConfigur
      * @param Magento_Catalog_Helper_Product_Configuration $ctlgProdConfigur
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Checkout_Model_Session $checkoutSession
+     * @param Magento_Bundle_Helper_Catalog_Product_Configuration $bundleProdConfigur
      * @param array $data
      */
     public function __construct(
-        Magento_Bundle_Helper_Catalog_Product_Configuration $bundleProdConfigur,
         Magento_Catalog_Helper_Product_Configuration $ctlgProdConfigur,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
+        Magento_Checkout_Model_Session $checkoutSession,
+        Magento_Bundle_Helper_Catalog_Product_Configuration $bundleProdConfigur,
         array $data = array()
     ) {
         $this->_bundleProdConfigur = $bundleProdConfigur;
-        parent::__construct($ctlgProdConfigur, $coreData, $context, $data);
+        parent::__construct($ctlgProdConfigur, $coreData, $context, $checkoutSession, $data);
     }
 
     protected function _construct()

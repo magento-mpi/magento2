@@ -11,10 +11,6 @@
 /**
  * Customer address model
  *
- * @category   Magento
- * @package    Magento_Customer
- * @author     Magento Core Team <core@magentocommerce.com>
- *
  * @method int getParentId() getParentId()
  * @method Magento_Customer_Model_Address setParentId() setParentId(int $parentId)
  */
@@ -26,6 +22,48 @@ class Magento_Customer_Model_Address extends Magento_Customer_Model_Address_Abst
      * @var Magento_Customer_Model_Customer
      */
     protected $_customer;
+
+    /**
+     * @var Magento_Customer_Model_CustomerFactory
+     */
+    protected $_customerFactory;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Directory_Helper_Data $directoryData
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Eav_Model_Config $eavConfig
+     * @param Magento_Customer_Model_Address_Config $addressConfig
+     * @param Magento_Directory_Model_RegionFactory $regionFactory
+     * @param Magento_Directory_Model_CountryFactory $countryFactory
+     * @param Magento_Customer_Model_CustomerFactory $customerFactory
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Directory_Helper_Data $directoryData,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Eav_Model_Config $eavConfig,
+        Magento_Customer_Model_Address_Config $addressConfig,
+        Magento_Directory_Model_RegionFactory $regionFactory,
+        Magento_Directory_Model_CountryFactory $countryFactory,
+        Magento_Customer_Model_CustomerFactory $customerFactory,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_customerFactory = $customerFactory;
+        parent::__construct(
+            $eventManager, $directoryData, $context, $registry, $eavConfig, $addressConfig, $regionFactory,
+            $countryFactory, $resource, $resourceCollection, $data
+        );
+    }
 
     protected function _construct()
     {
@@ -66,7 +104,7 @@ class Magento_Customer_Model_Address extends Magento_Customer_Model_Address_Abst
             return false;
         }
         if (empty($this->_customer)) {
-            $this->_customer = Mage::getModel('Magento_Customer_Model_Customer')
+            $this->_customer = $this->_createCustomer()
                 ->load($this->getCustomerId());
         }
         return $this->_customer;
@@ -164,5 +202,13 @@ class Magento_Customer_Model_Address extends Magento_Customer_Model_Address_Abst
     {
         $this->setData('region_id', (int) $regionId);
         return $this;
+    }
+
+    /**
+     * @return Magento_Customer_Model_Customer
+     */
+    protected function _createCustomer()
+    {
+        return $this->_customerFactory->create();
     }
 }

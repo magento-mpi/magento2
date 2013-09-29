@@ -10,6 +10,27 @@
 
 class Magento_Customer_Block_Widget_Abstract extends Magento_Core_Block_Template
 {
+    /**
+     * @var Magento_Eav_Model_Config
+     */
+    protected $_eavConfig;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Eav_Model_Config $eavConfig
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        Magento_Eav_Model_Config $eavConfig,
+        array $data = array()
+    ) {
+        $this->_eavConfig = $eavConfig;
+        parent::__construct($coreData, $context, $data);
+    }
+
     public function getConfig($key)
     {
         return $this->helper('Magento_Customer_Helper_Address')->getConfig($key);
@@ -49,6 +70,6 @@ class Magento_Customer_Block_Widget_Abstract extends Magento_Core_Block_Template
      */
     protected function _getAttribute($attributeCode)
     {
-        return Mage::getSingleton('Magento_Eav_Model_Config')->getAttribute('customer', $attributeCode);
+        return $this->_eavConfig->getAttribute('customer', $attributeCode);
     }
 }

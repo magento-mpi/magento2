@@ -114,7 +114,7 @@ class Magento_Core_Model_Cache_StateTest extends PHPUnit_Framework_TestCase
             ->method('getAllOptions')
             ->will($this->returnValue($resourceTypeOptions));
 
-        $appState = $this->getMock('Magento_Core_Model_App_State');
+        $appState = $this->getMock('Magento_Core_Model_App_State', array(), array(), '', false);
         $appState->expects($this->any())
             ->method('isInstalled')
             ->will($this->returnValue($appInstalled));

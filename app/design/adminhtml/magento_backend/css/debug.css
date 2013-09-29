@@ -719,7 +719,6 @@ th.required:after {
 .adminhtml-cms-block-index .col-1-layout,
 .adminhtml-widget-instance-index .col-1-layout,
 .adminhtml-banner-index .col-1-layout,
-.adminhtml-poll-index .col-1-layout,
 /* reports */
 .adminhtml-paypal-reports-index .col-1-layout,
 .adminhtml-report-shopcart-product .col-1-layout,
@@ -814,7 +813,6 @@ th.required:after {
 .adminhtml-cms-block-index .page-actions,
 .adminhtml-widget-instance-index .page-actions,
 .adminhtml-banner-index .page-actions,
-.adminhtml-poll-index .page-actions,
 /* reports */
 .adminhtml-paypal-reports-index .page-actions,
 /* system */
@@ -873,7 +871,6 @@ th.required:after {
 .adminhtml-cms-block-index .page-actions.fixed,
 .adminhtml-widget-instance-index .page-actions.fixed,
 .adminhtml-banner-index .page-actions.fixed,
-.adminhtml-poll-index .page-actions.fixed,
 /* reports */
 .adminhtml-paypal-reports-index .page-actions.fixed,
 /* system */
@@ -931,7 +928,6 @@ th.required:after {
 .adminhtml-cms-block-index .page-actions .add,
 .adminhtml-widget-instance-index .page-actions .add,
 .adminhtml-banner-index .page-actions .add,
-.adminhtml-poll-index .page-actions .add,
 /* reports */
 .adminhtml-paypal-reports-index .page-actions .task,
 /* system */
@@ -1002,7 +998,6 @@ th.required:after {
 .eq-ie8 .adminhtml-cms-block-index .page-actions .add,
 .eq-ie8 .adminhtml-widget-instance-index .page-actions .add,
 .eq-ie8 .adminhtml-banner-index .page-actions .add,
-.eq-ie8 .adminhtml-poll-index .page-actions .add,
 /* reports */
 .eq-ie8 .adminhtml-paypal-reports-index .page-actions .task,
 /* system */
@@ -1057,7 +1052,6 @@ th.required:after {
 .adminhtml-cms-block-index .page-actions .add:hover,
 .adminhtml-widget-instance-index .page-actions .add:hover,
 .adminhtml-banner-index .page-actions .add:hover,
-.adminhtml-poll-index .page-actions .add:hover,
 /* reports */
 .adminhtml-paypal-reports-index .page-actions .task:hover,
 /* system */
@@ -1120,7 +1114,6 @@ th.required:after {
 .eq-ie8 .adminhtml-cms-block-index .page-actions .add:hover,
 .eq-ie8 .adminhtml-widget-instance-index .page-actions .add:hover,
 .eq-ie8 .adminhtml-banner-index .page-actions .add:hover,
-.eq-ie8 .adminhtml-poll-index .page-actions .add:hover,
 /* reports */
 .eq-ie8 .adminhtml-paypal-reports-index .page-actions .task:hover,
 /* system */
@@ -1175,7 +1168,6 @@ th.required:after {
 .adminhtml-cms-block-index .page-actions .add:active,
 .adminhtml-widget-instance-index .page-actions .add:active,
 .adminhtml-banner-index .page-actions .add:active,
-.adminhtml-poll-index .page-actions .add:active,
 /* reports */
 .adminhtml-paypal-reports-index .page-actions .task:active,
 /* system */
@@ -1234,7 +1226,6 @@ th.required:after {
 .adminhtml-cms-block-index .page-actions .add > span,
 .adminhtml-widget-instance-index .page-actions .add > span,
 .adminhtml-banner-index .page-actions .add > span,
-.adminhtml-poll-index .page-actions .add > span,
 /* reports */
 .adminhtml-paypal-reports-index .page-actions .task > span,
 /* system */
@@ -1292,7 +1283,6 @@ th.required:after {
 .adminhtml-cms-block-index .page-actions .add > span:before,
 .adminhtml-widget-instance-index .page-actions .add > span:before,
 .adminhtml-banner-index .page-actions .add > span:before,
-.adminhtml-poll-index .page-actions .add > span:before,
 /* reports */
 .adminhtml-paypal-reports-index .page-actions .task > span:before,
 /* system */
@@ -1459,7 +1449,6 @@ th.required:after {
 .adminhtml-cms-block-index .grid-actions,
 .adminhtml-widget-instance-index .grid-actions,
 .adminhtml-banner-index .grid-actions,
-.adminhtml-poll-index .grid-actions,
 /* reports */
 .adminhtml-paypal-reports-index .grid-actions,
 /* system */

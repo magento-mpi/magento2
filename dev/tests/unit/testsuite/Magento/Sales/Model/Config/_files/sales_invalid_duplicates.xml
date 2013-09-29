@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <section name="s1">
+        <group name="g1">
+            <item name="i1" instance="instance1" sort_order="1">
+                <renderer name="r1" instance="instance1"/>
+                <renderer name="r1" instance="instance1"/>
+            </item>
+            <item name="i1" instance="instance1" sort_order="1"/>
+        </group>
+        <group name="g1">
+            <item name="i1" instance="instance1" sort_order="1"/>
+        </group>
+    </section>
+    <section name="s1">
+        <group name="g1">
+            <item name="i1" instance="instance1" sort_order="1"/>
+        </group>
+    </section>
+    <order>
+        <available_product_type name="a1"/>
+        <available_product_type name="a1"/>
+    </order>
+</config>

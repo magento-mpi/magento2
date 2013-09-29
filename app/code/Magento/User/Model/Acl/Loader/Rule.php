@@ -39,7 +39,7 @@ class Magento_User_Model_Acl_Loader_Rule implements Magento_Acl_LoaderInterface
     {
         $ruleTable = $this->_resource->getTableName("admin_rule");
 
-        $adapter = $this->_resource->getConnection('read');
+        $adapter = $this->_resource->getConnection('core_read');
 
         $select = $adapter->select()
             ->from(array('r' => $ruleTable));

@@ -30,14 +30,37 @@ class Magento_Install_Block_End extends Magento_Install_Block_Abstract
      */
     protected $_survey;
 
+    /**
+     * Cryptographic key
+     *
+     * @var string
+     */
+    protected $_cryptKey;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Core_Model_Config $coreConfig
+     * @param Magento_AdminNotification_Model_Survey $survey
+     * @param Magento_Core_Model_Session_Generic $cryptKey
+     * @param Magento_Install_Model_Installer $installer
+     * @param Magento_Install_Model_Wizard $installWizard
+     * @param Magento_Core_Model_Session_Generic $session
+     * @param array $data
+     */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         Magento_Core_Model_Config $coreConfig,
         Magento_AdminNotification_Model_Survey $survey,
+        $cryptKey,
+        Magento_Install_Model_Installer $installer,
+        Magento_Install_Model_Wizard $installWizard,
+        Magento_Core_Model_Session_Generic $session,
         array $data = array()
     ) {
-        parent::__construct($coreData, $context, $data);
+        $this->_cryptKey = $cryptKey;
+        parent::__construct($coreData, $context, $installer, $installWizard, $session, $data);
         $this->_coreConfig = $coreConfig;
         $this->_survey = $survey;
     }
@@ -49,7 +72,7 @@ class Magento_Install_Block_End extends Magento_Install_Block_Abstract
     {
         $key = $this->getData('encryption_key');
         if (is_null($key)) {
-            $key = (string) $this->_coreConfig->getNode('global/crypt/key');
+            $key = $this->_cryptKey;
             $this->setData('encryption_key', $key);
         }
         return $key;
@@ -63,7 +86,7 @@ class Magento_Install_Block_End extends Magento_Install_Block_Abstract
     public function getIframeSourceUrl()
     {
         if (!$this->_survey->isSurveyUrlValid()
-            || Mage::getSingleton('Magento_Install_Model_Installer')->getHideIframe()) {
+            || $this->_installer->getHideIframe()) {
             return null;
         }
         return $this->_survey->getSurveyUrl();

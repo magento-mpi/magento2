@@ -28,7 +28,13 @@ class Magento_ImportExport_Model_Resource_Customer_StorageTest extends PHPUnit_F
 
     protected function setUp()
     {
-        $this->_model = new Magento_ImportExport_Model_Resource_Customer_Storage($this->_getModelDependencies());
+        $this->_model = new Magento_ImportExport_Model_Resource_Customer_Storage(
+            $this->getMock('Magento_Customer_Model_Resource_Customer_CollectionFactory', array(), array(), '', false),
+            $this->getMock(
+                'Magento_ImportExport_Model_Resource_CollectionByPagesIteratorFactory', array(), array(), '', false
+            ),
+            $this->_getModelDependencies()
+        );
         $this->_model->load();
     }
 

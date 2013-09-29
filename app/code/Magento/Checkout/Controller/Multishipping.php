@@ -22,7 +22,7 @@ class Magento_Checkout_Controller_Multishipping extends Magento_Checkout_Control
      */
     protected function _getCheckout()
     {
-        return Mage::getSingleton('Magento_Checkout_Model_Type_Multishipping');
+        return $this->_objectManager->get('Magento_Checkout_Model_Type_Multishipping');
     }
 
     /**
@@ -32,7 +32,7 @@ class Magento_Checkout_Controller_Multishipping extends Magento_Checkout_Control
      */
     protected function _getState()
     {
-        return Mage::getSingleton('Magento_Checkout_Model_Type_Multishipping_State');
+        return $this->_objectManager->get('Magento_Checkout_Model_Type_Multishipping_State');
     }
 
     /**
@@ -52,7 +52,7 @@ class Magento_Checkout_Controller_Multishipping extends Magento_Checkout_Control
      */
     protected function _getCheckoutSession()
     {
-        return Mage::getSingleton('Magento_Checkout_Model_Session');
+        return $this->_objectManager->get('Magento_Checkout_Model_Session');
     }
 
     /**
@@ -90,7 +90,7 @@ class Magento_Checkout_Controller_Multishipping extends Magento_Checkout_Control
         }
 
         if (!in_array($action, array('login', 'register'))) {
-            $customerSession = Mage::getSingleton('Magento_Customer_Model_Session');
+            $customerSession = $this->_objectManager->get('Magento_Customer_Model_Session');
             if (!$customerSession->authenticate($this, $this->_getHelper()->getMSLoginUrl())) {
                 $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             }
@@ -143,7 +143,7 @@ class Magento_Checkout_Controller_Multishipping extends Magento_Checkout_Control
      */
     public function loginAction()
     {
-        if (Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()) {
+        if ($this->_objectManager->get('Magento_Customer_Model_Session')->isLoggedIn()) {
             $this->_redirect('*/*/');
             return;
         }
@@ -164,7 +164,7 @@ class Magento_Checkout_Controller_Multishipping extends Magento_Checkout_Control
      */
     public function registerAction()
     {
-        if (Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()) {
+        if ($this->_objectManager->get('Magento_Customer_Model_Session')->isLoggedIn()) {
             $this->_redirectUrl($this->_getHelper()->getMSCheckoutUrl());
             return;
         }
@@ -532,8 +532,9 @@ class Magento_Checkout_Controller_Multishipping extends Magento_Checkout_Control
     public function redirectLogin()
     {
         $this->setFlag('', 'no-dispatch', true);
-        Mage::getSingleton('Magento_Customer_Model_Session')
-            ->setBeforeAuthUrl(Mage::getUrl('*/*', array('_secure' => true)));
+        $url = $this->_objectManager->create('Magento_Core_Model_UrlInterface')
+            ->getUrl('*/*', array('_secure' => true));
+        $this->_objectManager->get('Magento_Customer_Model_Session')->setBeforeAuthUrl($url);
 
         $this->getResponse()->setRedirect(
             $this->_objectManager->get('Magento_Core_Helper_Url')->addRequestParam(

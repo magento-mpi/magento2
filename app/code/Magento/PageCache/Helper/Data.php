@@ -46,27 +46,15 @@ class Magento_PageCache_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_coreStoreConfig;
 
     /**
-     * @var Magento_Core_Model_Cookie
-     */
-    protected $_cookie;
-
-    /**
-     * @var Magento_PageCache_Model_CacheControlFactory
-     */
-    protected $_ccFactory;
-
-    /**
-     * Initialize 'no cache' cookie locking
-     *
+     * @param Magento_Core_Helper_Context                 $context
      * @param Magento_PageCache_Model_CacheControlFactory $ccFactory
-     * @param Magento_Core_Model_Cookie $cookie
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Cookie                   $cookie
+     * @param Magento_Core_Model_Store_Config             $coreStoreConfig
      */
     function __construct(
+        Magento_Core_Helper_Context $context,
         Magento_PageCache_Model_CacheControlFactory $ccFactory,
         Magento_Core_Model_Cookie $cookie,
-        Magento_Core_Helper_Context $context,
         Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
         parent::__construct($context);

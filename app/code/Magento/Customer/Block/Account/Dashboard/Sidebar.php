@@ -29,16 +29,78 @@ class Magento_Customer_Block_Account_Dashboard_Sidebar extends Magento_Core_Bloc
 
     protected $_compareItems;
 
+    /**
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @var Magento_Checkout_Model_Session
+     */
+    protected $_checkoutSession;
+
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Sales_Model_QuoteFactory
+     */
+    protected $_quoteFactory;
+
+    /**
+     * @var Magento_Wishlist_Model_WishlistFactory
+     */
+    protected $_wishListFactory;
+
+    /**
+     * @var Magento_Catalog_Model_Resource_Product_Compare_Item_CollectionFactory
+     */
+    protected $_itemsCompareFactory;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Checkout_Model_Session $checkoutSession
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Sales_Model_QuoteFactory $quoteFactory
+     * @param Magento_Wishlist_Model_WishlistFactory $wishListFactory
+     * @param Magento_Catalog_Model_Resource_Product_Compare_Item_CollectionFactory $itemsCompareFactory
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Checkout_Model_Session $checkoutSession,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Sales_Model_QuoteFactory $quoteFactory,
+        Magento_Wishlist_Model_WishlistFactory $wishListFactory,
+        Magento_Catalog_Model_Resource_Product_Compare_Item_CollectionFactory $itemsCompareFactory,
+        array $data = array()
+    ) {
+        $this->_customerSession = $customerSession;
+        $this->_checkoutSession = $checkoutSession;
+        $this->_storeManager = $storeManager;
+        $this->_quoteFactory = $quoteFactory;
+        $this->_wishListFactory = $wishListFactory;
+        $this->_itemsCompareFactory = $itemsCompareFactory;
+        parent::__construct($coreData, $context, $data);
+    }
+
+
     public function getShoppingCartUrl()
     {
-        return Mage::getUrl('checkout/cart');
+        return $this->_urlBuilder->getUrl('checkout/cart');
     }
 
     public function getCartItemsCount()
     {
         if( !$this->_cartItemsCount ) {
-            $this->_cartItemsCount = Mage::getModel('Magento_Sales_Model_Quote')
-                ->setId(Mage::getSingleton('Magento_Checkout_Model_Session')->getQuote()->getId())
+            $this->_cartItemsCount = $this->_createQuote()
+                ->setId($this->_checkoutSession->getQuote()->getId())
                 ->getItemsCollection()
                 ->getSize();
         }
@@ -49,8 +111,7 @@ class Magento_Customer_Block_Account_Dashboard_Sidebar extends Magento_Core_Bloc
     public function getWishlist()
     {
         if( !$this->_wishlist ) {
-            $this->_wishlist = Mage::getModel('Magento_Wishlist_Model_Wishlist')
-                ->loadByCustomer(Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer());
+            $this->_wishlist = $this->_createWishList()->loadByCustomer($this->_customerSession->getCustomer());
             $this->_wishlist->getItemCollection()
                 ->addAttributeToSelect('name')
                 ->addAttributeToSelect('price')
@@ -72,17 +133,16 @@ class Magento_Customer_Block_Account_Dashboard_Sidebar extends Magento_Core_Bloc
 
     public function getWishlistAddToCartLink($wishlistItem)
     {
-        return Mage::getUrl('wishlist/index/cart', array('item' => $wishlistItem->getId()));
+        return $this->_urlBuilder->getUrl('wishlist/index/cart', array('item' => $wishlistItem->getId()));
     }
 
     public function getCompareItems()
     {
         if( !$this->_compareItems ) {
             $this->_compareItems =
-                Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Compare_Item_Collection')
-                    ->setStoreId(Mage::app()->getStore()->getId());
+                $this->_createProductCompareCollection()->setStoreId($this->_storeManager->getStore()->getId());
             $this->_compareItems->setCustomerId(
-                Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId()
+                $this->_customerSession->getCustomerId()
             );
             $this->_compareItems
                 ->addAttributeToSelect('name')
@@ -92,23 +152,47 @@ class Magento_Customer_Block_Account_Dashboard_Sidebar extends Magento_Core_Bloc
         return $this->_compareItems;
     }
 
-     public function getCompareJsObjectName()
-     {
-         return "dashboardSidebarCompareJsObject";
-     }
+    public function getCompareJsObjectName()
+    {
+        return "dashboardSidebarCompareJsObject";
+    }
 
-     public function getCompareRemoveUrlTemplate()
-     {
-         return $this->getUrl('catalog/product_compare/remove',array('product'=>'#{id}'));
-     }
+    public function getCompareRemoveUrlTemplate()
+    {
+        return $this->getUrl('catalog/product_compare/remove',array('product'=>'#{id}'));
+    }
 
-     public function getCompareAddUrlTemplate()
-     {
-         return $this->getUrl('catalog/product_compare/add',array('product'=>'#{id}'));
-     }
+    public function getCompareAddUrlTemplate()
+    {
+        return $this->getUrl('catalog/product_compare/add',array('product'=>'#{id}'));
+    }
 
-     public function getCompareUrl()
-     {
-         return $this->getUrl('catalog/product_compare');
-     }
+    public function getCompareUrl()
+    {
+        return $this->getUrl('catalog/product_compare');
+    }
+
+    /**
+     * @return Magento_Sales_Model_Quote
+     */
+    protected function _createQuote()
+    {
+        return $this->_quoteFactory->create();
+    }
+
+    /**
+     * @return Magento_Wishlist_Model_Wishlist
+     */
+    protected function _createWishList()
+    {
+        return $this->_wishListFactory->create();
+    }
+
+    /**
+     * @return Magento_Catalog_Model_Resource_Product_Compare_Item_Collection
+     */
+    protected function _createProductCompareCollection()
+    {
+        return $this->_itemsCompareFactory->create();
+    }
 }

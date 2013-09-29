@@ -14,7 +14,7 @@ class Magento_Logging_Block_Adminhtml_Grid_Filter_Ip extends Magento_Backend_Blo
     /**
      * Core resource helper
      *
-     * @var Magento_Core_Model_Resource_Helper_Mysql4
+     * @var Magento_Core_Model_Resource_Helper
      */
     protected $_resourceHelper;
 
@@ -22,12 +22,12 @@ class Magento_Logging_Block_Adminhtml_Grid_Filter_Ip extends Magento_Backend_Blo
      * Construct
      *
      * @param Magento_Backend_Block_Context $context
-     * @param Magento_Logging_Model_Resource_Helper_Mysql4 $resourceHelper
+     * @param Magento_Logging_Model_Resource_Helper $resourceHelper
      * @param array $data
      */
     public function __construct(
         Magento_Backend_Block_Context $context,
-        Magento_Logging_Model_Resource_Helper_Mysql4 $resourceHelper,
+        Magento_Logging_Model_Resource_Helper $resourceHelper,
         array $data = array()
     ) {
         parent::__construct($context, $data);

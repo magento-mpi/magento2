@@ -25,6 +25,11 @@ class Magento_Backend_Block_Widget_Form extends Magento_Backend_Block_Widget
     protected $_template = 'Magento_Backend::widget/form.phtml';
 
     /**
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $_locale;
+
+    /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
@@ -34,6 +39,7 @@ class Magento_Backend_Block_Widget_Form extends Magento_Backend_Block_Widget
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
+        $this->_locale = $context->getLocale();
         parent::__construct($coreData, $context, $data);
     }
 
@@ -224,7 +230,7 @@ class Magento_Backend_Block_Widget_Form extends Magento_Backend_Block_Widget
                 break;
             case 'date':
                 $element->setImage($this->getViewFileUrl('images/grid-cal.gif'));
-                $element->setDateFormat(Mage::app()->getLocale()->getDateFormatWithLongYear());
+                $element->setDateFormat($this->_locale->getDateFormatWithLongYear());
                 break;
             case 'multiline':
                 $element->setLineCount($attribute->getMultilineCount());

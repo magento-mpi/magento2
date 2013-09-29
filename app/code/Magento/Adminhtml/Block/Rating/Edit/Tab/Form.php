@@ -8,9 +8,6 @@
  * @license     {license_link}
  */
 
-/**
- * Poll edit form
- */
 class Magento_Adminhtml_Block_Rating_Edit_Tab_Form extends Magento_Backend_Block_Widget_Form_Generic
 {
     /**

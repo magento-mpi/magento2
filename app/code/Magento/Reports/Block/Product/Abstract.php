@@ -19,18 +19,11 @@
 abstract class Magento_Reports_Block_Product_Abstract extends Magento_Catalog_Block_Product_Abstract
 {
     /**
-     * Product Index model name
+     * Product Index model type
      *
      * @var string
      */
-    protected $_indexName;
-
-    /**
-     * Product Index model instance
-     *
-     * @var Magento_Reports_Model_Product_Index_Abstract
-     */
-    protected $_indexModel;
+    protected $_indexType;
 
     /**
      * Product Index Collection
@@ -38,6 +31,49 @@ abstract class Magento_Reports_Block_Product_Abstract extends Magento_Catalog_Bl
      * @var Magento_Reports_Model_Resource_Product_Index_Collection_Abstract
      */
     protected $_collection;
+
+    /**
+     * @var Magento_Catalog_Model_Config
+     */
+    protected $_catalogConfig;
+
+    /**
+     * @var Magento_Catalog_Model_Product_Visibility
+     */
+    protected $_productVisibility;
+
+    /**
+     * @var Magento_Reports_Model_Product_Index_Factory
+     */
+    protected $_indexFactory;
+
+    /**
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Tax_Helper_Data $taxData
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Catalog_Model_Config $catalogConfig
+     * @param Magento_Catalog_Model_Product_Visibility $productVisibility
+     * @param Magento_Reports_Model_Product_Index_Factory $indexFactory
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_Tax_Helper_Data $taxData,
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        Magento_Catalog_Model_Config $catalogConfig,
+        Magento_Catalog_Model_Product_Visibility $productVisibility,
+        Magento_Reports_Model_Product_Index_Factory $indexFactory,
+        array $data = array()
+    ) {
+        parent::__construct($coreRegistry, $taxData, $catalogData, $coreData, $context, $data);
+        $this->_catalogConfig = $catalogConfig;
+        $this->_productVisibility = $productVisibility;
+        $this->_indexFactory = $indexFactory;
+    }
 
     /**
      * Retrieve page size
@@ -69,15 +105,13 @@ abstract class Magento_Reports_Block_Product_Abstract extends Magento_Catalog_Bl
      */
     protected function _getModel()
     {
-        if (is_null($this->_indexModel)) {
-            if (is_null($this->_indexName)) {
-                Mage::throwException(__('Index model name must be defined'));
-            }
-
-            $this->_indexModel = Mage::getModel($this->_indexName);
+        try {
+            $model = $this->_indexFactory->get($this->_indexType);
+        } catch (InvalidArgumentException $e) {
+            new Magento_Core_Exception(__('Index type is not valid'));
         }
 
-        return $this->_indexModel;
+        return $model;
     }
 
     /**
@@ -98,7 +132,7 @@ abstract class Magento_Reports_Block_Product_Abstract extends Magento_Catalog_Bl
     public function getItemsCollection()
     {
         if (is_null($this->_collection)) {
-            $attributes = Mage::getSingleton('Magento_Catalog_Model_Config')->getProductAttributes();
+            $attributes = $this->_catalogConfig->getProductAttributes();
 
             $this->_collection = $this->_getModel()
                 ->getCollection()
@@ -123,7 +157,7 @@ abstract class Magento_Reports_Block_Product_Abstract extends Magento_Catalog_Bl
                 $this->_collection->addFilterByIds($ids);
             }
             $this->_collection->setAddedAtOrder()
-                ->setVisibility(Mage::getSingleton('Magento_Catalog_Model_Product_Visibility')->getVisibleInSiteIds());
+                ->setVisibility($this->_productVisibility->getVisibleInSiteIds());
         }
 
         return $this->_collection;

@@ -33,7 +33,7 @@ class Magento_Sales_Model_Resource_Order_Collection extends Magento_Sales_Model_
     protected $_eventObject    = 'order_collection';
 
     /**
-     * @var Magento_Core_Model_Resource_Helper_Mysql4
+     * @var Magento_Core_Model_Resource_Helper
      */
     protected $_coreResourceHelper;
 
@@ -42,7 +42,7 @@ class Magento_Sales_Model_Resource_Order_Collection extends Magento_Sales_Model_
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
      * @param Magento_Core_Model_EntityFactory $entityFactory
-     * @param Magento_Core_Model_Resource_Helper_Mysql4 $coreResourceHelper
+     * @param Magento_Core_Model_Resource_Helper $coreResourceHelper
      * @param Magento_Core_Model_Resource_Db_Abstract $resource
      */
     public function __construct(
@@ -50,7 +50,7 @@ class Magento_Sales_Model_Resource_Order_Collection extends Magento_Sales_Model_
         Magento_Core_Model_Logger $logger,
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
         Magento_Core_Model_EntityFactory $entityFactory,
-        Magento_Core_Model_Resource_Helper_Mysql4 $coreResourceHelper,
+        Magento_Core_Model_Resource_Helper $coreResourceHelper,
         Magento_Core_Model_Resource_Db_Abstract $resource = null
     ) {
         parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);

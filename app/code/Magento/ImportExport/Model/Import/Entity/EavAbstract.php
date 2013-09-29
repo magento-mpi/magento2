@@ -10,10 +10,6 @@
 
 /**
  * Import EAV entity abstract model
- *
- * @category    Magento
- * @package     Magento_ImportExport
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 abstract class Magento_ImportExport_Model_Import_Entity_EavAbstract
     extends Magento_ImportExport_Model_Import_EntityAbstract
@@ -90,27 +86,39 @@ abstract class Magento_ImportExport_Model_Import_Entity_EavAbstract
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Helper_String $coreString
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_ImportExport_Model_ImportFactory $importFactory
+     * @param Magento_ImportExport_Model_Resource_Helper $resourceHelper
+     * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Core_Model_App $app
+     * @param Magento_ImportExport_Model_Export_Factory $collectionFactory
+     * @param Magento_Eav_Model_Config $eavConfig
      * @param array $data
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Helper_String $coreString,
         Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_ImportExport_Model_ImportFactory $importFactory,
+        Magento_ImportExport_Model_Resource_Helper $resourceHelper,
+        Magento_Core_Model_Resource $resource,
+        Magento_Core_Model_App $app,
+        Magento_ImportExport_Model_Export_Factory $collectionFactory,
+        Magento_Eav_Model_Config $eavConfig,
         array $data = array()
     ) {
-        parent::__construct($coreData, $coreString, $coreStoreConfig, $data);
+        parent::__construct(
+            $coreData, $coreString, $coreStoreConfig, $importFactory, $resourceHelper, $resource, $data
+        );
 
-        $this->_websiteManager = isset($data['website_manager']) ? $data['website_manager'] : Mage::app();
-        $this->_storeManager   = isset($data['store_manager']) ? $data['store_manager'] : Mage::app();
+        $this->_websiteManager = isset($data['website_manager']) ? $data['website_manager'] : $app;
+        $this->_storeManager   = isset($data['store_manager']) ? $data['store_manager'] : $app;
         $this->_attributeCollection = isset($data['attribute_collection']) ? $data['attribute_collection']
-            : Mage::getResourceModel(static::ATTRIBUTE_COLLECTION_NAME);
+            : $collectionFactory->create(static::ATTRIBUTE_COLLECTION_NAME);
 
         if (isset($data['entity_type_id'])) {
             $this->_entityTypeId = $data['entity_type_id'];
         } else {
-            $this->_entityTypeId = Mage::getSingleton('Magento_Eav_Model_Config')
-                ->getEntityType($this->getEntityTypeCode())
-                ->getEntityTypeId();
+            $this->_entityTypeId = $eavConfig->getEntityType($this->getEntityTypeCode())->getEntityTypeId();
         }
     }
 

@@ -82,10 +82,18 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer_AddressTest extends 
     protected function setUp()
     {
         $this->_objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
-
-        $coreStoreConfig = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false);
         $this->_model = new Magento_ImportExport_Model_Export_Entity_Eav_Customer_Address(
-            $coreStoreConfig,
+            $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false),
+            $this->getMock('Magento_Core_Model_App', array(), array(), '', false),
+            $this->getMock('Magento_ImportExport_Model_Export_Factory', array(), array(), '', false),
+            $this->getMock(
+                'Magento_ImportExport_Model_Resource_CollectionByPagesIteratorFactory', array(), array(), '', false
+            ),
+            $this->getMock('Magento_Core_Model_LocaleInterface', array(), array(), '', false),
+            $this->getMock('Magento_Eav_Model_Config', array(), array(), '', false),
+            $this->getMock('Magento_Customer_Model_Resource_Customer_CollectionFactory', array(), array(), '', false),
+            $this->getMock('Magento_ImportExport_Model_Export_Entity_Eav_CustomerFactory', array(), array(), '', false),
+            $this->getMock('Magento_Customer_Model_Resource_Address_CollectionFactory', array(), array(), '', false),
             $this->_getModelDependencies()
         );
     }
@@ -211,6 +219,13 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer_AddressTest extends 
         $arguments = array(
             'data' => $this->_customerData,
             'resource' => $resource,
+            $this->getMock('Magento_Customer_Model_Config_Share', array(), array(), '', false),
+            $this->getMock('Magento_Customer_Model_AddressFactory', array(), array(), '', false),
+            $this->getMock('Magento_Customer_Model_Resource_Address_CollectionFactory', array(), array(), '', false),
+            $this->getMock('Magento_Core_Model_Email_Template_MailerFactory', array(), array(), '', false),
+            $this->getMock('Magento_Core_Model_Email_InfoFactory', array(), array(), '', false),
+            $this->getMock('Magento_Customer_Model_GroupFactory', array(), array(), '', false),
+            $this->getMock('Magento_Customer_Model_AttributeFactory', array(), array(), '', false),
         );
         /** @var $customer Magento_Customer_Model_Customer|PHPUnit_Framework_MockObject_MockObject */
         $customer = $this->_objectManager->getObject('Magento_Customer_Model_Customer', $arguments);

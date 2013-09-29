@@ -10,15 +10,6 @@
  */
 -->
 <config>
-    <global>
-        <resources>
-            <reports_setup>
-                <setup>
-                    <module>Magento_Reports</module>
-                </setup>
-            </reports_setup>
-        </resources>
-    </global>
     <default>
         <catalog>
             <recently_products>

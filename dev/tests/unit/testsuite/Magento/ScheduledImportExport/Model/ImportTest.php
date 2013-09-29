@@ -35,10 +35,19 @@ class Magento_ScheduledImportExport_Model_ImportTest extends PHPUnit_Framework_T
         $logger = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
         $indexer = $this->getMock('Magento_Index_Model_Indexer', array(), array(), '', false);
         $this->_model = new Magento_ScheduledImportExport_Model_Import(
-            $indexer,
             $logger,
-            $this->getMock('Magento_ScheduledImportExport_Helper_Data', array(), array(), '', false, false),
-            $this->_importConfigMock
+            $this->getMock('Magento_Core_Model_Dir', array(), array(), '', false),
+            $this->getMock('Magento_Core_Model_Log_AdapterFactory', array(), array(), '', false),
+            $this->getMock('Magento_ImportExport_Helper_Data', array(), array(), '', false),
+            $this->getMock('Magento_Core_Model_Config', array(), array(), '', false),
+            $this->_importConfigMock,
+            $this->getMock('Magento_ImportExport_Model_Import_Entity_Factory', array(), array(), '', false),
+            $this->getMock('Magento_ImportExport_Model_Resource_Import_Data', array(), array(), '', false),
+            $this->getMock('Magento_ImportExport_Model_Export_Adapter_CsvFactory', array(), array(), '', false),
+            $this->getMock('Zend_File_Transfer_Adapter_HttpFactory', array(), array(), '', false),
+            $this->getMock('Magento_Core_Model_File_UploaderFactory', array(), array(), '', false),
+            $this->getMock('Magento_ImportExport_Model_Source_Import_Behavior_Factory', array(), array(), '', false),
+            $indexer
         );
     }
 

@@ -17,7 +17,6 @@
  * @method int getProductId()
  * @method Magento_GiftRegistry_Model_Item setProductId(int $value)
  * @method float getQty()
- * @method Magento_GiftRegistry_Model_Item setQty(float $value)
  * @method float getQtyFulfilled()
  * @method Magento_GiftRegistry_Model_Item setQtyFulfilled(float $value)
  * @method string getNote()
@@ -34,6 +33,15 @@
 class Magento_GiftRegistry_Model_Item extends Magento_Core_Model_Abstract
     implements Magento_Catalog_Model_Product_Configuration_Item_Interface
 {
+    /**
+     * @var Magento_Catalog_Model_ProductFactory
+     */
+    protected $productFactory;
+
+    /**
+     * @var Magento_GiftRegistry_Model_Item_OptionFactory
+     */
+    protected $optionFactory;
 
     /**
      * List of options related to item
@@ -49,6 +57,38 @@ class Magento_GiftRegistry_Model_Item extends Magento_Core_Model_Abstract
      * @var array
      */
     protected $_optionsByCode = array();
+
+    /**
+     * @var array|Magento_Catalog_Model_Resource_Url
+     */
+    protected $resourceUrl = array();
+
+    /**
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Catalog_Model_ProductFactory $productFactory,
+     * @param Magento_GiftRegistry_Model_Item_OptionFactory $optionFactory,
+     * @param Magento_Catalog_Model_Resource_Url $resourceUrl
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Catalog_Model_ProductFactory $productFactory,
+        Magento_GiftRegistry_Model_Item_OptionFactory $optionFactory,
+        Magento_Catalog_Model_Resource_Url $resourceUrl,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        $this->productFactory = $productFactory;
+        $this->optionFactory = $optionFactory;
+        $this->optionFactory = $optionFactory;
+        $this->resourceUrl = $resourceUrl;
+    }
 
     /**
      * Flag stating that options were successfully saved
@@ -102,8 +142,7 @@ class Magento_GiftRegistry_Model_Item extends Magento_Core_Model_Abstract
             if ($product->getStoreId() == $storeId) {
                 return false;
             }
-            $urlData = Mage::getResourceSingleton('Magento_Catalog_Model_Resource_Url')
-                ->getRewriteByProductStore(array($product->getId() => $storeId));
+            $urlData = $this->resourceUrl->getRewriteByProductStore(array($product->getId() => $storeId));
             if (!isset($urlData[$product->getId()])) {
                 return false;
             }
@@ -115,7 +154,7 @@ class Magento_GiftRegistry_Model_Item extends Magento_Core_Model_Abstract
         }
 
         if (!$product->isSalable()) {
-            Mage::throwException(
+            throw new Magento_Core_Exception(
                 __('This product(s) is out of stock.'));
         }
 
@@ -215,9 +254,9 @@ class Magento_GiftRegistry_Model_Item extends Magento_Core_Model_Abstract
     protected function _getProduct()
     {
         if (!$this->_getData('product')) {
-            $product = Mage::getModel('Magento_Catalog_Model_Product')->load($this->getProductId());
+            $product = $this->productFactory->create()->load($this->getProductId());
             if (!$product->getId()) {
-                Mage::throwException(
+                throw new Magento_Core_Exception(
                     __('Please correct the product for adding the item to the quote.'));
             }
             $this->setProduct($product);
@@ -357,24 +396,24 @@ class Magento_GiftRegistry_Model_Item extends Magento_Core_Model_Abstract
     public function addOption($option)
     {
         if (is_array($option)) {
-            $option = Mage::getModel('Magento_GiftRegistry_Model_Item_Option')->setData($option)
+            $option = $this->optionFactory->create()->setData($option)
                 ->setItem($this);
         } elseif ($option instanceof Magento_Sales_Model_Quote_Item_Option) {
             // import data from existing quote item option
-            $option = Mage::getModel('Magento_GiftRegistry_Model_Item_Option')->setProduct($option->getProduct())
+            $option = $this->optionFactory->create()->setProduct($option->getProduct())
                ->setCode($option->getCode())
                ->setValue($option->getValue())
                ->setItem($this);
         } elseif (($option instanceof Magento_Object)
             && !($option instanceof Magento_GiftRegistry_Model_Item_Option)
         ) {
-            $option = Mage::getModel('Magento_GiftRegistry_Model_Item_Option')->setData($option->getData())
+            $option = $this->optionFactory->create()->setData($option->getData())
                ->setProduct($option->getProduct())
                ->setItem($this);
         } elseif ($option instanceof Magento_GiftRegistry_Model_Item_Option) {
             $option->setItem($this);
         } else {
-            Mage::throwException(__('Please correct the item option format.'));
+            throw new Magento_Core_Exception(__('Please correct the item option format.'));
         }
 
         $exOption = $this->getOptionByCode($option->getCode());
@@ -399,7 +438,7 @@ class Magento_GiftRegistry_Model_Item extends Magento_Core_Model_Abstract
         if (!isset($this->_optionsByCode[$option->getCode()])) {
             $this->_optionsByCode[$option->getCode()] = $option;
         } else {
-            Mage::throwException(__('An item option with code %1 already exists.', $option->getCode()));
+            throw new Magento_Core_Exception(__('An item option with code %1 already exists.', $option->getCode()));
         }
         return $this;
     }

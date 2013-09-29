@@ -18,6 +18,26 @@
 class Magento_Paygate_Controller_Adminhtml_Paygate_Authorizenet_Payment extends Magento_Adminhtml_Controller_Action
 {
     /**
+     * Session quote
+     *
+     * @var Magento_Adminhtml_Model_Session_Quote
+     */
+    protected $_sessionQuote;
+
+    /**
+     * @param Magento_Backend_Controller_Context $context
+     * @param Magento_Adminhtml_Model_Session_Quote $sessionQuote
+     */
+    public function __construct(
+        Magento_Backend_Controller_Context $context,
+        Magento_Adminhtml_Model_Session_Quote $sessionQuote
+    ) {
+        $this->_sessionQuote = $sessionQuote;
+        parent::__construct($context);
+    }
+
+
+    /**
      * Cancel active partail authorizations
      */
     public function cancelAction()
@@ -29,10 +49,10 @@ class Magento_Paygate_Controller_Adminhtml_Paygate_Authorizenet_Payment extends 
 
             if ($paymentMethod) {
                 $paymentMethod->setStore(
-                    Mage::getSingleton('Magento_Adminhtml_Model_Session_Quote')->getQuote()->getStoreId()
+                    $this->_sessionQuote->getQuote()->getStoreId()
                 );
                 $paymentMethod->cancelPartialAuthorization(
-                    Mage::getSingleton('Magento_Adminhtml_Model_Session_Quote')->getQuote()->getPayment()
+                    $this->_sessionQuote->getQuote()->getPayment()
                 );
             }
 
@@ -46,7 +66,7 @@ class Magento_Paygate_Controller_Adminhtml_Paygate_Authorizenet_Payment extends 
             $result['error_message'] = __('Something went wrong canceling the transactions.');
         }
 
-        Mage::getSingleton('Magento_Adminhtml_Model_Session_Quote')->getQuote()->getPayment()->save();
+        $this->_sessionQuote->getQuote()->getPayment()->save();
         $this->getResponse()->setBody($this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($result));
     }
 

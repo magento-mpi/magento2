@@ -37,7 +37,7 @@ class Magento_Index_Block_Adminhtml_Process_Grid extends Magento_Adminhtml_Block
     protected $_collectionFactory;
 
     /**
-     * @param Magento_Index_Model_Resource_Process_CollectionFactory $collectionFactory
+     * @param Magento_Index_Model_Resource_Process_CollectionFactory $factory
      * @param Magento_Index_Model_Process $indexProcess
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
@@ -47,7 +47,7 @@ class Magento_Index_Block_Adminhtml_Process_Grid extends Magento_Adminhtml_Block
      * @param array $data
      */
     public function __construct(
-        Magento_Index_Model_Resource_Process_CollectionFactory $collectionFactory,
+        Magento_Index_Model_Resource_Process_CollectionFactory $factory,
         Magento_Index_Model_Process $indexProcess,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
@@ -59,7 +59,7 @@ class Magento_Index_Block_Adminhtml_Process_Grid extends Magento_Adminhtml_Block
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
         $this->_eventRepository = $eventRepository;
         $this->_indexProcess = $indexProcess;
-        $this->_collectionFactory = $collectionFactory;
+        $this->_collectionFactory = $factory;
     }
 
     /**

@@ -32,19 +32,27 @@ class Magento_ScheduledImportExport_Model_Export extends Magento_ImportExport_Mo
     protected $_dateModel;
 
     /**
-     * @param Magento_Core_Model_Date $coreDate
      * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Core_Model_Dir $dir
+     * @param Magento_Core_Model_Log_AdapterFactory $adapterFactory
      * @param Magento_ImportExport_Model_Export_ConfigInterface $exportConfig
+     * @param Magento_ImportExport_Model_Export_Entity_Factory $entityFactory
+     * @param Magento_ImportExport_Model_Export_Adapter_Factory $exportAdapterFac
+     * @param Magento_Core_Model_Date $coreDate
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Date $coreDate,
         Magento_Core_Model_Logger $logger,
+        Magento_Core_Model_Dir $dir,
+        Magento_Core_Model_Log_AdapterFactory $adapterFactory,
         Magento_ImportExport_Model_Export_ConfigInterface $exportConfig,
+        Magento_ImportExport_Model_Export_Entity_Factory $entityFactory,
+        Magento_ImportExport_Model_Export_Adapter_Factory $exportAdapterFac,
+        Magento_Core_Model_Date $coreDate,
         array $data = array()
     ) {
         $this->_dateModel = $coreDate;
-        parent::__construct($logger, $exportConfig, $data);
+        parent::__construct($logger, $dir, $adapterFactory, $exportConfig, $entityFactory, $exportAdapterFac, $data);
     }
 
     /**

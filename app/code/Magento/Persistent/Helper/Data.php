@@ -8,13 +8,8 @@
  * @license     {license_link}
  */
 
-
 /**
  * Persistent Shopping Cart Data Helper
- *
- * @category   Magento
- * @package    Magento_Persistent
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Persistent_Helper_Data extends Magento_Core_Helper_Data
 {
@@ -37,57 +32,70 @@ class Magento_Persistent_Helper_Data extends Magento_Core_Helper_Data
      *
      * @var Magento_Persistent_Helper_Session
      */
-    protected $_persistentSession = null;
+    protected $_persistentSession;
 
     /**
      * Checkout data
      *
      * @var Magento_Checkout_Helper_Data
      */
-    protected $_checkoutData = null;
+    protected $_checkoutData;
 
     /**
      * Core url
      *
      * @var Magento_Core_Helper_Url
      */
-    protected $_coreUrl = null;
+    protected $_coreUrl;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Helper_Url $coreUrl
-     * @param Magento_Checkout_Helper_Data $checkoutData
-     * @param Magento_Persistent_Helper_Session $persistentSession
-     * @param Magento_Core_Helper_Http $coreHttp
      * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Helper_Http $coreHttp
      * @param Magento_Core_Model_Config $config
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_StoreManager $storeManager
      * @param Magento_Core_Model_Locale $locale
      * @param Magento_Core_Model_Date $dateModel
      * @param Magento_Core_Model_App_State $appState
-     * @param Magento_Core_Model_Config_Resource $configResource
+     * @param Magento_Core_Model_Encryption $encryptor
+     * @param Magento_Core_Helper_Url $coreUrl
+     * @param Magento_Checkout_Helper_Data $checkoutData
+     * @param Magento_Persistent_Helper_Session $persistentSession
+     * @param bool $dbCompatibleMode
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Helper_Url $coreUrl,
-        Magento_Checkout_Helper_Data $checkoutData,
-        Magento_Persistent_Helper_Session $persistentSession,
-        Magento_Core_Helper_Http $coreHttp,
         Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Helper_Http $coreHttp,
         Magento_Core_Model_Config $config,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_StoreManager $storeManager,
         Magento_Core_Model_Locale $locale,
         Magento_Core_Model_Date $dateModel,
         Magento_Core_Model_App_State $appState,
-        Magento_Core_Model_Config_Resource $configResource
+        Magento_Core_Model_Encryption $encryptor,
+        Magento_Core_Helper_Url $coreUrl,
+        Magento_Checkout_Helper_Data $checkoutData,
+        Magento_Persistent_Helper_Session $persistentSession,
+        $dbCompatibleMode = true
     ) {
         $this->_coreUrl = $coreUrl;
         $this->_checkoutData = $checkoutData;
         $this->_persistentSession = $persistentSession;
-        parent::__construct($eventManager, $coreHttp, $context, $config, $coreStoreConfig, $storeManager, $locale, $dateModel, $appState,
-            $configResource);
+        parent::__construct(
+            $eventManager,
+            $coreHttp,
+            $context,
+            $config,
+            $coreStoreConfig,
+            $storeManager,
+            $locale,
+            $dateModel,
+            $appState,
+            $encryptor,
+            $dbCompatibleMode
+        );
     }
 
     /**

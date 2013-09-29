@@ -181,7 +181,7 @@ abstract class Magento_Eav_Model_Entity_Abstract extends Magento_Core_Model_Reso
     protected $_locale;
 
     /**
-     * @var Magento_Eav_Model_Resource_Helper_Mysql4
+     * @var Magento_Eav_Model_Resource_Helper
      */
     protected $_resourceHelper;
 
@@ -211,7 +211,7 @@ abstract class Magento_Eav_Model_Entity_Abstract extends Magento_Core_Model_Reso
      * @param Magento_Eav_Model_Config $eavConfig
      * @param Magento_Eav_Model_Entity_Attribute_Set $attrSetEntity
      * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Eav_Model_Resource_Helper_Mysql4 $resourceHelper
+     * @param Magento_Eav_Model_Resource_Helper $resourceHelper
      * @param Magento_Eav_Model_Factory_Helper $helperFactory
      * @param array $data
      */
@@ -220,7 +220,7 @@ abstract class Magento_Eav_Model_Entity_Abstract extends Magento_Core_Model_Reso
         Magento_Eav_Model_Config $eavConfig,
         Magento_Eav_Model_Entity_Attribute_Set $attrSetEntity,
         Magento_Core_Model_LocaleInterface $locale,
-        Magento_Eav_Model_Resource_Helper_Mysql4 $resourceHelper,
+        Magento_Eav_Model_Resource_Helper $resourceHelper,
         Magento_Eav_Model_Factory_Helper $helperFactory,
         $data = array()
     ) {

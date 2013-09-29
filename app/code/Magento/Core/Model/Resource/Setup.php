@@ -1,15 +1,11 @@
 <?php
 /**
+ * Resource Setup Model
+ *
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
- */
-
-/**
- * Resource Setup Model
  */
 class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_SetupInterface
 {
@@ -20,23 +16,9 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
     protected $_resourceName;
 
     /**
-     * Setup resource configuration object
-     *
-     * @var Magento_Simplexml_Element
-     */
-    protected $_resourceConfig;
-
-    /**
-     * Connection configuration object
-     *
-     * @var Magento_Simplexml_Element
-     */
-    protected $_connectionConfig;
-
-    /**
      * Setup module configuration object
      *
-     * @var Magento_Simplexml_Element
+     * @var array
      */
     protected $_moduleConfig;
 
@@ -52,7 +34,7 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
      *
      * @var Magento_DB_Adapter_Pdo_Mysql
      */
-    protected $_conn;
+    protected $_connection = null;
     /**
      * Tables cache array
      *
@@ -65,13 +47,6 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
      * @var array
      */
     protected $_setupCache = array();
-
-    /**
-     * Flag which shows, that setup has hooked queries from DB adapter
-     *
-     * @var bool
-     */
-    protected $_queriesHooked = false;
 
     /**
      * Modules configuration
@@ -88,11 +63,6 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
     protected $_modulesReader;
 
     /**
-     * @var Magento_Core_Model_Config
-     */
-    protected $_config;
-
-    /**
      * @var Magento_Core_Model_Event_Manager
      */
     protected $_eventManager;
@@ -103,7 +73,6 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
     protected $_logger;
 
     /**
-     * @param Magento_Core_Model_Logger $logger
      * @var Magento_Core_Model_Resource_Resource
      */
     protected $_resourceResource;
@@ -124,64 +93,35 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
     protected $_migrationFactory;
 
     /**
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Config_Resource $resourcesConfig
-     * @param Magento_Core_Model_Config $config
-     * @param Magento_Core_Model_ModuleListInterface $moduleList
-     * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
-     * @param Magento_Core_Model_Resource_Resource $resourceResource
-     * @param Magento_Core_Model_Resource_Theme_CollectionFactory $themeResourceFactory
-     * @param Magento_Core_Model_Theme_CollectionFactory $themeFactory
-     * @param Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory
-     * @param $resourceName
+     * Connection instance name
      *
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     * @var string
+     */
+    protected $_connectionName = 'core_setup';
+
+    /**
+     * @param Magento_Core_Model_Resource_Setup_Context $context
+     * @param $resourceName
+     * @param $moduleName
+     * @param string $connectionName
      */
     public function __construct(
-        Magento_Core_Model_Logger $logger,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Config_Resource $resourcesConfig,
-        Magento_Core_Model_Config $config,
-        Magento_Core_Model_ModuleListInterface $moduleList,
-        Magento_Core_Model_Resource $resource,
-        Magento_Core_Model_Config_Modules_Reader $modulesReader,
-        Magento_Core_Model_Resource_Resource $resourceResource,
-        Magento_Core_Model_Resource_Theme_CollectionFactory $themeResourceFactory,
-        Magento_Core_Model_Theme_CollectionFactory $themeFactory,
-        Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory,
-        $resourceName
+        Magento_Core_Model_Resource_Setup_Context $context,
+        $resourceName,
+        $moduleName,
+        $connectionName = ''
     ) {
-        $this->_config = $config;
-        $resourcesConfig->setConfig($config);
-        $this->_eventManager = $eventManager;
-        $this->_resourceModel = $resource;
+        $this->_eventManager = $context->getEventManager();
+        $this->_resourceModel = $context->getResourceModel();
+        $this->_logger = $context->getLogger();
+        $this->_modulesReader = $context->getModulesReader();
         $this->_resourceName = $resourceName;
-        $this->_modulesReader = $modulesReader;
-        $this->_resourceConfig = $resourcesConfig->getResourceConfig($resourceName);
-        $this->_resourceResource = $resourceResource;
-        $this->_themeResourceFactory = $themeResourceFactory;
-        $this->_themeFactory = $themeFactory;
-        $this->_migrationFactory = $migrationFactory;
-        $connection = $resourcesConfig->getResourceConnectionConfig($resourceName);
-        if ($connection) {
-            $this->_connectionConfig = $connection;
-        } else {
-            $this->_connectionConfig = $resourcesConfig->getResourceConnectionConfig(self::DEFAULT_SETUP_CONNECTION);
-        }
-
-        $modName = (string)$this->_resourceConfig->setup->module;
-        $this->_moduleConfig = $moduleList->getModule($modName);
-        $connection = $this->_resourceModel->getConnection($this->_resourceName);
-        /**
-         * If module setup configuration wasn't loaded
-         */
-        if (!$connection) {
-            $connection = $this->_resourceModel->getConnection($this->_resourceName);
-        }
-        $this->_conn = $connection;
-        $this->_logger = $logger;
+        $this->_resourceResource = $context->getResourceResource();
+        $this->_migrationFactory = $context->getMigrationFactory();
+        $this->_themeFactory = $context->getThemeFactory();
+        $this->_themeResourceFactory = $context->getThemeResourceFactory();
+        $this->_moduleConfig = $context->getModuleList()->getModule($moduleName);
+        $this->_connectionName = $connectionName ?: $this->_connectionName;
     }
 
     /**
@@ -191,7 +131,10 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
      */
     public function getConnection()
     {
-        return $this->_conn;
+        if (null === $this->_connection) {
+            $this->_connection = $this->_resourceModel->getConnection($this->_connectionName);
+        }
+        return $this->_connection;
     }
 
     /**
@@ -383,7 +326,6 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
      */
     protected function _getAvailableDbFiles($actionType, $fromVersion, $toVersion)
     {
-        $resModel   = (string)$this->_connectionConfig->model;
         $modName    = (string)$this->_moduleConfig['name'];
 
         $filesDir   = $this->_modulesReader->getModuleDir('sql', $modName) . DS . $this->_resourceName;
@@ -394,7 +336,7 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
         $dbFiles    = array();
         $typeFiles  = array();
         $regExpDb   = sprintf('#^%s-(.*)\.(php|sql)$#i', $actionType);
-        $regExpType = sprintf('#^%s-%s-(.*)\.(php|sql)$#i', $resModel, $actionType);
+        $regExpType = sprintf('#^%s-%s-(.*)\.(php|sql)$#i', 'mysql4', $actionType);
         $handlerDir = dir($filesDir);
         while (false !== ($file = $handlerDir->read())) {
             $matches = array();
@@ -434,21 +376,6 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
         if (is_dir($filesDir) && is_readable($filesDir)) {
             $regExp     = sprintf('#^%s-(.*)\.php$#i', $actionType);
             $handlerDir = dir($filesDir);
-            while (false !== ($file = $handlerDir->read())) {
-                $matches = array();
-                if (preg_match($regExp, $file, $matches)) {
-                    $files[$matches[1]] = $filesDir . DS . $file;
-                }
-            }
-            $handlerDir->close();
-        }
-
-        // search data files in old location
-        $filesDir   = $this->_modulesReader->getModuleDir('sql', $modName) . DS . $this->_resourceName;
-        if (is_dir($filesDir) && is_readable($filesDir)) {
-            $regExp     = sprintf('#^%s-%s-(.*)\.php$#i', $this->_connectionConfig->model, $actionType);
-            $handlerDir = dir($filesDir);
-
             while (false !== ($file = $handlerDir->read())) {
                 $matches = array();
                 if (preg_match($regExp, $file, $matches)) {

@@ -23,12 +23,18 @@ class Magento_Paypal_Model_Cert extends Magento_Core_Model_Abstract
      *
      * @var Magento_Core_Helper_Data
      */
-    protected $_coreData = null;
+    protected $_coreData;
+
+    /**
+     * @var Magento_Core_Model_Dir
+     */
+    protected $_coreDir;
 
     /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Dir $coreDir
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -37,11 +43,13 @@ class Magento_Paypal_Model_Cert extends Magento_Core_Model_Abstract
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Dir $coreDir,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_coreData = $coreData;
+        $this->_coreDir = $coreDir;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -71,11 +79,12 @@ class Magento_Paypal_Model_Cert extends Magento_Core_Model_Abstract
      * Get path to PayPal certificate file, if file does not exist try to create it
      *
      * @return string
+     * @throws Magento_Core_Exception
      */
     public function getCertPath()
     {
         if (!$this->getContent()) {
-            Mage::throwException(__('The PayPal certificate does not exist.'));
+            throw new Magento_Core_Exception(__('The PayPal certificate does not exist.'));
         }
 
         $certFileName = sprintf('cert_%s_%s.pem', $this->getWebsiteId(), strtotime($this->getUpdatedAt()));
@@ -130,7 +139,7 @@ class Magento_Paypal_Model_Cert extends Magento_Core_Model_Abstract
      */
     protected function _getBaseDir()
     {
-        return Mage::getBaseDir('var') . DS . self::BASEPATH_PAYPAL_CERT;
+        return $this->_coreDir->getDir(Magento_Core_Model_Dir::VAR_DIR) . DS . self::BASEPATH_PAYPAL_CERT;
     }
 
     /**

@@ -78,15 +78,31 @@ abstract class Magento_Shipping_Model_Carrier_Abstract extends Magento_Object
     protected $_coreStoreConfig;
 
     /**
+     * @var Magento_Shipping_Model_Rate_Result_ErrorFactory
+     */
+    protected $_rateErrorFactory;
+
+    /**
+     * @var Magento_Shipping_Model_Rate_Result_ErrorFactory
+     */
+    protected $_logAdapterFactory;
+
+    /**
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Shipping_Model_Rate_Result_ErrorFactory $rateErrorFactory
+     * @param Magento_Core_Model_Log_AdapterFactory $logAdapterFactory
      * @param array $data
      */
     public function __construct(
         Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Shipping_Model_Rate_Result_ErrorFactory $rateErrorFactory,
+        Magento_Core_Model_Log_AdapterFactory $logAdapterFactory,
         array $data = array()
     ) {
         parent::__construct($data);
         $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_rateErrorFactory = $rateErrorFactory;
+        $this->_logAdapterFactory = $logAdapterFactory;
     }
 
     /**
@@ -237,6 +253,10 @@ abstract class Magento_Shipping_Model_Carrier_Abstract extends Magento_Object
         return array();
     }
 
+    /**
+     * @param Magento_Shipping_Model_Rate_Request $request
+     * @return $this|bool|false|Magento_Core_Model_Abstract
+     */
     public function checkAvailableShipCountries(Magento_Shipping_Model_Rate_Request $request)
     {
         $speCountriesAllow = $this->getConfigData('sallowspecific');
@@ -254,7 +274,8 @@ abstract class Magento_Shipping_Model_Carrier_Abstract extends Magento_Object
              } elseif ($showMethod && (!$availableCountries || ($availableCountries
                  && !in_array($request->getDestCountryId(), $availableCountries)))
              ){
-                   $error = Mage::getModel('Magento_Shipping_Model_Rate_Result_Error');
+                   /** @var Magento_Shipping_Model_Rate_Result_Error $error */
+                   $error = $this->_rateErrorFactory->create();
                    $error->setCarrier($this->_code);
                    $error->setCarrierTitle($this->getConfigData('title'));
                    $errorMsg = $this->getConfigData('specificerrmsg');
@@ -539,8 +560,7 @@ abstract class Magento_Shipping_Model_Carrier_Abstract extends Magento_Object
     protected function _debug($debugData)
     {
         if ($this->getDebugFlag()) {
-            Mage::getModel('Magento_Core_Model_Log_Adapter',
-                array('fileName' => 'shipping_' . $this->getCarrierCode() . '.log'))
+            $this->_logAdapterFactory->creaye(array('fileName' => 'shipping_' . $this->getCarrierCode() . '.log'))
                ->setFilterDataKeys($this->_debugReplacePrivateDataKeys)
                ->log($debugData);
         }

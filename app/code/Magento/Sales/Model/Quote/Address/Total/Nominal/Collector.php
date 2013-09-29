@@ -14,11 +14,11 @@
 class Magento_Sales_Model_Quote_Address_Total_Nominal_Collector extends Magento_Sales_Model_Quote_Address_Total_Collector
 {
     /**
-     * Conf. node for nominal totals declaration
+     * Config group for nominal totals declaration
      *
      * @var string
      */
-    protected $_totalsConfigNode = 'global/sales/quote/nominal_totals';
+    protected $_configGroup = 'nominal_totals';
 
     /**
      * Custom cache key to not confuse with regular totals

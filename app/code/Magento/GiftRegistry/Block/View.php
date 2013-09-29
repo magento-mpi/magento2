@@ -15,7 +15,44 @@
 class Magento_GiftRegistry_Block_View extends Magento_GiftRegistry_Block_Customer_Items
 {
     /**
-     * Return current giftregistry entity
+     * @var Magento_Directory_Model_CountryFactory
+     */
+    protected $countryFactory;
+
+    /**
+     * @var Magento_GiftRegistry_Model_TypeFactory
+     */
+    protected $typeFactory;
+
+    /**
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Tax_Helper_Data $taxData
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_GiftRegistry_Model_ItemFactory $itemFactory
+     * @param Magento_Directory_Model_CountryFactory $countryFactory
+     * @param Magento_GiftRegistry_Model_TypeFactory $typeFactory
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_Tax_Helper_Data $taxData,
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        Magento_GiftRegistry_Model_ItemFactory $itemFactory,
+        Magento_Directory_Model_CountryFactory $countryFactory,
+        Magento_GiftRegistry_Model_TypeFactory $typeFactory,
+        array $data = array()
+    ) {
+        $this->countryFactory = $countryFactory;
+        $this->typeFactory = $typeFactory;
+        parent::__construct($coreRegistry, $taxData, $catalogData, $coreData, $context, $itemFactory, $data);
+    }
+
+    /**
+     * Return current gift registry entity
      *
      * @return Magento_GiftRegistry_Model_Entity
      */
@@ -47,7 +84,7 @@ class Magento_GiftRegistry_Block_View extends Magento_GiftRegistry_Block_Custome
     public function getCountryName($countryCode)
     {
         if ($countryCode) {
-            $country = Mage::getModel('Magento_Directory_Model_Country')->loadByCode($countryCode);
+            $country = $this->countryFactory->create()->loadByCode($countryCode);
             return $country->getName();
         }
         return '';
@@ -86,7 +123,7 @@ class Magento_GiftRegistry_Block_View extends Magento_GiftRegistry_Block_Custome
     public function getAttributesToDisplay()
     {
         $typeId = $this->getEntity()->getTypeId();
-        $type = Mage::getModel('Magento_GiftRegistry_Model_Type')->load($typeId);
+        $type = $this->typeFactory->create()->load($typeId);
 
         $attributes = array_merge(
             array(

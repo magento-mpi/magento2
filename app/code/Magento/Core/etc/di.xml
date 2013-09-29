@@ -26,6 +26,7 @@
     <preference for="Magento_Config_ConverterInterface" type="Magento_Config_Converter_Dom"/>
     <preference for="Magento_Phrase_RendererInterface" type="Magento_Phrase_Renderer_Composite" />
     <preference for="Magento_Core_Model_Url_SecurityInfoInterface" type="Magento_Core_Model_Url_SecurityInfo_Proxy" />
+    <preference for="Magento_Core_Model_Module_ResourceResolverInterface" type="Magento_Core_Model_Module_ResourceResolver" />
     <type name="Magento_Data_Structure" shared="false" />
     <type name="Magento_Data_Collection_Db_FetchStrategy_Cache">
         <param name="cache">
@@ -260,11 +261,6 @@
             </value>
         </param>
     </type>
-    <type name="Magento_Core_Controller_Request_Http">
-        <param name="backendData">
-            <instance type="Magento_Backend_Helper_Data_Proxy" />
-        </param>
-    </type>
     <type name="Magento_Core_Model_Session_Validator">
         <param name="skippedUserAgentList">
             <value>
@@ -313,6 +309,43 @@
             <instance type="Magento_Core_Model_Locale_Hierarchy_Config_Reader" />
         </param>
     </type>
+    <type name="Magento_Core_Model_Resource_Helper">
+        <param name="modulePrefix">
+            <value>core</value>
+        </param>
+    </type>
+    <type name="Magento_Core_Helper_Data">
+        <param name="encryptor">
+            <instance type="Magento_Core_Model_Encryption" />
+        </param>
+        <param name="locale">
+            <instance type="Magento_Core_Model_Locale_Proxy" />
+        </param>
+        <param name="dateModel">
+            <instance type="Magento_Core_Model_Date_Proxy" />
+        </param>
+    </type>
+    <type name="Magento_Core_Model_Resource_Setup_Migration">
+        <param name="confPathToMapFile">
+            <value>app/etc/aliases_to_classes_map.json</value>
+        </param>
+    </type>
+    <type name="Magento_Core_Model_Encryption">
+        <param name="cryptKey">
+            <value type="argument">Magento_Core_Model_Encryption::PARAM_CRYPT_KEY</value>
+        </param>
+    </type>
+    <type name="Magento_Core_Model_Session_Context">
+        <param name="saveMethod">
+            <value type="argument">Magento_Core_Model_Session_Abstract::PARAM_SESSION_SAVE_METHOD</value>
+        </param>
+        <param name="savePath">
+            <value type="argument">Magento_Core_Model_Session_Abstract::PARAM_SESSION_SAVE_PATH</value>
+        </param>
+        <param name="cacheLimiter">
+            <value type="argument">Magento_Core_Model_Session_Abstract::PARAM_SESSION_CACHE_LIMITER</value>
+        </param>
+    </type>
     <type name="Magento_Core_Model_StoreManager">
         <param name="request">
             <instance type="Magento_Core_Controller_Request_Http_Proxy" />
@@ -326,14 +359,6 @@
     <type name="Magento_Core_Helper_Context">
         <param name="urlModel">
             <instance type="Magento_Core_Model_Url_Proxy" />
-        </param>
-    </type>
-    <type name="Magento_Core_Helper_Data">
-        <param name="locale">
-            <instance type="Magento_Core_Model_Locale_Proxy" />
-        </param>
-        <param name="dateModel">
-            <instance type="Magento_Core_Model_Date_Proxy" />
         </param>
     </type>
     <type name="Magento_Core_Helper_String">
