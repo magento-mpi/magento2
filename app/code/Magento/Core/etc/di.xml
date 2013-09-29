@@ -42,6 +42,9 @@
         <param name="isCustomEntryPoint">
             <value type="argument">Magento_Core_Model_Store::CUSTOM_ENTRY_POINT_PARAM</value>
         </param>
+        <param name="url">
+            <instance type="Magento_Core_Model_Url_Proxy" />
+        </param>
     </type>
     <type name="Magento_Core_Model_Acl_Cache">
         <param name="cacheKey">
@@ -329,8 +332,6 @@
         <param name="locale">
             <instance type="Magento_Core_Model_Locale_Proxy" />
         </param>
-    </type>
-    <type name="Magento_Core_Helper_Data">1
         <param name="dateModel">
             <instance type="Magento_Core_Model_Date_Proxy" />
         </param>
@@ -351,11 +352,6 @@
         </param>
     </type>
     <type name="Magento_Core_Model_Session_Abstract">
-        <param name="url">
-            <instance type="Magento_Core_Model_Url_Proxy" />
-        </param>
-    </type>
-    <type name="Magento_Core_Model_Store">
         <param name="url">
             <instance type="Magento_Core_Model_Url_Proxy" />
         </param>

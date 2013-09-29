@@ -34,8 +34,8 @@ class Magento_GiftCard_Model_ObserverTest extends PHPUnit_Framework_TestCase
      */
     public function testGenerateGiftCardAccountsEmailSending()
     {
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App')
-            ->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager->get('Magento_Core_Model_App')->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
         $order = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->create('Magento_Sales_Model_Order');
         $this->_checkOrderItemProductOptions($order, true);
@@ -43,34 +43,34 @@ class Magento_GiftCard_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $event = new Magento_Event(array('order' => $order));
         $observer = new Magento_Event_Observer(array('event' => $event));
 
-        $storeManager = $this->getMock('Magento_Core_Model_StoreManager', array('getStore'), array(), '', false);
-        $store = $this->getMock('Magento_Core_Model_Store', array(), array(), '', false);;
-        $storeManager->expects($this->any())->method('getStore')->will($this->returnValue($store));
-
-        $emailTemplateMock = $this->getMock('Magento_Core_Model_Email_Template',
-            array('sendTransactional', 'getSentSuccess'),
+        $emailTemplateMock = $this->getMock(
+            'Magento_Core_Model_Email_Template',
+            array('_getMail'),
             array(
-                $this->getMock('Magento_Core_Model_Context', array(), array(), '', false),
-                $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false),
-                $this->getMock('Magento_Core_Model_App_Emulation', array(), array(), '', false),
-                $this->getMock('Magento_Filesystem', array(), array(), '', false),
-                $this->getMock('Magento_Core_Model_View_Url', array(), array(), '', false),
-                $this->getMock('Magento_Core_Model_View_FileSystem', array(), array(), '', false),
-                $this->getMock('Magento_Core_Model_View_DesignInterface', array(), array(), '', false),
-                $this->getMock('Magento_Core_Model_Email_Template_FilterFactory', array(), array(), '', false),
-                $storeManager,
-                $this->getMock('Magento_Core_Model_Dir', array(), array(), '', false)
+                $objectManager->get('Magento_Core_Model_Context'),
+                $objectManager->get('Magento_Core_Model_Registry'),
+                $objectManager->get('Magento_Core_Model_App_Emulation'),
+                $objectManager->get('Magento_Filesystem'),
+                $objectManager->get('Magento_Core_Model_View_Url'),
+                $objectManager->get('Magento_Core_Model_View_FileSystem'),
+                $objectManager->get('Magento_Core_Model_View_DesignInterface'),
+                $objectManager->get('Magento_Core_Model_Store_Config'),
+                $objectManager->get('Magento_Core_Model_Config'),
+                $objectManager->get('Magento_Core_Model_Email_Template_FilterFactory'),
+                $objectManager->get('Magento_Core_Model_StoreManager'),
+                $objectManager->get('Magento_Core_Model_Dir'),
+                $objectManager->get('Magento_Core_Model_Email_Template_Config'),
             )
         );
-
         $emailTemplateMock->expects($this->once())
             ->method('_getMail')
-            ->will($this->returnValue($zendMailMock));
+            ->will($this->returnValue($this->getMock('Zend_Mail', array('send'), array('utf-8'))));
+
         /** @var $model Magento_GiftCard_Model_Observer */
         $model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->create('Magento_GiftCard_Model_Observer', array(
-            'data' => array('email_template_model' => $emailTemplateMock)
-        ));
+                'data' => array('email_template_model' => $emailTemplateMock)
+            ));
         $model->generateGiftCardAccounts($observer);
         $this->assertEquals(
             array('area' => Magento_Core_Model_App_Area::AREA_FRONTEND, 'store' => 1),

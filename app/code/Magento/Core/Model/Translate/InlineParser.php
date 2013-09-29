@@ -107,7 +107,7 @@ class Magento_Core_Model_Translate_InlineParser
     );
 
     /**
-     * @var Magento_Core_Model_View_Design
+     * @var Magento_Core_Model_View_DesignInterface
      */
     protected $_design;
 
@@ -136,13 +136,13 @@ class Magento_Core_Model_Translate_InlineParser
      *
      * @param Magento_Core_Model_Resource_Translate_String $resource
      * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Core_Model_View_Design $design
+     * @param Magento_Core_Model_View_DesignInterface $design
      * @param Magento_Core_Helper_Data $helper
      * @param Zend_Filter_Interface $inputFilter
      */
     public function __construct(
         Magento_Core_Model_Resource_Translate_String $resource,
-        Magento_Core_Model_View_Design $design,
+        Magento_Core_Model_View_DesignInterface $design,
         Magento_Core_Helper_Data $helper,
         Magento_Core_Model_StoreManager $storeManager,
         Zend_Filter_Interface $inputFilter
@@ -155,7 +155,7 @@ class Magento_Core_Model_Translate_InlineParser
     }
 
     /**
-     * @return Magento_Core_Model_View_Design
+     * @return Magento_Core_Model_View_DesignInterface
      */
     public function getDesignPackage()
     {

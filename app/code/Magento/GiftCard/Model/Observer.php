@@ -90,6 +90,8 @@ class Magento_GiftCard_Model_Observer extends Magento_Core_Model_Abstract
     protected $_locale;
 
     /**
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Layout $layout
      * @param Magento_Core_Model_LocaleInterface $locale
@@ -99,15 +101,16 @@ class Magento_GiftCard_Model_Observer extends Magento_Core_Model_Abstract
      * @param Magento_Core_Model_Session_Abstract $session
      * @param Magento_Core_Model_UrlInterface $urlModel
      * @param Magento_GiftCard_Helper_Data $giftCardData
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Core_Model_Resource_Db_Collection_Abstract $resourceCollection
      * @param array $data
+     *
      * @throws InvalidArgumentException
      */
     public function __construct(
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Layout $layout,
         Magento_Core_Model_LocaleInterface $locale,
@@ -117,8 +120,6 @@ class Magento_GiftCard_Model_Observer extends Magento_Core_Model_Abstract
         Magento_Core_Model_Session_Abstract $session,
         Magento_Core_Model_UrlInterface $urlModel,
         Magento_GiftCard_Helper_Data $giftCardData,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Core_Model_Resource_Db_Collection_Abstract $resourceCollection = null,

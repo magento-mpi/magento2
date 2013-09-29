@@ -24,7 +24,7 @@ class Magento_Core_Model_View_Service
     protected $_appState;
 
     /**
-     * @var Magento_Core_Model_View_Design
+     * @var Magento_Core_Model_View_DesignInterface
      */
     private $_design;
 
@@ -43,13 +43,13 @@ class Magento_Core_Model_View_Service
      *
      *
      * @param Magento_Core_Model_App_State $appState
-     * @param Magento_Core_Model_View_Design $design
+     * @param Magento_Core_Model_View_DesignInterface $design
      * @param Magento_Core_Model_Theme_FlyweightFactory $themeFactory
      * @param Magento_Core_Model_Dir $dir
      */
     public function __construct(
         Magento_Core_Model_App_State $appState,
-        Magento_Core_Model_View_Design $design,
+        Magento_Core_Model_View_DesignInterface $design,
         Magento_Core_Model_Theme_FlyweightFactory $themeFactory,
         Magento_Core_Model_Dir $dir
     ) {
@@ -122,7 +122,7 @@ class Magento_Core_Model_View_Service
      * Update required parameters with default values if custom not specified
      *
      * @param array $params
-     * @return Magento_Core_Model_View_Design
+     * @return $this
      */
     public function updateDesignParams(array &$params)
     {
