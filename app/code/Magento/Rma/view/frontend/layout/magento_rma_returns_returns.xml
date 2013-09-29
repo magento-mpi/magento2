@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Customer My Account Order Returns View" type="page" parent="magento_rma_return_view">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Customer My Account Order Returns View" type="page" parent="magento_rma_returns_view">
     <update handle="customer_account"/>
     <referenceContainer name="my.account.wrapper">
         <block class="Magento\Sales\Block\Order\Info" as="info" name="sales.order.info">
@@ -15,7 +15,7 @@
                 <block class="Magento\Rma\Block\Order\Button" name="magento.rma.info.button" template="order/button.phtml"/>
             </block>
         </block>
-        <block class="Magento\Rma\Block\Returns\Returns" name="rma.return.returns"/>
+        <block class="Magento\Rma\Block\Returns\Returns" name="rma.returns.returns"/>
     </referenceContainer>
     <update handle="sales_order_info_rma_links"/>
 </layout>

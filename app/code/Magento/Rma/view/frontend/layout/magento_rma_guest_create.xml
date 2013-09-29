@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Guest Order Create Return" type="page" parent="magento_rma_return_create_handle">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Guest Order Create Return" type="page" parent="magento_rma_returns_create_handle">
     <referenceBlock name="root">
         <action method="setTemplate">
             <argument name="template" xsi:type="string">1column.phtml</argument>
@@ -16,7 +16,7 @@
     <update handle="customer_account"/>
     <referenceContainer name="content">
         <block class="Magento\Sales\Block\Order\Info" as="info" name="sales.order.info"/>
-        <block class="Magento\Rma\Block\Returns\Create" as="create" name="rma.return.create" template="return/create.phtml">
+        <block class="Magento\Rma\Block\Returns\Create" as="create" name="rma.returns.create" template="return/create.phtml">
             <action method="setFormCode">
                 <argument name="code" xsi:type="string">default</argument>
             </action>
@@ -25,6 +25,6 @@
             </action>
         </block>
     </referenceContainer>
-    <update handle="magento_rma_return_create_handle"/>
+    <update handle="magento_rma_returns_create_handle"/>
     <update handle="sales_order_info_rma_guest_links"/>
 </layout>
