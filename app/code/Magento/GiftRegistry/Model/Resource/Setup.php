@@ -21,7 +21,7 @@ class Magento_GiftRegistry_Model_Resource_Setup extends Magento_Sales_Model_Reso
     /**
      * @var Magento_GiftRegistry_Model_TypeFactory
      */
-    protected $typeFactory;
+    protected $_typeFactory;
 
     /**
      * @param Magento_Core_Model_Resource_Setup_Context $context

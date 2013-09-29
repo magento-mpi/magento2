@@ -47,11 +47,17 @@ class Magento_GiftWrapping_Model_Wrapping extends Magento_Core_Model_Abstract
     protected $_dir;
 
     /**
+     * @var Magento_Core_Model_File_UploaderFactory
+     */
+    protected $_uploaderFactory;
+
+    /**
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_System_Store $systemStore
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Dir $dir
+     * @param Magento_Core_Model_File_UploaderFactory $uploaderFactory
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -62,6 +68,7 @@ class Magento_GiftWrapping_Model_Wrapping extends Magento_Core_Model_Abstract
         Magento_Core_Model_System_Store $systemStore,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Dir $dir,
+        Magento_Core_Model_File_UploaderFactory $uploaderFactory,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
@@ -70,6 +77,7 @@ class Magento_GiftWrapping_Model_Wrapping extends Magento_Core_Model_Abstract
         $this->_systemStore = $systemStore;
         $this->_dir = $dir;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        $this->_uploaderFactory = $uploaderFactory;
     }
 
     /**
@@ -194,7 +202,8 @@ class Magento_GiftWrapping_Model_Wrapping extends Magento_Core_Model_Abstract
     {
         $isUploaded = true;
         try {
-            $uploader = new Magento_Core_Model_File_Uploader($imageFieldName);
+            /** @var $uploader Magento_Core_Model_File_Uploader */
+            $uploader = $this->_uploaderFactory->create(array('fileId' => $imageFieldName));
             $uploader->setAllowedExtensions(array('jpg','jpeg','gif','png'));
             $uploader->setAllowRenameFiles(true);
             $uploader->setAllowCreateFolders(true);
