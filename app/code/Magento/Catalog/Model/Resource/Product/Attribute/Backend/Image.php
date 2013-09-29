@@ -20,6 +20,23 @@ class Magento_Catalog_Model_Resource_Product_Attribute_Backend_Image
     extends Magento_Eav_Model_Entity_Attribute_Backend_Abstract
 {
     /**
+     * @var Magento_Core_Model_File_UploaderFactory
+     */
+    protected $_uploaderFactory;
+
+    /**
+     * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Core_Model_File_UploaderFactory $uploaderFactory
+     */
+    public function __construct(
+        Magento_Core_Model_Logger $logger,
+        Magento_Core_Model_File_UploaderFactory $uploaderFactory
+    ) {
+        parent::__construct($logger);
+        $this->_uploaderFactory = $uploaderFactory;
+    }
+
+    /**
      * After save
      *
      * @param Magento_Object $object
@@ -37,7 +54,8 @@ class Magento_Catalog_Model_Resource_Product_Attribute_Backend_Image
         }
 
         try {
-            $uploader = new Magento_Core_Model_File_Uploader($this->getAttribute()->getName());
+            /** @var $uploader Magento_Core_Model_File_Uploader */
+            $uploader = $this->_uploaderFactory->create(array('fileId' => $this->getAttribute()->getName()));
             $uploader->setAllowedExtensions(array('jpg', 'jpeg', 'gif', 'png'));
             $uploader->setAllowRenameFiles(true);
             $uploader->setFilesDispersion(true);
