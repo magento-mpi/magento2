@@ -40,7 +40,8 @@ app/code/Magento/Theme/Block/Adminhtml/System/Design/Theme/Edit/Tab/Css.php
 app/code/Magento/Theme/Block/Adminhtml/System/Design/Theme/Edit/Tab/General.php
 app/code/Magento/Theme/Block/Adminhtml/System/Design/Theme/Edit/Tab/Js.php
 app/code/Magento/Theme/view
-app/code/Magento/User/
+app/code/Magento/User/Model/User.php
+app/code/Magento/User/view
 app/code/Magento/Webapi/view
 app/code/Magento/Webhook/view
 dev/tests/integration/testsuite/MageTest.php
