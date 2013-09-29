@@ -7,6 +7,9 @@
  */
 namespace Magento\SomeModule\Helper;
 
+/**
+ * @SuppressWarnings(PHPMD.ConstructorWithNameAsEnclosingClass)
+ */
 class Test
 {
     /**

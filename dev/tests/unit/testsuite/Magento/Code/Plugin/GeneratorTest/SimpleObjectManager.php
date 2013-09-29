@@ -10,6 +10,9 @@
  */
 namespace Magento\Code\Plugin\GeneratorTest;
 
+/**
+ *@SuppressWarnings(PHPMD.UnusedFormalParameter)
+ */
 class SimpleObjectManager implements \Magento\ObjectManager
 {
 

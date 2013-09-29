@@ -7,6 +7,10 @@
  */
 namespace Magento\SomeModule\Model;
 
+
+/**
+ *@SuppressWarnings(PHPMD.ConstructorWithNameAsEnclosingClass)
+ */
 class Test
 {
     public function __construct()

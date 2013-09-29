@@ -9,6 +9,9 @@
  */
 namespace Magento\Core\Model\Config\FileResolver;
 
+/***
+ *@SuppressWarnings(PHPMD.UnusedFormalParameter)
+ */
 class Primary implements \Magento\Config\FileResolverInterface
 {
     /**
