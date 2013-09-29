@@ -1,3 +1,6 @@
+* Implemented PSR-1 Coding Standard
+  * All Magento source code has been converted.
+  * Tests have been written to enforce PSR-1 coding standards.
 * Removed the Poll module including references and dependencies to/on it.
 * Removed from configuration XML files and implemented into di the following nodes:
   * Skip_process_modules_updates
@@ -60,12 +63,6 @@
   * mage.itemTable  - Widget to easily add a data template block dynamically on an event, by default click.
   * mage.redirectUrl - Simple widget to allow for consistent javascript based redirects that meet the Magento 2 coding standard
   * Added new validation rules for validation widget: 'required-if-not-specified', 'required-if-specified', and 'validate-item-quantity'
-* Сrontab segment improvements:
-  * crontab configurations were moved from config.xml to new crontab.xml with new format
-  * XSD validation schema for crontab.xml was added
-* Install segment was moved from config.xml to di.xml for next configuration nodes:
-  * config/install/databases
-  * config/install/eula_file
 * Сrontab segment improvements:
   * crontab configurations were moved from config.xml to new crontab.xml with new format
   * XSD validation schema for crontab.xml was added
