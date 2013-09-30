@@ -89,8 +89,8 @@ class Magento_Core_Model_View_Design implements Magento_Core_Model_View_DesignIn
     /**
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Theme_FlyweightFactory $flyweightFactory
-     * @param Magento_Core_Model_Config $config
-     * @param Magento_Core_Model_Store_Config $storeConfig
+     * @param Magento_Core_Model_ConfigInterface $config
+     * @param Magento_Core_Model_Store_ConfigInterface $storeConfig
      * @param Magento_Core_Model_ThemeFactory $themeFactory
      * @param Magento_Core_Model_App $app
      * @param array $themes
@@ -98,8 +98,8 @@ class Magento_Core_Model_View_Design implements Magento_Core_Model_View_DesignIn
     public function __construct(
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Theme_FlyweightFactory $flyweightFactory,
-        Magento_Core_Model_Config $config,
-        Magento_Core_Model_Store_Config $storeConfig,
+        Magento_Core_Model_ConfigInterface $config,
+        Magento_Core_Model_Store_ConfigInterface $storeConfig,
         Magento_Core_Model_ThemeFactory $themeFactory,
         Magento_Core_Model_App $app,
         array $themes

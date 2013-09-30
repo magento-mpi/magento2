@@ -93,10 +93,10 @@ class Magento_Newsletter_Model_Template extends Magento_Core_Model_Template
      * @param Magento_Core_Model_View_DesignInterface $design
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Controller_Request_Http $request
      * @param Magento_Newsletter_Model_Template_Filter $filter
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Store_ConfigInterface $coreStoreConfig
      * @param Magento_Newsletter_Model_TemplateFactory $templateFactory
      * @param Magento_Core_Model_App_Emulation $appEmulation
      * @param array $data
@@ -105,10 +105,10 @@ class Magento_Newsletter_Model_Template extends Magento_Core_Model_Template
         Magento_Core_Model_View_DesignInterface $design,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_StoreManager $storeManager,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Controller_Request_Http $request,
         Magento_Newsletter_Model_Template_Filter $filter,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Store_ConfigInterface $coreStoreConfig,
         Magento_Newsletter_Model_TemplateFactory $templateFactory,
         Magento_Core_Model_App_Emulation $appEmulation,
         array $data = array()
