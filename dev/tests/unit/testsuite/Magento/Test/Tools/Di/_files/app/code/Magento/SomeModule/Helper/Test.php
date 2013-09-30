@@ -13,16 +13,16 @@ namespace Magento\SomeModule\Helper;
 class Test
 {
     /**
-     * @var Magento_SomeModule_ElementFactory_Proxy
+     * @var \Magento\SomeModule\ElementFactory\Proxy
      */
     protected $_factory;
 
     /**
-     * @var Magento_SomeModule_Element_Proxy_Factory
+     * @var \Magento\SomeModule\Element\Proxy\Factory
      */
     protected $_proxy;
 
-    public function __construct(Magento_SomeModule_ElementFactory $factory, Magento_SomeModule_Element_Proxy $proxy)
+    public function __construct(\Magento\SomeModule\ElementFactory $factory, \Magento\SomeModule\Element\Proxy $proxy)
     {
         $this->_factory = $factory;
         $this->_proxy = $proxy;
@@ -34,6 +34,6 @@ class Test
      */
     public function testHelper(ModelFactory $factory, array $data = array())
     {
-        $factory->create('Magento_SomeModule_BlockFactory', array('data' => $data));
+        $factory->create('Magento\SomeModule\BlockFactory', array('data' => $data));
     }
 }

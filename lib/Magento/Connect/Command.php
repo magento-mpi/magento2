@@ -27,7 +27,7 @@ class Command
 
     /**
      * Frontend object
-     * @var Magento_Connect_Fro
+     * @var \Magento\Connect\Frontend
      */
     protected static $_frontend = null;
     protected static $_config = null;
@@ -363,7 +363,7 @@ class Command
     
     /**
      * Get packager instance
-     * @return Magento_Connect_Pacakger
+     * @return \Magento\Connect\Packager
      */
     public function getPackager() 
     {

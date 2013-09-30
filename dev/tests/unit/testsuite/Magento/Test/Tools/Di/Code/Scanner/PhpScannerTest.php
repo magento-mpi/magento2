@@ -40,11 +40,11 @@ class PhpScannerTest extends \PHPUnit_Framework_TestCase
     {
         $actual = $this->_model->collectEntities($this->_testFiles);
         $expected = array(
-            'Magento_SomeModule_ElementFactory',
-            'Magento_SomeModule_BlockFactory',
-            'Magento_SomeModule_ModelFactory',
-            'Magento_SomeModule_Model_BlockFactory',
-            'Magento_Bootstrap_ModelFactory',
+            'Magento\SomeModule\ElementFactory',
+            'Magento\SomeModule\BlockFactory',
+            'Magento\SomeModule\ModelFactory',
+            'Magento\SomeModule\Model\BlockFactory',
+            'Magento\Bootstrap\ModelFactory',
         );
         $this->assertEquals($expected, $actual);
     }

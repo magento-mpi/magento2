@@ -18,7 +18,7 @@ class CodeMessTest extends \PHPUnit_Framework_TestCase
     const PHPMD_REQUIRED_VERSION = '1.1.0';
 
     /**
-     * @var Magento_TestFramework_Inspection_MessDetector_Command
+     * @var \Magento\TestFramework\CodingStandard\Tool\CodeMessDetector
      */
     protected static $_messDetector = null;
 
