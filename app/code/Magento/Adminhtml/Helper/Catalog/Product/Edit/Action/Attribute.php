@@ -8,13 +8,8 @@
  * @license     {license_link}
  */
 
-
 /**
  * Adminhtml catalog product action attribute update helper
- *
- * @category   Magento
- * @package    Magento_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute extends Magento_Backend_Helper_Data
 {
@@ -63,7 +58,11 @@ class Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute extends Mag
      * @param Magento_Core_Model_ConfigInterface $applicationConfig
      * @param Magento_Core_Model_Config_Primary $primaryConfig
      * @param Magento_Core_Model_RouterList $routerList
-     * @param $defaultAreaFrontName
+     * @param Magento_Core_Model_AppProxy $app
+     * @param Magento_Backend_Model_UrlProxy $backendUrl
+     * @param Magento_Backend_Model_AuthProxy $auth
+     * @param string $defaultAreaFrontName
+     * @param string $backendFrontName
      */
     public function __construct(
         Magento_Eav_Model_Config $eavConfig,
@@ -74,13 +73,18 @@ class Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute extends Mag
         Magento_Core_Model_ConfigInterface $applicationConfig,
         Magento_Core_Model_Config_Primary $primaryConfig,
         Magento_Core_Model_RouterList $routerList,
-        $defaultAreaFrontName
+        Magento_Core_Model_AppProxy $app,
+        Magento_Backend_Model_UrlProxy $backendUrl,
+        Magento_Backend_Model_AuthProxy $auth,
+        $defaultAreaFrontName,
+        $backendFrontName
     ) {
         $this->_eavConfig = $eavConfig;
         $this->_session = $session;
         $this->_productsFactory = $productsFactory;
         parent::__construct(
-            $context, $coreData, $applicationConfig, $primaryConfig, $routerList, $defaultAreaFrontName
+            $context, $coreData, $applicationConfig, $primaryConfig, $routerList, $app, $backendUrl, $auth,
+            $defaultAreaFrontName, $backendFrontName
         );
     }
 

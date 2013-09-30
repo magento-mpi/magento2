@@ -20,18 +20,49 @@ class Magento_Customer_Block_Account_Dashboard_Info extends Magento_Core_Block_T
 {
     /**
      * Cached subscription object
+     *
      * @var Magento_Newsletter_Model_Subscriber
      */
     protected $_subscription;
 
+    /**
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @var Magento_Newsletter_Model_SubscriberFactory
+     */
+    protected $_subscriberFactory;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Newsletter_Model_SubscriberFactory $subscriberFactory
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Newsletter_Model_SubscriberFactory $subscriberFactory,
+        array $data = array()
+    ) {
+        $this->_customerSession = $customerSession;
+        $this->_subscriberFactory = $subscriberFactory;
+        parent::__construct($coreData, $context, $data);
+    }
+
+
     public function getCustomer()
     {
-        return Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer();
+        return $this->_customerSession->getCustomer();
     }
 
     public function getChangePasswordUrl()
     {
-        return Mage::getUrl('*/account/edit/changepass/1');
+        return $this->_urlBuilder->getUrl('*/account/edit/changepass/1');
     }
 
     /**
@@ -42,8 +73,8 @@ class Magento_Customer_Block_Account_Dashboard_Info extends Magento_Core_Block_T
     public function getSubscriptionObject()
     {
         if (!$this->_subscription) {
-            $this->_subscription = Mage::getModel('Magento_Newsletter_Model_Subscriber');
-            $this->_subscription->loadByCustomer(Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer());
+            $this->_subscription = $this->_createSubscriber();
+            $this->_subscription->loadByCustomer($this->_customerSession->getCustomer());
         }
         return $this->_subscription;
     }
@@ -66,5 +97,13 @@ class Magento_Customer_Block_Account_Dashboard_Info extends Magento_Core_Block_T
     public function isNewsletterEnabled()
     {
         return $this->getLayout()->getBlockSingleton('Magento_Customer_Block_Form_Register')->isNewsletterEnabled();
+    }
+
+    /**
+     * @return Magento_Newsletter_Model_Subscriber
+     */
+    protected function _createSubscriber()
+    {
+        return $this->_subscriberFactory->create();
     }
 }

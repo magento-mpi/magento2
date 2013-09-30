@@ -7,6 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
+/**
+ * Class Magento_Backend_Model_Url
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class Magento_Backend_Model_Url extends Magento_Core_Model_Url
 {
     /**
@@ -22,7 +28,7 @@ class Magento_Backend_Model_Url extends Magento_Core_Model_Url
     /**
      * Authentication session
      *
-     * @var Magento_Backend_Model_Auth_Session
+     * @var Magento_Backend_Model_Auth_SessionProxy
      */
     protected $_session;
 
@@ -60,6 +66,11 @@ class Magento_Backend_Model_Url extends Magento_Core_Model_Url
     protected $_menuConfig;
 
     /**
+     * @var Magento_Core_Model_CacheInterface
+     */
+    protected $_cache;
+
+    /**
      * @param Magento_Core_Model_Url_SecurityInfoInterface $securityInfo
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Backend_Helper_Data $backendHelper
@@ -68,7 +79,11 @@ class Magento_Backend_Model_Url extends Magento_Core_Model_Url
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_App $app
      * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Model_CacheInterface $cache
+     * @param Magento_Backend_Model_Auth_SessionProxy $authSession
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Magento_Core_Model_Url_SecurityInfoInterface $securityInfo,
@@ -79,6 +94,8 @@ class Magento_Backend_Model_Url extends Magento_Core_Model_Url
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Model_App $app,
         Magento_Core_Model_StoreManager $storeManager,
+        Magento_Core_Model_CacheInterface $cache,
+        Magento_Backend_Model_Auth_SessionProxy $authSession,
         array $data = array()
     ) {
         parent::__construct($securityInfo, $coreStoreConfig, $coreData, $app, $storeManager, $coreSession, $data);
@@ -86,6 +103,8 @@ class Magento_Backend_Model_Url extends Magento_Core_Model_Url
         $this->_backendHelper = $backendHelper;
         $this->_coreSession = $coreSession;
         $this->_menuConfig = $menuConfig;
+        $this->_cache = $cache;
+        $this->_session = $authSession;
     }
 
     /**
@@ -173,7 +192,7 @@ class Magento_Backend_Model_Url extends Magento_Core_Model_Url
      */
     public function getSecretKey($routeName = null, $controller = null, $action = null)
     {
-        $salt = $this->_session->getFormKey();
+        $salt = $this->_coreSession->getFormKey();
         $request = $this->getRequest();
 
         if (!$routeName) {
@@ -243,7 +262,7 @@ class Magento_Backend_Model_Url extends Magento_Core_Model_Url
      */
     public function renewSecretUrls()
     {
-        Mage::app()->cleanCache(array(Magento_Backend_Block_Menu::CACHE_TAGS));
+        $this->_cache->clean(array(Magento_Backend_Block_Menu::CACHE_TAGS));
     }
 
     /**
@@ -305,7 +324,7 @@ class Magento_Backend_Model_Url extends Magento_Core_Model_Url
      */
     public function setSession(Magento_Backend_Model_Auth_Session $session)
     {
-        $this->_authSession = $session;
+        $this->_session = $session;
         return $this;
     }
 
@@ -316,10 +335,7 @@ class Magento_Backend_Model_Url extends Magento_Core_Model_Url
      */
     protected function _getSession()
     {
-        if ($this->_authSession == null) {
-            $this->_authSession = Mage::getSingleton('Magento_Backend_Model_Auth_Session');
-        }
-        return $this->_authSession;
+        return $this->_session;
     }
 
 

@@ -55,10 +55,21 @@ class Magento_SalesRule_Model_Resource_Report_RuleTest extends PHPUnit_Framework
             ->method('getTableName')
             ->will($this->returnValue(self::TABLE_NAME));
 
-        $objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
-        $model = $objectManager->getObject(
+        $flagFactory = $this->getMock('Magento_Reports_Model_FlagFactory', array(), array(), '', false);
+        $createdatFactoryMock = $this->getMock('Magento_SalesRule_Model_Resource_Report_Rule_CreatedatFactory',
+            array('create'), array(), '', false);
+        $updatedatFactoryMock = $this->getMock('Magento_SalesRule_Model_Resource_Report_Rule_UpdatedatFactory',
+            array('create'), array(), '', false);
+
+        $objectHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $model = $objectHelper->getObject(
             'Magento_SalesRule_Model_Resource_Report_Rule',
-            array('resource' => $resourceMock)
+            array(
+                'resource' => $resourceMock,
+                'reportsFlagFactory' => $flagFactory,
+                'createdatFactory' => $createdatFactoryMock,
+                'updatedatFactory' => $updatedatFactoryMock,
+            )
         );
 
         $expectedRuleNames = array();

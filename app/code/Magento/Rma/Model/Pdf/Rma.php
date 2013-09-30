@@ -62,6 +62,9 @@ class Magento_Rma_Model_Pdf_Rma extends Magento_Sales_Model_Order_Pdf_Abstract
      * @param Magento_Sales_Model_Order_Pdf_Total_Factory $totalFactory
      * @param Magento_Core_Model_LocaleInterface $locale
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Magento_Rma_Helper_Eav $rmaEav,
@@ -75,7 +78,8 @@ class Magento_Rma_Model_Pdf_Rma extends Magento_Sales_Model_Order_Pdf_Abstract
         Magento_Sales_Model_Order_Pdf_Config $pdfConfig,
         Magento_Sales_Model_Order_Pdf_Total_Factory $totalFactory,
         Magento_Core_Model_LocaleInterface $locale,
-        Magento_Core_Model_StoreManagerInterface $storeManager
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        array $data = array()
     ) {
         $this->_rmaEav = $rmaEav;
         $this->_rmaData = $rmaData;

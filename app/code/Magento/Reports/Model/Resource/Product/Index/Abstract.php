@@ -19,6 +19,19 @@
 abstract class Magento_Reports_Model_Resource_Product_Index_Abstract extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
+     * @var Magento_Reports_Model_Resource_HelperFactory
+     */
+    protected $_helperFactory;
+
+    public function __construct(
+        Magento_Core_Model_Resource $resource,
+        Magento_Reports_Model_Resource_HelperFactory $helperFactory
+    ) {
+        parent::__construct($resource);
+        $this->_helperFactory = $helperFactory;
+    }
+
+    /**
      * Update Customer from visitor (Customer logged in)
      *
      * @param Magento_Reports_Model_Product_Index_Abstract $object
@@ -120,7 +133,7 @@ abstract class Magento_Reports_Model_Resource_Product_Index_Abstract extends Mag
 
         $matchFields = array('product_id', 'store_id');
 
-        Mage::getResourceHelper('Magento_Reports')->mergeVisitorProductIndex(
+        $this->_helperFactory->create()->mergeVisitorProductIndex(
             $this->getMainTable(),
             $data,
             $matchFields
@@ -193,7 +206,7 @@ abstract class Magento_Reports_Model_Resource_Product_Index_Abstract extends Mag
 
         $matchFields = array('product_id', 'store_id');
         foreach ($data as $row) {
-            Mage::getResourceHelper('Magento_Reports')->mergeVisitorProductIndex(
+            $this->_helperFactory->create()->mergeVisitorProductIndex(
                 $this->getMainTable(),
                 $row,
                 $matchFields

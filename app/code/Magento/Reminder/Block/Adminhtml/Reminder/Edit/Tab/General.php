@@ -15,6 +15,53 @@ class Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tab_General
     extends Magento_Backend_Block_Widget_Form_Generic
 {
     /**
+     * Store Manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Application locale
+     *
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * Store
+     *
+     * @var Magento_Core_Model_System_Store
+     */
+    protected $_store;
+
+    /**
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_Core_Model_System_Store $store
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Registry $registry,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_LocaleInterface $locale,
+        Magento_Core_Model_System_Store $store,
+        array $data = array()
+    ) {
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+        $this->_storeManager = $storeManager;
+        $this->_locale = $locale;
+        $this->_store = $store;
+    }
+
+    /**
      * Prepare general properties form
      *
      * @return Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tab_General
@@ -67,8 +114,8 @@ class Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tab_General
                 ->prepareElementHtml($field);
         }
 
-        if (Mage::app()->hasSingleStore()) {
-            $websiteId = Mage::app()->getStore(true)->getWebsiteId();
+        if ($this->_storeManager->hasSingleStore()) {
+            $websiteId = $this->_storeManager->getStore(true)->getWebsiteId();
             $fieldset->addField('website_ids', 'hidden', array(
                 'name'     => 'website_ids[]',
                 'value'    => $websiteId
@@ -80,7 +127,7 @@ class Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tab_General
                 'label'    => __('Assigned to Website'),
                 'title'    => __('Assigned to Website'),
                 'required' => true,
-                'values'   => Mage::getSingleton('Magento_Core_Model_System_Store')->getWebsiteValuesForForm(),
+                'values'   => $this->_store->getWebsiteValuesForForm(),
                 'value'    => $model->getWebsiteIds()
             ));
         }
@@ -99,7 +146,7 @@ class Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tab_General
             $model->setData('is_active', '1');
         }
 
-        $dateFormat = Mage::app()->getLocale()->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
+        $dateFormat = $this->_locale->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
 
         $fieldset->addField('from_date', 'date', array(
             'name'   => 'from_date',

@@ -11,13 +11,34 @@
 
 /**
  * Tax rate collection
- *
- * @category    Magento
- * @package     Magento_Tax
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Tax_Model_Resource_Calculation_Rate_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
 {
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Core_Model_EntityFactory $entityFactory
+     * @param Magento_Core_Model_Resource_Db_Abstract $resource
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_Logger $logger,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Core_Model_EntityFactory $entityFactory,
+        Magento_Core_Model_Resource_Db_Abstract $resource = null
+    ) {
+        $this->_storeManager = $storeManager;
+        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
+    }
+
     /**
      * Resource initialization
      */
@@ -65,7 +86,7 @@ class Magento_Tax_Model_Resource_Calculation_Rate_Collection extends Magento_Cor
      */
     public function joinTitle($store = null)
     {
-        $storeId = (int)Mage::app()->getStore($store)->getId();
+        $storeId = (int)$this->_storeManager->getStore($store)->getId();
         $this->_select->joinLeft(
             array('title_table' => $this->getTable('tax_calculation_rate_title')),
             $this->getConnection()->quoteInto('main_table.tax_calculation_rate_id = title_table.tax_calculation_rate_id AND title_table.store_id = ?', $storeId),
@@ -82,7 +103,7 @@ class Magento_Tax_Model_Resource_Calculation_Rate_Collection extends Magento_Cor
      */
     public function joinStoreTitles()
     {
-        $storeCollection =  Mage::app()->getStores(true);
+        $storeCollection =  $this->_storeManager->getStores(true);
         foreach ($storeCollection as $store) {
             $tableAlias    = sprintf('title_table_%s', $store->getId());
             $joinCondition = implode(' AND ', array(

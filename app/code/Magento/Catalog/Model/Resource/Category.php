@@ -54,14 +54,12 @@ class Magento_Catalog_Model_Resource_Category extends Magento_Catalog_Model_Reso
     protected $_eventManager = null;
 
     /**
-     * Class constructor
-     *
      * @param Magento_Core_Model_Resource $resource
      * @param Magento_Eav_Model_Config $eavConfig
      * @param Magento_Eav_Model_Entity_Attribute_Set $attrSetEntity
      * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Eav_Model_Resource_Helper_Mysql4 $resourceHelper
-     * @param Magento_Eav_Model_Factory_Helper $helperFactory
+     * @param Magento_Eav_Model_Resource_Helper $resourceHelper
+     * @param Magento_Validator_UniversalFactory $universalFactory
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param array $data
      */
@@ -70,8 +68,8 @@ class Magento_Catalog_Model_Resource_Category extends Magento_Catalog_Model_Reso
         Magento_Eav_Model_Config $eavConfig,
         Magento_Eav_Model_Entity_Attribute_Set $attrSetEntity,
         Magento_Core_Model_LocaleInterface $locale,
-        Magento_Eav_Model_Resource_Helper_Mysql4 $resourceHelper,
-        Magento_Eav_Model_Factory_Helper $helperFactory,
+        Magento_Eav_Model_Resource_Helper $resourceHelper,
+        Magento_Validator_UniversalFactory $universalFactory,
         Magento_Core_Model_Event_Manager $eventManager,
         $data = array()
     ) {
@@ -81,10 +79,11 @@ class Magento_Catalog_Model_Resource_Category extends Magento_Catalog_Model_Reso
             $attrSetEntity,
             $locale,
             $resourceHelper,
-            $helperFactory,
+            $universalFactory,
             $data
         );
         $this->_eventManager = $eventManager;
+        /** @var Magento_Core_Model_Resource $resource */
         $resource = Mage::getSingleton('Magento_Core_Model_Resource');
         $this->setType(Magento_Catalog_Model_Category::ENTITY)
             ->setConnection(

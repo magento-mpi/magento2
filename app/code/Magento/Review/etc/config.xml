@@ -10,15 +10,6 @@
  */
 -->
 <config>
-    <global>
-        <resources>
-            <review_setup>
-                <setup>
-                    <module>Magento_Review</module>
-                </setup>
-            </review_setup>
-        </resources>
-    </global>
     <default>
         <catalog>
             <review>

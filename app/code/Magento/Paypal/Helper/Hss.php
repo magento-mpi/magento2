@@ -23,6 +23,31 @@ class Magento_Paypal_Helper_Hss extends Magento_Core_Helper_Abstract
     );
 
     /**
+     * @var Magento_Checkout_Model_Session
+     */
+    protected $_checkoutSession;
+
+    /**
+     * @var Magento_Core_Model_Layout
+     */
+    protected $_layout;
+
+    /**
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Checkout_Model_Session $checkoutSession
+     * @param Magento_Core_Model_Layout $layout
+     */
+    public function __construct(
+        Magento_Core_Helper_Context $context,
+        Magento_Checkout_Model_Session $checkoutSession,
+        Magento_Core_Model_Layout $layout
+    ) {
+        $this->_checkoutSession = $checkoutSession;
+        $this->_layout = $layout;
+        parent::__construct($context);
+    }
+
+    /**
      * Get template for button in order review page if HSS method was selected
      *
      * @param string $name template name
@@ -31,7 +56,7 @@ class Magento_Paypal_Helper_Hss extends Magento_Core_Helper_Abstract
      */
     public function getReviewButtonTemplate($name, $block)
     {
-        $quote = Mage::getSingleton('Magento_Checkout_Model_Session')->getQuote();
+        $quote = $this->_checkoutSession->getQuote();
         if ($quote) {
             $payment = $quote->getPayment();
             if ($payment && in_array($payment->getMethod(), $this->_hssMethods)) {
@@ -39,7 +64,8 @@ class Magento_Paypal_Helper_Hss extends Magento_Core_Helper_Abstract
             }
         }
 
-        if ($blockObject = Mage::app()->getLayout()->getBlock($block)) {
+        $blockObject = $this->_layout->getBlock($block);
+        if ($blockObject) {
             return $blockObject->getTemplate();
         }
 

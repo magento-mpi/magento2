@@ -26,8 +26,8 @@ class Magento_Customer_Model_Resource_Customer extends Magento_Eav_Model_Entity_
      * @param Magento_Eav_Model_Config $eavConfig
      * @param Magento_Eav_Model_Entity_Attribute_Set $attrSetEntity
      * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Eav_Model_Resource_Helper_Mysql4 $resourceHelper
-     * @param Magento_Eav_Model_Factory_Helper $helperFactory
+     * @param Magento_Eav_Model_Resource_Helper $resourceHelper
+     * @param Magento_Validator_UniversalFactory $universalFactory
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_Validator_Factory $validatorFactory
      * @param array $data
@@ -37,8 +37,8 @@ class Magento_Customer_Model_Resource_Customer extends Magento_Eav_Model_Entity_
         Magento_Eav_Model_Config $eavConfig,
         Magento_Eav_Model_Entity_Attribute_Set $attrSetEntity,
         Magento_Core_Model_LocaleInterface $locale,
-        Magento_Eav_Model_Resource_Helper_Mysql4 $resourceHelper,
-        Magento_Eav_Model_Factory_Helper $helperFactory,
+        Magento_Eav_Model_Resource_Helper $resourceHelper,
+        Magento_Validator_UniversalFactory $universalFactory,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_Validator_Factory $validatorFactory,
         $data = array()
@@ -49,7 +49,7 @@ class Magento_Customer_Model_Resource_Customer extends Magento_Eav_Model_Entity_
             $attrSetEntity,
             $locale,
             $resourceHelper,
-            $helperFactory,
+            $universalFactory,
             $data
         );
         $this->_coreStoreConfig = $coreStoreConfig;
@@ -90,8 +90,7 @@ class Magento_Customer_Model_Resource_Customer extends Magento_Eav_Model_Entity_
         parent::_beforeSave($customer);
 
         if (!$customer->getEmail()) {
-            throw Mage::exception('Magento_Customer',
-                __('Customer email is required'));
+            throw new Magento_Customer_Exception(__('Customer email is required'));
         }
 
         $adapter = $this->_getWriteAdapter();
@@ -111,8 +110,7 @@ class Magento_Customer_Model_Resource_Customer extends Magento_Eav_Model_Entity_
 
         $result = $adapter->fetchOne($select, $bind);
         if ($result) {
-            throw Mage::exception(
-                'Magento_Customer',
+            throw new Magento_Customer_Exception(
                 __('Customer with the same email already exists.'),
                 Magento_Customer_Model_Customer::EXCEPTION_EMAIL_EXISTS
             );
@@ -247,7 +245,9 @@ class Magento_Customer_Model_Resource_Customer extends Magento_Eav_Model_Entity_
 
         if ($customer->getSharingConfig()->isWebsiteScope()) {
             if (!$customer->hasData('website_id')) {
-                Mage::throwException(__('Customer website ID must be specified when using the website scope'));
+                throw new Magento_Core_Exception(
+                    __('Customer website ID must be specified when using the website scope')
+                );
             }
             $bind['website_id'] = (int)$customer->getWebsiteId();
             $select->where('website_id = :website_id');

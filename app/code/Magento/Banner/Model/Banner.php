@@ -178,24 +178,23 @@ class Magento_Banner_Model_Banner extends Magento_Core_Model_Abstract
     /**
      * Validate some data before saving
      * @return Magento_Banner_Model_Banner
+     * @throws Magento_Core_Exception
      */
     protected function _beforeSave()
     {
         if ('' == trim($this->getName())) {
-            Mage::throwException(__('Please enter a name.'));
+            throw new Magento_Core_Exception(__('Please enter a name.'));
         }
         $bannerContents = $this->getStoreContents();
-        $flag = false;
+        $error = true;
         foreach ($bannerContents as $content) {
             if ('' != trim($content)) {
-                $flag = true;
+                $error = false;
                 break;
             }
         }
-        if (!$flag) {
-            // @codingStandardsIgnoreStart
-            Mage::throwException(__('Please specify default content for at least one store view.'));
-            // @codingStandardsIgnoreEnd
+        if ($error) {
+            throw new Magento_Core_Exception(__('Please specify default content for at least one store view.'));
         }
         return parent::_beforeSave();
     }

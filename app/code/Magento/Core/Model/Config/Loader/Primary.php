@@ -10,31 +10,24 @@
 class Magento_Core_Model_Config_Loader_Primary implements Magento_Core_Model_Config_LoaderInterface
 {
     /**
-     * Directory registry
+     * Config Directory
      *
-     * @var Magento_Core_Model_Dir
+     * @var string
      */
-    protected $_dirs;
+    protected $_dir;
 
     /**
-     * Local config loader
+     * Config factory
      *
-     * @var Magento_Core_Model_Config_Loader_Local
-     */
-    protected $_localLoader;
-
-    /**
      * @var Magento_Core_Model_Config_BaseFactory
      */
     protected $_prototypeFactory;
 
     /**
-     * @param Magento_Core_Model_Config_Loader_Local $localLoader
-     * @param $dir
+     * @param string $dir
      */
-    public function __construct(Magento_Core_Model_Config_Loader_Local $localLoader, $dir)
+    public function __construct($dir)
     {
-        $this->_localLoader = $localLoader;
         $this->_dir = $dir;
     }
 
@@ -57,7 +50,5 @@ class Magento_Core_Model_Config_Loader_Primary implements Magento_Core_Model_Con
             $baseConfig->loadFile($filename);
             $config->extend($baseConfig);
         }
-        // 2. local configuration
-        $this->_localLoader->load($config);
     }
 }

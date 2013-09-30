@@ -25,7 +25,28 @@
 class Magento_GiftRegistry_Model_Type extends Magento_Core_Model_Abstract
 {
     protected $_store = null;
+
     protected $_storeData = null;
+
+    /**
+     * @var Magento_GiftRegistry_Model_Attribute_Config
+     */
+    protected $attributeConfig;
+
+    /**
+     * @var Magento_GiftRegistry_Model_Attribute_ProcessorFactory
+     */
+    protected $processorFactory;
+
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $storeManager;
+
+    /**
+     * @var Magento_Core_Controller_Request_Http
+     */
+    protected $request;
 
     /**
      * Intialize model
@@ -36,13 +57,43 @@ class Magento_GiftRegistry_Model_Type extends Magento_Core_Model_Abstract
     }
 
     /**
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_GiftRegistry_Model_Attribute_Config $attributeConfig
+     * @param Magento_GiftRegistry_Model_Attribute_ProcessorFactory $processorFactory
+     * @param Magento_Core_Controller_Request_Http $request
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_GiftRegistry_Model_Attribute_Config $attributeConfig,
+        Magento_GiftRegistry_Model_Attribute_ProcessorFactory $processorFactory,
+        Magento_Core_Controller_Request_Http $request,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    )
+    {
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        $this->attributeConfig = $attributeConfig;
+        $this->processorFactory = $processorFactory;
+        $this->request = $request;
+        $this->storeManager = $storeManager;
+    }
+
+    /**
      * Perform actions before object save.
      */
     protected function _beforeSave()
     {
         if (!$this->hasStoreId() && !$this->getStoreId()) {
             $this->_cleanupData();
-            $xmlModel = Mage::getModel('Magento_GiftRegistry_Model_Attribute_Processor');
+            $xmlModel = $this->processorFactory->create();
             $this->setMetaXml($xmlModel->processData($this));
         }
 
@@ -94,7 +145,7 @@ class Magento_GiftRegistry_Model_Type extends Magento_Core_Model_Abstract
      */
     public function setStoreId($storeId = null)
     {
-        $this->_store = Mage::app()->getStore($storeId);
+        $this->_store = $this->storeManager->getStore($storeId);
         return $this;
     }
 
@@ -157,7 +208,7 @@ class Magento_GiftRegistry_Model_Type extends Magento_Core_Model_Abstract
         $groups = $this->getAttributes();
         if ($groups) {
             $attributesToSave = array();
-            $config = Mage::getSingleton('Magento_GiftRegistry_Model_Attribute_Config');
+            $config = $this->attributeConfig;
             foreach ((array)$groups as $group => $attributes) {
                 foreach ((array)$attributes as $attribute) {
                     if ($attribute['is_deleted']) {
@@ -199,7 +250,7 @@ class Magento_GiftRegistry_Model_Type extends Magento_Core_Model_Abstract
      */
     public function assignAttributesStoreData()
     {
-        $xmlModel = Mage::getModel('Magento_GiftRegistry_Model_Attribute_Processor');
+        $xmlModel = $this->processorFactory->create();
         $groups = $xmlModel->processXml($this->getMetaXml());
         $storeData = array();
 
@@ -336,8 +387,7 @@ class Magento_GiftRegistry_Model_Type extends Magento_Core_Model_Abstract
     {
         $listedAttributes = array();
         if ($this->getAttributes()) {
-            $staticCodes = Mage::getSingleton('Magento_GiftRegistry_Model_Attribute_Config')
-                ->getStaticTypesCodes();
+            $staticCodes = $this->attributeConfig->getStaticTypesCodes();
             foreach ($this->getAttributes() as $group) {
                 foreach ($group as $code => $attribute) {
                     if (in_array($code, $staticCodes) && !empty($attribute['frontend']['is_listed'])) {
@@ -359,7 +409,7 @@ class Magento_GiftRegistry_Model_Type extends Magento_Core_Model_Abstract
      */
     public function postDispatchTypeSave($config, $eventModel, $processor)
     {
-        $typeData = Mage::app()->getRequest()->getParam('type');
+        $typeData = $this->request->getParam('type');
         $typeId = isset($typeData['type_id']) ? $typeData['type_id'] : __('New');
         return $eventModel->setInfo($typeId);
     }

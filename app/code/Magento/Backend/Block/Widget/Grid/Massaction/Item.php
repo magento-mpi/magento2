@@ -48,6 +48,7 @@ class Magento_Backend_Block_Widget_Grid_Massaction_Item extends Magento_Backend_
      *
      * @param string|Magento_Core_Block_Abstract $block
      * @return Magento_Backend_Block_Widget_Grid_Massaction_Item
+     * @throws Magento_Core_Exception
      */
     public function setAdditionalActionBlock($block)
     {
@@ -56,7 +57,7 @@ class Magento_Backend_Block_Widget_Grid_Massaction_Item extends Magento_Backend_
         } elseif (is_array($block)) {
             $block = $this->_createFromConfig($block);
         } elseif (!($block instanceof Magento_Core_Block_Abstract)) {
-            Mage::throwException('Unknown block type');
+            throw new Magento_Core_Exception('Unknown block type');
         }
 
         $this->setChild('additional_action', $block);

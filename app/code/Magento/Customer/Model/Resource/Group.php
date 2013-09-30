@@ -26,18 +26,24 @@ class Magento_Customer_Model_Resource_Group extends Magento_Core_Model_Resource_
     protected $_customerData = null;
 
     /**
+     * @var Magento_Customer_Model_Resource_Customer_CollectionFactory
+     */
+    protected $_customersFactory;
+
+    /**
      * Class constructor
-     *
-     *
      *
      * @param Magento_Customer_Helper_Data $customerData
      * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Customer_Model_Resource_Customer_CollectionFactory $customersFactory
      */
     public function __construct(
         Magento_Customer_Helper_Data $customerData,
-        Magento_Core_Model_Resource $resource
+        Magento_Core_Model_Resource $resource,
+        Magento_Customer_Model_Resource_Customer_CollectionFactory $customersFactory
     ) {
         $this->_customerData = $customerData;
+        $this->_customersFactory = $customersFactory;
         parent::__construct($resource);
     }
 
@@ -75,7 +81,7 @@ class Magento_Customer_Model_Resource_Group extends Magento_Core_Model_Resource_
     protected function _beforeDelete(Magento_Core_Model_Abstract $group)
     {
         if ($group->usesAsDefault()) {
-            Mage::throwException(__('The group "%1" cannot be deleted', $group->getCode()));
+            throw new Magento_Core_Exception(__('The group "%1" cannot be deleted', $group->getCode()));
         }
         return parent::_beforeDelete($group);
     }
@@ -88,7 +94,7 @@ class Magento_Customer_Model_Resource_Group extends Magento_Core_Model_Resource_
      */
     protected function _afterDelete(Magento_Core_Model_Abstract $group)
     {
-        $customerCollection = Mage::getResourceModel('Magento_Customer_Model_Resource_Customer_Collection')
+        $customerCollection = $this->_createCustomersCollection()
             ->addAttributeToFilter('group_id', $group->getId())
             ->load();
         foreach ($customerCollection as $customer) {
@@ -98,5 +104,13 @@ class Magento_Customer_Model_Resource_Group extends Magento_Core_Model_Resource_
             $customer->save();
         }
         return parent::_afterDelete($group);
+    }
+
+    /**
+     * @return Magento_Customer_Model_Resource_Customer_Collection
+     */
+    protected function _createCustomersCollection()
+    {
+        return $this->_customersFactory->create();
     }
 }

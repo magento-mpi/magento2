@@ -26,27 +26,27 @@ class Magento_Sales_Model_Order_Pdf_Total_Default extends Magento_Object
     protected $_taxCalculation;
 
     /**
-     * @var Magento_Tax_Model_Sales_Order_Tax
+     * @var Magento_Tax_Model_Resource_Sales_Order_Tax_CollectionFactory
      */
-    protected $_taxOrder;
+    protected $_taxOrdersFactory;
 
     /**
      * Initialize dependencies
      *
      * @param Magento_Tax_Helper_Data $taxHelper
      * @param Magento_Tax_Model_Calculation $taxCalculation
-     * @param Magento_Tax_Model_Sales_Order_TaxFactory $taxFactory
+     * @param Magento_Tax_Model_Resource_Sales_Order_Tax_CollectionFactory $ordersFactory
      * @param array $data
      */
     public function __construct(
         Magento_Tax_Helper_Data $taxHelper,
         Magento_Tax_Model_Calculation $taxCalculation,
-        Magento_Tax_Model_Sales_Order_TaxFactory $taxFactory,
+        Magento_Tax_Model_Resource_Sales_Order_Tax_CollectionFactory $ordersFactory,
         array $data = array()
     ) {
         $this->_taxHelper = $taxHelper;
         $this->_taxCalculation = $taxCalculation;
-        $this->_taxOrder = $taxFactory->create();
+        $this->_taxOrdersFactory = $ordersFactory;
         parent::__construct($data);
     }
 
@@ -110,7 +110,9 @@ class Magento_Sales_Model_Order_Pdf_Total_Default extends Magento_Object
                 $tax['font_size'] = $fontSize;
             }
         } else {
-            $rates = $this->_taxOrder->getCollection()->loadByOrder($this->getOrder())->toArray();
+            /** @var $orders Magento_Tax_Model_Resource_Sales_Order_Tax_Collection */
+            $orders = $this->_taxOrdersFactory->create();
+            $rates = $orders->loadByOrder($this->getOrder())->toArray();
             $fullInfo = $this->_taxCalculation->reproduceProcess($rates['items']);
             $tax_info = array();
 

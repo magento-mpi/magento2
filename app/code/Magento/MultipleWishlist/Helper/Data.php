@@ -23,25 +23,11 @@ class Magento_MultipleWishlist_Helper_Data extends Magento_Wishlist_Helper_Data
     protected $_defaultWishlistsByCustomer = array();
 
     /**
-     * Store manager
-     *
-     * @var Magento_Core_Model_StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * Item collection factory
      *
      * @var Magento_Wishlist_Model_Resource_Item_CollectionFactory
      */
     protected $_itemCollectionFactory;
-
-    /**
-     * Wishlist factory
-     *
-     * @var Magento_Wishlist_Model_WishlistFactory
-     */
-    protected $_wishlistFactory;
 
     /**
      * Wishlist collection factory
@@ -51,16 +37,15 @@ class Magento_MultipleWishlist_Helper_Data extends Magento_Wishlist_Helper_Data
     protected $_wishlistCollectionFactory;
 
     /**
-     * Construct
-     *
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Customer_Model_SessionProxy $customerSession
      * @param Magento_Wishlist_Model_WishlistFactory $wishlistFactory
-     * @param Magento_Wishlist_Model_Resource_Item_CollectionFactory $itemCollectionFactory
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Wishlist_Model_Resource_Item_CollectionFactory $itemCollectionFactory
      * @param Magento_Wishlist_Model_Resource_Wishlist_CollectionFactory $wishlistCollectionFactory
      */
     public function __construct(
@@ -69,16 +54,16 @@ class Magento_MultipleWishlist_Helper_Data extends Magento_Wishlist_Helper_Data
         Magento_Core_Helper_Context $context,
         Magento_Core_Model_Registry $coreRegistry,
         Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Customer_Model_SessionProxy $customerSession,
         Magento_Wishlist_Model_WishlistFactory $wishlistFactory,
-        Magento_Wishlist_Model_Resource_Item_CollectionFactory $itemCollectionFactory,
         Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Wishlist_Model_Resource_Item_CollectionFactory $itemCollectionFactory,
         Magento_Wishlist_Model_Resource_Wishlist_CollectionFactory $wishlistCollectionFactory
     ) {
-        $this->_wishlistFactory = $wishlistFactory;
         $this->_itemCollectionFactory = $itemCollectionFactory;
-        $this->_storeManager = $storeManager;
         $this->_wishlistCollectionFactory = $wishlistCollectionFactory;
-        parent::__construct($eventManager, $coreData, $context, $coreRegistry, $coreStoreConfig);
+        parent::__construct($eventManager, $coreData, $context, $coreRegistry, $coreStoreConfig, $customerSession,
+            $wishlistFactory, $storeManager);
     }
 
     /**

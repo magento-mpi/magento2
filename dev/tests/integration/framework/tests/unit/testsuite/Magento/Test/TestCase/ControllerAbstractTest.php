@@ -27,9 +27,10 @@ class Magento_Test_TestCase_ControllerAbstractTest extends Magento_TestFramework
             ->add(new Magento_Core_Model_Message_Notice('some_notice'))
         ;
         $session = new Magento_Object(array('messages' => $messagesCollection));
-        $helperMock = $this->getMock('Magento_Backend_Helper_Data', array(), array(),
-            'Magento_Backend_Helper_DataProxy', false);
-        $request = new Magento_TestFramework_Request($helperMock);
+        $request = new Magento_TestFramework_Request(
+            $this->getMock('Magento_Core_Model_StoreManager', [], [], '', false),
+            $this->getMock('Magento_Backend_Helper_Data', [], [], 'Magento_Backend_Helper_DataProxy', false)
+        );
         $response = new Magento_TestFramework_Response(
             $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false)
         );

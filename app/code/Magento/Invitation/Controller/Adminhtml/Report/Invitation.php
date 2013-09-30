@@ -18,6 +18,25 @@
 class Magento_Invitation_Controller_Adminhtml_Report_Invitation extends Magento_Adminhtml_Controller_Action
 {
     /**
+     * Invitation Config
+     *
+     * @var Magento_Invitation_Model_Config
+     */
+    protected $_config;
+
+    /**
+     * @param Magento_Backend_Controller_Context $context
+     * @param Magento_Invitation_Model_Config $config
+     */
+    public function __construct(
+        Magento_Backend_Controller_Context $context,
+        Magento_Invitation_Model_Config $config
+    ) {
+        parent::__construct($context);
+        $this->_config = $config;
+    }
+
+    /**
      * Init action breadcrumbs
      *
      * @return Magento_Invitation_Controller_Adminhtml_Report_Invitation
@@ -156,7 +175,7 @@ class Magento_Invitation_Controller_Adminhtml_Report_Invitation extends Magento_
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Magento_Invitation_Model_Config')->isEnabled() &&
+        return $this->_config->isEnabled() &&
             $this->_authorization->isAllowed('Magento_Invitation::report_magento_invitation');
     }
 }

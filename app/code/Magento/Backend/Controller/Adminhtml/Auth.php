@@ -10,10 +10,6 @@
 
 /**
  * Auth backend controller
- *
- * @category    Magento
- * @package     Magento_Backend
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Backend_Controller_Adminhtml_Auth extends Magento_Backend_Controller_ActionAbstract
 {
@@ -22,12 +18,11 @@ class Magento_Backend_Controller_Adminhtml_Auth extends Magento_Backend_Controll
      */
     public function loginAction()
     {
-        $session = Mage::getSingleton('Magento_Backend_Model_Auth_Session');
-        if ($session->isLoggedIn()) {
-            if ($session->isFirstPageAfterLogin()) {
-                $session->setIsFirstPageAfterLogin(true);
+        if ($this->_auth->isLoggedIn()) {
+            if ($this->_auth->getAuthStorage()->isFirstPageAfterLogin()) {
+                $this->_auth->getAuthStorage()->setIsFirstPageAfterLogin(true);
             }
-            $this->_redirect(Mage::getSingleton('Magento_Backend_Model_Url')->getStartupPageUrl());
+            $this->_redirect($this->_backendUrl->getStartupPageUrl());
             return;
         }
         $this->loadLayout();
@@ -39,9 +34,8 @@ class Magento_Backend_Controller_Adminhtml_Auth extends Magento_Backend_Controll
      */
     public function logoutAction()
     {
-        $auth = Mage::getSingleton('Magento_Backend_Model_Auth');
-        $auth->logout();
-        $auth->getAuthStorage()->addSuccess(__('You have logged out.'));
+        $this->_auth->logout();
+        $this->_auth->getAuthStorage()->addSuccess(__('You have logged out.'));
         $this->getResponse()->setRedirect($this->_objectManager->get('Magento_Backend_Helper_Data')->getHomePageUrl());
     }
 

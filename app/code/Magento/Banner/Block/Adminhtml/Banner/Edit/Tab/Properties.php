@@ -21,6 +21,33 @@ class Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Properties extends Magento_
     implements Magento_Backend_Block_Widget_Tab_Interface
 {
     /**
+     * Banner config
+     *
+     * @var Magento_Banner_Model_Config
+     */
+    protected $_bannerConfig;
+
+    /**
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Banner_Model_Config $bannerConfig
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Registry $registry,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Banner_Model_Config $bannerConfig,
+        array $data = array()
+    ) {
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+        $this->_bannerConfig = $bannerConfig;
+    }
+
+    /**
      * Set form id prefix, declare fields for banner properties
      *
      * @return Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Properties
@@ -80,7 +107,7 @@ class Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Properties extends Magento_
             'label'     => __('Specify Types'),
             'name'      => 'types',
             'disabled'  => (bool)$model->getIsReadonly(),
-            'values'    => Mage::getSingleton('Magento_Banner_Model_Config')->toOptionArray(false, false),
+            'values'    => $this->_bannerConfig->toOptionArray(false, false),
             'can_be_empty' => true,
         ));
 

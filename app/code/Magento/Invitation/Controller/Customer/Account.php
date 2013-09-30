@@ -24,6 +24,58 @@ class Magento_Invitation_Controller_Customer_Account extends Magento_Customer_Co
     protected $_cookieCheckActions = array('createPost');
 
     /**
+     * Invitation Config
+     *
+     * @var Magento_Invitation_Model_Config
+     */
+    protected $_config;
+
+    /**
+     * Invitation Factory
+     *
+     * @var Magento_Invitation_Model_InvitationFactory
+     */
+    protected $_invitationFactory;
+
+    /**
+     * @param Magento_Core_Controller_Varien_Action_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_UrlFactory $urlFactory
+     * @param Magento_Customer_Model_CustomerFactory $customerFactory
+     * @param Magento_Customer_Model_FormFactory $formFactory
+     * @param Magento_Customer_Model_AddressFactory $addressFactory
+     * @param Magento_Invitation_Model_Config $config
+     * @param Magento_Invitation_Model_InvitationFactory $invitationFactory
+     */
+    public function __construct(
+        Magento_Core_Controller_Varien_Action_Context $context,
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_UrlFactory $urlFactory,
+        Magento_Customer_Model_CustomerFactory $customerFactory,
+        Magento_Customer_Model_FormFactory $formFactory,
+        Magento_Customer_Model_AddressFactory $addressFactory,
+        Magento_Invitation_Model_Config $config,
+        Magento_Invitation_Model_InvitationFactory $invitationFactory
+    ) {
+        parent::__construct(
+            $context,
+            $coreRegistry,
+            $customerSession,
+            $storeManager,
+            $urlFactory,
+            $customerFactory,
+            $formFactory,
+            $addressFactory
+        );
+        $this->_config = $config;
+        $this->_invitationFactory = $invitationFactory;
+    }
+
+    /**
      * Predispatch custom logic
      *
      * Bypassing direct parent predispatch
@@ -41,7 +93,7 @@ class Magento_Invitation_Controller_Customer_Account extends Magento_Customer_Co
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             return;
         }
-        if (!Mage::getSingleton('Magento_Invitation_Model_Config')->isEnabledOnFront()) {
+        if (!$this->_config->isEnabledOnFront()) {
             $this->norouteAction();
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             return;
@@ -63,7 +115,7 @@ class Magento_Invitation_Controller_Customer_Account extends Magento_Customer_Co
     protected function _initInvitation()
     {
         if (!$this->_coreRegistry->registry('current_invitation')) {
-            $invitation = Mage::getModel('Magento_Invitation_Model_Invitation');
+            $invitation = $this->_invitationFactory->create();
             $invitation
                 ->loadByInvitationCode($this->_objectManager->get('Magento_Core_Helper_Data')->urlDecode(
                     $this->getRequest()->getParam('invitation', false)
@@ -99,7 +151,7 @@ class Magento_Invitation_Controller_Customer_Account extends Magento_Customer_Co
         try {
             $invitation = $this->_initInvitation();
 
-            $customer = Mage::getModel('Magento_Customer_Model_Customer')
+            $customer = $this->_customerFactory->create()
                 ->setId(null)->setSkipConfirmationIfEmail($invitation->getEmail());
             $this->_coreRegistry->register('current_customer', $customer);
 
@@ -112,7 +164,7 @@ class Magento_Invitation_Controller_Customer_Account extends Magento_Customer_Co
 
             $customerId = $customer->getId();
             if ($customerId) {
-                $invitation->accept(Mage::app()->getWebsite()->getId(), $customerId);
+                $invitation->accept($this->_storeManager->getWebsite()->getId(), $customerId);
             }
             return;
         } catch (Magento_Core_Exception $e) {

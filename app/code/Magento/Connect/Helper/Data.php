@@ -30,47 +30,41 @@ class Magento_Connect_Helper_Data extends Magento_Core_Helper_Data
     protected $_dirs;
 
     /**
-     * Core data
-     *
-     * @var Magento_Core_Helper_Data
-     */
-    protected $_coreData = null;
-
-    /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Helper_Http $coreHttp
      * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Helper_Http $coreHttp
      * @param Magento_Core_Model_Config $config
-     * @param Magento_Core_Model_Dir $dirs
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_StoreManager $storeManager
      * @param Magento_Core_Model_Locale $locale
      * @param Magento_Core_Model_Date $dateModel
      * @param Magento_Core_Model_App_State $appState
-     * @param Magento_Core_Model_Config_Resource $configResource
+     * @param Magento_Core_Model_Encryption $encryptor
      * @param Magento_Filesystem $filesystem
+     * @param Magento_Core_Model_Dir $dirs
+     * @param bool $dbCompatibleMode
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Helper_Http $coreHttp,
         Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Helper_Http $coreHttp,
         Magento_Core_Model_Config $config,
-        Magento_Core_Model_Dir $dirs,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_StoreManager $storeManager,
         Magento_Core_Model_Locale $locale,
         Magento_Core_Model_Date $dateModel,
         Magento_Core_Model_App_State $appState,
-        Magento_Core_Model_Config_Resource $configResource,
-        Magento_Filesystem $filesystem
-    ) {
-        $this->_coreData = $coreData;
-        $this->_dirs = $dirs;
-        parent::__construct($eventManager, $coreHttp, $context, $config, $coreStoreConfig, $storeManager, $locale, $dateModel, $appState,
-            $configResource);
+        Magento_Core_Model_Encryption $encryptor,
+        Magento_Filesystem $filesystem,
+        Magento_Core_Model_Dir $dirs,
+        $dbCompatibleMode = true
+    )
+    {
         $this->_filesystem = $filesystem;
+        $this->_dirs = $dirs;
+        parent::__construct($context, $eventManager, $coreHttp, $config, $coreStoreConfig, $storeManager,
+            $locale, $dateModel, $appState, $encryptor, $dbCompatibleMode
+        );
     }
 
     /**
@@ -169,7 +163,7 @@ class Magento_Connect_Helper_Data extends Magento_Core_Helper_Data
 
         if ($this->_filesystem->isFile($xmlFile) && $this->_filesystem->isReadable($xmlFile)) {
             $xml  = simplexml_load_string($this->_filesystem->read($xmlFile));
-            $data = $this->_coreData->xmlToAssoc($xml);
+            $data = $this->xmlToAssoc($xml);
             if (!empty($data)) {
                 return $data;
             }

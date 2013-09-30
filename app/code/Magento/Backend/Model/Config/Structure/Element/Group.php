@@ -55,11 +55,12 @@ class Magento_Backend_Model_Config_Structure_Element_Group
      * Retrieve clone model
      *
      * @return Magento_Core_Model_Abstract
+     * @throws Magento_Core_Exception
      */
     public function getCloneModel()
     {
         if (!isset($this->_data['clone_model']) || !$this->_data['clone_model']) {
-            Mage::throwException('Config form fieldset clone model required to be able to clone fields');
+            throw new Magento_Core_Exception('Config form fieldset clone model required to be able to clone fields');
         }
         return $this->_cloneModelFactory->create($this->_data['clone_model']);
     }

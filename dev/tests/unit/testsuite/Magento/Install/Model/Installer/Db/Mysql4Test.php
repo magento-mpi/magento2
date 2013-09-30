@@ -22,12 +22,18 @@ class Magento_Install_Model_Installer_Db_Mysql4Test extends PHPUnit_Framework_Te
     public function testSupportEngine(array $supportedEngines, $expectedResult)
     {
         $connectionMock = $this->getMock('Magento_DB_Adapter_Interface');
-        $resourceMock = $this->getMock('Magento_Core_Model_Resource', array('createConnection'), array(), '', false);
-        $resourceMock->expects($this->once())->method('createConnection')->will($this->returnValue($connectionMock));
-
         $connectionMock->expects($this->once())->method('fetchPairs')->will($this->returnValue($supportedEngines));
 
-        $installer = new Magento_Install_Model_Installer_Db_Mysql4($resourceMock);
+        $adapterFactory = $this->getMock(
+            'Magento_Core_Model_Resource_Type_Db_Pdo_MysqlFactory', array('create'), array(), '', false
+        );
+        $adapterMock = $this->getMock(
+            'Magento_Core_Model_Resource_Type_Db_Pdo_Mysql', array('getConnection'), array(), '', false
+        );
+        $adapterMock->expects($this->once())->method('getConnection')->will($this->returnValue($connectionMock));
+        $adapterFactory->expects($this->once())->method('create')->will($this->returnValue($adapterMock));
+
+        $installer = new Magento_Install_Model_Installer_Db_Mysql4($adapterFactory);
         $this->assertEquals($expectedResult, $installer->supportEngine());
     }
 
@@ -53,8 +59,12 @@ class Magento_Install_Model_Installer_Db_Mysql4Test extends PHPUnit_Framework_Te
      */
     public function testGetRequiredExtensions($config, $dbExtensions, $expectedResult)
     {
-        $resourceMock = $this->getMock('Magento_Core_Model_Resource', array(), array(), '', false);
-        $installer = new Magento_Install_Model_Installer_Db_Mysql4($resourceMock, $dbExtensions);
+        $adapterFactory = $this->getMock(
+            'Magento_Core_Model_Resource_Type_Db_Pdo_MysqlFactory', array('create'), array(), '', false
+        );
+        $installer = new Magento_Install_Model_Installer_Db_Mysql4(
+            $adapterFactory, $dbExtensions
+        );
         $installer->setConfig($config);
         $this->assertEquals($expectedResult, $installer->getRequiredExtensions());
     }

@@ -125,7 +125,7 @@ class Magento_Newsletter_Model_Queue extends Magento_Core_Model_Template
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_App_Emulation $appEmulation
-     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Newsletter_Model_Template_Filter $templateFilter
      * @param Magento_Core_Model_LocaleInterface $locale
      * @param Magento_Core_Model_Date $date
@@ -134,14 +134,13 @@ class Magento_Newsletter_Model_Queue extends Magento_Core_Model_Template
      * @param Magento_Core_Model_Email_TemplateFactory $emailTemplateFactory
      * @param Magento_Newsletter_Model_Resource_Subscriber_CollectionFactory $subscriberCollectionFactory
      * @param array $data
-     * @internal param \Magento_Newsletter_Helper_Data $newsletterData
      */
     public function __construct(
         Magento_Core_Model_View_DesignInterface $design,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
         Magento_Core_Model_App_Emulation $appEmulation,
-        Magento_Core_Model_StoreManager $storeManager,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Newsletter_Model_Template_Filter $templateFilter,
         Magento_Core_Model_LocaleInterface $locale,
         Magento_Core_Model_Date $date,

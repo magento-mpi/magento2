@@ -67,10 +67,16 @@ class Magento_FullPageCache_Model_Crawler extends Magento_Core_Model_Abstract
     protected $_cacheState;
 
     /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
      * @param Magento_WebsiteRestriction_Helper_Data $websiteRestricData
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Cache_StateInterface $cacheState
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -80,13 +86,15 @@ class Magento_FullPageCache_Model_Crawler extends Magento_Core_Model_Abstract
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Cache_StateInterface $cacheState,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_cacheState = $cacheState;
         $this->_websiteRestricData = $websiteRestricData;
-        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        $this->_storeManager = $storeManager;
     }
 
     /**
@@ -113,13 +121,13 @@ class Magento_FullPageCache_Model_Crawler extends Magento_Core_Model_Abstract
     public function getStoresInfo()
     {
         $baseUrls = array();
-        foreach (Mage::app()->getStores() as $store) {
-            $website               = Mage::app()->getWebsite($store->getWebsiteId());
+        foreach ($this->_storeManager->getStores() as $store) {
+            $website               = $this->_storeManager->getWebsite($store->getWebsiteId());
             if ($this->_websiteRestricData->getIsRestrictionEnabled($store)) {
                 continue;
             }
-            $baseUrl               = Mage::app()->getStore($store)->getBaseUrl();
-            $defaultCurrency       = Mage::app()->getStore($store)->getDefaultCurrencyCode();
+            $baseUrl               = $this->_storeManager->getStore($store)->getBaseUrl();
+            $defaultCurrency       = $this->_storeManager->getStore($store)->getDefaultCurrencyCode();
             $defaultWebsiteStore   = $website->getDefaultStore();
             $defaultWebsiteBaseUrl = $defaultWebsiteStore->getBaseUrl();
 
@@ -168,11 +176,11 @@ class Magento_FullPageCache_Model_Crawler extends Magento_Core_Model_Abstract
             $storeId = $info['store_id'];
             $this->_visitedUrls = array();
 
-            if (!Mage::app()->getStore($storeId)->getConfig(self::XML_PATH_CRAWLER_ENABLED)) {
+            if (!$this->_storeManager->getStore($storeId)->getConfig(self::XML_PATH_CRAWLER_ENABLED)) {
                 continue;
             }
 
-            $threads = (int)Mage::app()->getStore($storeId)->getConfig(self::XML_PATH_CRAWLER_THREADS);
+            $threads = (int)$this->_storeManager->getStore($storeId)->getConfig(self::XML_PATH_CRAWLER_THREADS);
             if (!$threads) {
                 $threads = 1;
             }

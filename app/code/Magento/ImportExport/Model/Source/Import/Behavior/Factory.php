@@ -1,0 +1,44 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_ImportExport
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/**
+ * Import behavior factory
+ */
+class Magento_ImportExport_Model_Source_Import_Behavior_Factory
+{
+    /**
+     * Object Manager
+     *
+     * @var Magento_ObjectManager
+     */
+    protected $_objectManager;
+
+    /**
+     * @param Magento_ObjectManager $objectManager
+     */
+    public function __construct(Magento_ObjectManager $objectManager)
+    {
+        $this->_objectManager = $objectManager;
+    }
+
+    /**
+     * @param string $className
+     * @return Magento_ImportExport_Model_Source_Import_BehaviorAbstract
+     * @throws InvalidArgumentException
+     */
+    public function create($className)
+    {
+        if (!$className) {
+            throw new InvalidArgumentException('Incorrect class name');
+        }
+
+        return $this->_objectManager->create($className);
+    }
+}

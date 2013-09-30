@@ -33,24 +33,24 @@ class Magento_Search_Model_Adapter_PhpExtension extends Magento_Search_Model_Ada
     protected $_ctlgInventData;
 
     /**
-     * Construct
-     *
-     * @param Magento_Customer_Model_Session $customerSession
-     * @param Magento_Search_Model_Catalog_Layer_Filter_Price $filterPrice
-     * @param Magento_Search_Model_Resource_Index $resourceIndex
-     * @param Magento_CatalogSearch_Model_Resource_Fulltext $resourceFulltext
+     * @param Magento_Customer_Model_Session                              $customerSession
+     * @param Magento_Search_Model_Catalog_Layer_Filter_Price             $filterPrice
+     * @param Magento_Search_Model_Resource_Index                         $resourceIndex
+     * @param Magento_CatalogSearch_Model_Resource_Fulltext               $resourceFulltext
      * @param Magento_Catalog_Model_Resource_Product_Attribute_Collection $attributeCollection
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_CacheInterface $cache
-     * @param Magento_Eav_Model_Config $eavConfig
-     * @param Magento_Search_Model_Client_FactoryInterface $clientFactory
-     * @param Magento_Search_Helper_ClientInterface $clientHelper
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Store_ConfigInterface $coreStoreConfig
-     * @param Magento_CatalogInventory_Helper_Data $ctlgInventData
-     * @param array $options
+     * @param Magento_Core_Model_Logger                                   $logger
+     * @param Magento_Core_Model_StoreManagerInterface                    $storeManager
+     * @param Magento_Core_Model_CacheInterface                           $cache
+     * @param Magento_Eav_Model_Config                                    $eavConfig
+     * @param Magento_Search_Model_Factory_Factory                        $searchFactory
+     * @param Magento_Search_Helper_ClientInterface                       $clientHelper
+     * @param Magento_Core_Model_Registry                                 $registry
+     * @param Magento_Core_Model_Store_ConfigInterface                    $coreStoreConfig
+     * @param Magento_CatalogInventory_Helper_Data                        $ctlgInventData
+     * @param array                                                       $options
+     *
      * @throws Magento_Core_Exception
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Magento_Customer_Model_Session $customerSession,
@@ -62,20 +62,23 @@ class Magento_Search_Model_Adapter_PhpExtension extends Magento_Search_Model_Ada
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_CacheInterface $cache,
         Magento_Eav_Model_Config $eavConfig,
-        Magento_Search_Model_Client_FactoryInterface $clientFactory,
+        Magento_Search_Model_Factory_Factory $searchFactory,
         Magento_Search_Helper_ClientInterface $clientHelper,
         Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Store_ConfigInterface $coreStoreConfig,
         Magento_CatalogInventory_Helper_Data $ctlgInventData,
         $options = array()
     ) {
+        $this->_ctlgInventData = $ctlgInventData;
         if (!extension_loaded('solr')) {
             throw new Magento_Core_Exception('Solr extension not enabled!');
         }
         $this->_ctlgInventData = $ctlgInventData;
-        parent::__construct($customerSession, $filterPrice, $resourceIndex, $resourceFulltext, $attributeCollection,
-            $logger, $storeManager, $cache, $eavConfig, $clientFactory, $clientHelper, $registry, $coreStoreConfig,
-            $options);
+        parent::__construct(
+            $customerSession, $filterPrice, $resourceIndex, $resourceFulltext, $attributeCollection,
+            $logger, $storeManager, $cache, $eavConfig, $searchFactory, $clientHelper, $registry,
+            $coreStoreConfig, $options
+        );
     }
 
     /**

@@ -23,4 +23,11 @@
             <value>LICENSE_EE.html</value>
         </param>
     </type>
+    <type name="Magento_Core_Model_Db_Updater">
+        <param name="resourceList">
+            <value>
+                <enterprise_setup>Magento_Enterprise_Model_Resource_Setup</enterprise_setup>
+            </value>
+        </param>
+    </type>
 </config>

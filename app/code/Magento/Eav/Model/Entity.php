@@ -27,14 +27,12 @@ class Magento_Eav_Model_Entity extends Magento_Eav_Model_Entity_Abstract
     const DEFAULT_ENTITY_ID_FIELD   = 'entity_id';
 
     /**
-     * Resource initialization
-     *
      * @param Magento_Core_Model_Resource $resource
      * @param Magento_Eav_Model_Config $eavConfig
      * @param Magento_Eav_Model_Entity_Attribute_Set $attrSetEntity
      * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Eav_Model_Resource_Helper_Mysql4 $resourceHelper
-     * @param Magento_Eav_Model_Factory_Helper $helperFactory
+     * @param Magento_Eav_Model_Resource_Helper $resourceHelper
+     * @param Magento_Validator_UniversalFactory $universalFactory
      * @param Magento_Core_Model_Resource $coreResource
      * @param array $data
      */
@@ -43,8 +41,8 @@ class Magento_Eav_Model_Entity extends Magento_Eav_Model_Entity_Abstract
         Magento_Eav_Model_Config $eavConfig,
         Magento_Eav_Model_Entity_Attribute_Set $attrSetEntity,
         Magento_Core_Model_LocaleInterface $locale,
-        Magento_Eav_Model_Resource_Helper_Mysql4 $resourceHelper,
-        Magento_Eav_Model_Factory_Helper $helperFactory,
+        Magento_Eav_Model_Resource_Helper $resourceHelper,
+        Magento_Validator_UniversalFactory $universalFactory,
         Magento_Core_Model_Resource $coreResource,
         $data = array()
     ) {
@@ -54,7 +52,7 @@ class Magento_Eav_Model_Entity extends Magento_Eav_Model_Entity_Abstract
             $attrSetEntity,
             $locale,
             $resourceHelper,
-            $helperFactory,
+            $universalFactory,
             $data
         );
         $this->setConnection($coreResource->getConnection('eav_read'));

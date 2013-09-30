@@ -14,13 +14,49 @@ class Magento_Shipping_Model_Carrier_Pickup
     implements Magento_Shipping_Model_Carrier_Interface
 {
 
+    /**
+     * @var string
+     */
     protected $_code = 'pickup';
+
+    /**
+     * @var bool
+     */
     protected $_isFixed = true;
 
     /**
-     * Enter description here...
-     *
-     * @param Magento_Shipping_Model_Rate_Request $data
+     * @var Magento_Shipping_Model_Rate_ResultFactory
+     */
+    protected $_rateResultFactory;
+
+    /**
+     * @var Magento_Shipping_Model_Rate_Result_MethodFactory
+     */
+    protected $_rateMethodFactory;
+
+    /**
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Shipping_Model_Rate_Result_ErrorFactory $rateErrorFactory
+     * @param Magento_Core_Model_Log_AdapterFactory $logAdapterFactory
+     * @param Magento_Shipping_Model_Rate_ResultFactory $rateResultFactory
+     * @param Magento_Shipping_Model_Rate_Result_MethodFactory $rateMethodFactory
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Shipping_Model_Rate_Result_ErrorFactory $rateErrorFactory,
+        Magento_Core_Model_Log_AdapterFactory $logAdapterFactory,
+        Magento_Shipping_Model_Rate_ResultFactory $rateResultFactory,
+        Magento_Shipping_Model_Rate_Result_MethodFactory $rateMethodFactory,
+        array $data = array()
+    ) {
+        $this->_rateResultFactory = $rateResultFactory;
+        $this->_rateMethodFactory = $rateMethodFactory;
+        parent::__construct($coreStoreConfig, $rateErrorFactory, $logAdapterFactory, $data);
+    }
+
+    /**
+     * @param Magento_Shipping_Model_Rate_Request $request
      * @return Magento_Shipping_Model_Rate_Result
      */
     public function collectRates(Magento_Shipping_Model_Rate_Request $request)
@@ -29,10 +65,12 @@ class Magento_Shipping_Model_Carrier_Pickup
             return false;
         }
 
-        $result = Mage::getModel('Magento_Shipping_Model_Rate_Result');
+        /** @var Magento_Shipping_Model_Rate_Result $result */
+        $result = $this->_rateResultFactory->create();
 
         if (!empty($rate)) {
-            $method = Mage::getModel('Magento_Shipping_Model_Rate_Result_Method');
+            /** @var Magento_Shipping_Model_Rate_Result_Method $method */
+            $method = $this->_rateMethodFactory->create();
 
             $method->setCarrier('pickup');
             $method->setCarrierTitle($this->getConfigData('title'));

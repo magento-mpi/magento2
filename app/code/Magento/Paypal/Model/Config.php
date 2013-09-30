@@ -16,37 +16,31 @@ class Magento_Paypal_Model_Config
 {
     /**
      * PayPal Standard
-     * @var string
      */
     const METHOD_WPS         = 'paypal_standard';
 
     /**
      * PayPal Website Payments Pro - Express Checkout
-     * @var string
      */
     const METHOD_WPP_EXPRESS = 'paypal_express';
 
     /**
      * PayPal Website Payments Pro - Direct Payments
-     * @var string
      */
     const METHOD_WPP_DIRECT  = 'paypal_direct';
 
     /**
      * Direct Payments (Payflow Edition)
-     * @var string
      */
     const METHOD_WPP_PE_DIRECT  = 'paypaluk_direct';
 
     /**
      * Express Checkout (Payflow Edition)
-     * @var string
      */
     const METHOD_WPP_PE_EXPRESS  = 'paypaluk_express';
 
     /**
      * Payflow Pro Gateway
-     * @var string
      */
     const METHOD_PAYFLOWPRO         = 'verisign';
 
@@ -57,9 +51,8 @@ class Magento_Paypal_Model_Config
 
     const METHOD_BILLING_AGREEMENT  = 'paypal_billing_agreement';
 
-    /**
+    /**#@+
      * Buttons and images
-     * @var string
      */
     const EC_FLAVOR_DYNAMIC = 'dynamic';
     const EC_FLAVOR_STATIC  = 'static';
@@ -69,73 +62,72 @@ class Magento_Paypal_Model_Config
     const PAYMENT_MARK_50x34   = '50x34';
     const PAYMENT_MARK_60x38   = '60x38';
     const PAYMENT_MARK_180x113 = '180x113';
+    /**#@-*/
 
     const DEFAULT_LOGO_TYPE = 'wePrefer_150x60';
 
-    /**
+    /**#@+
      * Payment actions
-     * @var string
      */
     const PAYMENT_ACTION_SALE  = 'Sale';
     const PAYMENT_ACTION_ORDER = 'Order';
     const PAYMENT_ACTION_AUTH  = 'Authorization';
+    /**#@-*/
 
-    /**
+    /**#@+
      * Authorization amounts for Account Verification
      *
      * @deprecated since 1.6.2.0
-     * @var int
      */
     const AUTHORIZATION_AMOUNT_ZERO = 0;
     const AUTHORIZATION_AMOUNT_ONE = 1;
     const AUTHORIZATION_AMOUNT_FULL = 2;
+    /**#@-*/
 
-    /**
+    /**#@+
      * Require Billing Address
-     * @var int
      */
     const REQUIRE_BILLING_ADDRESS_NO = 0;
     const REQUIRE_BILLING_ADDRESS_ALL = 1;
     const REQUIRE_BILLING_ADDRESS_VIRTUAL = 2;
+    /**#@-*/
 
-    /**
+    /**#@+
      * Fraud management actions
-     * @var string
      */
     const FRAUD_ACTION_ACCEPT = 'Acept';
     const FRAUD_ACTION_DENY   = 'Deny';
+    /**#@-*/
 
-    /**
+    /**#@+
      * Refund types
-     * @var string
      */
     const REFUND_TYPE_FULL = 'Full';
     const REFUND_TYPE_PARTIAL = 'Partial';
+    /**#@-*/
 
-    /**
+    /**#@+
      * Express Checkout flows
-     * @var string
      */
     const EC_SOLUTION_TYPE_SOLE = 'Sole';
     const EC_SOLUTION_TYPE_MARK = 'Mark';
+    /**#@-*/
 
-    /**
+    /**#@+
      * Payment data transfer methods (Standard)
-     *
-     * @var string
      */
     const WPS_TRANSPORT_IPN      = 'ipn';
     const WPS_TRANSPORT_PDT      = 'pdt';
     const WPS_TRANSPORT_IPN_PDT  = 'ipn_n_pdt';
+    /**#@-*/
 
-    /**
-     * Billing Agreement Signup
-     *
-     * @var string
+    /**#@+
+     * Billing Agreement Signup type
      */
     const EC_BA_SIGNUP_AUTO     = 'auto';
     const EC_BA_SIGNUP_ASK      = 'ask';
     const EC_BA_SIGNUP_NEVER    = 'never';
+    /**#@-*/
 
     /**
      * Default URL for centinel API (PayPal Direct)
@@ -146,16 +138,17 @@ class Magento_Paypal_Model_Config
 
     /**
      * Current payment method code
+     *
      * @var string
      */
-    protected $_methodCode = null;
+    protected $_methodCode;
 
     /**
      * Current store id
      *
      * @var int
      */
-    protected $_storeId = null;
+    protected $_storeId;
 
     /**
      * Instructions for generating proper BN code
@@ -240,7 +233,7 @@ class Magento_Paypal_Model_Config
      *
      * @var Magento_Core_Helper_Data
      */
-    protected $_coreData = null;
+    protected $_coreData;
 
     /**
      * Core store config
@@ -250,17 +243,41 @@ class Magento_Paypal_Model_Config
     protected $_coreStoreConfig;
 
     /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Payment_Model_Source_CctypeFactory
+     */
+    protected $_cctypeFactory;
+
+    /**
+     * @var Magento_Paypal_Model_CertFactory
+     */
+    protected $_certFactory;
+
+    /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Payment_Model_Source_CctypeFactory $cctypeFactory
+     * @param Magento_Paypal_Model_CertFactory $certFactory
      * @param array $params
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Payment_Model_Source_CctypeFactory $cctypeFactory,
+        Magento_Paypal_Model_CertFactory $certFactory,
         $params = array()
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_coreData = $coreData;
+        $this->_storeManager = $storeManager;
+        $this->_cctypeFactory = $cctypeFactory;
+        $this->_certFactory = $certFactory;
         if ($params) {
             $method = array_shift($params);
             $this->setMethod($method);
@@ -660,6 +677,7 @@ class Magento_Paypal_Model_Config
      * @param string $localeCode
      * @param float $orderTotal
      * @param string $pal encrypted summary about merchant
+     * @return string
      * @see Paypal_Model_Api_Nvp::callGetPalDetails()
      */
     public function getExpressCheckoutShortcutImageUrl($localeCode, $orderTotal = null, $pal = null)
@@ -683,6 +701,7 @@ class Magento_Paypal_Model_Config
      * @param float $orderTotal
      * @param string $pal
      * @param string $staticSize
+     * @return string
      */
     public function getPaymentMarkImageUrl($localeCode, $orderTotal = null, $pal = null, $staticSize = null)
     {
@@ -711,12 +730,13 @@ class Magento_Paypal_Model_Config
      * Supposed to be used with "mark" as popup window
      *
      * @param Magento_Core_Model_LocaleInterface $locale
+     * @return string
      */
     public function getPaymentMarkWhatIsPaypalUrl(Magento_Core_Model_LocaleInterface $locale = null)
     {
         $countryCode = 'US';
         if (null !== $locale) {
-            $shouldEmulate = (null !== $this->_storeId) && (Mage::app()->getStore()->getId() != $this->_storeId);
+            $shouldEmulate = (null !== $this->_storeId) && $this->_storeManager->getStore()->getId() != $this->_storeId;
             if ($shouldEmulate) {
                 $locale->emulate($this->_storeId);
             }
@@ -736,6 +756,7 @@ class Magento_Paypal_Model_Config
      * @param string $localeCode
      * @param bool $isVertical
      * @param bool $isEcheck
+     * @return string
      */
     public function getSolutionImageUrl($localeCode, $isVertical = false, $isEcheck = false)
     {
@@ -749,6 +770,7 @@ class Magento_Paypal_Model_Config
      * Getter for Payment form logo images
      *
      * @param string $localeCode
+     * @return string
      */
     public function getPaymentFormLogoUrl($localeCode)
     {
@@ -810,7 +832,7 @@ class Magento_Paypal_Model_Config
      * Return PayPal logo URL with additional options
      *
      * @param string $localeCode Supported locale code
-     * @param string $type One of supported logo types
+     * @param bool|string $type One of supported logo types
      * @return string|bool Logo Image URL or false if logo disabled in configuration
      */
     public function getAdditionalOptionsLogoUrl($localeCode, $type = false)
@@ -832,6 +854,7 @@ class Magento_Paypal_Model_Config
      * BN code getter
      *
      * @param string $countryCode ISO 3166-1
+     * @return string
      */
     public function getBuildNotationCode($countryCode = null)
     {
@@ -1015,8 +1038,7 @@ class Magento_Paypal_Model_Config
      */
     public function getWppCcTypesAsOptionArray()
     {
-        $model = Mage::getModel('Magento_Payment_Model_Source_Cctype');
-        return $model->setAllowedTypes(array('AE', 'VI', 'MC', 'SM', 'SO', 'DI'))->toOptionArray();
+        return $this->_cctypeFactory->create()->setAllowedTypes(array('AE', 'VI', 'MC', 'SM', 'SO', 'DI'))->toOptionArray();
     }
 
     /**
@@ -1026,8 +1048,8 @@ class Magento_Paypal_Model_Config
      */
     public function getWppPeCcTypesAsOptionArray()
     {
-        $model = Mage::getModel('Magento_Payment_Model_Source_Cctype');
-        return $model->setAllowedTypes(array('VI', 'MC', 'SM', 'SO', 'OT', 'AE'))->toOptionArray();
+        return $this->_cctypeFactory->create()
+            ->setAllowedTypes(array('VI', 'MC', 'SM', 'SO', 'OT', 'AE'))->toOptionArray();
     }
 
     /**
@@ -1037,8 +1059,7 @@ class Magento_Paypal_Model_Config
      */
     public function getPayflowproCcTypesAsOptionArray()
     {
-        $model = Mage::getModel('Magento_Payment_Model_Source_Cctype');
-        return $model->setAllowedTypes(array('AE', 'VI', 'MC', 'JCB', 'DI'))->toOptionArray();
+        return $this->_cctypeFactory->create()->setAllowedTypes(array('AE', 'VI', 'MC', 'JCB', 'DI'))->toOptionArray();
     }
 
     /**
@@ -1103,6 +1124,7 @@ class Magento_Paypal_Model_Config
      * @param string $localeCode
      * @param float $orderTotal
      * @param string $pal
+     * @return string
      */
     protected function _getDynamicImageUrl($type, $localeCode, $orderTotal, $pal)
     {
@@ -1428,7 +1450,7 @@ class Magento_Paypal_Model_Config
      */
     public function getApiCertificate()
     {
-        $websiteId = Mage::app()->getStore($this->_storeId)->getWebsiteId();
-        return Mage::getModel('Magento_Paypal_Model_Cert')->loadByWebsite($websiteId, false)->getCertPath();
+        $websiteId = $this->_storeManager->getStore($this->_storeId)->getWebsiteId();
+        return $this->_certFactory->create()->loadByWebsite($websiteId, false)->getCertPath();
     }
 }

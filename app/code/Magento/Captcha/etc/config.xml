@@ -10,15 +10,6 @@
  */
 -->
 <config>
-    <global>
-        <resources>
-            <captcha_setup>
-                <setup>
-                    <module>Magento_Captcha</module>
-                </setup>
-            </captcha_setup>
-        </resources>
-    </global>
     <default>
         <system>
             <media_storage_configuration>

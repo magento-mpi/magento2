@@ -49,6 +49,16 @@ class Magento_Reports_Model_Resource_Product_Collection extends Magento_Catalog_
     protected $_selectCountSqlType               = 0;
 
     /**
+     * @var Magento_Reports_Model_Event_TypeFactory
+     */
+    protected $_eventTypeFactory;
+
+    /**
+     * @var Magento_Catalog_Model_Product_Type
+     */
+    protected $_productType;
+
+    /**
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
@@ -56,12 +66,14 @@ class Magento_Reports_Model_Resource_Product_Collection extends Magento_Catalog_
      * @param Magento_Eav_Model_Config $eavConfig
      * @param Magento_Core_Model_Resource $coreResource
      * @param Magento_Eav_Model_EntityFactory $eavEntityFactory
-     * @param Magento_Eav_Model_Resource_Helper_Mysql4 $resourceHelper
-     * @param Magento_Eav_Model_Factory_Helper $helperFactory
+     * @param Magento_Eav_Model_Resource_Helper $resourceHelper
+     * @param Magento_Validator_UniversalFactory $universalFactory
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Catalog_Helper_Product_Flat $catalogProductFlat
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Catalog_Model_Resource_Product $product
+     * @param Magento_Reports_Model_Event_TypeFactory $eventTypeFactory
+     * @param Magento_Catalog_Model_Product_Type $productType
      */
     public function __construct(
         Magento_Core_Model_Event_Manager $eventManager,
@@ -71,30 +83,24 @@ class Magento_Reports_Model_Resource_Product_Collection extends Magento_Catalog_
         Magento_Eav_Model_Config $eavConfig,
         Magento_Core_Model_Resource $coreResource,
         Magento_Eav_Model_EntityFactory $eavEntityFactory,
-        Magento_Eav_Model_Resource_Helper_Mysql4 $resourceHelper,
-        Magento_Eav_Model_Factory_Helper $helperFactory,
+        Magento_Eav_Model_Resource_Helper $resourceHelper,
+        Magento_Validator_UniversalFactory $universalFactory,
         Magento_Catalog_Helper_Data $catalogData,
         Magento_Catalog_Helper_Product_Flat $catalogProductFlat,
         Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Catalog_Model_Resource_Product $product
+        Magento_Catalog_Model_Resource_Product $product,
+        Magento_Reports_Model_Event_TypeFactory $eventTypeFactory,
+        Magento_Catalog_Model_Product_Type $productType
     ) {
         $this->setProductEntityId($product->getEntityIdField());
         $this->setProductEntityTableName($product->getEntityTable());
         $this->setProductEntityTypeId($product->getTypeId());
         parent::__construct(
-            $eventManager,
-            $logger,
-            $fetchStrategy,
-            $entityFactory,
-            $eavConfig,
-            $coreResource,
-            $eavEntityFactory,
-            $resourceHelper,
-            $helperFactory,
-            $catalogData,
-            $catalogProductFlat,
-            $coreStoreConfig
+            $eventManager, $logger, $fetchStrategy, $entityFactory, $eavConfig, $coreResource, $eavEntityFactory,
+            $resourceHelper, $universalFactory, $catalogData, $catalogProductFlat, $coreStoreConfig
         );
+        $this->_eventTypeFactory = $eventTypeFactory;
+        $this->_productType = $productType;
     }
 
     /**
@@ -293,7 +299,7 @@ class Magento_Reports_Model_Resource_Product_Collection extends Magento_Catalog_
     public function addOrderedQty($from = '', $to = '')
     {
         $adapter              = $this->getConnection();
-        $compositeTypeIds     = Mage::getSingleton('Magento_Catalog_Model_Product_Type')->getCompositeTypes();
+        $compositeTypeIds     = $this->_productType->getCompositeTypes();
         $orderTableAliasName  = $adapter->quoteIdentifier('order');
 
         $orderJoinCondition   = array(
@@ -374,7 +380,10 @@ class Magento_Reports_Model_Resource_Product_Collection extends Magento_Catalog_
         /**
          * Getting event type id for catalog_product_view event
          */
-        foreach (Mage::getModel('Magento_Reports_Model_Event_Type')->getCollection() as $eventType) {
+        $eventTypes = $this->_eventTypeFactory
+            ->create()
+            ->getCollection();
+        foreach ($eventTypes as $eventType) {
             if ($eventType->getEventName() == 'catalog_product_view') {
                 $productViewEvent = (int)$eventType->getId();
                 break;

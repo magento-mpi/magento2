@@ -126,10 +126,10 @@ class Magento_Core_Model_Email_Template extends Magento_Core_Model_Template
      * @param Magento_Core_Model_View_Url $viewUrl
      * @param Magento_Core_Model_View_FileSystem $viewFileSystem
      * @param Magento_Core_Model_View_DesignInterface $design
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_Config $coreConfig
+     * @param Magento_Core_Model_Store_ConfigInterface $coreStoreConfig
+     * @param Magento_Core_Model_ConfigInterface $coreConfig
      * @param Magento_Core_Model_Email_Template_FilterFactory $emailFilterFactory
-     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Dir $dir
      * @param Magento_Core_Model_Email_Template_Config $emailConfig
      * @param array $data
@@ -144,10 +144,10 @@ class Magento_Core_Model_Email_Template extends Magento_Core_Model_Template
         Magento_Core_Model_View_Url $viewUrl,
         Magento_Core_Model_View_FileSystem $viewFileSystem,
         Magento_Core_Model_View_DesignInterface $design,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_Config $coreConfig,
+        Magento_Core_Model_Store_ConfigInterface $coreStoreConfig,
+        Magento_Core_Model_ConfigInterface $coreConfig,
         Magento_Core_Model_Email_Template_FilterFactory $emailFilterFactory,
-        Magento_Core_Model_StoreManager $storeManager,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Dir $dir,
         Magento_Core_Model_Email_Template_Config $emailConfig,
         array $data = array()

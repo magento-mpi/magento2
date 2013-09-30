@@ -23,11 +23,10 @@ class Magento_Tax_Block_Sales_Order_Tax extends Magento_Core_Block_Template
     protected $_source;
 
     /**
-     * @param array $data
      * @param Magento_Core_Helper_Data $coreData
-     * @param  $context
-     * @param  $taxConfig
-     * @param  $data
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Tax_Model_Config $taxConfig
+     * @param array $data
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,

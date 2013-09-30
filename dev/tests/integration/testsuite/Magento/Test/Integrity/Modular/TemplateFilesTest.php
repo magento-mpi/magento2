@@ -50,8 +50,9 @@ class Magento_Test_Integrity_Modular_TemplateFilesTest extends Magento_TestFrame
                 ->getStore()->setWebsiteId(0);
 
             $templates = array();
+            $skippedBlocks = $this->_getBlocksToSkip();
             foreach (Magento_TestFramework_Utility_Classes::collectModuleClasses('Block') as $blockClass => $module) {
-                if (!in_array($module, $this->_getEnabledModules())) {
+                if (!in_array($module, $this->_getEnabledModules()) || in_array($blockClass, $skippedBlocks)) {
                     continue;
                 }
                 $class = new ReflectionClass($blockClass);
@@ -89,5 +90,18 @@ class Magento_Test_Integrity_Modular_TemplateFilesTest extends Magento_TestFrame
             trigger_error("Corrupted data provider. Last known block instantiation attempt: '{$blockClass}'."
                 . " Exception: {$e}", E_USER_ERROR);
         }
+    }
+
+    /**
+     * @return array
+     */
+    protected function _getBlocksToSkip()
+    {
+        $result = array();
+        foreach (glob(__DIR__ . '/_files/skip_template_blocks*.php') as $file) {
+            $blocks = include $file;
+            $result = array_merge($result, $blocks);
+        }
+        return array_combine($result, $result);
     }
 }

@@ -26,8 +26,10 @@ class Magento_Backend_Model_Config_Source_Email_TemplateTest extends PHPUnit_Fra
     {
         $this->_coreRegistry = $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false, false);
         $this->_emailConfig = $this->getMock('Magento_Core_Model_Email_Template_Config', array(), array(), '', false);
+        $this->_templatesFactory = $this->getMock('Magento_Core_Model_Resource_Email_Template_CollectionFactory',
+            array(), array(), '', false);
         $this->_model = new Magento_Backend_Model_Config_Source_Email_Template(
-            $this->_coreRegistry, $this->_emailConfig
+            $this->_coreRegistry, $this->_templatesFactory, $this->_emailConfig
         );
     }
 

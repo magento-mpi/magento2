@@ -10,22 +10,6 @@
  */
 -->
 <config>
-    <global>
-        <ignoredModules>
-            <entities>
-                <install />
-                <adminhtml />
-                <admin />
-            </entities>
-        </ignoredModules>
-        <resources>
-            <log_setup>
-                <setup>
-                    <module>Magento_Log</module>
-                </setup>
-            </log_setup>
-        </resources>
-    </global>
     <default>
         <log>
             <visitor>

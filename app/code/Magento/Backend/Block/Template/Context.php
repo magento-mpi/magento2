@@ -17,18 +17,17 @@ class Magento_Backend_Block_Template_Context extends Magento_Core_Block_Template
     protected $_authorization;
 
     /**
-     * @var Magento_Core_Model_StoreManager
-     */
-    protected $_storeManager;
-
-    /**
      * @var Magento_Core_Model_LocaleInterface
      */
     protected $_locale;
 
     /**
+     * @var Magento_Core_Model_StoreManager
+     */
+    protected $_storeManager;
+
+    /**
      * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Core_Model_LocaleInterface $locale
      * @param Magento_Core_Controller_Request_Http $request
      * @param Magento_Core_Model_Layout $layout
      * @param Magento_Core_Model_Event_Manager $eventManager
@@ -43,19 +42,20 @@ class Magento_Backend_Block_Template_Context extends Magento_Core_Block_Template
      * @param Magento_Core_Model_View_Url $viewUrl
      * @param Magento_Core_Model_View_Config $viewConfig
      * @param Magento_Core_Model_Cache_StateInterface $cacheState
-     * @param Magento_Core_Model_App $app
      * @param Magento_Core_Model_Dir $dirs
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Filesystem $filesystem
      * @param Magento_Core_Model_View_FileSystem $viewFileSystem
      * @param Magento_Core_Model_TemplateEngine_Factory $engineFactory
      * @param Magento_AuthorizationInterface $authorization
+     * @param Magento_Core_Model_App $app
+     * @param Magento_Backend_Model_Session $backendSession
+     * @param Magento_Core_Model_LocaleInterface $locale
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Magento_Core_Model_StoreManager $storeManager,
-        Magento_Core_Model_LocaleInterface $locale,
         Magento_Core_Controller_Request_Http $request,
         Magento_Core_Model_Layout $layout,
         Magento_Core_Model_Event_Manager $eventManager,
@@ -76,7 +76,9 @@ class Magento_Backend_Block_Template_Context extends Magento_Core_Block_Template
         Magento_Core_Model_View_FileSystem $viewFileSystem,
         Magento_Core_Model_TemplateEngine_Factory $engineFactory,
         Magento_AuthorizationInterface $authorization,
-        Magento_Core_Model_App $app
+        Magento_Core_Model_App $app,
+        Magento_Backend_Model_Session $backendSession,
+        Magento_Core_Model_LocaleInterface $locale
     ) {
         parent::__construct(
             $request, $layout, $eventManager, $urlBuilder, $translator, $cache, $design, $session, $storeConfig,
@@ -84,8 +86,9 @@ class Magento_Backend_Block_Template_Context extends Magento_Core_Block_Template
             $dirs, $logger, $filesystem, $viewFileSystem, $engineFactory, $app
         );
         $this->_storeManager = $storeManager;
-        $this->_locale = $locale;
         $this->_authorization = $authorization;
+        $this->_backendSession = $backendSession;
+        $this->_locale = $locale;
     }
 
     /**
@@ -99,15 +102,6 @@ class Magento_Backend_Block_Template_Context extends Magento_Core_Block_Template
     }
 
     /**
-     * Get locale
-     * @return Magento_Core_Model_LocaleInterface
-     */
-    public function getLocale()
-    {
-        return $this->_locale;
-    }
-
-    /**
      * Retrieve Authorization
      *
      * @return \Magento_AuthorizationInterface
@@ -115,5 +109,21 @@ class Magento_Backend_Block_Template_Context extends Magento_Core_Block_Template
     public function getAuthorization()
     {
         return $this->_authorization;
+    }
+
+    /**
+     * @return Magento_Backend_Model_Session
+     */
+    public function getBackendSession()
+    {
+        return $this->_backendSession;
+    }
+
+    /**
+     * @return Magento_Core_Model_LocaleInterface
+     */
+    public function getLocale()
+    {
+        return $this->_locale;
     }
 }

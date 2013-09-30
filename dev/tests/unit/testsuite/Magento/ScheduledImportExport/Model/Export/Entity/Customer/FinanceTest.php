@@ -71,10 +71,16 @@ class Magento_ScheduledImportExport_Model_Export_Entity_Customer_FinanceTest ext
         );
 
         $this->_model = new Magento_ScheduledImportExport_Model_Export_Entity_Customer_Finance(
+            $coreStoreConfig,
+            $this->getMock('Magento_Core_Model_App', array(), array(), '', false, false),
+            $this->getMock('Magento_ImportExport_Model_Export_Factory', array(), array(), '', false, false),
+            $this->getMock(
+                'Magento_ImportExport_Model_Resource_CollectionByPagesIteratorFactory',
+                array(), array(), '', false, false
+            ),
             $customerCollFactory,
             $eavCustomerFactory,
             $this->getMock('Magento_ScheduledImportExport_Helper_Data', array(), array(), '', false, false),
-            $coreStoreConfig,
             $this->_getModelDependencies()
         );
     }

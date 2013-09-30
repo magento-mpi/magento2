@@ -13,4 +13,9 @@
             <value>adminhtml</value>
         </param>
     </type>
+    <type name="Magento_Authorizenet_Model_Directpost">
+        <param name="session">
+            <instance type="Magento_Adminhtml_Model_Session_Quote" />
+        </param>
+    </type>
 </config>

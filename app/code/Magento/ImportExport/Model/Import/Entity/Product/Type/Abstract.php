@@ -77,20 +77,36 @@ abstract class Magento_ImportExport_Model_Import_Entity_Product_Type_Abstract
     protected $_type;
 
     /**
-     * Object constructor.
-     *
-     * @param array $params
-     * @return \Magento_ImportExport_Model_Import_Entity_Product_Type_Abstract
+     * @var Magento_Eav_Model_Resource_Entity_Attribute_Set_CollectionFactory
      */
-    public function __construct(array $params)
-    {
+    protected $_attrSetColFac;
+
+    /**
+     * @var Magento_Catalog_Model_Resource_Product_Attribute_Collection
+     */
+    protected $_prodAttrColFac;
+
+    /**
+     * @param Magento_Eav_Model_Resource_Entity_Attribute_Set_CollectionFactory $attrSetColFac
+     * @param Magento_Catalog_Model_Resource_Product_Attribute_CollectionFactory $prodAttrColFac
+     * @param array $params
+     * @throws Magento_Core_Exception
+     */
+    public function __construct(
+        Magento_Eav_Model_Resource_Entity_Attribute_Set_CollectionFactory $attrSetColFac,
+        Magento_Catalog_Model_Resource_Product_Attribute_CollectionFactory $prodAttrColFac,
+        array $params
+    ) {
+        $this->_attrSetColFac = $attrSetColFac;
+        $this->_prodAttrColFac = $prodAttrColFac;
+
         if ($this->isSuitable()) {
             if (!isset($params[0])
                 || !isset($params[1])
                 || !is_object($params[0])
                 || !($params[0] instanceof Magento_ImportExport_Model_Import_Entity_Product)
             ) {
-                Mage::throwException(__('Please correct the parameters.'));
+                throw new Magento_Core_Exception(__('Please correct the parameters.'));
             }
             $this->_entityModel = $params[0];
             $this->_type        = $params[1];
@@ -142,9 +158,9 @@ abstract class Magento_ImportExport_Model_Import_Entity_Product_Type_Abstract
         // temporary storage for attributes' parameters to avoid double querying inside the loop
         $attributesCache = array();
 
-        foreach (Mage::getResourceModel('Magento_Eav_Model_Resource_Entity_Attribute_Set_Collection')
-                ->setEntityTypeFilter($this->_entityModel->getEntityTypeId()) as $attributeSet) {
-            foreach (Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Attribute_Collection')
+        foreach ($this->_attrSetColFac->create()
+                     ->setEntityTypeFilter($this->_entityModel->getEntityTypeId()) as $attributeSet) {
+            foreach ($this->_prodAttrColFac->create()
                 ->setAttributeSetFilter($attributeSet->getId()) as $attribute) {
 
                 $attributeCode = $attribute->getAttributeCode();

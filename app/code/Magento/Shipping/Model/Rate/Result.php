@@ -26,6 +26,20 @@ class Magento_Shipping_Model_Rate_Result
     protected $_error = null;
 
     /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     */
+    public function __construct(
+        Magento_Core_Model_StoreManagerInterface $storeManager
+    ) {
+        $this->_storeManager = $storeManager;
+    }
+
+    /**
      * Reset result
      *
      * @return Magento_Shipping_Model_Rate_Result
@@ -125,7 +139,7 @@ class Magento_Shipping_Model_Rate_Result
      */
     public function asArray()
     {
-        $currencyFilter = Mage::app()->getStore()->getPriceFilter();
+        $currencyFilter = $this->_storeManager->getStore()->getPriceFilter();
         $rates = array();
         $allRates = $this->getAllRates();
         foreach ($allRates as $rate) {

@@ -23,17 +23,7 @@ class Magento_Core_Model_Config_LoaderTest extends PHPUnit_Framework_TestCase
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_resourceConfigMock;
-
-    /**
-     * @var PHPUnit_Framework_MockObject_MockObject
-     */
     protected $_modulesReaderMock;
-
-    /**
-     * @var PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $_loaderLocalMock;
 
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
@@ -46,16 +36,8 @@ class Magento_Core_Model_Config_LoaderTest extends PHPUnit_Framework_TestCase
             'Magento_Core_Model_Config_Primary', array(), array(), '', false, false
         );
 
-        $this->_resourceConfigMock = $this->getMock(
-            'Magento_Core_Model_Config_Resource', array(), array(), '', false, false
-        );
-
         $this->_modulesReaderMock = $this->getMock(
             'Magento_Core_Model_Config_Modules_Reader', array(), array(), '', false, false
-        );
-
-        $this->_loaderLocalMock = $this->getMock(
-            'Magento_Core_Model_Config_Loader_Local', array(), array(), '', false, false
         );
 
         $this->_baseConfigMock = $this->getMock(
@@ -64,9 +46,7 @@ class Magento_Core_Model_Config_LoaderTest extends PHPUnit_Framework_TestCase
 
         $this->_model = new Magento_Core_Model_Config_Loader(
             $this->_primaryConfigMock,
-            $this->_resourceConfigMock,
-            $this->_modulesReaderMock,
-            $this->_loaderLocalMock
+            $this->_modulesReaderMock
         );
     }
 
@@ -80,16 +60,9 @@ class Magento_Core_Model_Config_LoaderTest extends PHPUnit_Framework_TestCase
         $this->_baseConfigMock->expects($this->once())->method('extend')->with($this->_primaryConfigMock);
 
         /** Test loading of DB provider specific config files */
-        $this->_resourceConfigMock->expects($this->once())
-            ->method('getResourceConnectionModel')
-            ->with('core')
-            ->will($this->returnValue('mysql4'));
         $this->_modulesReaderMock->expects($this->once())
             ->method('loadModulesConfiguration')
-            ->with(array('config.xml', 'config.mysql4.xml'), $this->_baseConfigMock);
-
-        /** Test preventing overriding of local configuration */
-        $this->_loaderLocalMock->expects($this->once())->method('load')->with($this->_baseConfigMock);
+            ->with(array('config.xml'), $this->_baseConfigMock);
 
         /** Test merging of all config data */
         $this->_baseConfigMock->expects($this->once())->method('applyExtends');

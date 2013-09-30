@@ -95,26 +95,26 @@ class Magento_Eav_Model_Config
     protected $_entityTypeFactory;
 
     /**
-     * @var Magento_Eav_Model_Factory_Helper
+     * @var Magento_Validator_UniversalFactory
      */
-    protected $_helperFactory;
+    protected $_universalFactory;
 
     /**
      * @param Magento_Core_Model_App $app
      * @param Magento_Eav_Model_Entity_TypeFactory $entityTypeFactory
      * @param Magento_Core_Model_Cache_StateInterface $cacheState
-     * @param Magento_Eav_Model_Factory_Helper $helperFactory
+     * @param Magento_Validator_UniversalFactory $universalFactory
      */
     public function __construct(
         Magento_Core_Model_App $app,
         Magento_Eav_Model_Entity_TypeFactory $entityTypeFactory,
         Magento_Core_Model_Cache_StateInterface $cacheState,
-        Magento_Eav_Model_Factory_Helper $helperFactory
+        Magento_Validator_UniversalFactory $universalFactory
     ) {
         $this->_app = $app;
         $this->_entityTypeFactory = $entityTypeFactory;
         $this->_cacheState = $cacheState;
-        $this->_helperFactory = $helperFactory;
+        $this->_universalFactory = $universalFactory;
     }
 
     /**
@@ -368,7 +368,7 @@ class Magento_Eav_Model_Config
         }
         Magento_Profiler::start('EAV: '.__METHOD__, array('group' => 'EAV', 'method' => __METHOD__));
 
-        $attributesInfo = $this->_helperFactory->create($entityType->getEntityAttributeCollection())
+        $attributesInfo = $this->_universalFactory->create($entityType->getEntityAttributeCollection())
             ->setEntityTypeFilter($entityType)
             ->getData();
 
@@ -426,16 +426,16 @@ class Magento_Eav_Model_Config
         if (isset($this->_attributeData[$entityTypeCode][$code])) {
             $data = $this->_attributeData[$entityTypeCode][$code];
             unset($this->_attributeData[$entityTypeCode][$code]);
-            $attribute = $this->_helperFactory->create($data['attribute_model'], array('data' => $data));
+            $attribute = $this->_universalFactory->create($data['attribute_model'], array('data' => $data));
         } else {
             if (is_numeric($code)) {
-                $attribute = $this->_helperFactory->create($entityType->getAttributeModel())->load($code);
+                $attribute = $this->_universalFactory->create($entityType->getAttributeModel())->load($code);
                 if ($attribute->getEntityTypeId() != $entityType->getId()) {
                     return false;
                 }
                 $attributeKey = $this->_getAttributeKey($entityTypeCode, $attribute->getAttributeCode());
             } else {
-                $attribute = $this->_helperFactory->create($entityType->getAttributeModel())
+                $attribute = $this->_universalFactory->create($entityType->getAttributeModel())
                     ->loadByCode($entityType, $code)
                     ->setAttributeCode($code);
             }
@@ -481,7 +481,7 @@ class Magento_Eav_Model_Config
         }
 
         if ($attributeSetId) {
-            $attributesInfo = $this->_helperFactory->create($entityType->getEntityAttributeCollection())
+            $attributesInfo = $this->_universalFactory->create($entityType->getEntityAttributeCollection())
                 ->setEntityTypeFilter($entityType)
                 ->setAttributeSetFilter($attributeSetId)
                 ->addStoreLabel($storeId)
@@ -532,7 +532,7 @@ class Magento_Eav_Model_Config
         Magento_Profiler::start('EAV: '.__METHOD__ . ':'.$entityTypeCode,
             array('group' => 'EAV', 'method' => __METHOD__, 'entity_type_code' => $entityTypeCode));
 
-        $attributesInfo = $this->_helperFactory->create($entityType->getEntityAttributeCollection())
+        $attributesInfo = $this->_universalFactory->create($entityType->getEntityAttributeCollection())
             ->setEntityTypeFilter($entityType)
             ->setCodeFilter($attributes)
             ->getData();
@@ -624,7 +624,7 @@ class Magento_Eav_Model_Config
             return $this;
         }
         $attributeCollection = $entityType->getEntityAttributeCollection();
-        $attributesInfo = $this->_helperFactory->create($attributeCollection)
+        $attributesInfo = $this->_universalFactory->create($attributeCollection)
             ->useLoadDataFields()
             ->setEntityTypeFilter($entityType)
             ->setCodeFilter($attributes)
@@ -666,7 +666,7 @@ class Magento_Eav_Model_Config
         } else {
             $model = $entityType->getAttributeModel();
         }
-        $attribute = $this->_helperFactory->create($model)->setData($attributeData);
+        $attribute = $this->_universalFactory->create($model)->setData($attributeData);
         $this->_addAttributeReference(
             $attributeData['attribute_id'],
             $attributeData['attribute_code'],

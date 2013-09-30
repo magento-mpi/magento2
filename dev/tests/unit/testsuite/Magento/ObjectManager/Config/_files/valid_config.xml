@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <preference for="Some_For_Name" type="Some_Type_Name" />
+    <virtualType name="" type="" shared="true">
+        <param name="sessionNamespace">
+            <value>
+                <backend>
+                    <instance>value</instance>
+                    <sortOrder>2</sortOrder>
+                </backend>
+            </value>
+        </param>
+    </virtualType>
+    <type name="Some_Type_name">
+        <plugin name="plugin_name" type="Type_Test_Value"/>
+        <param name="text_value">
+            <instance type="Instance_test_name" />
+        </param>
+        <param name="test_param_name">
+            <value>
+                <backend>
+                    <instance>value</instance>
+                    <sortOrder>2</sortOrder>
+                </backend>
+            </value>
+        </param>
+        <param name="baseController">
+            <value>some_value</value>
+        </param>
+    </type>
+</config>

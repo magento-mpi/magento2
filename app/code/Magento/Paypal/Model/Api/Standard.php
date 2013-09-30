@@ -60,7 +60,7 @@ class Magento_Paypal_Model_Api_Standard extends Magento_Paypal_Model_Api_Abstrac
         'amount', 'shipping', 'tax', 'discount_amount', 'item_name', 'lc',
     );
 
-   /**
+    /**
      * Fields that should be replaced in debug with '***'
      *
      * @var array
@@ -69,6 +69,7 @@ class Magento_Paypal_Model_Api_Standard extends Magento_Paypal_Model_Api_Abstrac
 
     /**
      * Line items export mapping settings
+     *
      * @var array
      */
     protected $_lineItemTotalExportMap = array(
@@ -77,6 +78,10 @@ class Magento_Paypal_Model_Api_Standard extends Magento_Paypal_Model_Api_Abstrac
         Magento_Paypal_Model_Cart::TOTAL_TAX      => 'tax',
         Magento_Paypal_Model_Cart::TOTAL_SHIPPING => 'shipping',
     );
+
+    /**
+     * @var array
+     */
     protected $_lineItemExportItemsFormat = array(
         'id'     => 'item_number_%d',
         'name'   => 'item_name_%d',
@@ -84,8 +89,11 @@ class Magento_Paypal_Model_Api_Standard extends Magento_Paypal_Model_Api_Abstrac
         'amount' => 'amount_%d',
     );
 
+    /**
+     * @var array
+     */
     protected $_lineItemExportItemsFilters = array(
-         'qty'      => '_filterQty'
+        'qty' => '_filterQty'
     );
 
     /**

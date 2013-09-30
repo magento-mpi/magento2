@@ -22,8 +22,9 @@ class Magento_PaypalUk_Model_Express_Checkout extends Magento_Paypal_Model_Expre
     protected $_apiType = 'Magento_PaypalUk_Model_Api_Nvp';
 
     /**
-     * Payment method tpye
-     * @var unknown_type
+     * Payment method type
+     *
+     * @var string
      */
     protected $_methodType = Magento_Paypal_Model_Config::METHOD_WPP_PE_EXPRESS;
 

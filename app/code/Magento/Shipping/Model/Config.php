@@ -22,31 +22,31 @@ class Magento_Shipping_Model_Config extends Magento_Object
     protected static $_carriers;
 
     /**
-     * @var Magento_Core_Model_Logger
-     */
-    protected $_logger;
-
-    /**
      * Core store config
      *
      * @var Magento_Core_Model_Store_Config
      */
     protected $_coreStoreConfig;
-    
+
+    /**
+     * @var Magento_Shipping_Model_Carrier_Factory
+     */
+    protected $_carrierFactory;
+
     /**
      * Constructor
      *
-     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Shipping_Model_Carrier_Factory $carrierFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Logger $logger,
         Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Shipping_Model_Carrier_Factory $carrierFactory,
         array $data = array()
     ) {
-        $this->_logger = $logger;
         $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_carrierFactory = $carrierFactory;
         parent::__construct($data);
     }
 
@@ -60,11 +60,11 @@ class Magento_Shipping_Model_Config extends Magento_Object
     {
         $carriers = array();
         $config = $this->_coreStoreConfig->getConfig('carriers', $store);
-        foreach ($config as $code => $carrierConfig) {
-            if ($this->_coreStoreConfig->getConfigFlag('carriers/'.$code.'/active', $store)) {
-                $carrierModel = $this->_getCarrier($code, $carrierConfig, $store);
+        foreach (array_keys($config) as $carrierCode) {
+            if ($this->_coreStoreConfig->getConfigFlag('carriers/' . $carrierCode . '/active', $store)) {
+                $carrierModel = $this->_getCarrier($carrierCode, $store);
                 if ($carrierModel) {
-                    $carriers[$code] = $carrierModel;
+                    $carriers[$carrierCode] = $carrierModel;
                 }
             }
         }
@@ -81,10 +81,10 @@ class Magento_Shipping_Model_Config extends Magento_Object
     {
         $carriers = array();
         $config = $this->_coreStoreConfig->getConfig('carriers', $store);
-        foreach ($config as $code => $carrierConfig) {
-            $model = $this->_getCarrier($code, $carrierConfig, $store);
+        foreach (array_keys($config) as $carrierCode) {
+            $model = $this->_getCarrier($carrierCode, $store);
             if ($model) {
-                $carriers[$code] = $model;
+                $carriers[$carrierCode] = $model;
             }
         }
         return $carriers;
@@ -99,40 +99,20 @@ class Magento_Shipping_Model_Config extends Magento_Object
      */
     public function getCarrierInstance($carrierCode, $store = null)
     {
-        $carrierConfig =  $this->_coreStoreConfig->getConfig('carriers/'.$carrierCode, $store);
-        if (!empty($carrierConfig)) {
-            return $this->_getCarrier($carrierCode, $carrierConfig, $store);
-        }
-        return false;
+        return $this->_getCarrier($carrierCode, $store);
     }
 
     /**
      * Get carrier model object
      *
-     * @param string $code
-     * @param array $config
+     * @param $carrierCode
      * @param mixed $store
      * @return Magento_Shipping_Model_Carrier_Abstract
      */
-    protected function _getCarrier($code, $config, $store = null)
+    protected function _getCarrier($carrierCode, $store = null)
     {
-        if (!isset($config['model'])) {
-            return false;
-        }
-        $modelName = $config['model'];
-
-        /**
-         * Added protection from not existing models usage.
-         * Related with module uninstall process
-         */
-        try {
-            $carrier = Mage::getModel($modelName);
-        } catch (Exception $e) {
-            $this->_logger->logException($e);
-            return false;
-        }
-        $carrier->setId($code)->setStore($store);
-        self::$_carriers[$code] = $carrier;
-        return self::$_carriers[$code];
+        $carrier = $this->_carrierFactory->create($carrierCode, $store);
+        self::$_carriers[$carrierCode] = $carrier;
+        return self::$_carriers[$carrierCode];
     }
 }

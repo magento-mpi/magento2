@@ -51,7 +51,7 @@ class Magento_ImportExport_Controller_Adminhtml_Export extends Magento_Adminhtml
         if ($this->getRequest()->getPost(Magento_ImportExport_Model_Export::FILTER_ELEMENT_GROUP)) {
             try {
                 /** @var $model Magento_ImportExport_Model_Export */
-                $model = Mage::getModel('Magento_ImportExport_Model_Export');
+                $model = $this->_objectManager->create('Magento_ImportExport_Model_Export');
                 $model->setData($this->getRequest()->getParams());
 
                 return $this->_prepareDownloadResponse(
@@ -100,7 +100,7 @@ class Magento_ImportExport_Controller_Adminhtml_Export extends Magento_Adminhtml
                 /** @var $attrFilterBlock Magento_ImportExport_Block_Adminhtml_Export_Filter */
                 $attrFilterBlock = $this->getLayout()->getBlock('export.filter');
                 /** @var $export Magento_ImportExport_Model_Export */
-                $export = Mage::getModel('Magento_ImportExport_Model_Export');
+                $export = $this->_objectManager->create('Magento_ImportExport_Model_Export');
                 $export->setData($data);
 
                 $export->filterAttributeCollection(

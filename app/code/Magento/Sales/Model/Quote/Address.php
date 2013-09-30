@@ -142,28 +142,28 @@ class Magento_Sales_Model_Quote_Address extends Magento_Customer_Model_Address_A
      *
      * @var Magento_Sales_Model_Quote
      */
-    protected $_items = null;
+    protected $_items;
 
     /**
      * Quote object
      *
      * @var Magento_Sales_Model_Quote
      */
-    protected $_quote = null;
+    protected $_quote;
 
     /**
      * Sales Quote address rates
      *
      * @var Magento_Sales_Model_Quote_Address_Rate
      */
-    protected $_rates = null;
+    protected $_rates;
 
     /**
      * Total models collector
      *
      * @var Magento_Sales_Model_Quote_Address_Total_Collector
      */
-    protected $_totalCollector = null;
+    protected $_totalCollector;
 
     /**
      * Total data as array
@@ -194,12 +194,12 @@ class Magento_Sales_Model_Quote_Address extends Magento_Customer_Model_Address_A
      *
      * @var Magento_Core_Helper_Data
      */
-    protected $_coreData = null;
+    protected $_coreData;
 
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var Magento_Core_Model_Store_ConfigInterface
      */
     protected $_coreStoreConfig;
 
@@ -244,7 +244,11 @@ class Magento_Sales_Model_Quote_Address extends Magento_Customer_Model_Address_A
      * @param Magento_Directory_Helper_Data $directoryData
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Eav_Model_Config $eavConfig
+     * @param Magento_Customer_Model_Address_Config $addressConfig
+     * @param Magento_Directory_Model_RegionFactory $regionFactory
+     * @param Magento_Directory_Model_CountryFactory $countryFactory
+     * @param Magento_Core_Model_Store_ConfigInterface $coreStoreConfig
      * @param Magento_Customer_Model_AddressFactory $addressFactory
      * @param Magento_Sales_Model_Quote_Address_ItemFactory $addressItemFactory
      * @param Magento_Sales_Model_Resource_Quote_Address_Item_CollectionFactory $itemCollFactory
@@ -266,7 +270,11 @@ class Magento_Sales_Model_Quote_Address extends Magento_Customer_Model_Address_A
         Magento_Directory_Helper_Data $directoryData,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Eav_Model_Config $eavConfig,
+        Magento_Customer_Model_Address_Config $addressConfig,
+        Magento_Directory_Model_RegionFactory $regionFactory,
+        Magento_Directory_Model_CountryFactory $countryFactory,
+        Magento_Core_Model_Store_ConfigInterface $coreStoreConfig,
         Magento_Customer_Model_AddressFactory $addressFactory,
         Magento_Sales_Model_Quote_Address_ItemFactory $addressItemFactory,
         Magento_Sales_Model_Resource_Quote_Address_Item_CollectionFactory $itemCollFactory,
@@ -291,7 +299,19 @@ class Magento_Sales_Model_Quote_Address extends Magento_Customer_Model_Address_A
         $this->_rateRequestFactory = $rateRequestFactory;
         $this->_totalCollectorFactory = $totalCollectorFactory;
         $this->_addressTotalFactory = $addressTotalFactory;
-        parent::__construct($eventManager, $directoryData, $context, $registry, $resource, $resourceCollection, $data);
+        parent::__construct(
+            $eventManager,
+            $directoryData,
+            $context,
+            $registry,
+            $eavConfig,
+            $addressConfig,
+            $regionFactory,
+            $countryFactory,
+            $resource,
+            $resourceCollection,
+            $data
+        );
     }
 
     /**

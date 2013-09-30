@@ -14,37 +14,14 @@ class Magento_Core_Model_Resource
     const AUTO_UPDATE_NEVER      = -1;
     const AUTO_UPDATE_ALWAYS     = 1;
 
-    const DEFAULT_READ_RESOURCE  = 'core_read';
-    const DEFAULT_WRITE_RESOURCE = 'core_write';
-    const DEFAULT_SETUP_RESOURCE = 'core_setup';
-
-    /**
-     * Instances of classes for connection types
-     *
-     * @var array
-     */
-    protected $_connectionTypes    = array();
+    const PARAM_TABLE_PREFIX = 'db.table_prefix';
 
     /**
      * Instances of actual connections
      *
-     * @var array
+     * @var Magento_DB_Adapter_Interface[]
      */
-    protected $_connections        = array();
-
-    /**
-     * Names of actual connections that wait to set cache
-     *
-     * @var array
-     */
-    protected $_skippedConnections = array();
-
-    /**
-     * Registry of resource entities
-     *
-     * @var array
-     */
-    protected $_entities           = array();
+    protected $_connections = array();
 
     /**
      * Mapped tables cache array
@@ -54,11 +31,18 @@ class Magento_Core_Model_Resource
     protected $_mappedTableNames;
 
     /**
-     * Resource configuration
+     * Resource config
      *
-     * @var Magento_Core_Model_Config_Resource
+     * @var Magento_Core_Model_Config_ResourceInterface
      */
     protected $_resourceConfig;
+
+    /**
+     * Resource connection adapter factory
+     *
+     * @var Magento_Core_Model_Resource_ConnectionFactory
+     */
+    protected $_connectionFactory;
 
     /**
      * Application cache
@@ -68,43 +52,34 @@ class Magento_Core_Model_Resource
     protected $_cache;
 
     /**
-     * Dirs instance
-     *
-     * @var Magento_Core_Model_Dir
+     * @var string
      */
-    protected $_dirs;
+    protected $_tablePrefix;
 
     /**
-     * @var Magento_Core_Model_App_Proxy
+     * @var Magento_Core_Model_AppInterface
      */
     protected $_app;
 
     /**
-     * @param Magento_Core_Model_Config_Resource $resourceConfig
      * @param Magento_Core_Model_CacheInterface $cache
-     * @param Magento_Core_Model_Dir $dirs
-     * @param Magento_Core_Model_App_Proxy $app
+     * @param Magento_Core_Model_AppInterface $app
+     * @param Magento_Core_Model_Config_ResourceInterface $resourceConfig
+     * @param Magento_Core_Model_Resource_ConnectionFactory $adapterFactory
+     * @param string $tablePrefix
      */
     public function __construct(
-        Magento_Core_Model_Config_Resource $resourceConfig,
         Magento_Core_Model_CacheInterface $cache,
-        Magento_Core_Model_Dir $dirs,
-        Magento_Core_Model_App_Proxy $app
+        Magento_Core_Model_AppInterface $app,
+        Magento_Core_Model_Config_ResourceInterface $resourceConfig,
+        Magento_Core_Model_Resource_ConnectionFactory $adapterFactory,
+        $tablePrefix = ''
     ) {
-        $this->_resourceConfig = $resourceConfig;
         $this->_cache = $cache;
-        $this->_dirs = $dirs;
         $this->_app = $app;
-    }
-
-    /**
-     * Set resource configuration
-     *
-     * @param Magento_Core_Model_Config_Resource $resourceConfig
-     */
-    public function setResourceConfig(Magento_Core_Model_Config_Resource $resourceConfig)
-    {
         $this->_resourceConfig = $resourceConfig;
+        $this->_connectionFactory = $adapterFactory;
+        $this->_tablePrefix = $tablePrefix;
     }
 
     /**
@@ -118,118 +93,35 @@ class Magento_Core_Model_Resource
     }
 
     /**
-     * Creates a connection to resource whenever needed
-     *
-     * @param string $name
-     * @return Magento_DB_Adapter_Interface
-     */
-    public function getConnection($name)
-    {
-        if (isset($this->_connections[$name])) {
-            $connection = $this->_connections[$name];
-            if (isset($this->_skippedConnections[$name])) {
-                $connection->setCacheAdapter($this->_app->getCache());
-                unset($this->_skippedConnections[$name]);
-            }
-            return $connection;
-        }
-        $connConfig = $this->_resourceConfig->getResourceConnectionConfig($name);
-
-        if (!$connConfig) {
-            $this->_connections[$name] = $this->_getDefaultConnection($name);
-            return $this->_connections[$name];
-        }
-        if (!$connConfig->is('active', 1)) {
-            return false;
-        }
-
-        $origName = $connConfig->getParent()->getName();
-        if (isset($this->_connections[$origName])) {
-            $this->_connections[$name] = $this->_connections[$origName];
-            return $this->_connections[$origName];
-        }
-
-        $connection = $this->_newConnection((string)$connConfig->type, $connConfig);
-        if ($connection) {
-            $connection->setCacheAdapter($this->_cache->getFrontend());
-        }
-
-        $this->_connections[$name] = $connection;
-        if ($origName !== $name) {
-            $this->_connections[$origName] = $connection;
-        }
-
-        return $connection;
-    }
-
-    /**
      * Retrieve connection adapter class name by connection type
      *
-     * @param string $type  the connection type
-     * @return string|false
+     * @param Magento_Core_Model_Config_ResourceInterface $resourceConfig
      */
-    protected function _getConnectionAdapterClassName($type)
+    public function setConfig(Magento_Core_Model_Config_ResourceInterface $resourceConfig)
     {
-        $config = $this->_resourceConfig->getResourceTypeConfig($type);
-        if (!empty($config->adapter)) {
-            return (string)$config->adapter;
-        }
-        return false;
+        $this->_resourceConfig = $resourceConfig;
     }
 
     /**
-     * Create new connection adapter instance by connection type and config
+     * Retrieve connection to resource specified by $resourceName
      *
-     * @param string $type the connection type
-     * @param Magento_Core_Model_Config_Element|array $config the connection configuration
-     * @return Magento_DB_Adapter_Interface|false
+     * @param string $resourceName
+     * @return Magento_DB_Adapter_Interface|bool
      */
-    protected function _newConnection($type, $config)
+    public function getConnection($resourceName)
     {
-        if ($config instanceof Magento_Core_Model_Config_Element) {
-            $config = $config->asArray();
+        $connectionName = $this->_resourceConfig->getConnectionName($resourceName);
+        if (isset($this->_connections[$connectionName])) {
+            return $this->_connections[$connectionName];
         }
-        if (!is_array($config)) {
+
+        $connection = $this->_connectionFactory->create($connectionName);
+        if (!$connection) {
             return false;
         }
+        $connection->setCacheAdapter($this->_cache->getFrontend());
 
-        $connection = false;
-        // try to get adapter and create connection
-        $className  = $this->_getConnectionAdapterClassName($type);
-        if ($className) {
-            $connection = new $className($this->_dirs, $config);
-            if ($connection instanceof Magento_DB_Adapter_Interface) {
-                /** @var Zend_Db_Adapter_Abstract $connection */
-
-                // Set additional params for Magento profiling tool
-                $profiler = $connection->getProfiler();
-                if ($profiler instanceof Magento_DB_Profiler) {
-                    /** @var Magento_DB_Profiler $profiler */
-                    $profiler->setType($type);
-
-                    $host = !empty($config['host']) ? $config['host'] : '';
-                    $profiler->setHost($host);
-                }
-
-                // run after initialization statements
-                if (!empty($config['initStatements'])) {
-                    $connection->query($config['initStatements']);
-                }
-            } else {
-                $connection = false;
-            }
-        }
-
-        // try to get connection from type
-        if (!$connection) {
-            $typeInstance = $this->getConnectionTypeInstance($type);
-            /** @var Magento_Core_Model_Resource_Type_Abstract $typeInstance */
-            $connection = $typeInstance->getConnection($config);
-            if (!$connection instanceof Magento_DB_Adapter_Interface) {
-                $connection = false;
-            }
-        }
-
+        $this->_connections[$connectionName] = $connection;
         return $connection;
     }
 
@@ -239,30 +131,8 @@ class Magento_Core_Model_Resource
      * @param string $requiredConnectionName
      * @return string
      */
-    protected function _getDefaultConnection($requiredConnectionName)
+    protected function _getDefaultResourceName($requiredConnectionName)
     {
-        if (strpos($requiredConnectionName, 'read') !== false) {
-            return $this->getConnection(self::DEFAULT_READ_RESOURCE);
-        }
-        return $this->getConnection(self::DEFAULT_WRITE_RESOURCE);
-    }
-
-    /**
-     * Get connection type instance
-     *
-     * Creates new if doesn't exist
-     *
-     * @param string $type
-     * @return Magento_Core_Model_Resource_Type_Abstract
-     */
-    public function getConnectionTypeInstance($type)
-    {
-        if (!isset($this->_connectionTypes[$type])) {
-            $config = $this->_resourceConfig->getResourceTypeConfig($type);
-            $typeClass = $config->getClassName();
-            $this->_connectionTypes[$type] = new $typeClass($this->_dirs);
-        }
-        return $this->_connectionTypes[$type];
     }
 
     /**
@@ -284,7 +154,7 @@ class Magento_Core_Model_Resource
         if ($mappedTableName) {
             $tableName = $mappedTableName;
         } else {
-            $tablePrefix = (string)$this->_resourceConfig->getTablePrefix();
+            $tablePrefix = (string)$this->_tablePrefix;
             if ($tablePrefix && strpos($tableName, $tablePrefix) !== 0) {
                 $tableName = $tablePrefix . $tableName;
             }
@@ -293,7 +163,8 @@ class Magento_Core_Model_Resource
         if ($tableSuffix) {
             $tableName .= '_' . $tableSuffix;
         }
-        return $this->getConnection(self::DEFAULT_READ_RESOURCE)->getTableName($tableName);
+        return $this->getConnection(Magento_Core_Model_Config_Resource::DEFAULT_READ_CONNECTION)
+            ->getTableName($tableName);
     }
 
     /**
@@ -324,29 +195,8 @@ class Magento_Core_Model_Resource
         }
     }
 
-    /**
-     * Create new connection with custom config
-     *
-     * @param string $name
-     * @param string $type
-     * @param array $config
-     * @return unknown
-     */
-    public function createConnection($name, $type, $config)
-    {
-        if (!isset($this->_connections[$name])) {
-            $connection = $this->_newConnection($type, $config);
-
-            $this->_connections[$name] = $connection;
-        }
-        return $this->_connections[$name];
-    }
-
     public function checkDbConnection()
     {
-        if (!$this->getConnection('core_read')) {
-            // there was commented out redirect to install URL
-        }
     }
 
     public function getAutoUpdate()
@@ -358,6 +208,7 @@ class Magento_Core_Model_Resource
     {
         return $this;
     }
+
     /**
      * Retrieve 32bit UNIQUE HASH for a Table index
      *
@@ -368,7 +219,7 @@ class Magento_Core_Model_Resource
      */
     public function getIdxName($tableName, $fields, $indexType = Magento_DB_Adapter_Interface::INDEX_TYPE_INDEX)
     {
-        return $this->getConnection(self::DEFAULT_READ_RESOURCE)
+        return $this->getConnection(Magento_Core_Model_Config_Resource::DEFAULT_READ_CONNECTION)
             ->getIndexName($this->getTableName($tableName), $fields, $indexType);
     }
 
@@ -383,7 +234,7 @@ class Magento_Core_Model_Resource
      */
     public function getFkName($priTableName, $priColumnName, $refTableName, $refColumnName)
     {
-        return $this->getConnection(self::DEFAULT_READ_RESOURCE)
+        return $this->getConnection(Magento_Core_Model_Config_Resource::DEFAULT_READ_CONNECTION)
             ->getForeignKeyName($this->getTableName($priTableName), $priColumnName,
                 $this->getTableName($refTableName), $refColumnName);
     }

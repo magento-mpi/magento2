@@ -35,14 +35,23 @@ class Magento_Checkout_Model_Type_Multishipping_State extends Magento_Object
      *
      * @var Magento_Checkout_Model_Type_Multishipping
      */
-    protected $_checkout;
+    protected $_multishipping;
+
+    /**
+     * @var Magento_Checkout_Model_Session
+     */
+    protected $_checkoutSession;
 
     /**
      * Init model, steps
      *
      */
-    public function __construct()
-    {
+    public function __construct(
+        Magento_Checkout_Model_Session $checkoutSession,
+        Magento_Checkout_Model_Type_Multishipping $multishipping
+    ) {
+        $this->_checkoutSession = $checkoutSession;
+        $this->_multishipping = $multishipping;
         parent::__construct();
         $this->_steps = array(
             self::STEP_SELECT_ADDRESSES => new Magento_Object(array(
@@ -65,8 +74,6 @@ class Magento_Checkout_Model_Type_Multishipping_State extends Magento_Object
         foreach ($this->_steps as $step) {
             $step->setIsComplete(false);
         }
-
-        $this->_checkout = Mage::getSingleton('Magento_Checkout_Model_Type_Multishipping');
         $this->_steps[$this->getActiveStep()]->setIsActive(true);
     }
 
@@ -77,7 +84,7 @@ class Magento_Checkout_Model_Type_Multishipping_State extends Magento_Object
      */
     public function getCheckout()
     {
-        return $this->_checkout;
+        return $this->_multishipping;
     }
 
     /**
@@ -192,6 +199,6 @@ class Magento_Checkout_Model_Type_Multishipping_State extends Magento_Object
      */
     public function getCheckoutSession()
     {
-        return Mage::getSingleton('Magento_Checkout_Model_Session');
+        return $this->_checkoutSession;
     }
 }

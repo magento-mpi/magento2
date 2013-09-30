@@ -96,20 +96,26 @@ class Magento_ScheduledImportExport_Model_Export_Entity_Customer_Finance
     protected $_eavCustomerFactory;
 
     /**
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_App $app
+     * @param Magento_ImportExport_Model_Export_Factory $collectionFactory
+     * @param Magento_ImportExport_Model_Resource_CollectionByPagesIteratorFactory $resourceColFactory
      * @param Magento_ScheduledImportExport_Model_Resource_Customer_CollectionFactory $customerCollFactory
      * @param Magento_ImportExport_Model_Export_Entity_Eav_CustomerFactory $eavCustomerFactory
      * @param Magento_ScheduledImportExport_Helper_Data $importExportData
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_App $app,
+        Magento_ImportExport_Model_Export_Factory $collectionFactory,
+        Magento_ImportExport_Model_Resource_CollectionByPagesIteratorFactory $resourceColFactory,
         Magento_ScheduledImportExport_Model_Resource_Customer_CollectionFactory $customerCollFactory,
         Magento_ImportExport_Model_Export_Entity_Eav_CustomerFactory $eavCustomerFactory,
         Magento_ScheduledImportExport_Helper_Data $importExportData,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
         array $data = array()
     ) {
-        parent::__construct($coreStoreConfig, $data);
+        parent::__construct($coreStoreConfig, $app, $collectionFactory, $resourceColFactory, $data);
 
         $this->_customerCollFactory = $customerCollFactory;
         $this->_eavCustomerFactory = $eavCustomerFactory;

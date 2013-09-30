@@ -26,21 +26,23 @@ class Magento_Downloadable_Block_Checkout_Cart_Item_Renderer extends Magento_Che
     protected $_downloadProdConfig = null;
 
     /**
-     * @param Magento_Downloadable_Helper_Catalog_Product_Configuration $dwnCtlgProdConfig
      * @param Magento_Catalog_Helper_Product_Configuration $productConfiguration
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Downloadable_Helper_Catalog_Product_Configuration $dwnCtlgProdConfig
+     * @param Magento_Checkout_Model_Session $checkoutSession
      * @param array $data
      */
     public function __construct(
-        Magento_Downloadable_Helper_Catalog_Product_Configuration $dwnCtlgProdConfig,
         Magento_Catalog_Helper_Product_Configuration $productConfiguration,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
+        Magento_Downloadable_Helper_Catalog_Product_Configuration $dwnCtlgProdConfig,
+        Magento_Checkout_Model_Session $checkoutSession,
         array $data = array()
     ) {
         $this->_downloadProdConfig = $dwnCtlgProdConfig;
-        parent::__construct($productConfiguration, $coreData, $context, $data);
+        parent::__construct($productConfiguration, $coreData, $context, $checkoutSession, $data);
     }
 
     /**

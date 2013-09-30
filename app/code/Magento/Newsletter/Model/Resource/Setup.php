@@ -12,6 +12,31 @@
 class Magento_Newsletter_Model_Resource_Setup extends Magento_Core_Model_Resource_Setup
 {
     /**
+     * Resource setup model
+     *
+     * @var Magento_Core_Model_Resource_Setup_Migration
+     */
+    protected $_setupMigration;
+
+    /**
+     * @param Magento_Core_Model_Resource_Setup_Context $context
+     * @param string $resourceName
+     * @param string $moduleName
+     * @param string $connectionName
+     */
+    public function __construct(
+        Magento_Core_Model_Resource_Setup_Context $context,
+        $resourceName,
+        $moduleName = 'Magento_Newsletter',
+        $connectionName = ''
+    ) {
+        parent::__construct($context, $resourceName, $moduleName, $connectionName);
+        $this->_setupMigration = $this->_migrationFactory->create(
+            array('resourceName' => 'core_setup')
+        );
+    }
+
+    /**
      * Get block factory
      *
      * @return Magento_Core_Model_Resource_Setup_Migration

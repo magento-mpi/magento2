@@ -8,12 +8,33 @@
  * @license     {license_link}
  */
 
-
 /**
  * Backend event observer
  */
 class Magento_Backend_Model_Observer
 {
+    /**
+     * @var Magento_Backend_Model_Session
+     */
+    protected $_backendSession;
+
+    /**
+     * @var Magento_Core_Model_App
+     */
+    protected $_app;
+
+    /**
+     * @param Magento_Backend_Model_Session $backendSession
+     * @param Magento_Core_Model_App $app
+     */
+    public function __construct(
+        Magento_Backend_Model_Session $backendSession,
+        Magento_Core_Model_App $app
+    ) {
+        $this->_backendSession = $backendSession;
+        $this->_app = $app;
+    }
+
     /**
      * Bind locale
      *
@@ -24,7 +45,7 @@ class Magento_Backend_Model_Observer
     {
         $locale = $observer->getEvent()->getLocale();
         if ($locale) {
-            $selectedLocale = Mage::getSingleton('Magento_Backend_Model_Session')->getLocale();
+            $selectedLocale = $this->_backendSession->getLocale();
             if ($selectedLocale) {
                 $locale->setLocaleCode($selectedLocale);
             }
@@ -39,7 +60,7 @@ class Magento_Backend_Model_Observer
      */
     public function massactionPrepareKey()
     {
-        $request = Mage::app()->getFrontController()->getRequest();
+        $request = $this->_app->getFrontController()->getRequest();
         $key = $request->getPost('massaction_prepare_key');
         if ($key) {
             $postData = $request->getPost($key);
@@ -86,8 +107,7 @@ class Magento_Backend_Model_Observer
                 break;
             }
         }
-
-        Mage::app()->removeCache(
+        $this->_app->removeCache(
             Magento_AdminNotification_Model_System_Message_Security::VERIFICATION_RESULT_CACHE_KEY
         );
         return $this;

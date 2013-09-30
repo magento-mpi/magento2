@@ -12,18 +12,18 @@
 require __DIR__ . '/template.php';
 require __DIR__ . '/subscribers.php';
 
-$template = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Newsletter_Model_Template');
+/** @var $objectManager Magento_TestFramework_ObjectManager */
+$objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+/** @var $template Magento_Newsletter_Model_Template */
+$template = $objectManager->create('Magento_Newsletter_Model_Template');
 $template->load('fixture_tpl', 'template_code');
 $templateId = $template->getId();
 
-$currentStore = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->get('Magento_Core_Model_StoreManagerInterface')->getStore()->getId();
-$otherStore = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->get('Magento_Core_Model_StoreManagerInterface')->getStore('fixturestore')->getId();
+$currentStore = $objectManager->get('Magento_Core_Model_StoreManagerInterface')->getStore()->getId();
+$otherStore = $objectManager->get('Magento_Core_Model_StoreManagerInterface')->getStore('fixturestore')->getId();
 
-$queue = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->create('Magento_Newsletter_Model_Queue');
+/** @var $queue Magento_Newsletter_Model_Queue */
+$queue = $objectManager->create('Magento_Newsletter_Model_Queue');
 $queue->setTemplateId($templateId)
     ->setNewsletterText('{{view url="images/logo.gif"}}')
     ->setNewsletterSubject('Subject')

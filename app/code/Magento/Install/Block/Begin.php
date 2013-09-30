@@ -25,17 +25,23 @@ class Magento_Install_Block_Begin extends Magento_Install_Block_Abstract
     /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Install_Model_Installer $installer
+     * @param Magento_Install_Model_Wizard $installWizard
+     * @param Magento_Core_Model_Session_Generic $session
      * @param array $data
      * @param string|null $eulaFile
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
-        array $data = array(),
-        $eulaFile = null
+        Magento_Install_Model_Installer $installer,
+        Magento_Install_Model_Wizard $installWizard,
+        Magento_Core_Model_Session_Generic $session,
+        $eulaFile = null,
+        array $data = array()
     ) {
+        parent::__construct($coreData, $context, $installer, $installWizard, $session, $data);
         $this->_eulaFile = $eulaFile;
-        parent::__construct($coreData, $context, $data);
     }
 
     /**
@@ -45,7 +51,7 @@ class Magento_Install_Block_Begin extends Magento_Install_Block_Abstract
      */
     public function getPostUrl()
     {
-        return Mage::getUrl('install/wizard/beginPost');
+        return $this->getUrl('install/wizard/beginPost');
     }
 
     /**

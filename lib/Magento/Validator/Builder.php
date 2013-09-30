@@ -25,20 +25,20 @@ class Magento_Validator_Builder
     protected $_validatorFactory;
 
     /**
-     * @var Magento_Validator_ValidatorFactory
+     * @var Magento_Validator_UniversalFactory
      */
     protected $_oneValidatorFactory;
 
     /**
      * @param Magento_Validator_ConstraintFactory $constraintFactory
      * @param Magento_ValidatorFactory $validatorFactory
-     * @param Magento_Validator_ValidatorFactory $oneValidatorFactory
+     * @param Magento_Validator_UniversalFactory $oneValidatorFactory
      * @param array $constraints
      */
     public function __construct(
         Magento_Validator_ConstraintFactory $constraintFactory,
         Magento_ValidatorFactory $validatorFactory,
-        Magento_Validator_ValidatorFactory $oneValidatorFactory,
+        Magento_Validator_UniversalFactory $oneValidatorFactory,
         array $constraints
     ) {
         foreach ($constraints as $constraint) {

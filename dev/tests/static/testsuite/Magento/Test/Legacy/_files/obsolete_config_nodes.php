@@ -74,6 +74,8 @@ return array(
     '/config/global/eav_frontendclasses' =>
         'This configuration was removed. '
         . 'Please pluginize Magento_Eav_Helper_Data::getFrontendClasses to extend frontend classes list',
+    '/config/global/resources' => 'This configuration moved to Di configuration of Magento_Core_Model_Resource',
+    '/config/global/resource' => 'This configuration moved to Di configuration of Magento_Core_Model_Resource',
     '/config/*/events/core_block_abstract_to_html_after' =>
     'Event has been replaced with "core_layout_render_element"',
     '/config/*/events/catalog_controller_product_delete' => '',
@@ -103,7 +105,12 @@ return array(
     '/config/adminhtml/design' => 'Configurations moved to DI file settings',
     '/config/frontend/design' => 'Configurations moved to DI file settings',
     '/config/crontab' => 'All cron configurations moved to crontab.xml',
-    '/config/vde' => 'Configurations moved to DI file settings',
+    '/config/global/areas' => 'Configurations moved to DI file settings',
+    '/config/global/configurators' => 'Solr proxy classes uses instead',
+    '/config/vde' => 'Was moved to di',
+    '/config/global/ignoredModules' => 'Was replaced using di',
+    '/config/global/helpers' => 'Was replaced using di',
+    '/config/global/external_cache' => 'Was replaced using di',
     '/config/global/currency/import/services' => 'Configurations moved to DI file settings',
     '/config/global/template' => 'Use /config/template of email_templates.xml',
 );

@@ -11,10 +11,6 @@
 /**
  * Backend grid widget block
  *
- * @category   Magento
- * @package    Magento_Backend
- * @author     Magento Core Team <core@magentocommerce.com>
- *
  * @method string getRowClickCallback() getRowClickCallback()
  * @method Magento_Backend_Block_Widget_Grid setRowClickCallback() setRowClickCallback(string $value)
  */
@@ -106,6 +102,11 @@ class Magento_Backend_Block_Widget_Grid extends Magento_Backend_Block_Widget
     protected $_urlModel;
 
     /**
+     * @var Magento_Backend_Model_Session
+     */
+    protected $_backendSession;
+
+    /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
@@ -121,6 +122,7 @@ class Magento_Backend_Block_Widget_Grid extends Magento_Backend_Block_Widget
     ) {
         $this->_storeManager = $storeManager;
         $this->_urlModel = $urlModel;
+        $this->_backendSession = $context->getBackendSession();
         parent::__construct($coreData, $context, $data);
     }
 
@@ -201,7 +203,7 @@ class Magento_Backend_Block_Widget_Grid extends Magento_Backend_Block_Widget
     public function getExportBlock()
     {
         if (!$this->getChildBlock('grid.export')) {
-            Mage::throwException('Export block for grid ' . $this->getNameInLayout() . ' is not defined');
+            throw new Magento_Core_Exception('Export block for grid ' . $this->getNameInLayout() . ' is not defined');
         }
         return $this->getChildBlock('grid.export');
     }
@@ -737,21 +739,20 @@ class Magento_Backend_Block_Widget_Grid extends Magento_Backend_Block_Widget
     /**
      * Retrieve grid
      *
-     * @param   string $paramName
-     * @param   mixed $default
-     * @return  mixed
+     * @param string $paramName
+     * @param mixed $default
+     * @return mixed
      */
-    public function getParam($paramName, $default=null)
+    public function getParam($paramName, $default = null)
     {
-        $session = Mage::getSingleton('Magento_Backend_Model_Session');
         $sessionParamName = $this->getId() . $paramName;
         if ($this->getRequest()->has($paramName)) {
             $param = $this->getRequest()->getParam($paramName);
             if ($this->_saveParametersInSession) {
-                $session->setData($sessionParamName, $param);
+                $this->_backendSession->setData($sessionParamName, $param);
             }
             return $param;
-        } elseif ($this->_saveParametersInSession && ($param = $session->getData($sessionParamName))) {
+        } elseif ($this->_saveParametersInSession && ($param = $this->_backendSession->getData($sessionParamName))) {
             return $param;
         }
 

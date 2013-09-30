@@ -10,15 +10,13 @@
 
 /**
  * Date grid column filter
- *
- * @category   Magento
- * @package    Magento_Backend
- * @author      Magento Core Team <core@magentocommerce.com>
- * @todo        date format
  */
 class Magento_Backend_Block_Widget_Grid_Column_Filter_Date
     extends Magento_Backend_Block_Widget_Grid_Column_Filter_Abstract
 {
+    /**
+     * @var Magento_Core_Model_LocaleInterface
+     */
     protected $_locale;
 
     /**
@@ -26,20 +24,25 @@ class Magento_Backend_Block_Widget_Grid_Column_Filter_Date
      *
      * @var Magento_Core_Helper_Data
      */
-    protected $_coreData = null;
+    protected $_coreData;
 
     /**
      * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Model_Resource_Helper $resourceHelper
      * @param Magento_Backend_Block_Context $context
+     * @param Magento_Core_Model_LocaleInterface $locale
      * @param array $data
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
+        Magento_Core_Model_Resource_Helper $resourceHelper,
         Magento_Backend_Block_Context $context,
+        Magento_Core_Model_LocaleInterface $locale,
         array $data = array()
     ) {
         $this->_coreData = $coreData;
-        parent::__construct($context, $data);
+        $this->_locale = $locale;
+        parent::__construct($context, $resourceHelper, $data);
     }
 
     protected function _prepareLayout()
@@ -141,9 +144,6 @@ class Magento_Backend_Block_Widget_Grid_Column_Filter_Date
      */
     public function getLocale()
     {
-        if (!$this->_locale) {
-            $this->_locale = Mage::app()->getLocale();
-        }
         return $this->_locale;
     }
 
@@ -161,7 +161,7 @@ class Magento_Backend_Block_Widget_Grid_Column_Filter_Date
 
             //set default timezone for store (admin)
             $dateObj->setTimezone(
-                Mage::app()->getStore()->getConfig(Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_TIMEZONE)
+                $this->_storeConfig->getConfig(Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_TIMEZONE)
             );
 
             //set beginning of day

@@ -33,16 +33,16 @@ class Magento_GiftMessage_Helper_Message extends Magento_Core_Helper_Data
     protected $_nextId = 0;
 
     /**
-     * @var Magento_Catalog_Model_ProductFactory
-     */
-    protected $_productFactory;
-
-    /**
      * Inner cache
      *
      * @var array
      */
     protected $_innerCache = array();
+
+    /**
+     * @var Magento_Catalog_Model_ProductFactory
+     */
+    protected $_productFactory;
 
     /**
      * @var Magento_Core_Model_LayoutFactory
@@ -55,50 +55,43 @@ class Magento_GiftMessage_Helper_Message extends Magento_Core_Helper_Data
     protected $_giftMessageFactory;
 
     /**
-     * @param Magento_GiftMessage_Model_MessageFactory $giftMessageFactory
-     * @param Magento_Core_Model_LayoutFactory $layoutFactory
-     * @param Magento_Catalog_Model_ProductFactory $productFactory
+     * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Helper_Http $coreHttp
-     * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Config $config
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_StoreManager $storeManager
      * @param Magento_Core_Model_Locale $locale
      * @param Magento_Core_Model_Date $dateModel
      * @param Magento_Core_Model_App_State $appState
-     * @param Magento_Core_Model_Config_Resource $configResource
+     * @param Magento_Core_Model_Encryption $encryptor
+     * @param Magento_Catalog_Model_ProductFactory $productFactory
+     * @param Magento_Core_Model_LayoutFactory $layoutFactory
+     * @param Magento_GiftMessage_Model_MessageFactory $giftMessageFactory
+     * @param bool $dbCompatibleMode
      */
     public function __construct(
-        Magento_GiftMessage_Model_MessageFactory $giftMessageFactory,
-        Magento_Core_Model_LayoutFactory $layoutFactory,
-        Magento_Catalog_Model_ProductFactory $productFactory,
+        Magento_Core_Helper_Context $context,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Helper_Http $coreHttp,
-        Magento_Core_Helper_Context $context,
         Magento_Core_Model_Config $config,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_StoreManager $storeManager,
         Magento_Core_Model_Locale $locale,
         Magento_Core_Model_Date $dateModel,
         Magento_Core_Model_App_State $appState,
-        Magento_Core_Model_Config_Resource $configResource
-    ) {
+        Magento_Core_Model_Encryption $encryptor,
+        Magento_Catalog_Model_ProductFactory $productFactory,
+        Magento_Core_Model_LayoutFactory $layoutFactory,
+        Magento_GiftMessage_Model_MessageFactory $giftMessageFactory,
+        $dbCompatibleMode = true
+    )
+    {
         $this->_productFactory = $productFactory;
         $this->_layoutFactory = $layoutFactory;
-        $this->_storeManager = $storeManager;
         $this->_giftMessageFactory = $giftMessageFactory;
-        parent::__construct(
-            $eventManager,
-            $coreHttp,
-            $context,
-            $config,
-            $coreStoreConfig,
-            $storeManager,
-            $locale,
-            $dateModel,
-            $appState,
-            $configResource
+        parent::__construct($context, $eventManager, $coreHttp, $config, $coreStoreConfig, $storeManager,
+            $locale, $dateModel, $appState, $encryptor, $dbCompatibleMode
         );
     }
 

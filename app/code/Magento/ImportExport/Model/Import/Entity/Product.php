@@ -10,10 +10,6 @@
 
 /**
  * Import entity product model
- *
- * @category    Magento
- * @package     Magento_ImportExport
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_ImportExport_Model_Import_Entity_Product extends Magento_ImportExport_Model_Import_Entity_Abstract
 {
@@ -307,43 +303,158 @@ class Magento_ImportExport_Model_Import_Entity_Product extends Magento_ImportExp
     protected $_importConfig;
 
     /**
+     * @var Magento_ImportExport_Model_Import_Proxy_Product_ResourceFactory
+     */
+    protected $_resourceFactory;
+
+    /**
+     * @var Magento_Eav_Model_Resource_Entity_Attribute_Set_CollectionFactory
+     */
+    protected $_setColFactory;
+
+    /**
+     * @var Magento_Catalog_Model_Resource_Category_CollectionFactory
+     */
+    protected $_categoryColFactory;
+
+    /**
+     * @var Magento_Customer_Model_Resource_Group_CollectionFactory
+     */
+    protected $_groupColFactory;
+
+    /**
+     * @var Magento_Catalog_Model_ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * @var Magento_Core_Model_StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_ImportExport_Model_Import_Entity_Product_Type_Factory
+     */
+    protected $_productTypeFactory;
+
+    /**
+     * @var Magento_Catalog_Model_Resource_Product_LinkFactory
+     */
+    protected $_linkFactory;
+
+    /**
+     * @var Magento_ImportExport_Model_Import_Proxy_ProductFactory
+     */
+    protected $_proxyProdFactory;
+
+    /**
      * @var Magento_ImportExport_Model_Import_UploaderFactory
      */
     protected $_uploaderFactory;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_CatalogInventory_Helper_Data $catalogInventoryData
-     * @param Magento_Catalog_Helper_Data $catalogData
+     * @var Magento_Core_Model_Dir
+     */
+    protected $_dir;
+
+    /**
+     * @var Magento_CatalogInventory_Model_Resource_Stock_ItemFactory
+     */
+    protected $_stockResItemFac;
+
+    /**
+     * @var Magento_CatalogInventory_Model_Stock_ItemFactory
+     */
+    protected $_stockItemFactory;
+
+    /**
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $_locale;
+
+    /**
      * @param Magento_Core_Helper_String $coreString
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_ImportExport_Helper_Data $importExportData
+     * @param Magento_ImportExport_Model_Resource_Import_Data $importData
+     * @param Magento_Eav_Model_Config $config
+     * @param Magento_Core_Model_Resource $resource
+     * @param Magento_ImportExport_Model_Resource_Helper $resourceHelper
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_CatalogInventory_Helper_Data $catalogInventoryData
+     * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_ImportExport_Model_Import_Config $importConfig
+     * @param Magento_ImportExport_Model_Import_Proxy_Product_ResourceFactory $resourceFactory
+     * @param Magento_ImportExport_Model_Import_Entity_Product_OptionFactory $optionFactory
+     * @param Magento_Eav_Model_Resource_Entity_Attribute_Set_CollectionFactory $setColFactory
+     * @param Magento_Catalog_Model_Resource_Category_CollectionFactory $categoryColFactory
+     * @param Magento_Customer_Model_Resource_Group_CollectionFactory $groupColFactory
+     * @param Magento_Catalog_Model_ProductFactory $productFactory
+     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_ImportExport_Model_Import_Entity_Product_Type_Factory $productTypeFactory
+     * @param Magento_Catalog_Model_Resource_Product_LinkFactory $linkFactory
+     * @param Magento_ImportExport_Model_Import_Proxy_ProductFactory $proxyProdFactory
      * @param Magento_ImportExport_Model_Import_UploaderFactory $uploaderFactory
+     * @param Magento_Core_Model_Dir $dir
+     * @param Magento_CatalogInventory_Model_Resource_Stock_ItemFactory $stockResItemFac
+     * @param Magento_CatalogInventory_Model_Stock_ItemFactory $stockItemFactory
+     * @param Magento_Core_Model_LocaleInterface $locale
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_CatalogInventory_Helper_Data $catalogInventoryData,
-        Magento_Catalog_Helper_Data $catalogData,
         Magento_Core_Helper_String $coreString,
         Magento_Core_Helper_Data $coreData,
         Magento_ImportExport_Helper_Data $importExportData,
+        Magento_ImportExport_Model_Resource_Import_Data $importData,
+        Magento_Eav_Model_Config $config,
+        Magento_Core_Model_Resource $resource,
+        Magento_ImportExport_Model_Resource_Helper $resourceHelper,
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_CatalogInventory_Helper_Data $catalogInventoryData,
+        Magento_Catalog_Helper_Data $catalogData,
         Magento_ImportExport_Model_Import_Config $importConfig,
+
+        Magento_ImportExport_Model_Import_Proxy_Product_ResourceFactory $resourceFactory,
+        Magento_ImportExport_Model_Import_Entity_Product_OptionFactory $optionFactory,
+        Magento_Eav_Model_Resource_Entity_Attribute_Set_CollectionFactory $setColFactory,
+        Magento_Catalog_Model_Resource_Category_CollectionFactory $categoryColFactory,
+        Magento_Customer_Model_Resource_Group_CollectionFactory $groupColFactory,
+        Magento_Catalog_Model_ProductFactory $productFactory,
+        Magento_Core_Model_StoreManager $storeManager,
+        Magento_ImportExport_Model_Import_Entity_Product_Type_Factory $productTypeFactory,
+        Magento_Catalog_Model_Resource_Product_LinkFactory $linkFactory,
+        Magento_ImportExport_Model_Import_Proxy_ProductFactory $proxyProdFactory,
         Magento_ImportExport_Model_Import_UploaderFactory $uploaderFactory,
+        Magento_Core_Model_Dir $dir,
+        Magento_CatalogInventory_Model_Resource_Stock_ItemFactory $stockResItemFac,
+        Magento_CatalogInventory_Model_Stock_ItemFactory $stockItemFactory,
+        Magento_Core_Model_LocaleInterface $locale,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
         $this->_catalogInventoryData = $catalogInventoryData;
         $this->_catalogData = $catalogData;
-        $this->_uploaderFactory = $uploaderFactory;
-        parent::__construct($coreString, $coreData, $importExportData);
-
-        $this->_optionEntity = isset($data['option_entity']) ? $data['option_entity']
-            : Mage::getModel('Magento_ImportExport_Model_Import_Entity_Product_Option',
-                array('data' => array('product_entity' => $this))
-            );
         $this->_importConfig = $importConfig;
+        $this->_resourceFactory = $resourceFactory;
+        $this->_setColFactory = $setColFactory;
+        $this->_categoryColFactory = $categoryColFactory;
+        $this->_groupColFactory = $groupColFactory;
+        $this->_productFactory = $productFactory;
+        $this->_storeManager = $storeManager;
+        $this->_productTypeFactory = $productTypeFactory;
+        $this->_linkFactory = $linkFactory;
+        $this->_proxyProdFactory = $proxyProdFactory;
+        $this->_uploaderFactory = $uploaderFactory;
+        $this->_dir = $dir;
+        $this->_stockResItemFac = $stockResItemFac;
+        $this->_stockItemFactory = $stockItemFactory;
+        $this->_locale = $locale;
+        parent::__construct(
+            $coreString, $coreData, $importExportData, $importData, $config, $resource, $resourceHelper
+        );
+        $this->_optionEntity = isset($data['option_entity'])
+            ? $data['option_entity']
+            : $optionFactory->create(array('data' => array('product_entity' => $this)));
 
         $this->_initWebsites()
             ->_initStores()
@@ -385,8 +496,7 @@ class Magento_ImportExport_Model_Import_Entity_Product extends Magento_ImportExp
      */
     protected function _deleteProducts()
     {
-        $productEntityTable = Mage::getModel('Magento_ImportExport_Model_Import_Proxy_Product_Resource')
-            ->getEntityTable();
+        $productEntityTable = $this->_resourceFactory->create()->getEntityTable();
 
         while ($bunch = $this->_dataSourceModel->getNextBunch()) {
             $idToDelete = array();
@@ -437,7 +547,7 @@ class Magento_ImportExport_Model_Import_Entity_Product extends Magento_ImportExp
      */
     protected function _initAttributeSets()
     {
-        foreach (Mage::getResourceModel('Magento_Eav_Model_Resource_Entity_Attribute_Set_Collection')
+        foreach ($this->_setColFactory->create()
                 ->setEntityTypeFilter($this->_entityTypeId) as $attributeSet) {
             $this->_attrSetNameToId[$attributeSet->getAttributeSetName()] = $attributeSet->getId();
             $this->_attrSetIdToName[$attributeSet->getId()] = $attributeSet->getAttributeSetName();
@@ -452,7 +562,7 @@ class Magento_ImportExport_Model_Import_Entity_Product extends Magento_ImportExp
      */
     protected function _initCategories()
     {
-        $collection = Mage::getResourceModel('Magento_Catalog_Model_Resource_Category_Collection')->addNameToResult();
+        $collection = $this->_categoryColFactory->create()->addNameToResult();
         /* @var $collection Magento_Catalog_Model_Resource_Category_Collection */
         foreach ($collection as $category) {
             $structure = explode('/', $category->getPath());
@@ -483,7 +593,7 @@ class Magento_ImportExport_Model_Import_Entity_Product extends Magento_ImportExp
      */
     protected function _initCustomerGroups()
     {
-        foreach (Mage::getResourceModel('Magento_Customer_Model_Resource_Group_Collection') as $customerGroup) {
+        foreach ($this->_groupColFactory->create() as $customerGroup) {
             $this->_customerGroups[$customerGroup->getId()] = true;
         }
         return $this;
@@ -497,7 +607,7 @@ class Magento_ImportExport_Model_Import_Entity_Product extends Magento_ImportExp
     protected function _initSkus()
     {
         $columns = array('entity_id', 'type_id', 'attribute_set_id', 'sku');
-        foreach (Mage::getModel('Magento_Catalog_Model_Product')->getProductEntitiesInfo($columns) as $info) {
+        foreach ($this->_productFactory->create()->getProductEntitiesInfo($columns) as $info) {
             $typeId = $info['type_id'];
             $sku = $info['sku'];
             $this->_oldSku[$sku] = array(
@@ -517,7 +627,7 @@ class Magento_ImportExport_Model_Import_Entity_Product extends Magento_ImportExp
      */
     protected function _initStores()
     {
-        foreach (Mage::app()->getStores() as $store) {
+        foreach ($this->_storeManager->getStores() as $store) {
             $this->_storeCodeToId[$store->getCode()] = $store->getId();
             $this->_storeIdToWebsiteStoreIds[$store->getId()] = $store->getWebsite()->getStoreIds();
         }
@@ -535,11 +645,11 @@ class Magento_ImportExport_Model_Import_Entity_Product extends Magento_ImportExp
         $productTypes = $this->_importConfig->getProductTypes();
         foreach ($productTypes as $productTypeName => $productTypeConfig) {
             $params = array($this, $productTypeName);
-            if (!($model = Mage::getModel($productTypeConfig['model'], array('params' => $params)))) {
+            if (!($model = $this->_productTypeFactory->create($productTypeConfig['model'], array('params' => $params)))) {
                 Mage::throwException("Entity type model '{$productTypeConfig['model']}' is not found");
             }
             if (! $model instanceof Magento_ImportExport_Model_Import_Entity_Product_Type_Abstract) {
-                Mage::throwException(__('Entity type model must be an instance of '
+                throw new Magento_Core_Exception(__('Entity type model must be an instance of '
                     . 'Magento_ImportExport_Model_Import_Entity_Product_Type_Abstract'));
             }
             if ($model->isSuitable()) {
@@ -564,7 +674,7 @@ class Magento_ImportExport_Model_Import_Entity_Product extends Magento_ImportExp
     protected function _initWebsites()
     {
         /** @var $website Magento_Core_Model_Website */
-        foreach (Mage::app()->getWebsites() as $website) {
+        foreach ($this->_storeManager->getWebsites() as $website) {
             $this->_websiteCodeToId[$website->getCode()] = $website->getId();
             $this->_websiteCodeToStoreIds[$website->getCode()] = array_flip($website->getStoreCodes());
         }
@@ -736,10 +846,10 @@ class Magento_ImportExport_Model_Import_Entity_Product extends Magento_ImportExp
      */
     protected function _saveLinks()
     {
-        $resource       = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Link');
+        $resource       = $this->_linkFactory->create();
         $mainTable      = $resource->getMainTable();
         $positionAttrId = array();
-        $nextLinkId     = Mage::getResourceHelper('Magento_ImportExport')->getNextAutoincrement($mainTable);
+        $nextLinkId     = $this->_resourceHelper->getNextAutoincrement($mainTable);
         $adapter = $this->_connection;
 
         // pre-load 'position' attributes ID for each link type once
@@ -869,8 +979,7 @@ class Magento_ImportExport_Model_Import_Entity_Product extends Magento_ImportExp
         static $tableName = null;
 
         if (!$tableName) {
-            $tableName = Mage::getModel('Magento_ImportExport_Model_Import_Proxy_Product_Resource')
-                ->getProductCategoryTable();
+            $tableName = $this->_resourceFactory->create()->getProductCategoryTable();
         }
         if ($categoriesData) {
             $categoriesIn = array();
@@ -909,8 +1018,7 @@ class Magento_ImportExport_Model_Import_Entity_Product extends Magento_ImportExp
         static $entityTable = null;
 
         if (!$entityTable) {
-            $entityTable = Mage::getModel('Magento_ImportExport_Model_Import_Proxy_Product_Resource')
-                ->getEntityTable();
+            $entityTable = $this->_resourceFactory->create()->getEntityTable();
         }
         if ($entityRowsUp) {
             $this->_connection->insertOnDuplicate(
@@ -941,7 +1049,7 @@ class Magento_ImportExport_Model_Import_Entity_Product extends Magento_ImportExp
     protected function _saveProducts()
     {
         /** @var $resource Magento_ImportExport_Model_Import_Proxy_Product_Resource */
-        $resource       = Mage::getModel('Magento_ImportExport_Model_Import_Proxy_Product_Resource');
+        $resource       = $this->_resourceFactory->create();
         $priceIsGlobal  = $this->_catalogData->isPriceGlobal();
         $productLimit   = null;
         $productsQty    = null;
@@ -1084,7 +1192,7 @@ class Magento_ImportExport_Model_Import_Entity_Product extends Magento_ImportExp
                     $rowData,
                     !isset($this->_oldSku[$rowSku])
                 );
-                $product = Mage::getModel('Magento_ImportExport_Model_Import_Proxy_Product', array('data' => $rowData));
+                $product = $this->_proxyProdFactory->create(array('data' => $rowData));
 
                 foreach ($rowData as $attrCode => $attrValue) {
                     $attribute = $resource->getAttribute($attrCode);
@@ -1153,8 +1261,7 @@ class Magento_ImportExport_Model_Import_Entity_Product extends Magento_ImportExp
         static $tableName = null;
 
         if (!$tableName) {
-            $tableName = Mage::getModel('Magento_ImportExport_Model_Import_Proxy_Product_Resource')
-                    ->getTable('catalog_product_entity_tier_price');
+            $tableName = $this->_resourceFactory->create()->getTable('catalog_product_entity_tier_price');
         }
         if ($tierPriceData) {
             $tierPriceIn  = array();
@@ -1193,8 +1300,7 @@ class Magento_ImportExport_Model_Import_Entity_Product extends Magento_ImportExp
         static $tableName = null;
 
         if (!$tableName) {
-            $tableName = Mage::getModel('Magento_ImportExport_Model_Import_Proxy_Product_Resource')
-                ->getTable('catalog_product_entity_group_price');
+            $tableName = $this->_resourceFactory->create()->getTable('catalog_product_entity_group_price');
         }
         if ($groupPriceData) {
             $groupPriceIn = array();
@@ -1232,20 +1338,20 @@ class Magento_ImportExport_Model_Import_Entity_Product extends Magento_ImportExp
 
             $this->_fileUploader->init();
 
-            $mediaDir = Mage::getBaseDir(Magento_Core_Model_Dir::MEDIA);
+            $mediaDir = $this->_dir->getDir(Magento_Core_Model_Dir::MEDIA);
             if (!$mediaDir) {
                 throw new Magento_Exception('Media directory is unavailable.');
             }
             $tmpDir = "{$mediaDir}/import";
             if (!$this->_fileUploader->setTmpDir($tmpDir)) {
-                Mage::throwException("File directory '{$tmpDir}' is not readable.");
+                throw new Magento_Core_Exception("File directory '{$tmpDir}' is not readable.");
             }
             $destDir = "{$mediaDir}/catalog/product";
             if (!is_dir($destDir)) {
                 mkdir($destDir, 0777, true);
             }
             if (!$this->_fileUploader->setDestDir($destDir)) {
-                Mage::throwException("File directory '{$destDir}' is not writable.");
+                throw new Magento_Core_Exception("File directory '{$destDir}' is not writable.");
             }
         }
         return $this->_fileUploader;
@@ -1285,13 +1391,11 @@ class Magento_ImportExport_Model_Import_Entity_Product extends Magento_ImportExp
         static $productId = null;
 
         if (!$mediaGalleryTableName) {
-            $mediaGalleryTableName = Mage::getModel('Magento_ImportExport_Model_Import_Proxy_Product_Resource')
-                    ->getTable('catalog_product_entity_media_gallery');
+            $mediaGalleryTableName = $this->_resourceFactory->create()->getTable('catalog_product_entity_media_gallery');
         }
 
         if (!$mediaValueTableName) {
-            $mediaValueTableName = Mage::getModel('Magento_ImportExport_Model_Import_Proxy_Product_Resource')
-                    ->getTable('catalog_product_entity_media_gallery_value');
+            $mediaValueTableName = $this->_resourceFactory->create()->getTable('catalog_product_entity_media_gallery_value');
         }
 
         foreach ($mediaGalleryData as $productSku => $mediaGalleryRows) {
@@ -1362,8 +1466,7 @@ class Magento_ImportExport_Model_Import_Entity_Product extends Magento_ImportExp
         static $tableName = null;
 
         if (!$tableName) {
-            $tableName = Mage::getModel('Magento_ImportExport_Model_Import_Proxy_Product_Resource')
-                ->getProductWebsiteTable();
+            $tableName = $this->_resourceFactory->create()->getProductWebsiteTable();
         }
         if ($websiteData) {
             $websitesData = array();
@@ -1425,7 +1528,9 @@ class Magento_ImportExport_Model_Import_Entity_Product extends Magento_ImportExp
             'is_decimal_divided'            => 0
         );
 
-        $entityTable = Mage::getResourceModel('Magento_CatalogInventory_Model_Resource_Stock_Item')->getMainTable();
+        /** @var $stockResource Magento_CatalogInventory_Model_Resource_Stock_Item */
+        $stockResource = $this->_stockResItemFac->create();
+        $entityTable = $stockResource->getMainTable();
 
         while ($bunch = $this->_dataSourceModel->getNextBunch()) {
             $stockData = array();
@@ -1445,7 +1550,7 @@ class Magento_ImportExport_Model_Import_Entity_Product extends Magento_ImportExp
                 $row['stock_id'] = 1;
 
                 /** @var $stockItem Magento_CatalogInventory_Model_Stock_Item */
-                $stockItem = Mage::getModel('Magento_CatalogInventory_Model_Stock_Item');
+                $stockItem = $this->_stockItemFactory->create();
                 $stockItem->loadByProduct($row['product_id']);
                 $existStockData = $stockItem->getData();
 
@@ -1460,7 +1565,7 @@ class Magento_ImportExport_Model_Import_Entity_Product extends Magento_ImportExp
 
                 if ($this->_catalogInventoryData->isQty($this->_newSku[$rowData[self::COL_SKU]]['type_id'])) {
                     if ($stockItem->verifyNotification()) {
-                        $stockItem->setLowStockDate(Mage::app()->getLocale()
+                        $stockItem->setLowStockDate($this->_locale
                             ->date(null, null, null, false)
                             ->toString(Magento_Date::DATETIME_INTERNAL_FORMAT)
                         );

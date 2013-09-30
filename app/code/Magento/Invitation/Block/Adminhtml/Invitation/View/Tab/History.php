@@ -25,22 +25,42 @@ class Magento_Invitation_Block_Adminhtml_Invitation_View_Tab_History
      *
      * @var Magento_Core_Model_Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
+
+    /**
+     * Invitation History Factory
+     *
+     * @var Magento_Invitation_Model_Invitation_HistoryFactory
+     */
+    protected $_historyFactory;
+
+    /**
+     * Application locale
+     *
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $_locale;
 
     /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Invitation_Model_Invitation_HistoryFactory $historyFactory
+     * @param Magento_Core_Model_LocaleInterface $locale
      * @param array $data
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
+        Magento_Invitation_Model_Invitation_HistoryFactory $historyFactory,
+        Magento_Core_Model_LocaleInterface $locale,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
         parent::__construct($coreData, $context, $data);
+        $this->_historyFactory = $historyFactory;
+        $this->_locale = $locale;
     }
 
     public function getTabLabel()
@@ -80,7 +100,7 @@ class Magento_Invitation_Block_Adminhtml_Invitation_View_Tab_History
      */
     public function getHistoryCollection()
     {
-        return Mage::getModel('Magento_Invitation_Model_Invitation_History')
+        return $this->_historyFactory->create()
             ->getCollection()
             ->addFieldToFilter('invitation_id', $this->getInvitation()->getId())
             ->addOrder('history_id');
@@ -97,7 +117,7 @@ class Magento_Invitation_Block_Adminhtml_Invitation_View_Tab_History
     public function formatDate($date = null, $format = 'short', $showTime = false)
     {
         if (is_string($date)) {
-            $date = Mage::app()->getLocale()->date($date, Magento_Date::DATETIME_INTERNAL_FORMAT);
+            $date = $this->_locale->date($date, Magento_Date::DATETIME_INTERNAL_FORMAT);
         }
 
         return parent::formatDate($date, $format, $showTime);
@@ -114,7 +134,7 @@ class Magento_Invitation_Block_Adminhtml_Invitation_View_Tab_History
     public function formatTime($date = null, $format = 'short', $showDate = false)
     {
         if (is_string($date)) {
-            $date = Mage::app()->getLocale()->date($date, Magento_Date::DATETIME_INTERNAL_FORMAT);
+            $date = $this->_locale->date($date, Magento_Date::DATETIME_INTERNAL_FORMAT);
         }
 
         return parent::formatTime($date, $format, $showDate);

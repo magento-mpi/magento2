@@ -56,7 +56,6 @@ menu:
         manage_cms_pages: ~
         manage_cms_static_blocks: ~
         manage_cms_widgets: ~
-#        poll_manager: ~
 #     Design group
         design_editor_selector: ~
         theme_list: ~

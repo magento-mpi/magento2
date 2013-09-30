@@ -10,7 +10,6 @@
 return array(
     array('Magento_CatalogEvent_Block_Adminhtml_Event_Grid'),
     array('Magento_AdvancedCheckout_Block_Adminhtml_Sku_Errors_Grid'),
-    array('Magento_VersionsCms_Model_Resource_Setup'),
     array('Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Grid'),
     array('Magento_GiftCard_Block_Email_Generated'),
     array('Magento_GiftRegistry_Block_Adminhtml_Customer_View'),
@@ -38,6 +37,7 @@ return array(
     array('Magento_Logging_Model_Resource_Helper_Oracle'),
     array('Magento_Reminder_Model_Resource_Helper_Oracle'),
     array('Magento_SalesArchive_Model_Resource_Helper_Oracle'),
+    array('Magento_Search_Model_ObjectManager_Configurator'),
     array('Varien_Db_Statement_Pdo_Mssql'),
     array('Varien_Db_Adapter_Pdo_Mssql'),
     array('Mage_Backup_Model_Resource_Helper_Mssql'),
@@ -64,7 +64,6 @@ return array(
     array('Varien_Db_Adapter_Oracle'),
     array('Mage_Install_Block_Db_Type_Oracle'),
     array('Mage_Install_Model_Installer_Db_Oracle'),
-    array('Magento_Reminder_Model_Resource_Helper_Mysql4'),
     array('Magento_Queue_Model_Queue'),
     array('Magento_Queue_Model_AddException'),
     array('Magento_Queue_Model_Config'),

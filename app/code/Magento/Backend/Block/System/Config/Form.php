@@ -12,10 +12,6 @@
 /**
  * System config form block
  *
- * @category   Magento
- * @package    Magento_Backend
- * @author      Magento Core Team <core@magentocommerce.com>
- *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
@@ -111,11 +107,17 @@ class Magento_Backend_Block_System_Config_Form extends Magento_Backend_Block_Wid
     protected $_config;
 
     /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
      * @param Magento_Backend_Model_Config_Factory $configFactory
      * @param Magento_Backend_Model_Config_Structure $configStructure
      * @param Magento_Backend_Block_System_Config_Form_Fieldset_Factory $fieldsetFactory
      * @param Magento_Backend_Block_System_Config_Form_Field_Factory $fieldFactory
      * @param Magento_Core_Model_Config $coreConfig
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Core_Helper_Data $coreData
@@ -130,6 +132,7 @@ class Magento_Backend_Block_System_Config_Form extends Magento_Backend_Block_Wid
         Magento_Backend_Block_System_Config_Form_Fieldset_Factory $fieldsetFactory,
         Magento_Backend_Block_System_Config_Form_Field_Factory $fieldFactory,
         Magento_Core_Model_Config $coreConfig,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Registry $registry,
         Magento_Data_Form_Factory $formFactory,
         Magento_Core_Helper_Data $coreData,
@@ -142,6 +145,7 @@ class Magento_Backend_Block_System_Config_Form extends Magento_Backend_Block_Wid
         $this->_fieldsetFactory = $fieldsetFactory;
         $this->_fieldFactory = $fieldFactory;
         $this->_config = $coreConfig;
+        $this->_storeManager = $storeManager;
 
         $this->_scopeLabels = array(
             self::SCOPE_DEFAULT  => __('[GLOBAL]'),
@@ -208,7 +212,7 @@ class Magento_Backend_Block_System_Config_Form extends Magento_Backend_Block_Wid
     ) {
         $frontendModelClass = $group->getFrontendModel();
         $fieldsetRenderer = $frontendModelClass ?
-            Mage::getBlockSingleton($frontendModelClass) :
+            $this->_layout->getBlockSingleton($frontendModelClass) :
             $this->_fieldsetRenderer;
 
         $fieldsetRenderer->setForm($this);
@@ -330,7 +334,7 @@ class Magento_Backend_Block_System_Config_Form extends Magento_Backend_Block_Wid
         }
         $fieldRendererClass = $field->getFrontendModel();
         if ($fieldRendererClass) {
-            $fieldRenderer = Mage::getBlockSingleton($fieldRendererClass);
+            $fieldRenderer = $this->_layout->getBlockSingleton($fieldRendererClass);
         } else {
             $fieldRenderer = $this->_fieldRenderer;
         }
@@ -580,9 +584,9 @@ class Magento_Backend_Block_System_Config_Form extends Magento_Backend_Block_Wid
         $scopeId = $this->getData('scope_id');
         if (is_null($scopeId)) {
             if ($this->getStoreCode()) {
-                $scopeId = Mage::app()->getStore($this->getStoreCode())->getId();
+                $scopeId = $this->_storeManager->getStore($this->getStoreCode())->getId();
             } elseif ($this->getWebsiteCode()) {
-                $scopeId = Mage::app()->getWebsite($this->getWebsiteCode())->getId();
+                $scopeId = $this->_storeManager->getWebsite($this->getWebsiteCode())->getId();
             } else {
                 $scopeId = '';
             }

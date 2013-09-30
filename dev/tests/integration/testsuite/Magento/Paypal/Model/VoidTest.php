@@ -27,6 +27,8 @@ class Magento_Paypal_Model_VoidTest extends PHPUnit_Framework_TestCase
         $logAdapterFactory = $objectManager->get('Magento_Core_Model_Log_AdapterFactory');
         $locale = $objectManager->get('Magento_Core_Model_LocaleInterface');
         $centinelService = $objectManager->get('Magento_Centinel_Model_Service');
+        $storeManager = $objectManager->get('Magento_Core_Model_StoreManagerInterface');
+        $configFactory = $objectManager->get('Magento_Paypal_Model_ConfigFactory');
 
         /** @var $order Magento_Sales_Model_Order */
         $order = $objectManager->create('Magento_Sales_Model_Order');
@@ -34,9 +36,19 @@ class Magento_Paypal_Model_VoidTest extends PHPUnit_Framework_TestCase
         $payment = $order->getPayment();
 
         /** @var Magento_Paypal_Model_Payflowpro $instance */
-        $instance = $this->getMock('Magento_Paypal_Model_Payflowpro', array('_postRequest'),
-            array($logger, $eventManager, $coreStoreConfig, $coreData, $moduleList, $paymentData, $logAdapterFactory,
-                $locale, $centinelService));
+        $instance = $this->getMock('Magento_Paypal_Model_Payflowpro', array('_postRequest'), array(
+            $logger,
+            $eventManager,
+            $coreStoreConfig,
+            $moduleList,
+            $paymentData,
+            $logAdapterFactory,
+            $locale,
+            $centinelService,
+            $coreData,
+            $storeManager,
+            $configFactory
+        ));
 
         $response = new Magento_Object(array(
             'result' => '0',

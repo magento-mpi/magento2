@@ -56,21 +56,21 @@ abstract class Magento_Sales_Model_Order_Pdf_Abstract extends Magento_Object
      *
      * @var Magento_Payment_Helper_Data
      */
-    protected $_paymentData = null;
+    protected $_paymentData;
 
     /**
      * Core string
      *
      * @var Magento_Core_Helper_String
      */
-    protected $_coreString = null;
+    protected $_coreString;
 
     /**
      * Core data
      *
      * @var Magento_Core_Helper_Data
      */
-    protected $_coreData = null;
+    protected $_coreData;
 
     /**
      * Core store config
@@ -390,7 +390,7 @@ abstract class Magento_Sales_Model_Order_Pdf_Abstract extends Magento_Object
             ->toPdf();
         $paymentInfo = htmlspecialchars_decode($paymentInfo, ENT_QUOTES);
         $payment = explode('{{pdf_row_separator}}', $paymentInfo);
-        foreach ($payment as $key=>$value) {
+        foreach ($payment as $key => $value) {
             if (strip_tags(trim($value)) == '') {
                 unset($payment[$key]);
             }

@@ -237,8 +237,8 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
                     $this->getMock('Magento_Eav_Model_Config', array(), array(), '', false, false),
                     $this->getMock('Magento_Eav_Model_Entity_TypeFactory'),
                     $this->getMock('Magento_Core_Model_StoreManager', array(), array(), '', false, false),
-                    $this->getMock('Magento_Eav_Model_Resource_Helper_Mysql4', array(), array(), '', false, false),
-                    $this->getMock('Magento_Eav_Model_Factory_Helper', array(), array(), '', false, false),
+                    $this->getMock('Magento_Eav_Model_Resource_Helper', array(), array(), '', false, false),
+                    $this->getMock('Magento_Validator_UniversalFactory', array(), array(), '', false, false),
 
                 )
             );
@@ -276,6 +276,15 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
             $data = array(
                 'resource' => $resourceMock,
                 'data'     => $customerData,
+                $this->getMock('Magento_Customer_Model_Config_Share', array(), array(), '', false),
+                $this->getMock('Magento_Customer_Model_AddressFactory', array(), array(), '', false),
+                $this->getMock('Magento_Customer_Model_Resource_Address_CollectionFactory', array(), array(), '',
+                    false
+                ),
+                $this->getMock('Magento_Core_Model_Email_Template_MailerFactory', array(), array(), '', false),
+                $this->getMock('Magento_Core_Model_Email_InfoFactory', array(), array(), '', false),
+                $this->getMock('Magento_Customer_Model_GroupFactory', array(), array(), '', false),
+                $this->getMock('Magento_Customer_Model_AttributeFactory', array(), array(), '', false),
             );
             /** @var $customer Magento_Customer_Model_Customer */
             $customer = $this->_objectManagerMock->getObject('Magento_Customer_Model_Customer', $data);
@@ -457,11 +466,25 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
     protected function _getModelMock()
     {
         $coreStoreConfig = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false);
-        
+
         $modelMock = new Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address(
             $this->_coreDataMock,
             $this->_coreStringMock,
             $coreStoreConfig,
+            $this->getMock('Magento_ImportExport_Model_ImportFactory', array(), array(), '', false),
+            $this->getMock('Magento_ImportExport_Model_Resource_Helper', array(), array(), '', false),
+            $this->getMock('Magento_Core_Model_Resource', array(), array(), '', false),
+            $this->getMock('Magento_Core_Model_App', array(), array(), '', false),
+            $this->getMock('Magento_ImportExport_Model_Export_Factory', array(), array(), '', false),
+            $this->getMock('Magento_Eav_Model_Config', array(), array(), '', false),
+            $this->getMock('Magento_ImportExport_Model_Resource_Customer_StorageFactory', array(), array(), '', false),
+            $this->getMock('Magento_Customer_Model_AddressFactory', array(), array(), '', false),
+            $this->getMock('Magento_Directory_Model_Resource_Region_CollectionFactory', array(), array(), '', false),
+            $this->getMock('Magento_Customer_Model_CustomerFactory', array(), array(), '', false),
+            $this->getMock('Magento_Customer_Model_Resource_Address_CollectionFactory', array(), array(), '', false),
+            $this->getMock('Magento_Customer_Model_Resource_Address_Attribute_CollectionFactory',
+                array(), array(), '', false
+            ),
             $this->_getModelDependencies()
         );
 

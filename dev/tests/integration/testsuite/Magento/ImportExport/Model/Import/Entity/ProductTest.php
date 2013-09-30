@@ -442,12 +442,13 @@ class Magento_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Frame
             $this->fail("Unexpected precondition - product exists: '{$product->getId()}'.");
         }
 
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $uploader = $this->getMock('Magento_ImportExport_Model_Import_Uploader',
             array('init'), array(
-                Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_Core_Helper_File_Storage_Database'),
-                Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_Core_Helper_File_Storage'),
-                Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_Core_Model_Image_AdapterFactory'),
-                Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_Core_Model_File_Validator_NotProtectedExtension'),
+                $objectManager->create('Magento_Core_Helper_File_Storage_Database'),
+                $objectManager->create('Magento_Core_Helper_File_Storage'),
+                $objectManager->create('Magento_Core_Model_Image_AdapterFactory'),
+                $objectManager->create('Magento_Core_Model_File_Validator_NotProtectedExtension'),
             ));
         $this->_uploaderFactory->expects($this->any())->method('create')->will($this->returnValue($uploader));
 

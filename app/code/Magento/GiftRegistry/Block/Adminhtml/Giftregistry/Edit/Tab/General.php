@@ -12,6 +12,31 @@ class Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Tab_General
     extends Magento_Backend_Block_Widget_Form_Generic
 {
     /**
+     * @var Magento_Backend_Model_Config_Source_Yesno
+     */
+    protected $sourceYesNo;
+
+    /**
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Backend_Model_Config_Source_Yesno $sourceYesNo
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Registry $registry,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Backend_Model_Config_Source_Yesno $sourceYesNo,
+        array $data = array()
+    ) {
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+        $this->sourceYesNo = $sourceYesNo;
+    }
+
+    /**
      * Return current gift registry type instance
      *
      * @return Magento_GiftRegistry_Model_Type
@@ -85,7 +110,7 @@ class Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Tab_General
         $fieldset->addField('is_listed', 'select', array(
             'label'    => __('Is Listed'),
             'name'     => 'is_listed',
-            'values'   => Mage::getSingleton('Magento_Backend_Model_Config_Source_Yesno')->toOptionArray(),
+            'values'   => $this->sourceYesNo->toOptionArray(),
             'scope'    => 'store'
         ));
 

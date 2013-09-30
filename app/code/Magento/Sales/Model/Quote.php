@@ -145,21 +145,21 @@ class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
      *
      * @var Magento_Eav_Model_Entity_Collection_Abstract
      */
-    protected $_addresses = null;
+    protected $_addresses;
 
     /**
      * Quote items collection
      *
      * @var Magento_Eav_Model_Entity_Collection_Abstract
      */
-    protected $_items = null;
+    protected $_items;
 
     /**
      * Quote payments
      *
      * @var Magento_Eav_Model_Entity_Collection_Abstract
      */
-    protected $_payments = null;
+    protected $_payments;
 
     /**
      * Different groups of error infos
@@ -180,33 +180,33 @@ class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
      *
      * @var Magento_Core_Helper_Data
      */
-    protected $_coreData = null;
+    protected $_coreData;
 
     /**
      * Catalog product
      *
      * @var Magento_Catalog_Helper_Product
      */
-    protected $_catalogProduct = null;
+    protected $_catalogProduct;
 
     /**
      * Sales data
      *
      * @var Magento_Sales_Helper_Data
      */
-    protected $_salesData = null;
+    protected $_salesData;
 
     /**
      * Core event manager proxy
      *
      * @var Magento_Core_Model_Event_Manager
      */
-    protected $_eventManager = null;
+    protected $_eventManager;
 
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var Magento_Core_Model_Store_ConfigInterface
      */
     protected $_coreStoreConfig;
 
@@ -282,7 +282,7 @@ class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Store_ConfigInterface $coreStoreConfig
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Config $config
      * @param Magento_Sales_Model_Quote_AddressFactory $quoteAddressFactory
@@ -309,7 +309,7 @@ class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Store_ConfigInterface $coreStoreConfig,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Config $config,
         Magento_Sales_Model_Quote_AddressFactory $quoteAddressFactory,

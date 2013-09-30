@@ -26,6 +26,9 @@ class Magento_Checkout_Block_Onepage_Payment_MethodsTest extends PHPUnit_Framewo
             ->createBlock('Magento_Checkout_Block_Onepage_Payment_Methods');
     }
 
+    /**
+     * @magentoAppArea frontend
+     */
     public function testGetMethodTitleAndMethodLabelAfterHtml()
     {
         $expectedTitle = 'Free Method';

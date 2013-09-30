@@ -8,13 +8,8 @@
  * @license     {license_link}
  */
 
-
 /**
  * Edit version page
- *
- * @category    Magento
- * @package     Magento_VersionsCms
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Version_Edit
     extends Magento_Adminhtml_Block_Widget_Form_Container
@@ -28,21 +23,29 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Version_Edit
      *
      * @var Magento_Core_Model_Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
+
+    /**
+     * @var Magento_VersionsCms_Model_Config
+     */
+    protected $_cmsConfig;
 
     /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_VersionsCms_Model_Config $cmsConfig
      * @param array $data
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
+        Magento_VersionsCms_Model_Config $cmsConfig,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
+        $this->_cmsConfig = $cmsConfig;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -55,11 +58,8 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Version_Edit
         parent::_construct();
         $version = $this->_coreRegistry->registry('cms_page_version');
 
-        $config = Mage::getSingleton('Magento_VersionsCms_Model_Config');
-        /* @var $config Magento_VersionsCms_Model_Config */
-
         // Add 'new button' depending on permission
-        if ($config->canCurrentUserSaveVersion()) {
+        if ($this->_cmsConfig->canCurrentUserSaveVersion()) {
             $this->_addButton('new', array(
                     'label'     => __('Save as new version.'),
                     'class'     => 'new',
@@ -83,16 +83,16 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Version_Edit
                 ));
         }
 
-        $isOwner = $version ? $config->isCurrentUserOwner($version->getUserId()) : false;
-        $isPublisher = $config->canCurrentUserPublishRevision();
+        $isOwner = $version ? $this->_cmsConfig->isCurrentUserOwner($version->getUserId()) : false;
+        $isPublisher = $this->_cmsConfig->canCurrentUserPublishRevision();
 
         // Only owner can remove version if he has such permissions
-        if (!$isOwner || !$config->canCurrentUserDeleteVersion()) {
+        if (!$isOwner || !$this->_cmsConfig->canCurrentUserDeleteVersion()) {
             $this->removeButton('delete');
         }
 
         // Only owner and publisher can save version
-        if (($isOwner || $isPublisher) && $config->canCurrentUserSaveVersion()) {
+        if (($isOwner || $isPublisher) && $this->_cmsConfig->canCurrentUserSaveVersion()) {
             $this->_addButton('saveandcontinue', array(
                 'label'     => __('Save and continue edit.'),
                 'class'     => 'save',

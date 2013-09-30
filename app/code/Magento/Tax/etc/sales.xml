@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <section name="quote">
+        <group name="totals">
+            <item name="tax_subtotal" instance="Magento_Tax_Model_Sales_Total_Quote_Subtotal" sort_order="200"/>
+            <item name="tax_shipping" instance="Magento_Tax_Model_Sales_Total_Quote_Shipping" sort_order="300"/>
+            <item name="tax" instance="Magento_Tax_Model_Sales_Total_Quote_Tax" sort_order="450">
+                <renderer name="frontend" instance="Magento_Tax_Block_Checkout_Tax"/>
+                <renderer name="adminhtml" instance="Magento_Adminhtml_Block_Sales_Order_Create_Totals_Tax"/>
+            </item>
+            <item name="subtotal">
+                <renderer name="frontend" instance="Magento_Tax_Block_Checkout_Subtotal"/>
+                <renderer name="adminhtml" instance="Magento_Adminhtml_Block_Sales_Order_Create_Totals_Subtotal"/>
+            </item>
+            <item name="shipping">
+                <renderer name="frontend" instance="Magento_Tax_Block_Checkout_Shipping"/>
+                <renderer name="adminhtml" instance="Magento_Adminhtml_Block_Sales_Order_Create_Totals_Shipping"/>
+            </item>
+            <item name="discount">
+                <renderer name="frontend" instance="Magento_Tax_Block_Checkout_Discount"/>
+                <renderer name="adminhtml" instance="Magento_Adminhtml_Block_Sales_Order_Create_Totals_Discount"/>
+            </item>
+            <item name="grand_total">
+                <renderer name="frontend" instance="Magento_Tax_Block_Checkout_Grandtotal"/>
+                <renderer name="adminhtml" instance="Magento_Adminhtml_Block_Sales_Order_Create_Totals_Grandtotal"/>
+            </item>
+        </group>
+        <group name="nominal_totals">
+            <item name="nominal_tax_subtotal" instance="Magento_Tax_Model_Sales_Total_Quote_Nominal_Subtotal" sort_order="500"/>
+            <item name="nominal_tax" instance="Magento_Tax_Model_Sales_Total_Quote_Nominal_Tax" sort_order="750"/>
+        </group>
+    </section>
+</config>

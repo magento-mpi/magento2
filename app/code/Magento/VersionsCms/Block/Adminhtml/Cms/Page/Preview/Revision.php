@@ -8,16 +8,48 @@
  * @license     {license_link}
  */
 
-
 /**
  * Revision selector
- *
- * @category   Magento
- * @package    Magento_VersionsCms
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Preview_Revision extends Magento_Adminhtml_Block_Template
 {
+    /**
+     * @var Magento_VersionsCms_Model_Resource_Page_Revision_CollectionFactory
+     */
+    protected $_revisionCollFactory;
+
+    /**
+     * @var Magento_VersionsCms_Model_Config
+     */
+    protected $_cmsConfig;
+
+    /**
+     * @var Magento_Backend_Model_Auth_Session
+     */
+    protected $_backendAuthSession;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_VersionsCms_Model_Resource_Page_Revision_CollectionFactory $revisionCollFactory
+     * @param Magento_VersionsCms_Model_Config $cmsConfig
+     * @param Magento_Backend_Model_Auth_Session $backendAuthSession
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_VersionsCms_Model_Resource_Page_Revision_CollectionFactory $revisionCollFactory,
+        Magento_VersionsCms_Model_Config $cmsConfig,
+        Magento_Backend_Model_Auth_Session $backendAuthSession,
+        array $data = array()
+    ) {
+        $this->_revisionCollFactory = $revisionCollFactory;
+        $this->_cmsConfig = $cmsConfig;
+        $this->_backendAuthSession = $backendAuthSession;
+        parent::__construct($coreData, $context, $data);
+    }
+
     /**
      * Retrieve id of currently selected revision
      *
@@ -38,13 +70,15 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Preview_Revision extends Mage
      */
     public function getRevisions()
     {
-        /* var $collection Magento_VersionsCms_Model_Resource_Revision_Collection */
-        $collection = Mage::getModel('Magento_VersionsCms_Model_Page_Revision')->getCollection()
+        /* var $collection Magento_VersionsCms_Model_Resource_Page_Revision_Collection */
+        $collection = $this->_revisionCollFactory->create()
             ->addPageFilter($this->getRequest()->getParam('page_id'))
             ->joinVersions()
             ->addNumberSort()
-            ->addVisibilityFilter(Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getUser()->getId(),
-                Mage::getSingleton('Magento_VersionsCms_Model_Config')->getAllowedAccessLevel());
+            ->addVisibilityFilter(
+                $this->_backendAuthSession->getUser()->getId(),
+                $this->_cmsConfig->getAllowedAccessLevel()
+        );
 
         $revisions = array();
 

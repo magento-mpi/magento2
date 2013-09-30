@@ -10,12 +10,7 @@
 
 /**
  * Backend grid item renderer datetime
- *
- * @category   Magento
- * @package    Magento_Backend
- * @author     Magento Core Team <core@magentocommerce.com>
  */
-
 class Magento_Backend_Block_Widget_Grid_Column_Renderer_Datetime
     extends Magento_Backend_Block_Widget_Grid_Column_Renderer_Abstract
 {
@@ -23,6 +18,25 @@ class Magento_Backend_Block_Widget_Grid_Column_Renderer_Datetime
      * Date format string
      */
     protected static $_format = null;
+
+    /**
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * @param Magento_Backend_Block_Context $context
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Context $context,
+        Magento_Core_Model_LocaleInterface $locale,
+        array $data = array()
+    ) {
+        $this->_locale = $locale;
+        parent::__construct($context, $data);
+    }
 
     /**
      * Retrieve datetime format
@@ -35,7 +49,7 @@ class Magento_Backend_Block_Widget_Grid_Column_Renderer_Datetime
         if (!$format) {
             if (is_null(self::$_format)) {
                 try {
-                    self::$_format = Mage::app()->getLocale()->getDateTimeFormat(
+                    self::$_format = $this->_locale->getDateTimeFormat(
                         Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM
                     );
                 }
@@ -59,13 +73,11 @@ class Magento_Backend_Block_Widget_Grid_Column_Renderer_Datetime
         if ($data = $this->_getValue($row)) {
             $format = $this->_getFormat();
             try {
-                $data = Mage::app()->getLocale()
-                    ->date($data, Magento_Date::DATETIME_INTERNAL_FORMAT)->toString($format);
+                $data = $this->_locale->date($data, Magento_Date::DATETIME_INTERNAL_FORMAT)->toString($format);
             }
             catch (Exception $e)
             {
-                $data = Mage::app()->getLocale()
-                    ->date($data, Magento_Date::DATETIME_INTERNAL_FORMAT)->toString($format);
+                $data = $this->_locale->date($data, Magento_Date::DATETIME_INTERNAL_FORMAT)->toString($format);
             }
             return $data;
         }

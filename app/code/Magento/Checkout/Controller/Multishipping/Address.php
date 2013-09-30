@@ -18,13 +18,30 @@
 class Magento_Checkout_Controller_Multishipping_Address extends Magento_Core_Controller_Front_Action
 {
     /**
+     * @var Magento_Core_Model_UrlInterface
+     */
+    protected $_urlBuilder;
+
+    /**
+     * @param Magento_Core_Controller_Varien_Action_Context $context
+     * @param Magento_Core_Model_UrlInterface $urlBuilder
+     */
+    public function __construct(
+        Magento_Core_Controller_Varien_Action_Context $context,
+        Magento_Core_Model_UrlInterface $urlBuilder
+    ) {
+        $this->_urlBuilder = $urlBuilder;
+        parent::__construct($context);
+    }
+
+    /**
      * Retrieve multishipping checkout model
      *
      * @return Magento_Checkout_Model_Type_Multishipping
      */
     protected function _getCheckout()
     {
-        return Mage::getSingleton('Magento_Checkout_Model_Type_Multishipping');
+        return $this->_objectManager->get('Magento_Checkout_Model_Type_Multishipping');
     }
 
     /**
@@ -34,7 +51,7 @@ class Magento_Checkout_Controller_Multishipping_Address extends Magento_Core_Con
      */
     protected function _getState()
     {
-        return Mage::getSingleton('Magento_Checkout_Model_Type_Multishipping_State');
+        return $this->_objectManager->get('Magento_Checkout_Model_Type_Multishipping_State');
     }
 
 
@@ -48,18 +65,18 @@ class Magento_Checkout_Controller_Multishipping_Address extends Magento_Core_Con
         $this->_initLayoutMessages('Magento_Customer_Model_Session');
         if ($addressForm = $this->getLayout()->getBlock('customer_address_edit')) {
             $addressForm->setTitle(__('Create Shipping Address'))
-                ->setSuccessUrl(Mage::getUrl('*/*/shippingSaved'))
-                ->setErrorUrl(Mage::getUrl('*/*/*'));
+                ->setSuccessUrl($this->_urlBuilder->getUrl('*/*/shippingSaved'))
+                ->setErrorUrl($this->_urlBuilder->getUrl('*/*/*'));
 
             if ($headBlock = $this->getLayout()->getBlock('head')) {
                 $headBlock->setTitle($addressForm->getTitle() . ' - ' . $headBlock->getDefaultTitle());
             }
 
             if ($this->_getCheckout()->getCustomerDefaultShippingAddress()) {
-                $addressForm->setBackUrl(Mage::getUrl('*/multishipping/addresses'));
+                $addressForm->setBackUrl($this->_urlBuilder->getUrl('*/multishipping/addresses'));
             }
             else {
-                $addressForm->setBackUrl(Mage::getUrl('*/cart/'));
+                $addressForm->setBackUrl($this->_urlBuilder->getUrl('*/cart/'));
             }
         }
         $this->renderLayout();
@@ -83,15 +100,15 @@ class Magento_Checkout_Controller_Multishipping_Address extends Magento_Core_Con
         $this->_initLayoutMessages('Magento_Customer_Model_Session');
         if ($addressForm = $this->getLayout()->getBlock('customer_address_edit')) {
             $addressForm->setTitle(__('Edit Shipping Address'))
-                ->setSuccessUrl(Mage::getUrl('*/*/editShippingPost', array('id'=>$this->getRequest()->getParam('id'))))
-                ->setErrorUrl(Mage::getUrl('*/*/*'));
+                ->setSuccessUrl($this->_urlBuilder->getUrl('*/*/editShippingPost', array('id'=>$this->getRequest()->getParam('id'))))
+                ->setErrorUrl($this->_urlBuilder->getUrl('*/*/*'));
 
             if ($headBlock = $this->getLayout()->getBlock('head')) {
                 $headBlock->setTitle($addressForm->getTitle() . ' - ' . $headBlock->getDefaultTitle());
             }
 
             if ($this->_getCheckout()->getCustomerDefaultShippingAddress()) {
-                $addressForm->setBackUrl(Mage::getUrl('*/multishipping/shipping'));
+                $addressForm->setBackUrl($this->_urlBuilder->getUrl('*/multishipping/shipping'));
             }
         }
         $this->renderLayout();
@@ -100,7 +117,7 @@ class Magento_Checkout_Controller_Multishipping_Address extends Magento_Core_Con
     public function editShippingPostAction()
     {
         if ($addressId = $this->getRequest()->getParam('id')) {
-            Mage::getModel('Magento_Checkout_Model_Type_Multishipping')
+            $this->_objectManager->create('Magento_Checkout_Model_Type_Multishipping')
                 ->updateQuoteCustomerShippingAddress($addressId);
         }
         $this->_redirect('*/multishipping/shipping');
@@ -121,9 +138,9 @@ class Magento_Checkout_Controller_Multishipping_Address extends Magento_Core_Con
         $this->_initLayoutMessages('Magento_Customer_Model_Session');
         if ($addressForm = $this->getLayout()->getBlock('customer_address_edit')) {
             $addressForm->setTitle(__('Create Billing Address'))
-                ->setSuccessUrl(Mage::getUrl('*/*/selectBilling'))
-                ->setErrorUrl(Mage::getUrl('*/*/*'))
-                ->setBackUrl(Mage::getUrl('*/*/selectBilling'));
+                ->setSuccessUrl($this->_urlBuilder->getUrl('*/*/selectBilling'))
+                ->setErrorUrl($this->_urlBuilder->getUrl('*/*/*'))
+                ->setBackUrl($this->_urlBuilder->getUrl('*/*/selectBilling'));
 
             if ($headBlock = $this->getLayout()->getBlock('head')) {
                 $headBlock->setTitle($addressForm->getTitle() . ' - ' . $headBlock->getDefaultTitle());
@@ -138,9 +155,9 @@ class Magento_Checkout_Controller_Multishipping_Address extends Magento_Core_Con
         $this->_initLayoutMessages('Magento_Customer_Model_Session');
         if ($addressForm = $this->getLayout()->getBlock('customer_address_edit')) {
             $addressForm->setTitle(__('Edit Address'))
-                ->setSuccessUrl(Mage::getUrl('*/*/selectBilling'))
-                ->setErrorUrl(Mage::getUrl('*/*/*', array('id'=>$this->getRequest()->getParam('id'))))
-                ->setBackUrl(Mage::getUrl('*/*/selectBilling'));
+                ->setSuccessUrl($this->_urlBuilder->getUrl('*/*/selectBilling'))
+                ->setErrorUrl($this->_urlBuilder->getUrl('*/*/*', array('id'=>$this->getRequest()->getParam('id'))))
+                ->setBackUrl($this->_urlBuilder->getUrl('*/*/selectBilling'));
 
             if ($headBlock = $this->getLayout()->getBlock('head')) {
                 $headBlock->setTitle($addressForm->getTitle() . ' - ' . $headBlock->getDefaultTitle());
@@ -158,9 +175,9 @@ class Magento_Checkout_Controller_Multishipping_Address extends Magento_Core_Con
         $this->_initLayoutMessages('Magento_Customer_Model_Session');
         if ($addressForm = $this->getLayout()->getBlock('customer_address_edit')) {
             $addressForm->setTitle(__('Edit Billing Address'))
-                ->setSuccessUrl(Mage::getUrl('*/*/saveBilling', array('id'=>$this->getRequest()->getParam('id'))))
-                ->setErrorUrl(Mage::getUrl('*/*/*', array('id'=>$this->getRequest()->getParam('id'))))
-                ->setBackUrl(Mage::getUrl('*/multishipping/overview'));
+                ->setSuccessUrl($this->_urlBuilder->getUrl('*/*/saveBilling', array('id'=>$this->getRequest()->getParam('id'))))
+                ->setErrorUrl($this->_urlBuilder->getUrl('*/*/*', array('id'=>$this->getRequest()->getParam('id'))))
+                ->setBackUrl($this->_urlBuilder->getUrl('*/multishipping/overview'));
             if ($headBlock = $this->getLayout()->getBlock('head')) {
                 $headBlock->setTitle($addressForm->getTitle() . ' - ' . $headBlock->getDefaultTitle());
             }
@@ -171,7 +188,7 @@ class Magento_Checkout_Controller_Multishipping_Address extends Magento_Core_Con
     public function setBillingAction()
     {
         if ($addressId = $this->getRequest()->getParam('id')) {
-            Mage::getModel('Magento_Checkout_Model_Type_Multishipping')
+            $this->_objectManager->create('Magento_Checkout_Model_Type_Multishipping')
                 ->setQuoteCustomerBillingAddress($addressId);
         }
         $this->_redirect('*/multishipping/billing');
@@ -180,7 +197,7 @@ class Magento_Checkout_Controller_Multishipping_Address extends Magento_Core_Con
     public function saveBillingAction()
     {
         if ($addressId = $this->getRequest()->getParam('id')) {
-            Mage::getModel('Magento_Checkout_Model_Type_Multishipping')
+            $this->_objectManager->create('Magento_Checkout_Model_Type_Multishipping')
                 ->setQuoteCustomerBillingAddress($addressId);
         }
         $this->_redirect('*/multishipping/overview');

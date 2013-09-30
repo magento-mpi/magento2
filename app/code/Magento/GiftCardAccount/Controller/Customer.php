@@ -19,7 +19,7 @@ class Magento_GiftCardAccount_Controller_Customer extends Magento_Core_Controlle
     {
         parent::preDispatch();
 
-        if (!Mage::getSingleton('Magento_Customer_Model_Session')->authenticate($this)) {
+        if (!$this->_objectManager->get('Magento_Customer_Model_Session')->authenticate($this)) {
             $this->setFlag('', 'no-dispatch', true);
         }
     }
@@ -35,17 +35,18 @@ class Magento_GiftCardAccount_Controller_Customer extends Magento_Core_Controlle
             $code = $data['giftcard_code'];
             try {
                 if (!$this->_objectManager->get('Magento_CustomerBalance_Helper_Data')->isEnabled()) {
-                    Mage::throwException(__("You can't redeem a gift card now."));
+                    throw new Magento_Core_Exception(__("You can't redeem a gift card now."));
                 }
-                Mage::getModel('Magento_GiftCardAccount_Model_Giftcardaccount')->loadByCode($code)
+                $this->_objectManager->create('Magento_GiftCardAccount_Model_Giftcardaccount')
+                    ->loadByCode($code)
                     ->setIsRedeemed(true)->redeem();
-                Mage::getSingleton('Magento_Customer_Model_Session')->addSuccess(
+                $this->_objectManager->get('Magento_Customer_Model_Session')->addSuccess(
                     __('Gift Card "%1" was redeemed.', $this->_objectManager->get('Magento_Core_Helper_Data')->escapeHtml($code))
                 );
             } catch (Magento_Core_Exception $e) {
-                Mage::getSingleton('Magento_Customer_Model_Session')->addError($e->getMessage());
+                $this->_objectManager->get('Magento_Customer_Model_Session')->addError($e->getMessage());
             } catch (Exception $e) {
-                Mage::getSingleton('Magento_Customer_Model_Session')->addException($e, __('We cannot redeem this gift card.'));
+                $this->_objectManager->get('Magento_Customer_Model_Session')->addException($e, __('We cannot redeem this gift card.'));
             }
             $this->_redirect('*/*/*');
             return;

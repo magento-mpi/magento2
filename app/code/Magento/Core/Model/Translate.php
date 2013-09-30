@@ -171,8 +171,6 @@ class Magento_Core_Model_Translate
     protected $_app;
 
     /**
-     * Initialize translate model
-     *
      * @param Magento_Core_Model_View_DesignInterface $viewDesign
      * @param Magento_Core_Model_Locale_Hierarchy_Config $config
      * @param Magento_Core_Model_Translate_Factory $translateFactory
@@ -185,6 +183,8 @@ class Magento_Core_Model_Translate
      * @param Magento_Core_Model_StoreManager $storeManager
      * @param Magento_Core_Model_Resource_Translate $translate
      * @param Magento_Core_Model_App $app
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Magento_Core_Model_View_DesignInterface $viewDesign,

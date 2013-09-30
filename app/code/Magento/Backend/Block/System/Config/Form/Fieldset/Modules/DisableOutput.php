@@ -37,15 +37,17 @@ class Magento_Backend_Block_System_Config_Form_Fieldset_Modules_DisableOutput
 
     /**
      * @param Magento_Backend_Block_Context $context
+     * @param Magento_Backend_Model_Auth_Session $authSession
      * @param Magento_Core_Model_ModuleListInterface $moduleList
      * @param array $data
      */
     public function __construct(
         Magento_Backend_Block_Context $context,
+        Magento_Backend_Model_Auth_Session $authSession,
         Magento_Core_Model_ModuleListInterface $moduleList,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
+        parent::__construct($context, $authSession, $data);
         $this->_moduleList = $moduleList;
     }
 
@@ -95,7 +97,7 @@ class Magento_Backend_Block_System_Config_Form_Fieldset_Modules_DisableOutput
     protected function _getFieldRenderer()
     {
         if (empty($this->_fieldRenderer)) {
-            $this->_fieldRenderer = Mage::getBlockSingleton('Magento_Backend_Block_System_Config_Form_Field');
+            $this->_fieldRenderer = $this->_layout->getBlockSingleton('Magento_Backend_Block_System_Config_Form_Field');
         }
         return $this->_fieldRenderer;
     }

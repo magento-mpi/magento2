@@ -41,6 +41,25 @@ class Magento_Reminder_Model_Resource_Rule extends Magento_Rule_Model_Resource_A
     protected $_websiteTable;
 
     /**
+     * Core resource helper
+     *
+     * @var Magento_Reminder_Model_Resource_HelperFactory
+     */
+    protected $_resHelperFactory;
+
+    /**
+     * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Reminder_Model_Resource_HelperFactory $resHelperFactory
+     */
+    public function __construct(
+        Magento_Core_Model_Resource $resource,
+        Magento_Reminder_Model_Resource_HelperFactory $resHelperFactory
+    ) {
+        parent::__construct($resource);
+        $this->_resHelperFactory = $resHelperFactory;
+    }
+
+    /**
      * Initialize main table and table id field
      *
      * @return void
@@ -325,8 +344,8 @@ class Magento_Reminder_Model_Resource_Rule extends Magento_Rule_Model_Resource_A
             'log_sent_at_min' => 'MIN(l.sent_at)'
         ));
 
-        /** @var $helper Magento_Core_Model_Resource_Helper_Mysql4 */
-        $helper = Mage::getResourceHelper('Magento_Core');
+        /** @var $helper Magento_Core_Model_Resource_Helper */
+        $helper = $this->_resHelperFactory->create();
         $findInSetSql = $adapter->prepareSqlCondition('schedule', array(
             'finset' => $helper->getDateDiff('log_sent_at_min', $adapter->formatDate($currentDate))
         ));
@@ -419,6 +438,7 @@ class Magento_Reminder_Model_Resource_Rule extends Magento_Rule_Model_Resource_A
      * @param string $operator
      *
      * @return string
+     * @throws Magento_Core_Exception
      */
     public function getSqlOperator($operator)
     {
@@ -439,7 +459,7 @@ class Magento_Reminder_Model_Resource_Rule extends Magento_Rule_Model_Resource_A
             case '<=':
                 return $operator;
             default:
-                Mage::throwException(__('Unknown operator specified.'));
+                throw new Magento_Core_Exception(__('Unknown operator specified.'));
         }
     }
 

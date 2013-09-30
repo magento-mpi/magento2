@@ -40,6 +40,39 @@ class Magento_Reports_Model_Event extends Magento_Core_Model_Abstract
     const EVENT_WISHLIST_SHARE  = 6;
 
     /**
+     * @var Magento_Core_Model_DateFactory
+     */
+    protected $_dateFactory;
+
+    /**
+     * @var Magento_Reports_Model_Event_TypeFactory
+     */
+    protected $_eventTypeFactory;
+
+    /**
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_DateFactory $dateFactory
+     * @param Magento_Reports_Model_Event_TypeFactory $eventTypeFactory
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_DateFactory $dateFactory,
+        Magento_Reports_Model_Event_TypeFactory $eventTypeFactory,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        $this->_dateFactory = $dateFactory;
+        $this->_eventTypeFactory = $eventTypeFactory;
+    }
+
+    /**
      * Initialize resource
      *
      */
@@ -55,7 +88,8 @@ class Magento_Reports_Model_Event extends Magento_Core_Model_Abstract
      */
     protected function _beforeSave()
     {
-        $this->setLoggedAt(Mage::getModel('Magento_Core_Model_Date')->gmtDate());
+        $date = $this->_dateFactory->create();
+        $this->setLoggedAt($date->gmtDate());
         return parent::_beforeSave();
     }
 
@@ -71,7 +105,10 @@ class Magento_Reports_Model_Event extends Magento_Core_Model_Abstract
     {
         if (is_null($types)) {
             $types = array();
-            foreach (Mage::getModel('Magento_Reports_Model_Event_Type')->getCollection() as $eventType) {
+            $typesCollection = $this->_eventTypeFactory
+                ->create()
+                ->getCollection();
+            foreach ($typesCollection as $eventType) {
                 if ($eventType->getCustomerLogin()) {
                     $types[$eventType->getId()] = $eventType->getId();
                 }

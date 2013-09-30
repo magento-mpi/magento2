@@ -18,6 +18,22 @@
  */
 class Magento_Catalog_Model_Category_Attribute_Backend_Image extends Magento_Eav_Model_Entity_Attribute_Backend_Abstract
 {
+    /**
+     * @var Magento_Core_Model_File_UploaderFactory
+     */
+    protected $_uploaderFactory;
+
+    /**
+     * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Core_Model_File_UploaderFactory $uploaderFactory
+     */
+    public function __construct(
+        Magento_Core_Model_Logger $logger,
+        Magento_Core_Model_File_UploaderFactory $uploaderFactory
+    ) {
+        parent::__construct($logger);
+        $this->_uploaderFactory = $uploaderFactory;
+    }
 
     /**
      * Save uploaded file and set its name to category
@@ -44,7 +60,8 @@ class Magento_Catalog_Model_Category_Attribute_Backend_Image extends Magento_Eav
         $path = Mage::getBaseDir('media') . DS . 'catalog' . DS . 'category' . DS;
 
         try {
-            $uploader = new Magento_Core_Model_File_Uploader($this->getAttribute()->getName());
+            /** @var $uploader Magento_Core_Model_File_Uploader */
+            $uploader = $this->_uploaderFactory->create(array('fileId' => $this->getAttribute()->getName()));
             $uploader->setAllowedExtensions(array('jpg','jpeg','gif','png'));
             $uploader->setAllowRenameFiles(true);
             $result = $uploader->save($path);

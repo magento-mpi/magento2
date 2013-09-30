@@ -13,9 +13,16 @@
             <instance type="Magento_Core_Model_Event_Manager_Proxy"/>
         </param>
     </type>
-    <type name="Magento_Eav_Model_Resource_Helper_Mysql4">
+    <type name="Magento_Eav_Model_Resource_Helper">
         <param name="modulePrefix">
             <value>eav</value>
+        </param>
+    </type>
+    <type name="Magento_Core_Model_Db_Updater">
+        <param name="resourceList">
+            <value>
+                <eav_setup>Magento_Eav_Model_Entity_Setup</eav_setup>
+            </value>
         </param>
     </type>
 </config>

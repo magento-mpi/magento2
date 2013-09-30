@@ -48,23 +48,21 @@ class Magento_Catalog_Model_Config extends Magento_Eav_Model_Config
     protected $_coreStoreConfig;
 
     /**
-     * Constructor
-     *
      * @param Magento_Core_Model_App $app
      * @param Magento_Eav_Model_Entity_TypeFactory $entityTypeFactory
      * @param Magento_Core_Model_Cache_StateInterface $cacheState
-     * @param Magento_Eav_Model_Factory_Helper $helperFactory
+     * @param Magento_Validator_UniversalFactory $universalFactory
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
         Magento_Core_Model_App $app,
         Magento_Eav_Model_Entity_TypeFactory $entityTypeFactory,
         Magento_Core_Model_Cache_StateInterface $cacheState,
-        Magento_Eav_Model_Factory_Helper $helperFactory,
+        Magento_Validator_UniversalFactory $universalFactory,
         Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
-        parent::__construct($app, $entityTypeFactory, $cacheState, $helperFactory);
+        parent::__construct($app, $entityTypeFactory, $cacheState, $universalFactory);
     }
 
     /**

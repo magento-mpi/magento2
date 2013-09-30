@@ -85,6 +85,26 @@ class Magento_Reports_Block_Adminhtml_Grid extends Magento_Backend_Block_Widget_
     protected $_locale;
 
     /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Url $urlModel
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Url $urlModel,
+        Magento_Core_Model_LocaleInterface $locale,
+        array $data = array()
+    ) {
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+        $this->_locale = $locale;
+    }
+
+    /**
      * Apply sorting and filtering to collection
      *
      * @return Magento_Backend_Block_Widget_Grid|Magento_Reports_Block_Adminhtml_Grid
@@ -105,13 +125,13 @@ class Magento_Reports_Block_Adminhtml_Grid extends Magento_Backend_Block_Widget_
             if (!isset($data['report_from'])) {
                 // getting all reports from 2001 year
                 $date = new Zend_Date(mktime(0, 0, 0, 1, 1, 2001));
-                $data['report_from'] = $date->toString($this->getLocale()->getDateFormat('short'));
+                $data['report_from'] = $date->toString($this->_locale->getDateFormat('short'));
             }
 
             if (!isset($data['report_to'])) {
                 // getting all reports from 2001 year
                 $date = new Zend_Date();
-                $data['report_to'] = $date->toString($this->getLocale()->getDateFormat('short'));
+                $data['report_to'] = $date->toString($this->_locale->getDateFormat('short'));
             }
 
             $this->_setFilterValues($data);
@@ -131,8 +151,8 @@ class Magento_Reports_Block_Adminhtml_Grid extends Magento_Backend_Block_Widget_
                  * Validate from and to date
                  */
                 try {
-                    $from = $this->getLocale()->date($this->getFilter('report_from'), Zend_Date::DATE_SHORT, null, false);
-                    $to   = $this->getLocale()->date($this->getFilter('report_to'), Zend_Date::DATE_SHORT, null, false);
+                    $from = $this->_locale->date($this->getFilter('report_from'), Zend_Date::DATE_SHORT, null, false);
+                    $to   = $this->_locale->date($this->getFilter('report_to'), Zend_Date::DATE_SHORT, null, false);
 
                     $collection->setInterval($from, $to);
                 }
@@ -169,13 +189,13 @@ class Magento_Reports_Block_Adminhtml_Grid extends Magento_Backend_Block_Widget_
         if ($this->getRequest()->getParam('store')) {
             $storeIds = array($this->getParam('store'));
         } elseif ($this->getRequest()->getParam('website')){
-            $storeIds = Mage::app()->getWebsite($this->getRequest()->getParam('website'))->getStoreIds();
+            $storeIds = $this->_storeManager->getWebsite($this->getRequest()->getParam('website'))->getStoreIds();
         } elseif ($this->getRequest()->getParam('group')){
-            $storeIds = Mage::app()->getGroup($this->getRequest()->getParam('group'))->getStoreIds();
+            $storeIds = $storeIds = $this->_storeManager->getGroup($this->getRequest()->getParam('group'))->getStoreIds();
         }
 
         // By default storeIds array contains only allowed stores
-        $allowedStoreIds = array_keys(Mage::app()->getStores());
+        $allowedStoreIds = array_keys($this->_storeManager->getStores());
         // And then array_intersect with post data for prevent unauthorized stores reports
         $storeIds = array_intersect($allowedStoreIds, $storeIds);
         // If selected all websites or unauthorized stores use only allowed
@@ -279,7 +299,7 @@ class Magento_Reports_Block_Adminhtml_Grid extends Magento_Backend_Block_Widget_
      */
     public function getDateFormat()
     {
-        return $this->getLocale()->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
+        return $this->_locale->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
     }
 
     /**
@@ -337,19 +357,6 @@ class Magento_Reports_Block_Adminhtml_Grid extends Magento_Backend_Block_Widget_
     public function getSubReportSize()
     {
         return $this->_subReportSize;
-    }
-
-    /**
-     * Retrieve locale
-     *
-     * @return Magento_Core_Model_LocaleInterface
-     */
-    public function getLocale()
-    {
-        if (!$this->_locale) {
-            $this->_locale = Mage::app()->getLocale();
-        }
-        return $this->_locale;
     }
 
     /**

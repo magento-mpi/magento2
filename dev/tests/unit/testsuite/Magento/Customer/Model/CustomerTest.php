@@ -108,6 +108,13 @@ class Magento_Customer_Model_CustomerTest extends PHPUnit_Framework_TestCase
             $this->_config,
             $coreStoreConfig,
             $this->_resourceMock,
+            $this->getMock('Magento_Customer_Model_Config_Share', array(), array(), '', false),
+            $this->getMock('Magento_Customer_Model_AddressFactory', array(), array(), '', false),
+            $this->getMock('Magento_Customer_Model_Resource_Address_CollectionFactory', array(), array(), '', false),
+            $this->getMock('Magento_Core_Model_Email_Template_MailerFactory', array(), array(), '', false),
+            $this->getMock('Magento_Core_Model_Email_InfoFactory', array(), array(), '', false),
+            $this->getMock('Magento_Customer_Model_GroupFactory', array(), array(), '', false),
+            $this->getMock('Magento_Customer_Model_AttributeFactory', array(), array(), '', false),
             $this->_collectionMock,
             array()
         );

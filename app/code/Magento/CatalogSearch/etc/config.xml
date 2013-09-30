@@ -10,15 +10,6 @@
  */
 -->
 <config>
-    <global>
-        <resources>
-            <catalogsearch_setup>
-                <setup>
-                    <module>Magento_CatalogSearch</module>
-                </setup>
-            </catalogsearch_setup>
-        </resources>
-    </global>
     <default>
         <catalog>
             <seo>

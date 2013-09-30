@@ -19,5 +19,4 @@
  */
 class Magento_Adminhtml_Model_Session extends Magento_Backend_Model_Session
 {
-
 }

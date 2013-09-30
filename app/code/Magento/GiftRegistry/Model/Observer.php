@@ -14,6 +14,26 @@
 class Magento_GiftRegistry_Model_Observer
 {
     /**
+     * @var Magento_Customer_Model_Session
+     */
+    protected $customerSession;
+
+    /**
+     * @var Magento_GiftRegistry_Model_EntityFactory
+     */
+    protected $entityFactory;
+
+    /**
+     * @var Magento_GiftRegistry_Model_ItemFactory
+     */
+    protected $itemFactory;
+
+    /**
+     * @var Magento_GiftRegistry_Model_Item_OptionFactory
+     */
+    protected $optionFactory;
+
+    /**
      * Module enabled flag
      * @var bool
      */
@@ -36,14 +56,26 @@ class Magento_GiftRegistry_Model_Observer
     /**
      * @param Magento_GiftRegistry_Helper_Data $giftRegistryData
      * @param Magento_Core_Model_View_DesignInterface $design
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_GiftRegistry_Model_EntityFactory $entityFactory
+     * @param Magento_GiftRegistry_Model_ItemFactory $itemFactory
+     * @param Magento_GiftRegistry_Model_Item_OptionFactory $optionFactory
      */
     public function __construct(
         Magento_GiftRegistry_Helper_Data $giftRegistryData,
-        Magento_Core_Model_View_DesignInterface $design
+        Magento_Core_Model_View_DesignInterface $design,
+        Magento_Customer_Model_Session $customerSession,
+        Magento_GiftRegistry_Model_EntityFactory $entityFactory,
+        Magento_GiftRegistry_Model_ItemFactory $itemFactory,
+        Magento_GiftRegistry_Model_Item_OptionFactory $optionFactory
     ) {
         $this->_giftRegistryData = $giftRegistryData;
         $this->_design = $design;
         $this->_isEnabled = $this->_giftRegistryData->isEnabled();
+        $this->customerSession = $customerSession;
+        $this->entityFactory = $entityFactory;
+        $this->itemFactory = $itemFactory;
+        $this->optionFactory = $optionFactory;
     }
 
     /**
@@ -62,7 +94,7 @@ class Magento_GiftRegistry_Model_Observer
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('Magento_Customer_Model_Session');
+        return $this->customerSession;
     }
 
     /**
@@ -98,7 +130,7 @@ class Magento_GiftRegistry_Model_Observer
         $object = $observer->getEvent()->getDataObject();
 
         if ($registryItemId = $object->getGiftregistryItemId()) {
-            $model = Mage::getModel('Magento_GiftRegistry_Model_Entity')
+            $model = $this->entityFactory->create()
                 ->loadByEntityItem($registryItemId);
             if ($model->getId()) {
                 $object->setId(
@@ -168,7 +200,7 @@ class Magento_GiftRegistry_Model_Observer
     public function orderPlaced($observer)
     {
         $order = $observer->getEvent()->getOrder();
-        $item = Mage::getModel('Magento_GiftRegistry_Model_Item');
+        $item = $this->itemFactory->create();
         $giftRegistries = array();
         $updatedQty = array();
 
@@ -190,7 +222,7 @@ class Magento_GiftRegistry_Model_Observer
 
         $giftRegistries = array_unique($giftRegistries);
         if (count($giftRegistries)) {
-            $entity = Mage::getModel('Magento_GiftRegistry_Model_Entity');
+            $entity = $this->entityFactory->create();
             foreach ($giftRegistries as $registryId) {
                 $entity->load($registryId);
                 $entity->sendUpdateRegistryEmail($updatedQty);
@@ -243,7 +275,7 @@ class Magento_GiftRegistry_Model_Observer
         }
 
         /** @var $grItem Magento_GiftRegistry_Model_Item */
-        $grItem = Mage::getModel('Magento_GiftRegistry_Model_Item');
+        $grItem = $this->itemFactory->create();
         /** @var $collection Magento_GiftRegistry_Model_Resource_Item_Collection */
         $collection = $grItem->getCollection()->addProductFilter($productId);
 
@@ -252,7 +284,7 @@ class Magento_GiftRegistry_Model_Observer
         }
 
         /** @var $options Magento_GiftRegistry_Model_Item_Option*/
-        $options = Mage::getModel('Magento_GiftRegistry_Model_Item_Option');
+        $options = $this->optionFactory->create();
         $optionCollection = $options->getCollection()->addProductFilter($productId);
 
         $itemsArray = array();

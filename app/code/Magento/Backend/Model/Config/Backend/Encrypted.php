@@ -53,7 +53,7 @@ class Magento_Backend_Model_Config_Backend_Encrypted
     public function __wakeup()
     {
         parent::__wakeup();
-        $this->_coreData = Mage::getSingleton('Magento_Core_Helper_Data');
+        $this->_coreData = Magento_Core_Model_ObjectManager::getInstance()->get('Magento_Core_Helper_Data');
     }
 
     /**

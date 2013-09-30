@@ -158,26 +158,26 @@ class Magento_Sales_Model_Order_Invoice extends Magento_Sales_Model_Abstract
      *
      * @var Magento_Sales_Helper_Data
      */
-    protected $_salesData = null;
+    protected $_salesData;
 
     /**
      * Payment data
      *
      * @var Magento_Payment_Helper_Data
      */
-    protected $_paymentData = null;
+    protected $_paymentData;
 
     /**
      * Core event manager proxy
      *
      * @var Magento_Core_Model_Event_Manager
      */
-    protected $_eventManager = null;
+    protected $_eventManager;
 
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var Magento_Core_Model_Store_ConfigInterface
      */
     protected $_coreStoreConfig;
 
@@ -232,7 +232,7 @@ class Magento_Sales_Model_Order_Invoice extends Magento_Sales_Model_Abstract
      * @param Magento_Sales_Helper_Data $salesData
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Store_ConfigInterface $coreStoreConfig
      * @param Magento_Core_Model_LocaleInterface $coreLocale
      * @param Magento_Sales_Model_Order_Invoice_Config $invoiceConfig
      * @param Magento_Sales_Model_OrderFactory $orderFactory
@@ -255,7 +255,7 @@ class Magento_Sales_Model_Order_Invoice extends Magento_Sales_Model_Abstract
         Magento_Sales_Helper_Data $salesData,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Store_ConfigInterface $coreStoreConfig,
         Magento_Core_Model_LocaleInterface $coreLocale,
         Magento_Sales_Model_Order_Invoice_Config $invoiceConfig,
         Magento_Sales_Model_OrderFactory $orderFactory,

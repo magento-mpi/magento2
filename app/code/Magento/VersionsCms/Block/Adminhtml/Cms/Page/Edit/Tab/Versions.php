@@ -10,18 +10,14 @@
 
 /**
  * Cms page edit form revisions tab
- *
- * @category    Magento
- * @package     Magento_VersionsCms
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
     extends Magento_Backend_Block_Widget_Grid_Extended
     implements Magento_Backend_Block_Widget_Tab_Interface
 {
     /**
      * Array of admin users in system
+     *
      * @var array
      */
     protected $_usersHash = null;
@@ -31,14 +27,29 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
      *
      * @var Magento_VersionsCms_Helper_Data
      */
-    protected $_cmsData = null;
+    protected $_cmsData;
 
     /**
      * Core registry
      *
      * @var Magento_Core_Model_Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
+
+    /**
+     * @var Magento_Backend_Model_Auth_Session
+     */
+    protected $_backendAuthSession;
+
+    /**
+     * @var Magento_VersionsCms_Model_Config
+     */
+    protected $_cmsConfig;
+
+    /**
+     * @var Magento_VersionsCms_Model_Resource_Page_Version_CollectionFactory
+     */
+    protected $_versionCollFactory;
 
     /**
      * @param Magento_VersionsCms_Helper_Data $cmsData
@@ -47,7 +58,12 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Url $urlModel
      * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Backend_Model_Auth_Session $backendAuthSession
+     * @param Magento_VersionsCms_Model_Config $cmsConfig
+     * @param Magento_VersionsCms_Model_Resource_Page_Version_CollectionFactory $versionCollFactory
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Magento_VersionsCms_Helper_Data $cmsData,
@@ -56,10 +72,16 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Url $urlModel,
         Magento_Core_Model_Registry $coreRegistry,
+        Magento_Backend_Model_Auth_Session $backendAuthSession,
+        Magento_VersionsCms_Model_Config $cmsConfig,
+        Magento_VersionsCms_Model_Resource_Page_Version_CollectionFactory $versionCollFactory,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_cmsData = $cmsData;
+        $this->_backendAuthSession = $backendAuthSession;
+        $this->_cmsConfig = $cmsConfig;
+        $this->_versionCollFactory = $versionCollFactory;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
 
@@ -78,13 +100,12 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
      */
     protected function _prepareCollection()
     {
-        $userId = Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getUser()->getId();
+        $userId = $this->_backendAuthSession->getUser()->getId();
 
-        /* var $collection Magento_VersionsCms_Model_Resource_Version_Collection */
-        $collection = Mage::getModel('Magento_VersionsCms_Model_Page_Version')->getCollection()
+        /* var $collection Magento_VersionsCms_Model_Resource_Page_Revision_Collection */
+        $collection = $this->_versionCollFactory->create()
             ->addPageFilter($this->getPage())
-            ->addVisibilityFilter($userId,
-                Mage::getSingleton('Magento_VersionsCms_Model_Config')->getAllowedAccessLevel())
+            ->addVisibilityFilter($userId, $this->_cmsConfig->getAllowedAccessLevel())
             ->addUserColumn()
             ->addUserNameColumn();
 
@@ -165,7 +186,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
      */
     public function getGridUrl()
     {
-        return $this->getUrl('*/*/versions', array('_current'=>true));
+        return $this->getUrl('*/*/versions', array('_current' => true));
     }
 
     /**
@@ -226,7 +247,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
      */
     protected function _prepareMassaction()
     {
-        if (Mage::getSingleton('Magento_VersionsCms_Model_Config')->canCurrentUserDeleteVersion()) {
+        if ($this->_cmsConfig->canCurrentUserDeleteVersion()) {
             $this->setMassactionIdField('version_id');
             $this->getMassactionBlock()->setFormFieldName('version');
 
@@ -243,10 +264,14 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
     /**
      * Grid row event edit url
      *
+     * @param object $row
      * @return string
      */
     public function getRowUrl($row)
     {
-        return $this->getUrl('*/cms_page_version/edit', array('page_id' => $row->getPageId(), 'version_id' => $row->getVersionId()));
+        return $this->getUrl('*/cms_page_version/edit', array(
+            'page_id' => $row->getPageId(),
+            'version_id' => $row->getVersionId()
+        ));
     }
 }

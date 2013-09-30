@@ -22,11 +22,15 @@ class Magento_ImportExport_Model_Import_Entity_Product_Type_AbstractTest extends
      */
     protected function setUp()
     {
-        $arguments = array(Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_ImportExport_Model_Import_Entity_Product'), 'simple');
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $params = array($objectManager->create('Magento_ImportExport_Model_Import_Entity_Product'), 'simple');
         $this->_model = $this->getMockForAbstractClass(
             'Magento_ImportExport_Model_Import_Entity_Product_Type_Abstract',
-            array($arguments)
+            array(
+                $objectManager->get('Magento_Eav_Model_Resource_Entity_Attribute_Set_CollectionFactory'),
+                $objectManager->get('Magento_Catalog_Model_Resource_Product_Attribute_CollectionFactory'),
+                $params
+            )
         );
     }
 

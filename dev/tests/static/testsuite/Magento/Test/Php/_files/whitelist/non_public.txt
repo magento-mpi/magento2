@@ -4,7 +4,6 @@
 #
 dev/tests/functional/testsuite/Core/Mage/UrlRewrite/Helper.php
 dev/tests/functional/testsuite/Enterprise/Mage/Acl/CatalogManageCategoryTest.php
-dev/tests/functional/testsuite/Enterprise/Mage/Acl/CmsPoll.php
 dev/tests/functional/testsuite/Enterprise/Mage/Acl/SystemPermissionTest.php
 dev/tests/functional/testsuite/Enterprise/Mage/AddBySku/BackendAddBySkuTest.php
 dev/tests/functional/testsuite/Enterprise/Mage/AddBySku/BackendOrderTest.php

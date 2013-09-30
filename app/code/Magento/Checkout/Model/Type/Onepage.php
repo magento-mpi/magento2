@@ -74,26 +74,87 @@ class Magento_Checkout_Model_Type_Onepage
     protected $_eventManager = null;
 
     /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Core_Controller_Request_Http
+     */
+    protected $_request;
+
+    /**
+     * @var Magento_Customer_Model_AddressFactory
+     */
+    protected $_customrAddrFactory;
+
+    /**
+     * @var Magento_Customer_Model_FormFactory
+     */
+    protected $_customerFormFactory;
+
+    /**
+     * @var Magento_Customer_Model_CustomerFactory
+     */
+    protected $_customerFactory;
+
+    /**
+     * @var Magento_Sales_Model_Service_QuoteFactory
+     */
+    protected $_serviceQuoteFactory;
+
+    /**
+     * @var Magento_Sales_Model_OrderFactory
+     */
+    protected $_orderFactory;
+
+    /**
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Checkout_Helper_Data $helper
      * @param Magento_Customer_Helper_Data $customerData
      * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Checkout_Model_Session $checkoutSession
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Controller_Request_Http $request
+     * @param Magento_Customer_Model_AddressFactory $customrAddrFactory
+     * @param Magento_Customer_Model_FormFactory $customerFormFactory
+     * @param Magento_Customer_Model_CustomerFactory $customerFactory
+     * @param Magento_Sales_Model_Service_QuoteFactory $serviceQuoteFactory
+     * @param Magento_Sales_Model_OrderFactory $orderFactory
      */
     public function __construct(
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Checkout_Helper_Data $helper,
         Magento_Customer_Helper_Data $customerData,
         Magento_Core_Helper_Data $coreData,
-        Magento_Core_Model_Logger $logger
+        Magento_Core_Model_Logger $logger,
+        Magento_Checkout_Model_Session $checkoutSession,
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Controller_Request_Http $request,
+        Magento_Customer_Model_AddressFactory $customrAddrFactory,
+        Magento_Customer_Model_FormFactory $customerFormFactory,
+        Magento_Customer_Model_CustomerFactory $customerFactory,
+        Magento_Sales_Model_Service_QuoteFactory $serviceQuoteFactory,
+        Magento_Sales_Model_OrderFactory $orderFactory
     ) {
         $this->_eventManager = $eventManager;
         $this->_customerData = $customerData;
         $this->_coreData = $coreData;
         $this->_helper = $helper;
         $this->_customerEmailExistsMessage = __('There is already a registered customer using this email address. Please log in using this email address or enter a different email address to register your account.');
-        $this->_checkoutSession = Mage::getSingleton('Magento_Checkout_Model_Session');
-        $this->_customerSession = Mage::getSingleton('Magento_Customer_Model_Session');
+        $this->_checkoutSession = $checkoutSession;
+        $this->_customerSession = $customerSession;
         $this->_logger = $logger;
+        $this->_storeManager = $storeManager;
+        $this->_request = $request;
+        $this->_customrAddrFactory = $customrAddrFactory;
+        $this->_customerFormFactory = $customerFormFactory;
+        $this->_customerFactory = $customerFactory;
+        $this->_serviceQuoteFactory = $serviceQuoteFactory;
+        $this->_orderFactory = $orderFactory;
     }
 
     /**
@@ -223,7 +284,7 @@ class Magento_Checkout_Model_Type_Onepage
      */
     public function getAddress($addressId)
     {
-        $address = Mage::getModel('Magento_Customer_Model_Address')->load((int)$addressId);
+        $address = $this->_customrAddrFactory->create()->load((int)$addressId);
         $address->explodeStreetAddress();
         if ($address->getRegionId()) {
             $address->setRegion($address->getRegionId());
@@ -247,13 +308,13 @@ class Magento_Checkout_Model_Type_Onepage
 
         $address = $this->getQuote()->getBillingAddress();
         /* @var $addressForm Magento_Customer_Model_Form */
-        $addressForm = Mage::getModel('Magento_Customer_Model_Form');
+        $addressForm = $this->_customerFormFactory->create();
         $addressForm->setFormCode('customer_address_edit')
             ->setEntityType('customer_address')
-            ->setIsAjaxRequest(Mage::app()->getRequest()->isAjax());
+            ->setIsAjaxRequest($this->_request->isAjax());
 
         if (!empty($customerAddressId)) {
-            $customerAddress = Mage::getModel('Magento_Customer_Model_Address')->load($customerAddressId);
+            $customerAddress = $this->_customrAddrFactory->create()->load($customerAddressId);
             if ($customerAddress->getId()) {
                 if ($customerAddress->getCustomerId() != $this->getQuote()->getCustomerId()) {
                     return array('error' => 1,
@@ -298,7 +359,7 @@ class Magento_Checkout_Model_Type_Onepage
         }
 
         if (!$this->getQuote()->getCustomerId() && self::METHOD_REGISTER == $this->getQuote()->getCheckoutMethod()) {
-            if ($this->_customerEmailExists($address->getEmail(), Mage::app()->getWebsite()->getId())) {
+            if ($this->_customerEmailExists($address->getEmail(), $this->_storeManager->getWebsite()->getId())) {
                 return array('error' => 1, 'message' => $this->_customerEmailExistsMessage);
             }
         }
@@ -367,9 +428,9 @@ class Magento_Checkout_Model_Type_Onepage
     protected function _validateCustomerData(array $data)
     {
         /** @var $customerForm Magento_Customer_Model_Form */
-        $customerForm = Mage::getModel('Magento_Customer_Model_Form');
+        $customerForm = $this->_customerFormFactory->create();
         $customerForm->setFormCode('checkout_register')
-            ->setIsAjaxRequest(Mage::app()->getRequest()->isAjax());
+            ->setIsAjaxRequest($this->_request->isAjax());
 
         $quote = $this->getQuote();
         if ($quote->getCustomerId()) {
@@ -378,7 +439,7 @@ class Magento_Checkout_Model_Type_Onepage
             $customerData = $quote->getCustomer()->getData();
         } else {
             /* @var $customer Magento_Customer_Model_Customer */
-            $customer = Mage::getModel('Magento_Customer_Model_Customer');
+            $customer = $this->_customerFactory->create();
             $customerForm->setEntity($customer);
             $customerRequest = $customerForm->prepareRequest($data);
             $customerData = $customerForm->extractData($customerRequest);
@@ -449,13 +510,13 @@ class Magento_Checkout_Model_Type_Onepage
         $address = $this->getQuote()->getShippingAddress();
 
         /* @var $addressForm Magento_Customer_Model_Form */
-        $addressForm    = Mage::getModel('Magento_Customer_Model_Form');
+        $addressForm    = $this->_customerFormFactory->create();
         $addressForm->setFormCode('customer_address_edit')
             ->setEntityType('customer_address')
-            ->setIsAjaxRequest(Mage::app()->getRequest()->isAjax());
+            ->setIsAjaxRequest($this->_request->isAjax());
 
         if (!empty($customerAddressId)) {
-            $customerAddress = Mage::getModel('Magento_Customer_Model_Address')->load($customerAddressId);
+            $customerAddress = $this->_customrAddrFactory->create()->load($customerAddressId);
             if ($customerAddress->getId()) {
                 if ($customerAddress->getCustomerId() != $this->getQuote()->getCustomerId()) {
                     return array('error' => 1,
@@ -580,13 +641,13 @@ class Magento_Checkout_Model_Type_Onepage
     {
         $quote  = $this->getQuote();
         if ($quote->getIsMultiShipping()) {
-            Mage::throwException(__('Invalid checkout type'));
+            throw new Magento_Core_Exception(__('Invalid checkout type'));
         }
 
         if ($quote->getCheckoutMethod() == self::METHOD_GUEST
             && !$this->_helper->isAllowedGuestCheckout($quote)
         ) {
-            Mage::throwException(__('Sorry, guest checkout is not enabled.'));
+            throw new Magento_Core_Exception(__('Sorry, guest checkout is not enabled.'));
         }
     }
 
@@ -720,7 +781,7 @@ class Magento_Checkout_Model_Type_Onepage
                 break;
         }
 
-        $service = Mage::getModel('Magento_Sales_Model_Service_Quote', array('quote' => $this->getQuote()));
+        $service = $this->_serviceQuoteFactory->create(array('quote' => $this->getQuote()));
         $service->submitAll();
 
         if ($isNewCustomer) {
@@ -796,7 +857,7 @@ class Magento_Checkout_Model_Type_Onepage
      */
     protected function _customerEmailExists($email, $websiteId = null)
     {
-        $customer = Mage::getModel('Magento_Customer_Model_Customer');
+        $customer = $this->_customerFactory->create();
         if ($websiteId) {
             $customer->setWebsiteId($websiteId);
         }
@@ -817,7 +878,7 @@ class Magento_Checkout_Model_Type_Onepage
         $lastId  = $this->getCheckout()->getLastOrderId();
         $orderId = false;
         if ($lastId) {
-            $order = Mage::getModel('Magento_Sales_Model_Order');
+            $order = $this->_orderFactory->create();
             $order->load($lastId);
             $orderId = $order->getIncrementId();
         }

@@ -40,7 +40,7 @@ class Magento_GoogleAdwords_Model_Validator_FactoryTest extends PHPUnit_Framewor
 
     protected function setUp()
     {
-        $this->_validatorBuilderFactoryMock = $this->getMock('Magento_Validator_BuilderFactory', array('create'),
+        $this->_validatorBuilderFactoryMock = $this->getMock('Magento_Validator_UniversalFactory', array('create'),
             array(), '', false);
         $this->_validatorBuilderMock = $this->getMock('Magento_Validator_Builder', array(), array(), '', false);
         $this->_validatorMock = $this->getMock('Magento_Validator_ValidatorInterface', array(), array(), '', false);

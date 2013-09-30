@@ -18,11 +18,11 @@
 abstract class Magento_Install_Model_Installer_Db_Abstract
 {
     /**
-     * Resource model
+     * Resource connection adapter factory
      *
-     * @var Magento_Core_Model_Resource
+     * @var Magento_Core_Model_Resource_Type_Db_Pdo_MysqlFactory
      */
-    protected $_resource;
+    protected $_adapterFactory;
 
     /**
      * List of necessary extensions for DBs
@@ -54,15 +54,16 @@ abstract class Magento_Install_Model_Installer_Db_Abstract
 
 
     /**
-     * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Core_Model_Resource_Type_Db_Pdo_MysqlFactory $adapterFactory
      * @param array $dbExtensions
      */
-    public function __construct(Magento_Core_Model_Resource $resource, array $dbExtensions = array())
-    {
-        $this->_resource = $resource;
+    public function __construct(
+        Magento_Core_Model_Resource_Type_Db_Pdo_MysqlFactory $adapterFactory, array $dbExtensions = array()
+    ) {
+        $this->_adapterFactory = $adapterFactory;
         $this->_dbExtensions = $dbExtensions;
     }
-    
+
     /**
      * Return the name of DB model from config
      *
@@ -106,7 +107,7 @@ abstract class Magento_Install_Model_Installer_Db_Abstract
                 'host'      => $this->_configData['db_host'],
                 'username'  => $this->_configData['db_user'],
                 'password'  => $this->_configData['db_pass'],
-                'dbname'    => $this->_configData['db_name'],
+                'dbName'    => $this->_configData['db_name'],
                 'pdoType'   => $this->getPdoType()
             );
             $this->_connectionData = $connectionData;
@@ -132,7 +133,7 @@ abstract class Magento_Install_Model_Installer_Db_Abstract
     protected function _getConnection()
     {
         if (!isset($this->_connection)) {
-            $connection = $this->_resource->createConnection('install', $this->getType(), $this->getConnectionData());
+            $connection = $this->_adapterFactory->create($this->getConnectionData())->getConnection();
             $this->_connection = $connection;
         }
         return $this->_connection;
@@ -159,10 +160,9 @@ abstract class Magento_Install_Model_Installer_Db_Abstract
     }
 
     /**
-     * Clean database
+     * Clean up database
      *
-     * @param SimpleXMLElement $config
      * @return Magento_Install_Model_Installer_Db_Abstract
      */
-    abstract public function cleanUpDatabase(SimpleXMLElement $config);
+    abstract public function cleanUpDatabase();
 }

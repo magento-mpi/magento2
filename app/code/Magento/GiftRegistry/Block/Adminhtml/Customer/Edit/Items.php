@@ -15,6 +15,11 @@ class Magento_GiftRegistry_Block_Adminhtml_Customer_Edit_Items
     extends Magento_Adminhtml_Block_Widget_Grid
 {
     /**
+     * @var Magento_GiftRegistry_Model_ItemFactory
+     */
+    protected $itemFactory;
+
+    /**
      * Core registry
      *
      * @var Magento_Core_Model_Registry
@@ -27,6 +32,7 @@ class Magento_GiftRegistry_Block_Adminhtml_Customer_Edit_Items
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Url $urlModel
      * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_GiftRegistry_Model_ItemFactory $itemFactory
      * @param array $data
      */
     public function __construct(
@@ -35,9 +41,11 @@ class Magento_GiftRegistry_Block_Adminhtml_Customer_Edit_Items
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Url $urlModel,
         Magento_Core_Model_Registry $coreRegistry,
+        Magento_GiftRegistry_Model_ItemFactory $itemFactory,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
+        $this->itemFactory = $itemFactory;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
 
@@ -52,7 +60,7 @@ class Magento_GiftRegistry_Block_Adminhtml_Customer_Edit_Items
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('Magento_GiftRegistry_Model_Item')->getCollection()
+        $collection = $this->itemFactory->create()->getCollection()
             ->addRegistryFilter($this->getEntity()->getId());
 
         $collection->updateItemAttributes();

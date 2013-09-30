@@ -50,7 +50,7 @@ class Magento_GiftRegistry_Controller_View extends Magento_Core_Controller_Front
      */
     public function indexAction()
     {
-        $entity = Mage::getModel('Magento_GiftRegistry_Model_Entity');
+        $entity = $this->_objectManager->create('Magento_GiftRegistry_Model_Entity');
         $entity->loadByUrlKey($this->getRequest()->getParam('id'));
         if (!$entity->getId() || !$entity->getCustomerId() || !$entity->getTypeId() || !$entity->getIsActive()) {
             $this->_forward('noroute');
@@ -58,7 +58,7 @@ class Magento_GiftRegistry_Controller_View extends Magento_Core_Controller_Front
         }
 
         /** @var Magento_Customer_Model_Customer */
-        $customer = Mage::getModel('Magento_Customer_Model_Customer');
+        $customer = $this->_objectManager->create('Magento_Customer_Model_Customer');
         $customer->load($entity->getCustomerId());
         $entity->setCustomer($customer);
         $this->_coreRegistry->register('current_entity', $entity);
@@ -83,16 +83,16 @@ class Magento_GiftRegistry_Controller_View extends Magento_Core_Controller_Front
             return;
         }
         /* @var Magento_Checkout_Model_Cart */
-        $cart = Mage::getSingleton('Magento_Checkout_Model_Cart');
+        $cart = $this->_objectManager->get('Magento_Checkout_Model_Cart');
         /* @var $session Magento_Core_Model_Session_Generic */
-        $session    = Mage::getSingleton('Magento_Customer_Model_Session');
+        $session    = $this->_objectManager->get('Magento_Customer_Model_Session');
         $success = false;
 
         try {
             $count = 0;
             foreach ($items as $itemId => $itemInfo) {
-                $item = Mage::getModel('Magento_GiftRegistry_Model_Item')->load($itemId);
-                $optionCollection = Mage::getModel('Magento_GiftRegistry_Model_Item_Option')->getCollection()
+                $item = $this->_objectManager->create('Magento_GiftRegistry_Model_Item')->load($itemId);
+                $optionCollection = $this->_objectManager->create('Magento_GiftRegistry_Model_Item_Option')->getCollection()
                     ->addItemFilter($itemId);
                 $item->setOptions($optionCollection->getOptionsByItem($item));
                 if (!$item->getId() || $itemInfo['qty'] < 1 || ($item->getQty() <= $item->getQtyFulfilled())) {

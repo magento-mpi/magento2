@@ -12,10 +12,6 @@
 /**
  * Backend Auth session model
  *
- * @category    Magento
- * @package     Magento_Backend
- * @author      Magento Core Team <core@magentocommerce.com>
- *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Magento_Backend_Model_Auth_Session
@@ -39,48 +35,25 @@ class Magento_Backend_Model_Auth_Session
     protected $_aclBuilder;
 
     /**
-     * @param Magento_Core_Model_Session_Validator $validator
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @var Magento_Backend_Model_Url_Proxy
+     */
+    protected $_backendUrl;
+
+    /**
+     * @param Magento_Core_Model_Session_Context $context
      * @param Magento_Acl_Builder $aclBuilder
-     * @param Magento_Core_Helper_Http $coreHttp
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_Config $coreConfig
-     * @param Magento_Core_Model_Message_CollectionFactory $messageFactory
-     * @param Magento_Core_Model_Message $message
-     * @param Magento_Core_Model_Cookie $cookie
-     * @param Magento_Core_Controller_Request_Http $request
-     * @param Magento_Core_Model_App_State $appState
-     * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Core_Model_Dir $dir
-     * @param Magento_Core_Model_Url $url
+     * @param Magento_Backend_Model_Url_Proxy $backendUrl
      * @param array $data
-     *
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
+        Magento_Core_Model_Session_Context $context,
         Magento_Acl_Builder $aclBuilder,
-        Magento_Core_Model_Session_Validator $validator,
-        Magento_Core_Model_Logger $logger,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Helper_Http $coreHttp,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_Config $coreConfig,
-        Magento_Core_Model_Message_CollectionFactory $messageFactory,
-        Magento_Core_Model_Message $message,
-        Magento_Core_Model_Cookie $cookie,
-        Magento_Core_Controller_Request_Http $request,
-        Magento_Core_Model_App_State $appState,
-        Magento_Core_Model_StoreManager $storeManager,
-        Magento_Core_Model_Dir $dir,
-        Magento_Core_Model_Url $url,
+        Magento_Backend_Model_Url_Proxy $backendUrl,
         array $data = array()
     ) {
         $this->_aclBuilder = $aclBuilder;
-        parent::__construct(
-            $validator, $logger, $eventManager, $coreHttp, $coreStoreConfig, $coreConfig, $messageFactory,
-            $message, $cookie, $request, $appState, $storeManager, $dir, $url, $data
-        );
+        $this->_backendUrl = $backendUrl;
+        parent::__construct($context, $data);
         $this->init('admin');
     }
 
@@ -181,7 +154,7 @@ class Magento_Backend_Model_Auth_Session
     /**
      * Check if it is the first page after successfull login
      *
-     * @return boolean
+     * @return bool
      */
     public function isFirstPageAfterLogin()
     {
@@ -213,8 +186,8 @@ class Magento_Backend_Model_Auth_Session
         if ($this->getUser()) {
             $this->renewSession();
 
-            if (Mage::getSingleton('Magento_Backend_Model_Url')->useSecretKey()) {
-                Mage::getSingleton('Magento_Backend_Model_Url')->renewSecretUrls();
+            if ($this->_backendUrl->useSecretKey()) {
+                $this->_backendUrl->renewSecretUrls();
             }
 
             $this->setIsFirstPageAfterLogin(true);

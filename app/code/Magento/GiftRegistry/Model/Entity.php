@@ -76,6 +76,21 @@ class Magento_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
     protected $_attributes = null;
 
     /**
+     * @var Magento_GiftRegistry_Model_Attribute_Config
+     */
+    protected $attributeConfig;
+
+    /**
+     * @var Magento_GiftRegistry_Model_Item
+     */
+    protected $itemModel;
+
+    /**
+     * @var Magento_CatalogInventory_Model_Stock_Item
+     */
+    protected $inventoryStockItem;
+
+    /**
      * Store instance
      *
      * @var Magento_Core_Model_Store
@@ -99,7 +114,7 @@ class Magento_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
     /**
      * Translate instance
      *
-     * @var Magento_Core_Model_Abstract
+     * @var Magento_Core_Model_Translate
      */
     protected $_translate;
 
@@ -123,6 +138,56 @@ class Magento_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
     protected $_coreData = null;
 
     /**
+     * @var Magento_Sales_Model_QuoteFactory
+     */
+    protected $quoteFactory;
+
+    /**
+     * @var Magento_Customer_Model_CustomerFactory
+     */
+    protected $customerFactory;
+
+    /**
+     * @var Magento_GiftRegistry_Model_PersonFactory
+     */
+    protected $personFactory;
+
+    /**
+     * @var Magento_GiftRegistry_Model_ItemFactory
+     */
+    protected $itemFactory;
+
+    /**
+     * @var Magento_Customer_Model_AddressFactory
+     */
+    protected $addressFactory;
+
+    /**
+     * @var Magento_Catalog_Model_ProductFactory
+     */
+    protected $productFactory;
+
+    /**
+     * @var Magento_Core_Model_DateFactory
+     */
+    protected $dateFactory;
+
+    /**
+     * @var Magento_Logging_Model_Event_ChangesFactory
+     */
+    protected $changesFactory;
+
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $storeManager;
+
+    /**
+     * @var Magento_Core_Controller_Request_Http
+     */
+    protected $request;
+
+    /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_GiftRegistry_Helper_Data $giftRegistryData
      * @param Magento_Core_Model_Context $context
@@ -132,7 +197,22 @@ class Magento_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
      * @param Magento_Core_Model_Translate $translate
      * @param Magento_Core_Model_Email_TemplateFactory $templateFactory
      * @param Magento_GiftRegistry_Model_Resource_Entity $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param Magento_GiftRegistry_Model_Resource_Entity_Collection $resourceCollection
+     * @param Magento_GiftRegistry_Model_Type $type
+     * @param Magento_GiftRegistry_Model_Attribute_Config $attributeConfig
+     * @param Magento_GiftRegistry_Model_Item $itemModel
+     * @param Magento_CatalogInventory_Model_Stock_Item $inventoryStockItem
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Sales_Model_QuoteFactory $quoteFactory
+     * @param Magento_Customer_Model_CustomerFactory $customerFactory
+     * @param Magento_GiftRegistry_Model_PersonFactory $personFactory
+     * @param Magento_GiftRegistry_Model_ItemFactory $itemFactory
+     * @param Magento_Customer_Model_AddressFactory $addressFactory
+     * @param Magento_Catalog_Model_ProductFactory $productFactory
+     * @param Magento_Core_Model_DateFactory $dateFactory
+     * @param Magento_Logging_Model_Event_ChangesFactory $changesFactory
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Controller_Request_Http $request
      * @param array $data
      */
     public function __construct(
@@ -144,8 +224,22 @@ class Magento_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Translate $translate,
         Magento_Core_Model_Email_TemplateFactory $templateFactory,
-        Magento_GiftRegistry_Model_Resource_Entity $resource,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        Magento_GiftRegistry_Model_Type $type,
+        Magento_GiftRegistry_Model_Attribute_Config $attributeConfig,
+        Magento_GiftRegistry_Model_Item $itemModel,
+        Magento_CatalogInventory_Model_Stock_Item $inventoryStockItem,
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Sales_Model_QuoteFactory $quoteFactory,
+        Magento_Customer_Model_CustomerFactory $customerFactory,
+        Magento_GiftRegistry_Model_PersonFactory $personFactory,
+        Magento_GiftRegistry_Model_ItemFactory $itemFactory,
+        Magento_Customer_Model_AddressFactory $addressFactory,
+        Magento_Catalog_Model_ProductFactory $productFactory,
+        Magento_Core_Model_DateFactory $dateFactory,
+        Magento_Logging_Model_Event_ChangesFactory $changesFactory,
+        Magento_Core_Controller_Request_Http $request,
+        Magento_GiftRegistry_Model_Resource_Entity $resource = null,
+        Magento_GiftRegistry_Model_Resource_Entity_Collection $resourceCollection = null,
         array $data = array()
     ) {
         $this->_coreData = $coreData;
@@ -154,6 +248,22 @@ class Magento_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
         $this->_store = $storeManager->getStore();
         $this->_translate = $translate;
         $this->_templateFactory = $templateFactory;
+        $this->_type = $type;
+        $this->attributeConfig = $attributeConfig;
+        $this->itemModel = $itemModel;
+        $this->inventoryStockItem = $inventoryStockItem;
+        $this->customerSession = $customerSession;
+        $this->quoteFactory = $quoteFactory;
+        $this->customerFactory = $customerFactory;
+        $this->personFactory = $personFactory;
+        $this->itemFactory = $itemFactory;
+        $this->addressFactory = $addressFactory;
+        $this->productFactory = $productFactory;
+        $this->dateFactory = $dateFactory;
+        $this->changesFactory = $changesFactory;
+        $this->request = $request;
+        $this->storeManager = $storeManager;
+
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -189,9 +299,9 @@ class Magento_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
     {
         $skippedItems = 0;
         if (is_array($itemsIds)) {
-            $quote = Mage::getModel('Magento_Sales_Model_Quote');
-            $quote->setWebsite(Mage::app()->getWebsite($this->getWebsiteId()));
-            $quote->loadByCustomer(Mage::getModel('Magento_Customer_Model_Customer')->load($this->getCustomerId()));
+            $quote = $this->quoteFactory->create();
+            $quote->setWebsite($this->storeManager->getWebsite($this->getWebsiteId()));
+            $quote->loadByCustomer($this->customerFactory->create()->load($this->getCustomerId()));
 
             foreach ($quote->getAllVisibleItems() as $item) {
                 if (in_array($item->getId(), $itemsIds)) {
@@ -246,7 +356,7 @@ class Magento_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
             throw new Magento_Core_Exception($cartCandidates, self::EXCEPTION_CODE_HAS_REQUIRED_OPTIONS);
         }
 
-        $item = Mage::getModel('Magento_GiftRegistry_Model_Item');
+        $item = $this->itemFactory->create();
         $items = $item->getCollection()->addRegistryFilter($this->getId());
 
         foreach ($cartCandidates as $currentCandidate) {
@@ -275,7 +385,7 @@ class Magento_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
             } else {
                 $customOptions = $currentCandidate->getCustomOptions();
 
-                $item = Mage::getModel('Magento_GiftRegistry_Model_Item');
+                $item = $this->itemFactory->create();
 
                 $item->setEntityId($this->getId())
                     ->setProductId($productId)
@@ -423,13 +533,13 @@ class Magento_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
      */
     public function sendUpdateRegistryEmail($updatedQty)
     {
-        $translate = Mage::getSingleton('Magento_Core_Model_Translate');
+        $translate = $this->_translate;
         $translate->setTranslateInline(false);
 
-        $owner = Mage::getModel('Magento_Customer_Model_Customer')
+        $owner = $this->customerFactory->create()
             ->load($this->getCustomerId());
 
-        $store = Mage::app()->getStore();
+        $store = $this->storeManager->getStore();
         $mail = $this->_templateFactory->create();
 
         $this->setUpdatedQty($updatedQty);
@@ -464,13 +574,13 @@ class Magento_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
      */
     public function sendNewRegistryEmail()
     {
-        $translate = Mage::getSingleton('Magento_Core_Model_Translate');
+        $translate = $this->_translate;
         $translate->setTranslateInline(false);
 
-        $owner = Mage::getModel('Magento_Customer_Model_Customer')
+        $owner = $this->customerFactory->create()
             ->load($this->getCustomerId());
 
-        $store = Mage::app()->getStore();
+        $store = $this->storeManager->getStore();
         $mail = $this->_templateFactory->create();
 
         $templateVars = array(
@@ -539,7 +649,7 @@ class Magento_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
      */
     public function getRegistrantsCollection()
     {
-        $collection = Mage::getModel('Magento_GiftRegistry_Model_Person')->getCollection()
+        $collection = $this->personFactory->create()->getCollection()
             ->addRegistryFilter($this->getId());
 
         return $collection;
@@ -552,7 +662,7 @@ class Magento_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
      */
     public function getItemsCollection()
     {
-        $collection = Mage::getModel('Magento_GiftRegistry_Model_Item')->getCollection()
+        $collection = $this->itemFactory->create()->getCollection()
             ->addRegistryFilter($this->getId());
         return $collection;
     }
@@ -599,7 +709,7 @@ class Magento_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
      */
     public function exportAddress()
     {
-        $address = Mage::getModel('Magento_Customer_Model_Address');
+        $address = $this->addressFactory->create();
         $shippingAddressData = unserialize($this->getData('shipping_address'));
         if (is_array($shippingAddressData)) {
             $address->setData($shippingAddressData);
@@ -635,8 +745,7 @@ class Magento_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
     public function setTypeById($typeId)
     {
         $this->_typeId = (int) $typeId;
-        $this->_type = Mage::getSingleton('Magento_GiftRegistry_Model_Type');
-        $this->_type->setStoreId(Mage::app()->getStore()->getStoreId());
+        $this->_type->setStoreId($this->storeManager->getStore()->getStoreId());
         $this->setData('type_id', $typeId);
         $this->_type->load($this->_typeId);
         if ($this->_type->getId()) {
@@ -685,8 +794,7 @@ class Magento_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
      */
     public function getStaticTypeIds()
     {
-        return Mage::getSingleton('Magento_GiftRegistry_Model_Attribute_Config')
-            ->getStaticTypesCodes();
+        return $this->attributeConfig->getStaticTypesCodes();
     }
 
     /**
@@ -794,10 +902,10 @@ class Magento_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
         $product = $this->_getData('product');
         if (is_null($product)) {
             if (!$productId) {
-                Mage::throwException(__('We cannot specify the product.'));
+                throw new Magento_Core_Exception(__('We cannot specify the product.'));
             }
 
-            $product = Mage::getModel('Magento_Catalog_Model_Product')
+            $product = $this->productFactory->create()
                 ->load($productId);
 
             $this->setData('product', $product);
@@ -830,10 +938,10 @@ class Magento_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
 
         if ($isAddAction) {
             $this->addData(array(
-                'customer_id' => Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer()->getId(),
-                'website_id' => Mage::app()->getStore()->getWebsiteId(),
+                'customer_id' => $this->customerSession->getCustomer()->getId(),
+                'website_id' => $this->storeManager->getStore()->getWebsiteId(),
                 'url_key' => $this->getGenerateKeyId(),
-                'created_at' => Mage::getModel('Magento_Core_Model_Date')->date(),
+                'created_at' => $this->dateFactory->create()->date(),
                 'is_add_action' => true
             ));
         }
@@ -897,17 +1005,16 @@ class Magento_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
      */
     public function postDispatchShare($config, $eventModel, $processor)
     {
-        $request = Mage::app()->getRequest();
-        $change = Mage::getModel('Magento_Logging_Model_Event_Changes');
+        $change = $this->changesFactory->create();
 
-        $emails = $request->getParam('emails', '');
+        $emails = $this->request->getParam('emails', '');
         if ($emails) {
             $processor->addEventChanges(clone $change->setSourceName('share')
                 ->setOriginalData(array())
                 ->setResultData(array('emails' => $emails)));
         }
 
-        $message = $request->getParam('message', '');
+        $message = $this->request->getParam('message', '');
         if ($emails) {
             $processor->addEventChanges(clone $change->setSourceName('share')
                 ->setOriginalData(array())
@@ -938,11 +1045,11 @@ class Magento_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
     protected function _validateItems($items)
     {
         foreach ($items as $id => $item) {
-            $model = Mage::getSingleton('Magento_GiftRegistry_Model_Item')->load($id);
+            $model = $this->itemModel->load($id);
             if ($model->getId() && $model->getEntityId() == $this->getId()) {
                 if (!isset($item['delete'])) {
                     /** @var $stockItem Magento_CatalogInventory_Model_Stock_Item */
-                    $stockItem = Mage::getSingleton('Magento_CatalogInventory_Model_Stock_Item');
+                    $stockItem = $this->inventoryStockItem;
                     $stockItem->loadByProduct($model->getProductId());
                     // not Magento_Core_Exception intentionally
                     if ($stockItem->getIsQtyDecimal() == 0 && $item['qty'] != (int)$item['qty']) {
@@ -950,7 +1057,7 @@ class Magento_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
                     }
                 }
             } else {
-                Mage::throwException(
+                throw new Magento_Core_Exception(
                     __('Please correct the gift registry item ID.')
                 );
             }
@@ -967,7 +1074,7 @@ class Magento_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
     {
         $this->_validateItems($items);
         foreach ($items as $id => $item) {
-            $model = Mage::getSingleton('Magento_GiftRegistry_Model_Item')->load($id);
+            $model = $this->itemModel->load($id);
             if (isset($item['delete'])) {
                 $model->delete();
             } else {

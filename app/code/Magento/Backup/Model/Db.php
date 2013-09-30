@@ -27,6 +27,30 @@ class Magento_Backup_Model_Db
     const BUFFER_LENGTH = 102400;
 
     /**
+     * Backup resource model
+     *
+     * @var Magento_Backup_Model_Resource_Db
+     */
+    protected $_resourceDb = null;
+
+    /**
+     * Core resource model
+     *
+     * @var Magento_Core_Model_Resource
+     */
+    protected $_resource = null;
+
+    /**
+     * @param Magento_Backup_Model_Resource_Db $resourceDb
+     * @param Magento_Core_Model_Resource $resource
+     */
+    public function __construct(Magento_Backup_Model_Resource_Db $resourceDb, Magento_Core_Model_Resource $resource)
+    {
+        $this->_resourceDb = $resourceDb;
+        $this->_resource = $resource;
+    }
+
+    /**
      * List of tables which data should not be backed up
      *
      * @var array
@@ -42,7 +66,7 @@ class Magento_Backup_Model_Db
      */
     public function getResource()
     {
-        return Mage::getResourceSingleton('Magento_Backup_Model_Resource_Db');
+        return $this->_resourceDb;
     }
 
     public function getTables()
@@ -153,10 +177,9 @@ class Magento_Backup_Model_Db
     public function getIgnoreDataTablesList()
     {
         $result = array();
-        $resource = Mage::getSingleton('Magento_Core_Model_Resource');
 
         foreach ($this->_ignoreDataTablesList as $table) {
-            $result[] = $resource->getTableName($table);
+            $result[] = $this->_resource->getTableName($table);
         }
 
         return $result;

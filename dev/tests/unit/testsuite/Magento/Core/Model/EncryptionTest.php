@@ -23,7 +23,7 @@ class Magento_Core_Model_EncryptionTest extends PHPUnit_Framework_TestCase
         /**
          * @var Magento_Core_Model_Encryption
          */
-        $model = new Magento_Core_Model_Encryption($objectManager, $coreConfig);
+        $model = new Magento_Core_Model_Encryption($objectManager, $coreConfig, 'cryptKey');
         $model->setHelper($input);
         $model->getHash('password', 1);
     }

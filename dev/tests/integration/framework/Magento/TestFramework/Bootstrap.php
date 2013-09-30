@@ -186,7 +186,7 @@ class Magento_TestFramework_Bootstrap
         array $localConfigFiles, $globalConfigDir, array $moduleConfigFiles, $appMode
     ) {
         $localConfigXml = $this->_loadConfigFiles($localConfigFiles);
-        $dbConfig = $localConfigXml->global->resources->default_setup->connection;
+        $dbConfig = $localConfigXml->connection;
         $this->_dbVendorName = $this->_determineDbVendorName($dbConfig);
         $sandboxUniqueId = $this->_calcConfigFilesHash($localConfigFiles);
         $installDir = "{$this->_tmpDir}/sandbox-{$this->_dbVendorName}-{$sandboxUniqueId}";
@@ -196,7 +196,7 @@ class Magento_TestFramework_Bootstrap
             (string)$dbConfig->host,
             (string)$dbConfig->username,
             (string)$dbConfig->password,
-            (string)$dbConfig->dbname,
+            (string)$dbConfig->dbName,
             $this->_tmpDir,
             $this->_shell
         );
@@ -243,10 +243,11 @@ class Magento_TestFramework_Bootstrap
      * @param SimpleXMLElement $dbConfig
      * @return string
      * @throws Magento_Exception
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     protected function _determineDbVendorName(SimpleXMLElement $dbConfig)
     {
-        $dbVendorAlias = (string)$dbConfig->model;
+        $dbVendorAlias = 'mysql4';
         $dbVendorMap = array('mysql4' => 'mysql');
         if (!array_key_exists($dbVendorAlias, $dbVendorMap)) {
             throw new Magento_Exception("Database vendor '$dbVendorAlias' is not supported.");

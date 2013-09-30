@@ -33,34 +33,36 @@ class Magento_PaypalUk_Model_Express extends Magento_Paypal_Model_Express
     protected $_ecInstance = null;
 
     /**
-     * @var Magento_Core_Model_Url
-     */
-    protected $_urlModel;
-
-    /**
      * @var Magento_Paypal_Model_InfoFactory
      */
     protected $_paypalInfoFactory;
 
     /**
      * @param Magento_Paypal_Model_InfoFactory $paypalInfoFactory
-     * @param Magento_Core_Model_Url $urlModel
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Payment_Helper_Data $paymentData
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_Log_AdapterFactory $logAdapterFactory
+     * @param Magento_Paypal_Model_Method_ProTypeFactory $proTypeFactory
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_UrlInterface $urlBuilder
+     * @param Magento_Paypal_Model_CartFactory $cartFactory
      * @param array $data
      */
     public function __construct(
         Magento_Paypal_Model_InfoFactory $paypalInfoFactory,
-        Magento_Core_Model_Url $urlModel,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Payment_Helper_Data $paymentData,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_Log_AdapterFactory $logAdapterFactory,
+        Magento_Paypal_Model_Method_ProTypeFactory $proTypeFactory,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_UrlInterface $urlBuilder,
+        Magento_Paypal_Model_CartFactory $cartFactory,
         array $data = array()
     ) {
-        parent::__construct($eventManager, $paymentData, $coreStoreConfig, $logAdapterFactory, $data);
+        parent::__construct($eventManager, $paymentData, $coreStoreConfig, $logAdapterFactory, $proTypeFactory,
+            $storeManager, $urlBuilder, $cartFactory, $data);
         $this->_paypalInfoFactory = $paypalInfoFactory;
     }
 
@@ -114,6 +116,6 @@ class Magento_PaypalUk_Model_Express extends Magento_Paypal_Model_Express
      */
     public function getCheckoutRedirectUrl()
     {
-        return $this->_urlModel->getUrl('paypaluk/express/start');
+        return $this->_urlBuilder->getUrl('paypaluk/express/start');
     }
 }

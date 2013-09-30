@@ -30,43 +30,37 @@ class Magento_ImportExport_Helper_Data extends Magento_Core_Helper_Data
     protected $_fileSize;
 
     /**
+     * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Helper_Http $coreHttp
-     * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Config $config
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_StoreManager $storeManager
      * @param Magento_Core_Model_Locale $locale
      * @param Magento_Core_Model_Date $dateModel
      * @param Magento_Core_Model_App_State $appState
-     * @param Magento_Core_Model_Config_Resource $configResource
+     * @param Magento_Core_Model_Encryption $encryptor
      * @param Magento_File_Size $fileSize
+     * @param bool $dbCompatibleMode
      */
     public function __construct(
+        Magento_Core_Helper_Context $context,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Helper_Http $coreHttp,
-        Magento_Core_Helper_Context $context,
         Magento_Core_Model_Config $config,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_StoreManager $storeManager,
         Magento_Core_Model_Locale $locale,
         Magento_Core_Model_Date $dateModel,
         Magento_Core_Model_App_State $appState,
-        Magento_Core_Model_Config_Resource $configResource,
-        Magento_File_Size $fileSize
-    ) {
+        Magento_Core_Model_Encryption $encryptor,
+        Magento_File_Size $fileSize,
+        $dbCompatibleMode = true
+    )
+    {
         $this->_fileSize = $fileSize;
-        parent::__construct(
-            $eventManager,
-            $coreHttp,
-            $context,
-            $config,
-            $coreStoreConfig,
-            $storeManager,
-            $locale,
-            $dateModel,
-            $appState,
-            $configResource
+        parent::__construct($context, $eventManager, $coreHttp, $config, $coreStoreConfig, $storeManager,
+            $locale, $dateModel, $appState, $encryptor, $dbCompatibleMode
         );
     }
 

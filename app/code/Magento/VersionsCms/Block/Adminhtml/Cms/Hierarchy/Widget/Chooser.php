@@ -8,18 +8,43 @@
  * @license     {license_link}
  */
 
-
 /**
  * Cms Pages Hierarchy Grid Block
  *
  * @method Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Widget_Chooser setScope(string $value)
  * @method Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Widget_Chooser setScopeId(int $value)
- *
- * @category   Magento
- * @package    Magento_VersionsCms
  */
 class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Widget_Chooser extends Magento_Adminhtml_Block_Template
 {
+    /**
+     * @var Magento_VersionsCms_Model_Hierarchy_NodeFactory
+     */
+    protected $_nodeFactory;
+
+    /**
+     * @var Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Widget_Radio
+     */
+    protected $_widgetRadio;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_VersionsCms_Model_Hierarchy_NodeFactory $nodeFactory
+     * @param Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Widget_Radio $widgetRadio
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_VersionsCms_Model_Hierarchy_NodeFactory $nodeFactory,
+        Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Widget_Radio $widgetRadio,
+        array $data = array()
+    ) {
+        $this->_nodeFactory = $nodeFactory;
+        $this->_widgetRadio = $widgetRadio;
+        parent::__construct($coreData, $context, $data);
+    }
+
     /**
      * Prepare chooser element HTML
      *
@@ -40,15 +65,13 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Widget_Chooser extends M
 
 
         if ($element->getValue()) {
-            $node = Mage::getModel('Magento_VersionsCms_Model_Hierarchy_Node')->load($element->getValue());
+            $node = $this->_nodeFactory->create()->load($element->getValue());
             if ($node->getId()) {
                 $chooser->setLabel($node->getLabel());
             }
         }
 
-        $radioHtml = Mage::getBlockSingleton('Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Widget_Radio')
-            ->setUniqId($uniqueId)
-            ->toHtml();
+        $radioHtml = $this->_widgetRadio->setUniqId($uniqueId)->toHtml();
 
         $element->setData('after_element_html', $chooser->toHtml() . $radioHtml);
 
@@ -64,19 +87,19 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Widget_Chooser extends M
     {
         $chooserJsObject = $this->getId();
         $html = '
-            <div id="tree'.$this->getId().'" class="cms-tree tree x-tree"></div>
+            <div id="tree' . $this->getId() . '" class="cms-tree tree x-tree"></div>
             <script type="text/javascript">
 
             function clickNode(node) {
                 $("tree-container").insert({before: node.text});
-                $("'.$this->getId().'").value = node.id;
+                $("' . $this->getId() . '").value = node.id;
                 treeRoot.collapse();
             }
 
-            var nodes = '.$this->getNodesJson().';
+            var nodes = ' . $this->getNodesJson() . ';
 
             if (nodes.length > 0) {
-                var tree'.$this->getId().' = new Ext.tree.TreePanel("tree'.$this->getId().'", {
+                var tree' . $this->getId() . ' = new Ext.tree.TreePanel("tree' . $this->getId() . '", {
                     animate: false,
                     enableDD: false,
                     containerScroll: true,
@@ -84,8 +107,8 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Widget_Chooser extends M
                     lines: true
                 });
 
-                var treeRoot'.$this->getId().' = new Ext.tree.AsyncTreeNode({
-                    text: "'. __("Root") .'",
+                var treeRoot' . $this->getId() . ' = new Ext.tree.AsyncTreeNode({
+                    text: "' . __("Root") . '",
                     id: "root",
                     allowDrop: true,
                     allowDrag: false,
@@ -93,7 +116,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Widget_Chooser extends M
                     cls: "cms_node_root"
                 });
 
-                tree'.$this->getId().'.setRootNode(treeRoot'.$this->getId().');
+                tree' . $this->getId() . '.setRootNode(treeRoot' . $this->getId() . ');
 
                 for (var i = 0; i < nodes.length; i++) {
                     var cls = nodes[i].page_id ? "cms_page" : "cms_node";
@@ -106,23 +129,23 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Widget_Chooser extends M
                         allowDrag: false,
                         page_id: nodes[i].page_id
                     });
-                    if (parentNode = tree'.$this->getId().'.getNodeById(nodes[i].parent_node_id)) {
+                    if (parentNode = tree' . $this->getId() . '.getNodeById(nodes[i].parent_node_id)) {
                         parentNode.appendChild(node);
                     } else {
-                        treeRoot'.$this->getId().'.appendChild(node);
+                        treeRoot' . $this->getId() . '.appendChild(node);
                     }
                 }
 
-                tree'.$this->getId().'.addListener("click", function (node, event) {
-                    '.$chooserJsObject.'.setElementValue(node.id);
-                    '.$chooserJsObject.'.setElementLabel(node.text);
-                    '.$chooserJsObject.'.close();
+                tree' . $this->getId() . '.addListener("click", function (node, event) {
+                    ' . $chooserJsObject . '.setElementValue(node.id);
+                    ' . $chooserJsObject . '.setElementLabel(node.text);
+                    ' . $chooserJsObject . '.close();
                 });
-                tree'.$this->getId().'.render();
-                treeRoot'.$this->getId().'.expand();
+                tree' . $this->getId() . '.render();
+                treeRoot' . $this->getId() . '.expand();
             }
             else {
-                $("tree'.$this->getId().'").innerHTML = "'.__('No nodes are available.').'";
+                $("tree' . $this->getId() . '").innerHTML = "' . __('No nodes are available.') . '";
             }
             </script>
         ';
@@ -146,9 +169,8 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Widget_Chooser extends M
      */
     public function getNodes()
     {
-        $nodes = array();
         /** @var $hierarchyNode Magento_VersionsCms_Model_Hierarchy_Node */
-        $hierarchyNode = Mage::getModel('Magento_VersionsCms_Model_Hierarchy_Node');
+        $hierarchyNode = $this->_nodeFactory->create();
         $hierarchyNode->setScope($this->getScope());
         $hierarchyNode->setScopeId($this->getScopeId());
 

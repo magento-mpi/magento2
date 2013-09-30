@@ -18,15 +18,30 @@
 class Magento_Install_Model_Config
 {
 
-    /** @var  Magento_Install_Model_Config_Data */
+    /**
+     * Config data model
+     *
+     * @var  Magento_Install_Model_Config_Data
+     */
     protected $_dataStorage;
 
     /**
-     * @param Magento_Install_Model_Config_Data $dataStorage
+     * Directory model
+     *
+     * @var Magento_Core_Model_Dir
      */
-    public function __construct(Magento_Install_Model_Config_Data $dataStorage)
+    protected $_coreDir;
+
+
+
+    /**
+     * @param Magento_Install_Model_Config_Data $dataStorage
+     * @param Magento_Core_Model_Dir $coreDir
+     */
+    public function __construct(Magento_Install_Model_Config_Data $dataStorage, Magento_Core_Model_Dir $coreDir)
     {
         $this->_dataStorage = $dataStorage;
+        $this->_coreDir = $coreDir;
     }
 
     /**
@@ -93,7 +108,7 @@ class Magento_Install_Model_Config
             $data['filesystem_prerequisites']['writables'] : array();
         foreach ($items as $nodeKey => $item) {
             $value = $item;
-            $value['path'] = Mage::getBaseDir($nodeKey);
+            $value['path'] = $this->_coreDir->getDir($nodeKey);
             $paths[$nodeKey] = $value;
         }
 

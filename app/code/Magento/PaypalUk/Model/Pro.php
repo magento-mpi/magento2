@@ -31,24 +31,8 @@ class Magento_PaypalUk_Model_Pro extends Magento_Paypal_Model_Pro
 
     /**
      * Payflow trx_id key in transaction info
-     *
-     * @var string
      */
     const TRANSPORT_PAYFLOW_TXN_ID = 'payflow_trxid';
-
-    /**
-     * @var Magento_Paypal_Model_InfoFactory
-     */
-    protected $_paypalInfoFactory;
-
-    /**
-     * @param Magento_Paypal_Model_InfoFactory $paypalInfoFactory
-     */
-    public function __construct(
-        Magento_Paypal_Model_InfoFactory $paypalInfoFactory
-    ) {
-        $this->_paypalInfoFactory = $paypalInfoFactory;
-    }
 
     /**
      * Refund a capture transaction
@@ -58,7 +42,8 @@ class Magento_PaypalUk_Model_Pro extends Magento_Paypal_Model_Pro
      */
     public function refund(Magento_Object $payment, $amount)
     {
-        if ($captureTxnId = $this->_getParentTransactionId($payment)) {
+        $captureTxnId = $this->_getParentTransactionId($payment);
+        if ($captureTxnId) {
             $api = $this->getApi();
             $api->setAuthorizationId($captureTxnId);
         }
@@ -104,10 +89,8 @@ class Magento_PaypalUk_Model_Pro extends Magento_Paypal_Model_Pro
                 Magento_PaypalUk_Model_Pro::TRANSPORT_PAYFLOW_TXN_ID,
                 $api->getTransactionId()
         );
-        $payment->setPreparedMessage(
-            __('Payflow PNREF: #%1.', $api->getTransactionId())
-        );
-        $this->_paypalInfoFactory->create()->importToPayment($api, $payment);
+        $payment->setPreparedMessage(__('Payflow PNREF: #%1.', $api->getTransactionId()));
+        $this->_infoFactory->create()->importToPayment($api, $payment);
     }
 
     /**
@@ -139,9 +122,7 @@ class Magento_PaypalUk_Model_Pro extends Magento_Paypal_Model_Pro
                 Magento_PaypalUk_Model_Pro::TRANSPORT_PAYFLOW_TXN_ID,
                 $api->getTransactionId()
         );
-        $payment->setPreparedMessage(
-            __('Payflow PNREF: #%1.', $api->getTransactionId())
-        );
-        $this->_paypalInfoFactory->create()->importToPayment($api, $payment);
+        $payment->setPreparedMessage(__('Payflow PNREF: #%1.', $api->getTransactionId()));
+        $this->_infoFactory->create()->importToPayment($api, $payment);
     }
 }

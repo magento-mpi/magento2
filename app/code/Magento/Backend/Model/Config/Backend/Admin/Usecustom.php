@@ -11,10 +11,6 @@
 
 /**
  * Config backend model for "Use Custom Admin URL" option
- *
- * @category   Magento
- * @package    Magento_Backend
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Backend_Model_Config_Backend_Admin_Usecustom extends Magento_Core_Model_Config_Value
 {
@@ -57,11 +53,11 @@ class Magento_Backend_Model_Config_Backend_Admin_Usecustom extends Magento_Core_
         );
     }
 
-
     /**
      * Validate custom url
      *
      * @return Magento_Backend_Model_Config_Backend_Admin_Usecustom
+     * @throws Magento_Core_Exception
      */
     protected function _beforeSave()
     {
@@ -69,7 +65,7 @@ class Magento_Backend_Model_Config_Backend_Admin_Usecustom extends Magento_Core_
         if ($value == 1) {
             $customUrl = $this->getData('groups/url/fields/custom/value');
             if (empty($customUrl)) {
-                Mage::throwException(
+                throw new Magento_Core_Exception(
                     __('Please specify the admin custom URL.')
                 );
             }

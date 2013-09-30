@@ -15,12 +15,27 @@ class Magento_Reminder_Model_Rule_Condition_Wishlist_Attributes
     extends Magento_Rule_Model_Condition_Product_Abstract
 {
     /**
+     * Config
+     *
+     * @var Magento_Eav_Model_Config
+     */
+    protected $_config;
+
+    /**
+     * Rule Resource
+     *
+     * @var Magento_Reminder_Model_Resource_Rule
+     */
+    protected $_ruleResource;
+
+    /**
      * @param Magento_Backend_Helper_Data $backendData
      * @param Magento_Rule_Model_Condition_Context $context
      * @param Magento_Eav_Model_Config $config
      * @param Magento_Catalog_Model_Product $product
      * @param Magento_Catalog_Model_Resource_Product $productResource
      * @param Magento_Eav_Model_Resource_Entity_Attribute_Set_Collection $attrSetCollection
+     * @param Magento_Reminder_Model_Resource_Rule $ruleResource
      * @param array $data
      */
     public function __construct(
@@ -30,6 +45,7 @@ class Magento_Reminder_Model_Rule_Condition_Wishlist_Attributes
         Magento_Catalog_Model_Product $product,
         Magento_Catalog_Model_Resource_Product $productResource,
         Magento_Eav_Model_Resource_Entity_Attribute_Set_Collection $attrSetCollection,
+        Magento_Reminder_Model_Resource_Rule $ruleResource,
         array $data = array()
     ) {
         parent::__construct(
@@ -37,6 +53,8 @@ class Magento_Reminder_Model_Rule_Condition_Wishlist_Attributes
         );
         $this->setType('Magento_Reminder_Model_Rule_Condition_Wishlist_Attributes');
         $this->setValue(null);
+        $this->_config = $config;
+        $this->_ruleResource = $ruleResource;
     }
 
     /**
@@ -114,7 +132,7 @@ class Magento_Reminder_Model_Rule_Condition_Wishlist_Attributes
      */
     public function getAttributeObject()
     {
-        return Mage::getSingleton('Magento_Eav_Model_Config')->getAttribute('catalog_product', $this->getAttribute());
+        return $this->_config->getAttribute('catalog_product', $this->getAttribute());
     }
 
     /**
@@ -124,7 +142,7 @@ class Magento_Reminder_Model_Rule_Condition_Wishlist_Attributes
      */
     public function getResource()
     {
-        return Mage::getResourceSingleton('Magento_Reminder_Model_Resource_Rule');
+        return $this->_ruleResource;
     }
 
     /**
@@ -170,9 +188,9 @@ class Magento_Reminder_Model_Rule_Condition_Wishlist_Attributes
         } else {
             $select->where('main.attribute_id = ?', $attribute->getId());
             $select->join(
-                    array('store' => $this->getResource()->getTable('core_store')),
-                    'main.store_id=store.store_id',
-                    array())
+                array('store' => $this->getResource()->getTable('core_store')),
+                'main.store_id=store.store_id',
+                array())
                 ->where('store.website_id IN(?)', array(0, $website));
             $condition = $this->getResource()->createConditionSql(
                 'main.value', $this->getOperator(), $this->getValue()

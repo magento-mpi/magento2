@@ -51,15 +51,18 @@ class Magento_Checkout_Block_Cart_Item_Renderer extends Magento_Core_Block_Templ
      * @param Magento_Catalog_Helper_Product_Configuration $productConfigur
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Checkout_Model_Session $checkoutSession
      * @param array $data
      */
     public function __construct(
         Magento_Catalog_Helper_Product_Configuration $productConfigur,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
+        Magento_Checkout_Model_Session $checkoutSession,
         array $data = array()
     ) {
         $this->_productConfigur = $productConfigur;
+        $this->_checkoutSession = $checkoutSession;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -320,9 +323,6 @@ class Magento_Checkout_Block_Cart_Item_Renderer extends Magento_Core_Block_Templ
      */
     public function getCheckoutSession()
     {
-        if (null === $this->_checkoutSession) {
-            $this->_checkoutSession = Mage::getSingleton('Magento_Checkout_Model_Session');
-        }
         return $this->_checkoutSession;
     }
 

@@ -99,7 +99,7 @@ class Magento_Customer_Block_Address_Book extends Magento_Core_Block_Template
     {
         $customer = $this->getData('customer');
         if (is_null($customer)) {
-            $customer = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer();
+            $customer = $this->_customerSession->getCustomer();
             $this->setData('customer', $customer);
         }
         return $customer;

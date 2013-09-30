@@ -28,17 +28,12 @@ class Magento_Sales_Helper_Guest extends Magento_Core_Helper_Data
      *
      * @var Magento_Core_Model_Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
 
     /**
      * @var Magento_Customer_Model_Session
      */
     protected $_customerSession;
-
-    /**
-     * @var Magento_Core_Model_UrlFactory
-     */
-    protected $_urlFactory;
 
     /**
      * @var Magento_Core_Model_Cookie
@@ -66,63 +61,52 @@ class Magento_Sales_Helper_Guest extends Magento_Core_Helper_Data
     protected $_orderFactory;
 
     /**
+     * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Helper_Http $coreHttp
-     * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Config $config
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_StoreManager $storeManager
      * @param Magento_Core_Model_Locale $locale
      * @param Magento_Core_Model_Date $dateModel
      * @param Magento_Core_Model_App_State $appState
-     * @param Magento_Core_Model_Config_Resource $configResource
+     * @param Magento_Core_Model_Encryption $encryptor
      * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Customer_Model_Session $customerSession
-     * @param Magento_Core_Model_UrlFactory $urlFactory
      * @param Magento_Core_Model_Cookie $coreCookie
      * @param Magento_Core_Model_App $coreApp
      * @param Magento_Core_Model_Session $coreSession
      * @param Magento_Sales_Model_OrderFactory $orderFactory
-     *
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     * @param bool $dbCompatibleMode
      */
     public function __construct(
+        Magento_Core_Helper_Context $context,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Helper_Http $coreHttp,
-        Magento_Core_Helper_Context $context,
         Magento_Core_Model_Config $config,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_StoreManager $storeManager,
         Magento_Core_Model_Locale $locale,
         Magento_Core_Model_Date $dateModel,
         Magento_Core_Model_App_State $appState,
-        Magento_Core_Model_Config_Resource $configResource,
+        Magento_Core_Model_Encryption $encryptor,
         Magento_Core_Model_Registry $coreRegistry,
         Magento_Customer_Model_Session $customerSession,
-        Magento_Core_Model_UrlFactory $urlFactory,
         Magento_Core_Model_Cookie $coreCookie,
         Magento_Core_Model_App $coreApp,
         Magento_Core_Model_Session $coreSession,
-        Magento_Sales_Model_OrderFactory $orderFactory
-    ) {
+        Magento_Sales_Model_OrderFactory $orderFactory,
+        $dbCompatibleMode = true
+    )
+    {
         $this->_coreRegistry = $coreRegistry;
         $this->_customerSession = $customerSession;
-        $this->_urlFactory = $urlFactory;
         $this->_coreCookie = $coreCookie;
         $this->_coreApp = $coreApp;
         $this->_coreSession = $coreSession;
         $this->_orderFactory = $orderFactory;
-        parent::__construct(
-            $eventManager,
-            $coreHttp,
-            $context,
-            $config,
-            $coreStoreConfig,
-            $storeManager,
-            $locale,
-            $dateModel,
-            $appState,
-            $configResource
+        parent::__construct($context, $eventManager, $coreHttp, $config, $coreStoreConfig, $storeManager,
+            $locale, $dateModel, $appState, $encryptor, $dbCompatibleMode
         );
     }
 
@@ -134,7 +118,7 @@ class Magento_Sales_Helper_Guest extends Magento_Core_Helper_Data
     public function loadValidOrder()
     {
         if ($this->_customerSession->isLoggedIn()) {
-            $this->_coreApp->getResponse()->setRedirect($this->_urlFactory->create()->getUrl('sales/order/history'));
+            $this->_coreApp->getResponse()->setRedirect($this->_urlBuilder->getUrl('sales/order/history'));
             return false;
         }
 
@@ -145,7 +129,7 @@ class Magento_Sales_Helper_Guest extends Magento_Core_Helper_Data
         $order = $this->_orderFactory->create();
 
         if (empty($post) && !$this->_coreCookie->get($this->_cookieName)) {
-            $this->_coreApp->getResponse()->setRedirect($this->_urlFactory->create()->getUrl('sales/guest/form'));
+            $this->_coreApp->getResponse()->setRedirect($this->_urlBuilder->getUrl('sales/guest/form'));
             return false;
         } elseif (!empty($post) && isset($post['oar_order_id']) && isset($post['oar_type']))  {
             $type           = $post['oar_type'];
@@ -202,7 +186,7 @@ class Magento_Sales_Helper_Guest extends Magento_Core_Helper_Data
         $this->_coreSession->addError(
             __('You entered incorrect data. Please try again.')
         );
-        $this->_coreApp->getResponse()->setRedirect($this->_urlFactory->create()->getUrl('sales/guest/form'));
+        $this->_coreApp->getResponse()->setRedirect($this->_urlBuilder->getUrl('sales/guest/form'));
         return false;
     }
 

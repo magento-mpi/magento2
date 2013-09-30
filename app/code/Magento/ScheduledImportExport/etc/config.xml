@@ -10,15 +10,6 @@
  */
 -->
 <config>
-    <global>
-        <resources>
-            <scheduledimportexport_setup>
-                <setup>
-                    <module>Magento_ScheduledImportExport</module>
-                </setup>
-            </scheduledimportexport_setup>
-        </resources>
-    </global>
     <default>
         <system>
             <magento_scheduled_import_export_log>

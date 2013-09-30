@@ -108,14 +108,14 @@ abstract class Magento_Eav_Model_Entity_Collection_Abstract extends Magento_Data
     protected $_eavEntityFactory;
 
     /**
-     * @var Magento_Eav_Model_Resource_Helper_Mysql4
+     * @var Magento_Eav_Model_Resource_Helper
      */
     protected $_resourceHelper;
 
     /**
-     * @var Magento_Eav_Model_Factory_Helper
+     * @var Magento_Validator_UniversalFactory
      */
-    protected $_helperFactory;
+    protected $_universalFactory;
 
     /**
      * @param Magento_Core_Model_Event_Manager $eventManager
@@ -125,8 +125,8 @@ abstract class Magento_Eav_Model_Entity_Collection_Abstract extends Magento_Data
      * @param Magento_Eav_Model_Config $eavConfig
      * @param Magento_Core_Model_Resource $coreResource
      * @param Magento_Eav_Model_EntityFactory $eavEntityFactory
-     * @param Magento_Eav_Model_Resource_Helper_Mysql4 $resourceHelper
-     * @param Magento_Eav_Model_Factory_Helper $helperFactory
+     * @param Magento_Eav_Model_Resource_Helper $resourceHelper
+     * @param Magento_Validator_UniversalFactory $universalFactory
      */
     public function __construct(
         Magento_Core_Model_Event_Manager $eventManager,
@@ -136,15 +136,15 @@ abstract class Magento_Eav_Model_Entity_Collection_Abstract extends Magento_Data
         Magento_Eav_Model_Config $eavConfig,
         Magento_Core_Model_Resource $coreResource,
         Magento_Eav_Model_EntityFactory $eavEntityFactory,
-        Magento_Eav_Model_Resource_Helper_Mysql4 $resourceHelper,
-        Magento_Eav_Model_Factory_Helper $helperFactory
+        Magento_Eav_Model_Resource_Helper $resourceHelper,
+        Magento_Validator_UniversalFactory $universalFactory
     ) {
         $this->_eventManager = $eventManager;
         $this->_eavConfig = $eavConfig;
         $this->_resource = $coreResource;
         $this->_eavEntityFactory = $eavEntityFactory;
         $this->_resourceHelper = $resourceHelper;
-        $this->_helperFactory = $helperFactory;
+        $this->_universalFactory = $universalFactory;
         parent::__construct($logger, $fetchStrategy, $entityFactory);
         $this->_construct();
         $this->setConnection($this->getEntity()->getReadConnection());
@@ -207,7 +207,7 @@ abstract class Magento_Eav_Model_Entity_Collection_Abstract extends Magento_Data
     protected function _init($model, $entityModel)
     {
         $this->setItemObjectClass($model);
-        $entity = $this->_helperFactory->create($entityModel);
+        $entity = $this->_universalFactory->create($entityModel);
         $this->setEntity($entity);
 
         return $this;

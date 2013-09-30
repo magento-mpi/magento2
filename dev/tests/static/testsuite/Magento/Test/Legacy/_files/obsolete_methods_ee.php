@@ -87,7 +87,7 @@ return array(
     array('getCustomerSegmentRelations', 'Magento_TargetRule_Model_Resource_Rule'),
     array('_saveCustomerSegmentRelations', 'Magento_TargetRule_Model_Resource_Rule'),
     array('_prepareRuleProducts', 'Magento_TargetRule_Model_Resource_Rule'),
-    array('getInetNtoaExpr', 'Magento_Logging_Model_Resource_Helper_Mysql4'),
+    array('getInetNtoaExpr', 'Magento_Logging_Model_Resource_Helper'),
     array('catalogCategoryIsCatalogPermissionsAllowed', 'Magento_AdminGws_Model_Models'),
     array('catalogCategoryMoveBefore', 'Magento_AdminGws_Model_Models'),
     array('catalogProductActionWithWebsitesAfter', 'Magento_AdminGws_Model_Models'),

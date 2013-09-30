@@ -51,16 +51,33 @@ abstract class Magento_Wishlist_Block_Abstract extends Magento_Catalog_Block_Pro
      *
      * @var Magento_Wishlist_Helper_Data
      */
-    protected $_wishlistData = null;
+    protected $_wishlistData;
+
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @var Magento_Catalog_Model_ProductFactory
+     */
+    protected $_productFactory;
 
     /**
      * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Wishlist_Helper_Data $wishlistData
-     * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Tax_Helper_Data $taxData
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Catalog_Model_ProductFactory $productFactory
      * @param array $data
      */
     public function __construct(
@@ -70,9 +87,15 @@ abstract class Magento_Wishlist_Block_Abstract extends Magento_Catalog_Block_Pro
         Magento_Catalog_Helper_Data $catalogData,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Catalog_Model_ProductFactory $productFactory,
         array $data = array()
     ) {
         $this->_wishlistData = $wishlistData;
+        $this->_customerSession = $customerSession;
+        $this->_storeManager = $storeManager;
+        $this->_productFactory = $productFactory;
         parent::__construct($coreRegistry, $taxData, $catalogData, $coreData, $context, $data);
     }
 
@@ -107,7 +130,7 @@ abstract class Magento_Wishlist_Block_Abstract extends Magento_Catalog_Block_Pro
      */
     protected function _getCustomerSession()
     {
-        return Mage::getSingleton('Magento_Customer_Model_Session');
+        return $this->_customerSession;
     }
 
     /**
@@ -408,8 +431,8 @@ abstract class Magento_Wishlist_Block_Abstract extends Magento_Catalog_Block_Pro
         if (is_object($buyRequest)) {
             $config = $buyRequest->getSuperProductConfig();
             if ($config && !empty($config['product_id'])) {
-                $product = Mage::getModel('Magento_Catalog_Model_Product')
-                    ->setStoreId(Mage::app()->getStore()->getStoreId())
+                $product = $this->_productFactory->create()
+                    ->setStoreId($this->_storeManager->getStore()->getStoreId())
                     ->load($config['product_id']);
             }
         }

@@ -39,19 +39,56 @@ class Magento_Checkout_Model_Type_Multishipping extends Magento_Checkout_Model_T
     protected $_coreStoreConfig;
 
     /**
+     * @var Magento_Core_Model_Session
+     */
+    protected $_session;
+
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Sales_Model_Quote_AddressFactory
+     */
+    protected $_addressFactory;
+
+    /**
+     * @var Magento_Sales_Model_Convert_Quote
+     */
+    protected $_quote;
+
+    /**
+     * @param Magento_Checkout_Model_Session $checkoutSession
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Sales_Model_OrderFactory $orderFactory
      * @param Magento_Core_Model_Event_Manager $eventManager
-     *
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Session $session
+     * @param Magento_Sales_Model_Quote_AddressFactory $addressFactory
+     * @param Magento_Sales_Model_Convert_Quote $quote
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
+        Magento_Checkout_Model_Session $checkoutSession,
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Sales_Model_OrderFactory $orderFactory,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Session $session,
+        Magento_Sales_Model_Quote_AddressFactory $addressFactory,
+        Magento_Sales_Model_Convert_Quote $quote,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
         $this->_coreStoreConfig = $coreStoreConfig;
-        parent::__construct($data);
+        $this->_session = $session;
+        $this->_addressFactory = $addressFactory;
+        $this->_quote = $quote;
+        $this->_storeManager = $storeManager;
+        parent::__construct($checkoutSession, $customerSession, $orderFactory, $data);
         $this->_init();
     }
 
@@ -81,7 +118,8 @@ class Magento_Checkout_Model_Type_Multishipping extends Magento_Checkout_Model_T
                 $quote->removeAddress($address->getId());
             }
 
-            if ($defaultShipping = $this->getCustomerDefaultShippingAddress()) {
+            $defaultShipping = $this->getCustomerDefaultShippingAddress();
+            if ($defaultShipping) {
                 $quote->getShippingAddress()->importCustomerAddress($defaultShipping);
 
                 foreach ($this->getQuoteItems() as $item) {
@@ -186,7 +224,8 @@ class Magento_Checkout_Model_Type_Multishipping extends Magento_Checkout_Model_T
                     $address->isDeleted(true);
                 }
 
-                if ($quoteItem = $this->getQuote()->getItemById($item->getQuoteItemId())) {
+                $quoteItem = $this->getQuote()->getItemById($item->getQuoteItemId());
+                if ($quoteItem) {
                     $newItemQty = $quoteItem->getQty()-1;
                     if ($newItemQty > 0 && !$item->getProduct()->getIsVirtual()) {
                         $quoteItem->setQty($quoteItem->getQty()-1);
@@ -213,6 +252,7 @@ class Magento_Checkout_Model_Type_Multishipping extends Magento_Checkout_Model_T
      *
      * @param array $info
      * @return Magento_Checkout_Model_Type_Multishipping
+     * @throws Magento_Core_Exception
      */
     public function setShippingItemsInformation($info)
     {
@@ -228,7 +268,7 @@ class Magento_Checkout_Model_Type_Multishipping extends Magento_Checkout_Model_T
 
             $maxQty = (int)$this->_coreStoreConfig->getConfig('shipping/option/checkout_multiple_maximum_qty');
             if ($allQty > $maxQty) {
-                Mage::throwException(__('Maximum qty allowed for Shipping to multiple addresses is %1', $maxQty));
+                throw new Magento_Core_Exception(__('Maximum qty allowed for Shipping to multiple addresses is %1', $maxQty));
             }
             $quote = $this->getQuote();
             $addresses  = $quote->getAllShippingAddresses();
@@ -255,11 +295,13 @@ class Magento_Checkout_Model_Type_Multishipping extends Magento_Checkout_Model_T
                 }
             }
 
-            if ($billingAddress = $quote->getBillingAddress()) {
+            $billingAddress = $quote->getBillingAddress();
+            if ($billingAddress) {
                 $quote->removeAddress($billingAddress->getId());
             }
 
-            if ($customerDefaultBilling = $this->getCustomerDefaultBillingAddress()) {
+            $customerDefaultBilling = $this->getCustomerDefaultBillingAddress();
+            if ($customerDefaultBilling) {
                 $quote->getBillingAddress()->importCustomerAddress($customerDefaultBilling);
             }
 
@@ -269,7 +311,8 @@ class Magento_Checkout_Model_Type_Multishipping extends Magento_Checkout_Model_T
                 }
 
                 if (isset($itemsInfo[$_item->getId()]['qty'])) {
-                    if ($qty = (int)$itemsInfo[$_item->getId()]['qty']) {
+                    $qty = (int)$itemsInfo[$_item->getId()]['qty'];
+                    if ($qty) {
                         $_item->setQty($qty);
                         $quote->getBillingAddress()->addItem($_item);
                     } else {
@@ -312,12 +355,13 @@ class Magento_Checkout_Model_Type_Multishipping extends Magento_Checkout_Model_T
             $address = $this->getCustomer()->getAddressById($addressId);
             if ($address->getId()) {
                 if (!$quoteAddress = $this->getQuote()->getShippingAddressByCustomerAddressId($address->getId())) {
-                    $quoteAddress = Mage::getModel('Magento_Sales_Model_Quote_Address')->importCustomerAddress($address);
+                    $quoteAddress = $this->_addressFactory->create()->importCustomerAddress($address);
                     $this->getQuote()->addShippingAddress($quoteAddress);
                 }
 
                 $quoteAddress = $this->getQuote()->getShippingAddressByCustomerAddressId($address->getId());
-                if ($quoteAddressItem = $quoteAddress->getItemByQuoteItemId($quoteItemId)) {
+                $quoteAddressItem = $quoteAddress->getItemByQuoteItemId($quoteItemId);
+                if ($quoteAddressItem) {
                     $quoteAddressItem->setQty((int)($quoteAddressItem->getQty()+$qty));
                 } else {
                     $quoteAddress->addItem($quoteItem, $qty);
@@ -339,7 +383,8 @@ class Magento_Checkout_Model_Type_Multishipping extends Magento_Checkout_Model_T
      */
     public function updateQuoteCustomerShippingAddress($addressId)
     {
-        if ($address = $this->getCustomer()->getAddressById($addressId)) {
+        $address = $this->getCustomer()->getAddressById($addressId);
+        if ($address) {
             $this->getQuote()->getShippingAddressByCustomerAddressId($addressId)
                 ->setCollectShippingRates(true)
                 ->importCustomerAddress($address)
@@ -357,7 +402,8 @@ class Magento_Checkout_Model_Type_Multishipping extends Magento_Checkout_Model_T
      */
     public function setQuoteCustomerBillingAddress($addressId)
     {
-        if ($address = $this->getCustomer()->getAddressById($addressId)) {
+        $address = $this->getCustomer()->getAddressById($addressId);
+        if ($address) {
             $this->getQuote()->getBillingAddress($addressId)
                 ->importCustomerAddress($address)
                 ->collectTotals();
@@ -371,6 +417,7 @@ class Magento_Checkout_Model_Type_Multishipping extends Magento_Checkout_Model_T
      *
      * @param  array $methods
      * @return Magento_Checkout_Model_Type_Multishipping
+     * @throws Magento_Core_Exception
      */
     public function setShippingMethods($methods)
     {
@@ -379,7 +426,7 @@ class Magento_Checkout_Model_Type_Multishipping extends Magento_Checkout_Model_T
             if (isset($methods[$address->getId()])) {
                 $address->setShippingMethod($methods[$address->getId()]);
             } elseif (!$address->getShippingMethod()) {
-                Mage::throwException(__('Please select shipping methods for all addresses.'));
+                throw new Magento_Core_Exception(__('Please select shipping methods for all addresses.'));
             }
         }
         $this->save();
@@ -391,11 +438,12 @@ class Magento_Checkout_Model_Type_Multishipping extends Magento_Checkout_Model_T
      *
      * @param array $payment
      * @return Magento_Checkout_Model_Type_Multishipping
+     * @throws Magento_Core_Exception
      */
     public function setPaymentMethod($payment)
     {
         if (!isset($payment['method'])) {
-            Mage::throwException(__('Payment method is not defined'));
+            throw new Magento_Core_Exception(__('Payment method is not defined'));
         }
         $quote = $this->getQuote();
         $quote->getPayment()->importData($payment);
@@ -422,21 +470,20 @@ class Magento_Checkout_Model_Type_Multishipping extends Magento_Checkout_Model_T
         $quote->reserveOrderId();
         $quote->collectTotals();
 
-        $convertQuote = Mage::getSingleton('Magento_Sales_Model_Convert_Quote');
-        $order = $convertQuote->addressToOrder($address);
+        $order = $this->_quote->addressToOrder($address);
         $order->setQuote($quote);
         $order->setBillingAddress(
-            $convertQuote->addressToOrderAddress($quote->getBillingAddress())
+            $this->_quote->addressToOrderAddress($quote->getBillingAddress())
         );
 
         if ($address->getAddressType() == 'billing') {
             $order->setIsVirtual(1);
         } else {
-            $order->setShippingAddress($convertQuote->addressToOrderAddress($address));
+            $order->setShippingAddress($this->_quote->addressToOrderAddress($address));
         }
 
-        $order->setPayment($convertQuote->paymentToOrderPayment($quote->getPayment()));
-        if (Mage::app()->getStore()->roundPrice($address->getGrandTotal()) == 0) {
+        $order->setPayment($this->_quote->paymentToOrderPayment($quote->getPayment()));
+        if ($this->_storeManager->getStore()->roundPrice($address->getGrandTotal()) == 0) {
             $order->getPayment()->setMethod('free');
         }
 
@@ -449,7 +496,7 @@ class Magento_Checkout_Model_Type_Multishipping extends Magento_Checkout_Model_T
                 ->setProductOptions(
                     $_quoteItem->getProduct()->getTypeInstance()->getOrderOptions($_quoteItem->getProduct())
                 );
-            $orderItem = $convertQuote->itemToOrderItem($item);
+            $orderItem = $this->_quote->itemToOrderItem($item);
             if ($item->getParentItem()) {
                 $orderItem->setParentItem($order->getItemByQuoteItemId($item->getParentItem()->getId()));
             }
@@ -463,35 +510,36 @@ class Magento_Checkout_Model_Type_Multishipping extends Magento_Checkout_Model_T
      * Validate quote data
      *
      * @return Magento_Checkout_Model_Type_Multishipping
+     * @throws Magento_Core_Exception
      */
     protected function _validate()
     {
         $quote = $this->getQuote();
         if (!$quote->getIsMultiShipping()) {
-            Mage::throwException(__('Invalid checkout type'));
+            throw new Magento_Core_Exception(__('Invalid checkout type'));
         }
 
         /** @var $paymentMethod Magento_Payment_Model_Method_Abstract */
         $paymentMethod = $quote->getPayment()->getMethodInstance();
         if (!empty($paymentMethod) && !$paymentMethod->isAvailable($quote)) {
-            Mage::throwException(__('Please specify a payment method.'));
+            throw new Magento_Core_Exception(__('Please specify a payment method.'));
         }
 
         $addresses = $quote->getAllShippingAddresses();
         foreach ($addresses as $address) {
             $addressValidation = $address->validate();
             if ($addressValidation !== true) {
-                Mage::throwException(__('Please check shipping addresses information.'));
+                throw new Magento_Core_Exception(__('Please check shipping addresses information.'));
             }
             $method= $address->getShippingMethod();
             $rate  = $address->getShippingRateByCode($method);
             if (!$method || !$rate) {
-                Mage::throwException(__('Please specify shipping methods for all addresses.'));
+                throw new Magento_Core_Exception(__('Please specify shipping methods for all addresses.'));
             }
         }
         $addressValidation = $quote->getBillingAddress()->validate();
         if ($addressValidation !== true) {
-            Mage::throwException(__('Please check billing address information.'));
+            throw new Magento_Core_Exception(__('Please check billing address information.'));
         }
         return $this;
     }
@@ -500,6 +548,7 @@ class Magento_Checkout_Model_Type_Multishipping extends Magento_Checkout_Model_T
      * Create orders per each quote address
      *
      * @return Magento_Checkout_Model_Type_Multishipping
+     * @throws Exception
      */
     public function createOrders()
     {
@@ -532,8 +581,8 @@ class Magento_Checkout_Model_Type_Multishipping extends Magento_Checkout_Model_T
                 $orderIds[$order->getId()] = $order->getIncrementId();
             }
 
-            Mage::getSingleton('Magento_Core_Model_Session')->setOrderIds($orderIds);
-            Mage::getSingleton('Magento_Checkout_Model_Session')->setLastQuoteId($this->getQuote()->getId());
+            $this->_session->setOrderIds($orderIds);
+            $this->_checkoutSession->setLastQuoteId($this->getQuote()->getId());
 
             $this->getQuote()
                 ->setIsActive(false)
@@ -597,6 +646,9 @@ class Magento_Checkout_Model_Type_Multishipping extends Magento_Checkout_Model_T
         return $descr;
     }
 
+    /**
+     * @return string
+     */
     public function getMinimumAmountError()
     {
         $error = $this->_coreStoreConfig->getConfig('sales/minimum_order/multi_address_error_message');
@@ -614,7 +666,7 @@ class Magento_Checkout_Model_Type_Multishipping extends Magento_Checkout_Model_T
      */
     public function getOrderIds($asAssoc = false)
     {
-        $idsAssoc = Mage::getSingleton('Magento_Core_Model_Session')->getOrderIds();
+        $idsAssoc = $this->_session->getOrderIds();
         return $asAssoc ? $idsAssoc : array_keys($idsAssoc);
     }
 }

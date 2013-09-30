@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <router id="first">
+        <route id="test">
+            <module name="Some_ModuleName" before="Some_BeforeModuleName" />
+        </route>
+        <route id="Some_ModuleName" frontName="test_test" >
+            <module name="Some_ModuleName" after="Some_AfterModuleName"/>
+        </route>
+    </router>
+    <router id="second">
+        <route id="test">
+            <module name="Some_ModuleName" before="Some_BeforeModuleName" />
+        </route>
+        <route id="Some_ModuleName" frontName="test_test">
+            <module name="Some_ModuleName" />
+        </route>
+    </router>
+</config>

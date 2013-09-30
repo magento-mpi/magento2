@@ -10,10 +10,6 @@
 
 /**
  * Backend grid item renderer currency
- *
- * @category   Magento
- * @package    Magento_Backend
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Backend_Block_Widget_Grid_Column_Renderer_Price
     extends Magento_Backend_Block_Widget_Grid_Column_Renderer_Abstract
@@ -23,6 +19,25 @@ class Magento_Backend_Block_Widget_Grid_Column_Renderer_Price
      * Currency objects cache
      */
     protected static $_currencies = array();
+
+    /**
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * @param Magento_Backend_Block_Context $context
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Context $context,
+        Magento_Core_Model_LocaleInterface $locale,
+        array $data = array()
+    ) {
+        $this->_locale = $locale;
+        parent::__construct($context, $data);
+    }
 
     /**
      * Renders grid column
@@ -41,7 +56,7 @@ class Magento_Backend_Block_Widget_Grid_Column_Renderer_Price
 
             $data = floatval($data) * $this->_getRate($row);
             $data = sprintf("%f", $data);
-            $data = Mage::app()->getLocale()->currency($currencyCode)->toCurrency($data);
+            $data = $this->_locale->currency($currencyCode)->toCurrency($data);
             return $data;
         }
         return $this->getColumn()->getDefault();

@@ -48,14 +48,20 @@ class Magento_Core_Model_Resource_Db_AbstractTest extends PHPUnit_Framework_Test
         $this->assertEquals($idFieldName, $this->_model->getIdFieldName());
     }
 
-    /**
-     * @magentoConfigFixture global/resources/db/table_prefix prefix_
-     */
+
     public function testGetTableName()
     {
         $tableNameOrig = 'core_website';
         $tableSuffix = 'suffix';
-        $tableName = $this->_model->getTable(array($tableNameOrig, $tableSuffix));
+        $resource = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create(
+            'Magento_Core_Model_Resource', array('tablePrefix' => 'prefix_')
+        );
+
+        $model = $this->getMockForAbstractClass('Magento_Core_Model_Resource_Db_Abstract',
+            array('resource' => $resource)
+        );
+
+        $tableName = $model->getTable(array($tableNameOrig, $tableSuffix));
         $this->assertEquals('prefix_core_website_suffix', $tableName);
     }
 }

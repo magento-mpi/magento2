@@ -10,15 +10,6 @@
  */
 -->
 <config>
-    <global>
-        <resources>
-            <productalert_setup>
-                <setup>
-                    <module>Magento_ProductAlert</module>
-                </setup>
-            </productalert_setup>
-        </resources>
-    </global>
     <default>
         <catalog>
             <productalert>

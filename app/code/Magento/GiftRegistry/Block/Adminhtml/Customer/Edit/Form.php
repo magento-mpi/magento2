@@ -11,6 +11,15 @@
 class Magento_GiftRegistry_Block_Adminhtml_Customer_Edit_Form
     extends Magento_Adminhtml_Block_Widget_Form
 {
+    /**
+     * @var Magento_Customer_Model_CustomerFactory
+     */
+    protected $customerFactory;
+
+    /**
+     * @var Magento_GiftRegistry_Model_TypeFactory
+     */
+    protected $giftRegistryTypeFactory;
 
     protected $_template = 'customer/form.phtml';
 
@@ -22,19 +31,34 @@ class Magento_GiftRegistry_Block_Adminhtml_Customer_Edit_Form
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $storeManager;
+
+    /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Customer_Model_CustomerFactory $customerFactory
+     * @param Magento_GiftRegistry_Model_TypeFactory $giftRegistryTypeFactory
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
+        Magento_Customer_Model_CustomerFactory $customerFactory,
+        Magento_GiftRegistry_Model_TypeFactory $giftRegistryTypeFactory,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
+        $this->customerFactory = $customerFactory;
+        $this->giftRegistryTypeFactory = $giftRegistryTypeFactory;
         parent::__construct($coreData, $context, $data);
+
+        $this->storeManager = $storeManager;
     }
 
     /**
@@ -62,7 +86,7 @@ class Magento_GiftRegistry_Block_Adminhtml_Customer_Edit_Form
      */
     public function getWebsiteName()
     {
-        return Mage::app()->getWebsite($this->getEntity()->getWebsiteId())->getName();
+        return $this->storeManager->getWebsite($this->getEntity()->getWebsiteId())->getName();
     }
 
     /**
@@ -72,7 +96,7 @@ class Magento_GiftRegistry_Block_Adminhtml_Customer_Edit_Form
      */
     public function getOwnerName()
     {
-        $customer = Mage::getModel('Magento_Customer_Model_Customer')
+        $customer = $this->customerFactory->create()
             ->load($this->getEntity()->getCustomerId());
 
         return $this->escapeHtml($customer->getName());
@@ -95,7 +119,7 @@ class Magento_GiftRegistry_Block_Adminhtml_Customer_Edit_Form
      */
     public function getTypeName()
     {
-        $type = Mage::getModel('Magento_GiftRegistry_Model_Type')
+        $type = $this->giftRegistryTypeFactory->create()
             ->load($this->getEntity()->getTypeId());
 
         return $this->escapeHtml($type->getLabel());

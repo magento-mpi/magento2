@@ -26,6 +26,8 @@ class Magento_Banner_Block_Adminhtml_Promo_Salesrule_Edit_Tab_Banners_Grid
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Url $urlModel
+     * @param Magento_Banner_Model_Resource_Banner_CollectionFactory $bannerColFactory
+     * @param Magento_Banner_Model_Config $bannerConfig
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Banner_Model_BannerFactory $bannerFactory
      * @param array $data
@@ -35,12 +37,14 @@ class Magento_Banner_Block_Adminhtml_Promo_Salesrule_Edit_Tab_Banners_Grid
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Url $urlModel,
+        Magento_Banner_Model_Resource_Banner_CollectionFactory $bannerColFactory,
+        Magento_Banner_Model_Config $bannerConfig,
         Magento_Core_Model_Registry $registry,
         Magento_Banner_Model_BannerFactory $bannerFactory,
         array $data = array()
     ) {
         $this->_registry = $registry;
-        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $bannerColFactory, $bannerConfig, $data);
         $this->_bannerFactory = $bannerFactory;
     }
 

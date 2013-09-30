@@ -17,6 +17,17 @@ class Magento_Paypal_Model_IpnTest extends PHPUnit_Framework_TestCase
     const REQUEST_MC_GROSS = 38.12;
 
     /**
+     * @var Magento_Paypal_Model_Ipn
+     */
+    protected $_ipn;
+
+    protected function setUp()
+    {
+        $objectHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $this->_ipn = $objectHelper->getObject('Magento_Paypal_Model_Ipn');
+    }
+
+    /**
      * Prepare order property for ipn model
      *
      * @param Magento_Paypal_Model_Ipn|PHPUnit_Framework_MockObject_MockObject $ipn
@@ -45,12 +56,7 @@ class Magento_Paypal_Model_IpnTest extends PHPUnit_Framework_TestCase
 
     public function testLegacyRegisterPaymentAuthorization()
     {
-        $ipn = $this->getMock('Magento_Paypal_Model_Ipn', array('_createIpnComment'));
-        $ipn->expects($this->once())
-            ->method('_createIpnComment')
-            ->with($this->equalTo(''));
-
-        $order = $this->_prepareIpnOrderProperty($ipn);
+        $order = $this->_prepareIpnOrderProperty($this->_ipn);
         $order->expects($this->once())
             ->method('canFetchPaymentReviewUpdate')
             ->will($this->returnValue(false));
@@ -70,25 +76,23 @@ class Magento_Paypal_Model_IpnTest extends PHPUnit_Framework_TestCase
         // Set request to ipn
         $requestProperty = new ReflectionProperty('Magento_Paypal_Model_Ipn', '_request');
         $requestProperty->setAccessible(true);
-        $requestProperty->setValue($ipn, array(
+        $requestProperty->setValue($this->_ipn, array(
             'mc_gross' => self::REQUEST_MC_GROSS,
         ));
 
         // Set info to ipn
         $infoProperty = new ReflectionProperty('Magento_Paypal_Model_Ipn', '_info');
         $infoProperty->setAccessible(true);
-        $infoProperty->setValue($ipn, $info);
+        $infoProperty->setValue($this->_ipn, $info);
 
         $testMethod = new ReflectionMethod('Magento_Paypal_Model_Ipn', '_registerPaymentAuthorization');
         $testMethod->setAccessible(true);
-        $testMethod->invoke($ipn);
+        $testMethod->invoke($this->_ipn);
     }
 
     public function testPaymentReviewRegisterPaymentAuthorization()
     {
-        $ipn = new Magento_Paypal_Model_Ipn();
-
-        $order = $this->_prepareIpnOrderProperty($ipn);
+        $order = $this->_prepareIpnOrderProperty($this->_ipn);
         $order->expects($this->once())
             ->method('canFetchPaymentReviewUpdate')
             ->will($this->returnValue(true));
@@ -101,6 +105,6 @@ class Magento_Paypal_Model_IpnTest extends PHPUnit_Framework_TestCase
 
         $testMethod = new ReflectionMethod('Magento_Paypal_Model_Ipn', '_registerPaymentAuthorization');
         $testMethod->setAccessible(true);
-        $testMethod->invoke($ipn);
+        $testMethod->invoke($this->_ipn);
     }
 }

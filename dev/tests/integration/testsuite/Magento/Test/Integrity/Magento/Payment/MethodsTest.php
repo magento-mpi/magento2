@@ -18,6 +18,7 @@ class Magento_Test_Integrity_Magento_Payment_MethodsTest extends PHPUnit_Framewo
      * @param string $methodClass
      * @param string $code
      * @dataProvider paymentMethodDataProvider
+     * @magentoAppArea frontend
      * @throws Exception on various assertion failures
      */
     public function testPaymentMethod($code, $methodClass)

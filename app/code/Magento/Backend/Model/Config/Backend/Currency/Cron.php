@@ -10,15 +10,39 @@
 
 /**
  * Backend Model for Currency import options
- *
- * @category   Magento
- * @package    Magento_Backend
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Backend_Model_Config_Backend_Currency_Cron extends Magento_Core_Model_Config_Value
 {
-
     const CRON_STRING_PATH = 'crontab/jobs/currency_rates_update/schedule/cron_expr';
+
+    /**
+     * @var Magento_Core_Model_Config_ValueFactory
+     */
+    protected $_configValueFactory;
+
+    /**
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Model_Config $config
+     * @param Magento_Core_Model_Config_ValueFactory $configValueFactory
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_StoreManager $storeManager,
+        Magento_Core_Model_Config $config,
+        Magento_Core_Model_Config_ValueFactory $configValueFactory,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_configValueFactory = $configValueFactory;
+        parent::__construct($context, $registry, $storeManager, $config, $resource, $resourceCollection, $data);
+    }
 
     protected function _afterSave()
     {
@@ -39,9 +63,10 @@ class Magento_Backend_Model_Config_Backend_Currency_Cron extends Magento_Core_Mo
         $cronExprString = join(' ', $cronExprArray);
 
         try {
-            Mage::getModel('Magento_Core_Model_Config_Value')
-                ->load(self::CRON_STRING_PATH, 'path')
-                ->setValue($cronExprString)
+            /** @var $configValue Magento_Core_Model_Config_Value */
+            $configValue = $this->_configValueFactory->create();
+            $configValue->load(self::CRON_STRING_PATH, 'path');
+            $configValue->setValue($cronExprString)
                 ->setPath(self::CRON_STRING_PATH)
                 ->save();
         } catch (Exception $e) {

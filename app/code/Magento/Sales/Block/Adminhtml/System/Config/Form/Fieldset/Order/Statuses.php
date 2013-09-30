@@ -33,16 +33,18 @@ class Magento_Sales_Block_Adminhtml_System_Config_Form_Fieldset_Order_Statuses
 
     /**
      * @param Magento_Backend_Block_Context $context
+     * @param Magento_Backend_Model_Auth_Session $authSession
      * @param Magento_Sales_Model_Resource_Order_Status_CollectionFactory $orderStatusCollection
      * @param array $data
      */
     public function __construct(
         Magento_Backend_Block_Context $context,
+        Magento_Backend_Model_Auth_Session $authSession,
         Magento_Sales_Model_Resource_Order_Status_CollectionFactory $orderStatusCollection,
         array $data = array()
     ) {
         $this->_orderStatusCollection = $orderStatusCollection;
-        parent::__construct($context, $data);
+        parent::__construct($context, $authSession, $data);
     }
 
     /**

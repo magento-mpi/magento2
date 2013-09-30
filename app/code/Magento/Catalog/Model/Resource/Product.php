@@ -33,15 +33,21 @@ class Magento_Catalog_Model_Resource_Product extends Magento_Catalog_Model_Resou
     protected $_productCategoryTable;
 
     /**
-     * Initialize resource
+     * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Eav_Model_Config $eavConfig
+     * @param Magento_Eav_Model_Entity_Attribute_Set $attrSetEntity
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_Eav_Model_Resource_Helper $resourceHelper
+     * @param Magento_Validator_UniversalFactory $universalFactory
+     * @param array $data
      */
     public function __construct(
         Magento_Core_Model_Resource $resource,
         Magento_Eav_Model_Config $eavConfig,
         Magento_Eav_Model_Entity_Attribute_Set $attrSetEntity,
         Magento_Core_Model_LocaleInterface $locale,
-        Magento_Eav_Model_Resource_Helper_Mysql4 $resourceHelper,
-        Magento_Eav_Model_Factory_Helper $helperFactory,
+        Magento_Eav_Model_Resource_Helper $resourceHelper,
+        Magento_Validator_UniversalFactory $universalFactory,
         $data = array()
     ) {
         parent::__construct(
@@ -50,7 +56,7 @@ class Magento_Catalog_Model_Resource_Product extends Magento_Catalog_Model_Resou
             $attrSetEntity,
             $locale,
             $resourceHelper,
-            $helperFactory,
+            $universalFactory,
             $data
         );
         $this->setType(Magento_Catalog_Model_Product::ENTITY)->setConnection('catalog_read', 'catalog_write');

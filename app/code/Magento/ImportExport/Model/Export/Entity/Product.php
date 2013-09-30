@@ -140,21 +140,90 @@ class Magento_ImportExport_Model_Export_Entity_Product extends Magento_ImportExp
      * @var Magento_Core_Model_Logger
      */
     protected $_logger;
+    /**
+     * @var Magento_Catalog_Model_Resource_ProductFactory
+     */
+    protected $_productFactory;
+    /**
+     * @var Magento_Eav_Model_Resource_Entity_Attribute_Set_Collection
+     */
+    protected $_attrSetColFactory;
+    /**
+     * @var Magento_Catalog_Model_Resource_Category_Collection
+     */
+    protected $_categoryColFactory;
 
     /**
+     * @var Magento_Core_Model_Resource
+     */
+    protected $_resourceModel;
+
+    /**
+     * @var Magento_CatalogInventory_Model_Resource_Stock_ItemFactory
+     */
+    protected $_itemFactory;
+
+    /**
+     * @var Magento_Catalog_Model_Resource_Product_Option_Collection
+     */
+    protected $_optionColFactory;
+
+    /**
+     * @var Magento_Catalog_Model_Resource_Product_Attribute_Collection
+     */
+    protected $_attributeColFactory;
+
+    /**
+     * @var Magento_ImportExport_Model_Export_Entity_Product_Type_Factory
+     */
+    protected $_typeFactory;
+
+    /**
+     * @param Magento_Core_Model_LocaleInterface $localeInterface
+     * @param Magento_Eav_Model_Config $config
+     * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Catalog_Model_Resource_Product_Collection $collection
      * @param Magento_ImportExport_Model_Export_ConfigInterface $exportConfig
-     * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Catalog_Model_Resource_ProductFactory $productFactory
+     * @param Magento_Eav_Model_Resource_Entity_Attribute_Set_CollectionFactory $attrSetColFactory
+     * @param Magento_Catalog_Model_Resource_Category_CollectionFactory $categoryColFactory
+     * @param Magento_CatalogInventory_Model_Resource_Stock_ItemFactory $itemFactory
+     * @param Magento_Catalog_Model_Resource_Product_Option_CollectionFactory $optionColFactory
+     * @param Magento_Catalog_Model_Resource_Product_Attribute_CollectionFactory $attributeColFactory
+     * @param Magento_ImportExport_Model_Export_Entity_Product_Type_Factory $_typeFactory
      */
     public function __construct(
+        Magento_Core_Model_LocaleInterface $localeInterface,
+        Magento_Eav_Model_Config $config,
+        Magento_Core_Model_Resource $resource,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Logger $logger,
         Magento_Catalog_Model_Resource_Product_Collection $collection,
         Magento_ImportExport_Model_Export_ConfigInterface $exportConfig,
-        Magento_Core_Model_Logger $logger
+        Magento_Catalog_Model_Resource_ProductFactory $productFactory,
+        Magento_Eav_Model_Resource_Entity_Attribute_Set_CollectionFactory $attrSetColFactory,
+        Magento_Catalog_Model_Resource_Category_CollectionFactory $categoryColFactory,
+        Magento_CatalogInventory_Model_Resource_Stock_ItemFactory $itemFactory,
+        Magento_Catalog_Model_Resource_Product_Option_CollectionFactory $optionColFactory,
+        Magento_Catalog_Model_Resource_Product_Attribute_CollectionFactory $attributeColFactory,
+        Magento_ImportExport_Model_Export_Entity_Product_Type_Factory $_typeFactory
     ) {
-        parent::__construct();
-
         $this->_entityCollection = $collection;
         $this->_exportConfig = $exportConfig;
+        $this->_logger = $logger;
+        $this->_productFactory = $productFactory;
+        $this->_attrSetColFactory = $attrSetColFactory;
+        $this->_categoryColFactory = $categoryColFactory;
+        $this->_resourceModel = $resource;
+        $this->_itemFactory = $itemFactory;
+        $this->_optionColFactory = $optionColFactory;
+        $this->_attributeColFactory = $attributeColFactory;
+        $this->_typeFactory = $_typeFactory;
+
+        parent::__construct($localeInterface, $config, $resource, $storeManager);
+
         $this->_initTypeModels()
             ->_initAttributes()
             ->_initStores()
@@ -170,9 +239,8 @@ class Magento_ImportExport_Model_Export_Entity_Product extends Magento_ImportExp
      */
     protected function _initAttributeSets()
     {
-        $productTypeId = Mage::getModel('Magento_Catalog_Model_Product')->getResource()->getTypeId();
-        foreach (Mage::getResourceModel('Magento_Eav_Model_Resource_Entity_Attribute_Set_Collection')
-                ->setEntityTypeFilter($productTypeId) as $attributeSet) {
+        $productTypeId = $this->_productFactory->create()->getTypeId();
+        foreach ($this->_attrSetColFactory->create()->setEntityTypeFilter($productTypeId) as $attributeSet) {
             $this->_attrSetIdToName[$attributeSet->getId()] = $attributeSet->getAttributeSetName();
         }
         return $this;
@@ -185,7 +253,7 @@ class Magento_ImportExport_Model_Export_Entity_Product extends Magento_ImportExp
      */
     protected function _initCategories()
     {
-        $collection = Mage::getResourceModel('Magento_Catalog_Model_Resource_Category_Collection')->addNameToResult();
+        $collection = $this->_categoryColFactory->create()->addNameToResult();
         /* @var $collection Magento_Catalog_Model_Resource_Category_Collection */
         foreach ($collection as $category) {
             $structure = preg_split('#/+#', $category->getPath());
@@ -215,11 +283,11 @@ class Magento_ImportExport_Model_Export_Entity_Product extends Magento_ImportExp
     {
         $productTypes = $this->_exportConfig->getProductTypes();
         foreach ($productTypes as $productTypeName => $productTypeConfig) {
-            if (!($model = Mage::getModel($productTypeConfig['model']))) {
+            if (!($model = $this->_typeFactory->create($productTypeConfig['model']))) {
                 Mage::throwException("Entity type model '{$productTypeConfig['model']}' is not found");
             }
             if (! $model instanceof Magento_ImportExport_Model_Export_Entity_Product_Type_Abstract) {
-                Mage::throwException(
+                throw new Magento_Core_Exception(
                     __('Entity type model must be an instance of Magento_ImportExport_Model_Export_Entity_Product_Type_Abstract')
                 );
             }
@@ -232,7 +300,7 @@ class Magento_ImportExport_Model_Export_Entity_Product extends Magento_ImportExp
             }
         }
         if (!$this->_productTypeModels) {
-            Mage::throwException(__('There are no product types available for export'));
+            throw new Magento_Core_Exception(__('There are no product types available for export'));
         }
         $this->_disabledAttrs = array_unique($this->_disabledAttrs);
 
@@ -247,7 +315,7 @@ class Magento_ImportExport_Model_Export_Entity_Product extends Magento_ImportExp
     protected function _initWebsites()
     {
         /** @var $website Magento_Core_Model_Website */
-        foreach (Mage::app()->getWebsites() as $website) {
+        foreach ($this->_storeManager->getWebsites() as $website) {
             $this->_websiteIdToCode[$website->getId()] = $website->getCode();
         }
         return $this;
@@ -264,9 +332,8 @@ class Magento_ImportExport_Model_Export_Entity_Product extends Magento_ImportExp
         if (empty($productIds)) {
             return array();
         }
-        $resource = Mage::getSingleton('Magento_Core_Model_Resource');
         $select = $this->_connection->select()
-            ->from($resource->getTableName('catalog_product_entity_tier_price'))
+            ->from($this->_resourceModel->getTableName('catalog_product_entity_tier_price'))
             ->where('entity_id IN(?)', $productIds);
 
         $rowTierPrices = array();
@@ -297,9 +364,8 @@ class Magento_ImportExport_Model_Export_Entity_Product extends Magento_ImportExp
         if (empty($productIds)) {
             return array();
         }
-        $resource = Mage::getSingleton('Magento_Core_Model_Resource');
         $select = $this->_connection->select()
-            ->from($resource->getTableName('catalog_product_entity_group_price'))
+            ->from($this->_resourceModel->getTableName('catalog_product_entity_group_price'))
             ->where('entity_id IN(?)', $productIds);
 
         $rowGroupPrices = array();
@@ -330,17 +396,16 @@ class Magento_ImportExport_Model_Export_Entity_Product extends Magento_ImportExp
         if (empty($productIds)) {
             return array();
         }
-        $resource = Mage::getSingleton('Magento_Core_Model_Resource');
         $select = $this->_connection->select()
                 ->from(
-                        array('mg' => $resource->getTableName('catalog_product_entity_media_gallery')),
+                        array('mg' => $this->_resourceModel->getTableName('catalog_product_entity_media_gallery')),
                         array(
                             'mg.entity_id', 'mg.attribute_id', 'filename' => 'mg.value', 'mgv.label',
                             'mgv.position', 'mgv.disabled'
                         )
                 )
                 ->joinLeft(
-                        array('mgv' => $resource->getTableName('catalog_product_entity_media_gallery_value')),
+                        array('mgv' => $this->_resourceModel->getTableName('catalog_product_entity_media_gallery_value')),
                         '(mg.value_id = mgv.value_id AND mgv.store_id = 0)',
                         array()
                 )
@@ -373,7 +438,7 @@ class Magento_ImportExport_Model_Export_Entity_Product extends Magento_ImportExp
             return array();
         }
         $select = $this->_connection->select()
-            ->from(Mage::getResourceModel('Magento_CatalogInventory_Model_Resource_Stock_Item')->getMainTable())
+            ->from($this->_itemFactory->create()->getMainTable())
             ->where('product_id IN (?)', $productIds);
 
         $stmt = $this->_connection->query($select);
@@ -400,23 +465,22 @@ class Magento_ImportExport_Model_Export_Entity_Product extends Magento_ImportExp
         if (empty($productIds)) {
             return array();
         }
-        $resource = Mage::getSingleton('Magento_Core_Model_Resource');
         $adapter = $this->_connection;
         $select = $adapter->select()
             ->from(
-                array('cpl' => $resource->getTableName('catalog_product_link')),
+                array('cpl' => $this->_resourceModel->getTableName('catalog_product_link')),
                 array(
                     'cpl.product_id', 'cpe.sku', 'cpl.link_type_id',
                     'position' => 'cplai.value', 'default_qty' => 'cplad.value'
                 )
             )
             ->joinLeft(
-                array('cpe' => $resource->getTableName('catalog_product_entity')),
+                array('cpe' => $this->_resourceModel->getTableName('catalog_product_entity')),
                 '(cpe.entity_id = cpl.linked_product_id)',
                 array()
             )
             ->joinLeft(
-                array('cpla' => $resource->getTableName('catalog_product_link_attribute')),
+                array('cpla' => $this->_resourceModel->getTableName('catalog_product_link_attribute')),
                 $adapter->quoteInto(
                     '(cpla.link_type_id = cpl.link_type_id AND cpla.product_link_attribute_code = ?)',
                     'position'
@@ -424,7 +488,7 @@ class Magento_ImportExport_Model_Export_Entity_Product extends Magento_ImportExp
                 array()
             )
             ->joinLeft(
-                array('cplaq' => $resource->getTableName('catalog_product_link_attribute')),
+                array('cplaq' => $this->_resourceModel->getTableName('catalog_product_link_attribute')),
                 $adapter->quoteInto(
                     '(cplaq.link_type_id = cpl.link_type_id AND cplaq.product_link_attribute_code = ?)',
                     'qty'
@@ -432,12 +496,12 @@ class Magento_ImportExport_Model_Export_Entity_Product extends Magento_ImportExp
                 array()
             )
             ->joinLeft(
-                array('cplai' => $resource->getTableName('catalog_product_link_attribute_int')),
+                array('cplai' => $this->_resourceModel->getTableName('catalog_product_link_attribute_int')),
                 '(cplai.link_id = cpl.link_id AND cplai.product_link_attribute_id = cpla.product_link_attribute_id)',
                 array()
             )
             ->joinLeft(
-                array('cplad' => $resource->getTableName('catalog_product_link_attribute_decimal')),
+                array('cplad' => $this->_resourceModel->getTableName('catalog_product_link_attribute_decimal')),
                 '(cplad.link_id = cpl.link_id AND cplad.product_link_attribute_id = cplaq.product_link_attribute_id)',
                 array()
             )
@@ -743,7 +807,7 @@ class Magento_ImportExport_Model_Export_Entity_Product extends Magento_ImportExp
                 Magento_Catalog_Model_Product_Link::LINK_TYPE_CROSSSELL => '_links_crosssell_',
                 Magento_Catalog_Model_Product_Link::LINK_TYPE_GROUPED   => '_associated_'
             );
-            $configurableProductsCollection = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Collection');
+            $configurableProductsCollection = $this->_entityCollection;
             $configurableProductsCollection->addAttributeToFilter(
                 'entity_id',
                 array(
@@ -778,7 +842,7 @@ class Magento_ImportExport_Model_Export_Entity_Product extends Magento_ImportExp
             $customOptionsDataPre = array();
 
             foreach ($this->_storeIdToCode as $storeId => &$storeCode) {
-                $options = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Option_Collection')
+                $options = $this->_optionColFactory->create()
                     ->reset()
                     ->addTitleToResult($storeId)
                     ->addPriceToResult($storeId)
@@ -1042,7 +1106,7 @@ class Magento_ImportExport_Model_Export_Entity_Product extends Magento_ImportExp
      */
     public function getAttributeCollection()
     {
-        return Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Attribute_Collection');
+        return $this->_attributeColFactory->create();
     }
 
     /**

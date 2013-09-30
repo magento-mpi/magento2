@@ -17,19 +17,58 @@
 class Magento_Invitation_Controller_Index extends Magento_Core_Controller_Front_Action
 {
     /**
+     * Customer Session
+     *
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_session;
+
+    /**
+     * Invitation Config
+     *
+     * @var Magento_Invitation_Model_Config
+     */
+    protected $_config;
+
+    /**
+     * Invitation Factory
+     *
+     * @var Magento_Invitation_Model_InvitationFactory
+     */
+    protected $invitationFactory;
+
+    /**
+     * @param Magento_Core_Controller_Varien_Action_Context $context
+     * @param Magento_Customer_Model_Session $session
+     * @param Magento_Invitation_Model_Config $config
+     * @param Magento_Invitation_Model_InvitationFactory $invitationFactory
+     */
+    public function __construct(
+        Magento_Core_Controller_Varien_Action_Context $context,
+        Magento_Customer_Model_Session $session,
+        Magento_Invitation_Model_Config $config,
+        Magento_Invitation_Model_InvitationFactory $invitationFactory
+    ) {
+        parent::__construct($context);
+        $this->_session = $session;
+        $this->_config = $config;
+        $this->invitationFactory = $invitationFactory;
+    }
+
+    /**
      * Only logged in users can use this functionality,
      * this function checks if user is logged in before all other actions
      */
     public function preDispatch()
     {
         parent::preDispatch();
-        if (!Mage::getSingleton('Magento_Invitation_Model_Config')->isEnabledOnFront()) {
+        if (!$this->_config->isEnabledOnFront()) {
             $this->norouteAction();
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             return;
         }
 
-        if (!Mage::getSingleton('Magento_Customer_Model_Session')->authenticate($this)) {
+        if (!$this->_session->authenticate($this)) {
             $this->getResponse()->setRedirect(
                 $this->_objectManager->get('Magento_Customer_Helper_Data')->getLoginUrl()
             );
@@ -45,8 +84,8 @@ class Magento_Invitation_Controller_Index extends Magento_Core_Controller_Front_
     {
         $data = $this->getRequest()->getPost();
         if ($data) {
-            $customer = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer();
-            $invPerSend = Mage::getSingleton('Magento_Invitation_Model_Config')->getMaxInvitationsPerSend();
+            $customer = $this->_session->getCustomer();
+            $invPerSend = $this->_config->getMaxInvitationsPerSend();
             $attempts = 0;
             $sent     = 0;
             $customerExists = 0;
@@ -59,14 +98,13 @@ class Magento_Invitation_Controller_Index extends Magento_Core_Controller_Front_
                     continue;
                 }
                 try {
-                    $invitation = Mage::getModel('Magento_Invitation_Model_Invitation')->setData(array(
+                    $invitation = $this->invitationFactory->create()->setData(array(
                         'email'    => $email,
                         'customer' => $customer,
                         'message'  => (isset($data['message']) ? $data['message'] : ''),
                     ))->save();
                     if ($invitation->sendInvitationEmail()) {
-                        Mage::getSingleton('Magento_Customer_Model_Session')
-                            ->addSuccess(__('You sent the invitation for %1.', $email));
+                        $this->_session->addSuccess(__('You sent the invitation for %1.', $email));
                         $sent++;
                     } else {
                         throw new Exception(''); // not Magento_Core_Exception intentionally
@@ -77,16 +115,15 @@ class Magento_Invitation_Controller_Index extends Magento_Core_Controller_Front_
                     if (Magento_Invitation_Model_Invitation::ERROR_CUSTOMER_EXISTS === $e->getCode()) {
                         $customerExists++;
                     } else {
-                        Mage::getSingleton('Magento_Customer_Model_Session')->addError($e->getMessage());
+                        $this->_session->addError($e->getMessage());
                     }
                 }
                 catch (Exception $e) {
-                    Mage::getSingleton('Magento_Customer_Model_Session')
-                        ->addError(__('Something went wrong sending an email to %1.', $email));
+                    $this->_session->addError(__('Something went wrong sending an email to %1.', $email));
                 }
             }
             if ($customerExists) {
-                Mage::getSingleton('Magento_Customer_Model_Session')->addNotice(
+                $this->_session->addNotice(
                     __('We did not send %1 invitation(s) addressed to current customers.', $customerExists)
                 );
             }
