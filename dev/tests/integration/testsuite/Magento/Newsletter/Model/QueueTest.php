@@ -19,7 +19,6 @@ class Magento_Newsletter_Model_QueueTest extends PHPUnit_Framework_TestCase
      */
     public function testSendPerSubscriber()
     {
-        $this->markTestIncomplete('MAGETWO-13697');
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 
         $themes = array('frontend' => 'magento_blank', 'adminhtml' => 'magento_backend', 'install' => 'magento_basic');

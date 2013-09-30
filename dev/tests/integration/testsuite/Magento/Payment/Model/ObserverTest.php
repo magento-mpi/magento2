@@ -93,7 +93,6 @@ class Magento_Payment_Model_ObserverTest extends PHPUnit_Framework_TestCase
      */
     public function testUpdateOrderStatusForPaymentMethods()
     {
-        $this->markTestIncomplete('MAGETWO-13697');
         $statusCode = 'custom_new_status';
 
         /** @var Magento_Core_Model_Resource_Config $config */
