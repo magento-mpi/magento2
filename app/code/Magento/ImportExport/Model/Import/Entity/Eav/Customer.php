@@ -109,6 +109,11 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer
     protected $_attributeCollection;
 
     /**
+     * @var Magento_ImportExport_Model_Resource_Helper
+     */
+    protected $_resourceHelper;
+
+    /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Helper_String $coreString
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
@@ -138,6 +143,8 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer
         Magento_Customer_Model_CustomerFactory $customerFactory,
         array $data = array()
     ) {
+        $this->_resourceHelper = $resourceHelper;
+
         if (isset($data['attribute_collection'])) {
             $this->_attributeCollection = $data['attribute_collection'];
             unset($data['attribute_collection']);
