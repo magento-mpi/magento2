@@ -42,7 +42,7 @@ class Magento_MultipleWishlist_Helper_Data extends Magento_Wishlist_Helper_Data
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Customer_Model_SessionProxy $customrSessionProxy,
+     * @param Magento_Customer_Model_SessionProxy $customerSession
      * @param Magento_Wishlist_Model_WishlistFactory $wishlistFactory
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Wishlist_Model_Resource_Item_CollectionFactory $itemCollectionFactory

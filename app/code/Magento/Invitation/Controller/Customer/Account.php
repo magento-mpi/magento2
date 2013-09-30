@@ -38,40 +38,41 @@ class Magento_Invitation_Controller_Customer_Account extends Magento_Customer_Co
     protected $_invitationFactory;
 
     /**
-     * Customer Factory
-     *
-     * @var Magento_Customer_Model_CustomerFactory
-     */
-    protected $_customerFactory;
-
-    /**
-     * Store Manager
-     *
-     * @var Magento_Core_Model_StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @param Magento_Core_Controller_Varien_Action_Context $context
      * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_UrlFactory $urlFactory
+     * @param Magento_Customer_Model_CustomerFactory $customerFactory
+     * @param Magento_Customer_Model_FormFactory $formFactory
+     * @param Magento_Customer_Model_AddressFactory $addressFactory
      * @param Magento_Invitation_Model_Config $config
      * @param Magento_Invitation_Model_InvitationFactory $invitationFactory
-     * @param Magento_Customer_Model_CustomerFactory $customerFactory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      */
     public function __construct(
         Magento_Core_Controller_Varien_Action_Context $context,
         Magento_Core_Model_Registry $coreRegistry,
-        Magento_Invitation_Model_Config $config,
-        Magento_Invitation_Model_InvitationFactory $invitationFactory,
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_UrlFactory $urlFactory,
         Magento_Customer_Model_CustomerFactory $customerFactory,
-        Magento_Core_Model_StoreManagerInterface $storeManager
+        Magento_Customer_Model_FormFactory $formFactory,
+        Magento_Customer_Model_AddressFactory $addressFactory,
+        Magento_Invitation_Model_Config $config,
+        Magento_Invitation_Model_InvitationFactory $invitationFactory
     ) {
-        parent::__construct($context, $coreRegistry);
+        parent::__construct(
+            $context,
+            $coreRegistry,
+            $customerSession,
+            $storeManager,
+            $urlFactory,
+            $customerFactory,
+            $formFactory,
+            $addressFactory
+        );
         $this->_config = $config;
         $this->_invitationFactory = $invitationFactory;
-        $this->_customerFactory = $customerFactory;
-        $this->_storeManager = $storeManager;
     }
 
     /**

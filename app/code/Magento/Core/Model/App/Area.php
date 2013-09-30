@@ -102,11 +102,15 @@ class Magento_Core_Model_App_Area
     protected $_storeManager;
 
     /**
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Translate $translator
      * @param Magento_Core_Model_Config $config
      * @param Magento_Core_Model_ObjectManager $objectManager
      * @param Magento_Core_Model_ObjectManager_ConfigLoader $diConfigLoader
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Design $design
+     * @param Magento_Core_Model_StoreManager $storeManager
      * @param string $areaCode
      */
     public function __construct(

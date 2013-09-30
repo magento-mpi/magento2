@@ -38,11 +38,6 @@ class Magento_GiftRegistry_Block_Adminhtml_Customer_Edit_Cart
     protected $_dataFactory;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
-     */
-    protected $storeManager;
-
-    /**
      * @param Magento_Data_CollectionFactory $dataFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
@@ -63,7 +58,6 @@ class Magento_GiftRegistry_Block_Adminhtml_Customer_Edit_Cart
         Magento_Core_Model_Registry $coreRegistry,
         Magento_Customer_Model_CustomerFactory $customerFactory,
         Magento_Sales_Model_QuoteFactory $salesQuoteFactory,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         $this->_dataFactory = $dataFactory;
@@ -71,8 +65,6 @@ class Magento_GiftRegistry_Block_Adminhtml_Customer_Edit_Cart
         $this->customerFactory = $customerFactory;
         $this->salesQuoteFactory = $salesQuoteFactory;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
-
-        $this->storeManager = $storeManager;
     }
 
     protected function _construct()
@@ -87,7 +79,7 @@ class Magento_GiftRegistry_Block_Adminhtml_Customer_Edit_Cart
     protected function _prepareCollection()
     {
         $quote = $this->salesQuoteFactory->create();
-        $quote->setWebsite($this->storeManager->getWebsite($this->getEntity()->getWebsiteId()));
+        $quote->setWebsite($this->_storeManager->getWebsite($this->getEntity()->getWebsiteId()));
         $quote->loadByCustomer($this->customerFactory->create()->load($this->getEntity()->getCustomerId()));
 
         $collection = ($quote) ? $quote->getItemsCollection(false) : $this->_dataFactory->create();

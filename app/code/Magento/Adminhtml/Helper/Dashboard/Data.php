@@ -17,11 +17,6 @@ class Magento_Adminhtml_Helper_Dashboard_Data extends Magento_Core_Helper_Data
     protected $_stores = null;
 
     /**
-     * @var Magento_Core_Model_StoreManager
-     */
-    protected $_storeManager;
-
-    /**
      * @var string
      */
     protected $_installDate;
@@ -52,15 +47,12 @@ class Magento_Adminhtml_Helper_Dashboard_Data extends Magento_Core_Helper_Data
         Magento_Core_Model_Date $dateModel,
         Magento_Core_Model_App_State $appState,
         Magento_Core_Model_Encryption $encryptor,
-        Magento_Core_Model_StoreManager $storeManager,
         $installDate,
         $dbCompatibleMode = true
-    )
-    {
+    ) {
         parent::__construct($context, $eventManager, $coreHttp, $config, $coreStoreConfig, $storeManager,
             $locale, $dateModel, $appState, $encryptor, $dbCompatibleMode
         );
-        $this->_storeManager = $storeManager;
         $this->_installDate = $installDate;
     }
 

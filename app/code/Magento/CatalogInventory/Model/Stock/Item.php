@@ -176,7 +176,10 @@ class Magento_CatalogInventory_Model_Stock_Item extends Magento_Core_Model_Abstr
 
     /**
      * Construct
-     * 
+     *
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Index_Model_Indexer $indexer
+     * @param Magento_CatalogInventory_Model_Stock_Status $stockStatus
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_CatalogInventory_Helper_Data $catalogInventoryData

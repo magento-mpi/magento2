@@ -238,7 +238,6 @@ class Magento_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
         Magento_Core_Model_DateFactory $dateFactory,
         Magento_Logging_Model_Event_ChangesFactory $changesFactory,
         Magento_Core_Controller_Request_Http $request,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_GiftRegistry_Model_Resource_Entity $resource = null,
         Magento_GiftRegistry_Model_Resource_Entity_Collection $resourceCollection = null,
         array $data = array()

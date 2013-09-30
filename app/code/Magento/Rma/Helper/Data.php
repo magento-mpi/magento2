@@ -100,7 +100,6 @@ class Magento_Rma_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_Store_Config $storeConfig
      * @param Magento_Core_Model_Store_ConfigInterface $storeConfig
      * @param Magento_Directory_Model_CountryFactory $countryFactory
      * @param Magento_Directory_Model_RegionFactory $regionFactory

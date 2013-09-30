@@ -43,7 +43,8 @@ class Magento_Sales_Model_Order_Config
     /**
      * Constructor
      *
-     * @param Magento_Core_Model_Config $coreConfig
+     * @param Magento_Sales_Model_Order_StatusFactory $orderStatusFactory
+     * @param Magento_Sales_Model_Resource_Order_Status_CollectionFactory $orderStatusCollFactory
      */
     public function __construct(
         Magento_Sales_Model_Order_StatusFactory $orderStatusFactory,
