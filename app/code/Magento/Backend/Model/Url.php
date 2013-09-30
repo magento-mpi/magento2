@@ -192,7 +192,7 @@ class Magento_Backend_Model_Url extends Magento_Core_Model_Url
      */
     public function getSecretKey($routeName = null, $controller = null, $action = null)
     {
-        $salt = $this->_session->getFormKey();
+        $salt = $this->_coreSession->getFormKey();
         $request = $this->getRequest();
 
         if (!$routeName) {
