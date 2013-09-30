@@ -69,7 +69,7 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
 
 
     /**
-     * @return \Magento_Banner_Model_BannerFactory
+     * @return \Magento\Banner\Model\BannerFactory
      */
     public function getBannerInstance()
     {
@@ -85,7 +85,7 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
     }
 
     /**
-     * @return \Magento_Widget_Model_Widget_Instance
+     * @return \Magento\Widget\Model\Widget\Instance
      */
     public function getWidgetInstance()
     {

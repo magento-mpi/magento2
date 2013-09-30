@@ -51,7 +51,7 @@ class Validator extends \Zend_Validate_InArray
     /**
      * Initialize message templates with translating
      *
-     * @return Magento_Adminhtml_Model_Core_File_Validator_SavePath_Available
+     * @return \Magento\Core\Model\File\Validator\AvailablePath
      */
     protected function _initMessageTemplates()
     {

@@ -214,7 +214,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Prevent loading disallowed queue
      *
-     * @param Magento_Newsletter_Model_Queque $model
+     * @param \Magento\Newsletter\Model\Queque $model
      */
     public function newsletterQueueLoadAfter($model)
     {
@@ -1094,7 +1094,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
      */
     private function _throwLoad()
     {
-        throw new Magento_AdminGws_Controller_Exception(__('You need more permissions to view this item.'));
+        throw new \Magento\AdminGws\Controller\Exception(__('You need more permissions to view this item.'));
     }
 
     /**

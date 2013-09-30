@@ -56,7 +56,7 @@ class Context
     }
 
     /**
-     * @return \Magento_Core_Model_Event_Manager
+     * @return \Magento\Core\Model\Event\Manager
      */
     public function getEventManager()
     {
@@ -64,7 +64,7 @@ class Context
     }
 
     /**
-     * @return \Magento_Core_Model_Logger
+     * @return \Magento\Core\Model\Logger
      */
     public function getLogger()
     {
@@ -72,7 +72,7 @@ class Context
     }
 
     /**
-     * @return \Magento_Core_Model_ModuleListInterface
+     * @return \Magento\Core\Model\ModuleListInterface
      */
     public function getModuleList()
     {
@@ -80,7 +80,7 @@ class Context
     }
 
     /**
-     * @return \Magento_Core_Model_Config_Modules_Reader
+     * @return \Magento\Core\Model\Config\Modules\Reader
      */
     public function getModulesReader()
     {

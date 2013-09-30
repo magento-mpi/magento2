@@ -151,7 +151,7 @@ class Transaction extends \Magento\Core\Model\AbstractModel
      *
      * @param string $key
      * @param mixed $value
-     * @return Magento_Paypal_Model_Order_Payment_Transaction
+     * @return \Magento\Paypal\Model\Payment\Transaction
      * @throws \Magento\Core\Exception
      */
     public function setAdditionalInformation($key, $value)

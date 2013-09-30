@@ -33,7 +33,7 @@ class Shipping
     /**
      * Cached result
      *
-     * @var Magento_Sales_Model_Shipping_Method_Result
+     * @var \Magento\Shipping\Model\Rate\Result
      */
     protected $_result = null;
 
