@@ -45,13 +45,6 @@ class Magento_CatalogSearch_Model_Resource_Search_Collection extends Magento_Cat
     protected $_attributeCollectionFactory;
 
     /**
-     * Catalog Search resource helper
-     *
-     * @var Magento_CatalogSearch_Model_Resource_Helper
-     */
-    protected $_resourceHelper;
-
-    /**
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
@@ -60,14 +53,12 @@ class Magento_CatalogSearch_Model_Resource_Search_Collection extends Magento_Cat
      * @param Magento_Core_Model_Resource $coreResource
      * @param Magento_Eav_Model_EntityFactory $eavEntityFactory
      * @param Magento_Eav_Model_Resource_Helper $resourceHelper
-     * @param Magento_Eav_Model_Factory_Helper $helperFactory
+     * @param Magento_Validator_UniversalFactory $universalFactory
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Catalog_Helper_Product_Flat $catalogProductFlat
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_EntityFactory $entityFactory
      * @param Magento_Catalog_Model_Resource_Product_Attribute_CollectionFactory $attributeCollectionFactory
      * @param Magento_Core_Model_Resource $resource
-     * @param Magento_CatalogSearch_Model_Resource_Helper $resourceHelper
      */
     public function __construct(
         Magento_Core_Model_Event_Manager $eventManager,
@@ -78,18 +69,15 @@ class Magento_CatalogSearch_Model_Resource_Search_Collection extends Magento_Cat
         Magento_Core_Model_Resource $coreResource,
         Magento_Eav_Model_EntityFactory $eavEntityFactory,
         Magento_Eav_Model_Resource_Helper $resourceHelper,
-        Magento_Eav_Model_Factory_Helper $helperFactory,
+        Magento_Validator_UniversalFactory $universalFactory,
         Magento_Catalog_Helper_Data $catalogData,
         Magento_Catalog_Helper_Product_Flat $catalogProductFlat,
         Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_EntityFactory $entityFactory,
         Magento_Catalog_Model_Resource_Product_Attribute_CollectionFactory $attributeCollectionFactory,
-        Magento_Core_Model_Resource $resource,
-        Magento_CatalogSearch_Model_Resource_Helper $resourceHelper
+        Magento_Core_Model_Resource $resource
     ) {
         $this->_attributeCollectionFactory = $attributeCollectionFactory;
         $this->_resource = $resource;
-        $this->_resourceHelper = $resourceHelper;
         parent::__construct(
             $eventManager,
             $logger,
@@ -99,7 +87,7 @@ class Magento_CatalogSearch_Model_Resource_Search_Collection extends Magento_Cat
             $coreResource,
             $eavEntityFactory,
             $resourceHelper,
-            $helperFactory,
+            $universalFactory,
             $catalogData,
             $catalogProductFlat,
             $coreStoreConfig

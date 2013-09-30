@@ -81,9 +81,9 @@ class Magento_Eav_Model_Entity_Type extends Magento_Core_Model_Abstract
     protected $_storeFactory;
 
     /**
-     * @var Magento_Eav_Model_Factory_Helper
+     * @var Magento_Validator_UniversalFactory
      */
-    protected $_helperFactory;
+    protected $_universalFactory;
 
     /**
      * @param Magento_Core_Model_Context $context
@@ -91,7 +91,7 @@ class Magento_Eav_Model_Entity_Type extends Magento_Core_Model_Abstract
      * @param Magento_Eav_Model_Entity_AttributeFactory $attributeFactory
      * @param Magento_Eav_Model_Entity_Attribute_SetFactory $attSetFactory
      * @param Magento_Eav_Model_Entity_StoreFactory $storeFactory
-     * @param Magento_Eav_Model_Factory_Helper $helperFactory
+     * @param Magento_Validator_UniversalFactory $universalFactory
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -102,7 +102,7 @@ class Magento_Eav_Model_Entity_Type extends Magento_Core_Model_Abstract
         Magento_Eav_Model_Entity_AttributeFactory $attributeFactory,
         Magento_Eav_Model_Entity_Attribute_SetFactory $attSetFactory,
         Magento_Eav_Model_Entity_StoreFactory $storeFactory,
-        Magento_Eav_Model_Factory_Helper $helperFactory,
+        Magento_Validator_UniversalFactory $universalFactory,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
@@ -111,7 +111,7 @@ class Magento_Eav_Model_Entity_Type extends Magento_Core_Model_Abstract
         $this->_attributeFactory = $attributeFactory;
         $this->_attSetFactory = $attSetFactory;
         $this->_storeFactory = $storeFactory;
-        $this->_helperFactory = $helperFactory;
+        $this->_universalFactory = $universalFactory;
     }
 
     /**
@@ -224,7 +224,7 @@ class Magento_Eav_Model_Entity_Type extends Magento_Core_Model_Abstract
                 ->save();
         }
 
-        $incrementInstance = $this->_helperFactory->create($this->getIncrementModel())
+        $incrementInstance = $this->_universalFactory->create($this->getIncrementModel())
             ->setPrefix($entityStoreConfig->getIncrementPrefix())
             ->setPadLength($this->getIncrementPadLength())
             ->setPadChar($this->getIncrementPadChar())
@@ -358,7 +358,7 @@ class Magento_Eav_Model_Entity_Type extends Magento_Core_Model_Abstract
      */
     public function getEntity()
     {
-        return $this->_helperFactory->create($this->_data['entity_model']);
+        return $this->_universalFactory->create($this->_data['entity_model']);
     }
 
     /**

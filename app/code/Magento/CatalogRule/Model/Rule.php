@@ -143,11 +143,6 @@ class Magento_CatalogRule_Model_Rule extends Magento_Rule_Model_Abstract
     protected $_storeManager;
 
     /**
-     * @var Magento_Core_Model_LocaleInterface
-     */
-    protected $_locale;
-
-    /**
      * @var Magento_Catalog_Model_Resource_Product_CollectionFactory
      */
     protected $_productCollFactory;
@@ -178,7 +173,6 @@ class Magento_CatalogRule_Model_Rule extends Magento_Rule_Model_Abstract
     public function __construct(
         Magento_Catalog_Model_Resource_Product_CollectionFactory $productCollFactory,
         Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_LocaleInterface $locale,
         Magento_CatalogRule_Model_Rule_Condition_CombineFactory $combineFactory,
         Magento_CatalogRule_Model_Rule_Action_CollectionFactory $actionCollFactory,
         Magento_Catalog_Model_ProductFactory $productFactory,
@@ -198,7 +192,6 @@ class Magento_CatalogRule_Model_Rule extends Magento_Rule_Model_Abstract
     ) {
         $this->_productCollFactory = $productCollFactory;
         $this->_storeManager = $storeManager;
-        $this->_locale = $locale;
         $this->_combineFactory = $combineFactory;
         $this->_actionCollFactory = $actionCollFactory;
         $this->_productFactory = $productFactory;

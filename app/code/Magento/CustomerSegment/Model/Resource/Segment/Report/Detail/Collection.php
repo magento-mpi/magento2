@@ -23,7 +23,7 @@ class Magento_CustomerSegment_Model_Resource_Segment_Report_Detail_Collection
      * @param Magento_Core_Model_Resource $resource
      * @param Magento_Eav_Model_EntityFactory $eavEntityFactory
      * @param Magento_Eav_Model_Resource_Helper $resourceHelper
-     * @param Magento_Eav_Model_Factory_Helper $helperFactory
+     * @param Magento_Validator_UniversalFactory $universalFactory
      * @param Magento_Core_Model_Fieldset_Config $fieldsetConfig
      * @param Magento_Core_Model_Registry $registryManager
      */
@@ -36,7 +36,7 @@ class Magento_CustomerSegment_Model_Resource_Segment_Report_Detail_Collection
         Magento_Core_Model_Resource $resource,
         Magento_Eav_Model_EntityFactory $eavEntityFactory,
         Magento_Eav_Model_Resource_Helper $resourceHelper,
-        Magento_Eav_Model_Factory_Helper $helperFactory,
+        Magento_Validator_UniversalFactory $universalFactory,
         Magento_Core_Model_Fieldset_Config $fieldsetConfig,
         Magento_Core_Model_Registry $registryManager
     ) {
@@ -50,7 +50,7 @@ class Magento_CustomerSegment_Model_Resource_Segment_Report_Detail_Collection
             $resource,
             $eavEntityFactory,
             $resourceHelper,
-            $helperFactory,
+            $universalFactory,
             $fieldsetConfig
         );
     }

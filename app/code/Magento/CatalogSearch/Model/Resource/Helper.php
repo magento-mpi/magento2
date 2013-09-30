@@ -19,8 +19,6 @@
 class Magento_CatalogSearch_Model_Resource_Helper extends Magento_Eav_Model_Resource_Helper
 {
     /**
-     * Construct
-     *
      * @param Magento_Core_Model_Resource $resource
      * @param string $modulePrefix
      */

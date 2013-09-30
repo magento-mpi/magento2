@@ -25,7 +25,7 @@ class Magento_Customer_Model_Resource_Address extends Magento_Eav_Model_Entity_A
      * @param Magento_Eav_Model_Entity_Attribute_Set $attrSetEntity
      * @param Magento_Core_Model_LocaleInterface $locale
      * @param Magento_Eav_Model_Resource_Helper $resourceHelper
-     * @param Magento_Eav_Model_Factory_Helper $helperFactory
+     * @param Magento_Validator_UniversalFactory $universalFactory
      * @param Magento_Core_Model_Validator_Factory $validatorFactory
      * @param Magento_Customer_Model_CustomerFactory $customerFactory
      * @param array $data
@@ -36,14 +36,14 @@ class Magento_Customer_Model_Resource_Address extends Magento_Eav_Model_Entity_A
         Magento_Eav_Model_Entity_Attribute_Set $attrSetEntity,
         Magento_Core_Model_LocaleInterface $locale,
         Magento_Eav_Model_Resource_Helper $resourceHelper,
-        Magento_Eav_Model_Factory_Helper $helperFactory,
+        Magento_Validator_UniversalFactory $universalFactory,
         Magento_Core_Model_Validator_Factory $validatorFactory,
         Magento_Customer_Model_CustomerFactory $customerFactory,
         $data = array()
     ) {
         $this->_validatorFactory = $validatorFactory;
         $this->_customerFactory = $customerFactory;
-        parent::__construct($resource, $eavConfig, $attrSetEntity, $locale, $resourceHelper, $helperFactory, $data);
+        parent::__construct($resource, $eavConfig, $attrSetEntity, $locale, $resourceHelper, $universalFactory, $data);
     }
 
     /**

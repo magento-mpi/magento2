@@ -127,9 +127,9 @@ abstract class Magento_Eav_Model_Form
     protected $_attrDataFactory;
 
     /**
-     * @var Magento_Eav_Model_Factory_Helper
+     * @var Magento_Validator_UniversalFactory $universalFactory
      */
-    protected $_helperFactory;
+    protected $_universalFactory;
 
     /**
      * @var Magento_Core_Controller_Request_Http
@@ -146,7 +146,7 @@ abstract class Magento_Eav_Model_Form
      * @param Magento_Eav_Model_Config $eavConfig
      * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
      * @param Magento_Eav_Model_AttributeDataFactory $attrDataFactory
-     * @param Magento_Eav_Model_Factory_Helper $helperFactory
+     * @param Magento_Validator_UniversalFactory $universalFactory
      * @param Magento_Core_Controller_Request_Http $httpRequest
      * @param Magento_Validator_ConfigFactory $validatorConfigFactory
      *
@@ -157,7 +157,7 @@ abstract class Magento_Eav_Model_Form
         Magento_Eav_Model_Config $eavConfig,
         Magento_Core_Model_Config_Modules_Reader $modulesReader,
         Magento_Eav_Model_AttributeDataFactory $attrDataFactory,
-        Magento_Eav_Model_Factory_Helper $helperFactory,
+        Magento_Validator_UniversalFactory $universalFactory,
         Magento_Core_Controller_Request_Http $httpRequest,
         Magento_Validator_ConfigFactory $validatorConfigFactory
     ) {
@@ -171,7 +171,7 @@ abstract class Magento_Eav_Model_Form
         $this->_eavConfig = $eavConfig;
         $this->_modulesReader = $modulesReader;
         $this->_attrDataFactory = $attrDataFactory;
-        $this->_helperFactory = $helperFactory;
+        $this->_universalFactory = $universalFactory;
         $this->_httpRequest = $httpRequest;
         $this->_validatorConfigFactory = $validatorConfigFactory;
     }
@@ -183,7 +183,7 @@ abstract class Magento_Eav_Model_Form
      */
     protected function _getFormAttributeCollection()
     {
-        return $this->_helperFactory->create($this->_moduleName . '_Model_Resource_Form_Attribute_Collection');
+        return $this->_universalFactory->create($this->_moduleName . '_Model_Resource_Form_Attribute_Collection');
     }
 
     /**

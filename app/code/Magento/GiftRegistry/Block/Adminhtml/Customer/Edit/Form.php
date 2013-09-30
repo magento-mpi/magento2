@@ -41,6 +41,7 @@ class Magento_GiftRegistry_Block_Adminhtml_Customer_Edit_Form
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Customer_Model_CustomerFactory $customerFactory
      * @param Magento_GiftRegistry_Model_TypeFactory $giftRegistryTypeFactory
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(

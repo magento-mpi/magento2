@@ -27,7 +27,7 @@ class Magento_Customer_Model_Resource_Customer extends Magento_Eav_Model_Entity_
      * @param Magento_Eav_Model_Entity_Attribute_Set $attrSetEntity
      * @param Magento_Core_Model_LocaleInterface $locale
      * @param Magento_Eav_Model_Resource_Helper $resourceHelper
-     * @param Magento_Eav_Model_Factory_Helper $helperFactory
+     * @param Magento_Validator_UniversalFactory $universalFactory
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_Validator_Factory $validatorFactory
      * @param array $data
@@ -38,7 +38,7 @@ class Magento_Customer_Model_Resource_Customer extends Magento_Eav_Model_Entity_
         Magento_Eav_Model_Entity_Attribute_Set $attrSetEntity,
         Magento_Core_Model_LocaleInterface $locale,
         Magento_Eav_Model_Resource_Helper $resourceHelper,
-        Magento_Eav_Model_Factory_Helper $helperFactory,
+        Magento_Validator_UniversalFactory $universalFactory,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_Validator_Factory $validatorFactory,
         $data = array()
@@ -49,7 +49,7 @@ class Magento_Customer_Model_Resource_Customer extends Magento_Eav_Model_Entity_
             $attrSetEntity,
             $locale,
             $resourceHelper,
-            $helperFactory,
+            $universalFactory,
             $data
         );
         $this->_coreStoreConfig = $coreStoreConfig;

@@ -44,13 +44,14 @@ class Magento_Install_Model_Installer_Db_Mysql4 extends Magento_Install_Model_In
     /**
      * Clean database
      *
-     * @return Magento_Install_Model_Installer_Db_Abstract
+     * @return $this
      */
     public function cleanUpDatabase()
     {
+        $connection = $this->_getConnection();
         $connectionData = $this->getConnectionData();
-        $this->_getConnection()->query('DROP DATABASE IF EXISTS ' . $connectionData['dbName']);
-        $this->_getConnection()->query('CREATE DATABASE ' . $connectionData['dbName']);
+        $connection->query('DROP DATABASE IF EXISTS ' . $connectionData['dbName']);
+        $connection->query('CREATE DATABASE ' . $connectionData['dbName']);
         return $this;
     }
 }

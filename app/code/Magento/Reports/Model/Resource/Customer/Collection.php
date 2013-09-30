@@ -12,9 +12,7 @@
 /**
  * Customers Report collection
  *
- * @category    Magento
- * @package     Magento_Reports
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Magento_Reports_Model_Resource_Customer_Collection extends Magento_Customer_Model_Resource_Customer_Collection
 {
@@ -79,10 +77,12 @@ class Magento_Reports_Model_Resource_Customer_Collection extends Magento_Custome
      * @param Magento_Core_Model_Resource $resource
      * @param Magento_Eav_Model_EntityFactory $eavEntityFactory
      * @param Magento_Eav_Model_Resource_Helper $resourceHelper
-     * @param Magento_Eav_Model_Factory_Helper $helperFactory
+     * @param Magento_Validator_UniversalFactory $universalFactory
      * @param Magento_Core_Model_Fieldset_Config $fieldsetConfig
      * @param Magento_Sales_Model_QuoteFactory $quoteFactory
      * @param Magento_Sales_Model_Resource_Quote_Item_CollectionFactory $quoteItemFactory
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Magento_Core_Model_Event_Manager $eventManager,
@@ -93,14 +93,13 @@ class Magento_Reports_Model_Resource_Customer_Collection extends Magento_Custome
         Magento_Core_Model_Resource $resource,
         Magento_Eav_Model_EntityFactory $eavEntityFactory,
         Magento_Eav_Model_Resource_Helper $resourceHelper,
-        Magento_Eav_Model_Factory_Helper $helperFactory,
+        Magento_Validator_UniversalFactory $universalFactory,
         Magento_Core_Model_Fieldset_Config $fieldsetConfig,
         Magento_Sales_Model_QuoteFactory $quoteFactory,
         Magento_Sales_Model_Resource_Quote_Item_CollectionFactory $quoteItemFactory
-    )
-    {
+    ) {
         parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $eavConfig,
-            $resource, $eavEntityFactory, $resourceHelper, $helperFactory, $fieldsetConfig
+            $resource, $eavEntityFactory, $resourceHelper, $universalFactory, $fieldsetConfig
         );
         $this->_quoteFactory = $quoteFactory;
         $this->_quoteItemFactory = $quoteItemFactory;

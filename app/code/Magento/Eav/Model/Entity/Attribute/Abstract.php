@@ -99,9 +99,9 @@ abstract class Magento_Eav_Model_Entity_Attribute_Abstract
     protected $_resourceHelper;
 
     /**
-     * @var Magento_Eav_Model_Factory_Helper
+     * @var Magento_Validator_UniversalFactory
      */
-    protected $_factoryHelper;
+    protected $_universalFactory;
 
     /**
      * @param Magento_Core_Model_Context $context
@@ -111,7 +111,7 @@ abstract class Magento_Eav_Model_Entity_Attribute_Abstract
      * @param Magento_Eav_Model_Entity_TypeFactory $eavTypeFactory
      * @param Magento_Core_Model_StoreManager $storeManager
      * @param Magento_Eav_Model_Resource_Helper $resourceHelper
-     * @param Magento_Eav_Model_Factory_Helper $factoryHelper
+     * @param Magento_Validator_UniversalFactory $universalFactory
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -124,7 +124,7 @@ abstract class Magento_Eav_Model_Entity_Attribute_Abstract
         Magento_Eav_Model_Entity_TypeFactory $eavTypeFactory,
         Magento_Core_Model_StoreManager $storeManager,
         Magento_Eav_Model_Resource_Helper $resourceHelper,
-        Magento_Eav_Model_Factory_Helper $factoryHelper,
+        Magento_Validator_UniversalFactory $universalFactory,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
@@ -135,7 +135,7 @@ abstract class Magento_Eav_Model_Entity_Attribute_Abstract
         $this->_eavTypeFactory = $eavTypeFactory;
         $this->_storeManager = $storeManager;
         $this->_resourceHelper = $resourceHelper;
-        $this->_factoryHelper = $factoryHelper;
+        $this->_universalFactory = $universalFactory;
     }
 
     /**
@@ -374,7 +374,7 @@ abstract class Magento_Eav_Model_Entity_Attribute_Abstract
             if (!$this->getBackendModel()) {
                 $this->setBackendModel($this->_getDefaultBackendModel());
             }
-            $backend = $this->_factoryHelper->create($this->getBackendModel());
+            $backend = $this->_universalFactory->create($this->getBackendModel());
             if (!$backend) {
                 throw new Magento_Eav_Exception(__('Invalid backend model specified: ' . $this->getBackendModel()));
             }
@@ -395,7 +395,7 @@ abstract class Magento_Eav_Model_Entity_Attribute_Abstract
             if (!$this->getFrontendModel()) {
                 $this->setFrontendModel($this->_getDefaultFrontendModel());
             }
-            $this->_frontend = $this->_factoryHelper->create($this->getFrontendModel())
+            $this->_frontend = $this->_universalFactory->create($this->getFrontendModel())
                 ->setAttribute($this);
         }
 
@@ -414,7 +414,7 @@ abstract class Magento_Eav_Model_Entity_Attribute_Abstract
             if (!$this->getSourceModel()) {
                 $this->setSourceModel($this->_getDefaultSourceModel());
             }
-            $source = $this->_factoryHelper->create($this->getSourceModel());
+            $source = $this->_universalFactory->create($this->getSourceModel());
             if (!$source) {
                 throw new Magento_Eav_Exception(
                     __('Source model "%1" not found for attribute "%2"',$this->getSourceModel(), $this->getAttributeCode())

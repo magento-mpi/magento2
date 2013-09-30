@@ -89,6 +89,7 @@ class Magento_Banner_Model_Resource_Banner extends Magento_Core_Model_Resource_D
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Banner_Model_Config $bannerConfig
      * @param Magento_Banner_Model_Resource_Salesrule_CollectionFactory $salesruleColFactory
+     * @param Magento_Banner_Model_Resource_Catalogrule_CollectionFactory $catRuleColFactory
      */
     public function __construct(
         Magento_Core_Model_Resource $resource,

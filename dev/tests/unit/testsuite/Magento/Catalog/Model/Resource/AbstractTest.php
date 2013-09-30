@@ -92,7 +92,7 @@ class Magento_Catalog_Model_Resource_AbstractTest extends PHPUnit_Framework_Test
                 $this->getMock('Magento_Eav_Model_Entity_Attribute_Set', array(), array(), '', false, false),
                 $this->getMock('Magento_Core_Model_LocaleInterface'),
                 $this->getMock('Magento_Eav_Model_Resource_Helper', array(), array(), '', false, false),
-                $this->getMock('Magento_Eav_Model_Factory_Helper', array(), array(), '', false, false),
+                $this->getMock('Magento_Validator_UniversalFactory', array(), array(), '', false, false),
                 array(
                     'type' => $entityType,
                     'entityTable' => 'entityTable',

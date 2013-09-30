@@ -109,11 +109,6 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer
     protected $_attributeCollection;
 
     /**
-     * @var Magento_ImportExport_Model_Resource_Helper
-     */
-    protected $_resourceHelper;
-
-    /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Helper_String $coreString
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
@@ -124,7 +119,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer
      * @param Magento_ImportExport_Model_Export_Factory $collectionFactory
      * @param Magento_Eav_Model_Config $eavConfig
      * @param Magento_ImportExport_Model_Resource_Customer_StorageFactory $storageFactory
-     * @param Magento_Customer_Model_Resource_Attribute_CollectionFactory $attrСollectionFactory
+     * @param Magento_Customer_Model_Resource_Attribute_CollectionFactory $attrCollectionFactory
      * @param Magento_Customer_Model_CustomerFactory $customerFactory
      * @param array $data
      */
@@ -139,17 +134,15 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer
         Magento_ImportExport_Model_Export_Factory $collectionFactory,
         Magento_Eav_Model_Config $eavConfig,
         Magento_ImportExport_Model_Resource_Customer_StorageFactory $storageFactory,
-        Magento_Customer_Model_Resource_Attribute_CollectionFactory $attrСollectionFactory,
+        Magento_Customer_Model_Resource_Attribute_CollectionFactory $attrCollectionFactory,
         Magento_Customer_Model_CustomerFactory $customerFactory,
         array $data = array()
     ) {
-        $this->_resourceHelper = $resourceHelper;
-
         if (isset($data['attribute_collection'])) {
             $this->_attributeCollection = $data['attribute_collection'];
             unset($data['attribute_collection']);
         } else {
-            $this->_attributeCollection = $attrСollectionFactory->create();
+            $this->_attributeCollection = $attrCollectionFactory->create();
             $this->_attributeCollection->addSystemHiddenFilterWithPasswordHash();
             $data['attribute_collection'] = $this->_attributeCollection;
         }
