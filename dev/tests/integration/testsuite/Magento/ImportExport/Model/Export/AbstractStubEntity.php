@@ -19,7 +19,7 @@ abstract class AbstractStubEntity
 {
     public function __construct()
     {
-        /** @var Magento_TestFramework_ObjectManager  $objectManager */
+        /** @var \Magento\TestFramework\ObjectManager  $objectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
         $storeConfig = $objectManager->get('Magento\Core\Model\Store\Config');

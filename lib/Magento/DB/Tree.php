@@ -9,7 +9,7 @@
  */
 
 namespace Magento\DB;
- \Zend_Loader::loadClass('\Zend_Db_Select'); \Zend_Loader::loadClass('\Magento_Db_Tree_Node'); \Zend_Loader::loadClass('\Magento_Db_Tree_NodeSet');
+ \Zend_Loader::loadClass('\Zend_Db_Select'); \Zend_Loader::loadClass('\Magento\DB\Tree\Node'); \Zend_Loader::loadClass('\Magento\DB\Tree\NodeSet');
 
 /**
  * Magento Library
@@ -49,7 +49,7 @@ class Tree
 
     /**
      * @param array $config
-     * @throws Magento_Db_Tree_Exception
+     * @throws \Magento\DB\Tree\Exception
      */
     public function __construct($config = array())
     {
@@ -315,7 +315,7 @@ class Tree
 
     /**
      * @param string|int $nodeId
-     * @return bool|Magento_Db_Tree_Node
+     * @return bool|\Magento\DB\Tree\Node
      */
     public function removeNode($nodeId)
     {
@@ -569,7 +569,7 @@ class Tree
      * @param string|int $nodeId
      * @param int $startLevel
      * @param int $endLevel
-     * @return Magento_Db_Tree_NodeSet
+     * @return \Magento\DB\Tree\NodeSet
      */
     public function getChildren($nodeId, $startLevel = 0, $endLevel = 0)
     {
@@ -609,7 +609,7 @@ class Tree
 
     /**
      * @param string|int $nodeId
-     * @return Magento_Db_Tree_Node
+     * @return \Magento\DB\Tree\Node
      */
     public function getNode($nodeId)
     {

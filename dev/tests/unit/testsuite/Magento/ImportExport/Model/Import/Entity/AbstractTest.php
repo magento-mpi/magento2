@@ -52,7 +52,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
         $coreRegisterMock = $this->getMock('Magento\Core\Model\Registry');
         $coreRegisterMock->expects($this->any())
             ->method('registry')
-            ->with('_helper/Magento_ImportExport_Helper_Data')
+            ->with('_helper/Magento\ImportExport\Helper\Data')
             ->will($this->returnValue($helper));
 
         $objectManagerMock = $this->getMockBuilder('Magento\ObjectManager')->getMock();

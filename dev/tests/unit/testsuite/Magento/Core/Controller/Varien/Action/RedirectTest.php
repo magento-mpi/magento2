@@ -10,9 +10,7 @@
  */
 
 /**
- * Test namespace Magento\Core\Controller\Varien\Action;
-
-class Redirect
+ * Test class \Magento\Core\Controller\Varien\Action\Redirect
  */
 namespace Magento\Core\Controller\Varien\Action;
 

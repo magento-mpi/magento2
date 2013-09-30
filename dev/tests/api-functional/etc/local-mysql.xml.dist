@@ -37,7 +37,7 @@
     <session_save><![CDATA[files]]></session_save>
     <connection>
         <type name="pdo_mysql">
-            <adapter><![CDATA[Magento_TestFramework_Db_Adapter_Mysql]]></adapter>
+            <adapter><![CDATA[Magento\TestFramework\Db\Adapter\Mysql]]></adapter>
         </type>
     </connection>
 </config>

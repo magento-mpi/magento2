@@ -223,7 +223,7 @@ class ErrorProcessorTest extends \PHPUnit_Framework_TestCase
                 345,
                 array('user_id' => 3, 'resource_id' => 4)
             ),
-            'Magento_Service_AuthorizationException (Empty message)' => array(
+            'Magento\Service\AuthorizationException (Empty message)' => array(
                 new \Magento\Service\AuthorizationException('', 345, null, array(), 3, 4),
                 \Magento\Webapi\Exception::HTTP_UNAUTHORIZED,
                 "User with ID '3' is not authorized to access resource with ID '4'.",

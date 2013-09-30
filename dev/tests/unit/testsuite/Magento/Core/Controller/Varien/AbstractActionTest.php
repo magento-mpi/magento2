@@ -9,14 +9,12 @@
  * @license     {license_link}
  */
 
-/**
- * Test namespace Magento\Core\Controller\Varien;
-
-class AbstractAction
- */
 namespace Magento\Core\Controller\Varien;
 
-class ActionAbstractTest extends \PHPUnit_Framework_TestCase
+/**
+ * Test class \Magento\Core\Controller\Varien\AbstractAction
+ */
+class AbstractActionTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Controller\Varien\AbstractAction

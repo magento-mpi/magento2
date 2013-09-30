@@ -10,9 +10,7 @@
  */
 
 /**
- * Test namespace Magento\Core\Controller\Varien\Action;
-
-class Forward
+ * Test class \Magento\Core\Controller\Varien\Action\Forward
  */
 namespace Magento\Core\Controller\Varien\Action;
 

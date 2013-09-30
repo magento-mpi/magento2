@@ -9,7 +9,7 @@
 /**
  * Decorator class for compressing data before storing in cache
  *
- * @todo re-implement as a cache frontend decorator similarly to Magento_Cache_Frontend_Decorator_*
+ * @todo re-implement as a cache frontend decorator similarly to \Magento\Cache\Frontend\Decorator\*
  */
 namespace Magento\Cache\Backend\Decorator;
 

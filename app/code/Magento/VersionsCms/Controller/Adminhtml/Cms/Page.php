@@ -97,7 +97,8 @@ class Page extends \Magento\Adminhtml\Controller\Cms\Page
      * Prepare and place cms page model into registry
      * with loaded data if id parameter present
      *
-     * @return \Magento\VersionsCms\Model\Page
+     * @param string $idFieldName
+     * @return \Magento\Cms\Model\Page
      */
     protected function _initPage()
     {

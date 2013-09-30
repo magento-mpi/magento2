@@ -30,7 +30,7 @@ class PluginScannerTest extends \PHPUnit_Framework_TestCase
         $actual = $this->_model->collectEntities($this->_testFiles);
         $expected = array(
             'Magento\Core\Model\Cache\TagPlugin',
-            'Magento_Core_Model_Action_Plugin',
+            'Magento\Core\Model\Action\Plugin',
             'Custom_PageCache_Model_Action_Plugin',
         );
         $this->assertEquals($expected, $actual);
