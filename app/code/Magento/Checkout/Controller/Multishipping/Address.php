@@ -49,7 +49,7 @@ class Address extends \Magento\Core\Controller\Front\Action
     /**
      * Retrieve checkout state model
      *
-     * @return \Magento\Checkot\Model\Type\Multishipping\State
+     * @return \Magento\Checkout\Model\Type\Multishipping\State
      */
     protected function _getState()
     {

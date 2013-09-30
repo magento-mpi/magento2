@@ -18,7 +18,7 @@ abstract class AbstractDashboard extends \Magento\Core\Helper\Data
     /**
      * Helper collection
      *
-     * @var \Magento\Core\Model\Mysql\Collection\AbstractCollection|\Magento\Eav\Model\Entity\Collection\Abstract|array
+     * @var \Magento\Core\Model\Resource\Db\Collection\AbstractCollection|\Magento\Eav\Model\Entity\Collection\Abstract|array
      */
     protected  $_collection;
 

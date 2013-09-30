@@ -48,7 +48,7 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\Category
      */
     protected function _getItemsData()
     {
-        /** @var $category Magento_Catalog_Model_Categeory */
+        /** @var $category \Magento\Catalog\Model\Categeory */
         $category   = $this->getCategory();
         $categories = $category->getChildrenCategories();
 
