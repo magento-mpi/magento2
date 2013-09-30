@@ -84,7 +84,7 @@ class Magento_Checkout_Model_Type_Onepage
     protected $_request;
 
     /**
-     * @var
+     * @var Magento_Customer_Model_AddressFactory
      */
     protected $_customrAddrFactory;
 
@@ -118,7 +118,7 @@ class Magento_Checkout_Model_Type_Onepage
      * @param Magento_Customer_Model_Session $customerSession
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Controller_Request_Http $request
-     * @param Magento_Customer_Model_Address $customrAddrFactory
+     * @param Magento_Customer_Model_AddressFactory $customrAddrFactory
      * @param Magento_Customer_Model_FormFactory $customerFormFactory
      * @param Magento_Customer_Model_CustomerFactory $customerFactory
      * @param Magento_Sales_Model_Service_QuoteFactory $serviceQuoteFactory
