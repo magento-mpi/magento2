@@ -134,7 +134,7 @@ class Magento_Checkout_Model_Type_Onepage
         Magento_Customer_Model_Session $customerSession,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Controller_Request_Http $request,
-        Magento_Customer_Model_Address $customrAddrFactory,
+        Magento_Customer_Model_AddressFactory $customrAddrFactory,
         Magento_Customer_Model_FormFactory $customerFormFactory,
         Magento_Customer_Model_CustomerFactory $customerFactory,
         Magento_Sales_Model_Service_QuoteFactory $serviceQuoteFactory,
