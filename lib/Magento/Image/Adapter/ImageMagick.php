@@ -57,7 +57,7 @@ class ImageMagick extends \Magento\Image\Adapter\AbstractAdapter
                 $color = "rgb(" . join(',', $color) . ")";
             }
 
-            $pixel = new ImagickPixel;
+            $pixel = new \ImagickPixel;
             if (is_numeric($color)) {
                 $pixel->setColorValue($color, 1);
             } else {
@@ -88,8 +88,8 @@ class ImageMagick extends \Magento\Image\Adapter\AbstractAdapter
         $this->_getFileAttributes();
 
         try {
-            $this->_imageHandler = new Imagick($this->_fileName);
-        } catch (ImagickException $e) {
+            $this->_imageHandler = new \Imagick($this->_fileName);
+        } catch (\ImagickException $e) {
             throw new \Exception('Unsupported image format.', $e->getCode(), $e);
         }
 
@@ -121,8 +121,8 @@ class ImageMagick extends \Magento\Image\Adapter\AbstractAdapter
     protected function _applyOptions()
     {
         $this->_imageHandler->setImageCompressionQuality($this->quality());
-        $this->_imageHandler->setImageCompression(Imagick::COMPRESSION_JPEG);
-        $this->_imageHandler->setImageUnits(Imagick::RESOLUTION_PIXELSPERINCH);
+        $this->_imageHandler->setImageCompression(\Imagick::COMPRESSION_JPEG);
+        $this->_imageHandler->setImageUnits(\Imagick::RESOLUTION_PIXELSPERINCH);
         $this->_imageHandler->setImageResolution(
             $this->_options['resolution']['x'],
             $this->_options['resolution']['y']
@@ -156,7 +156,7 @@ class ImageMagick extends \Magento\Image\Adapter\AbstractAdapter
         $this->_checkCanProcess();
         $dims = $this->_adaptResizeValues($frameWidth, $frameHeight);
 
-        $newImage = new Imagick();
+        $newImage = new \Imagick();
         $newImage->newImage(
             $dims['frame']['width'],
             $dims['frame']['height'],
@@ -166,7 +166,7 @@ class ImageMagick extends \Magento\Image\Adapter\AbstractAdapter
         $this->_imageHandler->resizeImage(
             $dims['dst']['width'],
             $dims['dst']['height'],
-            Imagick::FILTER_CUBIC,
+            \Imagick::FILTER_CUBIC,
             self::BLUR_FACTOR
         );
 
@@ -181,7 +181,7 @@ class ImageMagick extends \Magento\Image\Adapter\AbstractAdapter
 
         $newImage->compositeImage(
             $this->_imageHandler,
-            Imagick::COMPOSITE_OVER,
+            \Imagick::COMPOSITE_OVER,
             $dims['dst']['x'],
             $dims['dst']['y']
         );
@@ -205,7 +205,7 @@ class ImageMagick extends \Magento\Image\Adapter\AbstractAdapter
         $this->_checkCanProcess();
         // compatibility with GD2 adapter
         $angle = 360 - $angle;
-        $pixel = new ImagickPixel;
+        $pixel = new \ImagickPixel;
         $pixel->setColor("rgb(" . $this->imageBackgroundColor . ")");
 
         $this->_imageHandler->rotateImage($pixel, $angle);
@@ -257,7 +257,7 @@ class ImageMagick extends \Magento\Image\Adapter\AbstractAdapter
         $opacity = $this->getWatermarkImageOpacity() ? $this->getWatermarkImageOpacity() : $opacity;
 
         $opacity = (float)number_format($opacity / 100, 1);
-        $watermark = new Imagick($imagePath);
+        $watermark = new \Imagick($imagePath);
 
         if ($this->getWatermarkWidth() &&
             $this->getWatermarkHeight() &&
@@ -266,7 +266,7 @@ class ImageMagick extends \Magento\Image\Adapter\AbstractAdapter
             $watermark->resizeImage(
                 $this->getWatermarkWidth(),
                 $this->getWatermarkHeight(),
-                Imagick::FILTER_CUBIC,
+                \Imagick::FILTER_CUBIC,
                 self::BLUR_FACTOR
             );
         }
@@ -277,7 +277,7 @@ class ImageMagick extends \Magento\Image\Adapter\AbstractAdapter
         } else {
             // go to each pixel and make it transparent
             $watermark->paintTransparentImage($watermark->getImagePixelColor(0, 0), 1, 65530);
-            $watermark->evaluateImage(Imagick::EVALUATE_SUBTRACT, 1 - $opacity, Imagick::CHANNEL_ALPHA);
+            $watermark->evaluateImage(\Imagick::EVALUATE_SUBTRACT, 1 - $opacity, \Imagick::CHANNEL_ALPHA);
         }
 
         switch ($this->getWatermarkPosition()) {
@@ -313,7 +313,7 @@ class ImageMagick extends \Magento\Image\Adapter\AbstractAdapter
                     while($offsetX <= ($this->_imageSrcWidth + $watermark->getImageWidth())) {
                         $this->_imageHandler->compositeImage(
                             $watermark,
-                            Imagick::COMPOSITE_OVER,
+                            \Imagick::COMPOSITE_OVER,
                             $offsetX,
                             $offsetY
                         );
@@ -325,12 +325,12 @@ class ImageMagick extends \Magento\Image\Adapter\AbstractAdapter
             } else {
                 $this->_imageHandler->compositeImage(
                     $watermark,
-                    Imagick::COMPOSITE_OVER,
+                    \Imagick::COMPOSITE_OVER,
                     $positionX,
                     $positionY
                 );
             }
-        } catch (ImagickException $e) {
+        } catch (\ImagickException $e) {
             throw new \Exception('Unable to create watermark.', $e->getCode(), $e);
         }
 
@@ -347,7 +347,7 @@ class ImageMagick extends \Magento\Image\Adapter\AbstractAdapter
      */
     public function checkDependencies()
     {
-        if (!class_exists('Imagick', false)) {
+        if (!class_exists('\Imagick', false)) {
             throw new \Exception("Required PHP extension 'Imagick' was not loaded.");
         }
     }
@@ -378,7 +378,7 @@ class ImageMagick extends \Magento\Image\Adapter\AbstractAdapter
      */
     public function destroy()
     {
-        if (null !== $this->_imageHandler && $this->_imageHandler instanceof Imagick) {
+        if (null !== $this->_imageHandler && $this->_imageHandler instanceof \Imagick) {
             $this->_imageHandler->clear();
             $this->_imageHandler->destroy();
             $this->_imageHandler = null;
@@ -466,31 +466,31 @@ class ImageMagick extends \Magento\Image\Adapter\AbstractAdapter
      * Get Imagick object
      *
      * @param mixed $files
-     * @return Imagick
+     * @return \Imagick
      */
     protected function _getImagickObject($files = null)
     {
-        return new Imagick($files);
+        return new \Imagick($files);
     }
 
     /**
      * Get ImagickDraw object
      *
-     * @return ImagickDraw
+     * @return \ImagickDraw
      */
     protected function _getImagickDrawObject()
     {
-        return new ImagickDraw();
+        return new \ImagickDraw();
     }
 
     /**
      * Get ImagickPixel object
      *
      * @param string|null $color
-     * @return ImagickPixel
+     * @return \ImagickPixel
      */
     protected function _getImagickPixelObject($color = null)
     {
-        return new ImagickPixel($color);
+        return new \ImagickPixel($color);
     }
 }
