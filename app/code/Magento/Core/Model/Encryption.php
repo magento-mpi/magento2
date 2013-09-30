@@ -134,13 +134,15 @@ class Magento_Core_Model_Encryption implements Magento_Core_Model_EncryptionInte
      */
     protected function _getCrypt($key = null)
     {
-        if (!$this->_crypt) {
-            if (null === $key) {
-                $key = $this->_cryptKey;
-            }
-            $this->_crypt = new Magento_Crypt($key);
+        if (null !== $key) {
+            return $this->_objectManager->create('Magento_Crypt', array('key' => $key));
         }
-        return $this->_objectManager->create('Magento_Crypt', array('key' => $key));
+
+        if (!$this->_crypt) {
+            $this->_crypt = $this->_objectManager->create('Magento_Crypt', array('key' => $this->_cryptKey));
+        }
+        
+        return $this->_crypt;
     }
 
     /**
