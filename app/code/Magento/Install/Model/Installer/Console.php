@@ -373,7 +373,7 @@ class Magento_Install_Model_Installer_Console extends Magento_Install_Model_Inst
     {
         $modelName = 'Magento_Install_Model_Installer_Db_Mysql4';
         /** @var $resourceModel Magento_Install_Model_Installer_Db_Abstract */
-        $resourceModel = $this->_objectManager->create($modelName);
+        $resourceModel = $this->_objectManager->get($modelName);
         $resourceModel->cleanUpDatabase();
     }
 
