@@ -143,6 +143,7 @@ class Magento_Install_Model_Installer extends Magento_Object
      * @param Magento_Core_Model_Cache_StateInterface $cacheState
      * @param Magento_Core_Model_Resource_SetupFactory $setupFactory
      * @param Magento_Core_Model_Config_Primary $primaryConfig
+     * @param Magento_Core_Model_Config_Local $localConfig
      * @param Magento_Core_Model_App $app
      * @param Magento_Core_Model_App_State $appState
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
@@ -163,6 +164,7 @@ class Magento_Install_Model_Installer extends Magento_Object
         Magento_Core_Model_Cache_StateInterface $cacheState,
         Magento_Core_Model_Resource_SetupFactory $setupFactory,
         Magento_Core_Model_Config_Primary $primaryConfig,
+        Magento_Core_Model_Config_Local $localConfig,
         Magento_Core_Model_App $app,
         Magento_Core_Model_App_State $appState,
         Magento_Core_Model_StoreManagerInterface $storeManager,
@@ -183,6 +185,7 @@ class Magento_Install_Model_Installer extends Magento_Object
         $this->_setupFactory = $setupFactory;
         parent::__construct($data);
         $this->_primaryConfig = $primaryConfig;
+        $this->_localConfig = $localConfig;
         $this->_app = $app;
         $this->_appState = $appState;
         $this->_storeManager = $storeManager;
@@ -294,6 +297,7 @@ class Magento_Install_Model_Installer extends Magento_Object
             ->install();
 
         $this->_primaryConfig->reinit();
+        $this->_localConfig->reload();
 
         $this->_config->reloadConfig();
 
