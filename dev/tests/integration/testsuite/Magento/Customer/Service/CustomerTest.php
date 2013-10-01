@@ -144,7 +144,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
                 'email' => 'test' . mt_rand(1000, 9999) . '@mail.com',
                 'password' => '123123q',
                 'store_id' => \Magento\Core\Model\AppInterface::ADMIN_STORE_ID
-            ), 'Magento\Validator\ValidatorException'),
+            ), 'Magento\Validator\Exception'),
             'Invalid email' => array(array(
                 'website_id' => 0,
                 'group_id' => 1,
@@ -156,7 +156,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
                 'email' => '111@111',
                 'password' => '123123q',
                 'store_id' => \Magento\Core\Model\AppInterface::ADMIN_STORE_ID
-            ), 'Magento\Validator\ValidatorException'),
+            ), 'Magento\Validator\Exception'),
             'Invalid password' => array(array(
                 'website_id' => 0,
                 'group_id' => 1,
@@ -376,10 +376,10 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
             ), 'Magento\Eav\Model\Entity\Attribute\Exception'),
             'Invalid name' => array(array(
                 'firstname' => null
-            ), 'Magento\Validator\ValidatorException'),
+            ), 'Magento\Validator\Exception'),
             'Invalid email' => array(array(
                 'email' => '3434@23434'
-            ), 'Magento\Validator\ValidatorException')
+            ), 'Magento\Validator\Exception')
         );
     }
 
@@ -510,17 +510,17 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         ));
 
         $callbackCount = 0;
-        $callback = function ($actualCustomer, $actualData, $actualAddresses) use (
-            $customer, $customerData, $addressData, &$callbackCount
+        $callback = function ($actualCustomer, $actualData, $actualAddresses) use ($customer, $customerData,
+            $addressData, &$callbackCount
         ) {
             $callbackCount++;
             // Remove updated_at as in afterSave updated_at may be changed
             $expectedCustomerData = $customer->getData();
             unset($expectedCustomerData['updated_at']);
-            \PHPUnit_Framework_Assert::assertEquals($expectedCustomerData,
+            PHPUnit_Framework_Assert::assertEquals($expectedCustomerData,
                 $actualCustomer->toArray(array_keys($expectedCustomerData)));
-            \PHPUnit_Framework_Assert::assertEquals($customerData, $actualData);
-            \PHPUnit_Framework_Assert::assertEquals($addressData, $actualAddresses);
+            PHPUnit_Framework_Assert::assertEquals($customerData, $actualData);
+            PHPUnit_Framework_Assert::assertEquals($addressData, $actualAddresses);
         };
 
         $this->_model->setBeforeSaveCallback($callback);

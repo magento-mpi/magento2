@@ -9,12 +9,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\Backend\Controller\Adminhtml;
-
 /**
  * Test class for \Magento\Backend\Controller\Adminhtml\Auth
  * @magentoAppArea adminhtml
  */
+namespace Magento\Backend\Controller\Adminhtml;
+
 class AuthTest extends \Magento\TestFramework\TestCase\ControllerAbstract
 {
     /**
@@ -54,8 +54,7 @@ class AuthTest extends \Magento\TestFramework\TestCase\ControllerAbstract
     protected function _logout()
     {
         $this->_auth->logout();
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Backend\Model\Url')->turnOnSecretKey();
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Backend\Model\Url')->turnOnSecretKey();
     }
 
     /**
@@ -83,8 +82,7 @@ class AuthTest extends \Magento\TestFramework\TestCase\ControllerAbstract
 
         $this->dispatch('backend/admin/auth/login');
         /** @var $backendUrlModel \Magento\Backend\Model\Url */
-        $backendUrlModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Backend\Model\Url');
+        $backendUrlModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Backend\Model\Url');
         $url = $backendUrlModel->getStartupPageUrl();
         $expected = $backendUrlModel->getUrl($url);
         $this->assertRedirect($this->stringStartsWith($expected));
@@ -160,9 +158,9 @@ class AuthTest extends \Magento\TestFramework\TestCase\ControllerAbstract
     public function testDeniedIframeAction()
     {
         $this->_login();
+        $this->dispatch('backend/admin/auth/deniedIframe');
         $homeUrl = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Backend\Helper\Data')
             ->getHomePageUrl();
-        $this->dispatch('backend/admin/auth/deniedIframe');
         $expected = '<script type="text/javascript">parent.window.location =';
         $this->assertStringStartsWith($expected, $this->getResponse()->getBody());
         $this->assertContains($homeUrl, $this->getResponse()->getBody());

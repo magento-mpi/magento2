@@ -14,13 +14,6 @@
 final class Mage
 {
     /**
-     * Application root absolute path
-     *
-     * @var string
-     */
-    static private $_appRoot;
-
-    /**
      * Is allow throw \Exception about headers already sent
      *
      * @var bool
@@ -188,8 +181,7 @@ final class Mage
      */
     public static function exception($module = 'Magento_Core', $message = '', $code = 0)
     {
-        $module = str_replace('_', \Magento\Autoload\IncludePath::NS_SEPARATOR, $module);
-        $className = $module . \Magento\Autoload\IncludePath::NS_SEPARATOR . 'Exception';
+        $className = $module . '_Exception';
         return new $className($message, $code);
     }
 

@@ -8,13 +8,13 @@
  * @license     {license_link}
  */
 
-namespace Magento\Core\Helper;
-
 /**
  * Abstract helper
  *
  * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
+namespace Magento\Core\Helper;
+
 abstract class AbstractHelper
 {
     /**
@@ -49,6 +49,16 @@ abstract class AbstractHelper
     protected $_logger;
 
     /**
+     * @var \Magento\Core\Model\App
+     */
+    protected $_app;
+
+    /**
+     * @var \Magento\Core\Model\UrlInterface
+     */
+    protected $_urlBuilder;
+
+    /**
      * @param \Magento\Core\Helper\Context $context
      */
     public function __construct(\Magento\Core\Helper\Context $context)
@@ -57,12 +67,13 @@ abstract class AbstractHelper
         $this->_moduleManager = $context->getModuleManager();
         $this->_logger = $context->getLogger();
         $this->_request = $context->getRequest();
+        $this->_app = $context->getApp();
+        $this->_urlBuilder = $context->getUrlBuilder();
     }
 
     /**
      * Retrieve request object
      *
-     * @return \Zend_Controller_Request_Http
      * @return \Zend_Controller_Request_Http
      */
     protected function _getRequest()
@@ -78,7 +89,7 @@ abstract class AbstractHelper
      */
     protected function _loadCache($cacheId)
     {
-        return \Mage::app()->loadCache($cacheId);
+        return $this->_app->loadCache($cacheId);
     }
 
     /**
@@ -92,7 +103,7 @@ abstract class AbstractHelper
      */
     protected function _saveCache($data, $cacheId, $tags = array(), $lifeTime = false)
     {
-        \Mage::app()->saveCache($data, $cacheId, $tags, $lifeTime);
+        $this->_app->saveCache($data, $cacheId, $tags, $lifeTime);
         return $this;
     }
 
@@ -104,7 +115,7 @@ abstract class AbstractHelper
      */
     protected function _removeCache($cacheId)
     {
-        \Mage::app()->removeCache($cacheId);
+        $this->_app->removeCache($cacheId);
         return $this;
     }
 
@@ -116,7 +127,7 @@ abstract class AbstractHelper
      */
     protected function _cleanCache($tags=array())
     {
-        \Mage::app()->cleanCache($tags);
+        $this->_app->cleanCache($tags);
         return $this;
     }
 
@@ -129,9 +140,9 @@ abstract class AbstractHelper
     {
         if (!$this->_moduleName) {
             $class = get_class($this);
-            $this->_moduleName = substr($class, 0, strpos($class, '\\Helper'));
+            $this->_moduleName = substr($class, 0, strpos($class, '_Helper'));
         }
-        return str_replace(\Magento\Autoload\IncludePath::NS_SEPARATOR, '_', $this->_moduleName);
+        return $this->_moduleName;
     }
 
     /**
@@ -152,7 +163,7 @@ abstract class AbstractHelper
     /**
      * Check is module exists and enabled in global config.
      *
-     * @param string $moduleName the full module name, example Magento_Core
+     * @param string $moduleName the full module name, example \Magento\Core
      * @return boolean
      * @deprecated use \Magento\Core\Model\ModuleManager::isEnabled()
      */
@@ -281,7 +292,7 @@ abstract class AbstractHelper
      */
     protected function _getUrl($route, $params = array())
     {
-        return \Mage::getUrl($route, $params);
+        return $this->_urlBuilder->getUrl($route, $params);
     }
 
     /**
@@ -304,9 +315,7 @@ abstract class AbstractHelper
     public function urlDecode($url)
     {
         $url = base64_decode(strtr($url, '-_,', '+/='));
-        /** @var $urlModel \Magento\Core\Model\Url */
-        $urlModel = \Mage::getSingleton('Magento\Core\Model\Url');
-        return $urlModel->sessionUrlVar($url);
+        return $this->_urlBuilder->sessionUrlVar($url);
     }
 
     /**

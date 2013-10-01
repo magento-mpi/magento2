@@ -6,23 +6,21 @@
  *
  * @copyright   {copyright}
  * @license     {license_link}
+ * @SuppressWarnings(PHPMD.LongVariable)
  */
 namespace Magento\GoogleAdwords\Model\Validator;
 
-/**
- * @SuppressWarnings(PHPMD.LongVariable)
- */
 class Factory
 {
     /**
-     * @var \Magento\Validator\BuilderFactory
+     * @var \Magento\Validator\UniversalFactory
      */
     protected $_validatorBuilderFactory;
 
     /**
-     * @param \Magento\Validator\BuilderFactory $validatorBuilderFactory
+     * @param \Magento\Validator\UniversalFactory $validatorBuilderFactory
      */
-    public function __construct(\Magento\Validator\BuilderFactory $validatorBuilderFactory)
+    public function __construct(\Magento\Validator\UniversalFactory $validatorBuilderFactory)
     {
         $this->_validatorBuilderFactory = $validatorBuilderFactory;
     }

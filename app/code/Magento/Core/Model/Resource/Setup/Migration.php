@@ -8,12 +8,13 @@
  * @license     {license_link}
  */
 
-namespace Magento\Core\Model\Resource\Setup;
-
 /**
  * Resource setup model with methods needed for migration process between Magento versions
  * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
+namespace Magento\Core\Model\Resource\Setup;
+
 class Migration extends \Magento\Core\Model\Resource\Setup
 {
     /**#@+
@@ -133,6 +134,11 @@ class Migration extends \Magento\Core\Model\Resource\Setup
     protected $_filesystem;
 
     /**
+     * @var \Magento\Core\Model\Dir
+     */
+    protected $_dir;
+
+    /**
      * @param \Magento\Core\Model\Resource\Setup\Context $context
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\Core\Helper\Data $helper
@@ -156,7 +162,6 @@ class Migration extends \Magento\Core\Model\Resource\Setup
         $this->_coreHelper = $helper;
         $this->_baseDir = $dir->getDir();
         $this->_pathToMapFile = $confPathToMapFile;
-
         parent::__construct($context, $resourceName, $moduleName, $connectionName);
     }
 
@@ -480,7 +485,7 @@ class Migration extends \Magento\Core\Model\Resource\Setup
      */
     protected function _getClassName($module, $type, $name = null)
     {
-        $className = implode('\\', array_map('ucfirst', explode('_', $module . '_' . $type . '_' . $name)));
+        $className = implode('_', array_map('ucfirst', explode('_', $module . '_' . $type . '_' . $name)));
 
         if (class_exists($className)) {
             return $className;

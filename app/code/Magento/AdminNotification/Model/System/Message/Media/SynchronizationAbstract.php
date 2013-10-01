@@ -7,7 +7,7 @@
  */
 namespace Magento\AdminNotification\Model\System\Message\Media;
 
-abstract class SynchronizationAbstract
+abstract class AbstractSynchronization
     implements \Magento\AdminNotification\Model\System\MessageInterface
 {
     /**
@@ -30,11 +30,11 @@ abstract class SynchronizationAbstract
     protected $_isDisplayed = null;
 
     /**
-     * @param \Magento\Core\Model\File\Storage $fileStorage
+     * @param \Magento\Core\Model\File\Storage\Flag $fileStorage
      */
-    public function __construct(\Magento\Core\Model\File\Storage $fileStorage)
+    public function __construct(\Magento\Core\Model\File\Storage\Flag $fileStorage)
     {
-        $this->_syncFlag = $fileStorage->getSyncFlag();
+        $this->_syncFlag = $fileStorage->loadSelf();
     }
 
     /**

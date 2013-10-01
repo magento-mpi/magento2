@@ -15,7 +15,7 @@
  */
 namespace Magento\Payment\Model\Billing;
 
-abstract class AgreementAbstract extends \Magento\Core\Model\AbstractModel
+abstract class AbstractAgreement extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Payment method instance

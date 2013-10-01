@@ -101,7 +101,7 @@ class BlockInstantiationTest extends \Magento\TestFramework\TestCase\IntegrityAb
         $area = 'frontend';
         if ($module == 'Magento_Install') {
             $area = 'install';
-        } elseif ($module == 'Magento_Adminhtml' || strpos($blockClass, '_Adminhtml_')
+        } elseif ($module == 'Magento_Adminhtml' || strpos($blockClass, '\\Adminhtml\\')
             || strpos($blockClass, '_Backend_')
             || $class->isSubclassOf('Magento\Backend\Block\Template')
         ) {

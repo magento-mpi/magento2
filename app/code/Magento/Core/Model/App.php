@@ -196,7 +196,6 @@ class App implements \Magento\Core\Model\AppInterface
 
     /**
      * @param \Magento\Core\Model\Config $config
-     * @param \Magento\Core\Controller\Varien\Front $frontController
      * @param \Magento\Core\Model\CacheInterface $cache
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\Core\Model\Db\UpdaterInterface $dbUpdater
@@ -207,7 +206,6 @@ class App implements \Magento\Core\Model\AppInterface
      */
     public function __construct(
         \Magento\Core\Model\Config $config,
-        \Magento\Core\Controller\Varien\Front $frontController,
         \Magento\Core\Model\CacheInterface $cache,
         \Magento\ObjectManager $objectManager,
         \Magento\Core\Model\Db\UpdaterInterface $dbUpdater,
@@ -221,7 +219,6 @@ class App implements \Magento\Core\Model\AppInterface
         $this->_objectManager = $objectManager;
         $this->_storeManager = $storeManager;
         $this->_dbUpdater = $dbUpdater;
-        $this->_frontController = $frontController;
         $this->_appState = $appState;
         $this->_eventManager = $eventManager;
         $this->_configScope = $configScope;

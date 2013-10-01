@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
-namespace Magento\Core\Model;
-
 /**
  * @magentoDataFixture Magento/Adminhtml/controllers/_files/cache/all_types_disabled.php
  */
+namespace Magento\Core\Model;
+
 class TranslateTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -77,6 +77,8 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
                 $objectManager->get('Magento\Core\Model\Theme\FlyweightFactory'),
                 $objectManager->get('Magento\Core\Model\Config'),
                 $objectManager->get('Magento\Core\Model\Store\Config'),
+                $objectManager->get('Magento\Core\Model\ThemeFactory'),
+                $objectManager->get('Magento\Core\Model\App'),
                 array('frontend' => 'test_default')
             )
         );

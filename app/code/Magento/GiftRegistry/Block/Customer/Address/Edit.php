@@ -8,12 +8,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\GiftRegistry\Block\Customer\Address;
-
 /**
  * GiftRegistry shipping Address block
  */
- class Edit extends \Magento\GiftRegistry\Block\Customer\Edit\AbstractEdit
+namespace Magento\GiftRegistry\Block\Customer\Address;
+
+class Edit extends \Magento\GiftRegistry\Block\Customer\Edit\AbstractEdit
 {
     /**
      * Contains logged in customer
@@ -94,7 +94,7 @@ namespace Magento\GiftRegistry\Block\Customer\Address;
     public function getCustomer()
     {
         if (empty($this->_customer)) {
-            $this->_customer = \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomer();
+            $this->_customer = $this->customerSession->getCustomer();
         }
         return $this->_customer;
     }
@@ -106,6 +106,6 @@ namespace Magento\GiftRegistry\Block\Customer\Address;
      */
     public function isCustomerLoggedIn()
     {
-        return \Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn();
+        return $this->customerSession->isLoggedIn();
     }
 }

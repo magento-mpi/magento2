@@ -20,10 +20,10 @@ class RequestTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $helperMock = $this->getMockBuilder('Magento\Backend\Helper\DataProxy')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->_model = new \Magento\TestFramework\Request($helperMock);
+        $this->_model = new \Magento\TestFramework\Request(
+            $this->getMock('Magento\Core\Model\StoreManager', ['__wakeup'], [], '', false),
+            $this->getMock('Magento\Backend\Helper\Data', [], [], 'Magento\Backend\Helper\DataProxy', false)
+        );
     }
 
     public function testGetHttpHost()

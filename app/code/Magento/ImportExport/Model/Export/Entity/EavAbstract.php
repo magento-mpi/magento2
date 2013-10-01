@@ -17,8 +17,8 @@
  */
 namespace Magento\ImportExport\Model\Export\Entity;
 
-abstract class EavAbstract
-    extends \Magento\ImportExport\Model\Export\EntityAbstract
+abstract class AbstractEav
+    extends \Magento\ImportExport\Model\Export\AbstractEntity
 {
     /**
      * Attribute code to its values. Only attributes with options and only default store values used
@@ -56,21 +56,35 @@ abstract class EavAbstract
     protected $_permanentAttributes = array();
 
     /**
+     * @var \Magento\Core\Model\LocaleInterface
+     */
+    protected $_locale;
+
+    /**
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\App $app
+     * @param \Magento\ImportExport\Model\Export\Factory $collectionFactory
+     * @param \Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory $resourceColFactory
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Eav\Model\Config $eavConfig
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\App $app,
+        \Magento\ImportExport\Model\Export\Factory $collectionFactory,
+        \Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory $resourceColFactory,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Eav\Model\Config $eavConfig,
         array $data = array()
     ) {
-        parent::__construct($coreStoreConfig, $data);
+        $this->_locale = $locale;
+        parent::__construct($coreStoreConfig, $app, $collectionFactory, $resourceColFactory, $data);
 
         if (isset($data['entity_type_id'])) {
             $this->_entityTypeId = $data['entity_type_id'];
         } else {
-            $this->_entityTypeId = \Mage::getSingleton('Magento\Eav\Model\Config')
-                ->getEntityType($this->getEntityTypeCode())
-                ->getEntityTypeId();
+            $this->_entityTypeId = $eavConfig->getEntityType($this->getEntityTypeCode())->getEntityTypeId();
         }
     }
 
@@ -107,7 +121,7 @@ abstract class EavAbstract
     /**
      * Initialize attribute option values
      *
-     * @return \Magento\ImportExport\Model\Export\Entity\EavAbstract
+     * @return \Magento\ImportExport\Model\Export\Entity\AbstractEav
      */
     protected function _initAttributeValues()
     {
@@ -170,11 +184,11 @@ abstract class EavAbstract
                         $to   = array_shift($exportFilter[$attributeCode]);
 
                         if (is_scalar($from) && !empty($from)) {
-                            $date = \Mage::app()->getLocale()->date($from, null, null, false)->toString('MM/dd/YYYY');
+                            $date = $this->_locale->date($from, null, null, false)->toString('MM/dd/YYYY');
                             $collection->addAttributeToFilter($attributeCode, array('from' => $date, 'date' => true));
                         }
                         if (is_scalar($to) && !empty($to)) {
-                            $date = \Mage::app()->getLocale()->date($to, null, null, false)->toString('MM/dd/YYYY');
+                            $date = $this->_locale->date($to, null, null, false)->toString('MM/dd/YYYY');
                             $collection->addAttributeToFilter($attributeCode, array('to' => $date, 'date' => true));
                         }
                     }

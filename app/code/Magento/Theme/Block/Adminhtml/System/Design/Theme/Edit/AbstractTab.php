@@ -16,7 +16,7 @@ namespace Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit;
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
-abstract class TabAbstract
+abstract class AbstractTab
     extends \Magento\Backend\Block\Widget\Form\Generic
     implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {

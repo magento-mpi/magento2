@@ -15,7 +15,7 @@
  */
 namespace Magento\Adminhtml\Controller\Sales\Creditmemo;
 
-class CreditmemoAbstract extends \Magento\Adminhtml\Controller\Action
+class AbstractCreditmemo extends \Magento\Adminhtml\Controller\Action
 {
     /**
      * Init layout, menu and breadcrumb

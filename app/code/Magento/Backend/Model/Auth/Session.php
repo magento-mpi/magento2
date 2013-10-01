@@ -12,9 +12,7 @@
 /**
  * Backend Auth session model
  *
- * @category    Magento
- * @package     Magento_Backend
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 namespace Magento\Backend\Model\Auth;
 
@@ -39,16 +37,24 @@ class Session
     protected $_aclBuilder;
 
     /**
+     * @var \Magento\Backend\Model\Url\Proxy
+     */
+    protected $_backendUrl;
+
+    /**
      * @param \Magento\Core\Model\Session\Context $context
      * @param \Magento\Acl\Builder $aclBuilder
+     * @param \Magento\Backend\Model\Url\Proxy $backendUrl
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Model\Session\Context $context,
         \Magento\Acl\Builder $aclBuilder,
+        \Magento\Backend\Model\Url\Proxy $backendUrl,
         array $data = array()
     ) {
         $this->_aclBuilder = $aclBuilder;
+        $this->_backendUrl = $backendUrl;
         parent::__construct($context, $data);
         $this->init('admin');
     }
@@ -150,7 +156,7 @@ class Session
     /**
      * Check if it is the first page after successfull login
      *
-     * @return boolean
+     * @return bool
      */
     public function isFirstPageAfterLogin()
     {
@@ -182,8 +188,8 @@ class Session
         if ($this->getUser()) {
             $this->renewSession();
 
-            if (\Mage::getSingleton('Magento\Backend\Model\Url')->useSecretKey()) {
-                \Mage::getSingleton('Magento\Backend\Model\Url')->renewSecretUrls();
+            if ($this->_backendUrl->useSecretKey()) {
+                $this->_backendUrl->renewSecretUrls();
             }
 
             $this->setIsFirstPageAfterLogin(true);

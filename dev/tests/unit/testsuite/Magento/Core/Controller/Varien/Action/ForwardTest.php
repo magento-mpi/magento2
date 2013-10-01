@@ -10,7 +10,9 @@
  */
 
 /**
- * Test class Magento_Core_Controller_Varien_Action_Forward
+ * Test namespace Magento\Core\Controller\Varien\Action;
+
+class Forward
  */
 namespace Magento\Core\Controller\Varien\Action;
 
@@ -33,10 +35,10 @@ class ForwardTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $helperMock = $this->getMockBuilder('Magento\Backend\Helper\DataProxy')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->_request  = new \Magento\Core\Controller\Request\Http($helperMock);
+        $storeManager = $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false);
+        $helperMock = $this->getMock('Magento\Backend\Helper\Data', array(), array(),
+            'Magento\Backend\Helper\DataProxy', false);
+        $this->_request  = new \Magento\Core\Controller\Request\Http($storeManager, $helperMock);
         $this->_response = new \Magento\Core\Controller\Response\Http(
             $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false)
         );

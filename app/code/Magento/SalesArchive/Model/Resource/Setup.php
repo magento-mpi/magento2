@@ -59,7 +59,7 @@ class Setup extends \Magento\Core\Model\Resource\Setup
     /**
      * @param \Magento\Core\Model\Resource\Setup\Context $context
      * @param \Magento\SalesArchive\Model\Resource\Helper $salesHelper
-     * @param string $resourceName
+     * @param $resourceName
      * @param string $moduleName
      * @param string $connectionName
      */
@@ -67,13 +67,12 @@ class Setup extends \Magento\Core\Model\Resource\Setup
         \Magento\Core\Model\Resource\Setup\Context $context,
         \Magento\SalesArchive\Model\Resource\Helper $salesHelper,
         $resourceName,
-        $moduleName = "Magento_SalesArchive",
+        $moduleName = 'Magento_SalesArchive',
         $connectionName = ''
     ) {
         $this->_salesHelper = $salesHelper;
         parent::__construct($context, $resourceName, $moduleName, $connectionName);
     }
-
 
     /**
      * Run each time after applying of all updates,

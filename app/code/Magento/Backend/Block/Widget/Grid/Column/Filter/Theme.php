@@ -10,16 +10,33 @@
 
 /**
  * Theme grid column filter
- *
- * @category   Magento
- * @package    Magento_Backend
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Backend\Block\Widget\Grid\Column\Filter;
 
 class Theme
     extends \Magento\Backend\Block\Widget\Grid\Column\Filter\AbstractFilter
 {
+    /**
+     * @var \Magento\Core\Model\Theme\LabelFactory
+     */
+    protected $_labelFactory;
+
+    /**
+     * @param \Magento\Backend\Block\Context $context
+     * @param \Magento\Core\Model\Resource\Helper $resourceHelper
+     * @param \Magento\Core\Model\Theme\LabelFactory $labelFactory
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Backend\Block\Context $context,
+        \Magento\Core\Model\Resource\Helper $resourceHelper,
+        \Magento\Core\Model\Theme\LabelFactory $labelFactory,
+        array $data = array()
+    ) {
+        $this->_labelFactory = $labelFactory;
+        parent::__construct($context, $resourceHelper, $data);
+    }
+
     /**
      * Retrieve filter HTML
      *
@@ -55,7 +72,7 @@ class Theme
         $options = $this->getColumn()->getOptions();
         if (empty($options) || !is_array($options)) {
             /** @var $label \Magento\Core\Model\Theme\Label */
-            $label = \Mage::getModel('Magento\Core\Model\Theme\Label');
+            $label = $this->_labelFactory->create();
             $options = $label->getLabelsCollection();
         }
         return $options;

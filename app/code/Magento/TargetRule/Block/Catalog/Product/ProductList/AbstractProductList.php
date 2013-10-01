@@ -8,7 +8,6 @@
  * @license     {license_link}
  */
 
-namespace Magento\TargetRule\Block\Catalog\Product\ProductList;
 
 /**
  * TargetRule Catalog Product List Abstract Block
@@ -17,7 +16,9 @@ namespace Magento\TargetRule\Block\Catalog\Product\ProductList;
  * @package    Magento_TargetRule
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-abstract class AbstractProductList
+namespace Magento\TargetRule\Block\Catalog\Product\ListProduct;
+
+abstract class AbstractList
     extends \Magento\TargetRule\Block\Product\AbstractProduct
 {
     /**
@@ -58,7 +59,7 @@ abstract class AbstractProductList
 
     /**
      * @param \Magento\TargetRule\Model\Resource\Index $index
-     * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory
+     * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productFactory
      * @param \Magento\Catalog\Model\Product\Visibility $visibility
      * @param \Magento\TargetRule\Model\IndexFactory $indexFactory
      * @param \Magento\Core\Model\Registry $coreRegistry
@@ -72,7 +73,7 @@ abstract class AbstractProductList
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory,
+        \Magento\Catalog\Model\Resource\Product\CollectionFactory $productFactory,
         \Magento\Catalog\Model\Product\Visibility $visibility,
         \Magento\TargetRule\Model\IndexFactory $indexFactory,
         \Magento\TargetRule\Model\Resource\Index $index,
@@ -84,7 +85,7 @@ abstract class AbstractProductList
         \Magento\Core\Block\Template\Context $context,
         array $data = array()
     ) {
-        $this->_productCollectionFactory = $productCollectionFactory;
+        $this->_productCollectionFactory = $productFactory;
         $this->_visibility = $visibility;
         $this->_indexFactory = $indexFactory;
         parent::__construct(

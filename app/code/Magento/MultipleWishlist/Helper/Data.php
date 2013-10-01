@@ -8,13 +8,13 @@
  * @license     {license_link}
  */
 
-namespace Magento\MultipleWishlist\Helper;
-
 /**
  * Multiple wishlist helper
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
+namespace Magento\MultipleWishlist\Helper;
+
 class Data extends \Magento\Wishlist\Helper\Data
 {
     /**
@@ -25,25 +25,11 @@ class Data extends \Magento\Wishlist\Helper\Data
     protected $_defaultWishlistsByCustomer = array();
 
     /**
-     * Store manager
-     *
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * Item collection factory
      *
      * @var \Magento\Wishlist\Model\Resource\Item\CollectionFactory
      */
     protected $_itemCollectionFactory;
-
-    /**
-     * Wishlist factory
-     *
-     * @var \Magento\Wishlist\Model\WishlistFactory
-     */
-    protected $_wishlistFactory;
 
     /**
      * Wishlist collection factory
@@ -53,16 +39,15 @@ class Data extends \Magento\Wishlist\Helper\Data
     protected $_wishlistCollectionFactory;
 
     /**
-     * Construct
-     *
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Customer\Model\SessionProxy $customerSession
      * @param \Magento\Wishlist\Model\WishlistFactory $wishlistFactory
-     * @param \Magento\Wishlist\Model\Resource\Item\CollectionFactory $itemCollectionFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Wishlist\Model\Resource\Item\CollectionFactory $itemCollectionFactory
      * @param \Magento\Wishlist\Model\Resource\Wishlist\CollectionFactory $wishlistCollectionFactory
      */
     public function __construct(
@@ -71,16 +56,16 @@ class Data extends \Magento\Wishlist\Helper\Data
         \Magento\Core\Helper\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Customer\Model\SessionProxy $customerSession,
         \Magento\Wishlist\Model\WishlistFactory $wishlistFactory,
-        \Magento\Wishlist\Model\Resource\Item\CollectionFactory $itemCollectionFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Wishlist\Model\Resource\Item\CollectionFactory $itemCollectionFactory,
         \Magento\Wishlist\Model\Resource\Wishlist\CollectionFactory $wishlistCollectionFactory
     ) {
-        $this->_wishlistFactory = $wishlistFactory;
         $this->_itemCollectionFactory = $itemCollectionFactory;
-        $this->_storeManager = $storeManager;
         $this->_wishlistCollectionFactory = $wishlistCollectionFactory;
-        parent::__construct($eventManager, $coreData, $context, $coreRegistry, $coreStoreConfig);
+        parent::__construct($eventManager, $coreData, $context, $coreRegistry, $coreStoreConfig, $customerSession,
+            $wishlistFactory, $storeManager);
     }
 
     /**

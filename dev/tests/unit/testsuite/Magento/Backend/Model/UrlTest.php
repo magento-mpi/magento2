@@ -30,7 +30,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
     protected $_areaFrontName = 'backendArea';
 
     /**
-     * @var \Magento\Core\Model\Session|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Model\Session|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_coreSessionMock;
 
@@ -40,7 +40,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
     protected $_storeConfigMock;
 
     /**
-     * @var \Magento\Core\Controller\Request\Http
+     * @var \Magento\Backend\Model\Menu\Config
      */
     protected $_menuConfigMock;
 
@@ -50,14 +50,19 @@ class UrlTest extends \PHPUnit_Framework_TestCase
     protected $_backendHelperMock;
 
     /**
-     * @var \Magento\Core\Helper\Data|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Helper\Data|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_coreDataMock;
 
     /**
-     * @var \Magento\Core\Controller\Request\Http|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Controller\Request\Http|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_requestMock;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_authSessionMock;
 
     protected function setUp()
     {
@@ -94,16 +99,17 @@ class UrlTest extends \PHPUnit_Framework_TestCase
         $this->_coreDataMock = $this->getMock('Magento\Core\Helper\Data', array('getHash'), array(), '', false);
         $this->_coreDataMock->expects($this->any())->method('getHash')->will($this->returnArgument(0));
 
-        $securityInfoMock = $this->getMock('Magento\Core\Model\Url\SecurityInfoInterface');
-
-        $this->_model = new \Magento\Backend\Model\Url(
-            $securityInfoMock,
-            $this->_storeConfigMock,
-            $helperMock,
-            $this->_coreSessionMock,
-            $this->_menuConfigMock,
-            $this->_coreDataMock
-        );
+        $this->_authSessionMock = $this->getMock('Magento\Backend\Model\Auth\Session', array(), array(),
+            'Magento\Backend\Model\Auth\SessionProxy', false, false);
+        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $this->_model = $helper->getObject('Magento\Backend\Model\Url', array(
+            'coreStoreConfig' => $this->_storeConfigMock,
+            'backendHelper'   => $helperMock,
+            'coreSession'     => $this->_coreSessionMock,
+            'menuConfig'      => $this->_menuConfigMock,
+            'coreData'        => $this->_coreDataMock,
+            'authSession'     => $this->_authSessionMock
+        ));
 
         $this->_requestMock = $this->getMock('Magento\Core\Controller\Request\Http', array(), array(), '', false);
         $this->_model->setRequest($this->_requestMock);
@@ -171,17 +177,11 @@ class UrlTest extends \PHPUnit_Framework_TestCase
         $helperMock->expects($this->once())->method('getAreaFrontName')
             ->will($this->returnValue($this->_areaFrontName));
 
-        $securityInfoMock = $this->getMock('Magento\Core\Model\Url\SecurityInfoInterface');
-
-        $urlModel = new \Magento\Backend\Model\Url(
-            $securityInfoMock,
-            $this->_storeConfigMock,
-            $helperMock,
-            $this->_coreSessionMock,
-            $this->_menuConfigMock,
-            $this->_coreDataMock
-        );
-
+        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $urlModel = $helper->getObject('Magento\Backend\Model\Url', array(
+            'backendHelper'   => $helperMock,
+            'authSession'     => $this->_authSessionMock
+        ));
         $urlModel->getAreaFrontName();
     }
 
@@ -209,16 +209,11 @@ class UrlTest extends \PHPUnit_Framework_TestCase
         $helperMock->expects($this->once())->method('getAreaFrontName')
             ->will($this->returnValue(''));
 
-        $securityInfoMock = $this->getMock('Magento\Core\Model\Url\SecurityInfoInterface');
-
-        $urlModel = new \Magento\Backend\Model\Url(
-            $securityInfoMock,
-            $this->_storeConfigMock,
-            $helperMock,
-            $this->_coreSessionMock,
-            $this->_menuConfigMock,
-            $this->_coreDataMock
-        );
+        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $urlModel = $helper->getObject('Magento\Backend\Model\Url', array(
+            'backendHelper'   => $helperMock,
+            'authSession'     => $this->_authSessionMock
+        ));
 
         $moduleFrontName = 'moduleFrontName';
         $controllerName = 'controllerName';

@@ -8,13 +8,13 @@
  * @license     {license_link}
  */
 
-namespace Magento\Backend\Model\Menu;
-
 /**
  * Menu item. Should be used to create nested menu structures with \Magento\Backend\Model\Menu
  *
  * @SuppressWarnings(PHPMD.TooManyFields)
  */
+namespace Magento\Backend\Model\Menu;
+
 class Item
 {
     /**
@@ -476,19 +476,14 @@ class Item
 
     public function __wakeup()
     {
-        $this->_moduleHelper = \Magento\Core\Model\ObjectManager::getInstance()->get($this->_moduleHelperName);
-        $this->_validator = \Magento\Core\Model\ObjectManager::getInstance()
-            ->get('Magento\Backend\Model\Menu\Item\Validator');
-        $this->_acl = \Magento\Core\Model\ObjectManager::getInstance()
-            ->get('Magento\AuthorizationInterface');
-        $this->_storeConfig =  \Magento\Core\Model\ObjectManager::getInstance()
-            ->get('Magento\Core\Model\Store\Config');
-        $this->_menuFactory = \Magento\Core\Model\ObjectManager::getInstance()
-            ->get('Magento\Backend\Model\MenuFactory');
-        $this->_urlModel = \Magento\Core\Model\ObjectManager::getInstance()
-            ->get('Magento\Backend\Model\Url');
-        $this->_moduleList = \Magento\Core\Model\ObjectManager::getInstance()
-            ->get('Magento\Core\Model\ModuleListInterface');
+        $objectManager = \Magento\Core\Model\ObjectManager::getInstance();
+        $this->_moduleHelper = $objectManager->get($this->_moduleHelperName);
+        $this->_validator = $objectManager->get('Magento\Backend\Model\Menu\Item\Validator');
+        $this->_acl = $objectManager->get('Magento\AuthorizationInterface');
+        $this->_storeConfig = $objectManager->get('Magento\Core\Model\Store\Config');
+        $this->_menuFactory = $objectManager->get('Magento\Backend\Model\MenuFactory');
+        $this->_urlModel = $objectManager->get('Magento\Backend\Model\Url');
+        $this->_moduleList = $objectManager->get('Magento\Core\Model\ModuleListInterface');
         if ($this->_serializedSubmenu) {
             $this->_submenu = $this->_menuFactory->create();
             $this->_submenu->unserialize($this->_serializedSubmenu);

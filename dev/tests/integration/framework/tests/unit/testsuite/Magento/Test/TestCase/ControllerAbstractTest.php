@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
-namespace Magento\Test\TestCase;
-
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
+namespace Magento\Test\TestCase;
+
 class ControllerAbstractTest extends \Magento\TestFramework\TestCase\ControllerAbstract
 {
     protected $_bootstrap;
@@ -29,10 +29,10 @@ class ControllerAbstractTest extends \Magento\TestFramework\TestCase\ControllerA
             ->add(new \Magento\Core\Model\Message\Notice('some_notice'))
         ;
         $session = new \Magento\Object(array('messages' => $messagesCollection));
-        $helperMock = $this->getMockBuilder('Magento\Backend\Helper\DataProxy')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $request = new \Magento\TestFramework\Request($helperMock);
+        $request = new \Magento\TestFramework\Request(
+            $this->getMock('Magento\Core\Model\StoreManager', [], [], '', false),
+            $this->getMock('Magento\Backend\Helper\Data', [], [], 'Magento\Backend\Helper\DataProxy', false)
+        );
         $response = new \Magento\TestFramework\Response(
             $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false)
         );
@@ -90,14 +90,14 @@ class ControllerAbstractTest extends \Magento\TestFramework\TestCase\ControllerA
         $this->getResponse()->setBody('');
         try {
             $this->assert404NotFound();
-        } catch (\PHPUnit_Framework_AssertionFailedError $e) {
+        } catch (PHPUnit_Framework_AssertionFailedError $e) {
             return;
         }
         $this->fail('Failed response body validation');
     }
 
     /**
-     * @expectedException \PHPUnit_Framework_AssertionFailedError
+     * @expectedException PHPUnit_Framework_AssertionFailedError
      */
     public function testAssertRedirectFailure()
     {
@@ -114,7 +114,7 @@ class ControllerAbstractTest extends \Magento\TestFramework\TestCase\ControllerA
          * which requires fully initialized application environment intentionally not available
          * for unit tests
          */
-        $setRedirectMethod = new \ReflectionMethod('Zend_Controller_Response_Http', 'setRedirect');
+        $setRedirectMethod = new ReflectionMethod('Zend_Controller_Response_Http', 'setRedirect');
         $setRedirectMethod->invoke($this->getResponse(), 'http://magentocommerce.com');
         $this->assertRedirect();
         $this->assertRedirect($this->equalTo('http://magentocommerce.com'));
@@ -146,7 +146,7 @@ class ControllerAbstractTest extends \Magento\TestFramework\TestCase\ControllerA
     }
 
     /**
-     * @expectedException \PHPUnit_Framework_ExpectationFailedException
+     * @expectedException PHPUnit_Framework_ExpectationFailedException
      * @expectedExceptionMessage Session messages do not meet expectations
      */
     public function testAssertSessionMessagesFailure()

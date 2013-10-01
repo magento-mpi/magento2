@@ -86,10 +86,14 @@ class Url extends \Magento\Core\Helper\Url
      *
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Core\Model\StoreManager $storeManager
      */
-    public function __construct(\Magento\Core\Helper\Context $context, \Magento\Core\Model\Config $config)
-    {
-        parent::__construct($context);
+    public function __construct(
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\Config $config,
+        \Magento\Core\Model\StoreManager $storeManager
+    ) {
+        parent::__construct($context, $storeManager);
         $convertConfig = $config->getValue('url/convert', 'default');
         if ($convertConfig) {
             foreach ($convertConfig as $configValue) {

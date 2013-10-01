@@ -73,10 +73,16 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->_model = new \Magento\ScheduledImportExport\Model\Export\Entity\Customer\Finance(
+            $coreStoreConfig,
+            $this->getMock('Magento\Core\Model\App', array(), array(), '', false, false),
+            $this->getMock('Magento\ImportExport\Model\Export\Factory', array(), array(), '', false, false),
+            $this->getMock(
+                'Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory',
+                array(), array(), '', false, false
+            ),
             $customerCollFactory,
             $eavCustomerFactory,
             $this->getMock('Magento\ScheduledImportExport\Helper\Data', array(), array(), '', false, false),
-            $coreStoreConfig,
             $this->_getModelDependencies()
         );
     }
@@ -199,8 +205,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
         $websiteColumn = \Magento\ScheduledImportExport\Model\Export\Entity\Customer\Finance::COLUMN_WEBSITE;
         $this->assertEquals($this->_websites[$this->_customerData['website_id']], $row[$websiteColumn]);
 
-        $financeWebsiteCol =
-            \Magento\ScheduledImportExport\Model\Export\Entity\Customer\Finance::COLUMN_FINANCE_WEBSITE;
+        $financeWebsiteCol = \Magento\ScheduledImportExport\Model\Export\Entity\Customer\Finance::COLUMN_FINANCE_WEBSITE;
         $this->assertEquals($this->_websites[$this->_customerData['website_id']], $row[$financeWebsiteCol]);
 
         $this->assertEquals($this->_customerData[self::WEBSITE_ATTRIBUTE_CODE], $row[self::ATTRIBUTE_CODE]);

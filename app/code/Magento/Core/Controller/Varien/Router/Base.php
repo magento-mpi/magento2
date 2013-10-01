@@ -96,6 +96,21 @@ class Base extends \Magento\Core\Controller\Varien\Router\AbstractRouter
     protected $_config = null;
 
     /**
+     * @var \Magento\Core\Model\Url
+     */
+    protected $_url;
+
+    /**
+     * @var \Magento\Core\Model\StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Core\Model\App\State
+     */
+    protected $_appState;
+
+    /**
      * @param \Magento\Core\Controller\Varien\Action\Factory $controllerFactory
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\Core\Model\App $app
@@ -104,9 +119,12 @@ class Base extends \Magento\Core\Controller\Varien\Router\AbstractRouter
      * @param \Magento\Core\Model\Route\Config $routeConfig
      * @param \Magento\Core\Model\Url\SecurityInfoInterface $urlSecurityInfo
      * @param \Magento\Core\Model\Config $config
-     * @param $areaCode
-     * @param $baseController
-     * @param $routerId
+     * @param \Magento\Core\Model\Url $url
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\App\State $appState
+     * @param string $areaCode
+     * @param string $baseController
+     * @param string $routerId
      * @throws \InvalidArgumentException
      */
     public function __construct(
@@ -118,6 +136,9 @@ class Base extends \Magento\Core\Controller\Varien\Router\AbstractRouter
         \Magento\Core\Model\Route\Config $routeConfig,
         \Magento\Core\Model\Url\SecurityInfoInterface $urlSecurityInfo,
         \Magento\Core\Model\Config $config,
+        \Magento\Core\Model\Url $url,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\App\State $appState,
         $areaCode,
         $baseController,
         $routerId
@@ -135,6 +156,9 @@ class Base extends \Magento\Core\Controller\Varien\Router\AbstractRouter
         $this->_configScope     = $configScope;
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_config          = $config;
+        $this->_url             = $url;
+        $this->_storeManager    = $storeManager;
+        $this->_appState        = $appState;
 
         if (is_null($this->_areaCode) || is_null($this->_baseController)) {
             throw new \InvalidArgumentException("Not enough options to initialize router.");
@@ -174,7 +198,7 @@ class Base extends \Magento\Core\Controller\Varien\Router\AbstractRouter
      */
     protected function _beforeModuleMatch()
     {
-        if (\Mage::app()->getStore()->isAdmin()) {
+        if ($this->_app->getStore()->isAdmin()) {
             return false;
         }
         return true;
@@ -514,7 +538,7 @@ class Base extends \Magento\Core\Controller\Varien\Router\AbstractRouter
             include $controllerFileName;
 
             if (!class_exists($controllerClassName, false)) {
-                throw \Mage::exception('Magento_Core', __('Controller file was loaded but class does not exist'));
+                throw new \Magento\Core\Exception(__('Controller file was loaded but class does not exist'));
             }
         }
         return true;
@@ -575,10 +599,7 @@ class Base extends \Magento\Core\Controller\Varien\Router\AbstractRouter
 
     public function getControllerClassName($realModule, $controller)
     {
-        $class = str_replace('_', \Magento\Autoload\IncludePath::NS_SEPARATOR, $realModule) .
-            \Magento\Autoload\IncludePath::NS_SEPARATOR . 'Controller' .
-            \Magento\Autoload\IncludePath::NS_SEPARATOR .
-            str_replace('_','\\', uc_words(str_replace('_', ' ', $controller)));
+        $class = $realModule . '_' . 'Controller'  . '_' . uc_words($controller);
         return $class;
     }
 
@@ -614,17 +635,17 @@ class Base extends \Magento\Core\Controller\Varien\Router\AbstractRouter
      */
     protected function _checkShouldBeSecure(\Zend_Controller_Request_Http $request, $path = '')
     {
-        if (!\Mage::isInstalled() || $request->getPost()) {
+        if (!$this->_appState->isInstalled() || $request->getPost()) {
             return;
         }
 
         if ($this->_shouldBeSecure($path) && !$request->isSecure()) {
             $url = $this->_getCurrentSecureUrl($request);
             if ($this->_shouldRedirectToSecure()) {
-                $url = \Mage::getSingleton('Magento\Core\Model\Url')->getRedirectUrl($url);
+                $url = $this->_url->getRedirectUrl($url);
             }
 
-            \Mage::app()->getFrontController()->getResponse()
+            $this->_app->getFrontController()->getResponse()
                 ->setRedirect($url)
                 ->sendResponse();
             exit;
@@ -638,17 +659,17 @@ class Base extends \Magento\Core\Controller\Varien\Router\AbstractRouter
      */
     protected function _shouldRedirectToSecure()
     {
-        return \Mage::app()->getUseSessionInUrl();
+        return $this->_app->getUseSessionInUrl();
     }
 
     protected function _getCurrentSecureUrl($request)
     {
         $alias = $request->getAlias(\Magento\Core\Model\Url\Rewrite::REWRITE_REQUEST_PATH_ALIAS);
         if ($alias) {
-            return \Mage::getBaseUrl('link', true) . ltrim($alias, '/');
+            return $this->_storeManager->getStore()->getBaseUrl('link', true) . ltrim($alias, '/');
         }
 
-        return \Mage::getBaseUrl('link', true) . ltrim($request->getPathInfo(), '/');
+        return $this->_storeManager->getStore()->getBaseUrl('link', true) . ltrim($request->getPathInfo(), '/');
     }
 
     /**

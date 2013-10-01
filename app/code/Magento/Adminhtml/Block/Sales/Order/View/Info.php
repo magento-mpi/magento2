@@ -25,6 +25,11 @@ class Info extends \Magento\Adminhtml\Block\Sales\Order\AbstractOrder
     protected $_groupFactory;
 
     /**
+     * @var \Magento\Eav\Model\AttributeDataFactory
+     */
+    protected $_attrDataFactory;
+
+    /**
      * @var \Magento\Customer\Model\CustomerFactory
      */
     protected $_customerFactory;
@@ -35,26 +40,32 @@ class Info extends \Magento\Adminhtml\Block\Sales\Order\AbstractOrder
     protected $_eavConfig;
 
     /**
-     * @param \Magento\Customer\Model\GroupFactory $groupFactory
-     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
-     * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Customer\Model\GroupFactory $groupFactory
+     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Eav\Model\AttributeDataFactory $attrDataFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\Customer\Model\GroupFactory $groupFactory,
-        \Magento\Customer\Model\CustomerFactory $customerFactory,
-        \Magento\Eav\Model\Config $eavConfig,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
+        \Magento\Customer\Model\GroupFactory $groupFactory,
+        \Magento\Customer\Model\CustomerFactory $customerFactory,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Eav\Model\AttributeDataFactory $attrDataFactory,
         array $data = array()
     ) {
         $this->_customerFactory = $customerFactory;
         $this->_groupFactory = $groupFactory;
         $this->_eavConfig = $eavConfig;
+        $this->_storeManager = $storeManager;
+        $this->_attrDataFactory = $attrDataFactory;
         parent::__construct($coreData, $context, $registry, $data);
     }
 
@@ -153,8 +164,8 @@ class Info extends \Magento\Adminhtml\Block\Sales\Order\AbstractOrder
             $orderValue = $this->getOrder()->getData($orderKey);
             if ($orderValue != '') {
                 $customer->setData($attribute->getAttributeCode(), $orderValue);
-                $dataModel  = \Magento\Customer\Model\Attribute\Data::factory($attribute, $customer);
-                $value      = $dataModel->outputValue(\Magento\Customer\Model\Attribute\Data::OUTPUT_FORMAT_HTML);
+                $dataModel  = $this->_attrDataFactory->create($attribute, $customer);
+                $value      = $dataModel->outputValue(\Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_HTML);
                 $sortOrder  = $attribute->getSortOrder() + $attribute->getIsUserDefined() ? 200 : 0;
                 $sortOrder  = $this->_prepareAccountDataSortOrder($accountData, $sortOrder);
                 $accountData[$sortOrder] = array(

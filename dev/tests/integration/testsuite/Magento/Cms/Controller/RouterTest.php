@@ -29,7 +29,17 @@ class RouterTest extends \PHPUnit_Framework_TestCase
                 $this->getMock('Magento\Core\Model\Event\Config', array(), array(), '', false),
                 $this->getMock('Magento\EventFactory', array(), array(), '', false),
                 $this->getMock('Magento\Event\ObserverFactory', array(), array(), '', false)
-            )
+            ),
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                ->get('Magento\Core\Model\UrlInterface'),
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                ->get('Magento\Core\Model\Config\Primary'),
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                ->get('Magento\Cms\Model\PageFactory'),
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                ->get('Magento\Core\Model\StoreManagerInterface'),
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                ->get('Magento\Core\Model\StoreManagerInterface')
         );
     }
 
@@ -50,3 +60,28 @@ class RouterTest extends \PHPUnit_Framework_TestCase
     }
 }
 
+/**
+ * Event manager stub
+ */
+namespace Magento\Core\Model\Event;
+
+class ManagerStub extends \Magento\Core\Model\Event\Manager
+{
+    /**
+     * Stub dispatch event
+     *
+     * @param string $eventName
+     * @param array $params
+     * @return \Magento\Core\Model\App|null
+     */
+    public function dispatch($eventName, array $params = array())
+    {
+        switch ($eventName) {
+            case 'cms_controller_router_match_before' :
+                $params['condition']->setRedirectUrl('http://www.example.com/');
+                break;
+        }
+
+        return null;
+    }
+}

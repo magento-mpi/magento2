@@ -35,34 +35,36 @@ class Express extends \Magento\Paypal\Model\Express
     protected $_ecInstance = null;
 
     /**
-     * @var \Magento\Core\Model\Url
-     */
-    protected $_urlModel;
-
-    /**
      * @var \Magento\Paypal\Model\InfoFactory
      */
     protected $_paypalInfoFactory;
 
     /**
      * @param \Magento\Paypal\Model\InfoFactory $paypalInfoFactory
-     * @param \Magento\Core\Model\Url $urlModel
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
+     * @param \Magento\Paypal\Model\Method\ProTypeFactory $proTypeFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\UrlInterface $urlBuilder
+     * @param \Magento\Paypal\Model\CartFactory $cartFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Paypal\Model\InfoFactory $paypalInfoFactory,
-        \Magento\Core\Model\Url $urlModel,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
+        \Magento\Paypal\Model\Method\ProTypeFactory $proTypeFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\UrlInterface $urlBuilder,
+        \Magento\Paypal\Model\CartFactory $cartFactory,
         array $data = array()
     ) {
-        parent::__construct($eventManager, $paymentData, $coreStoreConfig, $logAdapterFactory, $data);
+        parent::__construct($eventManager, $paymentData, $coreStoreConfig, $logAdapterFactory, $proTypeFactory,
+            $storeManager, $urlBuilder, $cartFactory, $data);
         $this->_paypalInfoFactory = $paypalInfoFactory;
     }
 
@@ -116,6 +118,6 @@ class Express extends \Magento\Paypal\Model\Express
      */
     public function getCheckoutRedirectUrl()
     {
-        return $this->_urlModel->getUrl('paypaluk/express/start');
+        return $this->_urlBuilder->getUrl('paypaluk/express/start');
     }
 }

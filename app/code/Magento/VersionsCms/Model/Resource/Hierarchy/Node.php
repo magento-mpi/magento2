@@ -8,13 +8,8 @@
  * @license     {license_link}
  */
 
-
 /**
  * Cms Hierarchy Pages Node Resource Model
- *
- * @category    Magento
- * @package     Magento_VersionsCms
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\VersionsCms\Model\Resource\Hierarchy;
 
@@ -25,7 +20,7 @@ class Node extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @var bool
      */
-    protected $_isPkAutoIncrement          = false;
+    protected $_isPkAutoIncrement = false;
 
     /**
      * Secondary table for storing meta data
@@ -39,32 +34,48 @@ class Node extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @var bool
      */
-    protected $_appendActivePagesOnly      = false;
+    protected $_appendActivePagesOnly = false;
 
     /**
      * Flag to indicate whether append included in menu pages only or not
      *
      * @var bool
      */
-    protected $_appendIncludedPagesOnly    = false;
+    protected $_appendIncludedPagesOnly = false;
 
     /**
      * Maximum tree depth for tree slice, if equals zero - no limitations
      *
      * @var int
      */
-    protected $_treeMaxDepth               = 0;
+    protected $_treeMaxDepth = 0;
 
     /**
      * Tree Detalization, i.e. brief or detailed
      *
      * @var bool
      */
-    protected $_treeIsBrief                = false;
+    protected $_treeIsBrief = false;
+
+    /**
+     * @var \Magento\VersionsCms\Model\Hierarchy\NodeFactory
+     */
+    protected $_nodeFactory;
+
+    /**
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\VersionsCms\Model\Hierarchy\NodeFactory $nodeFactory
+     */
+    public function __construct(
+        \Magento\Core\Model\Resource $resource,
+        \Magento\VersionsCms\Model\Hierarchy\NodeFactory $nodeFactory
+    ) {
+        $this->_nodeFactory = $nodeFactory;
+        parent::__construct($resource);
+    }
 
     /**
      * Initialize connection and define main table and field
-     *
      */
     protected function _construct()
     {
@@ -113,7 +124,7 @@ class Node extends \Magento\Core\Model\Resource\Db\AbstractDb
                     'menu_list_type',
                     'top_menu_visibility',
                     'top_menu_excluded'
-                ));
+        ));
 
         $this->_applyParamFilters($select);
 
@@ -235,7 +246,6 @@ class Node extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function getTreeXpathsByPage($pageId)
     {
-        $treeXpaths = array();
         $select = $this->_getReadAdapter()->select()
             ->from($this->getMainTable(), 'xpath')
             ->where('page_id = ?', $pageId);
@@ -367,7 +377,7 @@ class Node extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Prepare xpath after object save
      *
-     * @param \Magento\VersionsCms\Model\Hierarchy\Node $object
+     * @param \Magento\Core\Model\AbstractModel|\Magento\VersionsCms\Model\Hierarchy\Node $object
      * @return \Magento\VersionsCms\Model\Resource\Hierarchy\Node
      */
     protected function _afterSave(\Magento\Core\Model\AbstractModel $object)
@@ -469,6 +479,9 @@ class Node extends \Magento\Core\Model\Resource\Db\AbstractDb
                     $select->where($this->getMainTable() . '.sort_order>?', $node->getSortOrder());
                     $select->order($this->getMainTable() . '.sort_order ' . \Magento\DB\Select::SQL_ASC);
                     $select->limit(1);
+                    break;
+
+                default:
                     break;
             }
 
@@ -805,12 +818,13 @@ class Node extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param int $scopeId
      * @param \Magento\VersionsCms\Model\Resource\Hierarchy\Node\Collection $collection
      * @return \Magento\VersionsCms\Model\Resource\Hierarchy\Node
+     * @throws \Exception
      */
     public function copyTo($scope, $scopeId, $collection)
     {
         // Copy hierarchy
         /** @var $nodesModel \Magento\VersionsCms\Model\Hierarchy\Node */
-        $nodesModel = \Mage::getModel('Magento\VersionsCms\Model\Hierarchy\Node', array('data' => array(
+        $nodesModel = $this->_nodeFactory->create(array('data' => array(
             'scope' =>  $scope,
             'scope_id' => $scopeId,
         )));
@@ -891,21 +905,24 @@ class Node extends \Magento\Core\Model\Resource\Db\AbstractDb
             ->from($this->getMainTable())
             ->where('scope = ?', $scope)
             ->where('scope_id = ?', $scopeId)
-            ->where($adapter->quoteIdentifier('level') . ' = ?', \Magento\VersionsCms\Model\Hierarchy\Node::NODE_LEVEL_FAKE)
+            ->where(
+                $adapter->quoteIdentifier('level') . ' = ?',
+                \Magento\VersionsCms\Model\Hierarchy\Node::NODE_LEVEL_FAKE
+            )
             ->limit(1);
         return $adapter->fetchRow($select) ? false : true;
     }
 
     /**
-     * Adding an empty node, for ability to obtain empty tree hierarhy for specific scope
+     * Adding an empty node, for ability to obtain empty tree hierarchy for specific scope
      *
      * @param string $scope
      * @param int $scopeId
      */
     public function addEmptyNode($scope, $scopeId)
     {
-        if ($scope != \Magento\VersionsCms\Model\Hierarchy\Node::NODE_SCOPE_DEFAULT &&
-            $this->getIsInherited($scope, $scopeId)
+        if ($scope != \Magento\VersionsCms\Model\Hierarchy\Node::NODE_SCOPE_DEFAULT
+            && $this->getIsInherited($scope, $scopeId)
         ) {
             $this->_getWriteAdapter()->insert($this->getMainTable(), array(
                 'sort_order' => 0,

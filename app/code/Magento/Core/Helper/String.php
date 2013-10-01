@@ -20,6 +20,24 @@ class String extends \Magento\Core\Helper\AbstractHelper
     const ICONV_CHARSET = 'UTF-8';
 
     /**
+     * @var \Magento\Core\Model\LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\Locale $locale
+     */
+    public function __construct(
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\Locale $locale)
+    {
+        parent::__construct($context);
+        $this->_locale = $locale;
+    }
+
+
+    /**
      * Truncate a string to a certain length if necessary, appending the $etc string.
      * $remainder will contain the string that has been replaced with $etc.
      *
@@ -95,7 +113,7 @@ class String extends \Magento\Core\Helper\AbstractHelper
      */
     public function splitInjection($str, $length = 50, $needle = '-', $insert = ' ')
     {
-        $str = $this->strSplit($str, $length);
+        $str = $this->str_split($str, $length);
         $newStr = '';
         foreach ($str as $part) {
             if ($this->strlen($part) >= $length) {
@@ -143,7 +161,7 @@ class String extends \Magento\Core\Helper\AbstractHelper
      * @param string $wordSeparatorRegex
      * @return array
      */
-    public function strSplit($str, $length = 1, $keepWords = false, $trim = false, $wordSeparatorRegex = '\s')
+    public function str_split($str, $length = 1, $keepWords = false, $trim = false, $wordSeparatorRegex = '\s')
     {
         $result = array();
         $strlen = $this->strlen($str);
@@ -196,7 +214,7 @@ class String extends \Magento\Core\Helper\AbstractHelper
                 }
                 // break too long part recursively
                 else {
-                    foreach ($this->strSplit($part, $length, false, $trim, $wordSeparatorRegex) as $subpart) {
+                    foreach ($this->str_split($part, $length, false, $trim, $wordSeparatorRegex) as $subpart) {
                         $i++;
                         $result[$i] = $subpart;
                     }
@@ -280,7 +298,7 @@ class String extends \Magento\Core\Helper\AbstractHelper
             return false;
         }
         $oldLocale = setlocale(LC_COLLATE, "0");
-        $localeCode = \Mage::app()->getLocale()->getLocaleCode();
+        $localeCode = $this->_locale->getLocaleCode();
         // use fallback locale if $localeCode is not available
         setlocale(LC_COLLATE,  $localeCode . '.UTF8', 'C.UTF-8', 'en_US.utf8');
         ksort($sort, SORT_LOCALE_STRING);

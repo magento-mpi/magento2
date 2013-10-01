@@ -24,6 +24,7 @@
             <module name="Magento_Adminhtml"/>
             <module name="Magento_Backend"/>
             <module name="Magento_Paypal"/>
+            <module name="Magento_Directory"/>
         </depends>
     </module>
 </config>

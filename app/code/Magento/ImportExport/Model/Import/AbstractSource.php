@@ -13,7 +13,7 @@
  */
 namespace Magento\ImportExport\Model\Import;
 
-abstract class SourceAbstract implements \SeekableIterator
+abstract class AbstractSource implements \SeekableIterator
 {
     /**
      * @var array

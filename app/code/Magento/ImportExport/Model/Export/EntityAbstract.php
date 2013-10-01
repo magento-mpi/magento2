@@ -17,7 +17,7 @@
  */
 namespace Magento\ImportExport\Model\Export;
 
-abstract class EntityAbstract
+abstract class AbstractEntity
 {
     /**#@+
      * Attribute collection name
@@ -166,27 +166,33 @@ abstract class EntityAbstract
 
     /**
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\App $app
+     * @param \Magento\ImportExport\Model\Export\Factory $collectionFactory
+     * @param \Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory $resourceColFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\App $app,
+        \Magento\ImportExport\Model\Export\Factory $collectionFactory,
+        \Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory $resourceColFactory,
         array $data = array()
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
-        $this->_websiteManager = isset($data['website_manager']) ? $data['website_manager'] : \Mage::app();
-        $this->_storeManager   = isset($data['store_manager']) ? $data['store_manager'] : \Mage::app();
+        $this->_websiteManager = isset($data['website_manager']) ? $data['website_manager'] : $app;
+        $this->_storeManager   = isset($data['store_manager']) ? $data['store_manager'] : $app;
         $this->_attributeCollection = isset($data['attribute_collection']) ? $data['attribute_collection']
-            : \Mage::getResourceModel(static::ATTRIBUTE_COLLECTION_NAME);
+            : $collectionFactory->create(static::ATTRIBUTE_COLLECTION_NAME);
         $this->_pageSize = isset($data['page_size']) ? $data['page_size']
             : (static::XML_PATH_PAGE_SIZE ? (int) $this->_coreStoreConfig->getConfig(static::XML_PATH_PAGE_SIZE) : 0);
         $this->_byPagesIterator = isset($data['collection_by_pages_iterator']) ? $data['collection_by_pages_iterator']
-            : \Mage::getResourceModel('Magento\ImportExport\Model\Resource\CollectionByPagesIterator');
+            : $resourceColFactory->create();
     }
 
     /**
      * Initialize stores hash
      *
-     * @return \Magento\ImportExport\Model\Export\EntityAbstract
+     * @return \Magento\ImportExport\Model\Export\AbstractEntity
      */
     protected function _initStores()
     {
@@ -203,7 +209,7 @@ abstract class EntityAbstract
      * Initialize website values
      *
      * @param bool $withDefault
-     * @return \Magento\ImportExport\Model\Export\EntityAbstract
+     * @return \Magento\ImportExport\Model\Export\AbstractEntity
      */
     protected function _initWebsites($withDefault = false)
     {
@@ -219,7 +225,7 @@ abstract class EntityAbstract
      *
      * @param string $errorCode Error code or simply column name
      * @param int $errorRowNum Row number
-     * @return \Magento\ImportExport\Model\Export\EntityAbstract
+     * @return \Magento\ImportExport\Model\Export\AbstractEntity
      */
     public function addRowError($errorCode, $errorRowNum)
     {
@@ -236,7 +242,7 @@ abstract class EntityAbstract
      *
      * @param string $errorCode Error code
      * @param string $message Message template
-     * @return \Magento\ImportExport\Model\Export\EntityAbstract
+     * @return \Magento\ImportExport\Model\Export\AbstractEntity
      */
     public function addMessageTemplate($errorCode, $message)
     {
@@ -387,7 +393,7 @@ abstract class EntityAbstract
     public function getWriter()
     {
         if (!$this->_writer) {
-            \Mage::throwException(__('Please specify writer.'));
+            throw new \Magento\Core\Exception(__('Please specify writer.'));
         }
 
         return $this->_writer;
@@ -397,7 +403,7 @@ abstract class EntityAbstract
      * Set parameters
      *
      * @param array $parameters
-     * @return \Magento\ImportExport\Model\Export\EntityAbstract
+     * @return \Magento\ImportExport\Model\Export\AbstractEntity
      */
     public function setParameters(array $parameters)
     {
@@ -410,7 +416,7 @@ abstract class EntityAbstract
      * Writer model setter
      *
      * @param \Magento\ImportExport\Model\Export\Adapter\AbstractAdapter $writer
-     * @return \Magento\ImportExport\Model\Export\EntityAbstract
+     * @return \Magento\ImportExport\Model\Export\AbstractEntity
      */
     public function setWriter(\Magento\ImportExport\Model\Export\Adapter\AbstractAdapter $writer)
     {

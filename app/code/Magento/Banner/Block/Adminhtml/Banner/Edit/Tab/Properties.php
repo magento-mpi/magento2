@@ -15,15 +15,40 @@
  * @package    Magento_Banner
  * @author     Magento Core Team <core@magentocommerce.com>
  *
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
 namespace Magento\Banner\Block\Adminhtml\Banner\Edit\Tab;
 
-/**
- * @SuppressWarnings(PHPMD.DepthOfInheritance)
- */
 class Properties extends \Magento\Backend\Block\Widget\Form\Generic
     implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
+    /**
+     * Banner config
+     *
+     * @var \Magento\Banner\Model\Config
+     */
+    protected $_bannerConfig;
+
+    /**
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Banner\Model\Config $bannerConfig
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Banner\Model\Config $bannerConfig,
+        array $data = array()
+    ) {
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+        $this->_bannerConfig = $bannerConfig;
+    }
+
     /**
      * Set form id prefix, declare fields for banner properties
      *
@@ -84,7 +109,7 @@ class Properties extends \Magento\Backend\Block\Widget\Form\Generic
             'label'     => __('Specify Types'),
             'name'      => 'types',
             'disabled'  => (bool)$model->getIsReadonly(),
-            'values'    => \Mage::getSingleton('Magento\Banner\Model\Config')->toOptionArray(false, false),
+            'values'    => $this->_bannerConfig->toOptionArray(false, false),
             'can_be_empty' => true,
         ));
 

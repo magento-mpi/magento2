@@ -7,14 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-namespace Magento\Backend\Controller;
-
 /**
  * Controller context
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
+namespace Magento\Backend\Controller;
+
 class Context extends \Magento\Core\Controller\Varien\Action\Context
 {
     /**
@@ -38,6 +37,21 @@ class Context extends \Magento\Core\Controller\Varien\Action\Context
     protected $_translator;
 
     /**
+     * @var \Magento\Backend\Model\Auth
+     */
+    protected $_auth;
+
+    /**
+     * @var \Magento\Backend\Model\Url
+     */
+    protected $_backendUrl;
+
+    /**
+     * @var \Magento\Core\Model\LocaleInterface
+     */
+    protected $_locale;
+
+    /**
      * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Core\Controller\Request\Http $request
      * @param \Magento\Core\Controller\Response\Http $response
@@ -50,6 +64,9 @@ class Context extends \Magento\Core\Controller\Varien\Action\Context
      * @param \Magento\Backend\Helper\Data $helper
      * @param \Magento\AuthorizationInterface $authorization
      * @param \Magento\Core\Model\Translate $translator
+     * @param \Magento\Backend\Model\Auth $auth
+     * @param \Magento\Backend\Model\Url $backendUrl
+     * @param \Magento\Core\Model\LocaleInterface $locale
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -65,7 +82,10 @@ class Context extends \Magento\Core\Controller\Varien\Action\Context
         \Magento\Backend\Model\Session $session,
         \Magento\Backend\Helper\Data $helper,
         \Magento\AuthorizationInterface $authorization,
-        \Magento\Core\Model\Translate $translator
+        \Magento\Core\Model\Translate $translator,
+        \Magento\Backend\Model\Auth $auth,
+        \Magento\Backend\Model\Url $backendUrl,
+        \Magento\Core\Model\LocaleInterface $locale
     ) {
         parent::__construct($logger, $request, $response, $objectManager, $frontController, $layout, $eventManager, 
             $isRenderInherited
@@ -74,6 +94,9 @@ class Context extends \Magento\Core\Controller\Varien\Action\Context
         $this->_helper = $helper;
         $this->_authorization = $authorization;
         $this->_translator = $translator;
+        $this->_auth = $auth;
+        $this->_backendUrl = $backendUrl;
+        $this->_locale = $locale;
     }
 
     /**
@@ -106,5 +129,29 @@ class Context extends \Magento\Core\Controller\Varien\Action\Context
     public function getTranslator()
     {
         return $this->_translator;
+    }
+
+    /**
+     * @return \Magento\Backend\Model\Auth
+     */
+    public function getAuth()
+    {
+        return $this->_auth;
+    }
+
+    /**
+     * @return \Magento\Backend\Model\Url
+     */
+    public function getBackendUrl()
+    {
+        return $this->_backendUrl;
+    }
+
+    /**
+     * @return \Magento\Core\Model\LocaleInterface
+     */
+    public function getLocale()
+    {
+        return $this->_locale;
     }
 }

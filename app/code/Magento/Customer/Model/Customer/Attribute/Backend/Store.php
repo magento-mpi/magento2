@@ -17,8 +17,28 @@
  */
 namespace Magento\Customer\Model\Customer\Attribute\Backend;
 
-class Store extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
+class Store
+    extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
 {
+    /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        array $data = array()
+    ) {
+        $this->_storeManager = $storeManager;
+        parent::__construct($logger, $data);
+    }
+
     /**
      * Before save
      *
@@ -32,11 +52,11 @@ class Store extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
         }
 
         if (!$object->hasStoreId()) {
-            $object->setStoreId(\Mage::app()->getStore()->getId());
+            $object->setStoreId($this->_storeManager->getStore()->getId());
         }
 
         if (!$object->hasData('created_in')) {
-            $object->setData('created_in', \Mage::app()->getStore($object->getStoreId())->getName());
+            $object->setData('created_in', $this->_storeManager->getStore($object->getStoreId())->getName());
         }
 
         return $this;

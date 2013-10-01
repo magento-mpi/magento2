@@ -21,13 +21,6 @@ namespace Magento\Reports\Model\Resource\Product\Lowstock;
 class Collection extends \Magento\Reports\Model\Resource\Product\Collection
 {
     /**
-     * CatalogInventory Stock Item Resource instance
-     *
-     * @var \Magento\CatalogInventory\Model\Resource\Stock\Item
-     */
-    protected $_inventoryItemResource      = null;
-
-    /**
      * Flag about is joined CatalogInventory Stock Item
      *
      * @var bool
@@ -49,47 +42,55 @@ class Collection extends \Magento\Reports\Model\Resource\Product\Collection
     protected $_inventoryData = null;
 
     /**
-     * @param \Magento\CatalogInventory\Helper\Data $catalogInventoryData
-     * @param \Magento\Catalog\Helper\Product\Flat $catalogProductFlat
-     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @var \Magento\CatalogInventory\Model\Resource\Stock\Item
+     */
+    protected $_itemResource;
+
+    /**
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Core\Model\Resource $coreResource
+     * @param \Magento\Eav\Model\EntityFactory $eavEntityFactory
+     * @param \Magento\Eav\Model\Resource\Helper $resourceHelper
+     * @param \Magento\Validator\UniversalFactory $universalFactory
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Catalog\Helper\Product\Flat $catalogProductFlat
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Catalog\Model\Resource\Product $product
+     * @param \Magento\Reports\Model\Event\TypeFactory $eventTypeFactory
+     * @param \Magento\Catalog\Model\Product\Type $productType
+     * @param \Magento\CatalogInventory\Helper\Data $catalogInventoryData
+     * @param \Magento\CatalogInventory\Model\Resource\Stock\Item $itemResource
      */
     public function __construct(
-        \Magento\CatalogInventory\Helper\Data $catalogInventoryData,
-        \Magento\Catalog\Helper\Product\Flat $catalogProductFlat,
-        \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Model\Logger $logger,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Core\Model\Resource $coreResource,
+        \Magento\Eav\Model\EntityFactory $eavEntityFactory,
+        \Magento\Eav\Model\Resource\Helper $resourceHelper,
+        \Magento\Validator\UniversalFactory $universalFactory,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Catalog\Helper\Product\Flat $catalogProductFlat,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Catalog\Model\Resource\Product $product
-    ) {
-        $this->_inventoryData = $catalogInventoryData;
-        parent::__construct(
-            $catalogProductFlat, $catalogData, $eventManager, $logger,
-            $fetchStrategy, $coreStoreConfig, $entityFactory, $product
-        );
-    }
-
-    /**
-     * Retrieve CatalogInventory Stock Item Resource instance
-     *
-     * @return \Magento\CatalogInventory\Model\Resource\Stock\Item
-     */
-    protected function _getInventoryItemResource()
+        \Magento\Catalog\Model\Resource\Product $product,
+        \Magento\Reports\Model\Event\TypeFactory $eventTypeFactory,
+        \Magento\Catalog\Model\Product\Type $productType,
+        \Magento\CatalogInventory\Helper\Data $catalogInventoryData,
+        \Magento\CatalogInventory\Model\Resource\Stock\Item $itemResource
+    )
     {
-        if ($this->_inventoryItemResource === null) {
-            $this->_inventoryItemResource = \Mage::getResourceSingleton(
-                    'Magento\CatalogInventory\Model\Resource\Stock\Item'
-                );
-        }
-        return $this->_inventoryItemResource;
+        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $eavConfig, $coreResource,
+            $eavEntityFactory, $resourceHelper, $universalFactory, $catalogData, $catalogProductFlat, $coreStoreConfig,
+            $product, $eventTypeFactory, $productType
+        );
+        $this->_inventoryData = $catalogInventoryData;
+        $this->_itemResource = $itemResource;
     }
 
     /**
@@ -99,7 +100,7 @@ class Collection extends \Magento\Reports\Model\Resource\Product\Collection
      */
     protected function _getInventoryItemTable()
     {
-        return $this->_getInventoryItemResource()->getMainTable();
+        return $this->_itemResource->getMainTable();
     }
 
     /**
@@ -109,7 +110,7 @@ class Collection extends \Magento\Reports\Model\Resource\Product\Collection
      */
     protected function _getInventoryItemIdField()
     {
-        return $this->_getInventoryItemResource()->getIdFieldName();
+        return $this->_itemResource->getIdFieldName();
     }
 
     /**
@@ -206,9 +207,7 @@ class Collection extends \Magento\Reports\Model\Resource\Product\Collection
     public function filterByProductType($typeFilter)
     {
         if (!is_string($typeFilter) && !is_array($typeFilter)) {
-            \Mage::throwException(
-                __('The product type filter specified is incorrect.')
-            );
+            new \Magento\Core\Exception(__('The product type filter specified is incorrect.'));
         }
         $this->addAttributeToFilter('type_id', $typeFilter);
         return $this;

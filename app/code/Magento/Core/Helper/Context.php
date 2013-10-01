@@ -50,16 +50,28 @@ class Context implements \Magento\ObjectManager\ContextInterface
      * @var \Magento\Core\Model\Fieldset\Config
      */
     protected $_fieldsetConfig;
-    
+
+    /**
+     * @var \Magento\Core\Model\App
+     */
+    protected $_app;
+
+    /**
+     * @var \Magento\Core\Model\UrlInterface
+     */
+    protected $_urlBuilder;
+
     /**
      * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Core\Model\Translate $translator
      * @param \Magento\Core\Model\ModuleManager $moduleManager
      * @param \Magento\Core\Controller\Request\HttpProxy $httpRequest
      * @param \Magento\Core\Model\Cache\Config $cacheConfig
-     * @param \Magento\Core\Model\EncryptionFactory $encyptorFactory
+     * @param \Magento\Core\Model\EncryptionFactory $encryptorFactory
      * @param \Magento\Core\Model\Fieldset\Config $fieldsetConfig
      * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\App $app
+     * @param \Magento\Core\Model\UrlInterface $urlBuilder
      */
     public function __construct(
         \Magento\Core\Model\Logger $logger,
@@ -67,18 +79,22 @@ class Context implements \Magento\ObjectManager\ContextInterface
         \Magento\Core\Model\ModuleManager $moduleManager,
         \Magento\Core\Controller\Request\HttpProxy $httpRequest,
         \Magento\Core\Model\Cache\Config $cacheConfig,
-        \Magento\Core\Model\EncryptionFactory $encyptorFactory,
+        \Magento\Core\Model\EncryptionFactory $encryptorFactory,
         \Magento\Core\Model\Fieldset\Config $fieldsetConfig,
-        \Magento\Core\Model\Event\Manager $eventManager
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\App $app,
+        \Magento\Core\Model\UrlInterface $urlBuilder
     ) {
         $this->_translator = $translator;
         $this->_moduleManager = $moduleManager;
         $this->_httpRequest = $httpRequest;
         $this->_cacheConfig = $cacheConfig;
-        $this->_encryptorFactory = $encyptorFactory;
+        $this->_encryptorFactory = $encryptorFactory;
         $this->_fieldsetConfig = $fieldsetConfig;
         $this->_eventManager = $eventManager;
         $this->_logger = $logger;
+        $this->_app = $app;
+        $this->_urlBuilder = $urlBuilder;
     }
 
     /**
@@ -95,6 +111,22 @@ class Context implements \Magento\ObjectManager\ContextInterface
     public function getModuleManager()
     {
         return $this->_moduleManager;
+    }
+
+    /**
+     * @return \Magento\Core\Model\App
+     */
+    public function getApp()
+    {
+        return $this->_app;
+    }
+
+    /**
+     * @return \Magento\Core\Model\UrlInterface
+     */
+    public function getUrlBuilder()
+    {
+        return $this->_urlBuilder;
     }
 
     /**

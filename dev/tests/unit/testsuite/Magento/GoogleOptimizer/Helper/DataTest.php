@@ -1,7 +1,4 @@
 <?php
-
-namespace Magento\GoogleOptimizer\Helper;
-
 /**
  * {license_notice}
  *
@@ -9,6 +6,8 @@ namespace Magento\GoogleOptimizer\Helper;
  * @license {license_link}
  * @SuppressWarnings(PHPMD.LongVariable)
  */
+namespace Magento\GoogleOptimizer\Helper;
+
 class DataTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -19,7 +18,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_analyticsHelperMock;
+    protected $_googleAnalyticsHelperMock;
 
     /**
      * @var \Magento\GoogleOptimizer\Helper\Data
@@ -29,13 +28,15 @@ class DataTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_storeConfigMock = $this->getMock('Magento\Core\Model\Store\ConfigInterface');
-        $this->_analyticsHelperMock = $this->getMock('Magento\GoogleAnalytics\Helper\Data', array(), array(), '',
+        $this->_googleAnalyticsHelperMock = $this->getMock('Magento\GoogleAnalytics\Helper\Data', array(), array(), '',
             false);
 
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $context = $this->getMock('Magento\Core\Helper\Context', array(), array(), '', false);
         $this->_helper = $objectManagerHelper->getObject('Magento\GoogleOptimizer\Helper\Data', array(
             'storeConfig' => $this->_storeConfigMock,
-            'analyticsHelper' => $this->_analyticsHelperMock,
+            'analyticsHelper' => $this->_googleAnalyticsHelperMock,
+            'context' => $context
         ));
     }
 
@@ -77,7 +78,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
             ->with(\Magento\GoogleOptimizer\Helper\Data::XML_PATH_ENABLED, $store)
             ->will($this->returnValue($isExperimentsEnabled));
 
-        $this->_analyticsHelperMock->expects($this->any())->method('isGoogleAnalyticsAvailable')
+        $this->_googleAnalyticsHelperMock->expects($this->any())->method('isGoogleAnalyticsAvailable')
             ->with($store)
             ->will($this->returnValue($isAnalyticsAvailable));
 

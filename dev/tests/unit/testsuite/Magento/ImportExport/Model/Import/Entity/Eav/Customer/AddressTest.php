@@ -21,7 +21,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     /**
      * Customer address entity adapter mock
      *
-     * @var \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_model;
 
@@ -125,12 +125,12 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     );
 
     /**
-     * @var \Magento\Core\Helper\Data|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Helper\Data|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_coreDataMock;
 
     /**
-     * @var \Magento\Core\Helper\String|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Helper\String|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_coreStringMock;
 
@@ -230,8 +230,20 @@ class AddressTest extends \PHPUnit_Framework_TestCase
             array($entityFactory)
         );
         foreach ($this->_attributes as $attributeData) {
-            $arguments = $this->_objectManagerMock
-                ->getConstructArguments('Magento\Eav\Model\Entity\Attribute\AbstractAttribute');
+            $arguments = $this->_objectManagerMock->getConstructArguments(
+                'Magento\Eav\Model\Entity\Attribute\AbstractAttribute',
+                array(
+                    $this->getMock('Magento\Core\Model\Context', array(), array(), '', false, false),
+                    $this->getMock('Magento\Core\Model\Registry'),
+                    $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false, false),
+                    $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false, false),
+                    $this->getMock('Magento\Eav\Model\Entity\TypeFactory'),
+                    $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false, false),
+                    $this->getMock('Magento\Eav\Model\Resource\Helper', array(), array(), '', false, false),
+                    $this->getMock('Magento\Validator\UniversalFactory', array(), array(), '', false, false),
+
+                )
+            );
             $arguments['data'] = $attributeData;
             $attribute = $this->getMockForAbstractClass('Magento\Eav\Model\Entity\Attribute\AbstractAttribute',
                 $arguments, '', true, true, true, array('_construct', 'getBackend')
@@ -266,6 +278,15 @@ class AddressTest extends \PHPUnit_Framework_TestCase
             $data = array(
                 'resource' => $resourceMock,
                 'data'     => $customerData,
+                $this->getMock('Magento\Customer\Model\Config\Share', array(), array(), '', false),
+                $this->getMock('Magento\Customer\Model\AddressFactory', array(), array(), '', false),
+                $this->getMock('Magento\Customer\Model\Resource\Address\CollectionFactory', array(), array(), '',
+                    false
+                ),
+                $this->getMock('Magento\Core\Model\Email\Template\MailerFactory', array(), array(), '', false),
+                $this->getMock('Magento\Core\Model\Email\InfoFactory', array(), array(), '', false),
+                $this->getMock('Magento\Customer\Model\GroupFactory', array(), array(), '', false),
+                $this->getMock('Magento\Customer\Model\AttributeFactory', array(), array(), '', false),
             );
             /** @var $customer \Magento\Customer\Model\Customer */
             $customer = $this->_objectManagerMock->getObject('Magento\Customer\Model\Customer', $data);
@@ -338,7 +359,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     /**
      * Create mock for custom behavior test
      *
-     * @return \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address|PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address|\PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getModelMockForTestImportDataWithCustomBehaviour()
     {
@@ -442,16 +463,30 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     /**
      * Create mock for customer address model class
      *
-     * @return \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address|PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address|\PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getModelMock()
     {
         $coreStoreConfig = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false);
-        
+
         $modelMock = new \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address(
             $this->_coreDataMock,
             $this->_coreStringMock,
             $coreStoreConfig,
+            $this->getMock('Magento\ImportExport\Model\ImportFactory', array(), array(), '', false),
+            $this->getMock('Magento\ImportExport\Model\Resource\Helper', array(), array(), '', false),
+            $this->getMock('Magento\Core\Model\Resource', array(), array(), '', false),
+            $this->getMock('Magento\Core\Model\App', array(), array(), '', false),
+            $this->getMock('Magento\ImportExport\Model\Export\Factory', array(), array(), '', false),
+            $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false),
+            $this->getMock('Magento\ImportExport\Model\Resource\Customer\StorageFactory', array(), array(), '', false),
+            $this->getMock('Magento\Customer\Model\AddressFactory', array(), array(), '', false),
+            $this->getMock('Magento\Directory\Model\Resource\Region\CollectionFactory', array(), array(), '', false),
+            $this->getMock('Magento\Customer\Model\CustomerFactory', array(), array(), '', false),
+            $this->getMock('Magento\Customer\Model\Resource\Address\CollectionFactory', array(), array(), '', false),
+            $this->getMock('Magento\Customer\Model\Resource\Address\Attribute\CollectionFactory',
+                array(), array(), '', false
+            ),
             $this->_getModelDependencies()
         );
 
@@ -691,7 +726,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
      * Validation method for _saveAddressEntities (callback for _saveAddressEntities)
      *
      * @param array $addUpdateRows
-     * @return \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address|PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address|\PHPUnit_Framework_MockObject_MockObject
      */
     public function validateSaveAddressEntities(array $addUpdateRows)
     {
@@ -704,7 +739,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
      * Validation method for _deleteAddressEntities (callback for _deleteAddressEntities)
      *
      * @param array $deleteRowIds
-     * @return \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address|PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address|\PHPUnit_Framework_MockObject_MockObject
      */
     public function validateDeleteAddressEntities(array $deleteRowIds)
     {

@@ -43,16 +43,22 @@ class EavAbstractTest extends \PHPUnit_Framework_TestCase
         $customerAttributes = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Customer\Model\Resource\Attribute\Collection');
 
-        $storeConfig = $objectManager->get('Magento\Core\Model\Store\Config');
-        $this->_model = $this->getMockForAbstractClass('Magento\ImportExport\Model\Export\Entity\EavAbstract',
-            array($storeConfig), '', false);
+        $this->_model = $this->getMockForAbstractClass('Magento\ImportExport\Model\Export\Entity\EavAbstract', array(),
+            '', false);
         $this->_model->expects($this->any())
             ->method('getEntityTypeCode')
             ->will($this->returnValue($this->_entityCode));
         $this->_model->expects($this->any())
             ->method('getAttributeCollection')
             ->will($this->returnValue($customerAttributes));
-        $this->_model->__construct($storeConfig);
+        $this->_model->__construct(
+            $objectManager->get('Magento\Core\Model\Store\Config'),
+            $objectManager->get('Magento\Core\Model\App'),
+            $objectManager->get('Magento\ImportExport\Model\Export\Factory'),
+            $objectManager->get('Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory'),
+            $objectManager->get('Magento\Core\Model\LocaleInterface'),
+            $objectManager->get('Magento\Eav\Model\Config')
+        );
     }
 
     /**
@@ -76,7 +82,7 @@ class EavAbstractTest extends \PHPUnit_Framework_TestCase
     public function testGetExportAttrCodes()
     {
         $this->_model->setParameters($this->_getSkippedAttributes());
-        $method = new \ReflectionMethod($this->_model, '_getExportAttributeCodes');
+        $method = new ReflectionMethod($this->_model, '_getExportAttributeCodes');
         $method->setAccessible(true);
         $attributes = $method->invoke($this->_model);
         foreach (self::$_skippedAttributes as $code) {

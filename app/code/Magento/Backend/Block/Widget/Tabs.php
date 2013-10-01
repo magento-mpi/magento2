@@ -10,10 +10,6 @@
 
 /**
  * Tabs block
- *
- * @category   Magento
- * @package    Magento_Backend
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Backend\Block\Widget;
 
@@ -42,6 +38,27 @@ class Tabs extends \Magento\Backend\Block\Widget
 
     /** @var string */
     protected $_template = 'Magento_Backend::widget/tabs.phtml';
+
+    /**
+     * @var \Magento\Backend\Model\Auth\Session
+     */
+    protected $_authSession;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Backend\Model\Auth\Session $authSession
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Backend\Model\Auth\Session $authSession,
+        array $data = array()
+    ) {
+        $this->_authSession = $authSession;
+        parent::__construct($coreData, $context, $data);
+    }
 
     /**
      * retrieve destination html element id
@@ -134,7 +151,7 @@ class Tabs extends \Magento\Backend\Block\Widget
      */
     protected function _addTabByName($tab, $tabId)
     {
-        if (strpos($tab, '\\Block\\')) {
+        if (strpos($tab, '_Block_')) {
             $this->_tabs[$tabId] = $this->getLayout()->createBlock(
                 $tab,
                 $this->getNameInLayout() . '_tab_' . $tabId
@@ -200,7 +217,7 @@ class Tabs extends \Magento\Backend\Block\Widget
     {
         if ($activeTab = $this->getRequest()->getParam('active_tab')) {
             $this->setActiveTab($activeTab);
-        } elseif ($activeTabId = \Mage::getSingleton('Magento\Backend\Model\Auth\Session')->getActiveTabId()) {
+        } elseif ($activeTabId = $this->_authSession->getActiveTabId()) {
             $this->_setActiveTab($activeTabId);
         }
 

@@ -20,9 +20,48 @@ class CatalogProductItem
     const BLOCK_NAME_UPSELL            = 'CATALOG_PRODUCT_ITEM_UPSELL';
 
     /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Catalog\Model\ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\FullPageCache\Model\Cache $fpcCache
+     * @param \Magento\FullPageCache\Model\Container\Placeholder $placeholder
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\FullPageCache\Helper\Url $urlHelper
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\Layout $layout
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     */
+    public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\FullPageCache\Model\Cache $fpcCache,
+        \Magento\FullPageCache\Model\Container\Placeholder $placeholder,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\FullPageCache\Helper\Url $urlHelper,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\Layout $layout,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\ProductFactory $productFactory
+    ) {
+        parent::__construct(
+            $eventManager, $fpcCache, $placeholder, $coreRegistry, $urlHelper, $coreStoreConfig, $layout
+        );
+        $this->_storeManager = $storeManager;
+        $this->_productFactory = $productFactory;
+    }
+
+    /**
      * Parent (container) block
      *
-     * @var null|\Magento\TargetRule\Block\Catalog\Product\ProductList\AbstractProductList
+     * @var null|\Magento\TargetRule\Block\Catalog\Product\ListProduct\AbstractList
      */
     protected $_parentBlock;
 
@@ -72,9 +111,9 @@ class CatalogProductItem
     {
         $blockName = $this->_placeholder->getName();
         if ($blockName == self::BLOCK_NAME_RELATED) {
-            return 'Magento\TargetRule\Block\Catalog\Product\ProductList\Related';
+            return 'Magento\TargetRule\Block\Catalog\Product\ListProduct\Related';
         } elseif ($blockName == self::BLOCK_NAME_UPSELL) {
-            return 'Magento\TargetRule\Block\Catalog\Product\ProductList\Upsell';
+            return 'Magento\TargetRule\Block\Catalog\Product\ListProduct\Upsell';
         }
 
         return null;
@@ -173,13 +212,13 @@ class CatalogProductItem
     /**
      * Get parent (container) block
      *
-     * @return false|\Magento\TargetRule\Block\Catalog\Product\ProductList\AbstractProductList
+     * @return false|\Magento\TargetRule\Block\Catalog\Product\ListProduct\AbstractList
      */
     protected function _getParentBlock()
     {
         if (is_null($this->_parentBlock)) {
             $blockType = $this->_getListBlockType();
-            $this->_parentBlock = $blockType ? \Mage::app()->getLayout()->createBlock($blockType) : false;
+            $this->_parentBlock = $blockType ? $this->_layout->createBlock($blockType) : false;
         }
 
         return $this->_parentBlock;
@@ -200,8 +239,9 @@ class CatalogProductItem
                 if ($parentBlock) {
                     $productId = $this->_getProductId();
                     if ($productId && !$this->_coreRegistry->registry('product')) {
-                        $product = \Mage::getModel('Magento\Catalog\Model\Product')
-                            ->setStoreId(\Mage::app()->getStore()->getId())
+                        $product = $this->_productFactory
+                            ->create()
+                            ->setStoreId($this->_storeManager->getStore()->getId())
                             ->load($productId);
                         if ($product) {
                             $this->_coreRegistry->register('product', $product);
@@ -303,8 +343,9 @@ class CatalogProductItem
         }
 
         /** @var $item \Magento\Catalog\Model\Product */
-        $item = \Mage::getModel('Magento\Catalog\Model\Product')
-            ->setStoreId(\Mage::app()->getStore()->getId())
+        $item = $this->_productFactory
+            ->create()
+            ->setStoreId($this->_storeManager->getStore()->getId())
             ->load($itemId);
 
         $block = $this->_getPlaceHolderBlock();

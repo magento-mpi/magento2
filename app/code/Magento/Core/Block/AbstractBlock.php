@@ -18,15 +18,13 @@
  * @category   Magento
  * @package    Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
- */
-namespace Magento\Core\Block;
-
-/**
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  * @SuppressWarnings(PHPMD.TooManyFields)
  */
+namespace Magento\Core\Block;
+
 abstract class AbstractBlock extends \Magento\Object
     implements \Magento\Core\Block
 {
@@ -137,6 +135,11 @@ abstract class AbstractBlock extends \Magento\Object
     protected $_logger;
 
     /**
+     * @var \Magento\Core\Model\App
+     */
+    protected $_app;
+
+    /**
      * @param \Magento\Core\Block\Context $context
      * @param array $data
      */
@@ -157,6 +160,7 @@ abstract class AbstractBlock extends \Magento\Object
         $this->_viewConfig      = $context->getViewConfig();
         $this->_cacheState      = $context->getCacheState();
         $this->_logger          = $context->getLogger();
+        $this->_app             = $context->getApp();
         parent::__construct($data);
         $this->_construct();
     }
@@ -842,8 +846,7 @@ abstract class AbstractBlock extends \Magento\Object
      */
     public static function extractModuleName($className)
     {
-        $namespace = substr($className, 0, strpos($className, \Magento\Autoload\IncludePath::NS_SEPARATOR . 'Block'));
-        return str_replace(\Magento\Autoload\IncludePath::NS_SEPARATOR, '_', $namespace);
+        return substr($className, 0, strpos($className, '_Block'));
     }
 
     /**
@@ -925,7 +928,7 @@ abstract class AbstractBlock extends \Magento\Object
     protected function _beforeCacheUrl()
     {
         if ($this->_cacheState->isEnabled(self::CACHE_GROUP)) {
-            \Mage::app()->setUseSessionVar(true);
+            $this->_app->setUseSessionVar(true);
         }
         return $this;
     }
@@ -939,7 +942,7 @@ abstract class AbstractBlock extends \Magento\Object
     protected function _afterCacheUrl($html)
     {
         if ($this->_cacheState->isEnabled(self::CACHE_GROUP)) {
-            \Mage::app()->setUseSessionVar(false);
+            $this->_app->setUseSessionVar(false);
             \Magento\Profiler::start('CACHE_URL');
             $html = $this->_urlBuilder->sessionUrlVar($html);
             \Magento\Profiler::stop('CACHE_URL');

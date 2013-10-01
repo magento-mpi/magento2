@@ -20,7 +20,9 @@ class TextTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $helper = $this->getMock('Magento\Core\Helper\String', null, array(), '', false, false);
+        $locale = $this->getMock('Magento\Core\Model\LocaleInterface', array(), array(), '', false, false);
+        $logger = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false, false);
+        $helper = $this->getMock('Magento\Core\Helper\String', array(), array(), '', false, false);
 
         $attributeData = array(
             'store_label' => 'Test',
@@ -35,12 +37,15 @@ class TextTest extends \PHPUnit_Framework_TestCase
 
         $attributeClass = 'Magento\Eav\Model\Entity\Attribute\AbstractAttribute';
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $arguments = $objectManagerHelper->getConstructArguments($attributeClass, array('data' => $attributeData));
+        $eavTypeFactory = $this->getMock('Magento\Eav\Model\Entity\TypeFactory', array(), array(), '', false, false);
+        $arguments = $objectManagerHelper->getConstructArguments(
+            $attributeClass,
+            array('eavTypeFactory' => $eavTypeFactory, 'data' => $attributeData)
+        );
 
-        /** @var $attribute \Magento\Eav\Model\Entity\Attribute\AbstractAttribute|
-         * \PHPUnit_Framework_MockObject_MockObject */
+        /** @var $attribute \Magento\Eav\Model\Entity\Attribute\AbstractAttribute|\PHPUnit_Framework_MockObject_MockObject */
         $attribute = $this->getMock($attributeClass, array('_init'), $arguments);
-        $this->_model = new \Magento\Eav\Model\Attribute\Data\Text($helper);
+        $this->_model = new \Magento\Eav\Model\Attribute\Data\Text($locale, $logger, $helper);
         $this->_model->setAttribute($attribute);
     }
 

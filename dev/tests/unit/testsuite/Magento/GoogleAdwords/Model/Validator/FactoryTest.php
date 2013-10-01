@@ -1,7 +1,4 @@
 <?php
-
-namespace Magento\GoogleAdwords\Model\Validator;
-
 /**
  * {license_notice}
  *
@@ -9,6 +6,8 @@ namespace Magento\GoogleAdwords\Model\Validator;
  * @license     {license_link}
  * @SuppressWarnings(PHPMD.LongVariable)
  */
+namespace Magento\GoogleAdwords\Model\Validator;
+
 class FactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -24,12 +23,12 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_builderFactoryMock;
+    protected $_validatorBuilderFactoryMock;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_builderMock;
+    protected $_validatorBuilderMock;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -43,14 +42,14 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_builderFactoryMock = $this->getMock('Magento\Validator\BuilderFactory', array('create'),
+        $this->_validatorBuilderFactoryMock = $this->getMock('Magento\Validator\UniversalFactory', array('create'),
             array(), '', false);
-        $this->_builderMock = $this->getMock('Magento\Validator\Builder', array(), array(), '', false);
+        $this->_validatorBuilderMock = $this->getMock('Magento\Validator\Builder', array(), array(), '', false);
         $this->_validatorMock = $this->getMock('Magento\Validator\ValidatorInterface', array(), array(), '', false);
 
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_factory = $objectManager->getObject('Magento\GoogleAdwords\Model\Validator\Factory', array(
-            'validatorBuilderFactory' => $this->_builderFactoryMock,
+            'validatorBuilderFactory' => $this->_validatorBuilderFactoryMock,
         ));
     }
 
@@ -60,7 +59,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
         $message = sprintf('Conversion Color value is not valid "%s". Please set hexadecimal 6-digit value.',
             $currentColor);
 
-        $this->_builderFactoryMock->expects($this->once())->method('create')
+        $this->_validatorBuilderFactoryMock->expects($this->once())->method('create')
             ->with(array(
                 'constraints' => array(
                     array(
@@ -84,9 +83,9 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
                     ),
                 ),
             ))
-            ->will($this->returnValue($this->_builderMock));
+            ->will($this->returnValue($this->_validatorBuilderMock));
 
-        $this->_builderMock->expects($this->once())->method('createValidator')
+        $this->_validatorBuilderMock->expects($this->once())->method('createValidator')
             ->will($this->returnValue($this->_validatorMock));
 
         $this->assertEquals($this->_validatorMock, $this->_factory->createColorValidator($currentColor));
@@ -97,7 +96,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
         $conversionId = '123';
         $message = sprintf('Conversion Id value is not valid "%s". Conversion Id should be an integer.', $conversionId);
 
-        $this->_builderFactoryMock->expects($this->once())->method('create')
+        $this->_validatorBuilderFactoryMock->expects($this->once())->method('create')
             ->with(array(
                 'constraints' => array(
                     array(
@@ -120,9 +119,9 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
                     ),
                 ),
             ))
-            ->will($this->returnValue($this->_builderMock));
+            ->will($this->returnValue($this->_validatorBuilderMock));
 
-        $this->_builderMock->expects($this->once())->method('createValidator')
+        $this->_validatorBuilderMock->expects($this->once())->method('createValidator')
             ->will($this->returnValue($this->_validatorMock));
 
         $this->assertEquals($this->_validatorMock, $this->_factory->createConversionIdValidator($conversionId));

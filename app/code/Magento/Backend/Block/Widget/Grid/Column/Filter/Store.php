@@ -11,16 +11,32 @@
 
 /**
  * Store grid column filter
- *
- * @category   Magento
- * @package    Magento_Backend
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Backend\Block\Widget\Grid\Column\Filter;
 
 class Store
     extends \Magento\Backend\Block\Widget\Grid\Column\Filter\AbstractFilter
 {
+    /**
+     * @var \Magento\Core\Model\System\Store
+     */
+    protected $_systemStore;
+
+    /**
+     * @param \Magento\Backend\Block\Context $context
+     * @param \Magento\Core\Model\Resource\Helper $resourceHelper
+     * @param \Magento\Core\Model\System\Store $systemStore
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Backend\Block\Context $context,
+        \Magento\Core\Model\Resource\Helper $resourceHelper,
+        \Magento\Core\Model\System\Store $systemStore,
+        array $data = array()
+    ) {
+        $this->_systemStore = $systemStore;
+        parent::__construct($context, $resourceHelper, $data);
+    }
 
     /**
      * Render HTML of the element
@@ -29,11 +45,9 @@ class Store
      */
     public function getHtml()
     {
-        $storeModel = \Mage::getSingleton('Magento\Core\Model\System\Store');
-        /* @var $storeModel \Magento\Core\Model\System\Store */
-        $websiteCollection = $storeModel->getWebsiteCollection();
-        $groupCollection = $storeModel->getGroupCollection();
-        $storeCollection = $storeModel->getStoreCollection();
+        $websiteCollection = $this->_systemStore->getWebsiteCollection();
+        $groupCollection = $this->_systemStore->getGroupCollection();
+        $storeCollection = $this->_systemStore->getStoreCollection();
 
         $allShow = $this->getColumn()->getStoreAll();
 

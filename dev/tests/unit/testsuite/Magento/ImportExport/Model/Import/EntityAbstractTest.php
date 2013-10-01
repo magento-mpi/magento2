@@ -21,7 +21,7 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
     /**
      * Abstract import entity model
      *
-     * @var \Magento\ImportExport\Model\Import\EntityAbstract|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\ImportExport\Model\Import\EntityAbstract|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_model;
 
@@ -57,12 +57,21 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
     protected function _getModelDependencies()
     {
         $coreHelper = $this->getMock('Magento\Core\Helper\Data', array('__construct'), array(), '', false);
-        $coreStoreConfig = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false);
         $stringHelper = $this->getMock('Magento\Core\Helper\String', array('__construct'), array(), '', false);
+        $coreStoreConfig = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false);
+        $importFactory = $this->getMock('Magento\ImportExport\Model\ImportFactory', array(), array(), '', false);
+        $resourceHelper = $this->getMock(
+            'Magento\ImportExport\Model\Resource\Helper', array(), array(), '', false
+        );
+        $resource = $this->getMock('Magento\Core\Model\Resource', array(), array(), '', false);
+
         $data = array(
             'coreData'   => $coreHelper,
             'coreString' => $stringHelper,
             'coreStoreConfig' => $coreStoreConfig,
+            'importFactory' => $importFactory,
+            'resourceHelper' => $resourceHelper,
+            'resource' => $resource,
             'data'       => array(
                 'data_source_model'            => 'not_used',
                 'connection'                   => 'not_used',
@@ -94,7 +103,7 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
             'test7' => array()
         );
 
-        $method = new \ReflectionMethod($this->_model, '_prepareRowForDb');
+        $method = new ReflectionMethod($this->_model, '_prepareRowForDb');
         $method->setAccessible(true);
         $actual = $method->invoke($this->_model, $expected);
 
@@ -161,7 +170,7 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsDataValid()
     {
-        /** @var $model \Magento\ImportExport\Model\Import\EntityAbstract|PHPUnit_Framework_MockObject_MockObject */
+        /** @var $model \Magento\ImportExport\Model\Import\EntityAbstract|\PHPUnit_Framework_MockObject_MockObject */
         $model = $this->getMockForAbstractClass('Magento\ImportExport\Model\Import\EntityAbstract', array(), '', false,
             true, true, array('validateData'));
         $model->expects($this->any())
@@ -621,11 +630,11 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
      * Create source adapter mock and set it into model object which tested in this class
      *
      * @param array $columns value which will be returned by method getColNames()
-     * @return \Magento\ImportExport\Model\Import\SourceAbstract|PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\ImportExport\Model\Import\SourceAbstract|\PHPUnit_Framework_MockObject_MockObject
      */
     protected function _createSourceAdapterMock(array $columns)
     {
-        /** @var $source \Magento\ImportExport\Model\Import\SourceAbstract|PHPUnit_Framework_MockObject_MockObject */
+        /** @var $source \Magento\ImportExport\Model\Import\SourceAbstract|\PHPUnit_Framework_MockObject_MockObject */
         $source = $this->getMockForAbstractClass('Magento\ImportExport\Model\Import\SourceAbstract', array(), '', false,
             true, true, array('getColNames')
         );

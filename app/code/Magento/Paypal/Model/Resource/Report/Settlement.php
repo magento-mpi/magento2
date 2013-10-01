@@ -8,13 +8,8 @@
  * @license     {license_link}
  */
 
-
 /**
  * Report settlement resource model
- *
- * @category    Magento
- * @package     Magento_Paypal
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Paypal\Model\Resource\Report;
 
@@ -28,8 +23,22 @@ class Settlement extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_rowsTable;
 
     /**
+     * @var \Magento\Core\Model\Date
+     */
+    protected $_coreDate;
+
+    /**
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Core\Model\Date $coreDate
+     */
+    public function __construct(\Magento\Core\Model\Resource $resource, \Magento\Core\Model\Date $coreDate)
+    {
+        $this->_coreDate = $coreDate;
+        parent::__construct($resource);
+    }
+
+    /**
      * Init main table
-     *
      */
     protected function _construct()
     {
@@ -40,7 +49,7 @@ class Settlement extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Save report rows collected in settlement model
      *
-     * @param \Magento\Paypal\Model\Report\Settlement $object
+     * @param \Magento\Core\Model\AbstractModel|\Magento\Paypal\Model\Report\Settlement $object
      * @return \Magento\Paypal\Model\Resource\Report\Settlement
      */
     protected function _afterSave(\Magento\Core\Model\AbstractModel $object)
@@ -54,17 +63,17 @@ class Settlement extends \Magento\Core\Model\Resource\Db\AbstractDb
                 if ($reportId) {
                     $adapter->delete($this->_rowsTable, array('report_id = ?' => $reportId));
                 }
-                /** @var $date \Magento\Core\Model\Date */
-                $date = \Mage::getSingleton('Magento\Core\Model\Date');
 
-                foreach ($rows as $key => $row) {
-                    /*
+                foreach (array_keys($rows) as $key) {
+                    /**
                      * Converting dates
                      */
                     $completionDate = new \Zend_Date($rows[$key]['transaction_completion_date']);
-                    $rows[$key]['transaction_completion_date'] = $date->date(null, $completionDate->getTimestamp());
+                    $rows[$key]['transaction_completion_date'] = $this->_coreDate
+                        ->date(null, $completionDate->getTimestamp());
                     $initiationDate = new \Zend_Date($rows[$key]['transaction_initiation_date']);
-                    $rows[$key]['transaction_initiation_date'] = $date->date(null, $initiationDate->getTimestamp());
+                    $rows[$key]['transaction_initiation_date'] = $this->_coreDate
+                        ->date(null, $initiationDate->getTimestamp());
                     /*
                      * Converting numeric
                      */

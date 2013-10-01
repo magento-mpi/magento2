@@ -79,6 +79,7 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
+        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_restrictionMock = $this->getMock('Magento\FullPageCache\Model\Processor\RestrictionInterface',
             array(), array(), '', false
         );
@@ -113,24 +114,30 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
         $coreStoreConfig = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false);
         $coreConfig = $this->getMock('Magento\Core\Model\Config', array(), array(), '', false);
 
-        $this->_model = new  \Magento\FullPageCache\Model\Processor(
-            $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false),
-            $this->_restrictionMock,
-            $this->_fpcCacheMock,
-            $this->_subProcFactoryMock,
-            $this->_plcFactoryMock,
-            $this->_cntrFactoryMock,
-            $this->_environmentMock,
-            $this->_requestIdtfMock,
-            $this->_designInfoMock,
-            $this->_metadataMock,
-            $this->_storeIdentifier,
-            $this->_storeManager,
-            $coreRegistry,
-            $this->_cacheTypeList,
-            $coreStoreConfig,
-            $coreConfig
-        );
+        $this->_model = $helper->getObject('Magento\FullPageCache\Model\Processor', array(
+            'eventManager' => $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false),
+            'restriction' => $this->_restrictionMock,
+            'fpcCache' => $this->_fpcCacheMock,
+            'subProcessorFactory' => $this->_subProcFactoryMock,
+            'placeholderFactory' => $this->_plcFactoryMock,
+            'containerFactory' => $this->_cntrFactoryMock,
+            'environment' => $this->_environmentMock,
+            'requestIdentifier' => $this->_requestIdtfMock,
+            'designInfo' => $this->_designInfoMock,
+            'metadata' => $this->_metadataMock,
+            'storeIdentifier' => $this->_storeIdentifier,
+            'storeManager' => $this->_storeManager,
+            'coreRegistry' => $coreRegistry,
+            'typeList' => $this->_cacheTypeList,
+            'coreStoreConfig' => $coreStoreConfig,
+            'coreConfig' => $coreConfig,
+            'fpcObserverFactory' => $this->getMock(
+                'Magento\FullPageCache\Model\ObserverFactory', array(), array(), '', false
+            ),
+            'processorFactory' => $this->getMock(
+                'Magento\FullPageCache\Model\Cache\SubProcessorFactory', array(), array(), '', false
+            ),
+        ));
     }
 
     public function testGetRequestId()

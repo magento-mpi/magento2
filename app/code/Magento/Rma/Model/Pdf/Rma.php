@@ -64,6 +64,9 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
      * @param \Magento\Sales\Model\Order\Pdf\Total\Factory $totalFactory
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Rma\Helper\Eav $rmaEav,
@@ -77,7 +80,8 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
         \Magento\Sales\Model\Order\Pdf\Config $pdfConfig,
         \Magento\Sales\Model\Order\Pdf\Total\Factory $totalFactory,
         \Magento\Core\Model\LocaleInterface $locale,
-        \Magento\Core\Model\StoreManagerInterface $storeManager
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        array $data = array()
     ) {
         $this->_rmaEav = $rmaEav;
         $this->_rmaData = $rmaData;
@@ -333,22 +337,22 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
      */
     protected function _drawRmaItem($item, $page)
     {
-        $productName = $this->_coreString->strSplit($item->getProductName(), 60, true, true);
+        $productName = $this->_coreString->str_split($item->getProductName(), 60, true, true);
         $productName = isset($productName[0]) ? $productName[0] : '';
 
         $page->drawText($productName, $this->getProductNameX(), $this->y, 'UTF-8');
 
-        $productSku = $this->_coreString->strSplit($item->getProductSku(), 25);
+        $productSku = $this->_coreString->str_split($item->getProductSku(), 25);
         $productSku = isset($productSku[0]) ? $productSku[0] : '';
         $page->drawText($productSku, $this->getProductSkuX(), $this->y, 'UTF-8');
 
-        $condition = $this->_coreString->strSplit(
+        $condition = $this->_coreString->str_split(
             $this->_getOptionAttributeStringValue($item->getCondition()),
             25
         );
         $page->drawText($condition[0], $this->getConditionX(), $this->y, 'UTF-8');
 
-        $resolution = $this->_coreString->strSplit(
+        $resolution = $this->_coreString->str_split(
             $this->_getOptionAttributeStringValue($item->getResolution()),
             25
         );
@@ -367,7 +371,7 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
             'UTF-8'
         );
 
-        $status = $this->_coreString->strSplit($item->getStatusLabel(), 25);
+        $status = $this->_coreString->str_split($item->getStatusLabel(), 25);
         $page->drawText($status[0], $this->getStatusX(), $this->y, 'UTF-8');
 
         $productOptions = $item->getOptions();
@@ -391,7 +395,7 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
             $this->y -= 8;
             $optionRowString = $value['label'] . ': ' .
                 (isset($value['print_value']) ? $value['print_value'] : $value['value']);
-            $productOptions = $this->_coreString->strSplit($optionRowString, 60, true, true);
+            $productOptions = $this->_coreString->str_split($optionRowString, 60, true, true);
             $productOptions = isset($productOptions[0]) ? $productOptions[0] : '';
             $page->drawText($productOptions, $this->getProductNameX(), $this->y, 'UTF-8');
         }

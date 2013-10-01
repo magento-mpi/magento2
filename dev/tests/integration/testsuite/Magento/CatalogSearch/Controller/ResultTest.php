@@ -19,6 +19,7 @@ class ResultTest extends \Magento\TestFramework\TestCase\ControllerAbstract
      */
     public function testIndexActionTranslation()
     {
+        $this->markTestIncomplete('endTest() called too early, config fixture reseted');
         $this->getRequest()->setParam('q', 'query_text');
         $this->dispatch('catalogsearch/result');
 

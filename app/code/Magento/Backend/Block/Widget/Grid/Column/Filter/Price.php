@@ -15,12 +15,10 @@
  * @package    Magento_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 namespace Magento\Backend\Block\Widget\Grid\Column\Filter;
 
-/**
-* @SuppressWarnings(PHPMD.CouplingBetweenObjects)
-*/
 class Price extends \Magento\Backend\Block\Widget\Grid\Column\Filter\AbstractFilter
 {
     /**
@@ -40,17 +38,19 @@ class Price extends \Magento\Backend\Block\Widget\Grid\Column\Filter\AbstractFil
 
     /**
      * @param \Magento\Backend\Block\Context $context
+     * @param \Magento\Core\Model\Resource\Helper $resourceHelper
      * @param \Magento\Directory\Model\Currency $currencyModel
      * @param \Magento\Directory\Model\Currency\DefaultLocator $currencyLocator
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Context $context,
+        \Magento\Core\Model\Resource\Helper $resourceHelper,
         \Magento\Directory\Model\Currency $currencyModel,
         \Magento\Directory\Model\Currency\DefaultLocator $currencyLocator,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
+        parent::__construct($context, $resourceHelper, $data);
         $this->_currencyModel = $currencyModel;
         $this->_currencyLocator = $currencyLocator;
     }

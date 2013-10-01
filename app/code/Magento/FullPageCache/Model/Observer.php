@@ -122,6 +122,51 @@ class Observer
     protected $_typeList;
 
     /**
+     * @var \Magento\Catalog\Model\Session
+     */
+    protected $_catalogSession;
+
+    /**
+     * @var \Magento\Catalog\Model\Product\Visibility
+     */
+    protected $_productVisibility;
+
+    /**
+     * @var \Magento\FullPageCache\Model\Container\PlaceholderFactory
+     */
+    protected $_fpcPlacehldrFactory;
+
+    /**
+     * @var \Magento\Core\Model\Session
+     */
+    protected $_coreSession;
+
+    /**
+     * @var \Magento\Reports\Model\Resource\Product\Index\Viewed\CollectionFactory
+     */
+    protected $_reportsFactory;
+
+    /**
+     * @var \Magento\Core\Model\App
+     */
+    protected $_application;
+
+    /**
+     * @var \Magento\FullPageCache\Model\ValidatorFactory
+     */
+    protected $_fpcValidatorFactory;
+
+    /**
+     * @var \Magento\Reports\Model\Product\Index\ViewedFactory
+     */
+    protected $_viewedIdxFactory;
+
+    /**
+     * @var \Magento\FullPageCache\Model\Container\WishlistsFactory
+     */
+    protected $_fpcWishlistsFactory;
+
+    /**
      * @param \Magento\Core\Helper\Url $coreUrl
      * @param \Magento\Wishlist\Helper\Data $wishlistData
      * @param \Magento\Catalog\Helper\Product\Compare $ctlgProdCompare
@@ -137,6 +182,15 @@ class Observer
      * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Core\Model\Cache\TypeListInterface $typeList
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\Session $coreSession
+     * @param \Magento\FullPageCache\Model\Container\PlaceholderFactory $fpcPlacehldrFactory
+     * @param \Magento\Catalog\Model\Product\Visibility $productVisibility
+     * @param \Magento\Catalog\Model\Session $catalogSession
+     * @param \Magento\Reports\Model\Resource\Product\Index\Viewed\CollectionFactory $reportsFactory
+     * @param \Magento\Core\Model\App $application
+     * @param \Magento\FullPageCache\Model\ValidatorFactory $fpcValidatorFactory
+     * @param \Magento\Reports\Model\Product\Index\ViewedFactory $viewedIdxFactory
+     * @param \Magento\FullPageCache\Model\Container\WishlistsFactory $fpcWishlistsFactory
      */
     public function __construct(
         \Magento\Core\Helper\Url $coreUrl,
@@ -153,7 +207,16 @@ class Observer
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Core\Model\Logger $logger,
         \Magento\Core\Model\Cache\TypeListInterface $typeList,
-        \Magento\Core\Model\Store\Config $coreStoreConfig
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\Session $coreSession,
+        \Magento\FullPageCache\Model\Container\PlaceholderFactory $fpcPlacehldrFactory,
+        \Magento\Catalog\Model\Product\Visibility $productVisibility,
+        \Magento\Catalog\Model\Session $catalogSession,
+        \Magento\Reports\Model\Resource\Product\Index\Viewed\CollectionFactory $reportsFactory,
+        \Magento\Core\Model\App $application,
+        \Magento\FullPageCache\Model\ValidatorFactory $fpcValidatorFactory,
+        \Magento\Reports\Model\Product\Index\ViewedFactory $viewedIdxFactory,
+        \Magento\FullPageCache\Model\Container\WishlistsFactory $fpcWishlistsFactory
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_coreUrl = $coreUrl;
@@ -171,6 +234,15 @@ class Observer
         $this->_isEnabled = $this->_cacheState->isEnabled('full_page');
         $this->_logger = $logger;
         $this->_typeList = $typeList;
+        $this->_coreSession = $coreSession;
+        $this->_fpcPlacehldrFactory = $fpcPlacehldrFactory;
+        $this->_productVisibility = $productVisibility;
+        $this->_catalogSession = $catalogSession;
+        $this->_reportsFactory = $reportsFactory;
+        $this->_application = $application;
+        $this->_fpcValidatorFactory = $fpcValidatorFactory;
+        $this->_viewedIdxFactory = $viewedIdxFactory;
+        $this->_fpcWishlistsFactory = $fpcWishlistsFactory;
     }
 
     /**
@@ -221,9 +293,9 @@ class Observer
          */
         if ($this->_processor->canProcessRequest($request) && $this->_processor->getRequestProcessor($request)) {
             $this->_cacheState->setEnabled(\Magento\Core\Block\AbstractBlock::CACHE_GROUP, false); // disable blocks cache
-            \Mage::getSingleton('Magento\Catalog\Model\Session')->setParamsMemorizeDisabled(true);
+            $this->_catalogSession->setParamsMemorizeDisabled(true);
         } else {
-            \Mage::getSingleton('Magento\Catalog\Model\Session')->setParamsMemorizeDisabled(false);
+            $this->_catalogSession->setParamsMemorizeDisabled(false);
         }
         $this->_cookie->updateCustomerCookies();
         return $this;
@@ -325,7 +397,9 @@ class Observer
             return $this;
         }
         $object = $observer->getEvent()->getObject();
-        $object = \Mage::getModel('Magento\FullPageCache\Model\Validator')->checkDataChange($object);
+        $object = $this->_fpcValidatorFactory
+            ->create()
+            ->checkDataChange($object);
         return $this;
     }
 
@@ -341,7 +415,10 @@ class Observer
             return $this;
         }
         $object = $observer->getEvent()->getObject();
-        $object = \Mage::getModel('Magento\FullPageCache\Model\Validator')->checkDataDelete($object);
+
+        $object = $this->_fpcValidatorFactory
+            ->create()
+            ->checkDataDelete($object);
         return $this;
     }
 
@@ -491,20 +568,23 @@ class Observer
             $productIds = $this->_cookie->get(\Magento\FullPageCache\Model\Container\Viewedproducts::COOKIE_NAME);
             if ($productIds) {
                 $productIds = explode(',', $productIds);
-                \Mage::getModel('Magento\Reports\Model\Product\Index\Viewed')->registerIds($productIds);
+                $this->_viewedIdxFactory->create()->registerIds($productIds);
             }
         } catch (\Exception $e) {
             $this->_logger->logException($e);
         }
 
         // renew customer viewed product ids cookie
-        $countLimit = $this->_coreStoreConfig->getConfig(\Magento\Reports\Block\Product\Viewed::XML_PATH_RECENTLY_VIEWED_COUNT);
-        $collection = \Mage::getResourceModel('Magento\Reports\Model\Resource\Product\Index\Viewed\Collection')
+        $countLimit = $this->_coreStoreConfig->getConfig(
+            \Magento\Reports\Block\Product\Viewed::XML_PATH_RECENTLY_VIEWED_COUNT
+        );
+        $collection = $this->_reportsFactory
+            ->create()
             ->addIndexFilter()
             ->setAddedAtOrder()
             ->setPageSize($countLimit)
             ->setCurPage(1)
-            ->setVisibility(\Mage::getSingleton('Magento\Catalog\Model\Product\Visibility')->getVisibleInSiteIds());
+            ->setVisibility($this->_productVisibility->getVisibleInSiteIds());
 
         $productIds = $collection->load()->getLoadedIds();
         $productIds = implode(',', $productIds);
@@ -588,12 +668,10 @@ class Observer
         if (!$this->isCacheEnabled()) {
             return $this;
         }
-        $placeholder = \Mage::getSingleton('Magento\FullPageCache\Model\Container\PlaceholderFactory')
+        $placeholder = $this->_fpcPlacehldrFactory
             ->create('WISHLISTS');
 
-        $blockContainer = \Mage::getModel(
-            'Magento\FullPageCache\Model\Container\Wishlists', array('placeholder' => $placeholder)
-        );
+        $blockContainer = $this->_fpcWishlistsFactory->create(array('placeholder' => $placeholder));
         $this->_fpcCache->remove($blockContainer->getCacheId());
 
         return $this;
@@ -641,8 +719,10 @@ class Observer
     public function registerDesignExceptionsChange(\Magento\Event\Observer $observer)
     {
         $object = $observer->getDataObject();
-        $this->_fpcCache->save($object->getValue(), \Magento\FullPageCache\Model\DesignPackage\Info::DESIGN_EXCEPTION_KEY,
-                array(\Magento\FullPageCache\Model\Processor::CACHE_TAG));
+        $this->_fpcCache->save(
+            $object->getValue(), \Magento\FullPageCache\Model\DesignPackage\Info::DESIGN_EXCEPTION_KEY,
+            array(\Magento\FullPageCache\Model\Processor::CACHE_TAG)
+        );
         return $this;
     }
 
@@ -680,9 +760,9 @@ class Observer
             return $this;
         }
         $url = $transport->getUrl();
-        $httpHost = \Mage::app()->getFrontController()->getRequest()->getHttpHost();
+        $httpHost = $this->_application->getFrontController()->getRequest()->getHttpHost();
         $urlHost = parse_url($url, PHP_URL_HOST);
-        if ($httpHost != $urlHost && \Mage::getSingleton('Magento\Core\Model\Session')->getMessages()->count() > 0) {
+        if ($httpHost != $urlHost && $this->_coreSession->getMessages()->count() > 0) {
             $transport->setUrl(
                 $this->_coreUrl->addRequestParam($url, array(
                     \Magento\FullPageCache\Model\Cache::REQUEST_MESSAGE_GET_PARAM => null

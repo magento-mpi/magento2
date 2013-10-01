@@ -17,7 +17,7 @@
  */
 namespace Magento\ImportExport\Model\Import;
 
-abstract class EntityAbstract
+abstract class AbstractEntity
 {
     /**
      * Custom row import behavior column name
@@ -183,7 +183,7 @@ abstract class EntityAbstract
     /**
      * Source model
      *
-     * @var \Magento\ImportExport\Model\Import\SourceAbstract
+     * @var \Magento\ImportExport\Model\Import\AbstractSource
      */
     protected $_source;
 
@@ -237,25 +237,31 @@ abstract class EntityAbstract
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Helper\String $coreString
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\ImportExport\Model\ImportFactory $importFactory
+     * @param \Magento\ImportExport\Model\Resource\Helper $resourceHelper
+     * @param \Magento\Core\Model\Resource $resource
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Helper\String $coreString,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\ImportExport\Model\ImportFactory $importFactory,
+        \Magento\ImportExport\Model\Resource\Helper $resourceHelper,
+        \Magento\Core\Model\Resource $resource,
         array $data = array()
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_dataSourceModel     = isset($data['data_source_model']) ? $data['data_source_model']
-            : \Magento\ImportExport\Model\Import::getDataSourceModel();
+            : $importFactory->create()->getDataSourceModel();
         $this->_connection          = isset($data['connection']) ? $data['connection']
-            : \Mage::getSingleton('Magento\Core\Model\Resource')->getConnection('core_write');
+            : $resource->getConnection('write');
         $this->_jsonHelper          =  $coreData;
         $this->_stringHelper        =  $coreString;
         $this->_pageSize            = isset($data['page_size']) ? $data['page_size']
             : (static::XML_PATH_PAGE_SIZE ? (int)$this->_coreStoreConfig->getConfig(static::XML_PATH_PAGE_SIZE) : 0);
         $this->_maxDataSize         = isset($data['max_data_size']) ? $data['max_data_size']
-            : \Mage::getResourceHelper('Magento_ImportExport')->getMaxDataSize();
+            : $resourceHelper->getMaxDataSize();
         $this->_bunchSize           = isset($data['bunch_size']) ? $data['bunch_size']
             : (static::XML_PATH_BUNCH_SIZE ? (int)$this->_coreStoreConfig->getConfig(static::XML_PATH_BUNCH_SIZE) : 0);
     }
@@ -300,7 +306,7 @@ abstract class EntityAbstract
     /**
      * Validate data rows and save bunches to DB
      *
-     * @return \Magento\ImportExport\Model\Import\EntityAbstract
+     * @return \Magento\ImportExport\Model\Import\AbstractEntity
      */
     protected function _saveValidatedBunches()
     {
@@ -360,7 +366,7 @@ abstract class EntityAbstract
      * @param string $errorCode Error code or simply column name
      * @param int $errorRowNum Row number
      * @param string $columnName OPTIONAL Column name
-     * @return \Magento\ImportExport\Model\Import\EntityAbstract
+     * @return \Magento\ImportExport\Model\Import\AbstractEntity
      */
     public function addRowError($errorCode, $errorRowNum, $columnName = null)
     {
@@ -377,7 +383,7 @@ abstract class EntityAbstract
      *
      * @param string $errorCode Error code
      * @param string $message Message template
-     * @return \Magento\ImportExport\Model\Import\EntityAbstract
+     * @return \Magento\ImportExport\Model\Import\AbstractEntity
      */
     public function addMessageTemplate($errorCode, $message)
     {
@@ -515,12 +521,12 @@ abstract class EntityAbstract
      * Source object getter
      *
      * @throws \Exception
-     * @return \Magento\ImportExport\Model\Import\SourceAbstract
+     * @return \Magento\ImportExport\Model\Import\AbstractSource
      */
     public function getSource()
     {
         if (!$this->_source) {
-            \Mage::throwException(__('Source is not set'));
+            throw new \Magento\Core\Exception(__('Source is not set'));
         }
         return $this->_source;
     }
@@ -647,7 +653,7 @@ abstract class EntityAbstract
      * Set data from outside to change behavior
      *
      * @param array $parameters
-     * @return \Magento\ImportExport\Model\Import\EntityAbstract
+     * @return \Magento\ImportExport\Model\Import\AbstractEntity
      */
     public function setParameters(array $parameters)
     {
@@ -658,10 +664,10 @@ abstract class EntityAbstract
     /**
      * Source model setter
      *
-     * @param \Magento\ImportExport\Model\Import\SourceAbstract $source
-     * @return \Magento\ImportExport\Model\Import\EntityAbstract
+     * @param \Magento\ImportExport\Model\Import\AbstractSource $source
+     * @return \Magento\ImportExport\Model\Import\AbstractEntity
      */
-    public function setSource(\Magento\ImportExport\Model\Import\SourceAbstract $source)
+    public function setSource(\Magento\ImportExport\Model\Import\AbstractSource $source)
     {
         $this->_source = $source;
         $this->_dataValidated = false;
@@ -673,14 +679,14 @@ abstract class EntityAbstract
      * Validate data
      *
      * @throws \Exception
-     * @return \Magento\ImportExport\Model\Import\EntityAbstract
+     * @return \Magento\ImportExport\Model\Import\AbstractEntity
      */
     public function validateData()
     {
         if (!$this->_dataValidated) {
             // do all permanent columns exist?
             if ($absentColumns = array_diff($this->_permanentAttributes, $this->getSource()->getColNames())) {
-                \Mage::throwException(
+                throw new \Magento\Core\Exception(
                     __('Cannot find required columns: %1',
                         implode(', ', $absentColumns)
                     )
@@ -703,14 +709,14 @@ abstract class EntityAbstract
             }
 
             if ($emptyHeaderColumns) {
-                \Mage::throwException(
+                throw new \Magento\Core\Exception(
                     __('Columns number: "%1" have empty headers',
                         implode('", "', $emptyHeaderColumns)
                     )
                 );
             }
             if ($invalidColumns) {
-                \Mage::throwException(
+                throw new \Magento\Core\Exception(
                     __('Column names: "%1" are invalid',
                         implode('", "', $invalidColumns)
                     )

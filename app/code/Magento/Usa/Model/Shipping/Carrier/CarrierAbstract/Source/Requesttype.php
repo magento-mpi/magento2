@@ -15,7 +15,7 @@
  * @package    Magento_Usa
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Usa\Model\Shipping\Carrier\CarrierAbstract\Source;
+namespace Magento\Usa\Model\Shipping\Carrier\AbstractCarrier\Source;
 
 class Requesttype implements \Magento\Core\Model\Option\ArrayInterface
 {

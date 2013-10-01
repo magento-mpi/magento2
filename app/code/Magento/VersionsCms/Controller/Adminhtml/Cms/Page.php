@@ -8,20 +8,60 @@
  * @license     {license_link}
  */
 
-
 /**
  * Cms manage pages controller
- *
- * @category    Magento
- * @package     Magento_VersionsCms
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 namespace Magento\VersionsCms\Controller\Adminhtml\Cms;
 
 class Page extends \Magento\Adminhtml\Controller\Cms\Page
 {
+    /**
+     * @var array
+     */
     protected $_handles = array();
+
+    /**
+     * @var \Magento\VersionsCms\Model\Config
+     */
+    protected $_cmsConfig;
+
+    /**
+     * @var \Magento\Backend\Model\Auth\Session
+     */
+    protected $_backendAuthSession;
+
+    /**
+     * @var \Magento\VersionsCms\Model\Page\Version
+     */
+    protected $_pageVersion;
+
+    /**
+     * @var \Magento\Cms\Model\PageFactory
+     */
+    protected $_pageFactory;
+
+    /**
+     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\VersionsCms\Model\Config $cmsConfig
+     * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
+     * @param \Magento\VersionsCms\Model\Page\Version $pageVersion
+     * @param \Magento\Cms\Model\PageFactory $pageFactory
+     */
+    public function __construct(
+        \Magento\Backend\Controller\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\VersionsCms\Model\Config $cmsConfig,
+        \Magento\Backend\Model\Auth\Session $backendAuthSession,
+        \Magento\VersionsCms\Model\Page\Version $pageVersion,
+        \Magento\Cms\Model\PageFactory $pageFactory
+    ) {
+        $this->_cmsConfig = $cmsConfig;
+        $this->_backendAuthSession = $backendAuthSession;
+        $this->_pageVersion = $pageVersion;
+        $this->_pageFactory = $pageFactory;
+        parent::__construct($context, $coreRegistry);
+    }
 
     /**
      * Init actions
@@ -57,15 +97,15 @@ class Page extends \Magento\Adminhtml\Controller\Cms\Page
      * Prepare and place cms page model into registry
      * with loaded data if id parameter present
      *
-     * @param string $idFieldName
-     * @return Magento_VersionsCms_Model_Page
+     * @return \Magento\VersionsCms\Model\Page
      */
     protected function _initPage()
     {
         $this->_title(__('Pages'));
 
-        $pageId = (int) $this->getRequest()->getParam('page_id');
-        $page = \Mage::getModel('Magento\Cms\Model\Page');
+        $pageId = (int)$this->getRequest()->getParam('page_id');
+        /** @var \Magento\Cms\Model\Page $page */
+        $page = $this->_pageFactory->create();
 
         if ($pageId) {
             $page->load($pageId);
@@ -75,7 +115,6 @@ class Page extends \Magento\Adminhtml\Controller\Cms\Page
         return $page;
     }
 
-
     /**
      * Edit CMS page
      */
@@ -83,8 +122,8 @@ class Page extends \Magento\Adminhtml\Controller\Cms\Page
     {
         $page = $this->_initPage();
 
-        $data = \Mage::getSingleton('Magento\Adminhtml\Model\Session')->getFormData(true);
-        if (! empty($data)) {
+        $data = $this->_session->getFormData(true);
+        if (!empty($data)) {
             $page->setData($data);
         }
 
@@ -92,17 +131,16 @@ class Page extends \Magento\Adminhtml\Controller\Cms\Page
             if ($page->getUnderVersionControl()) {
                 $this->_handles[] = 'adminhtml_cms_page_edit_changes';
             }
-        } else if (!$page->hasUnderVersionControl()) {
-            $page->setUnderVersionControl((int)\Mage::getSingleton('Magento\VersionsCms\Model\Config')->getDefaultVersioningStatus());
+        } elseif (!$page->hasUnderVersionControl()) {
+            $page->setUnderVersionControl((int)$this->_cmsConfig->getDefaultVersioningStatus());
         }
 
         $this->_title($page->getId() ? $page->getTitle() : __('New Page'));
 
-        $this->_initAction()
-            ->_addBreadcrumb($page->getId() ? __('Edit Page')
-                    : __('New Page'),
-                $page->getId() ? __('Edit Page')
-                    : __('New Page'));
+        $this->_initAction()->_addBreadcrumb(
+            $page->getId() ? __('Edit Page') : __('New Page'),
+            $page->getId() ? __('Edit Page') : __('New Page')
+        );
 
         $this->renderLayout();
     }
@@ -131,15 +169,13 @@ class Page extends \Magento\Adminhtml\Controller\Cms\Page
         $ids = $this->getRequest()->getParam('version');
         if (!is_array($ids)) {
             $this->_getSession()->addError(__('Please select version(s).'));
-        }
-        else {
+        } else {
             try {
-                $userId = \Mage::getSingleton('Magento\Backend\Model\Auth\Session')->getUser()->getId();
-                $accessLevel = \Mage::getSingleton('Magento\VersionsCms\Model\Config')->getAllowedAccessLevel();
+                $userId = $this->_backendAuthSession->getUser()->getId();
+                $accessLevel = $this->_cmsConfig->getAllowedAccessLevel();
 
                 foreach ($ids as $id) {
-                    $version = \Mage::getSingleton('Magento\VersionsCms\Model\Page\Version')
-                        ->loadWithRestrictions($accessLevel, $userId, $id);
+                    $version = $this->_pageVersion->loadWithRestrictions($accessLevel, $userId, $id);
 
                     if ($version->getId()) {
                         $version->delete();
@@ -169,11 +205,9 @@ class Page extends \Magento\Adminhtml\Controller\Cms\Page
     {
         switch ($this->getRequest()->getActionName()) {
             case 'massDeleteVersions':
-                return \Mage::getSingleton('Magento\VersionsCms\Model\Config')->canCurrentUserDeleteVersion();
-                break;
+                return $this->_cmsConfig->canCurrentUserDeleteVersion();
             default:
                 return parent::_isAllowed();
-                break;
         }
     }
 }

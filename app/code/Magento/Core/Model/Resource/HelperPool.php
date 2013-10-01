@@ -20,7 +20,6 @@ class HelperPool
      */
     protected $_objectManager;
 
-
     /**
      * @var array
      */

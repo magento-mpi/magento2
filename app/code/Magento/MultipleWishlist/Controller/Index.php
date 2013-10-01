@@ -8,22 +8,16 @@
  * @license     {license_link}
  */
 
-namespace Magento\MultipleWishlist\Controller;
-
 /**
  * Multiple wishlist frontend search controller
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
+
+namespace Magento\MultipleWishlist\Controller;
+
 class Index extends \Magento\Wishlist\Controller\Index
 {
-    /**
-     * Url model
-     *
-     * @var \Magento\Core\Model\UrlInterface
-     */
-    protected $_url;
-
     /**
      * Customer session
      *
@@ -58,31 +52,30 @@ class Index extends \Magento\Wishlist\Controller\Index
      * @param \Magento\Core\Controller\Varien\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Wishlist\Model\Config $wishlistConfig
+     * @param \Magento\Core\Model\Url|\Magento\Core\Model\UrlInterface $url
      * @param \Magento\Wishlist\Model\ItemFactory $itemFactory
      * @param \Magento\Wishlist\Model\WishlistFactory $wishlistFactory
      * @param \Magento\Core\Model\Session\Generic $wishlistSession
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Core\Model\UrlInterface $url
      * @param \Magento\Wishlist\Model\Resource\Wishlist\CollectionFactory $wishlistCollectionFactory
      */
     public function __construct(
         \Magento\Core\Controller\Varien\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Wishlist\Model\Config $wishlistConfig,
+        \Magento\Core\Model\Url $url,
         \Magento\Wishlist\Model\ItemFactory $itemFactory,
         \Magento\Wishlist\Model\WishlistFactory $wishlistFactory,
         \Magento\Core\Model\Session\Generic $wishlistSession,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Core\Model\UrlInterface $url,
         \Magento\Wishlist\Model\Resource\Wishlist\CollectionFactory $wishlistCollectionFactory
     ) {
         $this->_itemFactory = $itemFactory;
         $this->_wishlistFactory = $wishlistFactory;
         $this->_wishlistSession = $wishlistSession;
         $this->_customerSession = $customerSession;
-        $this->_url = $url;
         $this->_wishlistCollectionFactory = $wishlistCollectionFactory;
-        parent::__construct($context, $coreRegistry, $wishlistConfig);
+        parent::__construct($context, $coreRegistry, $wishlistConfig, $url);
     }
 
     /**

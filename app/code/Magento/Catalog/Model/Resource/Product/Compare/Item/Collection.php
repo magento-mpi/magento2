@@ -15,12 +15,10 @@
  * @category    Magento
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
+ * @SuppressWarnings(PHPMD.LongVariable)
  */
 namespace Magento\Catalog\Model\Resource\Product\Compare\Item;
 
-/**
- * @SuppressWarnings(PHPMD.LongVariable)
- */
 class Collection
     extends \Magento\Catalog\Model\Resource\Product\Collection
 {
@@ -53,28 +51,49 @@ class Collection
     protected $_catalogProductCompare = null;
 
     /**
-     * @param \Magento\Catalog\Helper\Product\Compare $catalogProductCompare
-     * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\Catalog\Helper\Product\Flat $catalogProductFlat
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Core\Model\Resource $coreResource
+     * @param \Magento\Eav\Model\EntityFactory $eavEntityFactory
+     * @param \Magento\Eav\Model\Resource\Helper $resourceHelper
+     * @param \Magento\Validator\UniversalFactory $universalFactory
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Catalog\Helper\Product\Flat $catalogProductFlat
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Catalog\Helper\Product\Compare $catalogProductCompare
      */
     public function __construct(
-        \Magento\Catalog\Helper\Product\Compare $catalogProductCompare,
-        \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Catalog\Helper\Product\Flat $catalogProductFlat,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Model\Logger $logger,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Core\Model\Resource $coreResource,
+        \Magento\Eav\Model\EntityFactory $eavEntityFactory,
+        \Magento\Eav\Model\Resource\Helper $resourceHelper,
+        \Magento\Validator\UniversalFactory $universalFactory,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Catalog\Helper\Product\Flat $catalogProductFlat,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\EntityFactory $entityFactory
+        \Magento\Catalog\Helper\Product\Compare $catalogProductCompare
     ) {
         $this->_catalogProductCompare = $catalogProductCompare;
         parent::__construct(
-            $catalogData, $catalogProductFlat, $eventManager, $logger, $fetchStrategy, $coreStoreConfig, $entityFactory
+            $eventManager,
+            $logger,
+            $fetchStrategy,
+            $entityFactory,
+            $eavConfig,
+            $coreResource,
+            $eavEntityFactory,
+            $resourceHelper,
+            $universalFactory,
+            $catalogData,
+            $catalogProductFlat,
+            $coreStoreConfig
         );
     }
 

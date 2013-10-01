@@ -9,8 +9,6 @@
  * @license     {license_link}
  */
 
-namespace Magento\ImportExport\Model\Import\Entity;
-
 /**
  * Test class for \Magento\ImportExport\Model\Import\Entity\Product
  *
@@ -18,6 +16,8 @@ namespace Magento\ImportExport\Model\Import\Entity;
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
+namespace Magento\ImportExport\Model\Import\Entity;
+
 class ProductTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -25,10 +25,24 @@ class ProductTest extends \PHPUnit_Framework_TestCase
      */
     protected $_model;
 
+    /**
+     * @var \Magento\ImportExport\Model\Import\Uploader
+     */
+    protected $_uploader;
+
+    /**
+     * @var \Magento\ImportExport\Model\Import\UploaderFactory
+     */
+    protected $_uploaderFactory;
+
     protected function setUp()
     {
+        $this->_uploaderFactory = $this->getMock('Magento\ImportExport\Model\Import\UploaderFactory',
+            array('create'), array(), '', false);
         $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\ImportExport\Model\Import\Entity\Product');
+            ->create('Magento\ImportExport\Model\Import\Entity\Product', array(
+                'uploaderFactory' => $this->_uploaderFactory
+            ));
     }
 
     /**
@@ -430,12 +444,22 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             $this->fail("Unexpected precondition - product exists: '{$product->getId()}'.");
         }
 
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $uploader = $this->getMock('Magento\ImportExport\Model\Import\Uploader',
+            array('init'), array(
+                $objectManager->create('Magento\Core\Helper\File\Storage\Database'),
+                $objectManager->create('Magento\Core\Helper\File\Storage'),
+                $objectManager->create('Magento\Core\Model\Image\AdapterFactory'),
+                $objectManager->create('Magento\Core\Model\File\Validator\NotProtectedExtension'),
+            ));
+        $this->_uploaderFactory->expects($this->any())->method('create')->will($this->returnValue($uploader));
+
         $this->_model->setSource($fixture)
             ->setParameters(array('behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_APPEND))
             ->isDataValid();
         $this->_model->importData();
-
-        $resource = new \Magento\Catalog\Model\Resource\Product;
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $resource = $objectManager->get('Magento\Catalog\Model\Resource\Product');
         $productId = $resource->getIdBySku('test_sku'); // fixture
         $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Catalog\Model\Product');
@@ -446,7 +470,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $this->assertCount(1, $items);
         $item = array_pop($items);
         $this->assertInstanceOf('Magento\Object', $item);
-        $this->assertEquals('/m/a/magento_image.jpg', $item->getFile());
+        $this->assertEquals('magento_image.jpg', $item->getFile());
         $this->assertEquals('Image Label', $item->getLabel());
     }
 

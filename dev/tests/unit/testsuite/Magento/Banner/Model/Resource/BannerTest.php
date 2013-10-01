@@ -39,16 +39,9 @@ class BannerTest extends \PHPUnit_Framework_TestCase
     {
         $select = new \Zend_Db_Select($this->getMockForAbstractClass('Zend_Db_Adapter_Abstract', array(), '', false));
 
-        $writeAdapter =
-            $this->getMockForAbstractClass(
-                'Magento\DB\Adapter\AdapterInterface',
-                 array(),
-                '',
-                false,
-                true,
-                true,
-                array('getTransactionLevel', 'fetchOne')
-            );
+        $writeAdapter = $this->getMockForAbstractClass(
+            'Magento\DB\Adapter\AdapterInterface', array(), '', false, true, true, array('getTransactionLevel', 'fetchOne')
+        );
         $writeAdapter->expects($this->once())->method('getTransactionLevel')->will($this->returnValue(0));
         $writeAdapter->expects($this->never())->method('fetchOne');
 
@@ -84,10 +77,18 @@ class BannerTest extends \PHPUnit_Framework_TestCase
             'Magento\Banner\Model\Config', array('explodeTypes'), array(), '', false
         );
 
+        $salesruleColFactory = $this->getMock('Magento\Banner\Model\Resource\Salesrule\CollectionFactory',
+            array('create'), array(), '', false);
+
+        $catRuleColFactory = $this->getMock('Magento\Banner\Model\Resource\Catalogrule\CollectionFactory',
+            array('create'), array(), '', false);
+
         $this->_resourceModel = new \Magento\Banner\Model\Resource\Banner(
             $this->_resource,
             $this->_eventManager,
-            $this->_bannerConfig
+            $this->_bannerConfig,
+            $salesruleColFactory,
+            $catRuleColFactory
         );
     }
 

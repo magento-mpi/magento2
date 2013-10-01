@@ -28,13 +28,14 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
         $expected = $source->current();
 
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $coreData = $objectManager->get('Magento\Core\Helper\Data');
-        $coreString = $objectManager->get('Magento\Core\Helper\String');
-        $storeConfig = $objectManager->get('Magento\Core\Model\Store\Config');
-        
-        /** @var $model \Magento\ImportExport\Model\Import\EntityAbstract|PHPUnit_Framework_MockObject_MockObject */
+        /** @var $model \Magento\ImportExport\Model\Import\EntityAbstract|\PHPUnit_Framework_MockObject_MockObject */
         $model = $this->getMockForAbstractClass('Magento\ImportExport\Model\Import\EntityAbstract', array(
-            $coreData, $coreString, $storeConfig
+            $objectManager->get('Magento\Core\Helper\Data'),
+            $objectManager->get('Magento\Core\Helper\String'),
+            $objectManager->get('Magento\Core\Model\Store\Config'),
+            $objectManager->get('Magento\ImportExport\Model\ImportFactory'),
+            $objectManager->get('Magento\ImportExport\Model\Resource\Helper'),
+            $objectManager->get('Magento\Core\Model\Resource'),
         ));
         $model->expects($this->any())
             ->method('validateRow')
@@ -45,11 +46,12 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
 
         $model->setSource($source);
 
-        $method = new \ReflectionMethod($model, '_saveValidatedBunches');
+        $method = new ReflectionMethod($model, '_saveValidatedBunches');
         $method->setAccessible(true);
         $method->invoke($model);
 
-        $dataSourceModel = \Magento\ImportExport\Model\Import::getDataSourceModel();
+        /** @var $dataSourceModel \Magento\ImportExport\Model\Resource\Import\Data */
+        $dataSourceModel = $objectManager->get('Magento\ImportExport\Model\Resource\Import\Data');
         $this->assertCount(1, $dataSourceModel->getIterator());
 
         $bunch = $dataSourceModel->getNextBunch();

@@ -10,15 +10,11 @@
 
 /**
  * Import EAV entity abstract model
- *
- * @category    Magento
- * @package     Magento_ImportExport
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\ImportExport\Model\Import\Entity;
 
-abstract class EavAbstract
-    extends \Magento\ImportExport\Model\Import\EntityAbstract
+abstract class AbstractEav
+    extends \Magento\ImportExport\Model\Import\AbstractEntity
 {
     /**
      * Attribute collection name
@@ -92,27 +88,39 @@ abstract class EavAbstract
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Helper\String $coreString
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\ImportExport\Model\ImportFactory $importFactory
+     * @param \Magento\ImportExport\Model\Resource\Helper $resourceHelper
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Core\Model\App $app
+     * @param \Magento\ImportExport\Model\Export\Factory $collectionFactory
+     * @param \Magento\Eav\Model\Config $eavConfig
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Helper\String $coreString,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\ImportExport\Model\ImportFactory $importFactory,
+        \Magento\ImportExport\Model\Resource\Helper $resourceHelper,
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Core\Model\App $app,
+        \Magento\ImportExport\Model\Export\Factory $collectionFactory,
+        \Magento\Eav\Model\Config $eavConfig,
         array $data = array()
     ) {
-        parent::__construct($coreData, $coreString, $coreStoreConfig, $data);
+        parent::__construct(
+            $coreData, $coreString, $coreStoreConfig, $importFactory, $resourceHelper, $resource, $data
+        );
 
-        $this->_websiteManager = isset($data['website_manager']) ? $data['website_manager'] : \Mage::app();
-        $this->_storeManager   = isset($data['store_manager']) ? $data['store_manager'] : \Mage::app();
+        $this->_websiteManager = isset($data['website_manager']) ? $data['website_manager'] : $app;
+        $this->_storeManager   = isset($data['store_manager']) ? $data['store_manager'] : $app;
         $this->_attributeCollection = isset($data['attribute_collection']) ? $data['attribute_collection']
-            : \Mage::getResourceModel(static::ATTRIBUTE_COLLECTION_NAME);
+            : $collectionFactory->create(static::ATTRIBUTE_COLLECTION_NAME);
 
         if (isset($data['entity_type_id'])) {
             $this->_entityTypeId = $data['entity_type_id'];
         } else {
-            $this->_entityTypeId = \Mage::getSingleton('Magento\Eav\Model\Config')
-                ->getEntityType($this->getEntityTypeCode())
-                ->getEntityTypeId();
+            $this->_entityTypeId = $eavConfig->getEntityType($this->getEntityTypeCode())->getEntityTypeId();
         }
     }
 
@@ -135,7 +143,7 @@ abstract class EavAbstract
      * Initialize website values
      *
      * @param bool $withDefault
-     * @return \Magento\ImportExport\Model\Import\Entity\EavAbstract
+     * @return \Magento\ImportExport\Model\Import\Entity\AbstractEav
      */
     protected function _initWebsites($withDefault = false)
     {
@@ -150,7 +158,7 @@ abstract class EavAbstract
      * Initialize stores data
      *
      * @param bool $withDefault
-     * @return \Magento\ImportExport\Model\Import\Entity\EavAbstract
+     * @return \Magento\ImportExport\Model\Import\Entity\AbstractEav
      */
     protected function _initStores($withDefault = false)
     {
@@ -164,7 +172,7 @@ abstract class EavAbstract
     /**
      * Initialize entity attributes
      *
-     * @return \Magento\ImportExport\Model\Import\Entity\EavAbstract
+     * @return \Magento\ImportExport\Model\Import\Entity\AbstractEav
      */
     protected function _initAttributes()
     {

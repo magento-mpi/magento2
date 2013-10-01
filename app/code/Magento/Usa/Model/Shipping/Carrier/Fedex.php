@@ -122,7 +122,6 @@ class Fedex
      * @param \Magento\Usa\Model\Simplexml\ElementFactory $xmlElFactory
      * @param \Magento\Shipping\Model\Rate\ResultFactory $rateFactory
      * @param \Magento\Shipping\Model\Rate\Result\MethodFactory $rateMethodFactory
-     * @param \Magento\Shipping\Model\Rate\Result\ErrorFactory $rateErrorFactory
      * @param \Magento\Shipping\Model\Tracking\ResultFactory $trackFactory
      * @param \Magento\Shipping\Model\Tracking\Result\ErrorFactory $trackErrorFactory
      * @param \Magento\Shipping\Model\Tracking\Result\StatusFactory $trackStatusFactory
@@ -131,6 +130,8 @@ class Fedex
      * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
      * @param \Magento\Directory\Helper\Data $directoryData
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Shipping\Model\Rate\Result\ErrorFactory $rateErrorFactory
+     * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
      * @param array $data
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -142,7 +143,6 @@ class Fedex
         \Magento\Usa\Model\Simplexml\ElementFactory $xmlElFactory,
         \Magento\Shipping\Model\Rate\ResultFactory $rateFactory,
         \Magento\Shipping\Model\Rate\Result\MethodFactory $rateMethodFactory,
-        \Magento\Shipping\Model\Rate\Result\ErrorFactory $rateErrorFactory,
         \Magento\Shipping\Model\Tracking\ResultFactory $trackFactory,
         \Magento\Shipping\Model\Tracking\Result\ErrorFactory $trackErrorFactory,
         \Magento\Shipping\Model\Tracking\Result\StatusFactory $trackStatusFactory,
@@ -151,14 +151,16 @@ class Fedex
         \Magento\Directory\Model\CurrencyFactory $currencyFactory,
         \Magento\Directory\Helper\Data $directoryData,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Shipping\Model\Rate\Result\ErrorFactory $rateErrorFactory,
+        \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;
         $this->_productCollFactory = $productCollFactory;
         parent::__construct(
-            $xmlElFactory, $rateFactory, $rateMethodFactory, $rateErrorFactory,
-            $trackFactory, $trackErrorFactory, $trackStatusFactory, $regionFactory,
-            $countryFactory, $currencyFactory, $directoryData, $coreStoreConfig, $data
+            $xmlElFactory, $rateFactory, $rateMethodFactory, $trackFactory, $trackErrorFactory, $trackStatusFactory,
+            $regionFactory, $countryFactory, $currencyFactory, $directoryData, $coreStoreConfig, $rateErrorFactory,
+            $logAdapterFactory, $data
         );
         $wsdlBasePath = $configReader->getModuleDir('etc', 'Magento_Usa')  . DS . 'wsdl' . DS . 'FedEx' . DS;
         $this->_shipServiceWsdl = $wsdlBasePath . 'ShipService_v10.wsdl';
@@ -172,11 +174,11 @@ class Fedex
      *
      * @param string $wsdl
      * @param bool|int $trace
-     * @return \SoapClient
+     * @return SoapClient
      */
     protected function _createSoapClient($wsdl, $trace = false)
     {
-        $client = new \SoapClient($wsdl, array('trace' => $trace));
+        $client = new SoapClient($wsdl, array('trace' => $trace));
         $client->__setLocation($this->getConfigFlag('sandbox_mode')
             ? 'https://wsbeta.fedex.com:443/web-services/rate'
             : 'https://ws.fedex.com:443/web-services/rate'
@@ -188,7 +190,7 @@ class Fedex
     /**
      * Create rate soap client
      *
-     * @return \SoapClient
+     * @return SoapClient
      */
     protected function _createRateSoapClient()
     {
@@ -198,7 +200,7 @@ class Fedex
     /**
      * Create ship soap client
      *
-     * @return \SoapClient
+     * @return SoapClient
      */
     protected function _createShipSoapClient()
     {
@@ -208,7 +210,7 @@ class Fedex
     /**
      * Create track soap client
      *
-     * @return \SoapClient
+     * @return SoapClient
      */
     protected function _createTrackSoapClient()
     {

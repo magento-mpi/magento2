@@ -12,7 +12,6 @@
 /**
  * Wishlist item model
  *
- * @method \Magento\Wishlist\Model\Resource\Item _getResource()
  * @method \Magento\Wishlist\Model\Resource\Item getResource()
  * @method int getWishlistId()
  * @method \Magento\Wishlist\Model\Item setWishlistId(int $value)
@@ -87,6 +86,71 @@ class Item extends \Magento\Core\Model\AbstractModel
     protected $_flagOptionsSaved = null;
 
     /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Core\Model\Date
+     */
+    protected $_date;
+
+    /**
+     * @var \Magento\Catalog\Model\ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * @var \Magento\Catalog\Model\Resource\Url
+     */
+    protected $_catalogUrl;
+
+    /**
+     * @var \Magento\Wishlist\Model\Item\OptionFactory
+     */
+    protected $_wishlistOptFactory;
+
+    /**
+     * @var \Magento\Wishlist\Model\Resource\Item\Option\CollectionFactory
+     */
+    protected $_wishlOptCollFactory;
+
+    /**
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Date $date
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Catalog\Model\Resource\Url $catalogUrl
+     * @param \Magento\Wishlist\Model\Item\OptionFactory $wishlistOptFactory
+     * @param \Magento\Wishlist\Model\Resource\Item\Option\CollectionFactory $wishlOptCollFactory
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Date $date,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Catalog\Model\Resource\Url $catalogUrl,
+        \Magento\Wishlist\Model\Item\OptionFactory $wishlistOptFactory,
+        \Magento\Wishlist\Model\Resource\Item\Option\CollectionFactory $wishlOptCollFactory,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_storeManager = $storeManager;
+        $this->_date = $date;
+        $this->_productFactory = $productFactory;
+        $this->_catalogUrl = $catalogUrl;
+        $this->_wishlistOptFactory = $wishlistOptFactory;
+        $this->_wishlOptCollFactory = $wishlOptCollFactory;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Initialize resource model
      *
      */
@@ -143,13 +207,14 @@ class Item extends \Magento\Core\Model\AbstractModel
      *
      * @param   \Magento\Wishlist\Model\Item\Option $option
      * @return  \Magento\Wishlist\Model\Item
+     * @throws \Magento\Core\Exception
      */
     protected function _addOptionCode($option)
     {
         if (!isset($this->_optionsByCode[$option->getCode()])) {
             $this->_optionsByCode[$option->getCode()] = $option;
         } else {
-            \Mage::throwException(__('An item option with code %1 already exists.', $option->getCode()));
+            throw new \Magento\Core\Exception(__('An item option with code %1 already exists.', $option->getCode()));
         }
         return $this;
     }
@@ -227,10 +292,10 @@ class Item extends \Magento\Core\Model\AbstractModel
     public function validate()
     {
         if (!$this->getWishlistId()) {
-            \Mage::throwException(__('We can\'t specify a wish list.'));
+            throw new \Magento\Core\Exception(__('We can\'t specify a wish list.'));
         }
         if (!$this->getProductId()) {
-            \Mage::throwException(__('Cannot specify product.'));
+            throw new \Magento\Core\Exception(__('Cannot specify product.'));
         }
 
         return true;
@@ -250,12 +315,12 @@ class Item extends \Magento\Core\Model\AbstractModel
 
         // set current store id if it is not defined
         if (is_null($this->getStoreId())) {
-            $this->setStoreId(\Mage::app()->getStore()->getId());
+            $this->setStoreId($this->_storeManager->getStore()->getId());
         }
 
         // set current date if added at data is not defined
         if (is_null($this->getAddedAt())) {
-            $this->setAddedAt(\Mage::getSingleton('Magento\Core\Model\Date')->gmtDate());
+            $this->setAddedAt($this->_date->gmtDate());
         }
 
         return $this;
@@ -290,10 +355,10 @@ class Item extends \Magento\Core\Model\AbstractModel
         $product = $this->_getData('product');
         if (is_null($product)) {
             if (!$this->getProductId()) {
-                \Mage::throwException(__('Cannot specify product.'));
+                throw new \Magento\Core\Exception(__('Cannot specify product.'));
             }
 
-            $product = \Mage::getModel('Magento\Catalog\Model\Product')
+            $product = $this->_productFactory->create()
                 ->setStoreId($this->getStoreId())
                 ->load($this->getProductId());
 
@@ -333,7 +398,7 @@ class Item extends \Magento\Core\Model\AbstractModel
             if ($product->getStoreId() == $storeId) {
                 return false;
             }
-            $urlData = \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Url')
+            $urlData = $this->_catalogUrl
                 ->getRewriteByProductStore(array($product->getId() => $storeId));
             if (!isset($urlData[$product->getId()])) {
                 return false;
@@ -579,20 +644,21 @@ class Item extends \Magento\Core\Model\AbstractModel
      *
      * @param   \Magento\Wishlist\Model\Item\Option $option
      * @return  \Magento\Wishlist\Model\Item
+     * @throws \Magento\Core\Exception
      */
     public function addOption($option)
     {
         if (is_array($option)) {
-            $option = \Mage::getModel('Magento\Wishlist\Model\Item\Option')->setData($option)
+            $option = $this->_wishlistOptFactory->create()->setData($option)
                 ->setItem($this);
         } else if ($option instanceof \Magento\Wishlist\Model\Item\Option) {
             $option->setItem($this);
         } else if ($option instanceof \Magento\Object) {
-            $option = \Mage::getModel('Magento\Wishlist\Model\Item\Option')->setData($option->getData())
+            $option = $this->_wishlistOptFactory->create()->setData($option->getData())
                ->setProduct($option->getProduct())
                ->setItem($this);
         } else {
-            \Mage::throwException(__('Invalid item option format.'));
+            throw new \Magento\Core\Exception(__('Invalid item option format.'));
         }
 
         $exOption = $this->getOptionByCode($option->getCode());
@@ -663,7 +729,7 @@ class Item extends \Magento\Core\Model\AbstractModel
 
     /**
      * Returns special download params (if needed) for custom option with type = 'file'.
-     * Needed to implement \Magento\Catalog\Model\Product\Configuration\Item\ItemInterface.
+     * Needed to implement \Magento\Catalog\Model\Product\Configuration\Item\Interface.
      *
      * We have to customize only controller url, so return it.
      *
@@ -693,8 +759,7 @@ class Item extends \Magento\Core\Model\AbstractModel
             return $this;
         }
 
-        $options = \Mage::getResourceModel('Magento\Wishlist\Model\Resource\Item\Option\Collection')
-            ->addItemFilter($this);
+        $options = $this->_wishlOptCollFactory->addItemFilter($this);
         if ($optionsFilter) {
             $options->addFieldToFilter('code', $optionsFilter);
         }

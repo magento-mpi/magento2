@@ -5,12 +5,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 namespace Magento\DesignEditor\Controller\Varien\Router;
 
-/**
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
- */
 class Standard extends \Magento\Core\Controller\Varien\Router\Base
 {
     /**
@@ -35,6 +33,9 @@ class Standard extends \Magento\Core\Controller\Varien\Router\Base
      * @param \Magento\Core\Model\Url\SecurityInfoInterface $securityInfo
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Core\Model\Url $url
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\App\State $appState
      * @param $areaCode
      * @param $baseController
      * @param $routerId
@@ -50,6 +51,9 @@ class Standard extends \Magento\Core\Controller\Varien\Router\Base
         \Magento\Core\Model\Url\SecurityInfoInterface $securityInfo,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\Config $config,
+        \Magento\Core\Model\Url $url,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\App\State $appState,
         $areaCode,
         $baseController,
         $routerId
@@ -63,6 +67,9 @@ class Standard extends \Magento\Core\Controller\Varien\Router\Base
             $routeConfig,
             $securityInfo,
             $config,
+            $url,
+            $storeManager,
+            $appState,
             $areaCode,
             $baseController,
             $routerId
@@ -158,8 +165,7 @@ class Standard extends \Magento\Core\Controller\Varien\Router\Base
         $vdeNode = $this->_objectManager->get('Magento\Core\Model\Config')
             ->getNode(\Magento\DesignEditor\Model\Area::AREA_VDE);
         if ($vdeNode) {
-            $this->_objectManager->get('Magento\Core\Model\Config')
-                ->getNode(\Magento\Core\Model\App\Area::AREA_FRONTEND)
+            $this->_objectManager->get('Magento\Core\Model\Config')->getNode(\Magento\Core\Model\App\Area::AREA_FRONTEND)
                 ->extend($vdeNode, true);
         }
     }

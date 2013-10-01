@@ -13,7 +13,7 @@
  */
 namespace Magento\Centinel\Model;
 
-abstract class StateAbstract extends \Magento\Object
+abstract class AbstractState extends \Magento\Object
 {
     /**
      * Storage data model
@@ -26,7 +26,7 @@ abstract class StateAbstract extends \Magento\Object
      * Setter for storage data model
      *
      * @param \Magento\Object $dataStorageModel
-     * @return \Magento\Centinel\Model\StateAbstract
+     * @return \Magento\Centinel\Model\AbstractState
      */
     public function setDataStorage($dataStorageModel)
     {
@@ -72,7 +72,7 @@ abstract class StateAbstract extends \Magento\Object
      *
      * @param string|array $key
      * @param mixed $value
-     * @return \Magento\Centinel\Model\StateAbstract
+     * @return \Magento\Centinel\Model\AbstractState
      */
     public function setData($key, $value=null)
     {
@@ -84,7 +84,7 @@ abstract class StateAbstract extends \Magento\Object
      * Save lookup result in state model
      *
      * @param \Magento\Object $result
-     * @return \Magento\Centinel\Model\StateAbstract
+     * @return \Magento\Centinel\Model\AbstractState
      */
     public function setLookupResult($result)
     {
@@ -98,7 +98,7 @@ abstract class StateAbstract extends \Magento\Object
      * Save authenticate result in state model
      *
      * @param \Magento\Object $result
-     * @return \Magento\Centinel\Model\StateAbstract
+     * @return \Magento\Centinel\Model\AbstractState
      */
     public function setAuthenticateResult($result)
     {

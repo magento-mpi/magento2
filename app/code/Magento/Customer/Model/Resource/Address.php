@@ -17,15 +17,35 @@ class Address extends \Magento\Eav\Model\Entity\AbstractEntity
     protected $_validatorFactory;
 
     /**
-     * Initialize object dependencies
-     *
+     * @var \Magento\Customer\Model\CustomerFactory
+     */
+    protected $_customerFactory;
+
+    /**
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Eav\Model\Entity\Attribute\Set $attrSetEntity
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Eav\Model\Resource\Helper $resourceHelper
+     * @param \Magento\Validator\UniversalFactory $universalFactory
      * @param \Magento\Core\Model\Validator\Factory $validatorFactory
+     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param array $data
      */
-    public function __construct(\Magento\Core\Model\Validator\Factory $validatorFactory, $data = array())
-    {
+    public function __construct(
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Eav\Model\Entity\Attribute\Set $attrSetEntity,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Eav\Model\Resource\Helper $resourceHelper,
+        \Magento\Validator\UniversalFactory $universalFactory,
+        \Magento\Core\Model\Validator\Factory $validatorFactory,
+        \Magento\Customer\Model\CustomerFactory $customerFactory,
+        $data = array()
+    ) {
         $this->_validatorFactory = $validatorFactory;
-        parent::__construct($data);
+        $this->_customerFactory = $customerFactory;
+        parent::__construct($resource, $eavConfig, $attrSetEntity, $locale, $resourceHelper, $universalFactory, $data);
     }
 
     /**
@@ -33,7 +53,7 @@ class Address extends \Magento\Eav\Model\Entity\AbstractEntity
      */
     protected function _construct()
     {
-        $resource = \Mage::getSingleton('Magento\Core\Model\Resource');
+        $resource = $this->_resource;
         $this->setType('customer_address')->setConnection(
             $resource->getConnection('customer_read'),
             $resource->getConnection('customer_write')
@@ -52,8 +72,7 @@ class Address extends \Magento\Eav\Model\Entity\AbstractEntity
             return $this;
         }
         if ($address->getId() && ($address->getIsDefaultBilling() || $address->getIsDefaultShipping())) {
-            $customer = \Mage::getModel('Magento\Customer\Model\Customer')
-                ->load($address->getCustomerId());
+            $customer = $this->_createCustomer()->load($address->getCustomerId());
 
             if ($address->getIsDefaultBilling()) {
                 $customer->setDefaultBilling($address->getId());
@@ -85,14 +104,22 @@ class Address extends \Magento\Eav\Model\Entity\AbstractEntity
      * Validate customer address entity
      *
      * @param \Magento\Customer\Model\Customer $address
-     * @throws \Magento\Validator\ValidatorException when validation failed
+     * @throws \Magento\Validator\Exception when validation failed
      */
     protected function _validate($address)
     {
         $validator = $this->_validatorFactory->createValidator('customer_address', 'save');
 
         if (!$validator->isValid($address)) {
-            throw new \Magento\Validator\ValidatorException($validator->getMessages());
+            throw new \Magento\Validator\Exception($validator->getMessages());
         }
+    }
+
+    /**
+     * @return \Magento\Customer\Model\Customer
+     */
+    protected function _createCustomer()
+    {
+        return $this->_customerFactory->create();
     }
 }

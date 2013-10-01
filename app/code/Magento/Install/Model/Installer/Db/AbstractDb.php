@@ -65,7 +65,7 @@ abstract class AbstractDb
         $this->_adapterFactory = $adapterFactory;
         $this->_dbExtensions = $dbExtensions;
     }
-    
+
     /**
      * Return the name of DB model from config
      *
@@ -162,7 +162,7 @@ abstract class AbstractDb
     }
 
     /**
-     * Clean database
+     * Clean up database
      *
      * @return \Magento\Install\Model\Installer\Db\AbstractDb
      */

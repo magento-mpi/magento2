@@ -26,6 +26,58 @@ class Account extends \Magento\Customer\Controller\Account
     protected $_cookieCheckActions = array('createPost');
 
     /**
+     * Invitation Config
+     *
+     * @var \Magento\Invitation\Model\Config
+     */
+    protected $_config;
+
+    /**
+     * Invitation Factory
+     *
+     * @var \Magento\Invitation\Model\InvitationFactory
+     */
+    protected $_invitationFactory;
+
+    /**
+     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\UrlFactory $urlFactory
+     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
+     * @param \Magento\Customer\Model\FormFactory $formFactory
+     * @param \Magento\Customer\Model\AddressFactory $addressFactory
+     * @param \Magento\Invitation\Model\Config $config
+     * @param \Magento\Invitation\Model\InvitationFactory $invitationFactory
+     */
+    public function __construct(
+        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\UrlFactory $urlFactory,
+        \Magento\Customer\Model\CustomerFactory $customerFactory,
+        \Magento\Customer\Model\FormFactory $formFactory,
+        \Magento\Customer\Model\AddressFactory $addressFactory,
+        \Magento\Invitation\Model\Config $config,
+        \Magento\Invitation\Model\InvitationFactory $invitationFactory
+    ) {
+        parent::__construct(
+            $context,
+            $coreRegistry,
+            $customerSession,
+            $storeManager,
+            $urlFactory,
+            $customerFactory,
+            $formFactory,
+            $addressFactory
+        );
+        $this->_config = $config;
+        $this->_invitationFactory = $invitationFactory;
+    }
+
+    /**
      * Predispatch custom logic
      *
      * Bypassing direct parent predispatch
@@ -43,7 +95,7 @@ class Account extends \Magento\Customer\Controller\Account
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             return;
         }
-        if (!\Mage::getSingleton('Magento\Invitation\Model\Config')->isEnabledOnFront()) {
+        if (!$this->_config->isEnabledOnFront()) {
             $this->norouteAction();
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             return;
@@ -65,7 +117,7 @@ class Account extends \Magento\Customer\Controller\Account
     protected function _initInvitation()
     {
         if (!$this->_coreRegistry->registry('current_invitation')) {
-            $invitation = \Mage::getModel('Magento\Invitation\Model\Invitation');
+            $invitation = $this->_invitationFactory->create();
             $invitation
                 ->loadByInvitationCode($this->_objectManager->get('Magento\Core\Helper\Data')->urlDecode(
                     $this->getRequest()->getParam('invitation', false)
@@ -101,7 +153,7 @@ class Account extends \Magento\Customer\Controller\Account
         try {
             $invitation = $this->_initInvitation();
 
-            $customer = \Mage::getModel('Magento\Customer\Model\Customer')
+            $customer = $this->_customerFactory->create()
                 ->setId(null)->setSkipConfirmationIfEmail($invitation->getEmail());
             $this->_coreRegistry->register('current_customer', $customer);
 
@@ -114,7 +166,7 @@ class Account extends \Magento\Customer\Controller\Account
 
             $customerId = $customer->getId();
             if ($customerId) {
-                $invitation->accept(\Mage::app()->getWebsite()->getId(), $customerId);
+                $invitation->accept($this->_storeManager->getWebsite()->getId(), $customerId);
             }
             return;
         } catch (\Magento\Core\Exception $e) {

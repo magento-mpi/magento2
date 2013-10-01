@@ -31,19 +31,22 @@ class Db
     /**
      * Backup resource helper
      *
-     * @var \Magento\Backup\Model\Resource\Helper
+     * @var \Magento\Backup\Model\Resource\HelperFactory
      */
     protected $_resourceHelper;
 
     /**
      * Initialize Backup DB resource model
      *
-     * @param \Magento\Backup\Model\Resource\Helper $resourceHelper
+     * @param \Magento\Backup\Model\Resource\HelperFactory $resHelperFactory
+     * @param \Magento\Core\Model\Resource $resource
      */
-    public function __construct(\Magento\Backup\Model\Resource\Helper $resourceHelper)
-    {
-        $this->_resourceHelper = $resourceHelper;
-        $this->_write = \Mage::getSingleton('Magento\Core\Model\Resource')->getConnection('backup_write');
+    public function __construct(
+        \Magento\Backup\Model\Resource\HelperFactory $resHelperFactory,
+        \Magento\Core\Model\Resource $resource
+    ) {
+        $this->_resourceHelper = $resHelperFactory->create();
+        $this->_write = $resource->getConnection('backup_write');
     }
 
     /**

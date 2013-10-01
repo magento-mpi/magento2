@@ -12,9 +12,7 @@
 /**
  * Customers Report collection
  *
- * @category    Magento
- * @package     Magento_Reports
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 namespace Magento\Reports\Model\Resource\Customer;
 
@@ -63,6 +61,53 @@ class Collection extends \Magento\Customer\Model\Resource\Customer\Collection
     protected $_orderEntityField;
 
     /**
+     * @var \Magento\Sales\Model\QuoteFactory
+     */
+    protected $_quoteFactory;
+
+    /**
+     * @var \Magento\Sales\Model\Resource\Quote\Item\CollectionFactory
+     */
+    protected $_quoteItemFactory;
+
+    /**
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Eav\Model\EntityFactory $eavEntityFactory
+     * @param \Magento\Eav\Model\Resource\Helper $resourceHelper
+     * @param \Magento\Validator\UniversalFactory $universalFactory
+     * @param \Magento\Core\Model\Fieldset\Config $fieldsetConfig
+     * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
+     * @param \Magento\Sales\Model\Resource\Quote\Item\CollectionFactory $quoteItemFactory
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     */
+    public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Eav\Model\EntityFactory $eavEntityFactory,
+        \Magento\Eav\Model\Resource\Helper $resourceHelper,
+        \Magento\Validator\UniversalFactory $universalFactory,
+        \Magento\Core\Model\Fieldset\Config $fieldsetConfig,
+        \Magento\Sales\Model\QuoteFactory $quoteFactory,
+        \Magento\Sales\Model\Resource\Quote\Item\CollectionFactory $quoteItemFactory
+    ) {
+        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $eavConfig,
+            $resource, $eavEntityFactory, $resourceHelper, $universalFactory, $fieldsetConfig
+        );
+        $this->_quoteFactory = $quoteFactory;
+        $this->_quoteItemFactory = $quoteItemFactory;
+    }
+
+    /**
      * Add cart info to collection
      *
      * @return \Magento\Reports\Model\Resource\Customer\Collection
@@ -70,12 +115,13 @@ class Collection extends \Magento\Customer\Model\Resource\Customer\Collection
     public function addCartInfo()
     {
         foreach ($this->getItems() as $item) {
-            $quote = \Mage::getModel('Magento\Sales\Model\Quote')->loadByCustomer($item->getId());
+            $quote = $this->_quoteFactory->create()->loadByCustomer($item->getId());
 
             if ($quote instanceof \Magento\Sales\Model\Quote) {
                 $totals = $quote->getTotals();
                 $item->setTotal($totals['subtotal']->getValue());
-                $quoteItems = \Mage::getResourceModel('Magento\Sales\Model\Resource\Quote\Item\Collection')
+                $quoteItems = $this->_quoteItemFactory
+                    ->create()
                     ->setQuoteFilter($quote->getId());
                 $quoteItems->load();
                 $item->setItems($quoteItems->count());

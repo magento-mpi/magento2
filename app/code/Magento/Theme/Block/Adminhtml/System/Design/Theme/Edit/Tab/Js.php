@@ -16,7 +16,7 @@ namespace Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab;
  * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
 class Js
-    extends \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\TabAbstract
+    extends \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\AbstractTab
 {
     /**
      * Create a form element with necessary controls

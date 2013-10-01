@@ -42,39 +42,55 @@ class Pro extends \Magento\Paypal\Model\Payflowpro
      *
      * @var \Magento\Pbridge\Helper\Data
      */
-    protected $_pbridgeData = null;
+    protected $_pbridgeData;
 
     /**
-     * Construct
-     *
+     * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Core\Model\Event\Manager $eventManager
-     * @param \Magento\Pbridge\Helper\Data $pbridgeData
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Model\ModuleListInterface $moduleList
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\ModuleListInterface $moduleList
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
-     * @param \Magento\Core\Model\LocaleInterface $locale,
-     * @param \Magento\Centinel\Model\Service $centinelService,
-     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Centinel\Model\Service $centinelService
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Paypal\Model\ConfigFactory $configFactory
+     * @param \Magento\Pbridge\Helper\Data $pbridgeData
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Core\Model\Logger $logger,
         \Magento\Core\Model\Event\Manager $eventManager,
-        \Magento\Pbridge\Helper\Data $pbridgeData,
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Model\ModuleListInterface $moduleList,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\ModuleListInterface $moduleList,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Centinel\Model\Service $centinelService,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Paypal\Model\ConfigFactory $configFactory,
+        \Magento\Pbridge\Helper\Data $pbridgeData,
         array $data = array()
     ) {
         $this->_pbridgeData = $pbridgeData;
-        parent::__construct($logger, $eventManager, $coreStoreConfig, $coreData, $moduleList, $paymentData,
-            $logAdapterFactory, $locale, $centinelService, $data);
+        parent::__construct(
+            $logger,
+            $eventManager,
+            $coreStoreConfig,
+            $moduleList,
+            $paymentData,
+            $logAdapterFactory,
+            $locale,
+            $centinelService,
+            $coreData,
+            $storeManager,
+            $configFactory,
+            $data
+        );
     }
 
     /**
@@ -121,6 +137,9 @@ class Pro extends \Magento\Paypal\Model\Payflowpro
         return parent::getCode();
     }
 
+    /**
+     * @return string
+     */
     public function getTitle()
     {
         return parent::getTitle();
@@ -141,15 +160,16 @@ class Pro extends \Magento\Paypal\Model\Payflowpro
     /**
      * Retrieve information from payment configuration
      *
-     * @param   string $field
-     * @return  mixed
+     * @param string $field
+     * @param null $storeId
+     * @return string|null
      */
     public function getConfigData($field, $storeId = null)
     {
         if (null === $storeId) {
             $storeId = $this->getStore();
         }
-        $path = 'payment/'.$this->getOriginalCode().'/'.$field;
+        $path = 'payment/' . $this->getOriginalCode() . '/' . $field;
         return $this->_coreStoreConfig->getConfig($path, $storeId);
     }
 
@@ -161,8 +181,8 @@ class Pro extends \Magento\Paypal\Model\Payflowpro
      */
     public function isAvailable($quote = null)
     {
-        $storeId = \Mage::app()->getStore($this->getStore())->getId();
-        $config = \Mage::getModel('Magento\Paypal\Model\Config')->setStoreId($storeId);
+        $storeId = $this->_storeManager->getStore($this->getStore())->getId();
+        $config = $this->_configFactory->create()->setStoreId($storeId);
 
         return $this->getPbridgeMethodInstance()->isDummyMethodAvailable($quote)
             && $config->isMethodAvailable($this->getOriginalCode());
@@ -175,9 +195,7 @@ class Pro extends \Magento\Paypal\Model\Payflowpro
      */
     public function getFormBlockType()
     {
-        return \Mage::app()->getStore()->isAdmin() ?
-            $this->_backendFormBlockType :
-            $this->_formBlockType;
+        return $this->_storeManager->getStore()->isAdmin() ? $this->_backendFormBlockType : $this->_formBlockType;
     }
 
     /**
@@ -262,6 +280,7 @@ class Pro extends \Magento\Paypal\Model\Payflowpro
      * Store id setter, also set storeId to helper
      *
      * @param int $store
+     * @return $this
      */
     public function setStore($store)
     {

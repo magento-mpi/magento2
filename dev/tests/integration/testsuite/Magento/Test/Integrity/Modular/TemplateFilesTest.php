@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
-namespace Magento\Test\Integrity\Modular;
-
 /**
  * @magentoAppIsolation
  */
+namespace Magento\Test\Integrity\Modular;
+
 class TemplateFilesTest extends \Magento\TestFramework\TestCase\IntegrityAbstract
 {
     /**
@@ -52,8 +52,9 @@ class TemplateFilesTest extends \Magento\TestFramework\TestCase\IntegrityAbstrac
                 ->getStore()->setWebsiteId(0);
 
             $templates = array();
+            $skippedBlocks = $this->_getBlocksToSkip();
             foreach (\Magento\TestFramework\Utility\Classes::collectModuleClasses('Block') as $blockClass => $module) {
-                if (!in_array($module, $this->_getEnabledModules())) {
+                if (!in_array($module, $this->_getEnabledModules()) || in_array($blockClass, $skippedBlocks)) {
                     continue;
                 }
                 $class = new \ReflectionClass($blockClass);
@@ -65,7 +66,7 @@ class TemplateFilesTest extends \Magento\TestFramework\TestCase\IntegrityAbstrac
                 if ($module == 'Magento_Install') {
                     $area = 'install';
                 } elseif ($module == 'Magento_Adminhtml' || strpos($blockClass, '\\Adminhtml\\')
-                    || strpos($blockClass, '\\Backend\\')
+                    || strpos($blockClass, '_Backend_')
                     || $class->isSubclassOf('Magento\Backend\Block\Template')
                 ) {
                     $area = 'adminhtml';
@@ -91,5 +92,18 @@ class TemplateFilesTest extends \Magento\TestFramework\TestCase\IntegrityAbstrac
             trigger_error("Corrupted data provider. Last known block instantiation attempt: '{$blockClass}'."
                 . " \Exception: {$e}", E_USER_ERROR);
         }
+    }
+
+    /**
+     * @return array
+     */
+    protected function _getBlocksToSkip()
+    {
+        $result = array();
+        foreach (glob(__DIR__ . '/_files/skip_template_blocks*.php') as $file) {
+            $blocks = include $file;
+            $result = array_merge($result, $blocks);
+        }
+        return array_combine($result, $result);
     }
 }

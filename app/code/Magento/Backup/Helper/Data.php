@@ -66,6 +66,13 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_dir;
 
     /**
+     * Index resource process collection factory
+     *
+     * @var \Magento\Index\Model\Resource\Process\CollectionFactory
+     */
+    protected $_processFactory;
+
+    /**
      * Construct
      *
      * @param \Magento\Core\Helper\Context $context
@@ -74,6 +81,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      * @param \Magento\Core\Model\Cache\Config $cacheConfig
      * @param \Magento\Core\Model\Cache\TypeListInterface $cacheTypeList
      * @param \Magento\Core\Model\Dir $dir
+     * @param \Magento\Index\Model\Resource\Process\CollectionFactory $processFactory
      */
     public function __construct(
         \Magento\Core\Helper\Context $context,
@@ -81,7 +89,8 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         \Magento\AuthorizationInterface $authorization,
         \Magento\Core\Model\Cache\Config $cacheConfig,
         \Magento\Core\Model\Cache\TypeListInterface $cacheTypeList,
-        \Magento\Core\Model\Dir $dir
+        \Magento\Core\Model\Dir $dir,
+        \Magento\Index\Model\Resource\Process\CollectionFactory $processFactory
     ) {
         parent::__construct($context);
         $this->_authorization = $authorization;
@@ -311,7 +320,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function invalidateIndexer()
     {
-        foreach (\Mage::getResourceModel('Magento\Index\Model\Resource\Process\Collection') as $process) {
+        foreach ($this->_processFactory->create() as $process) {
             $process->changeStatus(\Magento\Index\Model\Process::STATUS_REQUIRE_REINDEX);
         }
         return $this;

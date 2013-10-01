@@ -20,20 +20,47 @@ namespace Magento\Customer\Controller;
 class Address extends \Magento\Core\Controller\Front\Action
 {
     /**
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @var \Magento\Customer\Model\AddressFactory
+     */
+    protected $_addressFactory;
+
+    /**
+     * @var \Magento\Customer\Model\Address\FormFactory
+     */
+    protected $_addressFormFactory;
+
+    public function __construct(
+        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Customer\Model\AddressFactory $addressFactory,
+        \Magento\Customer\Model\Address\FormFactory $addressFormFactory
+    ) {
+        $this->_customerSession = $customerSession;
+        $this->_addressFactory = $addressFactory;
+        $this->_addressFormFactory = $addressFormFactory;
+        parent::__construct($context);
+    }
+
+    /**
      * Retrieve customer session object
      *
      * @return \Magento\Customer\Model\Session
      */
     protected function _getSession()
     {
-        return \Mage::getSingleton('Magento\Customer\Model\Session');
+        return $this->_customerSession;
     }
 
     public function preDispatch()
     {
         parent::preDispatch();
 
-        if (!\Mage::getSingleton('Magento\Customer\Model\Session')->authenticate($this)) {
+        if (!$this->_getSession()->authenticate($this)) {
             $this->setFlag('', 'no-dispatch', true);
         }
     }
@@ -54,7 +81,7 @@ class Address extends \Magento\Core\Controller\Front\Action
             }
             $this->renderLayout();
         } else {
-            $this->getResponse()->setRedirect(\Mage::getUrl('*/*/new'));
+            $this->getResponse()->setRedirect($this->_buildUrl('*/*/new'));
         }
     }
 
@@ -93,7 +120,7 @@ class Address extends \Magento\Core\Controller\Front\Action
 
         if (!$this->getRequest()->isPost()) {
             $this->_getSession()->setAddressFormData($this->getRequest()->getPost());
-            $this->_redirectError(\Mage::getUrl('*/*/edit'));
+            $this->_redirectError($this->_buildUrl('*/*/edit'));
             return;
         }
 
@@ -102,11 +129,11 @@ class Address extends \Magento\Core\Controller\Front\Action
             $this->_validateAddress($address);
             $address->save();
             $this->_getSession()->addSuccess(__('The address has been saved.'));
-            $this->_redirectSuccess(\Mage::getUrl('*/*/index', array('_secure'=>true)));
+            $this->_redirectSuccess($this->_buildUrl('*/*/index', array('_secure'=>true)));
             return;
         } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addException($e, $e->getMessage());
-        } catch (\Magento\Validator\ValidatorException $e) {
+        } catch (\Magento\Validator\Exception $e) {
             foreach ($e->getMessages() as $messages) {
                 foreach ($messages as $message) {
                     $this->_getSession()->addError($message);
@@ -117,20 +144,20 @@ class Address extends \Magento\Core\Controller\Front\Action
         }
 
         $this->_getSession()->setAddressFormData($this->getRequest()->getPost());
-        $this->_redirectError(\Mage::getUrl('*/*/edit', array('id' => $address->getId())));
+        $this->_redirectError($this->_buildUrl('*/*/edit', array('id' => $address->getId())));
     }
 
     /**
      * Do address validation using validate methods in models
      *
      * @param \Magento\Customer\Model\Address $address
-     * @throws \Magento\Validator\ValidatorException
+     * @throws \Magento\Validator\Exception
      */
     protected function _validateAddress($address)
     {
         $addressErrors = $address->validate();
         if (is_array($addressErrors) && count($addressErrors) > 0) {
-            throw new \Magento\Validator\ValidatorException(array($addressErrors));
+            throw new \Magento\Validator\Exception(array($addressErrors));
         }
     }
 
@@ -143,7 +170,7 @@ class Address extends \Magento\Core\Controller\Front\Action
     {
         $customer = $this->_getSession()->getCustomer();
         /* @var \Magento\Customer\Model\Address $address */
-        $address  = \Mage::getModel('Magento\Customer\Model\Address');
+        $address  = $this->_createAddress();
         $addressId = $this->getRequest()->getParam('id');
         if ($addressId) {
             $existsAddress = $customer->getAddressById($addressId);
@@ -152,7 +179,7 @@ class Address extends \Magento\Core\Controller\Front\Action
             }
         }
         /* @var \Magento\Customer\Model\Form $addressForm */
-        $addressForm = \Mage::getModel('Magento\Customer\Model\Address\Form');
+        $addressForm = $this->_createAddressForm();
         $addressForm->setFormCode('customer_address_edit')
             ->setEntity($address);
         $addressData = $addressForm->extractData($this->getRequest());
@@ -168,12 +195,13 @@ class Address extends \Magento\Core\Controller\Front\Action
         $addressId = $this->getRequest()->getParam('id', false);
 
         if ($addressId) {
-            $address = \Mage::getModel('Magento\Customer\Model\Address')->load($addressId);
+            $address = $this->_createAddress();
+            $address->load($addressId);
 
             // Validate address_id <=> customer_id
             if ($address->getCustomerId() != $this->_getSession()->getCustomerId()) {
                 $this->_getSession()->addError(__('The address does not belong to this customer.'));
-                $this->getResponse()->setRedirect(\Mage::getUrl('*/*/index'));
+                $this->getResponse()->setRedirect($this->_buildUrl('*/*/index'));
                 return;
             }
 
@@ -184,6 +212,34 @@ class Address extends \Magento\Core\Controller\Front\Action
                 $this->_getSession()->addException($e, __('An error occurred while deleting the address.'));
             }
         }
-        $this->getResponse()->setRedirect(\Mage::getUrl('*/*/index'));
+        $this->getResponse()->setRedirect($this->_buildUrl('*/*/index'));
+    }
+
+    /**
+     * @param string $route
+     * @param array $params
+     * @return string
+     */
+    protected function _buildUrl($route = '', $params = array())
+    {
+        /** @var \Magento\Core\Model\Url $urlBuilder */
+        $urlBuilder = $this->_objectManager->create('Magento\Core\Model\Url');
+        return $urlBuilder->getUrl($route, $params);
+    }
+
+    /**
+     * @return \Magento\Customer\Model\Address
+     */
+    protected function _createAddress()
+    {
+        return $this->_addressFactory->create();
+    }
+
+    /**
+     * @return \Magento\Customer\Model\Address\Form
+     */
+    protected function _createAddressForm()
+    {
+        return $this->_addressFormFactory->create();
     }
 }

@@ -21,11 +21,36 @@ namespace Magento\Eav\Model\Entity;
 class Setup extends \Magento\Core\Model\Resource\Setup
 {
     /**
-     * Application cache model
-     *
      * @var \Magento\Core\Model\CacheInterface
      */
     protected $_cache;
+
+    /**
+     * @var \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory
+     */
+    protected $_attrGrCollFactory;
+
+    /**
+     * @param \Magento\Core\Model\Resource\Setup\Context $context
+     * @param \Magento\Core\Model\CacheInterface $cache
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGrCollFactory
+     * @param string $resourceName
+     * @param string $moduleName
+     * @param string $connectionName
+     */
+    public function __construct(
+        \Magento\Core\Model\Resource\Setup\Context $context,
+        \Magento\Core\Model\CacheInterface $cache,
+        \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGrCollFactory,
+        $resourceName,
+        $moduleName = 'Magento_Eav',
+        $connectionName = ''
+    ) {
+
+        $this->_cache = $cache;
+        $this->_attrGrCollFactory = $attrGrCollFactory;
+        parent::__construct($context, $resourceName, $moduleName, $connectionName);
+    }
 
     /**
      * General Attribute Group Name
@@ -58,21 +83,22 @@ class Setup extends \Magento\Core\Model\Resource\Setup
     protected $_defaultAttributeSetName = 'Default';
 
     /**
-     * @param \Magento\Core\Model\Resource\Setup\Context $context
-     * @param \Magento\Core\Model\CacheInterface $cache
-     * @param string $resourceName
-     * @param string $moduleName
-     * @param string $connectionName
+     * Create migration setup
+     *
+     * @param array $data
+     * @return \Magento\Core\Model\Resource\Setup\Migration
      */
-    public function __construct(
-        \Magento\Core\Model\Resource\Setup\Context $context,
-        \Magento\Core\Model\CacheInterface $cache,
-        $resourceName,
-        $moduleName = 'Magento_Eav',
-        $connectionName = ''
-    ) {
-        $this->_cache = $cache;
-        parent::__construct($context, $resourceName, $moduleName, $connectionName);
+    public function createMigrationSetup(array $data = array())
+    {
+        return $this->_migrationFactory->create($data);
+    }
+
+    /**
+     * @return \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory
+     */
+    public function getAttributeGroupCollectionFactory()
+    {
+        return $this->_attrGrCollFactory->create();
     }
 
     /**
@@ -202,7 +228,7 @@ class Setup extends \Magento\Core\Model\Resource\Setup
             $entityTypeId = $this->getEntityType($entityTypeId, 'entity_type_id');
         }
         if (!is_numeric($entityTypeId)) {
-            throw \Mage::exception('Magento_Eav', __('Wrong entity ID'));
+            throw new \Magento\Eav\Exception(__('Wrong entity ID'));
         }
 
         return $entityTypeId;
@@ -326,7 +352,7 @@ class Setup extends \Magento\Core\Model\Resource\Setup
             $setId = $this->getAttributeSet($entityTypeId, $setId, 'attribute_set_id');
         }
         if (!is_numeric($setId)) {
-            throw \Mage::exception('Magento_Eav', __('Wrong attribute set ID'));
+            throw new \Magento\Eav\Exception(__('Wrong attribute set ID'));
         }
 
         return $setId;
@@ -530,7 +556,7 @@ class Setup extends \Magento\Core\Model\Resource\Setup
         }
 
         if (!is_numeric($groupId)) {
-            throw \Mage::exception('Magento_Eav', __('Wrong attribute group ID'));
+            throw new \Magento\Eav\Exception(__('Wrong attribute group ID'));
         }
         return $groupId;
     }
@@ -658,7 +684,7 @@ class Setup extends \Magento\Core\Model\Resource\Setup
         if (isset($data['attribute_code']) &&
            !\Zend_Validate::is($data['attribute_code'], 'StringLength', array('max' => $attributeCodeMaxLength)))
         {
-            throw \Mage::exception('Magento_Eav',
+            throw new \Magento\Eav\Exception(
                 __('Maximum length of attribute code must be less than %1 symbols', $attributeCodeMaxLength)
             );
         }
@@ -761,7 +787,7 @@ class Setup extends \Magento\Core\Model\Resource\Setup
 
                 // Default value
                 if (!isset($values[0])) {
-                    \Mage::throwException(__('Default option value is not defined'));
+                    throw new \Magento\Core\Exception(__('Default option value is not defined'));
                 }
                 $condition = array('option_id =?' => $intOptionId);
                 $this->_connection->delete($optionValueTable, $condition);
@@ -1317,7 +1343,7 @@ class Setup extends \Magento\Core\Model\Resource\Setup
         if (!empty($customTypes)) {
             foreach ($customTypes as $type => $fieldType) {
                 if (count($fieldType) != 2) {
-                    throw \Mage::exception('Magento_Eav', __('Wrong type definition for %1', $type));
+                    throw new \Magento\Eav\Exception(__('Wrong type definition for %1', $type));
                 }
                 $types[$type] = $fieldType;
             }
@@ -1397,7 +1423,7 @@ class Setup extends \Magento\Core\Model\Resource\Setup
             $connection->commit();
         } catch (\Exception $e) {
            $connection->rollBack();
-           throw \Mage::exception('Magento_Eav', __('Can\'t create table: %1', $tableName));
+            throw new \Magento\Eav\Exception(__('Can\'t create table: %1', $tableName));
         }
 
         return $this;

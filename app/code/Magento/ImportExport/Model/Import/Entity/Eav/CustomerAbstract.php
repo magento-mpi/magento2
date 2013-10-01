@@ -17,8 +17,8 @@
  */
 namespace Magento\ImportExport\Model\Import\Entity\Eav;
 
-abstract class CustomerAbstract
-    extends \Magento\ImportExport\Model\Import\Entity\EavAbstract
+abstract class AbstractCustomer
+    extends \Magento\ImportExport\Model\Import\Entity\AbstractEav
 {
     /**#@+
      * Permanent column names
@@ -58,18 +58,41 @@ abstract class CustomerAbstract
     protected $_customerStorage;
 
     /**
+     * @var \Magento\ImportExport\Model\Resource\Customer\StorageFactory
+     */
+    protected $_storageFactory;
+
+    /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Helper\String $coreString
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\ImportExport\Model\ImportFactory $importFactory
+     * @param \Magento\ImportExport\Model\Resource\Helper $resourceHelper
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Core\Model\App $app
+     * @param \Magento\ImportExport\Model\Export\Factory $collectionFactory
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\ImportExport\Model\Resource\Customer\StorageFactory $storageFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Helper\String $coreString,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\ImportExport\Model\ImportFactory $importFactory,
+        \Magento\ImportExport\Model\Resource\Helper $resourceHelper,
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Core\Model\App $app,
+        \Magento\ImportExport\Model\Export\Factory $collectionFactory,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\ImportExport\Model\Resource\Customer\StorageFactory $storageFactory,
         array $data = array()
     ) {
-        parent::__construct($coreData, $coreString, $coreStoreConfig, $data);
+        $this->_storageFactory = $storageFactory;
+        parent::__construct(
+            $coreData, $coreString, $coreStoreConfig, $importFactory, $resourceHelper, $resource, $app,
+            $collectionFactory, $eavConfig, $data
+        );
 
         $this->addMessageTemplate(self::ERROR_WEBSITE_IS_EMPTY,
             __('Website is not specified')
@@ -98,15 +121,16 @@ abstract class CustomerAbstract
      * Initialize existent customers data
      *
      * @param array $data
-     * @return \Magento\ImportExport\Model\Import\Entity\Eav\CustomerAbstract
+     * @return \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCustomer
      */
     protected function _initCustomers(array $data)
     {
         if (!isset($data['page_size'])) {
             $data['page_size'] = $this->_pageSize;
         }
-        $this->_customerStorage = isset($data['customer_storage']) ? $data['customer_storage']
-                : \Mage::getResourceModel('Magento\ImportExport\Model\Resource\Customer\Storage', array('data' => $data));
+        $this->_customerStorage = isset($data['customer_storage'])
+            ? $data['customer_storage']
+            : $this->_storageFactory->create(array('data' => $data));
 
         return $this;
     }

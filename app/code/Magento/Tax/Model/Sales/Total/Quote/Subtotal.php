@@ -75,15 +75,19 @@ class Subtotal extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
      * Class constructor
      *
      * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Tax\Model\Calculation $calculation
+     * @param \Magento\Tax\Model\Config $taxConfig
      */
     public function __construct(
-        \Magento\Tax\Helper\Data $taxData
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Tax\Model\Calculation $calculation,
+        \Magento\Tax\Model\Config $taxConfig
     ) {
         $this->_taxData = $taxData;
         $this->setCode('tax_subtotal');
-        $this->_helper      = $this->_taxData;
-        $this->_calculator  = \Mage::getSingleton('Magento\Tax\Model\Calculation');
-        $this->_config      = \Mage::getSingleton('Magento\Tax\Model\Config');
+        $this->_helper = $this->_taxData;
+        $this->_calculator = $calculation;
+        $this->_config = $taxConfig;
     }
 
     /**

@@ -13,7 +13,7 @@
  */
 namespace Magento\DesignEditor\Block\Adminhtml\Editor\Toolbar;
 
-abstract class BlockAbstract extends \Magento\Backend\Block\Template
+abstract class AbstractBlock extends \Magento\Backend\Block\Template
 {
     /**
      * Current VDE mode
@@ -36,7 +36,7 @@ abstract class BlockAbstract extends \Magento\Backend\Block\Template
      * Get current VDE mode
      *
      * @param int $mode
-     * @return \Magento\DesignEditor\Block\Adminhtml\Editor\Toolbar\BlockAbstract
+     * @return \Magento\DesignEditor\Block\Adminhtml\Editor\Toolbar\AbstractBlock
      */
     public function setMode($mode)
     {

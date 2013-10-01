@@ -8,7 +8,7 @@
 namespace Magento\AdminNotification\Model\System\Message\Media\Synchronization;
 
 class Error
-    extends \Magento\AdminNotification\Model\System\Message\Media\SynchronizationAbstract
+    extends \Magento\AdminNotification\Model\System\Message\MediaSynchronization
 {
     /**
      * Message identity

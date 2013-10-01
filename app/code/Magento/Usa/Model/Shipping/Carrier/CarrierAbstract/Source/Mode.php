@@ -16,7 +16,7 @@
  * @author Magento Core Team <core@magentocommerce.com>
  */
 
-namespace Magento\Usa\Model\Shipping\Carrier\CarrierAbstract\Source;
+namespace Magento\Usa\Model\Shipping\Carrier\AbstractCarrier\Source;
 
 class Mode implements \Magento\Core\Model\Option\ArrayInterface
 {

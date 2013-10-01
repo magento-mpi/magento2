@@ -9,7 +9,7 @@
  */
 namespace Magento\GoogleOptimizer\Model\Observer;
 
-abstract class SaveAbstract
+abstract class AbstractSave
 {
     /**
      * @var \Magento\GoogleOptimizer\Helper\Data

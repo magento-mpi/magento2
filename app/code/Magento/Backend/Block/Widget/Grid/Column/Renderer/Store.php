@@ -11,10 +11,6 @@
 
 /**
  * Store grid column filter
- *
- * @category   Magento
- * @package    Magento_Backend
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Backend\Block\Widget\Grid\Column\Renderer;
 
@@ -25,13 +21,32 @@ class Store
     protected $_skipEmptyStoresLabel = false;
 
     /**
+     * @var \Magento\Core\Model\System\Store
+     */
+    protected $_systemStore;
+
+    /**
+     * @param \Magento\Backend\Block\Context $context
+     * @param \Magento\Core\Model\System\Store $systemStore
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Backend\Block\Context $context,
+        \Magento\Core\Model\System\Store $systemStore,
+        array $data = array()
+    ) {
+        $this->_systemStore = $systemStore;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Retrieve System Store model
      *
      * @return \Magento\Core\Model\System\Store
      */
     protected function _getStoreModel()
     {
-        return \Mage::getSingleton('Magento\Core\Model\System\Store');
+        return $this->_systemStore;
     }
 
     /**

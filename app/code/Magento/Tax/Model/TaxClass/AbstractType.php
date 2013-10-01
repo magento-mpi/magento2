@@ -13,7 +13,7 @@
  */
 namespace Magento\Tax\Model\TaxClass;
 
-abstract class TypeAbstract extends \Magento\Object implements \Magento\Tax\Model\TaxClass\Type\TypeInterface
+abstract class AbstractType extends \Magento\Object implements \Magento\Tax\Model\TaxClass\Type\TypeInterface
 {
     /**
      * @var \Magento\Tax\Model\Calculation\Rule

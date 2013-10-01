@@ -8,16 +8,17 @@
  * @license     {license_link}
  */
 
-namespace Magento\Backend\Helper;
-
 /**
  * @SuppressWarnings(PHPMD.LongVariable)
  */
+namespace Magento\Backend\Helper;
+
 class Data extends \Magento\Core\Helper\AbstractHelper
 {
     const XML_PATH_USE_CUSTOM_ADMIN_URL         = 'admin/url/use_custom';
     const XML_PATH_USE_CUSTOM_ADMIN_PATH        = 'admin/url/use_custom_path';
     const XML_PATH_CUSTOM_ADMIN_PATH            = 'admin/url/custom_path';
+    const XML_PATH_BACKEND_AREA_FRONTNAME       = 'default/backend/frontName';
     const BACKEND_AREA_CODE                     = 'adminhtml';
 
     const PARAM_BACKEND_FRONT_NAME              = 'backend.frontName';
@@ -58,6 +59,21 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_coreData = null;
 
     /**
+     * @var \Magento\Core\Model\AppProxy
+     */
+    protected $_app;
+
+    /**
+     * @var \Magento\Backend\Model\UrlProxy
+     */
+    protected $_backendUrl;
+
+    /**
+     * @var \Magento\Backend\Model\AuthProxy
+     */
+    protected $_auth;
+
+    /**
      * Backend area front name
      *
      * @var string
@@ -70,8 +86,13 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      * @param \Magento\Core\Model\ConfigInterface $applicationConfig
      * @param \Magento\Core\Model\Config\Primary $primaryConfig
      * @param \Magento\Core\Model\RouterList $routerList
+     * @param \Magento\Core\Model\AppProxy $app
+     * @param \Magento\Backend\Model\UrlProxy $backendUrl
+     * @param \Magento\Backend\Model\AuthProxy $auth
      * @param string $defaultAreaFrontName
      * @param string $backendFrontName
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Core\Helper\Context $context,
@@ -79,6 +100,9 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         \Magento\Core\Model\ConfigInterface $applicationConfig,
         \Magento\Core\Model\Config\Primary $primaryConfig,
         \Magento\Core\Model\RouterList $routerList,
+        \Magento\Core\Model\AppProxy $app,
+        \Magento\Backend\Model\UrlProxy $backendUrl,
+        \Magento\Backend\Model\AuthProxy $auth,
         $defaultAreaFrontName,
         $backendFrontName
     ) {
@@ -88,6 +112,9 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         $this->_primaryConfig = $primaryConfig;
         $this->_defaultAreaFrontName = $defaultAreaFrontName;
         $this->_routerList = $routerList;
+        $this->_app = $app;
+        $this->_backendUrl = $backendUrl;
+        $this->_auth = $auth;
         $this->_backendFrontName = $backendFrontName;
     }
 
@@ -99,10 +126,10 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         return $this->_pageHelpUrl;
     }
 
-    public function setPageHelpUrl($url=null)
+    public function setPageHelpUrl($url = null)
     {
         if (is_null($url)) {
-            $request = \Mage::app()->getRequest();
+            $request = $this->_app->getRequest();
             $frontModule = $request->getControllerModule();
             if (!$frontModule) {
                 $frontName = $request->getModuleName();
@@ -116,7 +143,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
                 }
             }
             $url = 'http://www.magentocommerce.com/gethelp/';
-            $url.= \Mage::app()->getLocale()->getLocaleCode().'/';
+            $url.= $this->_app->getLocale()->getLocaleCode().'/';
             $url.= $frontModule.'/';
             $url.= $request->getControllerName().'/';
             $url.= $request->getActionName().'/';
@@ -134,15 +161,15 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         return $this;
     }
 
-    public function getUrl($route='', $params=array())
+    public function getUrl($route = '', $params = array())
     {
-        return \Mage::getSingleton('Magento\Backend\Model\Url')->getUrl($route, $params);
+        return $this->_backendUrl->getUrl($route, $params);
     }
 
     public function getCurrentUserId()
     {
-        if (\Mage::getSingleton('Magento\Backend\Model\Auth\Session')->getUser()) {
-            return \Mage::getSingleton('Magento\Backend\Model\Auth\Session')->getUser()->getId();
+        if ($this->_auth->getUser()) {
+            return $this->_auth->getUser()->getId();
         }
         return false;
     }
@@ -189,7 +216,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getHomePageUrl()
     {
-        return \Mage::getSingleton('Magento\Backend\Model\Url')->getRouteUrl('adminhtml');
+        return $this->_backendUrl->getRouteUrl('adminhtml');
     }
 
     /**
@@ -220,7 +247,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper
                 $this->_areaFrontName = $this->_defaultAreaFrontName;
             }
         }
-
         return $this->_areaFrontName;
     }
 

@@ -9,13 +9,13 @@
  * @license     {license_link}
  */
 
-namespace Magento\Backend\Controller;
-
 /**
  * Test class for \Magento\Backend\Controller\ActionAbstract.
  * @magentoAppArea adminhtml
  */
-class AbstractActionTest extends \Magento\Backend\Utility\Controller
+namespace Magento\Backend\Controller;
+
+class ActionAbstractTest extends \Magento\Backend\Utility\Controller
 {
     /**
      * Check redirection to startup page for logged user
@@ -26,12 +26,11 @@ class AbstractActionTest extends \Magento\Backend\Utility\Controller
     {
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Config\Scope')
             ->setCurrentScope(\Magento\Core\Model\App\Area::AREA_ADMINHTML);
+        $this->dispatch('backend');
         /** @var $backendUrlModel \Magento\Backend\Model\Url */
-        $backendUrlModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Backend\Model\Url');
+        $backendUrlModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Backend\Model\Url');
         $url = $backendUrlModel->getStartupPageUrl();
         $expected = $backendUrlModel->getUrl($url);
-        $this->dispatch('backend');
         $this->assertRedirect($this->stringStartsWith($expected));
     }
 
@@ -53,10 +52,8 @@ class AbstractActionTest extends \Magento\Backend\Utility\Controller
             'password' => \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD
         ));
 
-        $url = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Backend\Model\Url')
-            ->getUrl('adminhtml/system_account/index');
         $this->getRequest()->setPost($postLogin);
-        $this->dispatch($url);
+        $this->dispatch('backend/admin/system_account/index');
 
         $expected = 'backend/admin/system_account/index';
         $this->assertRedirect($this->stringContains($expected));

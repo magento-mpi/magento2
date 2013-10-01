@@ -7,13 +7,16 @@
  * @copyright   {copyright}
  * @license     {license_link}
  *
- */
-
-namespace Magento\Backend\Controller\Router;
-
-/**
  * @SuppressWarnings(PHPMD.ExcessiveParameterList)
  */
+
+/**
+ * Class \Magento\Backend\Controller\Router\DefaultRouter
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
+namespace Magento\Backend\Controller\Router;
+
 class DefaultRouter extends \Magento\Core\Controller\Varien\Router\Base
 {
     /**
@@ -49,33 +52,57 @@ class DefaultRouter extends \Magento\Core\Controller\Varien\Router\Base
     protected $_defaultRouteId;
 
     /**
+     * @var \Magento\Core\Model\App\State
+     */
+    protected $_appState;
+
+    /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Core\Model\Url
+     */
+    protected $_url;
+
+    /**
      * @param \Magento\Backend\Helper\Data $backendData
      * @param \Magento\Core\Controller\Varien\Action\Factory $controllerFactory
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\Core\Model\App $app
+     * @param \Magento\Core\Model\App\State $appState
      * @param \Magento\Core\Model\Config\Scope $configScope
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\Route\Config $routeConfig
      * @param \Magento\Core\Model\Url\SecurityInfoInterface $securityInfo
      * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $url
+     * @param \Magento\Core\Model\App\State $appState
      * @param $areaCode
      * @param $baseController
      * @param $routerId
      * @param $defaultRouteId
      *
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      * @throws \InvalidArgumentException
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Backend\Helper\Data $backendData,
         \Magento\Core\Controller\Varien\Action\Factory $controllerFactory,
         \Magento\Filesystem $filesystem,
         \Magento\Core\Model\App $app,
+        \Magento\Core\Model\App\State $appState,
         \Magento\Core\Model\Config\Scope $configScope,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\Route\Config $routeConfig,
         \Magento\Core\Model\Url\SecurityInfoInterface $securityInfo,
         \Magento\Core\Model\Config $config,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $url,
+        \Magento\Core\Model\App\State $appState,
         $areaCode,
         $baseController,
         $routerId,
@@ -90,13 +117,18 @@ class DefaultRouter extends \Magento\Core\Controller\Varien\Router\Base
             $routeConfig,
             $securityInfo,
             $config,
+            $url,
+            $storeManager,
+            $appState,
             $areaCode,
             $baseController,
             $routerId,
             $defaultRouteId
         );
-
         $this->_backendData = $backendData;
+        $this->_appState = $appState;
+        $this->_storeManager = $storeManager;
+        $this->_url = $url;
         $this->_areaFrontName = $this->_backendData->getAreaFrontName();
         $this->_defaultRouteId = $defaultRouteId;
         if (empty($this->_areaFrontName)) {
@@ -162,9 +194,10 @@ class DefaultRouter extends \Magento\Core\Controller\Varien\Router\Base
      */
     protected function _afterModuleMatch()
     {
-        if (!\Mage::isInstalled()) {
-            \Mage::app()->getFrontController()->getResponse()
-                ->setRedirect(\Mage::getUrl('install'))
+        if (!$this->_appState->isInstalled()) {
+            $this->_app->getFrontController()
+                ->getResponse()
+                ->setRedirect($this->_url->getUrl('install'))
                 ->sendResponse();
             exit;
         }
@@ -206,7 +239,7 @@ class DefaultRouter extends \Magento\Core\Controller\Varien\Router\Base
      */
     protected function _getCurrentSecureUrl($request)
     {
-        return \Mage::app()->getStore(\Magento\Core\Model\AppInterface::ADMIN_STORE_ID)
+        return $this->_storeManager->getStore(\Magento\Core\Model\AppInterface::ADMIN_STORE_ID)
             ->getBaseUrl('link', true) . ltrim($request->getPathInfo(), '/');
     }
 
@@ -241,11 +274,8 @@ class DefaultRouter extends \Magento\Core\Controller\Varien\Router\Base
          */
 
         $parts = explode('_', $realModule);
-        $realModule = implode(\Magento\Autoload\IncludePath::NS_SEPARATOR, array_splice($parts, 0, 2));
-        return $realModule . \Magento\Autoload\IncludePath::NS_SEPARATOR . 'Controller' .
-            \Magento\Autoload\IncludePath::NS_SEPARATOR . ucfirst($this->_areaCode) .
-            \Magento\Autoload\IncludePath::NS_SEPARATOR .
-            str_replace('_', '\\', uc_words(str_replace('_', ' ', $controller)));
+        $realModule = implode('_', array_splice($parts, 0, 2));
+        return $realModule . '_' . 'Controller' . '_'. ucfirst($this->_areaCode) . '_' . uc_words($controller);
     }
 
     /**

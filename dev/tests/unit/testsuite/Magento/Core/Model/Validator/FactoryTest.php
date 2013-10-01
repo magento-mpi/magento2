@@ -112,12 +112,18 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateValidatorBuilder()
     {
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_validatorConfig->expects($this->once())
             ->method('createValidatorBuilder')
             ->with('test', 'class', array())
-            ->will($this->returnValue(new \Magento\Validator\Builder(array())));
-        $factory = new \Magento\Core\Model\Validator\Factory($this->_objectManager, $this->_config,
-            $this->_translateAdapter);
+            ->will($this->returnValue(
+                $objectManager->getObject('Magento\Validator\Builder', array('constraints' => []))
+            ));
+        $factory = new \Magento\Core\Model\Validator\Factory(
+            $this->_objectManager,
+            $this->_config,
+            $this->_translateAdapter
+        );
         $this->assertInstanceOf('Magento\Validator\Builder',
             $factory->createValidatorBuilder('test', 'class', array()));
     }

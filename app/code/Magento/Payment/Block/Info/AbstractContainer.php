@@ -17,7 +17,7 @@
  */
 namespace Magento\Payment\Block\Info;
 
-abstract class ContainerAbstract extends \Magento\Core\Block\Template
+abstract class AbstractContainer extends \Magento\Core\Block\Template
 {
     /**
      * Payment data
@@ -45,7 +45,7 @@ abstract class ContainerAbstract extends \Magento\Core\Block\Template
     /**
      * Add payment info block to layout
      *
-     * @return \Magento\Payment\Block\Info\ContainerAbstract
+     * @return \Magento\Payment\Block\Info\AbstractContainer
      */
     protected function _prepareLayout()
     {
@@ -83,7 +83,7 @@ abstract class ContainerAbstract extends \Magento\Core\Block\Template
      *
      * @param   string $method
      * @param   string $template
-     * @return  \Magento\Payment\Block\Info\ContainerAbstract
+     * @return  \Magento\Payment\Block\Info\AbstractContainer
      */
     public function setInfoTemplate($method='', $template='')
     {

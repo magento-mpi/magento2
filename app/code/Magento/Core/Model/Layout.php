@@ -14,10 +14,6 @@
  *
  * @category    Magento
  * @package     Magento_Core
- */
-namespace Magento\Core\Model;
-
-/**
  * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  * @SuppressWarnings(PHPMD.TooManyFields)
@@ -25,6 +21,8 @@ namespace Magento\Core\Model;
  * @SuppressWarnings(PHPMD.TooManyMethods)
  * @SuppressWarnings(PHPMD.ExcessiveParameterList)
  */
+namespace Magento\Core\Model;
+
 class Layout extends \Magento\Simplexml\Config
 {
     /**#@+
@@ -218,6 +216,18 @@ class Layout extends \Magento\Simplexml\Config
     protected $_logger;
 
     /**
+     * @var \Magento\Core\Model\Layout\MergeFactory
+     */
+    protected $_mergeFactory;
+
+    /**
+     * @var \Magento\Core\Model\Resource\Theme\CollectionFactory
+     */
+    protected $_themeFactory;
+
+    /**
+     * @param \Magento\Core\Model\Layout\MergeFactory $mergeFactory
+     * @param \Magento\Core\Model\Resource\Theme\CollectionFactory $themeFactory
      * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Model\Factory\Helper $factoryHelper
@@ -229,9 +239,11 @@ class Layout extends \Magento\Simplexml\Config
      * @param \Magento\Core\Model\Layout\ScheduledStructure $scheduledStructure
      * @param \Magento\Core\Model\DataService\Graph $dataServiceGraph
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param string $area
+     * @param $area
      */
     public function __construct(
+        \Magento\Core\Model\Layout\MergeFactory $mergeFactory,
+        \Magento\Core\Model\Resource\Theme\CollectionFactory $themeFactory,
         \Magento\Core\Model\Logger $logger,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Model\Factory\Helper $factoryHelper,
@@ -259,6 +271,8 @@ class Layout extends \Magento\Simplexml\Config
         $this->_renderingOutput = new \Magento\Object;
         $this->_scheduledStructure = $scheduledStructure;
         $this->_dataServiceGraph = $dataServiceGraph;
+        $this->_mergeFactory = $mergeFactory;
+        $this->_themeFactory = $themeFactory;
         $this->_logger = $logger;
     }
 
@@ -287,7 +301,7 @@ class Layout extends \Magento\Simplexml\Config
     {
         if (!$this->_update) {
             $theme = $this->_getThemeInstance($this->getArea());
-            $this->_update = \Mage::getModel('Magento\Core\Model\Layout\Merge', array('theme' => $theme));
+            $this->_update = $this->_mergeFactory->create(array('theme' => $theme));
         }
         return $this->_update;
     }
@@ -304,7 +318,7 @@ class Layout extends \Magento\Simplexml\Config
             return $this->_design->getDesignTheme();
         }
         /** @var \Magento\Core\Model\Resource\Theme\Collection $themeCollection */
-        $themeCollection = \Mage::getResourceModel('Magento\Core\Model\Resource\Theme\Collection');
+        $themeCollection = $this->_themeFactory->create();
         $themeIdentifier = $this->_design->getConfigurationDesignTheme($area);
         if (is_numeric($themeIdentifier)) {
             $result = $themeCollection->getItemById($themeIdentifier);
@@ -830,8 +844,8 @@ class Layout extends \Magento\Simplexml\Config
      */
     protected function _generateAnonymousName($class)
     {
-        $position = strpos($class, '\\Block\\');
-        $key = $position !== false ? substr($class, $position + 7) : $class;
+        $position = strpos($class, 'Block');
+        $key = $position !== false ? substr($class, $position + 6) : $class;
         $key = strtolower(trim($key, '_'));
 
         if (!isset($this->_nameIncrement[$key])) {
@@ -1407,6 +1421,7 @@ class Layout extends \Magento\Simplexml\Config
      *
      * @param string|\Magento\Core\Block\AbstractBlock $block
      * @param array $attributes
+     * @throws \Magento\Core\Exception
      * @return \Magento\Core\Block\AbstractBlock
      */
     protected function _getBlockInstance($block, array $attributes = array())
@@ -1417,7 +1432,7 @@ class Layout extends \Magento\Simplexml\Config
             }
         }
         if (!$block instanceof \Magento\Core\Block\AbstractBlock) {
-            \Mage::throwException(__('Invalid block type: %1', $block));
+            throw new \Magento\Core\Exception(__('Invalid block type: %1', $block));
         }
         return $block;
     }
@@ -1532,16 +1547,17 @@ class Layout extends \Magento\Simplexml\Config
      * Get block singleton
      *
      * @param string $type
+     * @throws \Magento\Core\Exception
      * @return \Magento\Core\Helper\AbstractHelper
      */
     public function getBlockSingleton($type)
     {
         if (!isset($this->_helpers[$type])) {
             if (!$type) {
-                \Mage::throwException(__('Invalid block type: %1', $type));
+                throw new \Magento\Core\Exception(__('Invalid block type: %1', $type));
             }
 
-            $helper = \Mage::getModel($type);
+            $helper = $this->_blockFactory->createBlock($type);
             if ($helper) {
                 if ($helper instanceof \Magento\Core\Block\AbstractBlock) {
                     $helper->setLayout($this);

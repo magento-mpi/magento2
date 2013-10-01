@@ -28,21 +28,33 @@ class Login extends \Magento\Checkout\Block\Onepage\AbstractOnepage
     protected $_checkoutData = null;
 
     /**
-     * @param \Magento\Checkout\Helper\Data $checkoutData
      * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Checkout\Model\Session $resourceSession
+     * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory
+     * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Checkout\Helper\Data $checkoutData
      * @param array $data
      */
     public function __construct(
-        \Magento\Checkout\Helper\Data $checkoutData,
         \Magento\Core\Model\Cache\Type\Config $configCacheType,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Checkout\Model\Session $resourceSession,
+        \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory,
+        \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Checkout\Helper\Data $checkoutData,
         array $data = array()
     ) {
+
         $this->_checkoutData = $checkoutData;
-        parent::__construct($configCacheType, $coreData, $context, $data);
+        parent::__construct($configCacheType, $coreData, $context, $customerSession, $resourceSession,
+            $countryCollFactory, $regionCollFactory, $storeManager, $data);
     }
 
     protected function _construct()
@@ -55,12 +67,12 @@ class Login extends \Magento\Checkout\Block\Onepage\AbstractOnepage
 
     public function getMessages()
     {
-        return \Mage::getSingleton('Magento\Customer\Model\Session')->getMessages(true);
+        return $this->_customerSession->getMessages(true);
     }
 
     public function getPostAction()
     {
-        return \Mage::getUrl('customer/account/loginPost', array('_secure'=>true));
+        return $this->getUrl('customer/account/loginPost', array('_secure'=>true));
     }
 
     public function getMethod()
@@ -90,7 +102,7 @@ class Login extends \Magento\Checkout\Block\Onepage\AbstractOnepage
      */
     public function getUsername()
     {
-        return \Mage::getSingleton('Magento\Customer\Model\Session')->getUsername(true);
+        return $this->_customerSession->getUsername(true);
     }
 
     /**

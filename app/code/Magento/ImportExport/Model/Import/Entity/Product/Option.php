@@ -15,16 +15,14 @@
  * @package     Magento_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  *
- */
-namespace Magento\ImportExport\Model\Import\Entity\Product;
-
-/**
  * @SuppressWarnings(PHPMD.TooManyFields)
  * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  * @todo Need to explode this class because of several responsibilities
  * @todo Refactor in the scope of https://wiki.magento.com/display/MAGE2/Technical+Debt+%28Team-Donetsk-B%29
  */
+namespace Magento\ImportExport\Model\Import\Entity\Product;
+
 class Option extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
 {
     /**#@+
@@ -251,27 +249,80 @@ class Option extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     protected $_coreStoreConfig;
 
     /**
+     * @var \Magento\ImportExport\Model\ImportFactory
+     */
+    protected $_importFactory;
+
+    /**
+     * @var \Magento\Core\Model\Resource
+     */
+    protected $_resource;
+
+    /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Catalog\Model\ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * @var \Magento\Catalog\Model\Resource\Product\Option\CollectionFactory
+     */
+    protected $_optionColFactory;
+
+    /**
+     * @var \Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory
+     */
+    protected $_colIteratorFactory;
+
+    /**
+     * @param \Magento\ImportExport\Model\Resource\Import\Data $importData
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\ImportExport\Model\Resource\Helper $resourceHelper
+     * @param \Magento\Core\Model\StoreManagerInterface $_storeManager
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Catalog\Model\Resource\Product\Option\CollectionFactory $optionColFactory
+     * @param \Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory $colIteratorFactory
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
+        \Magento\ImportExport\Model\Resource\Import\Data $importData,
+        \Magento\Core\Model\Resource $resource,
+        \Magento\ImportExport\Model\Resource\Helper $resourceHelper,
+        \Magento\Core\Model\StoreManagerInterface $_storeManager,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Catalog\Model\Resource\Product\Option\CollectionFactory $optionColFactory,
+        \Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory $colIteratorFactory,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         array $data = array()
     ) {
+        $this->_resource = $resource;
         $this->_catalogData = $catalogData;
+        $this->_storeManager = $_storeManager;
+        $this->_productFactory = $productFactory;
+        $this->_dataSourceModel = $importData;
+        $this->_optionColFactory = $optionColFactory;
+        $this->_colIteratorFactory = $colIteratorFactory;
         $this->_coreStoreConfig = $coreStoreConfig;
+
         if (isset($data['connection'])) {
             $this->_connection = $data['connection'];
         } else {
-            $this->_connection = \Mage::getSingleton('Magento\Core\Model\Resource')->getConnection('core_write');
+            $this->_connection = $resource->getConnection('write');
         }
 
         if (isset($data['resource_helper'])) {
             $this->_resourceHelper = $data['resource_helper'];
         } else {
-            $this->_resourceHelper = \Mage::getResourceHelper('Magento_ImportExport');
+            $this->_resourceHelper = $resourceHelper;
         }
 
         if (isset($data['is_price_global'])) {
@@ -350,7 +401,7 @@ class Option extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         }
         foreach ($this->_tables as $key => $value) {
             if ($value == null) {
-                $this->_tables[$key] = \Mage::getSingleton('Magento\Core\Model\Resource')->getTableName($key);
+                $this->_tables[$key] = $this->_resource->getTableName($key);
             }
         }
         return $this;
@@ -368,7 +419,7 @@ class Option extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
             $this->_storeCodeToId = $data['stores'];
         } else {
             /** @var $store \Magento\Core\Model\Store */
-            foreach (\Mage::app()->getStores(true) as $store) {
+            foreach ($this->_storeManager->getStores(true) as $store) {
                 $this->_storeCodeToId[$store->getCode()] = $store->getId();
             }
         }
@@ -385,32 +436,28 @@ class Option extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     {
         if (isset($data['data_source_model'])) {
             $this->_dataSourceModel = $data['data_source_model'];
-        } else {
-            $this->_dataSourceModel = \Magento\ImportExport\Model\Import::getDataSourceModel();
         }
         if (isset($data['product_model'])) {
             $this->_productModel = $data['product_model'];
         } else {
-            $this->_productModel = \Mage::getModel('Magento\Catalog\Model\Product');
+            $this->_productModel = $this->_productFactory->create();
         }
         if (isset($data['option_collection'])) {
             $this->_optionCollection = $data['option_collection'];
         } else {
-            $this->_optionCollection
-                = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Option\Collection');
+            $this->_optionCollection = $this->_optionColFactory->create();
         }
         if (isset($data['product_entity'])) {
             $this->_productEntity = $data['product_entity'];
         } else {
-            \Mage::throwException(
+            throw new \Magento\Core\Exception(
                 __('Option entity must have a parent product entity.')
             );
         }
         if (isset($data['collection_by_pages_iterator'])) {
             $this->_byPagesIterator = $data['collection_by_pages_iterator'];
         } else {
-            $this->_byPagesIterator
-                = \Mage::getResourceModel('Magento\ImportExport\Model\Resource\CollectionByPagesIterator');
+            $this->_byPagesIterator = $this->_colIteratorFactory->create();
         }
         if (isset($data['page_size'])) {
             $this->_pageSize = $data['page_size'];
@@ -437,7 +484,7 @@ class Option extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
                 $addCustomOptions = function (\Magento\Catalog\Model\Product\Option $customOption) use (
                     &$oldCustomOptions,
                     $storeId
-                    ) {
+                ) {
                     $productId = $customOption->getProductId();
                     if (!isset($oldCustomOptions[$productId])) {
                         $oldCustomOptions[$productId] = array();

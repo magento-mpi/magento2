@@ -15,7 +15,7 @@
  */
 namespace Magento\Adminhtml\Controller\Sales\Invoice;
 
-class InvoiceAbstract
+class AbstractInvoice
     extends \Magento\Adminhtml\Controller\Action
 {
     /**
