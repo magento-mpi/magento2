@@ -13,7 +13,7 @@ namespace Magento\Webapi\Block\Adminhtml;
 /**
  * @magentoAppArea adminhtml
  */
-class FormTestAbstract extends \PHPUnit_Framework_TestCase
+class AbstractFormTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Form class must be defined in children.

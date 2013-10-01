@@ -9,7 +9,7 @@
  */
 namespace Magento\TestFramework\Integrity;
 
-abstract class ConfigAbstract extends \PHPUnit_Framework_TestCase
+abstract class AbstractConfig extends \PHPUnit_Framework_TestCase
 {
     /** indicator no config file found */
     const NO_CONFIG_FILE = 'no config file';

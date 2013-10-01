@@ -37,9 +37,9 @@ class ExportTest extends \PHPUnit_Framework_TestCase
     {
         $this->_exportConfigMock = $this->getMock('Magento\ImportExport\Model\Export\ConfigInterface');
 
-        /** @var $mockEntityAbstract \Magento\ImportExport\Model\Export\EntityAbstract */
-        $mockEntityAbstract = $this->getMockForAbstractClass(
-            'Magento\ImportExport\Model\Export\EntityAbstract',
+        /** @var $AbstractmockEntity \Magento\ImportExport\Model\Export\AbstractEntity */
+        $AbstractmockEntity = $this->getMockForAbstractClass(
+            'Magento\ImportExport\Model\Export\AbstractEntity',
             array(),
             '',
             false
@@ -74,10 +74,10 @@ class ExportTest extends \PHPUnit_Framework_TestCase
         );
         $mockModelExport->expects($this->any())
             ->method('getEntityAdapter')
-            ->will($this->returnValue($mockEntityAbstract));
+            ->will($this->returnValue($AbstractmockEntity));
         $mockModelExport->expects($this->any())
             ->method('_getEntityAdapter')
-            ->will($this->returnValue($mockEntityAbstract));
+            ->will($this->returnValue($AbstractmockEntity));
         $mockModelExport->expects($this->any())
             ->method('_getWriter')
             ->will($this->returnValue($mockAdapterTest));

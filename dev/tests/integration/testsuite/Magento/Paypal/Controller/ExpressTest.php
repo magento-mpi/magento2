@@ -8,7 +8,7 @@
 
 namespace Magento\Paypal\Controller;
 
-class ExpressTest extends \Magento\TestFramework\TestCase\ControllerAbstract
+class ExpressTest extends \Magento\TestFramework\TestCase\AbstractController
 {
     /**
      * @magentoDataFixture Magento/Sales/_files/quote.php

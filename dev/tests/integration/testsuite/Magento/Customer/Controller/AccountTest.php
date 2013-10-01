@@ -11,7 +11,7 @@
 
 namespace Magento\Customer\Controller;
 
-class AccountTest extends \Magento\TestFramework\TestCase\ControllerAbstract
+class AccountTest extends \Magento\TestFramework\TestCase\AbstractController
 {
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php

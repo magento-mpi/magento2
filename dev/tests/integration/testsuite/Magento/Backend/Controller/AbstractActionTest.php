@@ -10,7 +10,7 @@
  */
 
 /**
- * Test class for \Magento\Backend\Controller\ActionAbstract.
+ * Test class for \Magento\Backend\Controller\AbstractAction.
  * @magentoAppArea adminhtml
  */
 namespace Magento\Backend\Controller;
@@ -37,7 +37,7 @@ class ActionAbstractTest extends \Magento\Backend\Utility\Controller
     /**
      * Check login redirection
      *
-     * @covers \Magento\Backend\Controller\ActionAbstract::_initAuthentication
+     * @covers \Magento\Backend\Controller\AbstractAction::_initAuthentication
      * @magentoDbIsolation enabled
      */
     public function testInitAuthentication()

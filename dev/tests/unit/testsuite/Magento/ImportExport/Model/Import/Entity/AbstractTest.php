@@ -70,12 +70,12 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
      * Create source adapter mock and set it into model object which tested in this class
      *
      * @param array $columns value which will be returned by method getColNames()
-     * @return \Magento\ImportExport\Model\Import\SourceAbstract|\PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\ImportExport\Model\Import\AbstractSource|\PHPUnit_Framework_MockObject_MockObject
      */
     protected function _createSourceAdapterMock(array $columns)
     {
-        /** @var $source \Magento\ImportExport\Model\Import\SourceAbstract|\PHPUnit_Framework_MockObject_MockObject */
-        $source = $this->getMockForAbstractClass('Magento\ImportExport\Model\Import\SourceAbstract', array(), '', false,
+        /** @var $source \Magento\ImportExport\Model\Import\AbstractSource|\PHPUnit_Framework_MockObject_MockObject */
+        $source = $this->getMockForAbstractClass('Magento\ImportExport\Model\Import\AbstractSource', array(), '', false,
             true, true, array('getColNames')
         );
         $source->expects($this->any())

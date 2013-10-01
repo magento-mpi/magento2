@@ -87,7 +87,7 @@ class IpnTest extends \PHPUnit_Framework_TestCase
         $infoProperty->setAccessible(true);
         $infoProperty->setValue($this->_ipn, $info);
 
-        $testMethod = new ReflectionMethod('Magento\Paypal\Model\Ipn', '_registerPaymentAuthorization');
+        $testMethod = new \ReflectionMethod('Magento\Paypal\Model\Ipn', '_registerPaymentAuthorization');
         $testMethod->setAccessible(true);
         $testMethod->invoke($this->_ipn);
     }
@@ -105,7 +105,7 @@ class IpnTest extends \PHPUnit_Framework_TestCase
                 $this->equalTo(true)
             );
 
-        $testMethod = new ReflectionMethod('Magento\Paypal\Model\Ipn', '_registerPaymentAuthorization');
+        $testMethod = new \ReflectionMethod('Magento\Paypal\Model\Ipn', '_registerPaymentAuthorization');
         $testMethod->setAccessible(true);
         $testMethod->invoke($this->_ipn);
     }

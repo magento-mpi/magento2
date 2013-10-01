@@ -13,7 +13,7 @@
  */
 namespace Magento\Tools\Migration\System\Configuration;
 
-abstract class LoggerAbstract
+abstract class AbstractLogger
 {
     CONST FILE_KEY_VALID = 'valid';
     CONST FILE_KEY_INVALID = 'invalid';
@@ -33,7 +33,7 @@ abstract class LoggerAbstract
      *
      * @param string $fileName
      * @param string $type
-     * @return \Magento\Tools\Migration\System\Configuration\LoggerAbstract
+     * @return \Magento\Tools\Migration\System\Configuration\AbstractLogger
      */
     public function add($fileName, $type)
     {

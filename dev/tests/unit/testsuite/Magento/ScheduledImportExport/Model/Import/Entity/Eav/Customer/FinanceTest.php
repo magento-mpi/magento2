@@ -96,7 +96,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
             \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::COLUMN_WEBSITE => 'website1',
             \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::COLUMN_FINANCE_WEBSITE
                 => 'website1',
-            \Magento\ImportExport\Model\Import\EntityAbstract::COLUMN_ACTION => null,
+            \Magento\ImportExport\Model\Import\AbstractEntity::COLUMN_ACTION => null,
             \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::COLUMN_ADDRESS_ID => 1,
             \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection::COLUMN_CUSTOMER_BALANCE
                 => 100,
@@ -108,8 +108,8 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
             \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::COLUMN_WEBSITE => 'website2',
             \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::COLUMN_FINANCE_WEBSITE
                 => 'website1',
-            \Magento\ImportExport\Model\Import\EntityAbstract::COLUMN_ACTION
-                => \Magento\ImportExport\Model\Import\EntityAbstract::COLUMN_ACTION_VALUE_DELETE,
+            \Magento\ImportExport\Model\Import\AbstractEntity::COLUMN_ACTION
+                => \Magento\ImportExport\Model\Import\AbstractEntity::COLUMN_ACTION_VALUE_DELETE,
             \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::COLUMN_ADDRESS_ID => 2,
         ),
         array(
@@ -117,7 +117,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
             \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::COLUMN_WEBSITE => 'website2',
             \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::COLUMN_FINANCE_WEBSITE
                 => 'website1',
-            \Magento\ImportExport\Model\Import\EntityAbstract::COLUMN_ACTION => 'update',
+            \Magento\ImportExport\Model\Import\AbstractEntity::COLUMN_ACTION => 'update',
             \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::COLUMN_ADDRESS_ID => 2,
             \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection::COLUMN_CUSTOMER_BALANCE
                 => 100,

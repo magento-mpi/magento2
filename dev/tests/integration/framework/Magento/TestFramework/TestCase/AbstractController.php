@@ -17,7 +17,7 @@ namespace Magento\TestFramework\TestCase;
 /**
  * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
-abstract class ControllerAbstract extends \PHPUnit_Framework_TestCase
+abstract class AbstractController extends \PHPUnit_Framework_TestCase
 {
     protected $_runCode     = '';
     protected $_runScope    = 'store';

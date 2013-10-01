@@ -12,14 +12,14 @@
 /**
  * Test namespace Magento\Core\Controller\Varien;
 
-class ActionAbstract
+class AbstractAction
  */
 namespace Magento\Core\Controller\Varien;
 
 class ActionAbstractTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Controller\Varien\ActionAbstract
+     * @var \Magento\Core\Controller\Varien\AbstractAction
      */
     protected $_actionAbstract;
 
@@ -36,12 +36,11 @@ class ActionAbstractTest extends \PHPUnit_Framework_TestCase
     /**
      * Setup before tests
      *
-     * Create request, response and forward action (child of ActionAbstract)
+     * Create request, response and forward action (child of AbstractAction)
      */
     protected function setUp()
     {
-        $helperMock = $this->getMock('Magento\Backend\Helper\Data', array(), array(),
-            'Magento\Backend\Helper\DataProxy', false);
+        $helperMock = $this->getMock( 'Magento\Backend\Helper\DataProxy', array(), array(), '', false);
         $this->_request = $this->getMock(
             'Magento\Core\Controller\Request\Http',
             array('getRequestedRouteName', 'getRequestedControllerName', 'getRequestedActionName'),
@@ -58,7 +57,7 @@ class ActionAbstractTest extends \PHPUnit_Framework_TestCase
      * Test for getRequest method
      *
      * @test
-     * @covers \Magento\Core\Controller\Varien\ActionAbstract::getRequest
+     * @covers \Magento\Core\Controller\Varien\AbstractAction::getRequest
      */
     public function testGetRequest()
     {
@@ -69,7 +68,7 @@ class ActionAbstractTest extends \PHPUnit_Framework_TestCase
      * Test for getResponse method
      *
      * @test
-     * @covers \Magento\Core\Controller\Varien\ActionAbstract::getResponse
+     * @covers \Magento\Core\Controller\Varien\AbstractAction::getResponse
      */
     public function testGetResponse()
     {
@@ -80,15 +79,14 @@ class ActionAbstractTest extends \PHPUnit_Framework_TestCase
      * Test for getResponse med. Checks that response headers are set correctly
      *
      * @test
-     * @covers \Magento\Core\Controller\Varien\ActionAbstract::getResponse
+     * @covers \Magento\Core\Controller\Varien\AbstractAction::getResponse
      */
     public function testResponseHeaders()
     {
         $eventManager = $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false);
 
         $storeManager = $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false);
-        $helperMock = $this->getMock('Magento\Backend\Helper\Data', array(), array(),
-            'Magento\Backend\Helper\DataProxy', false);
+        $helperMock = $this->getMock('Magento\Backend\Helper\DataProxy', array(), array(), '', false);
         $request = new \Magento\Core\Controller\Request\Http($storeManager, $helperMock);
         $response = new \Magento\Core\Controller\Response\Http($eventManager);
         $response->headersSentThrowsException = false;
@@ -109,7 +107,7 @@ class ActionAbstractTest extends \PHPUnit_Framework_TestCase
      * Test for getFullActionName method
      *
      * @test
-     * @covers \Magento\Core\Controller\Varien\ActionAbstract::getFullActionName
+     * @covers \Magento\Core\Controller\Varien\AbstractAction::getFullActionName
      */
     public function testGetFullActionName()
     {

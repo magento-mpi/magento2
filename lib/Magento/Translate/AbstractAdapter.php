@@ -14,7 +14,7 @@
  */
 namespace Magento\Translate;
 
-abstract class AdapterAbstract extends \Zend_Translate_Adapter
+abstract class AbstractAdapter extends \Zend_Translate_Adapter
     implements \Magento\Translate\AdapterInterface
 {
     /**

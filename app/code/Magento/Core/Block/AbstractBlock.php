@@ -833,7 +833,7 @@ abstract class AbstractBlock extends \Magento\Object
     public function getModuleName()
     {
         if (!$this->_getData('module_name')) {
-            $this->setData('module_name', self::extractModuleName(get_class($this)));
+            $this->setData('module_name', self::extractModuleName(__NAMESPACE__));
         }
         return $this->_getData('module_name');
     }
@@ -846,7 +846,7 @@ abstract class AbstractBlock extends \Magento\Object
      */
     public static function extractModuleName($className)
     {
-        return substr($className, 0, strpos($className, '_Block'));
+        return str_replace('\\', '_', substr($className, 0, strpos($className, '\\Block')));
     }
 
     /**

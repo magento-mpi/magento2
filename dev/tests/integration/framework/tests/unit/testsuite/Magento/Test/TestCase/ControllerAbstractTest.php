@@ -14,7 +14,7 @@
  */
 namespace Magento\Test\TestCase;
 
-class ControllerAbstractTest extends \Magento\TestFramework\TestCase\ControllerAbstract
+class ControllerAbstractTest extends \Magento\TestFramework\TestCase\AbstractController
 {
     protected $_bootstrap;
 
@@ -114,7 +114,7 @@ class ControllerAbstractTest extends \Magento\TestFramework\TestCase\ControllerA
          * which requires fully initialized application environment intentionally not available
          * for unit tests
          */
-        $setRedirectMethod = new ReflectionMethod('Zend_Controller_Response_Http', 'setRedirect');
+        $setRedirectMethod = new \ReflectionMethod('Zend_Controller_Response_Http', 'setRedirect');
         $setRedirectMethod->invoke($this->getResponse(), 'http://magentocommerce.com');
         $this->assertRedirect();
         $this->assertRedirect($this->equalTo('http://magentocommerce.com'));

@@ -14,7 +14,7 @@
  */
 namespace Magento\TestFramework\Db;
 
-abstract class DbAbstract
+abstract class AbstractDb
 {
     /**
      * DB host name

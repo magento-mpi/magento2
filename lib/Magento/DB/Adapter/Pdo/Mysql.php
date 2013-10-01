@@ -347,8 +347,8 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements \Magento\DB\Adapter\Ad
         $this->_connection->query("SET SQL_MODE=''");
 
         if (!$this->_connectionFlagsSet) {
-            $this->_connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
-            $this->_connection->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);
+            $this->_connection->setAttribute(\PDO::ATTR_EMULATE_PREPARES, true);
+            $this->_connection->setAttribute(\PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);
             $this->_connectionFlagsSet = true;
         }
     }
@@ -390,7 +390,7 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements \Magento\DB\Adapter\Ad
             return false;
         }
 
-        $row = $result->fetch(PDO::FETCH_ASSOC);
+        $row = $result->fetch(\PDO::FETCH_ASSOC);
         if (!$row) {
             return false;
         }

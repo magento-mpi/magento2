@@ -50,7 +50,7 @@ class AbstractTest
         )
         ->setLayout($objectManager->create('Magento\Core\Model\Layout'));
 
-        $method = new ReflectionMethod(
+        $method = new \ReflectionMethod(
             'Magento\Eav\Block\Adminhtml\Attribute\Edit\Main\AbstractMain', '_prepareForm');
         $method->setAccessible(true);
         $method->invoke($block);

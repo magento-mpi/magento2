@@ -201,13 +201,12 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     public function testBuilderConfiguration()
     {
         $this->getMockBuilder('Magento\Validator\Builder')
-            ->setMockClassName('Magento\Validator\Test\Builder')
             ->disableOriginalConstructor()
             ->getMock();
 
         $this->_initConfig(array(__DIR__ . '/_files/validation/positive/builder/validation.xml'));
         $builder = $this->_config->createValidatorBuilder('test_entity_a', 'check_builder');
-        $this->assertInstanceOf('Magento\Validator\Test\Builder', $builder);
+        $this->assertInstanceOf('Magento\Validator\Builder', $builder);
 
         $expected = array(
             array(

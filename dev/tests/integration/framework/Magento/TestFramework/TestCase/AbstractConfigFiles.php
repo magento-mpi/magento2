@@ -10,7 +10,7 @@
  */
 namespace Magento\TestFramework\TestCase;
 
-abstract class ConfigFilesAbstract extends \PHPUnit_Framework_TestCase
+abstract class AbstractConfigFiles extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var string

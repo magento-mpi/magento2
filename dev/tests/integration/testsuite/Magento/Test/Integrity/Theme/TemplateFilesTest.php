@@ -11,7 +11,7 @@
 
 namespace Magento\Test\Integrity\Theme;
 
-class TemplateFilesTest extends \Magento\TestFramework\TestCase\IntegrityAbstract
+class TemplateFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
 {
     /**
      * Note that data provider is not used in conventional way in order to not overwhelm test statistics

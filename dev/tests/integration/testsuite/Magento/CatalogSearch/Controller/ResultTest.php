@@ -11,7 +11,7 @@
 
 namespace Magento\CatalogSearch\Controller;
 
-class ResultTest extends \Magento\TestFramework\TestCase\ControllerAbstract
+class ResultTest extends \Magento\TestFramework\TestCase\AbstractController
 {
     /**
      * @magentoDataFixture Magento/CatalogSearch/_files/query.php

@@ -161,7 +161,7 @@ class String extends \Magento\Core\Helper\AbstractHelper
      * @param string $wordSeparatorRegex
      * @return array
      */
-    public function str_split($str, $length = 1, $keepWords = false, $trim = false, $wordSeparatorRegex = '\s')
+    public function strSplit($str, $length = 1, $keepWords = false, $trim = false, $wordSeparatorRegex = '\s')
     {
         $result = array();
         $strlen = $this->strlen($str);

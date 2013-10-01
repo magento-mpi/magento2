@@ -10,7 +10,7 @@
  */
 
 /**
- * Test case for \Magento\Validator\ValidatorAbstract
+ * Test case for \Magento\Validator\AbstractValidator
  */
 namespace Magento\Validator;
 
@@ -23,18 +23,18 @@ class ValidatorAbstractTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_defaultTranslator = \Magento\Validator\ValidatorAbstract::getDefaultTranslator();
+        $this->_defaultTranslator = \Magento\Validator\AbstractValidator::getDefaultTranslator();
     }
 
     protected function tearDown()
     {
-        \Magento\Validator\ValidatorAbstract::setDefaultTranslator($this->_defaultTranslator);
+        \Magento\Validator\AbstractValidator::setDefaultTranslator($this->_defaultTranslator);
     }
 
     /**
      * Get translator object
      *
-     * @return \PHPUnit_Framework_MockObject_MockObject|\Magento\Translate\AdapterAbstract
+     * @return \PHPUnit_Framework_MockObject_MockObject|\Magento\Translate\AbstractAdapter
      */
     protected function _getTranslator()
     {
@@ -48,8 +48,8 @@ class ValidatorAbstractTest extends \PHPUnit_Framework_TestCase
     public function testDefaultTranslatorGetSet()
     {
         $translator = $this->_getTranslator();
-        \Magento\Validator\ValidatorAbstract::setDefaultTranslator($translator);
-        $this->assertEquals($translator, \Magento\Validator\ValidatorAbstract::getDefaultTranslator());
+        \Magento\Validator\AbstractValidator::setDefaultTranslator($translator);
+        $this->assertEquals($translator, \Magento\Validator\AbstractValidator::getDefaultTranslator());
     }
 
     /**
@@ -57,8 +57,8 @@ class ValidatorAbstractTest extends \PHPUnit_Framework_TestCase
      */
     public function testTranslatorGetSetHas()
     {
-        /** @var \Magento\Validator\ValidatorAbstract $validator */
-        $validator = $this->getMockBuilder('Magento\Validator\ValidatorAbstract')
+        /** @var \Magento\Validator\AbstractValidator $validator */
+        $validator = $this->getMockBuilder('Magento\Validator\AbstractValidator')
             ->getMockForAbstractClass();
         $translator = $this->_getTranslator();
         $validator->setTranslator($translator);
@@ -71,11 +71,11 @@ class ValidatorAbstractTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetTranslatorDefault()
     {
-        /** @var \Magento\Validator\ValidatorAbstract $validator */
-        $validator = $this->getMockBuilder('Magento\Validator\ValidatorAbstract')
+        /** @var \Magento\Validator\AbstractValidator $validator */
+        $validator = $this->getMockBuilder('Magento\Validator\AbstractValidator')
             ->getMockForAbstractClass();
         $translator = $this->_getTranslator();
-        \Magento\Validator\ValidatorAbstract::setDefaultTranslator($translator);
+        \Magento\Validator\AbstractValidator::setDefaultTranslator($translator);
         $this->assertEquals($translator, $validator->getTranslator());
         $this->assertFalse($validator->hasTranslator());
     }

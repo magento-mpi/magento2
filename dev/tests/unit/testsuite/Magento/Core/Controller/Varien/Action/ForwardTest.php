@@ -37,7 +37,7 @@ class ForwardTest extends \PHPUnit_Framework_TestCase
     {
         $storeManager = $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false);
         $helperMock = $this->getMock('Magento\Backend\Helper\Data', array(), array(),
-            'Magento\Backend\Helper\DataProxy', false);
+            '', false);
         $this->_request  = new \Magento\Core\Controller\Request\Http($storeManager, $helperMock);
         $this->_response = new \Magento\Core\Controller\Response\Http(
             $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false)

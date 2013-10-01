@@ -99,8 +99,8 @@ class UrlTest extends \PHPUnit_Framework_TestCase
         $this->_coreDataMock = $this->getMock('Magento\Core\Helper\Data', array('getHash'), array(), '', false);
         $this->_coreDataMock->expects($this->any())->method('getHash')->will($this->returnArgument(0));
 
-        $this->_authSessionMock = $this->getMock('Magento\Backend\Model\Auth\Session', array(), array(),
-            'Magento\Backend\Model\Auth\SessionProxy', false, false);
+        $this->_authSessionMock = $this->getMock('Magento\Backend\Model\Auth\SessionProxy', array(), array(),
+            '', false, false);
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_model = $helper->getObject('Magento\Backend\Model\Url', array(
             'coreStoreConfig' => $this->_storeConfigMock,

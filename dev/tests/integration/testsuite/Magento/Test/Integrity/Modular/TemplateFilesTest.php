@@ -14,7 +14,7 @@
  */
 namespace Magento\Test\Integrity\Modular;
 
-class TemplateFilesTest extends \Magento\TestFramework\TestCase\IntegrityAbstract
+class TemplateFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
 {
     /**
      * @param string $module

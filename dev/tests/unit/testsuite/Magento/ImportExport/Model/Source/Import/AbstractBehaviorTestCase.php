@@ -14,12 +14,12 @@
  */
 namespace Magento\ImportExport\Model\Source\Import;
 
-abstract class BehaviorTestCaseAbstract extends \PHPUnit_Framework_TestCase
+abstract class AbstractBehaviorTestCase extends \PHPUnit_Framework_TestCase
 {
     /**
      * Model for testing
      *
-     * @var \Magento\ImportExport\Model\Source\Import\BehaviorAbstract
+     * @var \Magento\ImportExport\Model\Source\Import\AbstractBehavior
      */
     protected $_model;
 

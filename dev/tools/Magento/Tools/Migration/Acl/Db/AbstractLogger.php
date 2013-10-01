@@ -13,7 +13,7 @@
  */
 namespace Magento\Tools\Migration\Acl\Db;
 
-abstract class LoggerAbstract
+abstract class AbstractLogger
 {
     /**
      * List of logs
@@ -44,7 +44,7 @@ abstract class LoggerAbstract
      * @param string $oldKey
      * @param string $newKey
      * @param int|null $updateResult
-     * @return \Magento\Tools\Migration\Acl\Db\LoggerAbstract
+     * @return \Magento\Tools\Migration\Acl\Db\AbstractLogger
      */
     public function add($oldKey, $newKey, $updateResult)
     {

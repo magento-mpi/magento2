@@ -14,7 +14,7 @@
  */
 namespace Magento\Config;
 
-abstract class XmlAbstract
+abstract class AbstractXml
 {
     /**
      * Data extracted from the merged configuration files
@@ -97,7 +97,7 @@ abstract class XmlAbstract
      * Perform xml validation
      *
      * @param string $file
-     * @return \Magento\Config\XmlAbstract
+     * @return \Magento\Config\AbstractXml
      * @throws \Magento\Exception if invalid XML-file passed
      */
     protected function _performValidate($file = null)

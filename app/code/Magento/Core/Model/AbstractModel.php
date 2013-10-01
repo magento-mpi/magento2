@@ -198,7 +198,7 @@ abstract class AbstractModel extends \Magento\Object
     {
         $this->_resourceName = $resourceName;
         if (is_null($collectionName)) {
-            $collectionName = $resourceName . '_Collection';
+            $collectionName = $resourceName . \Magento\Autoload\IncludePath::NS_SEPARATOR . 'Collection';
         }
         $this->_collectionName = $collectionName;
     }

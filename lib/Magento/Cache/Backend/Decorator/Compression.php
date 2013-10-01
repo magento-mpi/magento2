@@ -13,7 +13,7 @@
  */
 namespace Magento\Cache\Backend\Decorator;
 
-class Compression extends \Magento\Cache\Backend\Decorator\DecoratorAbstract
+class Compression extends \Magento\Cache\Backend\Decorator\AbstractDecorator
 {
     /**
      * Prefix of compressed strings

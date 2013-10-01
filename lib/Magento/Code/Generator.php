@@ -17,7 +17,7 @@ class Generator
     const GENERATION_SKIP = 'skip';
 
     /**
-     * @var \Magento\Code\Generator\EntityAbstract
+     * @var \Magento\Code\Generator\AbstractEntity
      */
     protected $_generator;
 
@@ -41,12 +41,12 @@ class Generator
     );
 
     /**
-     * @param \Magento\Code\Generator\EntityAbstract $generator
+     * @param \Magento\Code\Generator\AbstractEntity $generator
      * @param \Magento\Autoload\IncludePath $autoloader
      * @param \Magento\Code\Generator\Io $ioObject
      */
     public function __construct(
-        \Magento\Code\Generator\EntityAbstract $generator = null,
+        \Magento\Code\Generator\AbstractEntity $generator = null,
         \Magento\Autoload\IncludePath $autoloader = null,
         \Magento\Code\Generator\Io $ioObject = null
     ) {
@@ -112,7 +112,7 @@ class Generator
      * @param string $entity
      * @param string $sourceClassName
      * @param string $resultClassName
-     * @return \Magento\Code\Generator\EntityAbstract|\Magento\Code\Generator\Factory|\Magento\Code\Generator\Proxy
+     * @return \Magento\Code\Generator\AbstractEntity|\Magento\Code\Generator\Factory|\Magento\Code\Generator\Proxy
      * @throws \InvalidArgumentException
      */
     protected function _initGenerator($entity, $sourceClassName, $resultClassName)

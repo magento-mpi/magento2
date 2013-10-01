@@ -194,7 +194,7 @@ class ObjectManager
                     $parameterString = substr($parameterString, $firstPosition + 11);
                     $parameterString = substr($parameterString, 0, strpos($parameterString, ' '));
                     $object = $this->_testObject->getMock(
-                        $parameterString, array(), array(), 'Dummy_Mock_' . $parameterString, false
+                        $parameterString, array(), array(), '', false
                     );
                 }
             }

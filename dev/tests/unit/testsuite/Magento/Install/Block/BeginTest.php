@@ -30,8 +30,7 @@ class BeginTest extends \PHPUnit_Framework_TestCase
         $context->expects($this->once())->method('getFileSystem')->will($this->returnValue($contextFileSystem));
         $installer = $this->getMock('Magento\Install\Model\Installer', array(), array(), '', false);
         $wizard = $this->getMock('Magento\Install\Model\Wizard', array(), array(), '', false);
-        $session = $this->getMock('Magento\Install\Model\Session', array(), array(),
-            'Magento\Core\Model\Session\Generic', false);
+        $session = $this->getMock('Magento\Core\Model\Session\Generic', array(), array(), '', false);
         $block = new \Magento\Install\Block\Begin($helper, $context, $installer, $wizard, $session, $fileName, array());
         return $block;
     }

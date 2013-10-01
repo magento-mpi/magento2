@@ -695,7 +695,7 @@ class CustomerCompositeTest extends \PHPUnit_Framework_TestCase
             $data
         );
 
-        $source = $this->getMockForAbstractClass('Magento\ImportExport\Model\Import\SourceAbstract', array(), '',
+        $source = $this->getMockForAbstractClass('Magento\ImportExport\Model\Import\AbstractSource', array(), '',
             false);
         $this->_model->setSource($source);
     }

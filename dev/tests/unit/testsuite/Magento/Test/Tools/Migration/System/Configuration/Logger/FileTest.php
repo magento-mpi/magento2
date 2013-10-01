@@ -11,11 +11,11 @@
 namespace Magento\Test\Tools\Migration\System\Configuration\Logger;
 
 require_once realpath(__DIR__ . '/../../../../../../../../../../')
-    . '/tools/Magento/Tools/Migration//Acl/Db/LoggerAbstract.php';
+    . '/tools/Magento/Tools/Migration//Acl/Db/AbstractLogger.php';
 require_once realpath(__DIR__ . '/../../../../../../../../../../')
     . '/tools/Magento/Tools/Migration//Acl/Db/Logger/File.php';
 require_once realpath(__DIR__ . '/../../../../../../../../../../')
-    . '/tools/Magento/Tools/Migration//System/Configuration/LoggerAbstract.php';
+    . '/tools/Magento/Tools/Migration//System/Configuration/AbstractLogger.php';
 require_once realpath(__DIR__ . '/../../../../../../../../../../')
     . '/tools/Magento/Tools/Migration//System/Configuration/Logger/File.php';
 require_once realpath(__DIR__ . '/../../../../../../../../../../')

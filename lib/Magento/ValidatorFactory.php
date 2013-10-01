@@ -5,11 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento;
 /**
  * Factory class for \Magento\Validator
  */
-class \Magento\ValidatorFactory
+class ValidatorFactory
 {
     /**
      * Object Manager instance

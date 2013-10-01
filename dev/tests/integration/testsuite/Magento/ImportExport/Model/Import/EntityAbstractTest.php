@@ -10,7 +10,7 @@
  */
 
 /**
- * Test class for \Magento\ImportExport\Model\Import\EntityAbstract
+ * Test class for \Magento\ImportExport\Model\Import\AbstractEntity
  */
 namespace Magento\ImportExport\Model\Import;
 
@@ -28,8 +28,8 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
         $expected = $source->current();
 
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        /** @var $model \Magento\ImportExport\Model\Import\EntityAbstract|\PHPUnit_Framework_MockObject_MockObject */
-        $model = $this->getMockForAbstractClass('Magento\ImportExport\Model\Import\EntityAbstract', array(
+        /** @var $model \Magento\ImportExport\Model\Import\AbstractEntity|\PHPUnit_Framework_MockObject_MockObject */
+        $model = $this->getMockForAbstractClass('Magento\ImportExport\Model\Import\AbstractEntity', array(
             $objectManager->get('Magento\Core\Helper\Data'),
             $objectManager->get('Magento\Core\Helper\String'),
             $objectManager->get('Magento\Core\Model\Store\Config'),
@@ -46,7 +46,7 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
 
         $model->setSource($source);
 
-        $method = new ReflectionMethod($model, '_saveValidatedBunches');
+        $method = new \ReflectionMethod($model, '_saveValidatedBunches');
         $method->setAccessible(true);
         $method->invoke($model);
 

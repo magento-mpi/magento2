@@ -17,7 +17,7 @@ namespace Magento\Test\Integrity\Modular;
  *
  * @magentoAppIsolation
  */
-class BlockInstantiationTest extends \Magento\TestFramework\TestCase\IntegrityAbstract
+class BlockInstantiationTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
 {
     /**
      * @param string $module

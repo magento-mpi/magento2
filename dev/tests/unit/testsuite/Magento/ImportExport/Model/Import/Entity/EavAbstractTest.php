@@ -10,7 +10,7 @@
  */
 
 /**
- * Test class for \Magento\ImportExport\Model\Import\Entity\EavAbstract
+ * Test class for \Magento\ImportExport\Model\Import\Entity\AbstractEav
  */
 namespace Magento\ImportExport\Model\Import\Entity;
 
@@ -24,7 +24,7 @@ class EavAbstractTest extends \PHPUnit_Framework_TestCase
     /**
      * Abstract import entity eav model
      *
-     * @var \Magento\ImportExport\Model\Import\Entity\EavAbstract
+     * @var \Magento\ImportExport\Model\Import\Entity\AbstractEav
      */
     protected $_model;
 
@@ -86,7 +86,7 @@ class EavAbstractTest extends \PHPUnit_Framework_TestCase
             'Magento\Eav\Model\Config', array(), array(), '', false
         );
 
-        $this->_model = $this->getMockForAbstractClass('Magento\ImportExport\Model\Import\Entity\EavAbstract',
+        $this->_model = $this->getMockForAbstractClass('Magento\ImportExport\Model\Import\Entity\AbstractEav',
             array(
                 $this->_coreDataMock,
                 $this->_coreStringMock,
@@ -138,7 +138,7 @@ class EavAbstractTest extends \PHPUnit_Framework_TestCase
     /**
      * Test entity type id getter
      *
-     * @covers \Magento\ImportExport\Model\Import\Entity\EavAbstract::getEntityTypeId
+     * @covers \Magento\ImportExport\Model\Import\Entity\AbstractEav::getEntityTypeId
      */
     public function testGetEntityTypeId()
     {

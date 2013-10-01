@@ -366,13 +366,13 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         // input data
         $customBehaviorRows = array(
              array(
-                \Magento\ImportExport\Model\Import\EntityAbstract::COLUMN_ACTION => 'update',
+                \Magento\ImportExport\Model\Import\AbstractEntity::COLUMN_ACTION => 'update',
                 \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::COLUMN_ADDRESS_ID
                     => $this->_customBehaviour['update_id'],
             ),
             array(
-                \Magento\ImportExport\Model\Import\EntityAbstract::COLUMN_ACTION
-                    => \Magento\ImportExport\Model\Import\EntityAbstract::COLUMN_ACTION_VALUE_DELETE,
+                \Magento\ImportExport\Model\Import\AbstractEntity::COLUMN_ACTION
+                    => \Magento\ImportExport\Model\Import\AbstractEntity::COLUMN_ACTION_VALUE_DELETE,
                 \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::COLUMN_ADDRESS_ID
                     => $this->_customBehaviour['delete_id'],
             ),

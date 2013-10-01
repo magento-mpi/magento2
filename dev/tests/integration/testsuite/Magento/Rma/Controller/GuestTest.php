@@ -11,7 +11,7 @@
 
 namespace Magento\Rma\Controller;
 
-class GuestTest extends \Magento\TestFramework\TestCase\ControllerAbstract
+class GuestTest extends \Magento\TestFramework\TestCase\AbstractController
 {
     /**
      * @param string $uri

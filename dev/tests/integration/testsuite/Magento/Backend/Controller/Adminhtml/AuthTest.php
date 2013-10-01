@@ -15,7 +15,7 @@
  */
 namespace Magento\Backend\Controller\Adminhtml;
 
-class AuthTest extends \Magento\TestFramework\TestCase\ControllerAbstract
+class AuthTest extends \Magento\TestFramework\TestCase\AbstractController
 {
     /**
      * @var \Magento\Backend\Model\Auth\Session

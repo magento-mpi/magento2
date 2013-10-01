@@ -41,7 +41,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->_defaultTranslator = \Magento\Validator\ValidatorAbstract::getDefaultTranslator();
+        $this->_defaultTranslator = \Magento\Validator\AbstractValidator::getDefaultTranslator();
         $this->_objectManager = $this->getMock('Magento\ObjectManager');
         $this->_validatorConfig = $this->getMockBuilder('Magento\Validator\Config')
             ->setMethods(array('createValidatorBuilder', 'createValidator'))
@@ -83,7 +83,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
      */
     protected function tearDown()
     {
-        \Magento\Validator\ValidatorAbstract::setDefaultTranslator($this->_defaultTranslator);
+        \Magento\Validator\AbstractValidator::setDefaultTranslator($this->_defaultTranslator);
         unset($this->_defaultTranslator);
     }
 
@@ -102,7 +102,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
             'Object of incorrect type was created');
 
         // Check that validator translator was correctly instantiated
-        $validatorTranslator = \Magento\Validator\ValidatorAbstract::getDefaultTranslator();
+        $validatorTranslator = \Magento\Validator\AbstractValidator::getDefaultTranslator();
         $this->assertInstanceOf('Magento\Translate\Adapter', $validatorTranslator,
             'Default validator translate adapter was not set correctly');
     }

@@ -70,7 +70,7 @@ class AccountTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertAttributeEquals($this->_openActions, '_openActions', $this->_model);
 
-        $method = new ReflectionMethod('Magento\Customer\Controller\Account', '_getAllowedActions');
+        $method = new \ReflectionMethod('Magento\Customer\Controller\Account', '_getAllowedActions');
         $method->setAccessible(true);
         $this->assertEquals($this->_openActions, $method->invoke($this->_model));
     }

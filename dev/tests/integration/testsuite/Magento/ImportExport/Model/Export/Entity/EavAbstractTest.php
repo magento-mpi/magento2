@@ -24,7 +24,7 @@ class EavAbstractTest extends \PHPUnit_Framework_TestCase
     protected static $_skippedAttributes = array('confirmation', 'lastname');
 
     /**
-     * @var \Magento\ImportExport\Model\Export\Entity\EavAbstract
+     * @var \Magento\ImportExport\Model\Export\Entity\AbstractEav
      */
     protected $_model;
 
@@ -43,7 +43,7 @@ class EavAbstractTest extends \PHPUnit_Framework_TestCase
         $customerAttributes = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Customer\Model\Resource\Attribute\Collection');
 
-        $this->_model = $this->getMockForAbstractClass('Magento\ImportExport\Model\Export\Entity\EavAbstract', array(),
+        $this->_model = $this->getMockForAbstractClass('Magento\ImportExport\Model\Export\Entity\AbstractEav', array(),
             '', false);
         $this->_model->expects($this->any())
             ->method('getEntityTypeCode')
@@ -77,12 +77,12 @@ class EavAbstractTest extends \PHPUnit_Framework_TestCase
     /**
      * Test for method _getExportAttrCodes()
      *
-     * @covers \Magento\ImportExport\Model\Export\Entity\EavAbstract::_getExportAttrCodes
+     * @covers \Magento\ImportExport\Model\Export\Entity\AbstractEav::_getExportAttrCodes
      */
     public function testGetExportAttrCodes()
     {
         $this->_model->setParameters($this->_getSkippedAttributes());
-        $method = new ReflectionMethod($this->_model, '_getExportAttributeCodes');
+        $method = new \ReflectionMethod($this->_model, '_getExportAttributeCodes');
         $method->setAccessible(true);
         $attributes = $method->invoke($this->_model);
         foreach (self::$_skippedAttributes as $code) {

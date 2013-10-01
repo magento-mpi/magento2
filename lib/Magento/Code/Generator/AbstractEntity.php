@@ -10,7 +10,7 @@
 
 namespace Magento\Code\Generator;
 
-abstract class EntityAbstract
+abstract class AbstractEntity
 {
     /**
      * Entity type
@@ -214,7 +214,7 @@ abstract class EntityAbstract
 
     /**
      * @param string $message
-     * @return \Magento\Code\Generator\EntityAbstract
+     * @return \Magento\Code\Generator\AbstractEntity
      */
     protected function _addError($message)
     {

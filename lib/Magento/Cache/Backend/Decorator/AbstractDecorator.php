@@ -11,7 +11,7 @@
  */
 namespace Magento\Cache\Backend\Decorator;
 
-abstract class DecoratorAbstract extends \Zend_Cache_Backend
+abstract class AbstractDecorator extends \Zend_Cache_Backend
     implements \Zend_Cache_Backend_ExtendedInterface
 {
     /**

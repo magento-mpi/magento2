@@ -9,7 +9,7 @@
  */
 namespace Magento\Validator;
 
-abstract class ValidatorAbstract implements \Magento\Validator\ValidatorInterface
+abstract class AbstractValidator implements \Magento\Validator\ValidatorInterface
 {
     /**
      * @var \Magento\Translate\AdapterInterface|null
@@ -52,7 +52,7 @@ abstract class ValidatorAbstract implements \Magento\Validator\ValidatorInterfac
      * Set translator instance
      *
      * @param \Magento\Translate\AdapterInterface|null $translator
-     * @return \Magento\Validator\ValidatorAbstract
+     * @return \Magento\Validator\AbstractValidator
      */
     public function setTranslator($translator = null)
     {

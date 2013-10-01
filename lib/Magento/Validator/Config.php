@@ -9,7 +9,7 @@
  */
 namespace Magento\Validator;
 
-class Config extends \Magento\Config\XmlAbstract
+class Config extends \Magento\Config\AbstractXml
 {
     /**#@+
      * Constraints types

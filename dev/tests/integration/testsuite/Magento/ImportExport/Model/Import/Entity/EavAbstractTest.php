@@ -10,7 +10,7 @@
  */
 
 /**
- * Test class for \Magento\ImportExport\Model\Import\Entity\EavAbstract
+ * Test class for \Magento\ImportExport\Model\Import\Entity\AbstractEav
  */
 namespace Magento\ImportExport\Model\Import\Entity;
 
@@ -19,7 +19,7 @@ class EavAbstractTest extends \PHPUnit_Framework_TestCase
     /**
      * Model object which used for tests
      *
-     * @var \Magento\ImportExport\Model\Import\Entity\EavAbstract|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\ImportExport\Model\Import\Entity\AbstractEav|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_model;
 
@@ -29,7 +29,7 @@ class EavAbstractTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->_model = $this->getMockForAbstractClass('Magento\ImportExport\Model\Import\Entity\EavAbstract', array(),
+        $this->_model = $this->getMockForAbstractClass('Magento\ImportExport\Model\Import\Entity\AbstractEav', array(),
             '', false);
     }
 

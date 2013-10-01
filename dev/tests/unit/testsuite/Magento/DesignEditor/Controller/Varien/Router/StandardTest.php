@@ -84,8 +84,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
         // test data to verify routers match logic
         $storeManager = $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false);
-        $helperMock = $this->getMock('Magento\Backend\Helper\Data', array(), array(),
-            'Magento\Backend\Helper\DataProxy', false);
+        $helperMock = $this->getMock('Magento\Backend\Helper\DataProxy', array(), array(), '', false);
         $matchedRequest = $this->getMock('Magento\Core\Controller\Request\Http',
             $silencedMethods,
             array($storeManager, $helperMock, $vdeUrl)
@@ -93,7 +92,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
         $routerMockedMethods = array('match');
 
         $matchedController = $this->getMockForAbstractClass(
-            'Magento\Core\Controller\Varien\ActionAbstract', array(), '', false);
+            'Magento\Core\Controller\Varien\AbstractAction', array(), '', false);
 
         // method "match" will be invoked for this router because it's first in the list
         $matchedRouter = $this->getMock(

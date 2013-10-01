@@ -49,7 +49,7 @@
             </rule>
         </rules>
         <groups>
-            <group name="check_builder" builder="Magento\Validator\Test\Builder">
+            <group name="check_builder" builder="Magento\Validator\Builder">
                 <uses>
                     <use rule="rules_for_builder"/>
                 </uses>

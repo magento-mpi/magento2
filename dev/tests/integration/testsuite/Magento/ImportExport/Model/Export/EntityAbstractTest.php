@@ -17,7 +17,7 @@ namespace Magento\ImportExport\Model\Export;
 class EntityAbstractTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\ImportExport\Model\Export\EntityAbstract
+     * @var \Magento\ImportExport\Model\Export\AbstractEntity
      */
     protected $_model;
 
@@ -28,7 +28,7 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\TestFramework\ObjectManager  $objectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->_model = $this->getMockForAbstractClass(
-            'Magento\ImportExport\Model\Export\EntityAbstract', array(
+            'Magento\ImportExport\Model\Export\AbstractEntity', array(
                 $objectManager->get('Magento\Core\Model\Store\Config'),
                 $objectManager->get('Magento\Core\Model\App'),
                 $objectManager->get('Magento\ImportExport\Model\Export\Factory'),
@@ -103,8 +103,8 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
 /**
  * Stub abstract class which provide to change protected property "$_disabledAttrs" and test methods depended on it
  */
-abstract class Stub_Magento_ImportExport_Model_Export_EntityAbstract
-    extends \Magento\ImportExport\Model\Export\EntityAbstract
+abstract class Stub_Magento_ImportExport_Model_Export_AbstractEntity
+    extends \Magento\ImportExport\Model\Export\AbstractEntity
 {
     public function __construct(
         \Magento\Core\Model\Store\Config $coreStoreConfig,

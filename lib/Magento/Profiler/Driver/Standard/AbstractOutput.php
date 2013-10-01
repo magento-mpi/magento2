@@ -9,7 +9,7 @@
  */
 namespace Magento\Profiler\Driver\Standard;
 
-abstract class OutputAbstract
+abstract class AbstractOutput
     implements \Magento\Profiler\Driver\Standard\OutputInterface
 {
     /**

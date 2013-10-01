@@ -9,7 +9,7 @@
  */
 namespace Magento\Webapi\Model\Resource\Acl;
 
-class TestAbstract extends \PHPUnit_Framework_TestCase
+abstract class AbstractTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\TestFramework\Helper\ObjectManager
@@ -40,4 +40,6 @@ class TestAbstract extends \PHPUnit_Framework_TestCase
             ->setMethods(array('create'))
             ->getMockForAbstractClass();
     }
+
+    abstract public function testConstructor();
 }

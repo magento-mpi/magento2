@@ -14,7 +14,7 @@
  */
 namespace Magento\TestFramework\Inspection;
 
-abstract class CommandAbstract
+abstract class AbstractCommand
 {
     /**
      * @var string
@@ -131,7 +131,7 @@ abstract class CommandAbstract
     /**
      * Generate message about last execution result, prepared for output to a user
      *
-     * @return \Magento\TestFramework\Inspection\CommandAbstract
+     * @return \Magento\TestFramework\Inspection\AbstractCommand
      */
     protected function _generateLastRunMessage()
     {

@@ -14,7 +14,7 @@
  */
 namespace Magento\Config;
 
-class Theme extends \Magento\Config\XmlAbstract
+class Theme extends \Magento\Config\AbstractXml
 {
     /**
      * Is used for separation path of themes
