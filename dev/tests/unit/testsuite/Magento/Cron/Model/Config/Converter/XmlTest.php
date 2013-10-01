@@ -68,22 +68,7 @@ class XmlTest extends \PHPUnit_Framework_TestCase
         $dom->loadXML(file_get_contents($xmlFile));
         $result = $this->_converter->convert($dom);
 
-        $actual = array(
-            'job1' => array(
-                'name' => $result['job1']['name'],
-                'schedule' => $result['job1']['schedule'],
-                'instance' => $result['job1']['instance'],
-                'method' => $result['job1']['method']
-            ),
-            'job2' => array(
-                'name' => $result['job2']['name'],
-                'schedule' => $result['job2']['schedule'],
-                'instance' => $result['job2']['instance'],
-                'method' => $result['job2']['method']
-            ),
-        );
-
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals($expected, $result);
     }
 
     /**
