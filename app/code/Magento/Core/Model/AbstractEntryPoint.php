@@ -47,6 +47,45 @@ abstract class AbstractEntryPoint
     }
 
     /**
+     * Process exception
+     *
+     * @param \Exception $e
+     */
+    public function processException(\Exception $e)
+    {
+        $this->_init();
+        $appMode = $this->_objectManager->get('Magento\Core\Model\App\State')->getMode();
+        if ($appMode == \Magento\Core\Model\App\State::MODE_DEVELOPER) {
+            print '<pre>';
+            print $e->getMessage() . "\n\n";
+            print $e->getTraceAsString();
+            print '</pre>';
+        } else {
+            $reportData = array($e->getMessage(), $e->getTraceAsString());
+
+            // retrieve server data
+            if (isset($_SERVER)) {
+                if (isset($_SERVER['REQUEST_URI'])) {
+                    $reportData['url'] = $_SERVER['REQUEST_URI'];
+                }
+                if (isset($_SERVER['SCRIPT_NAME'])) {
+                    $reportData['script_name'] = $_SERVER['SCRIPT_NAME'];
+                }
+            }
+
+            // attempt to specify store as a skin
+            try {
+                $storeManager = $this->_objectManager->get('Magento\Core\Model\StoreManager');
+                $reportData['skin'] = $storeManager->getStore()->getCode;
+            } catch (\Exception $e) {
+            }
+
+            $modelDir = $this->_objectManager->get('Magento\Core\Model\Dir');
+            require_once($modelDir->getDir(\Magento\Core\Model\Dir::PUB) . DS . 'errors' . DS . 'report.php');
+        }
+    }
+
+    /**
      * Initializes the entry point, so a Magento application is ready to be used
      */
     protected function _init()
