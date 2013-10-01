@@ -47,7 +47,7 @@ class Radio
      *
      * @return array
      */
-    protected function _getSimpleValue()
+    protected function _getValues()
     {
         $values = $this->getColumn()->getValues();
         return $this->_converter->toFlatArray($values);
@@ -73,7 +73,7 @@ class Radio
      */
     public function render(\Magento\Object $row)
     {
-        $values = $this->_getSimpleValue();
+        $values = $this->_getValues();
         $value  = $row->getData($this->getColumn()->getIndex());
         if (is_array($values)) {
             $checked = in_array($value, $values) ? ' checked="checked"' : '';
