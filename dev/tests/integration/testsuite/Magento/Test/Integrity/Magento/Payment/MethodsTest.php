@@ -20,6 +20,7 @@ class MethodsTest extends \PHPUnit_Framework_TestCase
      * @param string $methodClass
      * @param string $code
      * @dataProvider paymentMethodDataProvider
+     * @magentoAppArea frontend
      * @throws \Exception on various assertion failures
      */
     public function testPaymentMethod($code, $methodClass)

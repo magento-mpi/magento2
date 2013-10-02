@@ -37,12 +37,21 @@ abstract class AbstractHelper
     protected $_modulePrefix;
 
     /**
+     * @var \Magento\Core\Model\Resource
+     */
+    protected $_resource;
+
+    /**
      * Initialize resource helper instance
      *
+     * @param \Magento\Core\Model\Resource $resource
      * @param string $modulePrefix
      */
-    public function __construct($modulePrefix)
-    {
+    public function __construct(
+        \Magento\Core\Model\Resource $resource,
+        $modulePrefix
+    ) {
+        $this->_resource = $resource;
         $this->_modulePrefix = (string)$modulePrefix;
     }
 
@@ -83,10 +92,8 @@ abstract class AbstractHelper
     protected function _getConnection($name)
     {
         $connection = sprintf('%s_%s', $this->_modulePrefix, $name);
-        /** @var $resource \Magento\Core\Model\Resource */
-        $resource   = \Mage::getSingleton('Magento\Core\Model\Resource');
 
-        return $resource->getConnection($connection);
+        return $this->_resource->getConnection($connection);
     }
 
     /**
@@ -189,10 +196,7 @@ abstract class AbstractHelper
         $matches    = array();
         $definition = trim($column['type']);
         if (!preg_match('/([^(]*)(\\((.*)\\))?/', $definition, $matches)) {
-            throw \Mage::exception(
-                'Magento_Core',
-                __("Wrong old style column type definition: {$definition}.")
-            );
+            throw new \Magento\Core\Exception(__("Wrong old style column type definition: {$definition}."));
         }
 
         $length = null;
@@ -283,10 +287,7 @@ abstract class AbstractHelper
                 $type = \Magento\DB\Ddl\Table::TYPE_DATE;
                 break;
             default:
-                throw \Mage::exception(
-                    'Magento_Core',
-                    __("Unknown old style column type definition: {$definition}.")
-                );
+                throw new \Magento\Core\Exception(__("Unknown old style column type definition: {$definition}."));
         }
 
         $result = array(

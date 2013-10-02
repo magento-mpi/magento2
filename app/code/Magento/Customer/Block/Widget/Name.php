@@ -161,7 +161,7 @@ class Name extends \Magento\Customer\Block\Widget\AbstractWidget
             return parent::_getAttribute($attributeCode);
         }
 
-        $attribute = \Mage::getSingleton('Magento\Eav\Model\Config')->getAttribute('customer_address', $attributeCode);
+        $attribute = $this->_eavConfig->getAttribute('customer_address', $attributeCode);
 
         if ($this->getForceUseCustomerRequiredAttributes() && $attribute && !$attribute->getIsRequired()) {
             $customerAttribute = parent::_getAttribute($attributeCode);

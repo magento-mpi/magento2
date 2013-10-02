@@ -13,7 +13,7 @@
  */
 namespace Magento\Tools\Migration\Acl\Db\Logger;
 
-class Console extends \Magento\Tools\Migration\Acl\Db\LoggerAbstract
+class Console extends \Magento\Tools\Migration\Acl\Db\AbstractLogger
 {
     /**
      * Print logs to console

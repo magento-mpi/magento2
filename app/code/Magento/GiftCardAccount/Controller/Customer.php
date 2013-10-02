@@ -21,7 +21,7 @@ class Customer extends \Magento\Core\Controller\Front\Action
     {
         parent::preDispatch();
 
-        if (!\Mage::getSingleton('Magento\Customer\Model\Session')->authenticate($this)) {
+        if (!$this->_objectManager->get('Magento\Customer\Model\Session')->authenticate($this)) {
             $this->setFlag('', 'no-dispatch', true);
         }
     }
@@ -37,17 +37,18 @@ class Customer extends \Magento\Core\Controller\Front\Action
             $code = $data['giftcard_code'];
             try {
                 if (!$this->_objectManager->get('Magento\CustomerBalance\Helper\Data')->isEnabled()) {
-                    \Mage::throwException(__("You can't redeem a gift card now."));
+                    throw new \Magento\Core\Exception(__("You can't redeem a gift card now."));
                 }
-                \Mage::getModel('Magento\GiftCardAccount\Model\Giftcardaccount')->loadByCode($code)
+                $this->_objectManager->create('Magento\GiftCardAccount\Model\Giftcardaccount')
+                    ->loadByCode($code)
                     ->setIsRedeemed(true)->redeem();
-                \Mage::getSingleton('Magento\Customer\Model\Session')->addSuccess(
+                $this->_objectManager->get('Magento\Customer\Model\Session')->addSuccess(
                     __('Gift Card "%1" was redeemed.', $this->_objectManager->get('Magento\Core\Helper\Data')->escapeHtml($code))
                 );
             } catch (\Magento\Core\Exception $e) {
-                \Mage::getSingleton('Magento\Customer\Model\Session')->addError($e->getMessage());
+                $this->_objectManager->get('Magento\Customer\Model\Session')->addError($e->getMessage());
             } catch (\Exception $e) {
-                \Mage::getSingleton('Magento\Customer\Model\Session')->addException($e, __('We cannot redeem this gift card.'));
+                $this->_objectManager->get('Magento\Customer\Model\Session')->addException($e, __('We cannot redeem this gift card.'));
             }
             $this->_redirect('*/*/*');
             return;

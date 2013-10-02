@@ -36,6 +36,37 @@ class Viewed extends \Magento\Sales\Model\Resource\Report\AbstractReport
     const AGGREGATION_YEARLY  = 'report_viewed_product_aggregated_yearly';
 
     /**
+     * @var \Magento\Catalog\Model\Resource\Product
+     */
+    protected $_productResource;
+
+    /**
+     * @var \Magento\Reports\Model\Resource\HelperFactory
+     */
+    protected $_helperFactory;
+
+    /**
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Reports\Model\FlagFactory $reportsFlagFactory
+     * @param \Magento\Catalog\Model\Resource\Product $productResource
+     * @param \Magento\Reports\Model\Resource\HelperFactory $helperFactory
+     */
+    public function __construct(
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Reports\Model\FlagFactory $reportsFlagFactory,
+        \Magento\Catalog\Model\Resource\Product $productResource,
+        \Magento\Reports\Model\Resource\HelperFactory $helperFactory
+    ) {
+        parent::__construct($logger, $resource, $locale, $reportsFlagFactory);
+        $this->_productResource = $productResource;
+        $this->_helperFactory = $helperFactory;
+    }
+
+    /**
      * Model initialization
      *
      */
@@ -105,9 +136,6 @@ class Viewed extends \Magento\Sales\Model\Resource\Report\AbstractReport
         $select->from(array('source_table' => $this->getTable('report_event')), $columns)
             ->where('source_table.event_type_id = ?', \Magento\Reports\Model\Event::EVENT_PRODUCT_VIEW);
 
-        /** @var \Magento\Catalog\Model\Resource\Product $product */
-        $product  = \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Product');
-
         $select->joinInner(
             array('product' => $this->getTable('catalog_product_entity')),
             'product.entity_id = source_table.object_id',
@@ -115,7 +143,7 @@ class Viewed extends \Magento\Sales\Model\Resource\Report\AbstractReport
         );
 
         // join product attributes Name & Price
-        $nameAttribute = $product->getAttribute('name');
+        $nameAttribute = $this->_productResource->getAttribute('name');
         $joinExprProductName = array(
             'product_name.entity_id = product.entity_id',
             'product_name.store_id = source_table.store_id',
@@ -138,7 +166,7 @@ class Viewed extends \Magento\Sales\Model\Resource\Report\AbstractReport
             $joinProductName,
             array()
         );
-        $priceAttribute = $product->getAttribute('price');
+        $priceAttribute = $this->_productResource->getAttribute('price');
         $joinExprProductPrice = array(
             'product_price.entity_id = product.entity_id',
             'product_price.store_id = source_table.store_id',
@@ -176,12 +204,10 @@ class Viewed extends \Magento\Sales\Model\Resource\Report\AbstractReport
         $insertQuery = $select->insertFromSelect($this->getMainTable(), array_keys($columns));
         $adapter->query($insertQuery);
 
-        \Mage::getResourceHelper('Magento_Reports')
-            ->updateReportRatingPos('day', 'views_num', $mainTable, $this->getTable(self::AGGREGATION_DAILY));
-        \Mage::getResourceHelper('Magento_Reports')
-            ->updateReportRatingPos('month', 'views_num', $mainTable, $this->getTable(self::AGGREGATION_MONTHLY));
-        \Mage::getResourceHelper('Magento_Reports')
-            ->updateReportRatingPos('year', 'views_num', $mainTable, $this->getTable(self::AGGREGATION_YEARLY));
+        $helper = $this->_helperFactory->create();
+        $helper->updateReportRatingPos('day', 'views_num', $mainTable, $this->getTable(self::AGGREGATION_DAILY));
+        $helper->updateReportRatingPos('month', 'views_num', $mainTable, $this->getTable(self::AGGREGATION_MONTHLY));
+        $helper->updateReportRatingPos('year', 'views_num', $mainTable, $this->getTable(self::AGGREGATION_YEARLY));
 
         $this->_setFlagData(\Magento\Reports\Model\Flag::REPORT_PRODUCT_VIEWED_FLAG_CODE);
 

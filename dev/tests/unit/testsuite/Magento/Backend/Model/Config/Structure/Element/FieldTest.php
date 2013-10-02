@@ -152,12 +152,12 @@ class FieldTest extends \PHPUnit_Framework_TestCase
 
     public function testGetTooltipCreatesTooltipBlock()
     {
-        $this->_model->setData(array('tooltip_block' => 'Magento_Core_Block_Tooltip'), 'scope');
+        $this->_model->setData(array('tooltip_block' => 'Magento\Core\Block\Tooltip'), 'scope');
         $tooltipBlock = $this->getMock('Magento\Core\Block');
         $tooltipBlock->expects($this->once())->method('toHtml')->will($this->returnValue('tooltip block'));
         $this->_blockFactoryMock->expects($this->once())
             ->method('createBlock')
-            ->with('Magento_Core_Block_Tooltip')
+            ->with('Magento\Core\Block\Tooltip')
             ->will($this->returnValue($tooltipBlock));
         $this->assertEquals('tooltip block', $this->_model->getTooltip());
     }
@@ -191,9 +191,9 @@ class FieldTest extends \PHPUnit_Framework_TestCase
     {
         $this->_backendFactoryMock->expects($this->once())
             ->method('create')
-            ->with('Magento_Model_Name')
+            ->with('Magento\Model\Name')
             ->will($this->returnValue('backend_model_object'));
-        $this->_model->setData(array('backend_model' => 'Magento_Model_Name'), 'scope');
+        $this->_model->setData(array('backend_model' => 'Magento\Model\Name'), 'scope');
         $this->assertEquals('backend_model_object', $this->_model->getBackendModel());
     }
 

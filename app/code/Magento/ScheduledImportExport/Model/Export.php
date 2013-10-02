@@ -34,19 +34,27 @@ class Export extends \Magento\ImportExport\Model\Export
     protected $_dateModel;
 
     /**
-     * @param \Magento\Core\Model\Date $coreDate
      * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Core\Model\Dir $dir
+     * @param \Magento\Core\Model\Log\AdapterFactory $adapterFactory
      * @param \Magento\ImportExport\Model\Export\ConfigInterface $exportConfig
+     * @param \Magento\ImportExport\Model\Export\Entity\Factory $entityFactory
+     * @param \Magento\ImportExport\Model\Export\Adapter\Factory $exportAdapterFac
+     * @param \Magento\Core\Model\Date $coreDate
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Date $coreDate,
         \Magento\Core\Model\Logger $logger,
+        \Magento\Core\Model\Dir $dir,
+        \Magento\Core\Model\Log\AdapterFactory $adapterFactory,
         \Magento\ImportExport\Model\Export\ConfigInterface $exportConfig,
+        \Magento\ImportExport\Model\Export\Entity\Factory $entityFactory,
+        \Magento\ImportExport\Model\Export\Adapter\Factory $exportAdapterFac,
+        \Magento\Core\Model\Date $coreDate,
         array $data = array()
     ) {
         $this->_dateModel = $coreDate;
-        parent::__construct($logger, $exportConfig, $data);
+        parent::__construct($logger, $dir, $adapterFactory, $exportConfig, $entityFactory, $exportAdapterFac, $data);
     }
 
     /**

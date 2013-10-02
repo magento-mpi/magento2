@@ -10,13 +10,11 @@ namespace Magento\GoogleShopping\Model\Resource;
 class Setup extends \Magento\Core\Model\Resource\Setup
 {
     /**
-     * @var null
+     * @var \Magento\GoogleShopping\Helper\Data
      */
-    protected $_googleShoppingData = null;
+    protected $_googleShoppingData;
 
     /**
-     * Config factory
-     *
      * @var \Magento\GoogleShopping\Model\ConfigFactory
      */
     protected $_configFactory;
@@ -43,7 +41,7 @@ class Setup extends \Magento\Core\Model\Resource\Setup
     }
 
     /**
-     * @return null
+     * @return \Magento\GoogleShopping\Helper\Data
      */
     public function getGoogleShoppingData()
     {

@@ -228,7 +228,7 @@ class Connect
      * @param string $command
      * @param array $options
      * @param array $params
-     * @return boolean|Magento_Connect_Error
+     * @return boolean|\Magento\Connect\Error
      */
     public function run($command, $options=array(), $params=array())
     {
@@ -241,7 +241,7 @@ class Connect
             * @var $cmd \Magento\Connect\Command
             */
             $cmd = \Magento\Connect\Command::getInstance($command);
-            if ($cmd instanceof Magento_Connect_Error) {
+            if ($cmd instanceof \Magento\Connect\Error) {
                 return $cmd;
             }
             $this->_cmdCache[$command] = $cmd;
@@ -302,7 +302,7 @@ class Connect
      *
      * @throws \Magento\Downloader\Exception
      * @param array|string|\Magento\Downloader\Model $runParams command, options, params, comment, success_callback, failure_callback
-     * @return bool|Magento_Connect_Error
+     * @return bool|\Magento\Connect\Error
      */
     public function runHtmlConsole($runParams)
     {

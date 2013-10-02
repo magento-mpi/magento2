@@ -19,6 +19,16 @@ namespace Magento\GiftRegistry\Block\Customer\Edit;
 abstract class AbstractEdit extends \Magento\Directory\Block\Data
 {
     /**
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $customerSession;
+
+    /**
+     * @var \Magento\GiftRegistry\Model\Attribute\Config
+     */
+    protected $attributeConfig;
+
+    /**
      * Registry Entity object
      *
      * @var \Magento\GiftRegistry\Model\Entity
@@ -54,6 +64,16 @@ abstract class AbstractEdit extends \Magento\Directory\Block\Data
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $storeManager;
+
+    /**
+     * @var \Magento\Core\Model\LocaleInterface
+     */
+    protected $locale;
+
+    /**
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
      * @param \Magento\Core\Helper\Data $coreData
@@ -61,6 +81,10 @@ abstract class AbstractEdit extends \Magento\Directory\Block\Data
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory
      * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param array $data
      */
     public function __construct(
@@ -71,18 +95,21 @@ abstract class AbstractEdit extends \Magento\Directory\Block\Data
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory,
         \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig,
+        \Magento\Core\Model\LocaleInterface $locale,
         array $data = array()
     ) {
-        $this->_coreRegistry = $coreRegistry;
         parent::__construct(
-            $configCacheType,
-            $coreData,
-            $context,
-            $storeManager,
-            $regionCollFactory,
-            $countryCollFactory,
-            $data
+            $configCacheType, $coreData, $context, $storeManager,
+            $regionCollFactory, $countryCollFactory, $data
         );
+
+        $this->_coreRegistry = $coreRegistry;
+        $this->customerSession = $customerSession;
+        $this->attributeConfig = $attributeConfig;
+        $this->storeManager = $storeManager;
+        $this->locale = $locale;
     }
 
     /**
@@ -149,7 +176,7 @@ abstract class AbstractEdit extends \Magento\Directory\Block\Data
      */
     public function isAttributeStatic($code)
     {
-        $types = \Mage::getSingleton('Magento\GiftRegistry\Model\Attribute\Config')->getStaticTypesCodes();
+        $types = $this->attributeConfig->getStaticTypesCodes();
         if (in_array($code, $types)) {
             return true;
         }
@@ -163,7 +190,7 @@ abstract class AbstractEdit extends \Magento\Directory\Block\Data
      */
     public function getAttributeGroups()
     {
-        return \Mage::getSingleton('Magento\GiftRegistry\Model\Attribute\Config')->getAttributeGroups();
+        return $this->attributeConfig->getAttributeGroups();
     }
 
     /**
@@ -175,7 +202,7 @@ abstract class AbstractEdit extends \Magento\Directory\Block\Data
     public function getGroupLabel($groupId)
     {
         if ($this->_groups === null) {
-            $this->_groups = \Mage::getSingleton('Magento\GiftRegistry\Model\Attribute\Config')->getAttributeGroups();
+            $this->_groups = $this->attributeConfig->getAttributeGroups();
         }
         if (is_array($this->_groups) && (!empty($this->_groups[$groupId]))
             && is_array($this->_groups[$groupId]) && !empty($this->_groups[$groupId]['label'])) {
@@ -210,7 +237,7 @@ abstract class AbstractEdit extends \Magento\Directory\Block\Data
             ->setValue($this->formatDate($value, $formatType))
             ->setClass($class . ' product-custom-option datetime-picker input-text validate-date')
             ->setImage($this->getViewFileUrl('Magento_Core::calendar.gif'))
-            ->setDateFormat(\Mage::app()->getLocale()->getDateFormat($formatType));
+            ->setDateFormat($this->locale->getDateFormat($formatType));
         return $calendar->getHtml();
     }
 
@@ -357,22 +384,22 @@ abstract class AbstractEdit extends \Magento\Directory\Block\Data
                     $element .= $this->_getInputTextHtml($name, $id, $value, $class);
                     break;
 
-               case 'date' :
-                   $format = (isset($data['date_format'])) ? $data['date_format'] : '';
-                   $element = $this->getCalendarDateHtml($name, $id, $value, $format, $class);
-                   break;
+                case 'date' :
+                    $format = (isset($data['date_format'])) ? $data['date_format'] : '';
+                    $element = $this->getCalendarDateHtml($name, $id, $value, $format, $class);
+                    break;
 
-               case 'select' :
-                   $options = $this->_convertGroupArray($data['options']);
-                   if (empty($value)) {
-                       $value = (isset($data['default'])) ? $data['default'] : '';
-                   }
-                   $element = $this->getSelectHtml($options, $name, $id, $value, $class);
-                   break;
+                case 'select' :
+                    $options = $this->_convertGroupArray($data['options']);
+                    if (empty($value)) {
+                        $value = (isset($data['default'])) ? $data['default'] : '';
+                    }
+                    $element = $this->getSelectHtml($options, $name, $id, $value, $class);
+                    break;
 
-               default :
-                   $element = $this->_getInputTextHtml($name, $id, $value, $class);
-                   break;
+                default :
+                    $element = $this->_getInputTextHtml($name, $id, $value, $class);
+                    break;
             }
         }
         return $element;

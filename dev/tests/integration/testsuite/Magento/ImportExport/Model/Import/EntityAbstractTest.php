@@ -10,7 +10,7 @@
  */
 
 /**
- * Test class for \Magento\ImportExport\Model\Import\EntityAbstract
+ * Test class for \Magento\ImportExport\Model\Import\AbstractEntity
  */
 namespace Magento\ImportExport\Model\Import;
 
@@ -28,13 +28,14 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
         $expected = $source->current();
 
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $coreData = $objectManager->get('Magento\Core\Helper\Data');
-        $coreString = $objectManager->get('Magento\Core\Helper\String');
-        $storeConfig = $objectManager->get('Magento\Core\Model\Store\Config');
-        
-        /** @var $model \Magento\ImportExport\Model\Import\EntityAbstract|PHPUnit_Framework_MockObject_MockObject */
-        $model = $this->getMockForAbstractClass('Magento\ImportExport\Model\Import\EntityAbstract', array(
-            $coreData, $coreString, $storeConfig
+        /** @var $model \Magento\ImportExport\Model\Import\AbstractEntity|\PHPUnit_Framework_MockObject_MockObject */
+        $model = $this->getMockForAbstractClass('Magento\ImportExport\Model\Import\AbstractEntity', array(
+            $objectManager->get('Magento\Core\Helper\Data'),
+            $objectManager->get('Magento\Core\Helper\String'),
+            $objectManager->get('Magento\Core\Model\Store\Config'),
+            $objectManager->get('Magento\ImportExport\Model\ImportFactory'),
+            $objectManager->get('Magento\ImportExport\Model\Resource\Helper'),
+            $objectManager->get('Magento\Core\Model\Resource'),
         ));
         $model->expects($this->any())
             ->method('validateRow')
@@ -49,7 +50,8 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
         $method->setAccessible(true);
         $method->invoke($model);
 
-        $dataSourceModel = \Magento\ImportExport\Model\Import::getDataSourceModel();
+        /** @var $dataSourceModel \Magento\ImportExport\Model\Resource\Import\Data */
+        $dataSourceModel = $objectManager->get('Magento\ImportExport\Model\Resource\Import\Data');
         $this->assertCount(1, $dataSourceModel->getIterator());
 
         $bunch = $dataSourceModel->getNextBunch();

@@ -100,8 +100,8 @@ class ImportTest extends \PHPUnit_Framework_TestCase
     public function testValidateSource()
     {
         $this->_model->setEntity('catalog_product');
-        /** @var \Magento\ImportExport\Model\Import\SourceAbstract|\PHPUnit_Framework_MockObject_MockObject $source */
-        $source = $this->getMockForAbstractClass('Magento\ImportExport\Model\Import\SourceAbstract', array(
+        /** @var \Magento\ImportExport\Model\Import\AbstractSource|\PHPUnit_Framework_MockObject_MockObject $source */
+        $source = $this->getMockForAbstractClass('Magento\ImportExport\Model\Import\AbstractSource', array(
             array('sku', 'name')
         ));
         $source->expects($this->any())->method('_getNextRow')->will($this->returnValue(false));
@@ -114,7 +114,7 @@ class ImportTest extends \PHPUnit_Framework_TestCase
      */
     public function testValidateSourceException()
     {
-        $source = $this->getMockForAbstractClass('Magento\ImportExport\Model\Import\SourceAbstract',
+        $source = $this->getMockForAbstractClass('Magento\ImportExport\Model\Import\AbstractSource',
             array(), '', false);
         $this->_model->validateSource($source);
     }

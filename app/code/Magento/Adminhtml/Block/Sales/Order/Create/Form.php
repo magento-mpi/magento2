@@ -111,7 +111,7 @@ class Form extends \Magento\Adminhtml\Block\Sales\Order\Create\AbstractCreate
                 ->setStore($this->getStore());
             foreach ($this->getCustomer()->getAddresses() as $address) {
                 $data['addresses'][$address->getId()] = $addressForm->setEntity($address)
-                    ->outputData(\Magento\Customer\Model\Attribute\Data::OUTPUT_FORMAT_JSON);
+                    ->outputData(\Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_JSON);
             }
         }
         if (!is_null($this->getStoreId())) {

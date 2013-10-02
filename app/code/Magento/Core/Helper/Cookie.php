@@ -51,26 +51,32 @@ class Cookie extends \Magento\Core\Helper\AbstractHelper
 
     /**
      * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\Cookie $cookie
      * @param array $data
      * @throws \InvalidArgumentException
      */
-    public function __construct(\Magento\Core\Helper\Context $context, array $data = array())
+    public function __construct(
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\Cookie $cookie,
+        array $data = array())
     {
         parent::__construct($context);
-        $this->_currentStore = isset($data['current_store']) ? $data['current_store'] : \Mage::app()->getStore();
+        $this->_currentStore = isset($data['current_store']) ? $data['current_store'] : $storeManager->getStore();
 
         if (!($this->_currentStore instanceof \Magento\Core\Model\Store)) {
             throw new \InvalidArgumentException('Required store object is invalid');
         }
 
         $this->_cookieModel = isset($data['cookie_model'])
-            ? $data['cookie_model'] : \Mage::getSingleton('Magento\Core\Model\Cookie');
+            ? $data['cookie_model'] : $cookie;
 
         if (false == ($this->_cookieModel instanceof \Magento\Core\Model\Cookie)) {
             throw new \InvalidArgumentException('Required cookie object is invalid');
         }
 
-        $this->_website = isset($data['website']) ? $data['website'] : \Mage::app()->getWebsite();
+        $this->_website = isset($data['website']) ? $data['website'] : $storeManager->getWebsite();
 
         if (false == ($this->_website instanceof \Magento\Core\Model\Website)) {
             throw new \InvalidArgumentException('Required website object is invalid');

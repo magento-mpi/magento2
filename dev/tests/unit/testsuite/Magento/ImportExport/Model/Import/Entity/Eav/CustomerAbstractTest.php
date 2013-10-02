@@ -10,7 +10,7 @@
  */
 
 /**
- * Test class for \Magento\ImportExport\Model\Import\Entity\Eav\CustomerAbstract
+ * Test class for \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCustomer
  *
  * @todo fix in the scope of https://wiki.magento.com/display/MAGE2/Technical+Debt+%28Team-Donetsk-B%29
  */
@@ -21,7 +21,7 @@ class CustomerAbstractTest extends \PHPUnit_Framework_TestCase
     /**
      * Abstract customer export model
      *
-     * @var \Magento\ImportExport\Model\Import\Entity\Eav\CustomerAbstract|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCustomer|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_model;
 
@@ -80,7 +80,7 @@ class CustomerAbstractTest extends \PHPUnit_Framework_TestCase
     /**
      * Create mock for abstract customer model class
      *
-     * @return \Magento\ImportExport\Model\Import\Entity\Eav\CustomerAbstract|PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCustomer|PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getModelMock()
     {
@@ -91,7 +91,7 @@ class CustomerAbstractTest extends \PHPUnit_Framework_TestCase
             $customerCollection->addItem(new \Magento\Object($customer));
         }
 
-        $modelMock = $this->getMockForAbstractClass('Magento\ImportExport\Model\Import\Entity\Eav\CustomerAbstract',
+        $modelMock = $this->getMockForAbstractClass('Magento\ImportExport\Model\Import\Entity\Eav\AbstractCustomer',
             array(),
             '',
             false,
@@ -130,48 +130,48 @@ class CustomerAbstractTest extends \PHPUnit_Framework_TestCase
             'no website' => array(
                 '$rowData' => include __DIR__ . '/Customer/_files/row_data_abstract_no_website.php',
                 '$errors' => array(
-                    \Magento\ImportExport\Model\Import\Entity\Eav\CustomerAbstract::ERROR_WEBSITE_IS_EMPTY => array(
-                        array(1, \Magento\ImportExport\Model\Import\Entity\Eav\CustomerAbstract::COLUMN_WEBSITE)
+                    \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCustomer::ERROR_WEBSITE_IS_EMPTY => array(
+                        array(1, \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCustomer::COLUMN_WEBSITE)
                     )
                 ),
             ),
             'empty website' => array(
                 '$rowData' => include __DIR__ . '/Customer/_files/row_data_abstract_empty_website.php',
                 '$errors' => array(
-                    \Magento\ImportExport\Model\Import\Entity\Eav\CustomerAbstract::ERROR_WEBSITE_IS_EMPTY => array(
-                        array(1, \Magento\ImportExport\Model\Import\Entity\Eav\CustomerAbstract::COLUMN_WEBSITE)
+                    \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCustomer::ERROR_WEBSITE_IS_EMPTY => array(
+                        array(1, \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCustomer::COLUMN_WEBSITE)
                     )
                 ),
             ),
             'no email' => array(
                 '$rowData' => include __DIR__ . '/Customer/_files/row_data_abstract_no_email.php',
                 '$errors' => array(
-                    \Magento\ImportExport\Model\Import\Entity\Eav\CustomerAbstract::ERROR_EMAIL_IS_EMPTY => array(
-                        array(1, \Magento\ImportExport\Model\Import\Entity\Eav\CustomerAbstract::COLUMN_EMAIL)
+                    \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCustomer::ERROR_EMAIL_IS_EMPTY => array(
+                        array(1, \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCustomer::COLUMN_EMAIL)
                     )
                 ),
             ),
             'empty email' => array(
                 '$rowData' => include __DIR__ . '/Customer/_files/row_data_abstract_empty_email.php',
                 '$errors' => array(
-                    \Magento\ImportExport\Model\Import\Entity\Eav\CustomerAbstract::ERROR_EMAIL_IS_EMPTY => array(
-                        array(1, \Magento\ImportExport\Model\Import\Entity\Eav\CustomerAbstract::COLUMN_EMAIL)
+                    \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCustomer::ERROR_EMAIL_IS_EMPTY => array(
+                        array(1, \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCustomer::COLUMN_EMAIL)
                     )
                 ),
             ),
             'invalid email' => array(
                 '$rowData' => include __DIR__ . '/Customer/_files/row_data_abstract_invalid_email.php',
                 '$errors' => array(
-                    \Magento\ImportExport\Model\Import\Entity\Eav\CustomerAbstract::ERROR_INVALID_EMAIL => array(
-                        array(1, \Magento\ImportExport\Model\Import\Entity\Eav\CustomerAbstract::COLUMN_EMAIL)
+                    \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCustomer::ERROR_INVALID_EMAIL => array(
+                        array(1, \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCustomer::COLUMN_EMAIL)
                     )
                 ),
             ),
             'invalid website' => array(
                 '$rowData' => include __DIR__ . '/Customer/_files/row_data_abstract_invalid_website.php',
                 '$errors' => array(
-                    \Magento\ImportExport\Model\Import\Entity\Eav\CustomerAbstract::ERROR_INVALID_WEBSITE => array(
-                        array(1, \Magento\ImportExport\Model\Import\Entity\Eav\CustomerAbstract::COLUMN_WEBSITE)
+                    \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCustomer::ERROR_INVALID_WEBSITE => array(
+                        array(1, \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCustomer::COLUMN_WEBSITE)
                     )
                 ),
             ),
@@ -179,9 +179,9 @@ class CustomerAbstractTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test \Magento\ImportExport\Model\Import\Entity\Eav\CustomerAbstract::_checkUniqueKey() with different values
+     * Test \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCustomer::_checkUniqueKey() with different values
      *
-     * @covers \Magento\ImportExport\Model\Import\Entity\Eav\CustomerAbstract::_checkUniqueKey
+     * @covers \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCustomer::_checkUniqueKey
      * @dataProvider checkUniqueKeyDataProvider
      *
      * @param array $rowData
@@ -191,7 +191,7 @@ class CustomerAbstractTest extends \PHPUnit_Framework_TestCase
     public function testCheckUniqueKey(array $rowData, array $errors, $isValid = false)
     {
         $checkUniqueKey = new \ReflectionMethod(
-            'Magento\ImportExport\Model\Import\Entity\Eav\CustomerAbstract',
+            'Magento\ImportExport\Model\Import\Entity\Eav\AbstractCustomer',
             '_checkUniqueKey'
         );
         $checkUniqueKey->setAccessible(true);
@@ -205,9 +205,9 @@ class CustomerAbstractTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test for \Magento\ImportExport\Model\Import\Entity\Eav\CustomerAbstract::validateRow for add/update action
+     * Test for \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCustomer::validateRow for add/update action
      *
-     * @covers \Magento\ImportExport\Model\Import\Entity\Eav\CustomerAbstract::validateRow
+     * @covers \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCustomer::validateRow
      */
     public function testValidateRowForUpdate()
     {
@@ -229,9 +229,9 @@ class CustomerAbstractTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test for \Magento\ImportExport\Model\Import\Entity\Eav\CustomerAbstract::validateRow for delete action
+     * Test for \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCustomer::validateRow for delete action
      *
-     * @covers \Magento\ImportExport\Model\Import\Entity\Eav\CustomerAbstract::validateRow
+     * @covers \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCustomer::validateRow
      */
     public function testValidateRowForDelete()
     {
@@ -259,7 +259,7 @@ class CustomerAbstractTest extends \PHPUnit_Framework_TestCase
     {
         // clear array
         $validatedRows = new \ReflectionProperty(
-            'Magento\ImportExport\Model\Import\Entity\Eav\CustomerAbstract',
+            'Magento\ImportExport\Model\Import\Entity\Eav\AbstractCustomer',
             '_validatedRows'
         );
         $validatedRows->setAccessible(true);
@@ -268,7 +268,7 @@ class CustomerAbstractTest extends \PHPUnit_Framework_TestCase
 
         // reset counter
         $entitiesCount = new \ReflectionProperty(
-            'Magento\ImportExport\Model\Import\Entity\Eav\CustomerAbstract',
+            'Magento\ImportExport\Model\Import\Entity\Eav\AbstractCustomer',
             '_processedEntitiesCount'
         );
         $entitiesCount->setAccessible(true);

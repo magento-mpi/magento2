@@ -29,6 +29,8 @@ class VoidTest extends \PHPUnit_Framework_TestCase
         $logAdapterFactory = $objectManager->get('Magento\Core\Model\Log\AdapterFactory');
         $locale = $objectManager->get('Magento\Core\Model\LocaleInterface');
         $centinelService = $objectManager->get('Magento\Centinel\Model\Service');
+        $storeManager = $objectManager->get('Magento\Core\Model\StoreManagerInterface');
+        $configFactory = $objectManager->get('Magento\Paypal\Model\ConfigFactory');
 
         /** @var $order \Magento\Sales\Model\Order */
         $order = $objectManager->create('Magento\Sales\Model\Order');
@@ -36,9 +38,19 @@ class VoidTest extends \PHPUnit_Framework_TestCase
         $payment = $order->getPayment();
 
         /** @var \Magento\Paypal\Model\Payflowpro $instance */
-        $instance = $this->getMock('Magento\Paypal\Model\Payflowpro', array('_postRequest'),
-            array($logger, $eventManager, $coreStoreConfig, $coreData, $moduleList, $paymentData, $logAdapterFactory,
-                $locale, $centinelService));
+        $instance = $this->getMock('Magento\Paypal\Model\Payflowpro', array('_postRequest'), array(
+            $logger,
+            $eventManager,
+            $coreStoreConfig,
+            $moduleList,
+            $paymentData,
+            $logAdapterFactory,
+            $locale,
+            $centinelService,
+            $coreData,
+            $storeManager,
+            $configFactory
+        ));
 
         $response = new \Magento\Object(array(
             'result' => '0',

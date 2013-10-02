@@ -44,11 +44,11 @@ class Combine extends \Magento\Rule\Model\Condition\Combine
         foreach ($productAttributes as $code=>$label) {
             if (strpos($code, 'quote_item_') === 0) {
                 $iAttributes[] = array(
-                    'value' => 'Magento_SalesRule_Model_Rule_Condition_Product|' . $code, 'label' => $label
+                    'value' => 'Magento\SalesRule\Model\Rule\Condition\Product|' . $code, 'label' => $label
                 );
             } else {
                 $pAttributes[] =
-                    array('value' => 'Magento_SalesRule_Model_Rule_Condition_Product|' . $code, 'label' => $label);
+                    array('value' => 'Magento\SalesRule\Model\Rule\Condition\Product|' . $code, 'label' => $label);
             }
         }
 

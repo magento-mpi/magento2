@@ -12,9 +12,17 @@ class BaseurlTest extends \PHPUnit_Framework_TestCase
     public function testSaveMergedJsCssMustBeCleaned()
     {
         $eventDispatcher = $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false);
+        $appState = $this->getMock('Magento\Core\Model\App\State', array(), array(), '', false);
+        $storeManager = $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false);
         $cacheManager = $this->getMock('Magento\Core\Model\CacheInterface');
         $logger = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false);
-        $context = new \Magento\Core\Model\Context($logger, $eventDispatcher, $cacheManager);
+        $context = new \Magento\Core\Model\Context(
+            $logger,
+            $eventDispatcher,
+            $cacheManager,
+            $appState,
+            $storeManager
+        );
 
         $resource = $this->getMock('Magento\Core\Model\Resource\Config\Data', array(), array(), '', false);
         $resource->expects($this->any())
@@ -29,7 +37,15 @@ class BaseurlTest extends \PHPUnit_Framework_TestCase
         $model = $this->getMock(
             'Magento\Backend\Model\Config\Backend\Baseurl',
             array('getOldValue'),
-            array($context, $coreRegistry, $storeManager, $coreConfig, $mergeService, $resource, $resourceCollection)
+            array(
+                $context,
+                $coreRegistry,
+                $storeManager,
+                $coreConfig,
+                $mergeService,
+                $resource,
+                $resourceCollection
+            )
         );
         $mergeService->expects($this->once())
             ->method('cleanMergedJsCss');

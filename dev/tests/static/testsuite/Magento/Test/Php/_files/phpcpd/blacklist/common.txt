@@ -40,10 +40,13 @@ Magento/Sales/Model/Resource/Helper
 Magento/Sales/Model/Resource/Order
 Magento/Catalog/Model/Resource/Product
 Magento/CatalogEvent/Block/Catalog/Category
+Magento/Checkout/Block/Onepage
 Magento/Core/Model/Design/Backend
 Magento/Core/Model/Layout/File/Source/Override
 Magento/Core/Model/Store
 Magento/Cron/Model/Config/Backend/Product
+Magento/Customer/Block/Account/Dashboard
+Magento/Customer/Model/Config/Backend/Show
 Magento/DesignEditor/Block/Adminhtml/Editor/Tools/Code
 Magento/DesignEditor/Block/Adminhtml/Theme/Selector/Tab
 Magento/DesignEditor/Model/Url
@@ -66,7 +69,9 @@ Magento/Sales/Block/Adminhtml
 Magento/Sales/Model/Resource
 Magento/Sales/Model/Quote/Address/Total
 Magento/Sales/Model/Resource/Report/Order
+Magento/Shipping/Model/Carrier
 Magento/CatalogRule/Model
+Magento/Tax/Block/Checkout
 Magento/Tax/Model/Sales/Pdf
 Magento/Usa/Model/Shipping/Carrier
 Magento/VersionsCms/Block

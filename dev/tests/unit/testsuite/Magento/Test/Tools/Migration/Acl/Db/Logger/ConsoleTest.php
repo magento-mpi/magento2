@@ -11,7 +11,7 @@
 namespace Magento\Test\Tools\Migration\Acl\Db\Logger;
 
 require_once realpath(__DIR__ . '/../../../../../../../../../../')
-    . '/tools/Magento/Tools/Migration/Acl/Db/LoggerAbstract.php';
+    . '/tools/Magento/Tools/Migration/Acl/Db/AbstractLogger.php';
 
 require_once realpath(__DIR__ . '/../../../../../../../../../../')
     . '/tools/Magento/Tools/Migration/Acl/Db/Logger/Console.php';

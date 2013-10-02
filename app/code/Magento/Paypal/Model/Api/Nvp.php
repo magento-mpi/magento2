@@ -37,6 +37,7 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
 
     /**
      * Capture types (make authorization close or remain open)
+     *
      * @var string
      */
     protected $_captureTypeComplete = 'Complete';
@@ -44,6 +45,7 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
 
     /**
      * Global public interface map
+     *
      * @var array
      */
     protected $_globalMap = array(
@@ -202,12 +204,14 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
 
     /**
      * Request map for each API call
+     *
      * @var array
      */
     protected $_eachCallRequest = array('VERSION', 'USER', 'PWD', 'SIGNATURE', 'BUTTONSOURCE',);
 
     /**
      * SetExpressCheckout request/response map
+     *
      * @var array
      */
     protected $_setExpressCheckoutRequest = array(
@@ -226,6 +230,7 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
 
     /**
      * DoExpressCheckoutPayment request/response map
+     *
      * @var array
      */
     protected $_doExpressCheckoutPaymentRequest = array(
@@ -238,6 +243,7 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
 
     /**
      * DoDirectPayment request/response map
+     *
      * @var array
      */
     protected $_doDirectPaymentRequest = array(
@@ -252,6 +258,7 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
 
     /**
      * DoReauthorization request/response map
+     *
      * @var array
      */
     protected $_doReauthorizationRequest = array('AUTHORIZATIONID', 'AMT', 'CURRENCYCODE');
@@ -261,6 +268,7 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
 
     /**
      * DoCapture request/response map
+     *
      * @var array
      */
     protected $_doCaptureRequest = array('AUTHORIZATIONID', 'COMPLETETYPE', 'AMT', 'CURRENCYCODE', 'NOTE', 'INVNUM',);
@@ -269,6 +277,7 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
 
     /**
      * DoAuthorization request/response map
+     *
      * @var array
      */
     protected $_doAuthorizationRequest = array('TRANSACTIONID', 'AMT', 'CURRENCYCODE');
@@ -276,12 +285,14 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
 
     /**
      * DoVoid request map
+     *
      * @var array
      */
     protected $_doVoidRequest = array('AUTHORIZATIONID', 'NOTE',);
 
     /**
      * GetTransactionDetailsRequest
+     *
      * @var array
      */
     protected $_getTransactionDetailsRequest = array('TRANSACTIONID');
@@ -292,6 +303,7 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
 
     /**
      * RefundTransaction request/response map
+     *
      * @var array
      */
     protected $_refundTransactionRequest = array('TRANSACTIONID', 'REFUNDTYPE', 'CURRENCYCODE', 'NOTE',);
@@ -299,18 +311,21 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
 
     /**
      * ManagePendingTransactionStatus request/response map
+     *
+     * @var array
      */
     protected $_managePendingTransactionStatusRequest = array('TRANSACTIONID', 'ACTION');
     protected $_managePendingTransactionStatusResponse = array('TRANSACTIONID', 'STATUS');
 
     /**
      * GetPalDetails response map
+     *
      * @var array
      */
     protected $_getPalDetailsResponse = array('PAL');
 
     /**
-     * CreateRecurringPaymentsProfile request/response map
+     * CreateRecurringPaymentsProfile request map
      *
      * @var array
      */
@@ -319,6 +334,12 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
         'BILLINGPERIOD', 'BILLINGFREQUENCY', 'TOTALBILLINGCYCLES', 'AMT', 'TRIALBILLINGPERIOD', 'TRIALBILLINGFREQUENCY',
         'TRIALTOTALBILLINGCYCLES', 'TRIALAMT', 'CURRENCYCODE', 'SHIPPINGAMT', 'TAXAMT', 'INITAMT', 'FAILEDINITAMTACTION'
     );
+
+    /**
+     * CreateRecurringPaymentsProfile response map
+     *
+     * @var array
+     */
     protected $_createRecurringPaymentsProfileResponse = array(
         'PROFILEID', 'PROFILESTATUS'
     );
@@ -329,14 +350,19 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
      * @var array
      */
     protected $_manageRecurringPaymentsProfileStatusRequest = array('PROFILEID', 'ACTION');
-//    protected $_manageRecurringPaymentsProfileStatusResponse = array('PROFILEID');
 
     /**
-     * Request/response for GetRecurringPaymentsProfileDetails
+     * Request for GetRecurringPaymentsProfileDetails
      *
      * @var array
      */
     protected $_getRecurringPaymentsProfileDetailsRequest = array('PROFILEID');
+
+    /**
+     * Response for GetRecurringPaymentsProfileDetails
+     *
+     * @var array
+     */
     protected $_getRecurringPaymentsProfileDetailsResponse = array('STATUS', /* TODO: lot of other stuff */);
 
     /**
@@ -368,7 +394,7 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
      *
      * @var array
      */
-    protected $_billingAddressMapRequest = array ();
+    protected $_billingAddressMapRequest = array();
 
     /**
      * Map for shipping address import/export (extends billing address mapper)
@@ -460,6 +486,7 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
 
     /**
      * Update Billing Agreement request/response map
+     *
      * @var array
      */
     protected $_updateBillingAgreementRequest = array(
@@ -477,7 +504,6 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
     protected $_doReferenceTransactionRequest = array('REFERENCEID', 'PAYMENTACTION', 'AMT', 'ITEMAMT', 'SHIPPINGAMT',
         'TAXAMT', 'INVNUM', 'NOTIFYURL'
     );
-
     protected $_doReferenceTransactionResponse = array('BILLINGAGREEMENTID', 'TRANSACTIONID');
 
     /**
@@ -486,13 +512,12 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
      * @var array
      */
     protected $_debugReplacePrivateDataKeys = array(
-
         'ACCT', 'EXPDATE', 'CVV2', 'CARDISSUE', 'CARDSTART', 'CREDITCARDTYPE', 'USER', 'PWD', 'SIGNATURE'
-
     );
 
     /**
      * Map of credit card types supported by this API
+     *
      * @var array
      */
     protected $_supportedCcTypes = array(
@@ -527,6 +552,35 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
      * @var bool
      */
     protected $_rawResponseNeeded = false;
+
+    /**
+     * @var \Magento\Directory\Model\CountryFactory
+     */
+    protected $_countryFactory;
+
+    /**
+     * @param \Magento\Customer\Helper\Address $customerAddress
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Directory\Model\RegionFactory $regionFactory
+     * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
+     * @param \Magento\Directory\Model\CountryFactory $countryFactory
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Customer\Helper\Address $customerAddress,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Directory\Model\RegionFactory $regionFactory,
+        \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
+        \Magento\Directory\Model\CountryFactory $countryFactory,
+        array $data = array()
+    ) {
+        $this->_countryFactory = $countryFactory;
+        parent::__construct(
+            $customerAddress, $logger, $locale, $regionFactory, $logAdapterFactory, $data
+        );
+    }
 
     /**
      * API endpoint getter
@@ -807,7 +861,7 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
     {
         $request = $this->_exportToRequest($this->_updateBillingAgreementRequest);
         try {
-        $response = $this->call('BillAgreementUpdate', $request);
+            $response = $this->call('BillAgreementUpdate', $request);
         } catch (\Magento\Core\Exception $e) {
             if (in_array(10201, $this->_callErrors)) {
                 $this->setIsBillingAgreementAlreadyCancelled(true);
@@ -830,6 +884,8 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
 
     /**
      * ManageRecurringPaymentsProfileStatus call
+     *
+     * @throws \Magento\Core\Exception
      */
     public function callManageRecurringPaymentsProfileStatus()
     {
@@ -838,13 +894,15 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
             $request['ACTION'] = $this->_filterRecurringProfileActionToNvp($request['ACTION']);
         }
         try {
-            $response = $this->call('ManageRecurringPaymentsProfileStatus', $request);
+            $this->call('ManageRecurringPaymentsProfileStatus', $request);
         } catch (\Magento\Core\Exception $e) {
             if ((in_array(11556, $this->_callErrors) && 'Cancel' === $request['ACTION'])
                 || (in_array(11557, $this->_callErrors) && 'Suspend' === $request['ACTION'])
                 || (in_array(11558, $this->_callErrors) && 'Reactivate' === $request['ACTION'])
             ) {
-                \Mage::throwException(__('We can\'t change the status because the current status doesn\'t match the real status.'));
+                throw new \Magento\Core\Exception(
+                    __('We can\'t change the status because the current status doesn\'t match the real status.')
+                );
             }
             throw $e;
         }
@@ -932,14 +990,15 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
      * @param string $methodName
      * @param array $request
      * @return array
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Core\Exception|Exception
      */
     public function call($methodName, array $request)
     {
         $request = $this->_addMethodToRequest($methodName, $request);
         $eachCallRequest = $this->_prepareEachCallRequest($methodName);
         if ($this->getUseCertAuthentication()) {
-            if ($key = array_search('SIGNATURE', $eachCallRequest)) {
+            $key = array_search('SIGNATURE', $eachCallRequest);
+            if ($key) {
                 unset($eachCallRequest[$key]);
             }
         }
@@ -984,7 +1043,7 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
             ));
             $http->close();
 
-            \Mage::throwException(__('We can\'t contact the PayPal gateway.'));
+            throw new \Magento\Core\Exception(__('We can\'t contact the PayPal gateway.'));
         }
 
         // cUrl resource must be closed after checking it for errors
@@ -992,7 +1051,7 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
 
         if (!$this->_validateResponse($methodName, $response)) {
             $this->_logger->logException(new \Exception(__("PayPal response hasn't required fields.")));
-            \Mage::throwException(__('Something went wrong while processing your order.'));
+            throw new \Magento\Core\Exception(__('Something went wrong while processing your order.'));
         }
 
         $this->_callErrors = array();
@@ -1021,7 +1080,8 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
     /**
      * Handle logical errors
      *
-     * @param array
+     * @param array $response
+     * @throws \Magento\Core\Exception
      */
     protected function _handleCallErrors($response)
     {
@@ -1037,10 +1097,11 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
         }
         if ($errors) {
             $errors = implode(' ', $errors);
-            $e = \Mage::exception('Magento_Core', sprintf('PayPal NVP gateway errors: %s Correlation ID: %s. Version: %s.',
-                $errors,
-                isset($response['CORRELATIONID']) ? $response['CORRELATIONID'] : '',
-                isset($response['VERSION']) ? $response['VERSION'] : ''
+            $e = new \Magento\Core\Exception(
+                sprintf('PayPal NVP gateway errors: %s Correlation ID: %s. Version: %s.',
+                    $errors,
+                    isset($response['CORRELATIONID']) ? $response['CORRELATIONID'] : '',
+                    isset($response['VERSION']) ? $response['VERSION'] : ''
             ));
             $this->_logger->logException($e);
             $e->setMessage(__('The PayPal gateway has rejected this request. %1', $errors));
@@ -1052,7 +1113,7 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
      * Catch success calls and collect warnings
      *
      * @param array
-     * @return bool| success flag
+     * @return bool success flag
      */
     protected function _isCallSuccessful($response)
     {
@@ -1100,23 +1161,23 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
      */
     protected function _deformatNVP($nvpstr)
     {
-        $intial=0;
+        $intial = 0;
         $nvpArray = array();
 
-        $nvpstr = strpos($nvpstr, "\r\n\r\n")!==false ? substr($nvpstr, strpos($nvpstr, "\r\n\r\n")+4) : $nvpstr;
+        $nvpstr = strpos($nvpstr, "\r\n\r\n") !== false ? substr($nvpstr, strpos($nvpstr, "\r\n\r\n") + 4) : $nvpstr;
 
-        while(strlen($nvpstr)) {
+        while (strlen($nvpstr)) {
             //postion of Key
-            $keypos= strpos($nvpstr,'=');
+            $keypos = strpos($nvpstr, '=');
             //position of value
-            $valuepos = strpos($nvpstr,'&') ? strpos($nvpstr,'&'): strlen($nvpstr);
+            $valuepos = strpos($nvpstr, '&') ? strpos($nvpstr, '&'): strlen($nvpstr);
 
             /*getting the Key and Value values and storing in a Associative Array*/
-            $keyval=substr($nvpstr,$intial,$keypos);
-            $valval=substr($nvpstr,$keypos+1,$valuepos-$keypos-1);
+            $keyval = substr($nvpstr, $intial, $keypos);
+            $valval = substr($nvpstr, $keypos + 1, $valuepos - $keypos - 1);
             //decoding the respose
-            $nvpArray[urldecode($keyval)] =urldecode( $valval);
-            $nvpstr=substr($nvpstr,$valuepos+1,strlen($nvpstr));
+            $nvpArray[urldecode($keyval)] = urldecode( $valval);
+            $nvpstr = substr($nvpstr, $valuepos + 1, strlen($nvpstr));
          }
         return $nvpArray;
     }
@@ -1185,7 +1246,8 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
         }
         // attempt to fetch region_id from directory
         if ($address->getCountryId() && $address->getRegion()) {
-            $regions = \Mage::getModel('Magento\Directory\Model\Country')->loadByCode($address->getCountryId())->getRegionCollection()
+            $regions = $this->_countryFactory->create()
+                ->loadByCode($address->getCountryId())->getRegionCollection()
                 ->addRegionCodeOrNameFilter($address->getRegion())
                 ->setPageSize(1);
             foreach ($regions as $region) {
@@ -1226,12 +1288,14 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
             $to,
             array_merge(array_flip($this->_billingAddressMap), $this->_billingAddressMapRequest)
         );
-        if ($regionCode = $this->_lookupRegionCodeFromAddress($billingAddress)) {
+        $regionCode = $this->_lookupRegionCodeFromAddress($billingAddress);
+        if ($regionCode) {
             $to['STATE'] = $regionCode;
         }
         if (!$this->getSuppressShipping()) {
             $to = \Magento\Object\Mapper::accumulateByMap($shippingAddress, $to, array_flip($this->_shippingAddressMap));
-            if ($regionCode = $this->_lookupRegionCodeFromAddress($shippingAddress)) {
+            $regionCode = $this->_lookupRegionCodeFromAddress($shippingAddress);
+            if ($regionCode) {
                 $to['SHIPTOSTATE'] = $regionCode;
             }
             $this->_importStreetFromAddress($shippingAddress, $to, 'SHIPTOSTREET', 'SHIPTOSTREET2');
@@ -1292,11 +1356,18 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
     protected function _filterPeriodUnit($value)
     {
         switch ($value) {
-            case 'day':        return 'Day';
-            case 'week':       return 'Week';
-            case 'semi_month': return 'SemiMonth';
-            case 'month':      return 'Month';
-            case 'year':       return 'Year';
+            case 'day':
+                return 'Day';
+            case 'week':
+                return 'Week';
+            case 'semi_month':
+                return 'SemiMonth';
+            case 'month':
+                return 'Month';
+            case 'year':
+                return 'Year';
+            default:
+                break;
         }
     }
 
@@ -1320,8 +1391,12 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
     protected function _filterBillingAgreementStatus($value)
     {
         switch ($value) {
-            case 'canceled':    return 'Canceled';
-            case 'active':      return 'Active';
+            case 'canceled':
+                return 'Canceled';
+            case 'active':
+                return 'Active';
+            default:
+                break;
         }
     }
 
@@ -1334,19 +1409,34 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
     protected function _filterPaymentStatusFromNvpToInfo($value)
     {
         switch ($value) {
-            case 'None': return \Magento\Paypal\Model\Info::PAYMENTSTATUS_NONE;
-            case 'Completed': return \Magento\Paypal\Model\Info::PAYMENTSTATUS_COMPLETED;
-            case 'Denied': return \Magento\Paypal\Model\Info::PAYMENTSTATUS_DENIED;
-            case 'Expired': return \Magento\Paypal\Model\Info::PAYMENTSTATUS_EXPIRED;
-            case 'Failed': return \Magento\Paypal\Model\Info::PAYMENTSTATUS_FAILED;
-            case 'In-Progress': return \Magento\Paypal\Model\Info::PAYMENTSTATUS_INPROGRESS;
-            case 'Pending': return \Magento\Paypal\Model\Info::PAYMENTSTATUS_PENDING;
-            case 'Refunded': return \Magento\Paypal\Model\Info::PAYMENTSTATUS_REFUNDED;
-            case 'Partially-Refunded': return \Magento\Paypal\Model\Info::PAYMENTSTATUS_REFUNDEDPART;
-            case 'Reversed': return \Magento\Paypal\Model\Info::PAYMENTSTATUS_REVERSED;
-            case 'Canceled-Reversal': return \Magento\Paypal\Model\Info::PAYMENTSTATUS_UNREVERSED;
-            case 'Processed': return \Magento\Paypal\Model\Info::PAYMENTSTATUS_PROCESSED;
-            case 'Voided': return \Magento\Paypal\Model\Info::PAYMENTSTATUS_VOIDED;
+            case 'None':
+                return \Magento\Paypal\Model\Info::PAYMENTSTATUS_NONE;
+            case 'Completed':
+                return \Magento\Paypal\Model\Info::PAYMENTSTATUS_COMPLETED;
+            case 'Denied':
+                return \Magento\Paypal\Model\Info::PAYMENTSTATUS_DENIED;
+            case 'Expired':
+                return \Magento\Paypal\Model\Info::PAYMENTSTATUS_EXPIRED;
+            case 'Failed':
+                return \Magento\Paypal\Model\Info::PAYMENTSTATUS_FAILED;
+            case 'In-Progress':
+                return \Magento\Paypal\Model\Info::PAYMENTSTATUS_INPROGRESS;
+            case 'Pending':
+                return \Magento\Paypal\Model\Info::PAYMENTSTATUS_PENDING;
+            case 'Refunded':
+                return \Magento\Paypal\Model\Info::PAYMENTSTATUS_REFUNDED;
+            case 'Partially-Refunded':
+                return \Magento\Paypal\Model\Info::PAYMENTSTATUS_REFUNDEDPART;
+            case 'Reversed':
+                return \Magento\Paypal\Model\Info::PAYMENTSTATUS_REVERSED;
+            case 'Canceled-Reversal':
+                return \Magento\Paypal\Model\Info::PAYMENTSTATUS_UNREVERSED;
+            case 'Processed':
+                return \Magento\Paypal\Model\Info::PAYMENTSTATUS_PROCESSED;
+            case 'Voided':
+                return \Magento\Paypal\Model\Info::PAYMENTSTATUS_VOIDED;
+            default:
+                break;
         }
     }
 
@@ -1363,6 +1453,8 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
                 return 'Accept';
             case \Magento\Paypal\Model\Pro::PAYMENT_REVIEW_DENY:
                 return 'Deny';
+            default:
+                break;
         }
     }
 
@@ -1375,9 +1467,14 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
     protected function _filterRecurringProfileActionToNvp($value)
     {
         switch ($value) {
-            case 'cancel': return 'Cancel';
-            case 'suspend':  return 'Suspend';
-            case 'activate': return 'Reactivate';
+            case 'cancel':
+                return 'Cancel';
+            case 'suspend':
+                return 'Suspend';
+            case 'activate':
+                return 'Reactivate';
+            default:
+                break;
         }
     }
 
@@ -1409,13 +1506,14 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
             case 'Expired': // ??
                 $result->setIsProfileExpired(true);
                 break;
+            default:
+                break;
         }
     }
 
     /**
      * Return capture type
      *
-     * @param \Magento\Object $payment
      * @return string
      */
     protected function _getCaptureCompleteType()
@@ -1433,10 +1531,10 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
      */
     protected function _prepareEachCallRequest($methodName)
     {
-        $expressCheckooutMetods = array(
+        $expressCheckoutMethods = array(
             self::SET_EXPRESS_CHECKOUT, self::GET_EXPRESS_CHECKOUT_DETAILS, self::DO_EXPRESS_CHECKOUT_PAYMENT
         );
-        if (!in_array($methodName, $expressCheckooutMetods) || !$this->_config->shouldUseUnilateralPayments()) {
+        if (!in_array($methodName, $expressCheckoutMethods) || !$this->_config->shouldUseUnilateralPayments()) {
             return $this->_eachCallRequest;
         }
         return array_diff($this->_eachCallRequest, array('USER', 'PWD', 'SIGNATURE'));
@@ -1450,7 +1548,8 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
     protected function _prepareExpressCheckoutCallRequest(&$requestFields)
     {
         if (!$this->_config->shouldUseUnilateralPayments()) {
-            if ($key = array_search('SUBJECT', $requestFields)) {
+            $key = array_search('SUBJECT', $requestFields);
+            if ($key) {
                 unset($requestFields[$key]);
             }
         }

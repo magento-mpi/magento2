@@ -30,7 +30,7 @@ class Cache extends \Magento\Core\Model\Config\Value
     protected function _afterSave()
     {
         if ($this->isValueChanged()) {
-            \Mage::app()->cleanCache($this->_cacheTags);
+            $this->_cacheManager->clean($this->_cacheTags);
         }
     }
 }

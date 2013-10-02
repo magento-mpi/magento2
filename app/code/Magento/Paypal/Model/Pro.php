@@ -9,7 +9,7 @@
  */
 
 /**
- * PayPal Website Payments Pro implementation for payment method instaces
+ * PayPal Website Payments Pro implementation for payment method instances
  * This model was created because right now PayPal Direct and PayPal Express payment methods cannot have same abstract
  */
 namespace Magento\Paypal\Model;
@@ -18,8 +18,6 @@ class Pro
 {
     /**
      * Possible payment review actions (for FMF only)
-     *
-     * @var string
      */
     const PAYMENT_REVIEW_ACCEPT = 'accept';
     const PAYMENT_REVIEW_DENY = 'deny';
@@ -29,21 +27,21 @@ class Pro
      *
      * @var \Magento\Paypal\Model\Config
      */
-    protected $_config = null;
+    protected $_config;
 
     /**
      * API instance
      *
      * @var \Magento\Paypal\Model\Api\Nvp
      */
-    protected $_api = null;
+    protected $_api;
 
     /**
      * PayPal info object
      *
      * @var \Magento\Paypal\Model\Info
      */
-    protected $_infoInstance = null;
+    protected $_infoInstance;
 
     /**
      * API model type
@@ -60,10 +58,41 @@ class Pro
     protected $_configType = 'Magento\Paypal\Model\Config';
 
     /**
+     * @var \Magento\Paypal\Model\Config\Factory
+     */
+    protected $_configFactory;
+
+    /**
+     * @var \Magento\Paypal\Model\Api\Type\Factory
+     */
+    protected $_apiFactory;
+
+    /**
+     * @var \Magento\Paypal\Model\InfoFactory
+     */
+    protected $_infoFactory;
+
+    /**
+     * @param \Magento\Paypal\Model\Config\Factory $configFactory
+     * @param \Magento\Paypal\Model\Api\Type\Factory $apiFactory
+     * @param \Magento\Paypal\Model\InfoFactory $infoFactory
+     */
+    public function __construct(
+        \Magento\Paypal\Model\Config\Factory $configFactory,
+        \Magento\Paypal\Model\Api\Type\Factory $apiFactory,
+        \Magento\Paypal\Model\InfoFactory $infoFactory
+    ) {
+        $this->_configFactory = $configFactory;
+        $this->_apiFactory = $apiFactory;
+        $this->_infoFactory = $infoFactory;
+    }
+
+    /**
      * Payment method code setter. Also instantiates/updates config
      *
      * @param string $code
      * @param int|null $storeId
+     * @return $this
      */
     public function setMethod($code, $storeId = null)
     {
@@ -72,7 +101,7 @@ class Pro
             if (null !== $storeId) {
                 $params[] = $storeId;
             }
-            $this->_config = \Mage::getModel($this->_configType, array('params' => $params));
+            $this->_config = $this->_configFactory->create($this->_configType, array('params' => $params));
         } else {
             $this->_config->setMethod($code);
             if (null !== $storeId) {
@@ -87,6 +116,7 @@ class Pro
      *
      * @param \Magento\Paypal\Model\Config $instace
      * @param int $storeId
+     * @return $this
      */
     public function setConfig(\Magento\Paypal\Model\Config $instace, $storeId = null)
     {
@@ -116,7 +146,7 @@ class Pro
     public function getApi()
     {
         if (null === $this->_api) {
-            $this->_api = \Mage::getModel($this->_apiType);
+            $this->_api = $this->_apiFactory->create($this->_apiType);
         }
         $this->_api->setConfigObject($this->_config);
         return $this->_api;
@@ -142,7 +172,7 @@ class Pro
     public function getInfo()
     {
         if (null === $this->_infoInstance) {
-            $this->_infoInstance = \Mage::getModel('Magento\Paypal\Model\Info');
+            $this->_infoInstance = $this->_infoFactory->create();
         }
         return $this->_infoInstance;
     }
@@ -150,7 +180,7 @@ class Pro
     /**
      * Transfer transaction/payment information from API instance to order payment
      *
-     * @param \Magento\Paypal\Model\Api\AbstractApi $from
+     * @param \Magento\Object|\Magento\Paypal\Model\Api\AbstractApi $from
      * @param \Magento\Payment\Model\Info $to
      * @return \Magento\Paypal\Model\Pro
      */
@@ -184,15 +214,17 @@ class Pro
      * Void transaction
      *
      * @param \Magento\Object $payment
+     * @throws \Magento\Core\Exception
      */
     public function void(\Magento\Object $payment)
     {
-        if ($authTransactionId = $this->_getParentTransactionId($payment)) {
+        $authTransactionId = $this->_getParentTransactionId($payment);
+        if ($authTransactionId) {
             $api = $this->getApi();
             $api->setPayment($payment)->setAuthorizationId($authTransactionId)->callDoVoid();
             $this->importPaymentInfo($api, $payment);
         } else {
-            \Mage::throwException(__('You need an authorization transaction to void.'));
+            throw new \Magento\Core\Exception(__('You need an authorization transaction to void.'));
         }
     }
 
@@ -215,9 +247,8 @@ class Pro
             ->setIsCaptureComplete($payment->getShouldCloseParentTransaction())
             ->setAmount($amount)
             ->setCurrencyCode($payment->getOrder()->getBaseCurrencyCode())
-            ->setInvNum($payment->getOrder()->getIncrementId())
+            ->setInvNum($payment->getOrder()->getIncrementId());
             // TODO: pass 'NOTE' to API
-        ;
 
         $api->callDoCapture();
         $this->_importCaptureResultToPayment($api, $payment);
@@ -228,6 +259,7 @@ class Pro
      *
      * @param \Magento\Object $payment
      * @param float $amount
+     * @throws \Magento\Core\Exception
      */
     public function refund(\Magento\Object $payment, $amount)
     {
@@ -238,8 +270,7 @@ class Pro
             $api->setPayment($payment)
                 ->setTransactionId($captureTxnId)
                 ->setAmount($amount)
-                ->setCurrencyCode($order->getBaseCurrencyCode())
-            ;
+                ->setCurrencyCode($order->getBaseCurrencyCode());
             $canRefundMore = $payment->getCreditmemo()->getInvoice()->canRefund();
             $isFullRefund = !$canRefundMore
                 && (0 == ((float)$order->getBaseTotalOnlineRefunded() + (float)$order->getBaseTotalOfflineRefunded()));
@@ -249,7 +280,7 @@ class Pro
             $api->callRefundTransaction();
             $this->_importRefundResultToPayment($api, $payment, $canRefundMore);
         } else {
-            \Mage::throwException(__('We can\'t issue a refund transaction because there is no capture transaction.'));
+            throw new \Magento\Core\Exception(__('We can\'t issue a refund transaction because there is no capture transaction.'));
         }
     }
 
@@ -348,12 +379,12 @@ class Pro
         if (strlen($refId) > 127) { //  || !preg_match('/^[a-z\d\s]+$/i', $refId)
             $errors[] = __('The merchant\'s reference ID format is not supported.');
         }
-        $scheduleDescr = $profile->getScheduleDescription(); // up to 127 single-byte alphanumeric
+        $profile->getScheduleDescription(); // up to 127 single-byte alphanumeric
         if (strlen($refId) > 127) { //  || !preg_match('/^[a-z\d\s]+$/i', $scheduleDescr)
             $errors[] = __('The schedule description is too long.');
         }
         if ($errors) {
-            \Mage::throwException(implode(' ', $errors));
+            throw new \Magento\Core\Exception(implode(' ', $errors));
         }
     }
 
@@ -457,8 +488,7 @@ class Pro
     {
         $payment->setTransactionId($api->getRefundTransactionId())
                 ->setIsTransactionClosed(1) // refund initiated by merchant
-                ->setShouldCloseParentTransaction(!$canRefundMore)
-            ;
+                ->setShouldCloseParentTransaction(!$canRefundMore);
         $this->importPaymentInfo($api, $payment);
     }
 

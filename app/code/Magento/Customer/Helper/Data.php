@@ -113,12 +113,30 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_coreConfig;
 
     /**
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $_customerSession;
+    
+    /**
+     * @var \Magento\Customer\Model\GroupFactory
+     */
+    protected $_groupFactory;
+
+    /**
+     * @var \Magento\Customer\Model\FormFactory
+     */
+    protected $_formFactory;
+
+    /**
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Customer\Helper\Address $customerAddress
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Customer\Model\GroupFactory $groupFactory
+     * @param \Magento\Customer\Model\FormFactory $formFactory
      */
     public function __construct(
         \Magento\Core\Model\Event\Manager $eventManager,
@@ -126,13 +144,19 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Helper\Context $context,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\Config $coreConfig
+        \Magento\Core\Model\Config $coreConfig,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Customer\Model\GroupFactory $groupFactory,
+        \Magento\Customer\Model\FormFactory $formFactory
     ) {
         $this->_eventManager = $eventManager;
         $this->_customerAddress = $customerAddress;
         $this->_coreData = $coreData;
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_coreConfig = $coreConfig;
+        $this->_customerSession = $customerSession;
+        $this->_groupFactory = $groupFactory;
+        $this->_formFactory = $formFactory;
         parent::__construct($context);
     }
 
@@ -143,7 +167,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function isLoggedIn()
     {
-        return \Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn();
+        return $this->_customerSession->isLoggedIn();
     }
 
     /**
@@ -154,7 +178,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     public function getCustomer()
     {
         if (empty($this->_customer)) {
-            $this->_customer = \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomer();
+            $this->_customer = $this->_customerSession->getCustomer();
         }
         return $this->_customer;
     }
@@ -167,7 +191,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     public function getGroups()
     {
         if (empty($this->_groups)) {
-            $this->_groups = \Mage::getModel('Magento\Customer\Model\Group')->getResourceCollection()
+            $this->_groups = $this->_createGroup()->getResourceCollection()
                 ->setRealGroupsFilter()
                 ->load();
         }
@@ -230,9 +254,9 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         $referer = $this->_getRequest()->getParam(self::REFERER_QUERY_PARAM_NAME);
 
         if (!$referer && !$this->_coreStoreConfig->getConfigFlag(self::XML_PATH_CUSTOMER_STARTUP_REDIRECT_TO_DASHBOARD)
-            && !\Mage::getSingleton('Magento\Customer\Model\Session')->getNoReferer()
+            && !$this->_customerSession->getNoReferer()
         ) {
-            $referer = \Mage::getUrl('*/*/*', array('_current' => true, '_use_rewrite' => true));
+            $referer = $this->_getUrl('*/*/*', array('_current' => true, '_use_rewrite' => true));
             $referer = $this->_coreData->urlEncode($referer);
         }
 
@@ -498,7 +522,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         ));
 
         if (!extension_loaded('soap')) {
-            $this->_logger->logException(\Mage::exception('Magento_Core', __('PHP SOAP extension is required.')));
+            $this->_logger->logException(new \Magento\Core\Exception(__('PHP SOAP extension is required.')));
             return $gatewayResponse;
         }
 
@@ -654,11 +678,11 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      * Create SOAP client based on VAT validation service WSDL
      *
      * @param boolean $trace
-     * @return \SoapClient
+     * @return SoapClient
      */
     protected function _createVatNumberValidationSoapClient($trace = false)
     {
-        return new \SoapClient(self::VAT_VALIDATION_WSDL_URL, array('trace' => $trace));
+        return new SoapClient(self::VAT_VALIDATION_WSDL_URL, array('trace' => $trace));
     }
 
     /**
@@ -676,7 +700,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         $additionalAttributes = array(), $scope = null, $eavForm = null
     ) {
         if (is_null($eavForm)) {
-            $eavForm = \Mage::getModel('Magento\Customer\Model\Form');
+            $eavForm = $this->_createForm();
         }
         /** @var \Magento\Eav\Model\Form $eavForm */
         $eavForm->setEntity($entity)
@@ -700,5 +724,21 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         }
 
         return $filteredData;
+    }
+
+    /**
+     * @return \Magento\Customer\Model\Group
+     */
+    protected function _createGroup()
+    {
+        return $this->_groupFactory->create();
+    }
+
+    /**
+     * @return \Magento\Customer\Model\Form
+     */
+    protected function _createForm()
+    {
+        return $this->_formFactory->create();
     }
 }

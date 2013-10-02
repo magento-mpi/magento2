@@ -36,17 +36,19 @@ class Postcode extends \Magento\Eav\Model\Attribute\Data\Text
     protected $_directoryData = null;
 
     /**
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Core\Helper\String $stringHelper
      * @param \Magento\Directory\Helper\Data $directoryData
-     * @param \Magento\Core\Helper\String $coreString
-     * @param array $arguments
      */
     public function __construct(
-        \Magento\Directory\Helper\Data $directoryData,
-        \Magento\Core\Helper\String $coreString,
-        array $arguments = array()
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Core\Helper\String $stringHelper,
+        \Magento\Directory\Helper\Data $directoryData
     ) {
         $this->_directoryData = $directoryData;
-        parent::__construct($coreString, $arguments);
+        parent::__construct($locale, $logger, $stringHelper);
     }
 
     public function validateValue($value)

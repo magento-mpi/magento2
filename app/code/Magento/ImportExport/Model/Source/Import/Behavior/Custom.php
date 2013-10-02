@@ -19,7 +19,7 @@
 namespace Magento\ImportExport\Model\Source\Import\Behavior;
 
 class Custom
-    extends \Magento\ImportExport\Model\Source\Import\BehaviorAbstract
+    extends \Magento\ImportExport\Model\Source\Import\AbstractBehavior
 {
     /**
      * Get possible behaviours

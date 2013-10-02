@@ -27,7 +27,7 @@ class Setup extends \Magento\Core\Model\Resource\Setup
     /**
      * @param \Magento\Core\Model\Resource\Setup\Context $context
      * @param \Magento\Directory\Helper\Data $directoryData
-     * @param string $resourceName
+     * @param $resourceName
      * @param string $moduleName
      * @param string $connectionName
      */
@@ -41,7 +41,6 @@ class Setup extends \Magento\Core\Model\Resource\Setup
         $this->_directoryData = $directoryData;
         parent::__construct($context, $resourceName, $moduleName, $connectionName);
     }
-
 
     /**
      * @return \Magento\Directory\Helper\Data

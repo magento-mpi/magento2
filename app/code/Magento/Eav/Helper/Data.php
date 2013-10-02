@@ -25,6 +25,13 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_entityTypeFrontendClasses = array();
 
     /**
+     * Core store config
+     *
+     * @var \Magento\Core\Model\Store\Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
      * @var \Magento\Eav\Model\Entity\Attribute\Config
      */
     protected $_attributeConfig;

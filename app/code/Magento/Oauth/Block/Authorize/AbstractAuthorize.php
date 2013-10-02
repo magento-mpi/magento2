@@ -15,15 +15,15 @@
  * @package    Magento_Oauth
  * @author     Magento Core Team <core@magentocommerce.com>
  * @method string getToken()
- * @method \Magento\Oauth\Block\AuthorizeBaseAbstract setToken() setToken(string $token)
+ * @method \Magento\Oauth\Block\AbstractAuthorizeBase setToken() setToken(string $token)
  * @method boolean getIsSimple()
  * @method \Magento\Oauth\Block\Authorize\Button setIsSimple() setIsSimple(boolean $flag)
  * @method boolean getHasException()
- * @method \Magento\Oauth\Block\AuthorizeBaseAbstract setIsException() setHasException(boolean $flag)
+ * @method \Magento\Oauth\Block\AbstractAuthorizeBase setIsException() setHasException(boolean $flag)
  * @method boolean getVerifier()
- * @method \Magento\Oauth\Block\AuthorizeBaseAbstract setVerifier() setVerifier(string $verifier)
+ * @method \Magento\Oauth\Block\AbstractAuthorizeBase setVerifier() setVerifier(string $verifier)
  * @method boolean getIsLogged()
- * @method \Magento\Oauth\Block\AuthorizeBaseAbstract setIsLogged() setIsLogged(boolean $flag)
+ * @method \Magento\Oauth\Block\AbstractAuthorizeBase setIsLogged() setIsLogged(boolean $flag)
  */
 namespace Magento\Oauth\Block\Authorize;
 

@@ -48,7 +48,7 @@ class Factory
     }
 
     /**
-     * Create and set default translator to \Magento\Validator\ValidatorAbstract.
+     * Create and set default translator to \Magento\Validator\AbstractValidator.
      */
     protected function _initializeDefaultTranslator()
     {
@@ -62,7 +62,7 @@ class Factory
         /** @var \Magento\Translate\Adapter $translator */
         $translator = $this->_objectManager->create('Magento\Translate\Adapter');
         $translator->setOptions(array('translator' => $translatorCallback));
-        \Magento\Validator\ValidatorAbstract::setDefaultTranslator($translator);
+        \Magento\Validator\AbstractValidator::setDefaultTranslator($translator);
     }
 
     /**

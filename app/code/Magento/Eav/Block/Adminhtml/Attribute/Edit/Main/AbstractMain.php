@@ -24,13 +24,6 @@ abstract class AbstractMain
     protected $_attribute = null;
 
     /**
-     * Core registry
-     *
-     * @var \Magento\Core\Model\Registry
-     */
-    protected $_coreRegistry = null;
-
-    /**
      * Eav data
      *
      * @var \Magento\Eav\Helper\Data
@@ -43,25 +36,48 @@ abstract class AbstractMain
     protected $_attributeConfig;
     
     /**
+     * @var \Magento\Core\Model\LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * @var \Magento\Backend\Model\Config\Source\YesnoFactory
+     */
+    protected $_yesnoFactory;
+
+    /**
+     * @var \Magento\Eav\Model\Adminhtml\System\Config\Source\InputtypeFactory
+     */
+    protected $_inputTypeFactory;
+
+    /**
+     * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Data\Form\Factory $formFactory
-     * @param \Magento\Eav\Helper\Data $eavData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Eav\Helper\Data $eavData
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Backend\Model\Config\Source\YesnoFactory $yesnoFactory
+     * @param \Magento\Eav\Model\Adminhtml\System\Config\Source\InputtypeFactory $inputTypeFactory
      * @param \Magento\Eav\Model\Entity\Attribute\Config $attributeConfig
      * @param array $data
      */
     public function __construct(
+        \Magento\Core\Model\Registry $registry,
         \Magento\Data\Form\Factory $formFactory,
-        \Magento\Eav\Helper\Data $eavData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Eav\Helper\Data $eavData,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Backend\Model\Config\Source\YesnoFactory $yesnoFactory,
+        \Magento\Eav\Model\Adminhtml\System\Config\Source\InputtypeFactory $inputTypeFactory,
         \Magento\Eav\Model\Entity\Attribute\Config $attributeConfig,
         array $data = array()
     ) {
-        $this->_coreRegistry = $registry;
         $this->_eavData = $eavData;
+        $this->_locale = $locale;
+        $this->_yesnoFactory = $yesnoFactory;
+        $this->_inputTypeFactory = $inputTypeFactory;
         $this->_attributeConfig = $attributeConfig;
         parent::__construct($registry, $formFactory, $coreData, $context, $data);
     }
@@ -113,7 +129,7 @@ abstract class AbstractMain
 
         $this->_addElementTypes($fieldset);
 
-        $yesno = \Mage::getModel('Magento\Backend\Model\Config\Source\Yesno')->toOptionArray();
+        $yesno = $this->_yesnoFactory->create()->toOptionArray();
 
         $labels = $attributeObject->getFrontendLabel();
         $fieldset->addField(
@@ -140,14 +156,12 @@ abstract class AbstractMain
             'required' => true,
         ));
 
-        $inputTypes = \Mage::getModel('Magento\Eav\Model\Adminhtml\System\Config\Source\Inputtype')->toOptionArray();
-
         $fieldset->addField('frontend_input', 'select', array(
             'name' => 'frontend_input',
             'label' => __('Catalog Input Type for Store Owner'),
             'title' => __('Catalog Input Type for Store Owner'),
             'value' => 'text',
-            'values'=> $inputTypes
+            'values'=> $this->_inputTypeFactory->create()->toOptionArray()
         ));
 
         $fieldset->addField(
@@ -176,7 +190,7 @@ abstract class AbstractMain
             'value' => $attributeObject->getDefaultValue(),
         ));
 
-        $dateFormat = \Mage::app()->getLocale()->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
+        $dateFormat = $this->_locale->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
         $fieldset->addField('default_value_date', 'date', array(
             'name'   => 'default_value_date',
             'label'  => __('Default Value'),

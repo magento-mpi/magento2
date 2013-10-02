@@ -18,6 +18,24 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     const REPORT_PERIOD_TYPE_DAY    = 'day';
     const REPORT_PERIOD_TYPE_MONTH  = 'month';
     const REPORT_PERIOD_TYPE_YEAR   = 'year';
+
+    /**
+     * @var \Magento\Adminhtml\Model\Report\ItemFactory
+     */
+    protected $_itemFactory;
+
+    /**
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Adminhtml\Model\Report\ItemFactory $itemFactory
+     */
+    public function __construct(
+        \Magento\Core\Helper\Context $context,
+        \Magento\Adminhtml\Model\Report\ItemFactory $itemFactory
+    ) {
+        parent::__construct($context);
+        $this->_itemFactory = $itemFactory;
+    }
+
     /**
      * Retrieve array of intervals
      *
@@ -74,11 +92,10 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         $intervals = $this->getIntervals($from, $to, $periodType);
 
         foreach ($intervals as $interval) {
-            $item = \Mage::getModel('Magento\Adminhtml\Model\Report\Item');
+            $item = $this->_itemFactory->create();
             $item->setPeriod($interval);
             $item->setIsEmpty();
             $collection->addItem($item);
         }
     }
 }
-

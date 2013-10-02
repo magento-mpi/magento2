@@ -552,7 +552,7 @@ class Table
      *
      * @param string $key
      * @param string $value
-     * @return Magento_Db_Ddl_Table
+     * @return \Magento\DB\Ddl\Table
      */
     public function setOption($key, $value)
     {

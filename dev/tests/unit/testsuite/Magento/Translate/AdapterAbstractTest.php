@@ -13,13 +13,13 @@ namespace Magento\Translate;
 class AdapterAbstractTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Translate\AdapterAbstract
+     * @var \Magento\Translate\AbstractAdapter
      */
     protected $_model = null;
 
     protected function setUp()
     {
-        $this->_model = $this->getMockBuilder('Magento\Translate\AdapterAbstract')
+        $this->_model = $this->getMockBuilder('Magento\Translate\AbstractAdapter')
             ->getMockForAbstractClass();
     }
 
@@ -36,7 +36,7 @@ class AdapterAbstractTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetLocale()
     {
-        $this->assertInstanceOf('Magento\Translate\AdapterAbstract', $this->_model->setLocale('en_US'));
+        $this->assertInstanceOf('Magento\Translate\AbstractAdapter', $this->_model->setLocale('en_US'));
     }
 
     /**

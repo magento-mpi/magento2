@@ -10,15 +10,29 @@
 
 /**
  * Locale timezone source
- *
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Backend\Model\Config\Source\Locale;
 
 class Weekdays implements \Magento\Core\Model\Option\ArrayInterface
 {
+    /**
+     * @var \Magento\Core\Model\LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     */
+    public function __construct(\Magento\Core\Model\LocaleInterface $locale)
+    {
+        $this->_locale = $locale;
+    }
+
+    /**
+     * @return array
+     */
     public function toOptionArray()
     {
-        return \Mage::app()->getLocale()->getOptionWeekdays();
+        return $this->_locale->getOptionWeekdays();
     }
 }

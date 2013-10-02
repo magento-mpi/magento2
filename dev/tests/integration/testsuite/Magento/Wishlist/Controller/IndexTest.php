@@ -11,7 +11,7 @@
 
 namespace Magento\Wishlist\Controller;
 
-class IndexTest extends \Magento\TestFramework\TestCase\ControllerAbstract
+class IndexTest extends \Magento\TestFramework\TestCase\AbstractController
 {
     /**
      * @var \Magento\Customer\Model\Session

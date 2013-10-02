@@ -53,16 +53,33 @@ abstract class AbstractBlock extends \Magento\Catalog\Block\Product\AbstractProd
      *
      * @var \Magento\Wishlist\Helper\Data
      */
-    protected $_wishlistData = null;
+    protected $_wishlistData;
+
+    /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @var \Magento\Catalog\Model\ProductFactory
+     */
+    protected $_productFactory;
 
     /**
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Wishlist\Helper\Data $wishlistData
-     * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param array $data
      */
     public function __construct(
@@ -72,9 +89,15 @@ abstract class AbstractBlock extends \Magento\Catalog\Block\Product\AbstractProd
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
         array $data = array()
     ) {
         $this->_wishlistData = $wishlistData;
+        $this->_customerSession = $customerSession;
+        $this->_storeManager = $storeManager;
+        $this->_productFactory = $productFactory;
         parent::__construct($coreRegistry, $taxData, $catalogData, $coreData, $context, $data);
     }
 
@@ -109,7 +132,7 @@ abstract class AbstractBlock extends \Magento\Catalog\Block\Product\AbstractProd
      */
     protected function _getCustomerSession()
     {
-        return \Mage::getSingleton('Magento\Customer\Model\Session');
+        return $this->_customerSession;
     }
 
     /**
@@ -410,8 +433,8 @@ abstract class AbstractBlock extends \Magento\Catalog\Block\Product\AbstractProd
         if (is_object($buyRequest)) {
             $config = $buyRequest->getSuperProductConfig();
             if ($config && !empty($config['product_id'])) {
-                $product = \Mage::getModel('Magento\Catalog\Model\Product')
-                    ->setStoreId(\Mage::app()->getStore()->getStoreId())
+                $product = $this->_productFactory->create()
+                    ->setStoreId($this->_storeManager->getStore()->getStoreId())
                     ->load($config['product_id']);
             }
         }

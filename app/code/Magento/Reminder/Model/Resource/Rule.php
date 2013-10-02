@@ -43,6 +43,25 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     protected $_websiteTable;
 
     /**
+     * Core resource helper
+     *
+     * @var \Magento\Reminder\Model\Resource\HelperFactory
+     */
+    protected $_resHelperFactory;
+
+    /**
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Reminder\Model\Resource\HelperFactory $resHelperFactory
+     */
+    public function __construct(
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Reminder\Model\Resource\HelperFactory $resHelperFactory
+    ) {
+        parent::__construct($resource);
+        $this->_resHelperFactory = $resHelperFactory;
+    }
+
+    /**
      * Initialize main table and table id field
      *
      * @return void
@@ -328,7 +347,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
         ));
 
         /** @var $helper \Magento\Core\Model\Resource\Helper */
-        $helper = \Mage::getResourceHelper('Magento_Core');
+        $helper = $this->_resHelperFactory->create();
         $findInSetSql = $adapter->prepareSqlCondition('schedule', array(
             'finset' => $helper->getDateDiff('log_sent_at_min', $adapter->formatDate($currentDate))
         ));
@@ -421,6 +440,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
      * @param string $operator
      *
      * @return string
+     * @throws \Magento\Core\Exception
      */
     public function getSqlOperator($operator)
     {
@@ -441,7 +461,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
             case '<=':
                 return $operator;
             default:
-                \Mage::throwException(__('Unknown operator specified.'));
+                throw new \Magento\Core\Exception(__('Unknown operator specified.'));
         }
     }
 

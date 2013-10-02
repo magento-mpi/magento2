@@ -20,11 +20,41 @@ namespace Magento\Checkout\Block\Multishipping;
 class Billing extends \Magento\Payment\Block\Form\Container
 {
     /**
+     * @var \Magento\Checkout\Model\Type\Multishipping
+     */
+    protected $_multishipping;
+
+    /**
+     * @var \Magento\Checkout\Model\Session
+     */
+    protected $_checkoutSession;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Checkout\Model\Type\Multishipping $multishipping
+     * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Checkout\Model\Type\Multishipping $multishipping,
+        \Magento\Checkout\Model\Session $checkoutSession,
+        array $data = array()
+    ) {
+        $this->_multishipping = $multishipping;
+        $this->_checkoutSession = $checkoutSession;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Prepare children blocks
      */
     protected function _prepareLayout()
     {
-        if ($headBlock = $this->getLayout()->getBlock('head')) {
+        $headBlock = $this->getLayout()->getBlock('head');
+        if ($headBlock) {
             $headBlock->setTitle(
                 __('Billing Information - %1', $headBlock->getDefaultTitle())
             );
@@ -51,7 +81,8 @@ class Billing extends \Magento\Payment\Block\Form\Container
      */
     public function getSelectedMethodCode()
     {
-        if ($method = $this->getQuote()->getPayment()->getMethod()) {
+        $method = $this->getQuote()->getPayment()->getMethod();
+        if ($method) {
             return $method;
         }
         return false;
@@ -66,7 +97,7 @@ class Billing extends \Magento\Payment\Block\Form\Container
     {
         $address = $this->getData('address');
         if (is_null($address)) {
-            $address = \Mage::getSingleton('Magento\Checkout\Model\Type\Multishipping')->getQuote()->getBillingAddress();
+            $address = $this->_multishipping->getQuote()->getBillingAddress();
             $this->setData('address', $address);
         }
         return $address;
@@ -79,7 +110,7 @@ class Billing extends \Magento\Payment\Block\Form\Container
      */
     public function getQuote()
     {
-        return \Mage::getSingleton('Magento\Checkout\Model\Session')->getQuote();
+        return $this->_checkoutSession->getQuote();
     }
 
     /**
@@ -109,7 +140,6 @@ class Billing extends \Magento\Payment\Block\Form\Container
      */
     public function getPostActionUrl()
     {
-        //return $this->getUrl('*/*/billingPost');
         return $this->getUrl('*/*/overview');
     }
 
