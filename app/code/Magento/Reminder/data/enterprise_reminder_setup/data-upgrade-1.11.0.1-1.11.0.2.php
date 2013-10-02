@@ -8,9 +8,9 @@
  * @license     {license_link}
  */
 
+/** @var $this \Magento\Reminder\Model\Resource\Setup */
 /** @var $installer \Magento\Enterprise\Model\Resource\Setup\Migration */
-$installer = \Mage::getResourceModel('Magento\Enterprise\Model\Resource\Setup\Migration',
-    array('resourceName' => 'core_setup'));
+$installer = $this->createMigrationFactory(array('resourceName' => 'core_setup'));
 $installer->startSetup();
 
 $installer->appendClassAliasReplace('magento_reminder_rule', 'conditions_serialized',

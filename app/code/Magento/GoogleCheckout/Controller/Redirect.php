@@ -24,27 +24,27 @@ class Redirect extends \Magento\Core\Controller\Front\Action
      */
     protected function _getApi ()
     {
-        $session = \Mage::getSingleton('Magento\Checkout\Model\Session');
-        $api = \Mage::getModel('Magento\GoogleCheckout\Model\Api');
+        $session = $this->_objectManager->get('Magento\Checkout\Model\Session');
+        $api = $this->_objectManager->create('Magento\GoogleCheckout\Model\Api');
         /* @var $quote \Magento\Sales\Model\Quote */
         $quote = $session->getQuote();
 
         if (!$quote->hasItems()) {
-            $this->getResponse()->setRedirect(\Mage::getUrl('checkout/cart'));
+            $this->getResponse()->setRedirect(
+                $this->_objectManager->create('Magento\Core\Model\Url')->getUrl('checkout/cart')
+            );
             $api->setError(true);
         }
 
-        $storeQuote = \Mage::getModel('Magento\Sales\Model\Quote')->setStoreId(\Mage::app()->getStore()->getId());
+        $storeQuote = $this->_objectManager->create('Magento\Sales\Model\Quote')->setStoreId(
+            $this->_objectManager->get('Magento\Core\Model\StoreManger')->getStore()->getId()
+        );
         $storeQuote->merge($quote);
         $storeQuote
             ->setItemsCount($quote->getItemsCount())
             ->setItemsQty($quote->getItemsQty())
             ->setChangedFlag(false);
         $storeQuote->save();
-
-        $baseCurrency = $quote->getBaseCurrencyCode();
-        $currency = \Mage::app()->getStore($quote->getStoreId())->getBaseCurrency();
-
 
         /*
          * Set payment method to google checkout, so all price rules will work out this case
@@ -64,11 +64,11 @@ class Redirect extends \Magento\Core\Controller\Front\Action
 
             $response = $api->getResponse();
             if ($api->getError()) {
-                \Mage::getSingleton('Magento\Checkout\Model\Session')->addError($api->getError());
+                $this->_objectManager->get('Magento\Checkout\Model\Session')->addError($api->getError());
             } else {
                 $quote->setIsActive(false)->save();
                 $session->replaceQuote($storeQuote);
-                \Mage::getModel('Magento\Checkout\Model\Cart')->init()->save();
+                $this->_objectManager->create('Magento\Checkout\Model\Cart')->init()->save();
                 if ($this->_objectManager->get('Magento\Core\Model\Store\Config')
                     ->getConfigFlag('google/checkout/hide_cart_contents')
                 ) {
@@ -82,12 +82,12 @@ class Redirect extends \Magento\Core\Controller\Front\Action
 
     public function checkoutAction()
     {
-        $session = \Mage::getSingleton('Magento\Checkout\Model\Session');
+        $session = $this->_objectManager->get('Magento\Checkout\Model\Session');
         $this->_eventManager->dispatch('googlecheckout_checkout_before', array('quote' => $session->getQuote()));
         $api = $this->_getApi();
 
         if ($api->getError()) {
-            $url = \Mage::getUrl('checkout/cart');
+            $url = $this->_objectManager->create('Magento\Core\Model\Url')->getUrl('checkout/cart');
         } else {
             $url = $api->getRedirectUrl();
         }
@@ -103,7 +103,9 @@ class Redirect extends \Magento\Core\Controller\Front\Action
         $api = $this->_getApi();
 
         if ($api->getError()) {
-            $this->getResponse()->setRedirect(\Mage::getUrl('checkout/cart'));
+            $this->getResponse()->setRedirect(
+                $this->_objectManager->create('Magento\Core\Model\Url')->getUrl('checkout/cart')
+            );
             return;
         } else {
             $url = $api->getRedirectUrl();
@@ -118,7 +120,7 @@ class Redirect extends \Magento\Core\Controller\Front\Action
         $hideCartContents = $this->_objectManager->get('Magento\Core\Model\Store\Config')
             ->getConfigFlag('google/checkout/hide_cart_contents');
         if ($hideCartContents) {
-            $session = \Mage::getSingleton('Magento\Checkout\Model\Session');
+            $session = $this->_objectManager->get('Magento\Checkout\Model\Session');
             if ($session->getQuoteId()) {
                 $session->getQuote()->delete();
             }
@@ -131,10 +133,10 @@ class Redirect extends \Magento\Core\Controller\Front\Action
 
     public function continueAction()
     {
-        $session = \Mage::getSingleton('Magento\Checkout\Model\Session');
+        $session = $this->_objectManager->get('Magento\Checkout\Model\Session');
 
         if ($quoteId = $session->getGoogleCheckoutQuoteId()) {
-            $quote = \Mage::getModel('Magento\Sales\Model\Quote')->load($quoteId)
+            $quote = $this->_objectManager->create('Magento\Sales\Model\Quote')->load($quoteId)
                 ->setIsActive(false)->save();
         }
         $session->clear();
