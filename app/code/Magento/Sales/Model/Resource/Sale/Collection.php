@@ -86,13 +86,14 @@ class Collection extends \Magento\Data\Collection\Db
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Sales\Model\Resource\Order $resource,
         \Magento\Core\Model\Resource\Store\CollectionFactory $storeCollFactory,
+        \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
         $this->_eventManager = $eventManager;
         $this->_orderResource = $resource;
         $this->_storeCollFactory = $storeCollFactory;
         $this->_storeManager = $storeManager;
-        parent::__construct($logger, $fetchStrategy, $this->_orderResource->getReadConnection());
+        parent::__construct($logger, $fetchStrategy, $entityFactory, $this->_orderResource->getReadConnection());
     }
 
     /**
