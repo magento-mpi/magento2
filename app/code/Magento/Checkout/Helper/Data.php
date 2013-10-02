@@ -202,12 +202,10 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function sendPaymentFailedEmail($checkout, $message, $checkoutType = 'onepage')
     {
-        /* @var $translate \Magento\Core\Model\Translate */
         $this->_translator->setTranslateInline(false);
 
         /** @var \Magento\Core\Model\Email\Template $mailTemplate */
         $mailTemplate = $this->_emailTemplFactory->create();
-        /* @var $mailTemplate \Magento\Core\Model\Email\Template */
 
         $template = $this->_coreStoreConfig->getConfig('checkout/payment_failed/template', $checkout->getStoreId());
 
@@ -279,7 +277,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
                 );
         }
 
-        $translate->setTranslateInline(true);
+        $this->_translator->setTranslateInline(true);
 
         return $this;
     }
