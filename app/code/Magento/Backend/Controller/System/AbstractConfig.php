@@ -10,10 +10,6 @@
 
 /**
  * System Configuration Abstract Controller
- *
- * @category   Magento
- * @package    Magento_Backend
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Backend\Controller\System;
 
@@ -25,25 +21,15 @@ abstract class AbstractConfig extends \Magento\Backend\Controller\AbstractAction
     protected $_configStructure;
 
     /**
-     * Authentication session
-     *
-     * @var \Magento\Backend\Model\Auth\StorageInterface
-     */
-    protected $_authSession;
-
-    /**
      * @param \Magento\Backend\Controller\Context $context
      * @param \Magento\Backend\Model\Config\Structure $configStructure
-     * @param \Magento\Backend\Model\Auth\StorageInterface $authSession
      */
     public function __construct(
         \Magento\Backend\Controller\Context $context,
-        \Magento\Backend\Model\Config\Structure $configStructure,
-        \Magento\Backend\Model\Auth\StorageInterface $authSession
+        \Magento\Backend\Model\Config\Structure $configStructure
     ) {
         parent::__construct($context);
         $this->_configStructure = $configStructure;
-        $this->_authSession = $authSession;
     }
 
     /**
@@ -111,7 +97,7 @@ abstract class AbstractConfig extends \Magento\Backend\Controller\AbstractAction
      */
     protected function _saveState($configState = array())
     {
-        $adminUser = $this->_authSession->getUser();
+        $adminUser = $this->_auth->getUser();
         if (is_array($configState)) {
             $extra = $adminUser->getExtra();
             if (!is_array($extra)) {

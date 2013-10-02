@@ -35,49 +35,49 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      *
      * @var \Magento\Customer\Model\Customer
      */
-    protected $_currentCustomer = null;
+    protected $_currentCustomer;
 
     /**
      * Customer Wishlist instance
      *
      * @var \Magento\Wishlist\Model\Wishlist
      */
-    protected $_wishlist = null;
+    protected $_wishlist;
 
     /**
      * Wishlist Product Items Collection
      *
      * @var \Magento\Wishlist\Model\Resource\Item\Collection
      */
-    protected $_productCollection = null;
+    protected $_productCollection;
 
     /**
      * Wishlist Items Collection
      *
      * @var \Magento\Wishlist\Model\Resource\Item\Collection
      */
-    protected $_wishlistItemCollection = null;
+    protected $_wishlistItemCollection;
 
     /**
      * Core data
      *
      * @var \Magento\Core\Helper\Data
      */
-    protected $_coreData = null;
+    protected $_coreData;
 
     /**
      * Core event manager proxy
      *
      * @var \Magento\Core\Model\Event\Manager
      */
-    protected $_eventManager = null;
+    protected $_eventManager;
 
     /**
      * Core registry
      *
      * @var \Magento\Core\Model\Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
 
     /**
      * Core store config
@@ -87,34 +87,48 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_coreStoreConfig;
 
     /**
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @var \Magento\Wishlist\Model\WishlistFactory
+     */
+    protected $_wishlistFactory;
+
+    /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Customer\Model\SessionProxy $customerSession
+     * @param \Magento\Wishlist\Model\WishlistFactory $wishlistFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Helper\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\Core\Model\Store\Config $coreStoreConfig
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Customer\Model\SessionProxy $customerSession,
+        \Magento\Wishlist\Model\WishlistFactory $wishlistFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_eventManager = $eventManager;
         $this->_coreData = $coreData;
-         $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_customerSession = $customerSession;
+        $this->_wishlistFactory = $wishlistFactory;
+        $this->_storeManager = $storeManager;
         parent::__construct($context);
-    }
-
-    /**
-     * Retreive customer session
-     *
-     * @return \Magento\Customer\Model\Session
-     */
-    protected function _getCustomerSession()
-    {
-        return \Mage::getSingleton('Magento\Customer\Model\Session');
     }
 
     /**
@@ -124,7 +138,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     protected function _isCustomerLogIn()
     {
-        return $this->_getCustomerSession()->isLoggedIn();
+        return $this->_customerSession->isLoggedIn();
     }
 
     /**
@@ -154,8 +168,8 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getCustomer()
     {
-        if (!$this->_currentCustomer && $this->_getCustomerSession()->isLoggedIn()) {
-            $this->_currentCustomer = $this->_getCustomerSession()->getCustomer();
+        if (!$this->_currentCustomer && $this->_customerSession->isLoggedIn()) {
+            $this->_currentCustomer = $this->_customerSession->getCustomer();
         }
         return $this->_currentCustomer;
     }
@@ -173,7 +187,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
             } elseif ($this->_coreRegistry->registry('wishlist')) {
                 $this->_wishlist = $this->_coreRegistry->registry('wishlist');
             } else {
-                $this->_wishlist = \Mage::getModel('Magento\Wishlist\Model\Wishlist');
+                $this->_wishlist = $this->_wishlistFactory->create();
                 if ($this->getCustomer()) {
                     $this->_wishlist->loadByCustomer($this->getCustomer());
                 }
@@ -190,19 +204,19 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getItemCount()
     {
-        $storedDisplayType = $this->_getCustomerSession()->getWishlistDisplayType();
+        $storedDisplayType = $this->_customerSession->getWishlistDisplayType();
         $currentDisplayType = $this->_coreStoreConfig->getConfig(self::XML_PATH_WISHLIST_LINK_USE_QTY);
 
-        $storedDisplayOutOfStockProducts = $this->_getCustomerSession()->getDisplayOutOfStockProducts();
+        $storedDisplayOutOfStockProducts = $this->_customerSession->getDisplayOutOfStockProducts();
         $currentDisplayOutOfStockProducts = $this->_coreStoreConfig->getConfig(self::XML_PATH_CATALOGINVENTORY_SHOW_OUT_OF_STOCK);
-        if (!$this->_getCustomerSession()->hasWishlistItemCount()
+        if (!$this->_customerSession->hasWishlistItemCount()
                 || ($currentDisplayType != $storedDisplayType)
-                || $this->_getCustomerSession()->hasDisplayOutOfStockProducts()
+                || $this->_customerSession->hasDisplayOutOfStockProducts()
                 || ($currentDisplayOutOfStockProducts != $storedDisplayOutOfStockProducts)) {
             $this->calculate();
         }
 
-        return $this->_getCustomerSession()->getWishlistItemCount();
+        return $this->_customerSession->getWishlistItemCount();
     }
 
     /**
@@ -250,7 +264,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
                 $storeId = $product->getUrlDataObject()->getStoreId();
             }
         }
-        return \Mage::app()->getStore($storeId);
+        return $this->_storeManager->getStore($storeId);
     }
 
     /**
@@ -361,9 +375,8 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getAddToCartUrl($item)
     {
-        $urlParamName = \Magento\Core\Controller\Front\Action::PARAM_NAME_URL_ENCODED;
         $continueUrl  = $this->_coreData->urlEncode(
-            \Mage::getUrl('*/*/*', array(
+            $this->_getUrl('*/*/*', array(
                 '_current'      => true,
                 '_use_rewrite'  => true,
                 '_store_to_url' => true,
@@ -386,7 +399,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getSharedAddToCartUrl($item)
     {
-        $continueUrl  = $this->_coreData->urlEncode(\Mage::getUrl('*/*/*', array(
+        $continueUrl  = $this->_coreData->urlEncode($this->_getUrl('*/*/*', array(
             '_current'      => true,
             '_use_rewrite'  => true,
             '_store_to_url' => true,
@@ -515,7 +528,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function calculate()
     {
-        $session = $this->_getCustomerSession();
         $count = 0;
         if ($this->getCustomer()) {
             $collection = $this->getWishlistItemCollection()->setInStockFilter(true);
@@ -524,12 +536,13 @@ class Data extends \Magento\Core\Helper\AbstractHelper
             } else {
                 $count = $collection->getSize();
             }
-            $session->setWishlistDisplayType($this->_coreStoreConfig->getConfig(self::XML_PATH_WISHLIST_LINK_USE_QTY));
-            $session->setDisplayOutOfStockProducts(
+            $this->_customerSession
+                ->setWishlistDisplayType($this->_coreStoreConfig->getConfig(self::XML_PATH_WISHLIST_LINK_USE_QTY));
+            $this->_customerSession->setDisplayOutOfStockProducts(
                 $this->_coreStoreConfig->getConfig(self::XML_PATH_CATALOGINVENTORY_SHOW_OUT_OF_STOCK)
             );
         }
-        $session->setWishlistItemCount($count);
+        $this->_customerSession->setWishlistItemCount($count);
         $this->_eventManager->dispatch('wishlist_items_renewed');
         return $this;
     }

@@ -16,18 +16,18 @@ namespace Magento\Backend\Model\Config\Source\Storage\Media;
 class Database implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
-     * @var \Magento\Core\Model\Config\Local
+     * @var \Magento\Core\Model\ConfigInterface
      */
-    protected $_localConfig;
+    protected $_config;
 
     /**
-     * @param \Magento\Core\Model\Config\Local $localConfig
+     * @param \Magento\Core\Model\ConfigInterface $config
      */
-    public function __construct(\Magento\Core\Model\Config\Local $localConfig)
+    public function __construct(\Magento\Core\Model\ConfigInterface $config)
     {
-        $this->_localConfig = $localConfig;
+        $this->_config = $config;
     }
-
+    
     /**
      * Options getter
      *
@@ -36,7 +36,7 @@ class Database implements \Magento\Core\Model\Option\ArrayInterface
     public function toOptionArray()
     {
         $connectionOptions = array();
-        foreach (array_keys($this->_localConfig->getConnections()) as $connectionName) {
+        foreach (array_keys($this->_config->getConnections()) as $connectionName) {
             $connectionOptions[] = array('value' => $connectionName, 'label' => $connectionName);
         }
         sort($connectionOptions);

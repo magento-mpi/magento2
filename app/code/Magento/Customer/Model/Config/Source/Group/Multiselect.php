@@ -20,6 +20,19 @@ class Multiselect implements \Magento\Core\Model\Option\ArrayInterface
     protected $_options;
 
     /**
+     * @var \Magento\Customer\Model\Resource\Group\CollectionFactory
+     */
+    protected $_groupsFactory;
+
+    /**
+     * @param \Magento\Customer\Model\Resource\Group\CollectionFactory $groupsFactory
+     */
+    public function __construct(\Magento\Customer\Model\Resource\Group\CollectionFactory $groupsFactory)
+    {
+        $this->_groupsFactory = $groupsFactory;
+    }
+
+    /**
      * Retrieve customer groups as array
      *
      * @return array
@@ -27,10 +40,16 @@ class Multiselect implements \Magento\Core\Model\Option\ArrayInterface
     public function toOptionArray()
     {
         if (!$this->_options) {
-            $this->_options = \Mage::getResourceModel('Magento\Customer\Model\Resource\Group\Collection')
-                ->setRealGroupsFilter()
-                ->loadData()->toOptionArray();
+            $this->_options = $this->_getCustomerGroupsCollection()->setRealGroupsFilter()->loadData()->toOptionArray();
         }
         return $this->_options;
+    }
+
+    /**
+     * @return \Magento\Customer\Model\Resource\Group\Collection
+     */
+    protected function _getCustomerGroupsCollection()
+    {
+        return $this->_groupsFactory->create();
     }
 }

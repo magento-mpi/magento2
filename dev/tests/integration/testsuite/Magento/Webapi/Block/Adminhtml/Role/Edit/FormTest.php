@@ -9,7 +9,7 @@
  */
 namespace Magento\Webapi\Block\Adminhtml\Role\Edit;
 
-class FormTest extends \Magento\Webapi\Block\Adminhtml\FormTestAbstract
+class FormTest extends \Magento\Webapi\Block\Adminhtml\AbstractFormTest
 {
     protected $_formClass = 'Magento\Webapi\Block\Adminhtml\Role\Edit\Form';
 

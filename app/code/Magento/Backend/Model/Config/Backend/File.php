@@ -40,13 +40,19 @@ class File extends \Magento\Core\Model\Config\Value
     protected $_uploaderFactory;
 
     /**
+     * @var \Magento\Core\Model\Dir
+     */
+    protected $_dir;
+
+    /**
      * @param \Magento\Core\Model\File\UploaderFactory $uploaderFactory
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\Core\Model\Config $config
-     * @param \Magento\Backend\Model\Config\Backend\File\RequestData_Interface $requestData
+     * @param \Magento\Backend\Model\Config\Backend\File\RequestData\RequestDataInterface $requestData
      * @param \Magento\Filesystem $filesystem
+     * @param \Magento\Core\Model\Dir $dir
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -61,33 +67,27 @@ class File extends \Magento\Core\Model\Config\Value
         \Magento\Core\Model\Config $config,
         \Magento\Backend\Model\Config\Backend\File\RequestData\RequestDataInterface $requestData,
         \Magento\Filesystem $filesystem,
+        \Magento\Core\Model\Dir $dir,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_uploaderFactory = $uploaderFactory;
-        parent::__construct(
-            $context,
-            $registry,
-            $storeManager,
-            $config,
-            $resource,
-            $resourceCollection,
-            $data
-        );
         $this->_requestData = $requestData;
         $this->_filesystem = $filesystem;
+        $this->_dir = $dir;
+        parent::__construct($context, $registry, $storeManager, $config, $resource, $resourceCollection, $data);
     }
 
     /**
      * Save uploaded file before saving config value
      *
      * @return \Magento\Backend\Model\Config\Backend\File
+     * @throws \Magento\Core\Exception
      */
     protected function _beforeSave()
     {
         $value = $this->getValue();
-
         $tmpName = $this->_requestData->getTmpName($this->getPath());
         $file = array();
         if ($tmpName) {
@@ -105,10 +105,8 @@ class File extends \Magento\Core\Model\Config\Value
                 $uploader->setAllowRenameFiles(true);
                 $uploader->addValidateCallback('size', $this, 'validateMaxSize');
                 $result = $uploader->save($uploadDir);
-
             } catch (\Exception $e) {
-                \Mage::throwException($e->getMessage());
-                return $this;
+                throw new \Magento\Core\Exception($e->getMessage());
             }
 
             $filename = $result['file'];
@@ -139,9 +137,8 @@ class File extends \Magento\Core\Model\Config\Value
     {
         if ($this->_maxFileSize > 0
             && $this->_filesystem->getFileSize($filePath, dirname($filePath)) > ($this->_maxFileSize * 1024)) {
-            throw \Mage::exception(
-                'Magento_Core', __('The file you\'re uploading exceeds the server size limit of %1 kilobytes.',
-                         $this->_maxFileSize)
+            throw new \Magento\Core\Exception(
+                __('The file you\'re uploading exceeds the server size limit of %1 kilobytes.', $this->_maxFileSize)
             );
         }
     }
@@ -162,7 +159,7 @@ class File extends \Magento\Core\Model\Config\Value
      * Return path to directory for upload file
      *
      * @return string
-     * @throw \Magento\Core\Exception
+     * @throws \Magento\Core\Exception
      */
     protected function _getUploadDir()
     {
@@ -170,7 +167,7 @@ class File extends \Magento\Core\Model\Config\Value
         /* @var $fieldConfig \Magento\Simplexml\Element */
 
         if (!array_key_exists('upload_dir', $fieldConfig)) {
-            \Mage::throwException(
+            throw new \Magento\Core\Exception(
                 __('The base directory to upload file is not specified.')
             );
         }
@@ -203,7 +200,7 @@ class File extends \Magento\Core\Model\Config\Value
      */
     protected function _getUploadRoot($token)
     {
-        return \Mage::getBaseDir('media');
+        return $this->_dir->getDir(\Magento\Core\Model\Dir::MEDIA);
     }
 
     /**

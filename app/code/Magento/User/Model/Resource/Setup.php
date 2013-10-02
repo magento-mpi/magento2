@@ -44,6 +44,16 @@ class Setup extends \Magento\Core\Model\Resource\Setup
      */
     protected $_rulesFactory;
 
+    /**
+     * @param \Magento\Core\Model\Resource\Setup\Context $context
+     * @param \Magento\User\Model\Resource\Role\CollectionFactory $roleCollectionFactory
+     * @param \Magento\User\Model\Resource\Rules\CollectionFactory $rulesCollectionFactory
+     * @param \Magento\User\Model\RoleFactory $roleFactory
+     * @param \Magento\User\Model\RulesFactory $rulesFactory
+     * @param $resourceName
+     * @param string $moduleName
+     * @param string $connectionName
+     */
     public function __construct(
         \Magento\Core\Model\Resource\Setup\Context $context,
         \Magento\User\Model\Resource\Role\CollectionFactory $roleCollectionFactory,
@@ -60,7 +70,6 @@ class Setup extends \Magento\Core\Model\Resource\Setup
         $this->_rulesFactory = $rulesFactory;
         parent::__construct($context, $resourceName, $moduleName, $connectionName);
     }
-
 
     /**
      * Creates role collection

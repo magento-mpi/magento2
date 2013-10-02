@@ -27,10 +27,10 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
 
     /**
      * @param \Magento\Core\Model\Resource\Setup\Context $context
-     * @param \Magento\Core\Model\Config $config
      * @param \Magento\Core\Model\CacheInterface $cache
-     * @param \Magento\Core\Model\Resource\Setup\MigrationFactory $migrationFactory
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGrCollFactory
+     * @param \Magento\Core\Helper\Data $coreHelper
+     * @param \Magento\Core\Model\Config $config
      * @param \Magento\Catalog\Model\Product\TypeFactory $productTypeFactory
      * @param \Magento\Catalog\Model\Resource\SetupFactory $catalogSetupFactory
      * @param string $resourceName
@@ -39,10 +39,10 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
      */
     public function __construct(
         \Magento\Core\Model\Resource\Setup\Context $context,
-        \Magento\Core\Model\Config $config,
         \Magento\Core\Model\CacheInterface $cache,
-        \Magento\Core\Model\Resource\Setup\MigrationFactory $migrationFactory,
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGrCollFactory,
+        \Magento\Core\Helper\Data $coreHelper,
+        \Magento\Core\Model\Config $config,
         \Magento\Catalog\Model\Product\TypeFactory $productTypeFactory,
         \Magento\Catalog\Model\Resource\SetupFactory $catalogSetupFactory,
         $resourceName,
@@ -51,8 +51,8 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
     ) {
         $this->_productTypeFactory = $productTypeFactory;
         $this->_catalogSetupFactory = $catalogSetupFactory;
-        parent::__construct($context, $config, $cache, $migrationFactory, $coreData,
-            $resourceName, $moduleName, $connectionName
+        parent::__construct(
+            $context, $cache, $attrGrCollFactory, $coreHelper, $config, $resourceName, $moduleName, $connectionName
         );
     }
 

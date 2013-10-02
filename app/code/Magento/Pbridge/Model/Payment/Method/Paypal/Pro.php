@@ -16,34 +16,41 @@ namespace Magento\Pbridge\Model\Payment\Method\Paypal;
 
 class Pro extends \Magento\Paypal\Model\Pro
 {
-
     /**
      * Payment Bridge Payment Method Instance
      *
      * @var \Magento\Pbridge\Model\Payment\Method\Pbridge
      */
-    protected $_pbridgeMethodInstance = null;
+    protected $_pbridgeMethodInstance;
 
     /**
      * Paypal pbridge payment method
+     *
      * @var \Magento\Pbridge\Model\Payment\Method\Paypal
      */
-    protected $_pbridgePaymentMethod = null;
+    protected $_pbridgePaymentMethod;
 
     /**
      * Payment data
      *
      * @var \Magento\Payment\Helper\Data
      */
-    protected $_paymentData = null;
+    protected $_paymentData;
 
     /**
+     * @param \Magento\Paypal\Model\Config\Factory $configFactory
+     * @param \Magento\Paypal\Model\Api\Type\Factory $apiFactory
+     * @param \Magento\Paypal\Model\InfoFactory $infoFactory
      * @param \Magento\Payment\Helper\Data $paymentData
      */
     public function __construct(
+        \Magento\Paypal\Model\Config\Factory $configFactory,
+        \Magento\Paypal\Model\Api\Type\Factory $apiFactory,
+        \Magento\Paypal\Model\InfoFactory $infoFactory,
         \Magento\Payment\Helper\Data $paymentData
     ) {
         $this->_paymentData = $paymentData;
+        parent::__construct($configFactory, $apiFactory, $infoFactory);
     }
 
     /**
@@ -95,6 +102,7 @@ class Pro extends \Magento\Paypal\Model\Pro
      *
      * @param \Magento\Object $payment
      * @param float $amount
+     * @return \Magento\Object|\Magento\Payment\Model\AbstractModel|void
      */
     public function refund(\Magento\Object $payment, $amount)
     {
@@ -114,11 +122,12 @@ class Pro extends \Magento\Paypal\Model\Pro
      * Refund a capture transaction
      *
      * @param \Magento\Object $payment
+     * @return \Magento\Payment\Model\AbstractModel|null
      */
     public function void(\Magento\Object $payment)
     {
         $result = $this->getPbridgeMethodInstance()->void($payment);
-        \Mage::getModel('Magento\Paypal\Model\Info')->importToPayment(new \Magento\Object($result), $payment);
+        $this->_infoFactory->create()->importToPayment(new \Magento\Object($result), $payment);
         return $result;
     }
 
@@ -131,7 +140,7 @@ class Pro extends \Magento\Paypal\Model\Pro
     {
         if (!$payment->getOrder()->getInvoiceCollection()->count()) {
             $result = $this->getPbridgeMethodInstance()->void($payment);
-            \Mage::getModel('Magento\Paypal\Model\Info')->importToPayment(new \Magento\Object($result), $payment);
+            $this->_infoFactory->create()->importToPayment(new \Magento\Object($result), $payment);
         }
     }
 }

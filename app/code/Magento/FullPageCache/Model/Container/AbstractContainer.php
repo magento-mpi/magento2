@@ -59,12 +59,18 @@ abstract class AbstractContainer implements \Magento\FullPageCache\Model\Contain
     protected $_coreStoreConfig;
 
     /**
+     * @var \Magento\Core\Model\Layout
+     */
+    protected $_layout;
+
+    /**
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\FullPageCache\Model\Cache $fpcCache
      * @param \Magento\FullPageCache\Model\Container\Placeholder $placeholder
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\FullPageCache\Helper\Url $urlHelper
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\Layout $layout
      */
     public function __construct(
         \Magento\Core\Model\Event\Manager $eventManager,
@@ -72,7 +78,8 @@ abstract class AbstractContainer implements \Magento\FullPageCache\Model\Contain
         \Magento\FullPageCache\Model\Container\Placeholder $placeholder,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\FullPageCache\Helper\Url $urlHelper,
-        \Magento\Core\Model\Store\Config $coreStoreConfig
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\Layout $layout
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_placeholder = $placeholder;
@@ -80,6 +87,7 @@ abstract class AbstractContainer implements \Magento\FullPageCache\Model\Contain
         $this->_eventManager = $eventManager;
         $this->_coreRegistry = $coreRegistry;
         $this->_urlHelper = $urlHelper;
+        $this->_layout = $layout;
     }
 
     /**
@@ -131,7 +139,7 @@ abstract class AbstractContainer implements \Magento\FullPageCache\Model\Contain
         }
 
         if ($this->_coreStoreConfig->getConfig(\Magento\FullPageCache\Model\Processor::XML_PATH_CACHE_DEBUG)) {
-            $debugBlock = \Mage::app()->getLayout()->createBlock('Magento\FullPageCache\Block\Debug');
+            $debugBlock = $this->_layout->createBlock('Magento\FullPageCache\Block\Debug');
             $debugBlock->setDynamicBlockContent($blockContent);
             $this->_applyToContent($content, $debugBlock->toHtml());
         } else {
@@ -215,7 +223,7 @@ abstract class AbstractContainer implements \Magento\FullPageCache\Model\Contain
         /**
          * Replace all occurrences of session_id with unique marker
          */
-        \Magento\FullPageCache\Helper\Url::replaceSid($data);
+        $this->_urlHelper->replaceSid($data);
 
         $this->_fpcCache->save($data, $id, $tags, $lifetime);
         return $this;
@@ -305,9 +313,9 @@ abstract class AbstractContainer implements \Magento\FullPageCache\Model\Contain
     protected function _getPlaceHolderBlock()
     {
         $blockName = $this->_placeholder->getAttribute('block');
-        $block = \Mage::app()->getLayout()->createBlock($blockName);
+        $block = $this->_layout->createBlock($blockName);
         $block->setTemplate($this->_placeholder->getAttribute('template'));
-        $block->setLayout(\Mage::app()->getLayout());
+        $block->setLayout($this->_layout);
         $block->setSkipRenderTag(true);
         return $block;
     }

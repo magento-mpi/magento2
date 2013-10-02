@@ -63,17 +63,20 @@ class Storage
     protected $_byPagesIterator;
 
     /**
-     * Constructor
-     *
+     * @param \Magento\Customer\Model\Resource\Customer\CollectionFactory $collectionFactory
+     * @param \Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory $colIteratorFactory
      * @param array $data
      */
-    public function __construct(array $data = array())
-    {
+    public function __construct(
+        \Magento\Customer\Model\Resource\Customer\CollectionFactory $collectionFactory,
+        \Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory $colIteratorFactory,
+        array $data = array()
+    ) {
         $this->_customerCollection = isset($data['customer_collection']) ? $data['customer_collection']
-            : \Mage::getResourceModel('Magento\Customer\Model\Resource\Customer\Collection');
+            : $collectionFactory->create();
         $this->_pageSize = isset($data['page_size']) ? $data['page_size'] : 0;
         $this->_byPagesIterator = isset($data['collection_by_pages_iterator']) ? $data['collection_by_pages_iterator']
-            : \Mage::getResourceModel('Magento\ImportExport\Model\Resource\CollectionByPagesIterator');
+            : $colIteratorFactory->create();
     }
 
     /**

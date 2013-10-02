@@ -52,12 +52,13 @@ class Flag extends \Magento\Core\Model\AbstractModel
     /**
      * Processing object before save data
      *
+     * @throws \Magento\Core\Exception
      * @return \Magento\Core\Model\Flag
      */
     protected function _beforeSave()
     {
         if (is_null($this->_flagCode)) {
-            \Mage::throwException(__('Please define flag code.'));
+            throw new \Magento\Core\Exception(__('Please define flag code.'));
         }
 
         $this->setFlagCode($this->_flagCode);
@@ -94,12 +95,13 @@ class Flag extends \Magento\Core\Model\AbstractModel
     /**
      * load self (load by flag code)
      *
+     * @throws \Magento\Core\Exception
      * @return \Magento\Core\Model\Flag
      */
     public function loadSelf()
     {
         if (is_null($this->_flagCode)) {
-            \Mage::throwException(__('Please define flag code.'));
+            throw new \Magento\Core\Exception(__('Please define flag code.'));
         }
 
         return $this->load($this->_flagCode, 'flag_code');

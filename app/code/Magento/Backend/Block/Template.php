@@ -8,17 +8,11 @@
  * @license     {license_link}
  */
 
-/**
- * Backend abstract block
- *
- * @category   Magento
- * @package    Magento_Backend
- * @author     Magento Core Team <core@magentocommerce.com>
- *
- */
 namespace Magento\Backend\Block;
 
 /**
+ * Backend abstract block
+ *
  * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
 class Template extends \Magento\Core\Block\Template
@@ -61,7 +55,7 @@ class Template extends \Magento\Core\Block\Template
      */
     public function getFormKey()
     {
-        return \Mage::getSingleton('Magento\Core\Model\Session')->getFormKey();
+        return $this->_session->getFormKey();
     }
 
     /**

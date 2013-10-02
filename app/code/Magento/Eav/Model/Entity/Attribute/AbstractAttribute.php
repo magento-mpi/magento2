@@ -81,23 +81,63 @@ abstract class AbstractAttribute
     protected $_coreData = null;
 
     /**
-     * @param \Magento\Core\Helper\Data $coreData
+     * @var \Magento\Eav\Model\Config
+     */
+    protected $_eavConfig;
+
+    /**
+     * @var \Magento\Eav\Model\Entity\TypeFactory
+     */
+    protected $_eavTypeFactory;
+
+    /**
+     * @var \Magento\Core\Model\StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Eav\Model\Resource\Helper
+     */
+    protected $_resourceHelper;
+
+    /**
+     * @var \Magento\Validator\UniversalFactory
+     */
+    protected $_universalFactory;
+
+    /**
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Eav\Model\Entity\TypeFactory $eavTypeFactory
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Eav\Model\Resource\Helper $resourceHelper
+     * @param \Magento\Validator\UniversalFactory $universalFactory
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Eav\Model\Entity\TypeFactory $eavTypeFactory,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Eav\Model\Resource\Helper $resourceHelper,
+        \Magento\Validator\UniversalFactory $universalFactory,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_coreData = $coreData;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        $this->_coreData = $coreData;
+        $this->_eavConfig = $eavConfig;
+        $this->_eavTypeFactory = $eavTypeFactory;
+        $this->_storeManager = $storeManager;
+        $this->_resourceHelper = $resourceHelper;
+        $this->_universalFactory = $universalFactory;
     }
 
     /**
@@ -122,13 +162,13 @@ abstract class AbstractAttribute
         if (is_numeric($entityType)) {
             $entityTypeId = $entityType;
         } elseif (is_string($entityType)) {
-            $entityType = \Mage::getModel('Magento\Eav\Model\Entity\Type')->loadByCode($entityType);
+            $entityType = $this->_eavTypeFactory->create()->loadByCode($entityType);
         }
         if ($entityType instanceof \Magento\Eav\Model\Entity\Type) {
             $entityTypeId = $entityType->getId();
         }
         if (empty($entityTypeId)) {
-            throw \Mage::exception('Magento_Eav', __('Invalid entity supplied'));
+            throw new \Magento\Eav\Exception(__('Invalid entity supplied'));
         }
         $this->_getResource()->loadByCode($this, $entityTypeId, $code);
         $this->_afterLoad();
@@ -286,7 +326,7 @@ abstract class AbstractAttribute
      */
     public function getEntityType()
     {
-        return \Mage::getSingleton('Magento\Eav\Model\Config')->getEntityType($this->getEntityTypeId());
+        return $this->_eavConfig->getEntityType($this->getEntityTypeId());
     }
 
     /**
@@ -336,9 +376,9 @@ abstract class AbstractAttribute
             if (!$this->getBackendModel()) {
                 $this->setBackendModel($this->_getDefaultBackendModel());
             }
-            $backend = \Mage::getModel($this->getBackendModel());
+            $backend = $this->_universalFactory->create($this->getBackendModel());
             if (!$backend) {
-                throw \Mage::exception('Magento_Eav', 'Invalid backend model specified: ' . $this->getBackendModel());
+                throw new \Magento\Eav\Exception(__('Invalid backend model specified: ' . $this->getBackendModel()));
             }
             $this->_backend = $backend->setAttribute($this);
         }
@@ -357,7 +397,7 @@ abstract class AbstractAttribute
             if (!$this->getFrontendModel()) {
                 $this->setFrontendModel($this->_getDefaultFrontendModel());
             }
-            $this->_frontend = \Mage::getModel($this->getFrontendModel())
+            $this->_frontend = $this->_universalFactory->create($this->getFrontendModel())
                 ->setAttribute($this);
         }
 
@@ -376,9 +416,9 @@ abstract class AbstractAttribute
             if (!$this->getSourceModel()) {
                 $this->setSourceModel($this->_getDefaultSourceModel());
             }
-            $source = \Mage::getModel($this->getSourceModel());
+            $source = $this->_universalFactory->create($this->getSourceModel());
             if (!$source) {
-                throw \Mage::exception('Magento_Eav',
+                throw new \Magento\Eav\Exception(
                     __('Source model "%1" not found for attribute "%2"',$this->getSourceModel(), $this->getAttributeCode())
                 );
             }
@@ -540,7 +580,6 @@ abstract class AbstractAttribute
      */
     public function _getFlatColumnsDdlDefinition()
     {
-        $helper  = \Mage::getResourceHelper('Magento_Eav');
         $columns = array();
         switch ($this->getBackendType()) {
             case 'static':
@@ -553,7 +592,7 @@ abstract class AbstractAttribute
                 $size = ($prop['LENGTH'] ? $prop['LENGTH'] : null);
 
                 $columns[$this->getAttributeCode()] = array(
-                    'type'      => $helper->getDdlTypeByColumnType($type),
+                    'type'      => $this->_resourceHelper->getDdlTypeByColumnType($type),
                     'length'    => $size,
                     'unsigned'  => $prop['UNSIGNED'] ? true: false,
                     'nullable'   => $prop['NULLABLE'],
@@ -769,7 +808,7 @@ abstract class AbstractAttribute
      */
     public function getFlatUpdateSelect($store = null) {
         if ($store === null) {
-            foreach (\Mage::app()->getStores() as $store) {
+            foreach ($this->_storeManager->getStores() as $store) {
                 $this->getFlatUpdateSelect($store->getId());
             }
             return $this;

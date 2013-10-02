@@ -43,10 +43,12 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $this->_registryMock = $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false);
 
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $context = $this->getMock('Magento\Core\Helper\Context', array(), array(), '', false);
         $this->_helper = $objectManager->getObject('Magento\GoogleAdwords\Helper\Data', array(
             'config' => $this->_configMock,
             'storeConfig' => $this->_storeConfigMock,
             'registry' => $this->_registryMock,
+            'context' => $context
         ));
     }
 

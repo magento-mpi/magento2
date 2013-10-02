@@ -51,13 +51,20 @@ class Store extends \Magento\Object
     private $_isAdminScopeAllowed = true;
 
     /**
+     * @var \Magento\Core\Model\StoreManager
+     */
+    protected $_storeManager;
+
+    /**
      * Init model
      * Load Website, Group and Store collections
      *
+     * @param \Magento\Core\Model\StoreManager $storeManager
      * @return \Magento\Core\Model\System\Store
      */
-    public function __construct()
+    public function __construct(\Magento\Core\Model\StoreManager $storeManager)
     {
+        $this->_storeManager = $storeManager;
         return $this->reload();
     }
 
@@ -68,7 +75,7 @@ class Store extends \Magento\Object
      */
     protected function _loadWebsiteCollection()
     {
-        $this->_websiteCollection = \Mage::app()->getWebsites();
+        $this->_websiteCollection = $this->_storeManager->getWebsites();
         return $this;
     }
 
@@ -80,7 +87,7 @@ class Store extends \Magento\Object
     protected function _loadGroupCollection()
     {
         $this->_groupCollection = array();
-        foreach (\Mage::app()->getWebsites() as $website) {
+        foreach ($this->_storeManager->getWebsites() as $website) {
             foreach ($website->getGroups() as $group) {
                 $this->_groupCollection[$group->getId()] = $group;
             }
@@ -95,7 +102,7 @@ class Store extends \Magento\Object
      */
     protected function _loadStoreCollection()
     {
-        $this->_storeCollection = \Mage::app()->getStores();
+        $this->_storeCollection = $this->_storeManager->getStores();
         return $this;
     }
 
@@ -269,7 +276,7 @@ class Store extends \Magento\Object
     public function getWebsiteOptionHash($withDefault = false, $attribute = 'name')
     {
         $options = array();
-        foreach (\Mage::app()->getWebsites((bool)$withDefault && $this->_isAdminScopeAllowed) as $website) {
+        foreach ($this->_storeManager->getWebsites((bool)$withDefault && $this->_isAdminScopeAllowed) as $website) {
             $options[$website->getId()] = $website->getDataUsingMethod($attribute);
         }
         return $options;
@@ -285,7 +292,7 @@ class Store extends \Magento\Object
     public function getStoreOptionHash($withDefault = false, $attribute = 'name')
     {
         $options = array();
-        foreach (\Mage::app()->getStores((bool)$withDefault && $this->_isAdminScopeAllowed) as $store) {
+        foreach ($this->_storeManager->getStores((bool)$withDefault && $this->_isAdminScopeAllowed) as $store) {
             $options[$store->getId()] = $store->getDataUsingMethod($attribute);
         }
         return $options;

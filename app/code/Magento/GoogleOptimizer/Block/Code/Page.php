@@ -9,7 +9,7 @@
  */
 namespace Magento\GoogleOptimizer\Block\Code;
 
-class Page extends \Magento\GoogleOptimizer\Block\CodeAbstract
+class Page extends \Magento\GoogleOptimizer\Block\AbstractCode
 {
     /**
      * @var \Magento\Cms\Model\Page

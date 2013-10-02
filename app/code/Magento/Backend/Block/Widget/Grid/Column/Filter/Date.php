@@ -10,17 +10,15 @@
 
 /**
  * Date grid column filter
- *
- * @category   Magento
- * @package    Magento_Backend
- * @author      Magento Core Team <core@magentocommerce.com>
- * @todo        date format
  */
 namespace Magento\Backend\Block\Widget\Grid\Column\Filter;
 
 class Date
     extends \Magento\Backend\Block\Widget\Grid\Column\Filter\AbstractFilter
 {
+    /**
+     * @var \Magento\Core\Model\LocaleInterface
+     */
     protected $_locale;
 
     /**
@@ -28,20 +26,25 @@ class Date
      *
      * @var \Magento\Core\Helper\Data
      */
-    protected $_coreData = null;
+    protected $_coreData;
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Model\Resource\Helper $resourceHelper
      * @param \Magento\Backend\Block\Context $context
+     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Model\Resource\Helper $resourceHelper,
         \Magento\Backend\Block\Context $context,
+        \Magento\Core\Model\LocaleInterface $locale,
         array $data = array()
     ) {
         $this->_coreData = $coreData;
-        parent::__construct($context, $data);
+        $this->_locale = $locale;
+        parent::__construct($context, $resourceHelper, $data);
     }
 
     protected function _prepareLayout()
@@ -143,9 +146,6 @@ class Date
      */
     public function getLocale()
     {
-        if (!$this->_locale) {
-            $this->_locale = \Mage::app()->getLocale();
-        }
         return $this->_locale;
     }
 
@@ -163,7 +163,7 @@ class Date
 
             //set default timezone for store (admin)
             $dateObj->setTimezone(
-                \Mage::app()->getStore()->getConfig(\Magento\Core\Model\LocaleInterface::XML_PATH_DEFAULT_TIMEZONE)
+                $this->_storeConfig->getConfig(\Magento\Core\Model\LocaleInterface::XML_PATH_DEFAULT_TIMEZONE)
             );
 
             //set beginning of day

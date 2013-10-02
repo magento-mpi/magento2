@@ -40,6 +40,9 @@ class DataTest extends \PHPUnit_Framework_TestCase
             $this->_configMock,
             $this->_primaryConfigMock,
             $this->getMock('Magento\Core\Model\RouterList', array(), array(), '', false),
+            $this->getMock('Magento\Core\Model\AppProxy', array(), array(), '', false),
+            $this->getMock('Magento\Backend\Model\UrlProxy', array(), array(), '', false),
+            $this->getMock('Magento\Backend\Model\AuthProxy', array(), array(), '', false),
             'backend',
             'custom_backend'
         );
@@ -53,6 +56,9 @@ class DataTest extends \PHPUnit_Framework_TestCase
             $this->_configMock,
             $this->_primaryConfigMock,
             $this->getMock('Magento\Core\Model\RouterList', array(), array(), '', false),
+            $this->getMock('Magento\Core\Model\AppProxy', array(), array(), '', false),
+            $this->getMock('Magento\Backend\Model\UrlProxy', array(), array(), '', false),
+            $this->getMock('Magento\Backend\Model\AuthProxy', array(), array(), '', false),
             'backend',
             ''
         );

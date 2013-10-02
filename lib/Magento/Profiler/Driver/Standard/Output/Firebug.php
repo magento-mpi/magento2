@@ -9,7 +9,7 @@
  */
 namespace Magento\Profiler\Driver\Standard\Output;
 
-class Firebug extends \Magento\Profiler\Driver\Standard\OutputAbstract
+class Firebug extends \Magento\Profiler\Driver\Standard\AbstractOutput
 {
     /**
      * @var \Zend_Controller_Request_Abstract

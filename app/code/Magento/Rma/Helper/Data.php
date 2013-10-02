@@ -37,13 +37,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_allowedHashKeys = array('rma_id', 'track_id');
 
     /**
-     * Application model
-     *
-     * @var \Magento\Core\Model\App
-     */
-    protected $_app;
-
-    /**
      * Store config model
      *
      * @var \Magento\Core\Model\Store\ConfigInterface
@@ -219,7 +212,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     public function getReturnCreateUrl($order)
     {
         if ($this->_customerSession->isLoggedIn()) {
-            return $this->_getUrl('rma/returns/create', array('order_id' => $order->getId()));
+            return $this->_getUrl('rma/return/create', array('order_id' => $order->getId()));
         } else {
             return $this->_getUrl('rma/guest/create', array('order_id' => $order->getId()));
         }

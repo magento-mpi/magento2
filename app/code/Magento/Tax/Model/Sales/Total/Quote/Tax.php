@@ -61,12 +61,14 @@ class Tax extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
      * Class constructor
      */
     public function __construct(
-        \Magento\Tax\Helper\Data $taxData
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Tax\Model\Calculation $calculation,
+        \Magento\Tax\Model\Config $taxConfig
     ) {
         $this->setCode('tax');
         $this->_taxData = $taxData;
-        $this->_calculator  = \Mage::getSingleton('Magento\Tax\Model\Calculation');
-        $this->_config      = \Mage::getSingleton('Magento\Tax\Model\Config');
+        $this->_calculator = $calculation;
+        $this->_config = $taxConfig;
     }
 
     /**

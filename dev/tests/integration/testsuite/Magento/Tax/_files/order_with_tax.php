@@ -8,16 +8,15 @@
 
 require __DIR__ . '/../../../Magento/Sales/_files/order.php';
 
+$objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 /** @var \Magento\Sales\Model\Order $order */
-$order = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-    ->create('Magento\Sales\Model\Order');
+$order = $objectManager->create('Magento\Sales\Model\Order');
 $order->loadByIncrementId('100000001')
     ->setBaseToGlobalRate(2)
     ->save();
 
 /** @var \Magento\Tax\Model\Sales\Order\Tax $tax */
-$tax = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-    ->create('Magento\Tax\Model\Sales\Order\Tax');
+$tax = $objectManager->create('Magento\Tax\Model\Sales\Order\Tax');
 $tax->setData(array(
     'order_id'          => $order->getId(),
     'code'              => 'tax_code',

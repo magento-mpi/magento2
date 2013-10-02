@@ -20,15 +20,30 @@ namespace Magento\Install\Model;
 class Config
 {
 
-    /** @var  \Magento\Install\Model\Config\Data */
+    /**
+     * Config data model
+     *
+     * @var  \Magento\Install\Model\Config\Data
+     */
     protected $_dataStorage;
 
     /**
-     * @param \Magento\Install\Model\Config\Data $dataStorage
+     * Directory model
+     *
+     * @var \Magento\Core\Model\Dir
      */
-    public function __construct(\Magento\Install\Model\Config\Data $dataStorage)
+    protected $_coreDir;
+
+
+
+    /**
+     * @param \Magento\Install\Model\Config\Data $dataStorage
+     * @param \Magento\Core\Model\Dir $coreDir
+     */
+    public function __construct(\Magento\Install\Model\Config\Data $dataStorage, \Magento\Core\Model\Dir $coreDir)
     {
         $this->_dataStorage = $dataStorage;
+        $this->_coreDir = $coreDir;
     }
 
     /**
@@ -95,7 +110,7 @@ class Config
             $data['filesystem_prerequisites']['writables'] : array();
         foreach ($items as $nodeKey => $item) {
             $value = $item;
-            $value['path'] = \Mage::getBaseDir($nodeKey);
+            $value['path'] = $this->_coreDir->getDir($nodeKey);
             $paths[$nodeKey] = $value;
         }
 

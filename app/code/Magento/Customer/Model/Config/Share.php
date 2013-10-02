@@ -17,7 +17,8 @@
  */
 namespace Magento\Customer\Model\Config;
 
-class Share extends \Magento\Core\Model\Config\Value implements \Magento\Core\Model\Option\ArrayInterface
+class Share extends \Magento\Core\Model\Config\Value
+    implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
      * Xml config path to customers sharing scope value
@@ -40,6 +41,11 @@ class Share extends \Magento\Core\Model\Config\Value implements \Magento\Core\Mo
     protected $_coreStoreConfig;
 
     /**
+     * @var \Magento\Customer\Model\Resource\Customer
+     */
+    protected $_customerResource;
+
+    /**
      * Constructor
      *
      * @param \Magento\Core\Model\Context $context
@@ -47,6 +53,7 @@ class Share extends \Magento\Core\Model\Config\Value implements \Magento\Core\Mo
      * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\Core\Model\Config $config
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Customer\Model\Resource\CustomerProxy $customerResource
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -57,20 +64,14 @@ class Share extends \Magento\Core\Model\Config\Value implements \Magento\Core\Mo
         \Magento\Core\Model\StoreManager $storeManager,
         \Magento\Core\Model\Config $config,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Customer\Model\Resource\CustomerProxy $customerResource,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
-        parent::__construct(
-            $context,
-            $registry,
-            $storeManager,
-            $config,
-            $resource,
-            $resourceCollection,
-            $data
-        );
+        $this->_customerResource = $customerResource;
+        parent::__construct($context, $registry, $storeManager, $config, $resource, $resourceCollection, $data);
     }
 
     /**
@@ -116,9 +117,11 @@ class Share extends \Magento\Core\Model\Config\Value implements \Magento\Core\Mo
     {
         $value = $this->getValue();
         if ($value == self::SHARE_GLOBAL) {
-            if (\Mage::getResourceSingleton('Magento\Customer\Model\Resource\Customer')->findEmailDuplicates()) {
-                \Mage::throwException(
+            if ($this->_customerResource->findEmailDuplicates()) {
+                throw new \Magento\Core\Exception(
+                    //@codingStandardsIgnoreStart
                     __('Cannot share customer accounts globally because some customer accounts with the same emails exist on multiple websites and cannot be merged.')
+                    //@codingStandardsIgnoreEnd
                 );
             }
         }

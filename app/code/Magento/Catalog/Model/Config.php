@@ -50,14 +50,21 @@ class Config extends \Magento\Eav\Model\Config
     protected $_coreStoreConfig;
 
     /**
-     * Constructor
-     *
+     * @param \Magento\Core\Model\App $app
+     * @param \Magento\Eav\Model\Entity\TypeFactory $entityTypeFactory
+     * @param \Magento\Core\Model\Cache\StateInterface $cacheState
+     * @param \Magento\Validator\UniversalFactory $universalFactory
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      */
     public function __construct(
+        \Magento\Core\Model\App $app,
+        \Magento\Eav\Model\Entity\TypeFactory $entityTypeFactory,
+        \Magento\Core\Model\Cache\StateInterface $cacheState,
+        \Magento\Validator\UniversalFactory $universalFactory,
         \Magento\Core\Model\Store\Config $coreStoreConfig
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
+        parent::__construct($app, $entityTypeFactory, $cacheState, $universalFactory);
     }
 
     /**

@@ -11,7 +11,7 @@
 namespace Magento\Test\Tools\Migration\Acl\Db\Logger;
 
 require_once realpath(__DIR__ . '/../../../../../../../../../../')
-    . '/tools/Magento/Tools/Migration/Acl/Db/LoggerAbstract.php';
+    . '/tools/Magento/Tools/Migration/Acl/Db/AbstractLogger.php';
 require_once realpath(__DIR__ . '/../../../../../../../../../../')
     . '/tools/Magento/Tools/Migration/Acl/Db/Logger/Factory.php';
 require_once realpath(__DIR__ . '/../../../../../../../../../../')
@@ -55,7 +55,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     public function testGetLogger($loggerType, $file)
     {
         $this->assertInstanceOf(
-            'Magento\Tools\Migration\Acl\Db\LoggerAbstract', $this->_model->getLogger($loggerType, $file));
+            'Magento\Tools\Migration\Acl\Db\AbstractLogger', $this->_model->getLogger($loggerType, $file));
     }
 
     /**

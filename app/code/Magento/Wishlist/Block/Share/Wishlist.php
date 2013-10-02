@@ -28,6 +28,52 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
     protected $_customer = null;
 
     /**
+     * @var \Magento\Customer\Model\CustomerFactory
+     */
+    protected $_customerFactory;
+
+    /**
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Wishlist\Helper\Data $wishlistData
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Wishlist\Helper\Data $wishlistData,
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Customer\Model\CustomerFactory $customerFactory,
+        array $data = array()
+    ) {
+        $this->_customerFactory = $customerFactory;
+        parent::__construct(
+            $coreRegistry,
+            $wishlistData,
+            $taxData,
+            $catalogData,
+            $coreData,
+            $context,
+            $storeManager,
+            $customerSession,
+            $productFactory,
+            $data
+        );
+    }
+
+    /**
      * Prepare global layout
      *
      * @return \Magento\Wishlist\Block\Share\Wishlist
@@ -52,7 +98,7 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
     public function getWishlistCustomer()
     {
         if (is_null($this->_customer)) {
-            $this->_customer = \Mage::getModel('Magento\Customer\Model\Customer')
+            $this->_customer = $this->_customerFactory->create()
                 ->load($this->_getWishlist()->getCustomerId());
         }
 

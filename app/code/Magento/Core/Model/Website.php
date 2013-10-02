@@ -134,10 +134,46 @@ class Website extends \Magento\Core\Model\AbstractModel
     protected $_configDataResource;
 
     /**
+     * @var \Magento\Core\Model\StoreFactory
+     */
+    protected $_storeFactory;
+
+    /**
+     * @var \Magento\Core\Model\Store\GroupFactory
+     */
+    protected $_storeGroupFactory;
+
+    /**
+     * @var \Magento\Core\Model\WebsiteFactory
+     */
+    protected $_websiteFactory;
+
+    /**
+     * @var \Magento\Core\Model\StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Core\Model\App
+     */
+    protected $_app;
+
+    /**
+     * @var \Magento\Directory\Model\CurrencyFactory
+     */
+    protected $_currencyFactory;
+
+    /**
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\Resource\Config\Data $configDataResource
      * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\Core\Model\StoreFactory $storeFactory
+     * @param \Magento\Core\Model\Store\GroupFactory $storeGroupFactory
+     * @param \Magento\Core\Model\WebsiteFactory $websiteFactory
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\App $app
+     * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -147,6 +183,12 @@ class Website extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\Resource\Config\Data $configDataResource,
         \Magento\Core\Model\Config $coreConfig,
+        \Magento\Core\Model\StoreFactory $storeFactory,
+        \Magento\Core\Model\Store\GroupFactory $storeGroupFactory,
+        \Magento\Core\Model\WebsiteFactory $websiteFactory,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\App $app,
+        \Magento\Directory\Model\CurrencyFactory $currencyFactory,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -154,6 +196,12 @@ class Website extends \Magento\Core\Model\AbstractModel
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_configDataResource = $configDataResource;
         $this->_coreConfig = $coreConfig;
+        $this->_storeFactory = $storeFactory;
+        $this->_storeGroupFactory = $storeGroupFactory;
+        $this->_websiteFactory = $websiteFactory;
+        $this->_storeManager = $storeManager;
+        $this->_app = $app;
+        $this->_currencyFactory = $currencyFactory;
     }
 
     /**
@@ -246,7 +294,7 @@ class Website extends \Magento\Core\Model\AbstractModel
      */
     public function getGroupCollection()
     {
-        return \Mage::getModel('Magento\Core\Model\Store\Group')
+        return $this->_storeGroupFactory->create()
             ->getCollection()
             ->addWebsiteFilter($this->getId());
     }
@@ -352,7 +400,7 @@ class Website extends \Magento\Core\Model\AbstractModel
      */
     public function getStoreCollection()
     {
-        return \Mage::getModel('Magento\Core\Model\Store')
+        return $this->_storeFactory->create()
             ->getCollection()
             ->addWebsiteFilter($this->getId());
     }
@@ -420,7 +468,7 @@ class Website extends \Magento\Core\Model\AbstractModel
             return false;
         }
         if (is_null($this->_isCanDelete)) {
-            $this->_isCanDelete = (\Mage::getModel('Magento\Core\Model\Website')->getCollection()->getSize() > 2)
+            $this->_isCanDelete = ($this->_websiteFactory->create()->getCollection()->getSize() > 2)
                 && !$this->getIsDefault();
         }
         return $this->_isCanDelete;
@@ -460,7 +508,7 @@ class Website extends \Magento\Core\Model\AbstractModel
      */
     protected function _afterDelete()
     {
-        \Mage::app()->clearWebsiteCache($this->getId());
+        $this->_storeManager->clearWebsiteCache($this->getId());
         parent::_afterDelete();
         $this->_coreConfig->removeCache();
         return $this;
@@ -476,7 +524,7 @@ class Website extends \Magento\Core\Model\AbstractModel
         if ($this->getConfig(\Magento\Core\Model\Store::XML_PATH_PRICE_SCOPE)
             == \Magento\Core\Model\Store::PRICE_SCOPE_GLOBAL
         ) {
-            return \Mage::app()->getBaseCurrencyCode();
+            return $this->_app->getBaseCurrencyCode();
         } else {
             return $this->getConfig(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE);
         }
@@ -491,7 +539,7 @@ class Website extends \Magento\Core\Model\AbstractModel
     {
         $currency = $this->getData('base_currency');
         if (is_null($currency)) {
-            $currency = \Mage::getModel('Magento\Directory\Model\Currency')->load($this->getBaseCurrencyCode());
+            $currency = $this->_currencyFactory->create()->load($this->getBaseCurrencyCode());
             $this->setData('base_currency', $currency);
         }
         return $currency;

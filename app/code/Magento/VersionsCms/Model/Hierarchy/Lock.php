@@ -23,12 +23,6 @@
  * @method int getStartedAt()
  * @method \Magento\VersionsCms\Model\Hierarchy\Lock setStartedAt(int $value)
  *
- * @category    Magento
- * @package     Magento_VersionsCms
- * @author      Magento Core Team <core@magentocommerce.com>
- */
-
-/**
  * @deprecated since 1.12.0.0
  */
 namespace Magento\VersionsCms\Model\Hierarchy;
@@ -43,29 +37,9 @@ class Lock extends \Magento\Core\Model\AbstractModel
     protected $_coreStoreConfig;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
-     * @param array $data
-     */
-    public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
-    ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
-        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
-    }
-
-    /**
      * Session model instance
      *
-     * @var \Magento\Backend\Model\Auth\Session
+     * @var \Magento\Core\Model\Session\AbstractSession
      */
     protected $_session;
 
@@ -75,6 +49,34 @@ class Lock extends \Magento\Core\Model\AbstractModel
      * @var bool
      */
     protected $_dataLoaded = false;
+
+    /**
+     * @var \Magento\Backend\Model\Auth\Session
+     */
+    protected $_backendAuthSession;
+
+    /**
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Backend\Model\Auth\Session $backendAuthSession,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_backendAuthSession = $backendAuthSession;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
 
     /**
      * Resource model initializing
@@ -104,7 +106,7 @@ class Lock extends \Magento\Core\Model\AbstractModel
     protected function _getSession()
     {
         if ($this->_session === null) {
-            return \Mage::getSingleton('Magento\Backend\Model\Auth\Session');
+            return $this->_backendAuthSession;
         }
         return $this->_session;
     }

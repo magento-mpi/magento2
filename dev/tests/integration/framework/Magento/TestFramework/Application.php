@@ -28,7 +28,7 @@ class Application
     /**
      * DB vendor adapter instance
      *
-     * @var \Magento\TestFramework\Db\DbAbstract
+     * @var \Magento\TestFramework\Db\AbstractDb
      */
     protected $_db;
 
@@ -96,7 +96,7 @@ class Application
     /**
      * Constructor
      *
-     * @param \Magento\TestFramework\Db\DbAbstract $dbInstance
+     * @param \Magento\TestFramework\Db\AbstractDb $dbInstance
      * @param string $installDir
      * @param \Magento\Simplexml\Element $localXml
      * @param $globalConfigDir
@@ -104,7 +104,7 @@ class Application
      * @param string $appMode
      */
     public function __construct(
-        \Magento\TestFramework\Db\DbAbstract $dbInstance, $installDir, \Magento\Simplexml\Element $localXml,
+        \Magento\TestFramework\Db\AbstractDb $dbInstance, $installDir, \Magento\Simplexml\Element $localXml,
         $globalConfigDir, array $moduleEtcFiles, $appMode
     ) {
         $this->_db              = $dbInstance;
@@ -133,7 +133,7 @@ class Application
     /**
      * Retrieve the database adapter instance
      *
-     * @return \Magento\TestFramework\Db\DbAbstract
+     * @return \Magento\TestFramework\Db\AbstractDb
      */
     public function getDbInstance()
     {

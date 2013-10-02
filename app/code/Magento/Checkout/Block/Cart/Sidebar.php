@@ -27,13 +27,39 @@ class Sidebar extends \Magento\Checkout\Block\Cart\AbstractCart
      *
      * @var \Magento\Tax\Helper\Data
      */
-    protected $_taxData = null;
+    protected $_taxData;
+
+    /**
+     * @var \Magento\Catalog\Model\Resource\Url
+     */
+    protected $_catalogUrl;
+
+    /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Tax\Model\Config
+     */
+    protected $_taxConfig;
+
+    /**
+     * @var \Magento\Checkout\Model\Cart
+     */
+    protected $_checkoutCart;
 
     /**
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \Magento\Catalog\Model\Resource\Url $catalogUrl
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Tax\Model\Config $taxConfig
+     * @param \Magento\Checkout\Model\Cart $checkoutCart
      * @param array $data
      */
     public function __construct(
@@ -41,10 +67,20 @@ class Sidebar extends \Magento\Checkout\Block\Cart\AbstractCart
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Catalog\Model\Resource\Url $catalogUrl,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Tax\Model\Config $taxConfig,
+        \Magento\Checkout\Model\Cart $checkoutCart,
         array $data = array()
     ) {
-        parent::__construct($catalogData, $coreData, $context, $data);
         $this->_taxData = $taxData;
+        $this->_catalogUrl = $catalogUrl;
+        $this->_storeManager = $storeManager;
+        $this->_taxConfig = $taxConfig;
+        $this->_checkoutCart = $checkoutCart;
+        parent::__construct($catalogData, $coreData, $context, $customerSession, $checkoutSession,  $data);
     }
 
     /**
@@ -84,7 +120,7 @@ class Sidebar extends \Magento\Checkout\Block\Cart\AbstractCart
             /* @var $item \Magento\Sales\Model\Quote\Item */
             if (!$item->getProduct()->isVisibleInSiteVisibility()) {
                 $productId = $item->getProduct()->getId();
-                $products  = \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Url')
+                $products  = $this->_catalogUrl
                     ->getRewriteByProductStore(array($productId => $item->getStoreId()));
                 if (!isset($products[$productId])) {
                     continue;
@@ -114,15 +150,14 @@ class Sidebar extends \Magento\Checkout\Block\Cart\AbstractCart
     {
         $subtotal = 0;
         $totals = $this->getTotals();
-        $config = \Mage::getSingleton('Magento\Tax\Model\Config');
         if (isset($totals['subtotal'])) {
-            if ($config->displayCartSubtotalBoth()) {
+            if ($this->_taxConfig->displayCartSubtotalBoth()) {
                 if ($skipTax) {
                     $subtotal = $totals['subtotal']->getValueExclTax();
                 } else {
                     $subtotal = $totals['subtotal']->getValueInclTax();
                 }
-            } elseif($config->displayCartSubtotalInclTax()) {
+            } elseif($this->_taxConfig->displayCartSubtotalInclTax()) {
                 $subtotal = $totals['subtotal']->getValueInclTax();
             } else {
                 $subtotal = $totals['subtotal']->getValue();
@@ -142,7 +177,7 @@ class Sidebar extends \Magento\Checkout\Block\Cart\AbstractCart
      */
     public function getSubtotalInclTax()
     {
-        if (!\Mage::getSingleton('Magento\Tax\Model\Config')->displayCartSubtotalBoth()) {
+        if (!$this->_taxConfig->displayCartSubtotalBoth()) {
             return 0;
         }
         return $this->getSubtotal(false);
@@ -188,7 +223,7 @@ class Sidebar extends \Magento\Checkout\Block\Cart\AbstractCart
         if ($this->getData('summary_qty')) {
             return $this->getData('summary_qty');
         }
-        return \Mage::getSingleton('Magento\Checkout\Model\Cart')->getSummaryQty();
+        return $this->_checkoutCart->getSummaryQty();
     }
 
     /**
@@ -230,7 +265,7 @@ class Sidebar extends \Magento\Checkout\Block\Cart\AbstractCart
      */
     public function getIsNeedToDisplaySideBar()
     {
-        return (bool) \Mage::app()->getStore()->getConfig('checkout/sidebar/display');
+        return (bool) $this->_storeManager->getStore()->getConfig('checkout/sidebar/display');
     }
 
     /**

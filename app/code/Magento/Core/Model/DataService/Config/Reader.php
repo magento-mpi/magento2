@@ -9,7 +9,7 @@
  */
 namespace Magento\Core\Model\DataService\Config;
 
-class Reader extends \Magento\Config\XmlAbstract
+class Reader extends \Magento\Config\AbstractXml
 {
     /**
      * @var \Magento\Core\Model\Config\Modules\Reader
@@ -98,7 +98,7 @@ class Reader extends \Magento\Config\XmlAbstract
     /**
      * Perform xml validation
      *
-     * @return \Magento\Config\XmlAbstract
+     * @return \Magento\Config\AbstractXml
      * @throws \Magento\Exception if invalid XML-file passed
      */
     public function validate()

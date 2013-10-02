@@ -10,37 +10,51 @@
 
 /**
  * Base helper
- *
- * @category   Magento
- * @package    Magento_VersionsCms
  */
-
 namespace Magento\VersionsCms\Helper;
 
 class Data extends \Magento\Core\Helper\AbstractHelper
 {
     /**
      * Array of admin users in system
+     *
      * @var array
      */
     protected $_usersHash = null;
 
     /**
+     * @var \Magento\User\Model\Resource\User\CollectionFactory
+     */
+    protected $_userCollFactory;
+
+    /**
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\User\Model\Resource\User\CollectionFactory $userCollFactory
+     */
+    public function __construct(
+        \Magento\Core\Helper\Context $context,
+        \Magento\User\Model\Resource\User\CollectionFactory $userCollFactory
+    ) {
+        $this->_userCollFactory = $userCollFactory;
+        parent::__construct($context);
+    }
+
+    /**
      * Retrieve array of admin users in system
      *
+     * @param bool $addEmptyUser
      * @return array
      */
     public function getUsersArray($addEmptyUser = false)
     {
         if (!$this->_usersHash) {
-            $collection = \Mage::getModel('Magento\User\Model\User')->getCollection();
             $this->_usersHash = array();
 
             if ($addEmptyUser) {
                 $this->_usersHash[''] = '';
             }
 
-            foreach ($collection as $user) {
+            foreach ($this->_userCollFactory->create() as $user) {
                 $this->_usersHash[$user->getId()] = $user->getUsername();
             }
         }

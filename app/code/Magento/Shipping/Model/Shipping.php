@@ -59,15 +59,71 @@ class Shipping
     protected $_coreStoreConfig;
 
     /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Shipping\Model\Config
+     */
+    protected $_shippingConfig;
+
+    /**
+     * @var \Magento\Backend\Model\Auth\Session
+     */
+    protected $_authSession;
+
+    /**
+     * @var \Magento\Shipping\Model\Carrier\Factory
+     */
+    protected $_carrierFactory;
+
+    /**
+     * @var \Magento\Shipping\Model\Rate\ResultFactory
+     */
+    protected $_rateResultFactory;
+
+    /**
+     * @var \Magento\Shipping\Model\Rate\RequestFactory
+     */
+    protected $_rateRequestFactory;
+
+    /**
+     * @var \Magento\Directory\Model\RegionFactory
+     */
+    protected $_regionFactory;
+
+    /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Shipping\Model\Config $shippingConfig
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Backend\Model\Auth\Session $authSession
+     * @param \Magento\Shipping\Model\Carrier\Factory $carrierFactory
+     * @param \Magento\Shipping\Model\Rate\ResultFactory $rateResultFactory
+     * @param \Magento\Shipping\Model\Rate\RequestFactory $rateRequestFactory
+     * @param \Magento\Directory\Model\RegionFactory $regionFactory
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Model\Store\Config $coreStoreConfig
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Shipping\Model\Config $shippingConfig,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Backend\Model\Auth\Session $authSession,
+        \Magento\Shipping\Model\Carrier\Factory $carrierFactory,
+        \Magento\Shipping\Model\Rate\ResultFactory $rateResultFactory,
+        \Magento\Shipping\Model\Rate\RequestFactory $rateRequestFactory,
+        \Magento\Directory\Model\RegionFactory $regionFactory
     ) {
         $this->_coreData = $coreData;
         $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_shippingConfig = $shippingConfig;
+        $this->_storeManager = $storeManager;
+        $this->_authSession = $authSession;
+        $this->_carrierFactory = $carrierFactory;
+        $this->_rateResultFactory = $rateResultFactory;
+        $this->_rateRequestFactory = $rateRequestFactory;
+        $this->_regionFactory = $regionFactory;
     }
 
     /**
@@ -78,7 +134,7 @@ class Shipping
     public function getResult()
     {
         if (empty($this->_result)) {
-            $this->_result = \Mage::getModel('Magento\Shipping\Model\Rate\Result');
+            $this->_result = $this->_rateResultFactory->create();
         }
         return $this->_result;
     }
@@ -112,14 +168,14 @@ class Shipping
      */
     public function getConfig()
     {
-        return \Mage::getSingleton('Magento\Shipping\Model\Config');
+        return $this->_shippingConfig;
     }
 
     /**
      * Retrieve all methods for supplied shipping data
      *
      * @todo make it ordered
-     * @param \Magento\Shipping\Model\Shipping_Method_Request $data
+     * @param \Magento\Shipping\Model\Rate\Request $request
      * @return \Magento\Shipping\Model\Shipping
      */
     public function collectRates(\Magento\Shipping\Model\Rate\Request $request)
@@ -379,7 +435,7 @@ class Shipping
     public function collectRatesByAddress(\Magento\Object $address, $limitCarrier = null)
     {
         /** @var $request \Magento\Shipping\Model\Rate\Request */
-        $request = \Mage::getModel('Magento\Shipping\Model\Rate\Request');
+        $request = $this->_rateRequestFactory->create();
         $request->setAllItems($address->getAllItems());
         $request->setDestCountryId($address->getCountryId());
         $request->setDestRegionId($address->getRegionId());
@@ -389,10 +445,10 @@ class Shipping
         $request->setPackageWeight($address->getWeight());
         $request->setFreeMethodWeight($address->getFreeMethodWeight());
         $request->setPackageQty($address->getItemQty());
-        $request->setStoreId(\Mage::app()->getStore()->getId());
-        $request->setWebsiteId(\Mage::app()->getStore()->getWebsiteId());
-        $request->setBaseCurrency(\Mage::app()->getStore()->getBaseCurrency());
-        $request->setPackageCurrency(\Mage::app()->getStore()->getCurrentCurrency());
+        $request->setStoreId($this->_storeManager->getStore()->getId());
+        $request->setWebsiteId($this->_storeManager->getStore()->getWebsiteId());
+        $request->setBaseCurrency($this->_storeManager->getStore()->getBaseCurrency());
+        $request->setPackageCurrency($this->_storeManager->getStore()->getCurrentCurrency());
         $request->setLimitCarrier($limitCarrier);
 
         $request->setBaseSubtotalInclTax($address->getBaseSubtotalInclTax());
@@ -426,15 +482,8 @@ class Shipping
         if (!$isActive) {
             return false;
         }
-        $className = $this->_coreStoreConfig->getConfig('carriers/'.$carrierCode.'/model', $storeId);
-        if (!$className) {
-            return false;
-        }
-        $obj = \Mage::getModel($className);
-        if ($storeId) {
-            $obj->setStore($storeId);
-        }
-        return $obj;
+
+        return $this->_carrierFactory->create($carrierCode, $storeId);
     }
 
     /**
@@ -442,25 +491,26 @@ class Shipping
      *
      * @param \Magento\Sales\Model\Order\Shipment $orderShipment
      * @return \Magento\Object
+     * @throws \Magento\Core\Exception
      */
     public function requestToShipment(\Magento\Sales\Model\Order\Shipment $orderShipment)
     {
-        $admin = \Mage::getSingleton('Magento\Backend\Model\Auth\Session')->getUser();
+        $admin = $this->_authSession->getUser();
         $order = $orderShipment->getOrder();
         $address = $order->getShippingAddress();
         $shippingMethod = $order->getShippingMethod(true);
         $shipmentStoreId = $orderShipment->getStoreId();
         $shipmentCarrier = $order->getShippingCarrier();
-        $baseCurrencyCode = \Mage::app()->getStore($shipmentStoreId)->getBaseCurrencyCode();
+        $baseCurrencyCode = $this->_storeManager->getStore($shipmentStoreId)->getBaseCurrencyCode();
         if (!$shipmentCarrier) {
-            \Mage::throwException('Invalid carrier: ' . $shippingMethod->getCarrierCode());
+            throw new \Magento\Core\Exception('Invalid carrier: ' . $shippingMethod->getCarrierCode());
         }
         $shipperRegionCode = $this->_coreStoreConfig->getConfig(self::XML_PATH_STORE_REGION_ID, $shipmentStoreId);
         if (is_numeric($shipperRegionCode)) {
-            $shipperRegionCode = \Mage::getModel('Magento\Directory\Model\Region')->load($shipperRegionCode)->getCode();
+            $shipperRegionCode = $this->_regionFactory->create()->load($shipperRegionCode)->getCode();
         }
 
-        $recipientRegionCode = \Mage::getModel('Magento\Directory\Model\Region')->load($address->getRegionId())->getCode();
+        $recipientRegionCode = $this->_regionFactory->create()->load($address->getRegionId())->getCode();
 
         $originStreet1 = $this->_coreStoreConfig->getConfig(self::XML_PATH_STORE_ADDRESS1, $shipmentStoreId);
         $originStreet2 = $this->_coreStoreConfig->getConfig(self::XML_PATH_STORE_ADDRESS2, $shipmentStoreId);
@@ -471,13 +521,13 @@ class Shipping
             || !$shipperRegionCode || !$this->_coreStoreConfig->getConfig(self::XML_PATH_STORE_ZIP, $shipmentStoreId)
             || !$this->_coreStoreConfig->getConfig(self::XML_PATH_STORE_COUNTRY_ID, $shipmentStoreId)
         ) {
-            \Mage::throwException(
+            throw new \Magento\Core\Exception(
                 __('We don\'t have enough information to create shipping labels. Please make sure your store information and settings are complete.')
             );
         }
 
         /** @var $request \Magento\Shipping\Model\Shipment\Request */
-        $request = \Mage::getModel('Magento\Shipping\Model\Shipment\Request');
+        $request = $this->_rateRequestFactory->create();
         $request->setOrderShipment($orderShipment);
         $request->setShipperContactPersonName($admin->getName());
         $request->setShipperContactPersonFirstName($admin->getFirstname());

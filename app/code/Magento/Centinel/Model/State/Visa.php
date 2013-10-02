@@ -13,7 +13,7 @@
  */
 namespace Magento\Centinel\Model\State;
 
-class Visa extends \Magento\Centinel\Model\StateAbstract
+class Visa extends \Magento\Centinel\Model\AbstractState
 {
     /**
      * Analyse lookup`s results. If it has require params for authenticate, return true

@@ -23,8 +23,8 @@ class Template extends \Magento\Core\Model\Email\Template
     /**
      * @var \Magento\Core\Model\Config
      */
-    private $_coreConfig;
-    
+    protected $_coreConfig;
+
     /**
      * @var \Magento\Backend\Model\Config\Structure
      */
@@ -33,13 +33,17 @@ class Template extends \Magento\Core\Model\Email\Template
     /**
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\App\Emulation $appEmulation
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\Core\Model\View\Url $viewUrl
      * @param \Magento\Core\Model\View\FileSystem $viewFileSystem
      * @param \Magento\Core\Model\View\DesignInterface $design
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\Email\Template\Config $emailConfig
      * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\Core\Model\Email\Template\FilterFactory $emailFilterFactory
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\Dir $dir
+     * @param \Magento\Core\Model\Email\Template\Config $emailConfig
      * @param \Magento\Backend\Model\Config\Structure $structure
      * @param array $data
      *
@@ -48,20 +52,36 @@ class Template extends \Magento\Core\Model\Email\Template
     public function __construct(
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\App\Emulation $appEmulation,
         \Magento\Filesystem $filesystem,
         \Magento\Core\Model\View\Url $viewUrl,
         \Magento\Core\Model\View\FileSystem $viewFileSystem,
         \Magento\Core\Model\View\DesignInterface $design,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\Email\Template\Config $emailConfig,
         \Magento\Core\Model\Config $coreConfig,
+        \Magento\Core\Model\Email\Template\FilterFactory $emailFilterFactory,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\Dir $dir,
+        \Magento\Core\Model\Email\Template\Config $emailConfig,
         \Magento\Backend\Model\Config\Structure $structure,
         array $data = array()
     ) {
         parent::__construct(
-            $context, $registry, $filesystem, $viewUrl, $viewFileSystem, $design, $coreStoreConfig, $emailConfig, $data
+            $context,
+            $registry,
+            $appEmulation,
+            $filesystem,
+            $viewUrl,
+            $viewFileSystem,
+            $design,
+            $coreStoreConfig,
+            $coreConfig,
+            $emailFilterFactory,
+            $storeManager,
+            $dir,
+            $emailConfig,
+            $data
         );
-        $this->_coreConfig = $coreConfig;
         $this->_structure = $structure;
     }
 

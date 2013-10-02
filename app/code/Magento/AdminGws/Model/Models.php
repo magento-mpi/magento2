@@ -35,6 +35,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
     protected $_storeManager = null;
 
     /**
+     * @param \Magento\AdminGws\Helper\Data $adminGwsData
      * @param \Magento\AdminGws\Model\Role $role
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param \Magento\Core\Model\StoreManager $storeManager

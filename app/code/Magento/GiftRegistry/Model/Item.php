@@ -17,7 +17,6 @@
  * @method int getProductId()
  * @method \Magento\GiftRegistry\Model\Item setProductId(int $value)
  * @method float getQty()
- * @method \Magento\GiftRegistry\Model\Item setQty(float $value)
  * @method float getQtyFulfilled()
  * @method \Magento\GiftRegistry\Model\Item setQtyFulfilled(float $value)
  * @method string getNote()
@@ -36,6 +35,15 @@ namespace Magento\GiftRegistry\Model;
 class Item extends \Magento\Core\Model\AbstractModel
     implements \Magento\Catalog\Model\Product\Configuration\Item\ItemInterface
 {
+    /**
+     * @var \Magento\Catalog\Model\ProductFactory
+     */
+    protected $productFactory;
+
+    /**
+     * @var \Magento\GiftRegistry\Model\Item\OptionFactory
+     */
+    protected $optionFactory;
 
     /**
      * List of options related to item
@@ -51,6 +59,38 @@ class Item extends \Magento\Core\Model\AbstractModel
      * @var array
      */
     protected $_optionsByCode = array();
+
+    /**
+     * @var array|\Magento\Catalog\Model\Resource\Url
+     */
+    protected $resourceUrl = array();
+
+    /**
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory,
+     * @param \Magento\GiftRegistry\Model\Item\OptionFactory $optionFactory,
+     * @param \Magento\Catalog\Model\Resource\Url $resourceUrl
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\GiftRegistry\Model\Item\OptionFactory $optionFactory,
+        \Magento\Catalog\Model\Resource\Url $resourceUrl,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        $this->productFactory = $productFactory;
+        $this->optionFactory = $optionFactory;
+        $this->optionFactory = $optionFactory;
+        $this->resourceUrl = $resourceUrl;
+    }
 
     /**
      * Flag stating that options were successfully saved
@@ -104,8 +144,7 @@ class Item extends \Magento\Core\Model\AbstractModel
             if ($product->getStoreId() == $storeId) {
                 return false;
             }
-            $urlData = \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Url')
-                ->getRewriteByProductStore(array($product->getId() => $storeId));
+            $urlData = $this->resourceUrl->getRewriteByProductStore(array($product->getId() => $storeId));
             if (!isset($urlData[$product->getId()])) {
                 return false;
             }
@@ -117,7 +156,7 @@ class Item extends \Magento\Core\Model\AbstractModel
         }
 
         if (!$product->isSalable()) {
-            \Mage::throwException(
+            throw new \Magento\Core\Exception(
                 __('This product(s) is out of stock.'));
         }
 
@@ -217,9 +256,9 @@ class Item extends \Magento\Core\Model\AbstractModel
     protected function _getProduct()
     {
         if (!$this->_getData('product')) {
-            $product = \Mage::getModel('Magento\Catalog\Model\Product')->load($this->getProductId());
+            $product = $this->productFactory->create()->load($this->getProductId());
             if (!$product->getId()) {
-                \Mage::throwException(
+                throw new \Magento\Core\Exception(
                     __('Please correct the product for adding the item to the quote.'));
             }
             $this->setProduct($product);
@@ -359,24 +398,24 @@ class Item extends \Magento\Core\Model\AbstractModel
     public function addOption($option)
     {
         if (is_array($option)) {
-            $option = \Mage::getModel('Magento\GiftRegistry\Model\Item\Option')->setData($option)
+            $option = $this->optionFactory->create()->setData($option)
                 ->setItem($this);
         } elseif ($option instanceof \Magento\Sales\Model\Quote\Item\Option) {
             // import data from existing quote item option
-            $option = \Mage::getModel('Magento\GiftRegistry\Model\Item\Option')->setProduct($option->getProduct())
+            $option = $this->optionFactory->create()->setProduct($option->getProduct())
                ->setCode($option->getCode())
                ->setValue($option->getValue())
                ->setItem($this);
         } elseif (($option instanceof \Magento\Object)
             && !($option instanceof \Magento\GiftRegistry\Model\Item\Option)
         ) {
-            $option = \Mage::getModel('Magento\GiftRegistry\Model\Item\Option')->setData($option->getData())
+            $option = $this->optionFactory->create()->setData($option->getData())
                ->setProduct($option->getProduct())
                ->setItem($this);
         } elseif ($option instanceof \Magento\GiftRegistry\Model\Item\Option) {
             $option->setItem($this);
         } else {
-            \Mage::throwException(__('Please correct the item option format.'));
+            throw new \Magento\Core\Exception(__('Please correct the item option format.'));
         }
 
         $exOption = $this->getOptionByCode($option->getCode());
@@ -401,7 +440,7 @@ class Item extends \Magento\Core\Model\AbstractModel
         if (!isset($this->_optionsByCode[$option->getCode()])) {
             $this->_optionsByCode[$option->getCode()] = $option;
         } else {
-            \Mage::throwException(__('An item option with code %1 already exists.', $option->getCode()));
+            throw new \Magento\Core\Exception(__('An item option with code %1 already exists.', $option->getCode()));
         }
         return $this;
     }
@@ -453,7 +492,7 @@ class Item extends \Magento\Core\Model\AbstractModel
 
     /**
      * Returns special download params (if needed) for custom option with type = 'file'
-     * Needed to implement \Magento\Catalog\Model\Product\Configuration\Item\ItemInterface.
+     * Needed to implement \Magento\Catalog\Model\Product\Configuration\Item\Interface.
      * Currently returns null, as far as we don't show file options and don't need controllers to give file.
      *
      * @return null|\Magento\Object

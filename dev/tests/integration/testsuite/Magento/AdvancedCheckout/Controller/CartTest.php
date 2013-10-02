@@ -14,7 +14,7 @@
  */
 namespace Magento\AdvancedCheckout\Controller;
 
-class CartTest extends \Magento\TestFramework\TestCase\ControllerAbstract
+class CartTest extends \Magento\TestFramework\TestCase\AbstractController
 {
     /**
      * Test for \Magento\AdvancedCheckout\Controller\Cart::configureAction() with gift card product
