@@ -17,7 +17,7 @@
  */
 namespace Magento\Adminhtml\Controller\Sales\Order;
 
-class Shipment extends \Magento\Adminhtml\Controller\Sales\Shipment\ShipmentAbstract
+class Shipment extends \Magento\Adminhtml\Controller\Sales\Shipment\AbstractShipment
 {
     /**
      * Core registry

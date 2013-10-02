@@ -10,17 +10,12 @@
 
 /**
  * Adminhtml newsletter subscribers grid website filter
- *
- * @category   Magento
- * @package    Magento_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Adminhtml\Block\Newsletter\Subscriber\Grid\Filter;
 
 class Website
-    extends \Magento\Adminhtml\Block\Widget\Grid\Column\Filter\Select
+    extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Select
 {
-
     protected $_websiteCollection = null;
 
     /**
@@ -28,7 +23,7 @@ class Website
      *
      * @var \Magento\Core\Model\Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
 
     /**
      * @var \Magento\Core\Model\StoreManagerInterface
@@ -44,6 +39,7 @@ class Website
      * @param \Magento\Core\Model\Resource\Website\CollectionFactory $websitesFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Backend\Block\Context $context
+     * @param \Magento\Core\Model\Resource\Helper $resourceHelper
      * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
@@ -51,13 +47,14 @@ class Website
         \Magento\Core\Model\Resource\Website\CollectionFactory $websitesFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Backend\Block\Context $context,
+        \Magento\Core\Model\Resource\Helper $resourceHelper,
         \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
         $this->_storeManager = $storeManager;
         $this->_websitesFactory = $websitesFactory;
-        parent::__construct($context, $data);
+        parent::__construct($context, $resourceHelper, $data);
     }
 
     protected function _getOptions()

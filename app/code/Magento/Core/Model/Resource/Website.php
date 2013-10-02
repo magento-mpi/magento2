@@ -47,12 +47,13 @@ class Website extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Validate website code before object save
      *
      * @param \Magento\Core\Model\AbstractModel $object
+     * @throws \Magento\Core\Exception
      * @return \Magento\Core\Model\Resource\Website
      */
     protected function _beforeSave(\Magento\Core\Model\AbstractModel $object)
     {
         if (!preg_match('/^[a-z]+[a-z0-9_]*$/', $object->getCode())) {
-            \Mage::throwException(__('Website code may only contain letters (a-z), numbers (0-9) or underscore(_), the first character must be a letter'));
+            throw new \Magento\Core\Exception(__('Website code may only contain letters (a-z), numbers (0-9) or underscore(_), the first character must be a letter'));
         }
 
         return parent::_beforeSave($object);

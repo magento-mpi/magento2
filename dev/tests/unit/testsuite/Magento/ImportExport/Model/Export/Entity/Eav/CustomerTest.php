@@ -73,6 +73,14 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
     {
         $this->_model = new \Magento\ImportExport\Model\Export\Entity\Eav\Customer(
             $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false),
+            $this->getMock('Magento\Core\Model\App', array(), array(), '', false),
+            $this->getMock('Magento\ImportExport\Model\Export\Factory', array(), array(), '', false),
+            $this->getMock(
+                'Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory', array(), array(), '', false
+            ),
+            $this->getMock('Magento\Core\Model\LocaleInterface', array(), array(), '', false),
+            $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false),
+            $this->getMock('Magento\Customer\Model\Resource\Customer\CollectionFactory', array(), array(), '', false),
             $this->_getModelDependencies()
         );
     }
@@ -107,7 +115,8 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         );
         foreach ($this->_attributes as $attributeData) {
             $arguments = $objectManagerHelper->getConstructArguments(
-                'Magento\Eav\Model\Entity\Attribute\AbstractAttribute'
+                'Magento\Eav\Model\Entity\Attribute\AbstractAttribute',
+                array('eavTypeFactory' => $this->getMock('Magento\Eav\Model\Entity\TypeFactory'))
             );
             $arguments['data'] = $attributeData;
             $attribute = $this->getMockForAbstractClass('Magento\Eav\Model\Entity\Attribute\AbstractAttribute',

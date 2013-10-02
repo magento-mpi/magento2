@@ -41,15 +41,15 @@ class Layer extends \Magento\CatalogSearch\Model\Layer
     protected $_storeManager;
 
     /**
-     * Constructor
-     *
+     * @param \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $collectionFactory
+     * @param \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider
+     * @param \Magento\Search\Helper\Data $searchData
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\CatalogSearch\Model\Resource\Fulltext\CollectionFactory $fulltextCollectionFactory
      * @param \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility
      * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\CatalogSearch\Helper\Data $catalogSearchData
-     * @param \Magento\Search\Helper\Data $searchData
      * @param array $data
      */
     public function __construct(
@@ -62,13 +62,10 @@ class Layer extends \Magento\CatalogSearch\Model\Layer
         \Magento\Catalog\Model\Config $catalogConfig,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\CatalogSearch\Helper\Data $catalogSearchData,
-        \Magento\Search\Helper\Data $searchData,
         array $data = array()
     ) {
         $this->_collectionFactory = $collectionFactory;
         $this->_engineProvider = $engineProvider;
-        $this->_searchData = $searchData;
-        $this->_storeManager = $storeManager;
         $this->_searchData = $searchData;
         parent::__construct($coreRegistry, $fulltextCollectionFactory, $catalogProductVisibility, $catalogConfig,
             $storeManager, $catalogSearchData, $data);

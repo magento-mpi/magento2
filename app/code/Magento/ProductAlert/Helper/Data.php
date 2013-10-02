@@ -52,32 +52,26 @@ class Data extends \Magento\Core\Helper\Url
     protected $_session;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Core\Model\Layout $layout
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Customer\Model\Session $session
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\StoreManager $storeManager,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Core\Model\Layout $layout,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Customer\Model\Session $session,
-        \Magento\Core\Model\StoreManagerInterface $storeManager
+        \Magento\Customer\Model\Session $session
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_layout = $layout;
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_session = $session;
-        $this->_storeManager = $storeManager;
-        parent::__construct($context);
+        parent::__construct($context, $storeManager);
     }
 
     /**

@@ -28,7 +28,7 @@ class Setup extends \Magento\Core\Model\Resource\Setup
     /**
      * @param \Magento\Core\Model\Resource\Setup\Context $context
      * @param \Magento\Cms\Model\PageFactory $pageFactory
-     * @param string $resourceName
+     * @param $resourceName
      * @param string $moduleName
      * @param string $connectionName
      */

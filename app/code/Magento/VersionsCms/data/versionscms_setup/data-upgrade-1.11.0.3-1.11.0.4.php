@@ -9,8 +9,7 @@
  */
 
 /** @var $installer \Magento\Enterprise\Model\Resource\Setup\Migration */
-$installer = \Mage::getResourceModel('Magento\Enterprise\Model\Resource\Setup\Migration',
-    array('resourceName' => 'core_setup'));
+$installer = $this->_entMigrationFactory->create(array('resourceName' => 'core_setup'));
 $installer->startSetup();
 
 $installer->appendClassAliasReplace('magento_versionscms_page_revision', 'content',

@@ -22,11 +22,18 @@ class Totals extends \Magento\Checkout\Block\Cart\AbstractCart
     protected $_salesConfig;
 
     /**
-     * Constructor
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Sales\Model\Config $salesConfig
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
@@ -34,15 +41,22 @@ class Totals extends \Magento\Checkout\Block\Cart\AbstractCart
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
         \Magento\Sales\Model\Config $salesConfig,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         array $data = array()
     ) {
+        $this->_salesConfig = $salesConfig;
+        $this->_storeManager = $storeManager;
         parent::__construct(
             $catalogData,
             $coreData,
             $context,
+            $customerSession,
+            $checkoutSession,
             $data
         );
-        $this->_salesConfig = $salesConfig;
+
     }
 
     public function getTotals()
@@ -136,7 +150,7 @@ class Totals extends \Magento\Checkout\Block\Cart\AbstractCart
         $firstTotal = reset($this->_totals);
         if ($firstTotal) {
             $total = $firstTotal->getAddress()->getBaseGrandTotal();
-            return \Mage::app()->getStore()->getBaseCurrency()->format($total, array(), true);
+            return $this->_storeManager->getStore()->getBaseCurrency()->format($total, array(), true);
         }
         return '-';
     }
@@ -153,7 +167,7 @@ class Totals extends \Magento\Checkout\Block\Cart\AbstractCart
         }
 
         if (null === $this->_quote) {
-            $this->_quote = $this->getCheckout()->getQuote();
+            $this->_quote = $this->_checkoutSession->getQuote();
         }
         return $this->_quote;
     }

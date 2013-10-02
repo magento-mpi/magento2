@@ -53,7 +53,7 @@ class Urlkey extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
     {
         /* @var $object \Magento\Catalog\Model\Category */
         /**
-         * Logic moved to Magento_Catalog_Molde_Indexer_Url
+         * Logic moved to \Magento\Catalog\Model\Indexer\Url
          */
         /*if (!$object->getInitialSetupFlag() && $object->getLevel() > 1) {
             if ($object->dataHasChangedFor('url_key') || $object->getIsChangedProductList()) {

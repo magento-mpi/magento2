@@ -33,17 +33,31 @@ abstract class AbstractReport extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_logger;
 
     /**
-     * Constructor
-     *
+     * @var \Magento\Core\Model\LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * @var \Magento\Reports\Model\FlagFactory
+     */
+    protected $_reportsFlagFactory;
+
+    /**
      * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Reports\Model\FlagFactory $reportsFlagFactory
      */
     public function __construct(
         \Magento\Core\Model\Logger $logger,
-        \Magento\Core\Model\Resource $resource
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Reports\Model\FlagFactory $reportsFlagFactory
     ) {
-        $this->_logger = $logger;
         parent::__construct($resource);
+        $this->_logger = $logger;
+        $this->_locale = $locale;
+        $this->_reportsFlagFactory = $reportsFlagFactory;
     }
 
     /**
@@ -54,7 +68,7 @@ abstract class AbstractReport extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected function _getFlag()
     {
         if ($this->_flag === null) {
-            $this->_flag = \Mage::getModel('Magento\Reports\Model\Flag');
+            $this->_flag = $this->_reportsFlagFactory->create();
         }
         return $this->_flag;
     }
@@ -360,7 +374,7 @@ abstract class AbstractReport extends \Magento\Core\Model\Resource\Db\AbstractDb
         }
 
         $periods = $this->_getTZOffsetTransitions(
-            \Mage::app()->getLocale()->storeDate($store)->toString(\Zend_Date::TIMEZONE_NAME), $from, $to
+            $this->_locale->storeDate($store)->toString(\Zend_Date::TIMEZONE_NAME), $from, $to
         );
         if (empty($periods)) {
             return $column;
@@ -442,7 +456,7 @@ abstract class AbstractReport extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     protected function _getStoreTimezoneUtcOffset($store = null)
     {
-        return \Mage::app()->getLocale()->storeDate($store)->toString(\Zend_Date::GMT_DIFF_SEP);
+        return $this->_locale->storeDate($store)->toString(\Zend_Date::GMT_DIFF_SEP);
     }
 
     /**

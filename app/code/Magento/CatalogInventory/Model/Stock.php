@@ -169,7 +169,7 @@ class Stock extends \Magento\Core\Model\AbstractModel
     public function registerProductsSale($items)
     {
         $qtys = $this->_prepareProductQtys($items);
-        /** @var \Magento_CatalogInventory_Model_Stock_Item $item */
+        /** @var \Magento\CatalogInventory\Model\Stock\Item $item */
         $item = $this->_stockItemFactory->create();
         $this->_getResource()->beginTransaction();
         $stockInfo = $this->_getResource()->getProductsStock($this, array_keys($qtys), true);
@@ -213,7 +213,7 @@ class Stock extends \Magento\Core\Model\AbstractModel
     {
         $productId = $item->getProductId();
         if ($productId) {
-            /** @var \Magento_CatalogInventory_Model_Stock_Item $stockItem */
+            /** @var \Magento\CatalogInventory\Model\Stock\Item $stockItem */
             $stockItem = $this->_stockItemFactory->create()->loadByProduct($productId);
             if ($this->_catalogInventoryData->isQty($stockItem->getTypeId())) {
                 if ($item->getStoreId()) {
@@ -239,7 +239,7 @@ class Stock extends \Magento\Core\Model\AbstractModel
      */
     public function backItemQty($productId, $qty)
     {
-        /** @var \Magento_CatalogInventory_Model_Stock_Item $stockItem */
+        /** @var \Magento\CatalogInventory\Model\Stock\Item $stockItem */
         $stockItem = $this->_stockItemFactory->create()->loadByProduct($productId);
         if ($stockItem->getId() && $this->_catalogInventoryData->isQty($stockItem->getTypeId())) {
             $stockItem->addQty($qty);

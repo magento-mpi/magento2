@@ -20,6 +20,24 @@ namespace Magento\Core\Helper;
 class Url extends \Magento\Core\Helper\AbstractHelper
 {
     /**
+     * @var \Magento\Core\Model\StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     */
+    public function __construct(
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\StoreManager $storeManager
+    ) {
+        parent::__construct($context);
+        $this->_storeManager = $storeManager;
+    }
+
+
+    /**
      * Retrieve current url
      *
      * @return string
@@ -64,7 +82,7 @@ class Url extends \Magento\Core\Helper\AbstractHelper
      */
     public function getHomeUrl()
     {
-        return \Mage::getBaseUrl();
+        return $this->_storeManager->getStore()->getBaseUrl();
     }
 
     protected function _prepareString($string)

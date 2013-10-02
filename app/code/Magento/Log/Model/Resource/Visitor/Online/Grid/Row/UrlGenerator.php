@@ -19,13 +19,17 @@ class UrlGenerator
     protected $_authorization;
 
     /**
+     * @param \Magento\Backend\Model\UrlProxy $backendUrl
      * @param \Magento\AuthorizationInterface $authorization
      * @param array $args
      */
-    public function __construct(\Magento\AuthorizationInterface $authorization, array $args = array())
-    {
+    public function __construct(
+        \Magento\Backend\Model\UrlProxy $backendUrl,
+        \Magento\AuthorizationInterface $authorization,
+        array $args = array()
+    ) {
         $this->_authorization = $authorization;
-        parent::__construct($args);
+        parent::__construct($backendUrl, $args);
     }
 
     /**

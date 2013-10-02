@@ -9,13 +9,13 @@ namespace Magento\SalesRule\Model\Plugin;
 
 class QuoteConfigProductAttributes
 {
-    /** @var \\Magento\SalesRule\Model\Resource\Rule */
+    /** @var \Magento\SalesRule\Model\Resource\Rule */
     protected $_ruleResource;
 
-    /** @var \\Magento\Customer\Model\Session */
+    /** @var \Magento\Customer\Model\Session */
     protected $_customerSession;
 
-    /** @var \\Magento\Core\Model\StoreManager */
+    /** @var \Magento\Core\Model\StoreManager */
     protected $_storeManager;
 
     /**

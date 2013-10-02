@@ -28,21 +28,23 @@ class Renderer extends \Magento\Checkout\Block\Cart\Item\Renderer
     protected $_downloadProdConfig = null;
 
     /**
-     * @param \Magento\Downloadable\Helper\Catalog\Product\Configuration $dwnCtlgProdConfig
      * @param \Magento\Catalog\Helper\Product\Configuration $productConfiguration
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Downloadable\Helper\Catalog\Product\Configuration $dwnCtlgProdConfig
+     * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param array $data
      */
     public function __construct(
-        \Magento\Downloadable\Helper\Catalog\Product\Configuration $dwnCtlgProdConfig,
         \Magento\Catalog\Helper\Product\Configuration $productConfiguration,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
+        \Magento\Downloadable\Helper\Catalog\Product\Configuration $dwnCtlgProdConfig,
+        \Magento\Checkout\Model\Session $checkoutSession,
         array $data = array()
     ) {
         $this->_downloadProdConfig = $dwnCtlgProdConfig;
-        parent::__construct($productConfiguration, $coreData, $context, $data);
+        parent::__construct($productConfiguration, $coreData, $context, $checkoutSession, $data);
     }
 
     /**

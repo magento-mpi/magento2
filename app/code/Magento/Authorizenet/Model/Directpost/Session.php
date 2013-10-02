@@ -22,10 +22,13 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
     /**
      * @param \Magento\Core\Model\Session\Context $context
      * @param array $data
-     * @param string $sessionName
+     * @param string|null $sessionName
      */
-    public function __construct(\Magento\Core\Model\Session\Context $context, array $data = array(), $sessionName = null)
-    {
+    public function __construct(
+        \Magento\Core\Model\Session\Context $context,
+        array $data = array(),
+        $sessionName = null
+    ) {
         parent::__construct($context, $data);
         $this->init('authorizenet_directpost', $sessionName);
     }

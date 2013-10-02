@@ -15,10 +15,10 @@ class HttpTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $helperMock = $this->getMockBuilder('Magento\Backend\Helper\DataProxy')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->_model = new \Magento\Core\Controller\Request\Http($helperMock);
+        $storeManager = $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false);
+        $helperMock = $this->getMock('Magento\Backend\Helper\DataProxy', array(), array(),
+            '', false);
+        $this->_model = new \Magento\Core\Controller\Request\Http($storeManager, $helperMock);
     }
 
     /**

@@ -53,7 +53,7 @@ class Export extends \Magento\Adminhtml\Controller\Action
         if ($this->getRequest()->getPost(\Magento\ImportExport\Model\Export::FILTER_ELEMENT_GROUP)) {
             try {
                 /** @var $model \Magento\ImportExport\Model\Export */
-                $model = \Mage::getModel('Magento\ImportExport\Model\Export');
+                $model = $this->_objectManager->create('Magento\ImportExport\Model\Export');
                 $model->setData($this->getRequest()->getParams());
 
                 return $this->_prepareDownloadResponse(
@@ -102,7 +102,7 @@ class Export extends \Magento\Adminhtml\Controller\Action
                 /** @var $attrFilterBlock \Magento\ImportExport\Block\Adminhtml\Export\Filter */
                 $attrFilterBlock = $this->getLayout()->getBlock('export.filter');
                 /** @var $export \Magento\ImportExport\Model\Export */
-                $export = \Mage::getModel('Magento\ImportExport\Model\Export');
+                $export = $this->_objectManager->create('Magento\ImportExport\Model\Export');
                 $export->setData($data);
 
                 $export->filterAttributeCollection(

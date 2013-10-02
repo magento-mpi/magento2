@@ -22,7 +22,7 @@ class Extended
      *      'width'     => int,
      *      'sortable'  => bool,
      *      'index'     => string,
-     *      //'renderer'  => \Magento\Backend\Block\Widget\Grid\Column\Renderer\RendererInterface,
+     *      //'renderer'  => \Magento\Backend\Block\Widget\Grid\Column\Renderer\Interface,
      *      'format'    => string
      *      'total'     => string (sum, avg)
      * )
@@ -168,7 +168,7 @@ class Extended
     {
         parent::_construct();
         $this->_emptyText = __('We couldn\'t find any records.');
-        $this->_exportPath = \Mage::getBaseDir('var') . DS . 'export';
+        $this->_exportPath = $this->_dirs->getDir(\Magento\Core\Model\Dir::VAR_DIR) . DS . 'export';
     }
 
     /**

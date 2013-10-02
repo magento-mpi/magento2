@@ -22,7 +22,7 @@ class TaxTest extends \PHPUnit_Framework_TestCase
     protected $_block;
 
     /**
-     * @var \Magento\ObjectManager|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\ObjectManager|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_objectManager;
 
@@ -45,23 +45,29 @@ class TaxTest extends \PHPUnit_Framework_TestCase
     protected function _getModelArgument()
     {
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $attributeFactory = $this->getMock('Magento\Eav\Model\Entity\AttributeFactory',
+            array('create'), array(), '', false);
+        $taxItemFactory = $this->getMock('Magento\Tax\Model\Resource\Sales\Order\Tax\ItemFactory',
+            array('create'), array(), '', false);
+        $taxHelperMock = $objectManagerHelper->getObject('Magento\Tax\Helper\Data', array(
+            'attributeFactory' => $attributeFactory,
+            'taxItemFactory' => $taxItemFactory
+        ));
+
+        $taxOrderFactory = $this->getMock('Magento\Tax\Model\Sales\Order\Tax\Factory',
+            array('create'), array(), '', false);
+
         return $objectManagerHelper->getConstructArguments(
             'Magento\Adminhtml\Block\Sales\Order\Totals\Tax',
             array(
-                'coreData'        => $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false),
-                'context'         => $this->getMock('Magento\Backend\Block\Template\Context', array(), array(), '',
-                    false),
-                'taxConfig'       => $this->getMock('Magento\Tax\Model\Config', array(), array(), '', false),
-                'taxHelper'       => $this->_getTaxHelperMock(),
-                'taxCalculation'  => $this->getMock('Magento\Tax\Model\Calculation', array(), array(), '', false),
-                'taxOrderFactory' => $this->getMock('Magento\Tax\Model\Sales\Order\Tax\Factory', array(), array(), '',
-                    false),
+                'taxHelper'       => $taxHelperMock,
+                'taxOrderFactory' => $taxOrderFactory,
             )
         );
     }
 
     /**
-     * @return \Magento\Sales\Model\Order|PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\Sales\Model\Order|\PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getSalesOrderMock()
     {
@@ -73,24 +79,6 @@ class TaxTest extends \PHPUnit_Framework_TestCase
             ->method('getItemsCollection')
             ->will($this->returnValue(array()));
         return $orderMock;
-    }
-
-    /**
-     * @return \Magento\Tax\Helper\Data|PHPUnit_Framework_MockObject_MockObject
-     */
-    protected function _getTaxHelperMock()
-    {
-        $taxHelper = $this->getMockBuilder('Magento\Tax\Helper\Data')
-            ->setConstructorArgs(array(
-                'coreData' => $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false),
-                'context' => $this->getMock('Magento\Core\Helper\Context', array(), array(), '', false),
-                'coreRegistry' => $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false),
-                'coreStoreConfig' => $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false),
-                'taxConfig' => $this->getMock('Magento\Tax\Model\Config', array(), array(), '', false)
-            ))
-            ->setMethods(null)
-            ->getMock();
-        return $taxHelper;
     }
 
     /**

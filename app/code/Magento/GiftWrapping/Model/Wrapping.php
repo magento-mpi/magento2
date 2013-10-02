@@ -49,11 +49,17 @@ class Wrapping extends \Magento\Core\Model\AbstractModel
     protected $_dir;
 
     /**
+     * @var \Magento\Core\Model\File\UploaderFactory
+     */
+    protected $_uploaderFactory;
+
+    /**
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\System\Store $systemStore
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Dir $dir
+     * @param \Magento\Core\Model\File\UploaderFactory $uploaderFactory
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -64,6 +70,7 @@ class Wrapping extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\System\Store $systemStore,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Dir $dir,
+        \Magento\Core\Model\File\UploaderFactory $uploaderFactory,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -72,6 +79,7 @@ class Wrapping extends \Magento\Core\Model\AbstractModel
         $this->_systemStore = $systemStore;
         $this->_dir = $dir;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        $this->_uploaderFactory = $uploaderFactory;
     }
 
     /**
@@ -196,7 +204,8 @@ class Wrapping extends \Magento\Core\Model\AbstractModel
     {
         $isUploaded = true;
         try {
-            $uploader = new \Magento\Core\Model\File\Uploader($imageFieldName);
+            /** @var $uploader \Magento\Core\Model\File\Uploader */
+            $uploader = $this->_uploaderFactory->create(array('fileId' => $imageFieldName));
             $uploader->setAllowedExtensions(array('jpg','jpeg','gif','png'));
             $uploader->setAllowRenameFiles(true);
             $uploader->setAllowCreateFolders(true);

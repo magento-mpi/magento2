@@ -20,6 +20,32 @@ namespace Magento\Reports\Model\Resource\Refresh;
 
 class Collection extends \Magento\Data\Collection
 {
+
+    /**
+     * @var \Magento\Core\Model\LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * @var \Magento\Reports\Model\FlagFactory
+     */
+    protected $_reportsFlagFactory;
+
+    /**
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Reports\Model\FlagFactory $reportsFlagFactory
+     */
+    public function __construct(
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Reports\Model\FlagFactory $reportsFlagFactory
+    ) {
+        parent::__construct($entityFactory);
+        $this->_locale = $locale;
+        $this->_reportsFlagFactory = $reportsFlagFactory;
+    }
+
     /**
      * Get if updated
      *
@@ -28,9 +54,12 @@ class Collection extends \Magento\Data\Collection
      */
     protected function _getUpdatedAt($reportCode)
     {
-        $flag = \Mage::getModel('Magento\Reports\Model\Flag')->setReportFlagCode($reportCode)->loadSelf();
+        $flag = $this->_reportsFlagFactory
+            ->create()
+            ->setReportFlagCode($reportCode)
+            ->loadSelf();
         return ($flag->hasData())
-            ? \Mage::app()->getLocale()
+            ? $this->_locale
                 ->storeDate(0, new \Zend_Date($flag->getLastUpdate(), \Magento\Date::DATETIME_INTERNAL_FORMAT), true)
             : '';
     }

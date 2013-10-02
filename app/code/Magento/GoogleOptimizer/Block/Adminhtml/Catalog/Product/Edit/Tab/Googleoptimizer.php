@@ -10,7 +10,7 @@
 namespace Magento\GoogleOptimizer\Block\Adminhtml\Catalog\Product\Edit\Tab;
 
 class Googleoptimizer
-    extends \Magento\GoogleOptimizer\Block\Adminhtml\TabAbstract
+    extends \Magento\GoogleOptimizer\Block\Adminhtml\AbstractTab
 {
     /**
      * Get Product entity

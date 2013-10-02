@@ -16,13 +16,6 @@ namespace Magento\MultipleWishlist\Block;
 class Info extends \Magento\Wishlist\Block\AbstractBlock
 {
     /**
-     * Customer session
-     *
-     * @var \Magento\Customer\Model\Session
-     */
-    protected $_customerSession;
-
-    /**
      * Customer model factory
      *
      * @var \Magento\Customer\Model\CustomerFactory
@@ -30,15 +23,15 @@ class Info extends \Magento\Wishlist\Block\AbstractBlock
     protected $_customerFactory;
 
     /**
-     * Construct
-     *
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Wishlist\Helper\Data $wishlistData
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param array $data
      */
@@ -49,13 +42,15 @@ class Info extends \Magento\Wishlist\Block\AbstractBlock
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Customer\Model\Session $customerSession,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         array $data = array()
     ) {
-        $this->_customerSession = $customerSession;
         $this->_customerFactory = $customerFactory;
-        parent::__construct($coreRegistry, $wishlistData, $taxData, $catalogData, $coreData, $context, $data);
+        parent::__construct($coreRegistry, $wishlistData, $taxData, $catalogData, $coreData, $context, $storeManager,
+            $customerSession, $productFactory, $data);
     }
 
     /**

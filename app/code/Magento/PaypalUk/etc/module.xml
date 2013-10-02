@@ -16,6 +16,7 @@
             <module name="Magento_Paypal"/>
         </sequence>
         <depends>
+            <module name="Magento_Directory"/>
             <module name="Magento_Paypal"/>
             <module name="Magento_Payment"/>
             <module name="Magento_Core"/>

@@ -52,11 +52,6 @@ abstract class AbstractAction extends \Magento\Core\Controller\Varien\Action
     protected $_session;
 
     /**
-     * @var \Magento\Core\Model\Event\Manager
-     */
-    protected $_eventManager;
-
-    /**
      * @var \Magento\AuthorizationInterface
      */
     protected $_authorization;
@@ -65,6 +60,21 @@ abstract class AbstractAction extends \Magento\Core\Controller\Varien\Action
      * @var \Magento\Core\Model\Translate
      */
     protected $_translator;
+
+    /**
+     * @var \Magento\Backend\Model\Auth
+     */
+    protected $_auth;
+
+    /**
+     * @var \Magento\Backend\Model\Url
+     */
+    protected $_backendUrl;
+
+    /**
+     * @var \Magento\Core\Model\LocaleInterface
+     */
+    protected $_locale;
 
     /**
      * @param \Magento\Backend\Controller\Context $context
@@ -76,6 +86,9 @@ abstract class AbstractAction extends \Magento\Core\Controller\Varien\Action
         $this->_session = $context->getSession();
         $this->_authorization = $context->getAuthorization();
         $this->_translator = $context->getTranslator();
+        $this->_auth = $context->getAuth();
+        $this->_backendUrl = $context->getBackendUrl();
+        $this->_locale = $context->getLocale();
     }
 
     protected function _isAllowed()
@@ -233,11 +246,11 @@ abstract class AbstractAction extends \Magento\Core\Controller\Varien\Action
         $_isValidFormKey = true;
         $_isValidSecretKey = true;
         $_keyErrorMsg = '';
-        if (\Mage::getSingleton('Magento\Backend\Model\Auth\Session')->isLoggedIn()) {
+        if ($this->_auth->isLoggedIn()) {
             if ($this->getRequest()->isPost()) {
                 $_isValidFormKey = $this->_validateFormKey();
                 $_keyErrorMsg = __('Invalid Form Key. Please refresh the page.');
-            } elseif (\Mage::getSingleton('Magento\Backend\Model\Url')->useSecretKey()) {
+            } elseif ($this->_backendUrl->useSecretKey()) {
                 $_isValidSecretKey = $this->_validateSecretKey();
                 $_keyErrorMsg = __('You entered an invalid Secret Key. Please refresh the page.');
             }
@@ -251,7 +264,7 @@ abstract class AbstractAction extends \Magento\Core\Controller\Varien\Action
                     'message' => $_keyErrorMsg
                 )));
             } else {
-                $this->_redirect(\Mage::getSingleton('Magento\Backend\Model\Url')->getStartupPageUrl());
+                $this->_redirect($this->_backendUrl->getStartupPageUrl());
             }
             return false;
         }
@@ -272,7 +285,7 @@ abstract class AbstractAction extends \Magento\Core\Controller\Varien\Action
         }
 
         if (is_null($this->_getSession()->getLocale())) {
-            $this->_getSession()->setLocale(\Mage::app()->getLocale()->getLocaleCode());
+            $this->_getSession()->setLocale($this->_locale->getLocaleCode());
         }
 
         return $this;
@@ -280,8 +293,6 @@ abstract class AbstractAction extends \Magento\Core\Controller\Varien\Action
 
     /**
      * Fire predispatch events, execute extra logic after predispatch
-     *
-     * @return void
      */
     protected function _firePreDispatchEvents()
     {
@@ -296,11 +307,7 @@ abstract class AbstractAction extends \Magento\Core\Controller\Varien\Action
      */
     protected function _initAuthentication()
     {
-        /** @var $auth \Magento\Backend\Model\Auth */
-        $auth = \Mage::getSingleton('Magento\Backend\Model\Auth');
-
         $request = $this->getRequest();
-
         $requestedActionName = $request->getActionName();
         $openActions = array(
             'forgotpassword',
@@ -312,14 +319,14 @@ abstract class AbstractAction extends \Magento\Core\Controller\Varien\Action
         if (in_array($requestedActionName, $openActions)) {
             $request->setDispatched(true);
         } else {
-            if ($auth->getUser()) {
-                $auth->getUser()->reload();
+            if ($this->_auth->getUser()) {
+                $this->_auth->getUser()->reload();
             }
-            if (!$auth->isLoggedIn()) {
+            if (!$this->_auth->isLoggedIn()) {
                 $this->_processNotLoggedInUser($request);
             }
         }
-        $auth->getAuthStorage()->refreshAcl();
+        $this->_auth->getAuthStorage()->refreshAcl();
         return $this;
     }
 
@@ -371,7 +378,7 @@ abstract class AbstractAction extends \Magento\Core\Controller\Varien\Action
         $this->getRequest()->setPost('login', null);
 
         try {
-            \Mage::getSingleton('Magento\Backend\Model\Auth')->login($username, $password);
+            $this->_auth->login($username, $password);
         } catch (\Magento\Backend\Model\Auth\Exception $e) {
             if (!$this->getRequest()->getParam('messageSent')) {
                 $this->_session->addError($e->getMessage());
@@ -391,12 +398,9 @@ abstract class AbstractAction extends \Magento\Core\Controller\Varien\Action
     {
         $requestUri = null;
 
-        /** @var $urlModel \Magento\Backend\Model\Url */
-        $urlModel = \Mage::getSingleton('Magento\Backend\Model\Url');
-
         // Checks, whether secret key is required for admin access or request uri is explicitly set
-        if ($urlModel->useSecretKey()) {
-            $requestUri = $urlModel->getUrl('*/*/*', array('_current' => true));
+        if ($this->_backendUrl->useSecretKey()) {
+            $requestUri = $this->_backendUrl->getUrl('*/*/*', array('_current' => true));
         } elseif ($this->getRequest()) {
             $requestUri = $this->getRequest()->getRequestUri();
         }
@@ -413,7 +417,7 @@ abstract class AbstractAction extends \Magento\Core\Controller\Varien\Action
     public function deniedAction()
     {
         $this->getResponse()->setHeader('HTTP/1.1', '403 Forbidden');
-        if (!\Mage::getSingleton('Magento\Backend\Model\Auth\Session')->isLoggedIn()) {
+        if (!$this->_auth->isLoggedIn()) {
             $this->_redirect('*/auth/login');
             return;
         }
@@ -515,7 +519,7 @@ abstract class AbstractAction extends \Magento\Core\Controller\Varien\Action
         }
 
         $secretKey = $this->getRequest()->getParam(\Magento\Backend\Model\Url::SECRET_KEY_PARAM_NAME, null);
-        if (!$secretKey || $secretKey != \Mage::getSingleton('Magento\Backend\Model\Url')->getSecretKey()) {
+        if (!$secretKey || $secretKey != $this->_backendUrl->getSecretKey()) {
             return false;
         }
         return true;
@@ -552,9 +556,8 @@ abstract class AbstractAction extends \Magento\Core\Controller\Varien\Action
     protected function _prepareDownloadResponse($fileName, $content, $contentType = 'application/octet-stream',
         $contentLength = null
     ) {
-        $session = \Mage::getSingleton('Magento\Backend\Model\Auth\Session');
-        if ($session->isFirstPageAfterLogin()) {
-            $this->_redirect(\Mage::getSingleton('Magento\Backend\Model\Url')->getStartupPageUrl());
+        if ($this->_auth->getAuthStorage()->isFirstPageAfterLogin()) {
+            $this->_redirect($this->_backendUrl->getStartupPageUrl());
             return $this;
         }
         return parent::_prepareDownloadResponse($fileName, $content, $contentType, $contentLength);

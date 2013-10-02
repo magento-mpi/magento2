@@ -13,6 +13,15 @@ namespace Magento\GiftRegistry\Block\Adminhtml\Customer\Edit;
 class Form
     extends \Magento\Adminhtml\Block\Widget\Form
 {
+    /**
+     * @var \Magento\Customer\Model\CustomerFactory
+     */
+    protected $customerFactory;
+
+    /**
+     * @var \Magento\GiftRegistry\Model\TypeFactory
+     */
+    protected $giftRegistryTypeFactory;
 
     protected $_template = 'customer/form.phtml';
 
@@ -24,19 +33,34 @@ class Form
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $storeManager;
+
+    /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
+     * @param \Magento\GiftRegistry\Model\TypeFactory $giftRegistryTypeFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
+        \Magento\Customer\Model\CustomerFactory $customerFactory,
+        \Magento\GiftRegistry\Model\TypeFactory $giftRegistryTypeFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
+        $this->customerFactory = $customerFactory;
+        $this->giftRegistryTypeFactory = $giftRegistryTypeFactory;
         parent::__construct($coreData, $context, $data);
+
+        $this->storeManager = $storeManager;
     }
 
     /**
@@ -64,7 +88,7 @@ class Form
      */
     public function getWebsiteName()
     {
-        return \Mage::app()->getWebsite($this->getEntity()->getWebsiteId())->getName();
+        return $this->storeManager->getWebsite($this->getEntity()->getWebsiteId())->getName();
     }
 
     /**
@@ -74,7 +98,7 @@ class Form
      */
     public function getOwnerName()
     {
-        $customer = \Mage::getModel('Magento\Customer\Model\Customer')
+        $customer = $this->customerFactory->create()
             ->load($this->getEntity()->getCustomerId());
 
         return $this->escapeHtml($customer->getName());
@@ -97,7 +121,7 @@ class Form
      */
     public function getTypeName()
     {
-        $type = \Mage::getModel('Magento\GiftRegistry\Model\Type')
+        $type = $this->giftRegistryTypeFactory->create()
             ->load($this->getEntity()->getTypeId());
 
         return $this->escapeHtml($type->getLabel());

@@ -49,7 +49,7 @@ class Design implements \Magento\Core\Model\View\DesignInterface
     protected $_theme;
 
     /**
-     * \Directory of the css file
+     * Directory of the css file
      * Using only to transmit additional parameter in callback functions
      *
      * @var string
@@ -66,6 +66,11 @@ class Design implements \Magento\Core\Model\View\DesignInterface
     /**
      * @var \Magento\Core\Model\Theme\FlyweightFactory
      */
+    protected $_flyweightFactory;
+
+    /**
+     * @var \Magento\Core\Model\Theme
+     */
     protected $_themeFactory;
 
     /**
@@ -79,33 +84,35 @@ class Design implements \Magento\Core\Model\View\DesignInterface
     private $_storeConfig;
 
     /**
-     * List of themes for all areas
-     *
-     * @var array
+     * @var \Magento\Core\Model\App
      */
-    protected $_themes;
+    protected $_app;
 
     /**
-     * Design
-     *
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Theme\FlyweightFactory $themeFactory
-     * @param \Magento\Core\Model\Config $config
-     * @param \Magento\Core\Model\Store\Config $storeConfig
+     * @param \Magento\Core\Model\Theme\FlyweightFactory $flyweightFactory
+     * @param \Magento\Core\Model\ConfigInterface $config
+     * @param \Magento\Core\Model\Store\ConfigInterface $storeConfig
+     * @param \Magento\Core\Model\ThemeFactory $themeFactory
+     * @param \Magento\Core\Model\App $app
      * @param array $themes
      */
     public function __construct(
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Theme\FlyweightFactory $themeFactory,
-        \Magento\Core\Model\Config $config,
-        \Magento\Core\Model\Store\Config $storeConfig,
+        \Magento\Core\Model\Theme\FlyweightFactory $flyweightFactory,
+        \Magento\Core\Model\ConfigInterface $config,
+        \Magento\Core\Model\Store\ConfigInterface $storeConfig,
+        \Magento\Core\Model\ThemeFactory $themeFactory,
+        \Magento\Core\Model\App $app,
         array $themes
     ) {
         $this->_storeManager = $storeManager;
+        $this->_flyweightFactory = $flyweightFactory;
         $this->_themeFactory = $themeFactory;
         $this->_config = $config;
         $this->_storeConfig = $storeConfig;
         $this->_themes = $themes;
+        $this->_app = $app;
     }
 
     /**
@@ -150,7 +157,7 @@ class Design implements \Magento\Core\Model\View\DesignInterface
         if ($theme instanceof \Magento\Core\Model\Theme) {
             $this->_theme = $theme;
         } else {
-            $this->_theme = $this->_themeFactory->create($theme, $this->getArea());
+            $this->_theme = $this->_flyweightFactory->create($theme, $this->getArea());
         }
 
         return $this;
@@ -217,7 +224,7 @@ class Design implements \Magento\Core\Model\View\DesignInterface
     public function getDesignTheme()
     {
         if ($this->_theme === null) {
-            $this->_theme = \Mage::getModel('Magento\Core\Model\Theme');
+            $this->_theme = $this->_themeFactory->create();
         }
         return $this->_theme;
     }
@@ -257,7 +264,7 @@ class Design implements \Magento\Core\Model\View\DesignInterface
         $params = array(
             'area'       => $this->getArea(),
             'themeModel' => $this->getDesignTheme(),
-            'locale'     => \Mage::app()->getLocale()->getLocaleCode()
+            'locale'     => $this->_app->getLocale()->getLocaleCode()
         );
 
         return $params;

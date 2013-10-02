@@ -16,8 +16,19 @@ namespace Magento\Paypal\Model;
 class Express extends \Magento\Payment\Model\Method\AbstractMethod
     implements \Magento\Payment\Model\Recurring\Profile\MethodInterface
 {
+    /**
+     * @var string
+     */
     protected $_code  = \Magento\Paypal\Model\Config::METHOD_WPP_EXPRESS;
+
+    /**
+     * @var string
+     */
     protected $_formBlockType = 'Magento\Paypal\Block\Express\Form';
+
+    /**
+     * @var string
+     */
     protected $_infoBlockType = 'Magento\Paypal\Block\Payment\Info';
 
     /**
@@ -50,7 +61,7 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
      *
      * @var \Magento\Paypal\Model\Pro
      */
-    protected $_pro = null;
+    protected $_pro;
 
     /**
      * Payment additional information key for payment action
@@ -66,12 +77,34 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
     protected $_authorizationCountKey = 'authorization_count';
 
     /**
-     * Construct
-     *
+     * @var \Magento\Paypal\Model\Method\ProTypeFactory
+     */
+    protected $_proTypeFactory;
+
+    /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Core\Model\UrlInterface
+     */
+    protected $_urlBuilder;
+
+    /**
+     * @var \Magento\Paypal\Model\CartFactory
+     */
+    protected $_cartFactory;
+
+    /**
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
+     * @param \Magento\Paypal\Model\Method\ProTypeFactory $proTypeFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\UrlInterface $urlBuilder
+     * @param \Magento\Paypal\Model\CartFactory $cartFactory
      * @param array $data
      */
     public function __construct(
@@ -79,14 +112,29 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
+        \Magento\Paypal\Model\Method\ProTypeFactory $proTypeFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\UrlInterface $urlBuilder,
+        \Magento\Paypal\Model\CartFactory $cartFactory,
         array $data = array()
     ) {
-        parent::__construct($eventManager, $paymentData, $coreStoreConfig, $logAdapterFactory, $data);
+        parent::__construct(
+            $eventManager,
+            $paymentData,
+            $coreStoreConfig,
+            $logAdapterFactory,
+            $data
+        );
+        $this->_proTypeFactory = $proTypeFactory;
+        $this->_storeManager = $storeManager;
+        $this->_urlBuilder = $urlBuilder;
+        $this->_cartFactory = $cartFactory;
+
         $proInstance = array_shift($data);
         if ($proInstance && ($proInstance instanceof \Magento\Paypal\Model\Pro)) {
             $this->_pro = $proInstance;
         } else {
-            $this->_pro = \Mage::getModel($this->_proType);
+            $this->_pro = $this->_proTypeFactory->create($this->_proType);
         }
         $this->_pro->setMethod($this->_code);
     }
@@ -96,12 +144,13 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
      * Also updates store ID in config object
      *
      * @param \Magento\Core\Model\Store|int $store
+     * @return $this
      */
     public function setStore($store)
     {
         $this->setData('store', $store);
         if (null === $store) {
-            $store = \Mage::app()->getStore()->getId();
+            $store = $this->_storeManager->getStore()->getId();
         }
         $this->_pro->getConfig()->setStoreId(is_object($store) ? $store->getId() : $store);
         return $this;
@@ -172,7 +221,7 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * Order payment
      *
-     * @param \Magento\Sales\Model\Order\Payment $payment
+     * @param \Magento\Object|\Magento\Sales\Model\Order\Payment $payment
      * @param float $amount
      * @return \Magento\Paypal\Model\Express
      */
@@ -194,12 +243,12 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
         $state  = \Magento\Sales\Model\Order::STATE_PROCESSING;
         $status = true;
 
-        $formatedPrice = $order->getBaseCurrency()->formatTxt($amount);
+        $formattedPrice = $order->getBaseCurrency()->formatTxt($amount);
         if ($payment->getIsTransactionPending()) {
-            $message = __('The ordering amount of %1 is pending approval on the payment gateway.', $formatedPrice);
+            $message = __('The ordering amount of %1 is pending approval on the payment gateway.', $formattedPrice);
             $state = \Magento\Sales\Model\Order::STATE_PAYMENT_REVIEW;
         } else {
-            $message = __('Ordered amount of %1', $formatedPrice);
+            $message = __('Ordered amount of %1', $formattedPrice);
         }
 
         $payment->addTransaction(\Magento\Sales\Model\Order\Payment\Transaction::TYPE_ORDER, null, false, $message);
@@ -207,13 +256,16 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
         $this->_pro->importPaymentInfo($api, $payment);
 
         if ($payment->getIsTransactionPending()) {
-            $message = __('We\'ll authorize the amount of %1 as soon as the payment gateway approves it.', $formatedPrice);
+            $message = __(
+                'We\'ll authorize the amount of %1 as soon as the payment gateway approves it.',
+                $formattedPrice
+            );
             $state = \Magento\Sales\Model\Order::STATE_PAYMENT_REVIEW;
             if ($payment->getIsFraudDetected()) {
                 $status = \Magento\Sales\Model\Order::STATUS_FRAUD;
             }
         } else {
-            $message = __('The authorized amount is %1.', $formatedPrice);
+            $message = __('The authorized amount is %1.', $formattedPrice);
         }
 
         $payment->resetTransactionAdditionalInfo();
@@ -221,7 +273,7 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
         $payment->setTransactionId($api->getTransactionId());
         $payment->setParentTransactionId($orderTransactionId);
 
-        $transaction = $payment->addTransaction(\Magento\Sales\Model\Order\Payment\Transaction::TYPE_AUTH, null, false,
+        $payment->addTransaction(\Magento\Sales\Model\Order\Payment\Transaction::TYPE_AUTH, null, false,
             $message
         );
 
@@ -234,7 +286,7 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * Authorize payment
      *
-     * @param \Magento\Sales\Model\Order\Payment $payment
+     * @param \Magento\Object|\Magento\Sales\Model\Order\Payment $payment
      * @param float $amount
      * @return \Magento\Paypal\Model\Express
      */
@@ -246,7 +298,7 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * Void payment
      *
-     * @param \Magento\Sales\Model\Order\Payment $payment
+     * @param \Magento\Object|\Magento\Sales\Model\Order\Payment $payment
      * @return \Magento\Paypal\Model\Express
      */
     public function void(\Magento\Object $payment)
@@ -270,8 +322,9 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * Capture payment
      *
-     * @param \Magento\Sales\Model\Order\Payment $payment
+     * @param \Magento\Object|\Magento\Sales\Model\Order\Payment $payment
      * @param float $amount
+     * @throws \Magento\Core\Exception
      * @return \Magento\Paypal\Model\Express
      */
     public function capture(\Magento\Object $payment, $amount)
@@ -289,7 +342,6 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
             ) {
                 //Save payment state and configure payment object for voiding
                 $isCaptureFinal = $payment->getShouldCloseParentTransaction();
-                $captureTrxId = $payment->getTransactionId();
                 $payment->setShouldCloseParentTransaction(false);
                 $payment->setParentTransactionId($authorizationTransaction->getTxnId());
                 $payment->unsTransactionId();
@@ -305,7 +357,7 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
 
             if ($authorizationTransaction->getIsClosed() || $voided) {
                 if ($payment->getAdditionalInformation($this->_authorizationCountKey) > $maxAuthorizationNumber - 1) {
-                    \Mage::throwException(__('The maximum number of child authorizations is reached.'));
+                    throw new \Magento\Core\Exception(__('The maximum number of child authorizations is reached.'));
                 }
                 $api = $this->_callDoAuthorize(
                     $amount,
@@ -322,13 +374,19 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
                 $formatedPrice = $order->getBaseCurrency()->formatTxt($amount);
 
                 if ($payment->getIsTransactionPending()) {
-                    $message = __('We\'ll authorize the amount of %1 as soon as the payment gateway approves it.', $formatedPrice);
+                    $message = __(
+                        'We\'ll authorize the amount of %1 as soon as the payment gateway approves it.',
+                        $formatedPrice
+                    );
                 } else {
                     $message = __('The authorized amount is %1.', $formatedPrice);
                 }
 
-                $transaction = $payment->addTransaction(\Magento\Sales\Model\Order\Payment\Transaction::TYPE_AUTH, null,
-                    true, $message
+                $transaction = $payment->addTransaction(
+                    \Magento\Sales\Model\Order\Payment\Transaction::TYPE_AUTH,
+                    null,
+                    true,
+                    $message
                 );
 
                 $payment->setParentTransactionId($api->getTransactionId());
@@ -361,7 +419,7 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * Refund capture
      *
-     * @param \Magento\Sales\Model\Order\Payment $payment
+     * @param \Magento\Object|\Magento\Sales\Model\Order\Payment $payment
      * @param float $amount
      * @return \Magento\Paypal\Model\Express
      */
@@ -374,7 +432,7 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * Cancel payment
      *
-     * @param \Magento\Sales\Model\Order\Payment $payment
+     * @param \Magento\Object|\Magento\Sales\Model\Order\Payment $payment
      * @return \Magento\Paypal\Model\Express
      */
     public function cancel(\Magento\Object $payment)
@@ -387,7 +445,7 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * Whether payment can be reviewed
      *
-     * @param \Magento\Sales\Model\Order\Payment $payment
+     * @param \Magento\Payment\Model\Info|\Magento\Sales\Model\Order\Payment $payment
      * @return bool
      */
     public function canReviewPayment(\Magento\Payment\Model\Info $payment)
@@ -398,7 +456,7 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * Attempt to accept a pending payment
      *
-     * @param \Magento\Sales\Model\Order\Payment $payment
+     * @param \Magento\Payment\Model\Info|\Magento\Sales\Model\Order\Payment $payment
      * @return bool
      */
     public function acceptPayment(\Magento\Payment\Model\Info $payment)
@@ -410,7 +468,7 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * Attempt to deny a pending payment
      *
-     * @param \Magento\Sales\Model\Order\Payment $payment
+     * @param \Magento\Payment\Model\Info|\Magento\Sales\Model\Order\Payment $payment
      * @return bool
      */
     public function denyPayment(\Magento\Payment\Model\Info $payment)
@@ -428,7 +486,7 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
      */
     public function getCheckoutRedirectUrl()
     {
-        return \Mage::getUrl('paypal/express/start');
+        return $this->_urlBuilder->getUrl('paypal/express/start');
     }
 
     /**
@@ -462,8 +520,9 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
     public function submitRecurringProfile(\Magento\Payment\Model\Recurring\Profile $profile,
         \Magento\Payment\Model\Info $paymentInfo
     ) {
-        $token = $paymentInfo->
-            getAdditionalInformation(\Magento\Paypal\Model\Express\Checkout::PAYMENT_INFO_TRANSPORT_TOKEN);
+        $token = $paymentInfo->getAdditionalInformation(
+            \Magento\Paypal\Model\Express\Checkout::PAYMENT_INFO_TRANSPORT_TOKEN
+        );
         $profile->setToken($token);
         $this->_pro->submitRecurringProfile($profile, $paymentInfo);
     }
@@ -546,12 +605,11 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
                 getAdditionalInformation(\Magento\Paypal\Model\Express\Checkout::PAYMENT_INFO_TRANSPORT_PAYER_ID))
             ->setAmount($amount)
             ->setPaymentAction($this->_pro->getConfig()->paymentAction)
-            ->setNotifyUrl(\Mage::getUrl('paypal/ipn/'))
+            ->setNotifyUrl($this->_urlBuilder->getUrl('paypal/ipn/'))
             ->setInvNum($order->getIncrementId())
             ->setCurrencyCode($order->getBaseCurrencyCode())
-            ->setPaypalCart(\Mage::getModel('Magento\Paypal\Model\Cart', $parameters))
-            ->setIsLineItemsEnabled($this->_pro->getConfig()->lineItemsEnabled)
-        ;
+            ->setPaypalCart($this->_cartFactory->create($parameters))
+            ->setIsLineItemsEnabled($this->_pro->getConfig()->lineItemsEnabled);
         if ($order->getIsVirtual()) {
             $api->setAddress($order->getBillingAddress())->setSuppressShipping(true);
         } else {
@@ -576,8 +634,7 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
     {
         $payment->setTransactionId($api->getTransactionId())->setIsTransactionClosed(0)
             ->setAdditionalInformation(\Magento\Paypal\Model\Express\Checkout::PAYMENT_INFO_TRANSPORT_REDIRECT,
-                $api->getRedirectRequired()
-            );
+                $api->getRedirectRequired());
 
         if ($api->getBillingAgreementId()) {
             $payment->setBillingAgreementData(array(
@@ -605,8 +662,7 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
         $info = $this->getInfoInstance();
         if ($info->getAdditionalInformation($this->_isOrderPaymentActionKey)) {
             $orderTransaction = $info->lookupTransaction(
-                false, \Magento\Sales\Model\Order\Payment\Transaction::TYPE_ORDER
-            );
+                false, \Magento\Sales\Model\Order\Payment\Transaction::TYPE_ORDER);
             if ($orderTransaction) {
                 $info->setParentTransactionId($orderTransaction->getTxnId());
             }
@@ -627,8 +683,7 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
 
         if ($payment->getAdditionalInformation($this->_isOrderPaymentActionKey)) {
             $orderTransaction = $payment->lookupTransaction(false,
-                \Magento\Sales\Model\Order\Payment\Transaction::TYPE_ORDER
-            );
+                \Magento\Sales\Model\Order\Payment\Transaction::TYPE_ORDER);
             if ($orderTransaction->getIsClosed()) {
                 return false;
             }
@@ -663,8 +718,7 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
             ->callDoAuthorization();
 
         $payment->setAdditionalInformation($this->_authorizationCountKey,
-            $payment->getAdditionalInformation($this->_authorizationCountKey) + 1
-        );
+            $payment->getAdditionalInformation($this->_authorizationCountKey) + 1);
 
         return $api;
     }

@@ -11,14 +11,32 @@
 namespace Magento\GiftCardAccount\Block\Adminhtml\Widget\Grid\Column\Renderer;
 
 class Currency
-extends \Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\Currency
+    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Currency
 {
     protected static $_websiteBaseCurrencyCodes = array();
+
+    /**
+     * @var \Magento\Core\Model\StoreManager
+     */
+    protected $_storeManager;
+
+    public function __construct(
+        \Magento\Backend\Block\Context $context,
+        \Magento\Core\Model\App $app,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Directory\Model\Currency\DefaultLocator $currencyLocator,
+        \Magento\Core\Model\StoreManager $storeManager,
+        array $data = array()
+    ) {
+        parent::__construct($context, $app, $locale, $currencyLocator, $data);
+        $this->_storeManager = $storeManager;
+    }
+
 
     protected function _getCurrencyCode($row)
     {
         $websiteId = $row->getWebsiteId();
-        $code = \Mage::app()->getWebsite($websiteId)->getBaseCurrencyCode();
+        $code = $this->_storeManager->getWebsite($websiteId)->getBaseCurrencyCode();
         self::$_websiteBaseCurrencyCodes[$websiteId] = $code;
 
         return self::$_websiteBaseCurrencyCodes[$websiteId];

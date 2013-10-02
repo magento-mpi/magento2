@@ -13,6 +13,12 @@ namespace Magento\Customer\Block\Widget;
 class Dob extends \Magento\Customer\Block\Widget\AbstractWidget
 {
     /**
+     * Constants for borders of date-type customer attributes
+     */
+    const MIN_DATE_RANGE_KEY = 'date_range_min';
+    const MAX_DATE_RANGE_KEY = 'date_range_max';
+
+    /**
      * Date inputs
      *
      * @var array
@@ -20,10 +26,28 @@ class Dob extends \Magento\Customer\Block\Widget\AbstractWidget
     protected $_dateInputs = array();
 
     /**
-     * Constants for borders of date-type customer attributes
+     * @var \Magento\Core\Model\LocaleInterface
      */
-    const MIN_DATE_RANGE_KEY = 'date_range_min';
-    const MAX_DATE_RANGE_KEY = 'date_range_max';
+    protected $_locale;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Core\Model\LocaleInterface $locale,
+        array $data = array()
+    ) {
+        $this->_locale = $locale;
+        parent::__construct($coreData, $context, $eavConfig, $data);
+    }
+
 
     public function _construct()
     {
@@ -72,7 +96,7 @@ class Dob extends \Magento\Customer\Block\Widget\AbstractWidget
      */
     public function getDateFormat()
     {
-        return \Mage::app()->getLocale()->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
+        return $this->_locale->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
     }
 
     /**

@@ -11,22 +11,22 @@ namespace Magento\Directory\Helper;
 class DataTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Directory\Model\Resource\Country\Collection|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Directory\Model\Resource\Country\Collection|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_countryCollection;
 
     /**
-     * @var \Magento\Directory\Model\Resource\Region\CollectionFactory|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Directory\Model\Resource\Region\CollectionFactory|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_regionCollection;
 
     /**
-     * @var \Magento\Core\Helper\Data|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Helper\Data|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_coreHelper;
 
     /**
-     * @var \Magento\Core\Model\Store|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Model\Store|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_store;
 
@@ -38,8 +38,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $request = $this->getMock('Magento\Core\Controller\Request\HttpProxy', array(), array(), '', false);
-        $context = $objectManager->getObject('Magento\Core\Helper\Context', array('request' => $request));
+        $context = $this->getMock('Magento\Core\Helper\Context', array(), array(), '', false);
 
         $configCacheType = $this->getMock('Magento\Core\Model\Cache\Type\Config', array(), array(), '', false);
 

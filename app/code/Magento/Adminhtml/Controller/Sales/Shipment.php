@@ -15,7 +15,7 @@
  */
 namespace Magento\Adminhtml\Controller\Sales;
 
-class Shipment extends \Magento\Adminhtml\Controller\Sales\Shipment\ShipmentAbstract
+class Shipment extends \Magento\Adminhtml\Controller\Sales\Shipment\AbstractShipment
 {
     /**
      * Export shipment grid to CSV format
