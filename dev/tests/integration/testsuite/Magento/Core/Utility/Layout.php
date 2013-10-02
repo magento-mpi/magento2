@@ -21,7 +21,7 @@ class Layout
      */
     protected $_testCase;
 
-    public function __construct(PHPUnit_Framework_TestCase $testCase)
+    public function __construct(\PHPUnit_Framework_TestCase $testCase)
     {
         $this->_testCase = $testCase;
     }
@@ -42,9 +42,9 @@ class Layout
             $files[] = $fileFactory->create($filename, 'Magento_Core');
         }
         $fileSource = $this->_testCase->getMockForAbstractClass('Magento\Core\Model\Layout\File\SourceInterface');
-        $fileSource->expects(PHPUnit_Framework_TestCase::any())
+        $fileSource->expects(\PHPUnit_Framework_TestCase::any())
             ->method('getFiles')
-            ->will(PHPUnit_Framework_TestCase::returnValue($files));
+            ->will(\PHPUnit_Framework_TestCase::returnValue($files));
         $cache = $this->_testCase->getMockForAbstractClass('Magento\Cache\FrontendInterface');
         return $objectManager->create(
             'Magento\Core\Model\Layout\Merge', array('fileSource' => $fileSource, 'cache' => $cache)
@@ -63,9 +63,9 @@ class Layout
         $layout = $this->_testCase->getMock('Magento\Core\Model\Layout', array('getUpdate'), $args);
         $layoutUpdate = $this->getLayoutUpdateFromFixture($layoutUpdatesFile);
         $layoutUpdate->asSimplexml();
-        $layout->expects(PHPUnit_Framework_TestCase::any())
+        $layout->expects(\PHPUnit_Framework_TestCase::any())
             ->method('getUpdate')
-            ->will(PHPUnit_Framework_TestCase::returnValue($layoutUpdate));
+            ->will(\PHPUnit_Framework_TestCase::returnValue($layoutUpdate));
         return $layout;
     }
 

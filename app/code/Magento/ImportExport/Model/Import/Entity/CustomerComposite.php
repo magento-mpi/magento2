@@ -8,13 +8,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\ImportExport\Model\Import\Entity;
+
 /**
  * Import entity customer combined model
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-namespace Magento\ImportExport\Model\Import\Entity;
-
 class CustomerComposite
     extends \Magento\ImportExport\Model\Import\AbstractEntity
 {

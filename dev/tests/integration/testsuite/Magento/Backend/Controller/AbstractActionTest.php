@@ -9,13 +9,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Backend\Controller;
+
 /**
  * Test class for \Magento\Backend\Controller\AbstractAction.
  * @magentoAppArea adminhtml
  */
-namespace Magento\Backend\Controller;
-
-class ActionAbstractTest extends \Magento\Backend\Utility\Controller
+class AbstractActionTest extends \Magento\Backend\Utility\Controller
 {
     /**
      * Check redirection to startup page for logged user
@@ -28,7 +28,8 @@ class ActionAbstractTest extends \Magento\Backend\Utility\Controller
             ->setCurrentScope(\Magento\Core\Model\App\Area::AREA_ADMINHTML);
         $this->dispatch('backend');
         /** @var $backendUrlModel \Magento\Backend\Model\Url */
-        $backendUrlModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Backend\Model\Url');
+        $backendUrlModel =
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Backend\Model\Url');
         $url = $backendUrlModel->getStartupPageUrl();
         $expected = $backendUrlModel->getUrl($url);
         $this->assertRedirect($this->stringStartsWith($expected));

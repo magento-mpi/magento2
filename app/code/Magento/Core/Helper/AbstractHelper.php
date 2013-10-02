@@ -8,13 +8,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Core\Helper;
+
 /**
  * Abstract helper
  *
  * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
-namespace Magento\Core\Helper;
-
 abstract class AbstractHelper
 {
     /**
@@ -140,9 +140,9 @@ abstract class AbstractHelper
     {
         if (!$this->_moduleName) {
             $class = get_class($this);
-            $this->_moduleName = substr($class, 0, strpos($class, '_Helper'));
+            $this->_moduleName = substr($class, 0, strpos($class, '\\Helper'));
         }
-        return $this->_moduleName;
+        return str_replace(\Magento\Autoload\IncludePath::NS_SEPARATOR, '_', $this->_moduleName);
     }
 
     /**

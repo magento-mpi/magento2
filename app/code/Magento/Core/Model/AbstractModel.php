@@ -8,6 +8,7 @@
  * @license     {license_link}
  */
 
+namespace Magento\Core\Model;
 
 /**
  * Abstract model class
@@ -15,8 +16,6 @@
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
-namespace Magento\Core\Model;
-
 abstract class AbstractModel extends \Magento\Object
 {
     /**

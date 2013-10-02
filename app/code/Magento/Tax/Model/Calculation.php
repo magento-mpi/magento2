@@ -73,7 +73,7 @@ class Calculation extends \Magento\Core\Model\AbstractModel
     protected $_customerFactory;
 
     /**
-     * @var \Magento\Tax\Model\Resource\ClassResource\CollectionFactory
+     * @var \Magento\Tax\Model\Resource\TaxClass\CollectionFactory
      */
     protected $_classesFactory;
 
@@ -86,7 +86,7 @@ class Calculation extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Customer\Model\GroupFactory $groupFactory
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
-     * @param \Magento\Tax\Model\Resource\ClassResource\CollectionFactory $classesFactory
+     * @param \Magento\Tax\Model\Resource\TaxClass\CollectionFactory $classesFactory
      * @param \Magento\Tax\Model\Resource\Calculation $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -100,7 +100,7 @@ class Calculation extends \Magento\Core\Model\AbstractModel
         \Magento\Customer\Model\GroupFactory $groupFactory,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
-        \Magento\Tax\Model\Resource\ClassResource\CollectionFactory $classesFactory,
+        \Magento\Tax\Model\Resource\TaxClass\CollectionFactory $classesFactory,
         \Magento\Tax\Model\Resource\Calculation $resource,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -473,7 +473,7 @@ class Calculation extends \Magento\Core\Model\AbstractModel
     protected function _getRates($request, $fieldName, $type)
     {
         $result = array();
-        /** @var $classes \Magento\Tax\Model\Resource\ClassResource\Collection */
+        /** @var $classes \Magento\Tax\Model\Resource\TaxClass\Collection */
         $classes = $this->_classesFactory->create();
         $classes->addFieldToFilter('class_type', $type)->load();
         /** @var $namespace Magento\Tax\Model;

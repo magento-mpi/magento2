@@ -9,14 +9,14 @@
  */
 
 
+namespace Magento\Backend\Block\System\Config;
+
 /**
  * System config form block
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
-namespace Magento\Backend\Block\System\Config;
-
 class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
 

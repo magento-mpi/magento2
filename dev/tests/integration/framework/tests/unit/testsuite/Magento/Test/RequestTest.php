@@ -22,7 +22,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     {
         $this->_model = new \Magento\TestFramework\Request(
             $this->getMock('Magento\Core\Model\StoreManager', ['__wakeup'], [], '', false),
-            $this->getMock('Magento\Backend\Helper\Data', [], [], 'Magento\Backend\Helper\DataProxy', false)
+            $this->getMock('Magento\Backend\Helper\Data', [], [], '', false)
         );
     }
 

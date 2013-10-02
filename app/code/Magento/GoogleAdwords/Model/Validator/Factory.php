@@ -6,10 +6,12 @@
  *
  * @copyright   {copyright}
  * @license     {license_link}
- * @SuppressWarnings(PHPMD.LongVariable)
  */
 namespace Magento\GoogleAdwords\Model\Validator;
 
+/**
+ * @SuppressWarnings(PHPMD.LongVariable)
+ */
 class Factory
 {
     /**

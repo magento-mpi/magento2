@@ -84,7 +84,8 @@ class Storage extends \Magento\Core\Helper\AbstractHelper
      */
     public function getStorageFileModel()
     {
-        return \Mage::getSingleton('Magento\Core\Model\File\Storage\File');
+        return $objectManager = \Magento\Core\Model\ObjectManager::getInstance()
+            ->getSingleton('Magento\Core\Model\File\Storage\File');
     }
 
     /**

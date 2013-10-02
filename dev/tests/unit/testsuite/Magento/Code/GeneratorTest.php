@@ -37,7 +37,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Code\Generator\AbstractEntity
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Code\Generator\EntityAbstract
      */
     protected $_generator;
 
@@ -48,7 +48,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_generator = $this->getMockForAbstractClass('Magento\Code\Generator\AbstractEntity',
+        $this->_generator = $this->getMockForAbstractClass('Magento\Code\Generator\EntityAbstract',
             array(), '', true, true, true, array('generate')
         );
         $this->_autoloader = $this->getMock('Magento\Autoload\IncludePath',

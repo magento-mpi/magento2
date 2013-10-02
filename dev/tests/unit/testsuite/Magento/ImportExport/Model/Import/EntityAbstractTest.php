@@ -10,7 +10,7 @@
  */
 
 /**
- * Test class for \Magento\ImportExport\Model\Import\AbstractEntity
+ * Test class for \Magento\ImportExport\Model\Import\EntityAbstract
  *
  * @todo Fix tests in the scope of https://wiki.magento.com/display/MAGE2/Technical+Debt+%28Team-Donetsk-B%29
  */

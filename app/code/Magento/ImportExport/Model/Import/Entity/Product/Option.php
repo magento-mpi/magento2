@@ -8,6 +8,8 @@
  * @license     {license_link}
  */
 
+namespace Magento\ImportExport\Model\Import\Entity\Product;
+
 /**
  * Entity class which provide possibility to import product custom options
  *
@@ -21,8 +23,6 @@
  * @todo Need to explode this class because of several responsibilities
  * @todo Refactor in the scope of https://wiki.magento.com/display/MAGE2/Technical+Debt+%28Team-Donetsk-B%29
  */
-namespace Magento\ImportExport\Model\Import\Entity\Product;
-
 class Option extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
 {
     /**#@+

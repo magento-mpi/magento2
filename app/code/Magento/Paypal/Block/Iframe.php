@@ -109,8 +109,10 @@ class Iframe extends \Magento\Payment\Block\Form
     {
         if (!$this->_block) {
             $this->_block = $this->getLayout()
-                ->createBlock('Magento\Paypal\Block\\'
-                    . str_replace(' ', '_', ucwords(str_replace('_', ' ', $this->_paymentMethodCode)))
+                ->createBlock('Magento\\Paypal\\Block\\'
+                    . str_replace(' ', \Magento\Autoload\IncludePath::NS_SEPARATOR,
+                            ucwords(str_replace(\Magento\Autoload\IncludePath::NS_SEPARATOR, ' ', $this
+                                        ->_paymentMethodCode)))
                     . '_Iframe');
             if (!$this->_block instanceof \Magento\Paypal\Block\Iframe) {
                 throw new \Magento\Core\Exception('Invalid block type');

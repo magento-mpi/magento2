@@ -10,11 +10,11 @@
  */
 
 
+namespace Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Chooser;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Chooser;
-
 class LayoutTest extends \PHPUnit_Framework_TestCase
 {
     /**

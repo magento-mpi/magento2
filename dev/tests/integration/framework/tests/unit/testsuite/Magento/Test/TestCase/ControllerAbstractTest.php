@@ -31,7 +31,7 @@ class ControllerAbstractTest extends \Magento\TestFramework\TestCase\AbstractCon
         $session = new \Magento\Object(array('messages' => $messagesCollection));
         $request = new \Magento\TestFramework\Request(
             $this->getMock('Magento\Core\Model\StoreManager', [], [], '', false),
-            $this->getMock('Magento\Backend\Helper\Data', [], [], 'Magento\Backend\Helper\DataProxy', false)
+            $this->getMock('Magento\Backend\Helper\Data', [], [], '', false)
         );
         $response = new \Magento\TestFramework\Response(
             $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false)
@@ -90,14 +90,14 @@ class ControllerAbstractTest extends \Magento\TestFramework\TestCase\AbstractCon
         $this->getResponse()->setBody('');
         try {
             $this->assert404NotFound();
-        } catch (PHPUnit_Framework_AssertionFailedError $e) {
+        } catch (\PHPUnit_Framework_AssertionFailedError $e) {
             return;
         }
         $this->fail('Failed response body validation');
     }
 
     /**
-     * @expectedException PHPUnit_Framework_AssertionFailedError
+     * @expectedException \PHPUnit_Framework_AssertionFailedError
      */
     public function testAssertRedirectFailure()
     {
@@ -146,7 +146,7 @@ class ControllerAbstractTest extends \Magento\TestFramework\TestCase\AbstractCon
     }
 
     /**
-     * @expectedException PHPUnit_Framework_ExpectationFailedException
+     * @expectedException \PHPUnit_Framework_ExpectationFailedException
      * @expectedExceptionMessage Session messages do not meet expectations
      */
     public function testAssertSessionMessagesFailure()

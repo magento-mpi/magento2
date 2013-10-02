@@ -4,10 +4,15 @@
  *
  * @copyright   {copyright}
  * @license     {license_link}
- * @SuppressWarnings(PHPMD.LongVariable)
+ *
  */
 namespace Magento\GoogleAdwords\Model\Validator;
 
+/**
+ * Class FactoryTest
+ * @package Magento\GoogleAdwords\Model\Validator
+ * @SuppressWarnings(PHPMD.LongVariable)
+ */
 class FactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**

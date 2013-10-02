@@ -61,7 +61,7 @@ class CatalogProductItem
     /**
      * Parent (container) block
      *
-     * @var null|\Magento\TargetRule\Block\Catalog\Product\ListProduct\AbstractList
+     * @var null|\Magento\TargetRule\Block\Catalog\Product\ProductList\AbstractProductList
      */
     protected $_parentBlock;
 
@@ -111,9 +111,9 @@ class CatalogProductItem
     {
         $blockName = $this->_placeholder->getName();
         if ($blockName == self::BLOCK_NAME_RELATED) {
-            return 'Magento\TargetRule\Block\Catalog\Product\ListProduct\Related';
+            return 'Magento\TargetRule\Block\Catalog\Product\ProductList\Related';
         } elseif ($blockName == self::BLOCK_NAME_UPSELL) {
-            return 'Magento\TargetRule\Block\Catalog\Product\ListProduct\Upsell';
+            return 'Magento\TargetRule\Block\Catalog\Product\ProductList\Upsell';
         }
 
         return null;
@@ -212,7 +212,7 @@ class CatalogProductItem
     /**
      * Get parent (container) block
      *
-     * @return false|\Magento\TargetRule\Block\Catalog\Product\ListProduct\AbstractList
+     * @return false|\Magento\TargetRule\Block\Catalog\Product\ProductList\AbstractProductList
      */
     protected function _getParentBlock()
     {

@@ -18,13 +18,15 @@
  * @category   Magento
  * @package    Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
+ */
+namespace Magento\Core\Block;
+
+/**
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  * @SuppressWarnings(PHPMD.TooManyFields)
  */
-namespace Magento\Core\Block;
-
 abstract class AbstractBlock extends \Magento\Object
     implements \Magento\Core\Block
 {
@@ -833,7 +835,7 @@ abstract class AbstractBlock extends \Magento\Object
     public function getModuleName()
     {
         if (!$this->_getData('module_name')) {
-            $this->setData('module_name', self::extractModuleName(__NAMESPACE__));
+            $this->setData('module_name', self::extractModuleName(get_class($this)));
         }
         return $this->_getData('module_name');
     }
@@ -846,7 +848,8 @@ abstract class AbstractBlock extends \Magento\Object
      */
     public static function extractModuleName($className)
     {
-        return str_replace('\\', '_', substr($className, 0, strpos($className, '\\Block')));
+        $namespace = substr($className, 0, strpos($className, \Magento\Autoload\IncludePath::NS_SEPARATOR . 'Block'));
+        return str_replace(\Magento\Autoload\IncludePath::NS_SEPARATOR, '_', $namespace);
     }
 
     /**

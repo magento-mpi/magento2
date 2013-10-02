@@ -274,7 +274,7 @@ return array(
         'Magento\Catalog\Model\Config\Backend\Seo\Product'
     ),
     array('Mage_Adminhtml_Model_System_Config_Backend_Serialized_Array',
-        'Magento\Backend\Model\Config\Backend\Serialized\Array'
+        'Magento\Backend\Model\Config\Backend\Serialized\ArraySerialized'
     ),
     array('Mage_Adminhtml_Model_System_Config_Backend_Shipping_Tablerate',
         'Magento\Shipping\Model\Config\Backend\Tablerate'

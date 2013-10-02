@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Tax\Model\Calculation;
+
 /**
  * @magentoDataFixture Magento/Tax/_files/tax_classes.php
  */
-namespace Magento\Tax\Model\Calculation;
-
 class RuleTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -33,7 +33,10 @@ class RuleTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetCustomerTaxClassWithDefaultFirstValue()
     {
-        $taxClass = $this->_getTaxClassMock('getCustomerClasses', \Magento\Tax\Model\ClassModel::TAX_CLASS_TYPE_CUSTOMER);
+        $taxClass = $this->_getTaxClassMock(
+            'getCustomerClasses',
+            \Magento\Tax\Model\ClassModel::TAX_CLASS_TYPE_CUSTOMER
+        );
         $model = $this->_objectManager->create('Magento\Tax\Model\Calculation\Rule', array(
             'taxClass' => $taxClass,
             'registry' => $this->_getRegistryClassMock()
@@ -48,7 +51,10 @@ class RuleTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetCustomerTaxClassWithDefaultFromConfig()
     {
-        $taxClass = $this->_getTaxClassMock('getCustomerClasses', \Magento\Tax\Model\ClassModel::TAX_CLASS_TYPE_CUSTOMER);
+        $taxClass = $this->_getTaxClassMock(
+            'getCustomerClasses',
+            \Magento\Tax\Model\ClassModel::TAX_CLASS_TYPE_CUSTOMER
+        );
         $model = $this->_objectManager->create('Magento\Tax\Model\Calculation\Rule', array(
             'taxClass' => $taxClass,
             'registry' => $this->_getRegistryClassMock()
@@ -141,7 +147,7 @@ class RuleTest extends \PHPUnit_Framework_TestCase
     protected function _getTaxClassMock($callback, $filter)
     {
         $collection = $this->getMock(
-            'Magento\Tax\Model\Resource\ClassResource\Collection',
+            'Magento\Tax\Model\Resource\TaxClass\Collection',
             array('setClassTypeFilter', 'toOptionArray'),
             array(), '', false
         );

@@ -504,7 +504,8 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
                             array(
                                 array(
                                     1,
-                                    \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::COLUMN_EMAIL
+                                    \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::
+                                    COLUMN_EMAIL
                                 )
                             )
                         ),
@@ -516,7 +517,8 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
                             array(
                                 array(
                                     1,
-                                    \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::COLUMN_EMAIL
+                                    \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::
+                                    COLUMN_EMAIL
                                 )
                             )
                         ),
@@ -533,7 +535,8 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
                             array(
                                 array(
                                     1,
-                                    \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::COLUMN_EMAIL
+                                    \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::
+                                    COLUMN_EMAIL
                                 )
                             )
                         ),
@@ -545,7 +548,8 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
                             array(
                                 array(
                                     1,
-                                    \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::COLUMN_EMAIL
+                                    \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::
+                                    COLUMN_EMAIL
                                 )
                             )
                         ),
@@ -593,7 +597,8 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
                             array(
                                 array(
                                     1,
-                                    \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::COLUMN_EMAIL
+                                    \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::
+                                    COLUMN_EMAIL
                                 )
                             )
                         ),
@@ -605,7 +610,8 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
                             array(
                                 array(
                                     1,
-                                    \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::COLUMN_EMAIL
+                                    \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::
+                                    COLUMN_EMAIL
                                 )
                             )
                         ),
@@ -768,8 +774,8 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::validateRow() with different values
-     * in case when add/update behavior is performed
+     * Test \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::validateRow()
+     * with different values in case when add/update behavior is performed
      *
      * @covers \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::_validateRowForUpdate
      * @dataProvider validateRowDataProvider
@@ -830,8 +836,8 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::validateRow() with different values
-     * in case when delete behavior is performed
+     * Test \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::validateRow()
+     * with different values in case when delete behavior is performed
      *
      * @covers \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::_validateRowForDelete
      * @dataProvider validateRowDataProvider

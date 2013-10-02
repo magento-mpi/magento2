@@ -10,7 +10,7 @@
 
 namespace Magento\Core\Model\Design\Backend;
 
-class \Exceptions extends \Magento\Backend\Model\Config\Backend\Serialized\Array
+class Exceptions extends \Magento\Backend\Model\Config\Backend\Serialized\ArraySerialized
 {
     /**
      * Design package instance

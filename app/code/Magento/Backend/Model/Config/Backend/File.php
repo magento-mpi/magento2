@@ -8,13 +8,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Backend\Model\Config\Backend;
+
 /**
  * System config file field backend model
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-namespace Magento\Backend\Model\Config\Backend;
-
 class File extends \Magento\Core\Model\Config\Value
 {
     /**

@@ -43,7 +43,9 @@ class TextTest extends \PHPUnit_Framework_TestCase
             array('eavTypeFactory' => $eavTypeFactory, 'data' => $attributeData)
         );
 
-        /** @var $attribute \Magento\Eav\Model\Entity\Attribute\AbstractAttribute|\PHPUnit_Framework_MockObject_MockObject */
+        /** @var $attribute \Magento\Eav\Model\Entity\Attribute\AbstractAttribute|
+         * \PHPUnit_Framework_MockObject_MockObject
+         */
         $attribute = $this->getMock($attributeClass, array('_init'), $arguments);
         $this->_model = new \Magento\Eav\Model\Attribute\Data\Text($locale, $logger, $helper);
         $this->_model->setAttribute($attribute);

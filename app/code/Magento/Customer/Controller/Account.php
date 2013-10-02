@@ -388,7 +388,7 @@ class Account extends \Magento\Core\Controller\Front\Action
                 $message = $e->getMessage();
             }
             $session->addError($message);
-        } catch (\Magento\Validator\Exception $e) {
+        } catch (\Magento\Validator\ValidatorException $e) {
             foreach ($e->getMessages() as $messages) {
                 foreach ($messages as $message) {
                     $session->addError($message);
@@ -407,7 +407,7 @@ class Account extends \Magento\Core\Controller\Front\Action
      *
      * @param \Magento\Customer\Model\Customer $customer
      * @param \Magento\Customer\Model\Address|null $address
-     * @throws \Magento\Validator\Exception
+     * @throws \Magento\Validator\ValidatorException
      */
     protected function _validateCustomer($customer, $address = null)
     {
@@ -423,7 +423,7 @@ class Account extends \Magento\Core\Controller\Front\Action
             $errors = array_merge($errors, $customerErrors);
         }
         if (count($errors) > 0) {
-            throw new \Magento\Validator\Exception(array($errors));
+            throw new \Magento\Validator\ValidatorException(array($errors));
         }
         // Empty password confirmation data (it is needed only for validation purposes and is not meant to be stored)
         $customer->setConfirmation(null);

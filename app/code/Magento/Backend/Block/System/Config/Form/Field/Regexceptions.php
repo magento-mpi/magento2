@@ -14,7 +14,7 @@
 namespace Magento\Backend\Block\System\Config\Form\Field;
 
 class Regexceptions
-    extends \Magento\Backend\Block\System\Config\Form\Field\Array\AbstractArray
+    extends \Magento\Backend\Block\System\Config\Form\Field\FieldArray\AbstractFieldArray
 {
     /**
      * @var \Magento\Data\Form\Element\Factory

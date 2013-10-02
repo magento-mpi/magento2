@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Core\Model;
+
 /**
  * @magentoDataFixture Magento/Adminhtml/controllers/_files/cache/all_types_disabled.php
  */
-namespace Magento\Core\Model;
-
 class TranslateTest extends \PHPUnit_Framework_TestCase
 {
     /**

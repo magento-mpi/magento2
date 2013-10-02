@@ -8,13 +8,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Banner\Model\Resource;
+
 /**
  * Banner Setup Resource Model
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-namespace Magento\Banner\Model\Resource;
-
 class Setup extends \Magento\Sales\Model\Resource\Setup
 {
     /**

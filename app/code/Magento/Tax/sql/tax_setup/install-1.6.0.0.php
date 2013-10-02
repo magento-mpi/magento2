@@ -233,7 +233,7 @@ $catalogInstaller->addAttribute(\Magento\Catalog\Model\Product::ENTITY, 'tax_cla
     'label'                      => 'Tax Class',
     'input'                      => 'select',
     'class'                      => '',
-    'source'                     => 'Magento\Tax\Model\ClassModel\Source\Product',
+    'source'                     => 'Magento\Tax\Model\TaxClass\Source\Product',
     'global'                     => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_WEBSITE,
     'visible'                    => true,
     'required'                   => true,

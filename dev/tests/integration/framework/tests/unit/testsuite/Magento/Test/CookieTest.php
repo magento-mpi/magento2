@@ -33,7 +33,7 @@ class CookieTest extends \PHPUnit_Framework_TestCase
             $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false),
             new \Magento\TestFramework\Request(
                 $this->getMock('Magento\Core\Model\StoreManager', [], [], '', false),
-                $this->getMock('Magento\Backend\Helper\Data', [], [], 'Magento\Backend\Helper\DataProxy', false)
+                $this->getMock('Magento\Backend\Helper\Data', [], [], '', false)
             ),
             new \Magento\TestFramework\Response(
                 $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false)

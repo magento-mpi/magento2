@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Tax\Model\ClassModel\Source;
+namespace Magento\Tax\Model\TaxClass\Source;
 
 class Product extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
 {
@@ -20,7 +20,7 @@ class Product extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
     protected $_coreData;
 
     /**
-     * @var \Magento\Tax\Model\Resource\ClassResource\CollectionFactory
+     * @var \Magento\Tax\Model\Resource\TaxClass\CollectionFactory
      */
     protected $_classesFactory;
 
@@ -31,12 +31,12 @@ class Product extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Tax\Model\Resource\ClassResource\CollectionFactory $classesFactory
+     * @param \Magento\Tax\Model\Resource\TaxClass\CollectionFactory $classesFactory
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\OptionFactory $optionFactory
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Tax\Model\Resource\ClassResource\CollectionFactory $classesFactory,
+        \Magento\Tax\Model\Resource\TaxClass\CollectionFactory $classesFactory,
         \Magento\Eav\Model\Resource\Entity\Attribute\OptionFactory $optionFactory
     ) {
         $this->_coreData = $coreData;
@@ -52,7 +52,7 @@ class Product extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
     public function getAllOptions()
     {
         if (is_null($this->_options)) {
-            /** @var $classCollection \Magento\Tax\Model\Resource\ClassResource\Collection */
+            /** @var $classCollection \Magento\Tax\Model\Resource\TaxClass\Collection */
             $classCollection = $this->_classesFactory->create();
             $classCollection->addFieldToFilter('class_type', \Magento\Tax\Model\ClassModel::TAX_CLASS_TYPE_PRODUCT)->load();
             $this->_options = $classCollection->toOptionArray();

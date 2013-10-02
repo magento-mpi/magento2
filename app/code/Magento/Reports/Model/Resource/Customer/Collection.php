@@ -8,14 +8,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Reports\Model\Resource\Customer;
 
 /**
  * Customers Report collection
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-namespace Magento\Reports\Model\Resource\Customer;
-
 class Collection extends \Magento\Customer\Model\Resource\Customer\Collection
 {
     /**

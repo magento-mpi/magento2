@@ -8,6 +8,7 @@
  * @license     {license_link}
  */
 
+namespace Magento\Catalog\Model\Resource\Product\Compare\Item;
 
 /**
  * Catalog Product Compare Items Resource Collection
@@ -17,8 +18,6 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-namespace Magento\Catalog\Model\Resource\Product\Compare\Item;
-
 class Collection
     extends \Magento\Catalog\Model\Resource\Product\Collection
 {

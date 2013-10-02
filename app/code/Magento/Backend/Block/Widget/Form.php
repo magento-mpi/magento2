@@ -8,13 +8,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Backend\Block\Widget;
+
 /**
  * Backend form widget
  *
  * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
-namespace Magento\Backend\Block\Widget;
-
 class Form extends \Magento\Backend\Block\Widget
 {
     /**

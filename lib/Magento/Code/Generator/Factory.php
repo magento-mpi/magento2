@@ -10,7 +10,7 @@
 
 namespace Magento\Code\Generator;
 
-class Factory extends \Magento\Code\Generator\AbstractEntity
+class Factory extends \Magento\Code\Generator\EntityAbstract
 {
     /**
      * Entity type

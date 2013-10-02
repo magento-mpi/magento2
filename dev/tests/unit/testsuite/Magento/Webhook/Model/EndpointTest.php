@@ -182,13 +182,13 @@ class EndpointTest extends \PHPUnit_Framework_TestCase
             ->method('_getResource')
             ->will($this->returnValue($this->_mockResourceEndpnt));
 
-        $AbstractmockResource = $this->getMockBuilder('Magento\Webhook\Model\Resource\Endpoint')
+        $abstractMockResource = $this->getMockBuilder('Magento\Webhook\Model\Resource\Endpoint')
             ->disableOriginalConstructor()
             ->getMock();
 
         $this->_mockResourceEndpnt->expects($this->any())
             ->method('addCommitCallback')
             ->withAnyParameters()
-            ->will($this->returnValue($AbstractmockResource));
+            ->will($this->returnValue($abstractMockResource));
     }
 }

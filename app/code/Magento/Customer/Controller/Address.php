@@ -133,7 +133,7 @@ class Address extends \Magento\Core\Controller\Front\Action
             return;
         } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addException($e, $e->getMessage());
-        } catch (\Magento\Validator\Exception $e) {
+        } catch (\Magento\Validator\ValidatorException $e) {
             foreach ($e->getMessages() as $messages) {
                 foreach ($messages as $message) {
                     $this->_getSession()->addError($message);
@@ -151,13 +151,13 @@ class Address extends \Magento\Core\Controller\Front\Action
      * Do address validation using validate methods in models
      *
      * @param \Magento\Customer\Model\Address $address
-     * @throws \Magento\Validator\Exception
+     * @throws \Magento\Validator\ValidatorException
      */
     protected function _validateAddress($address)
     {
         $addressErrors = $address->validate();
         if (is_array($addressErrors) && count($addressErrors) > 0) {
-            throw new \Magento\Validator\Exception(array($addressErrors));
+            throw new \Magento\Validator\ValidatorException(array($addressErrors));
         }
     }
 

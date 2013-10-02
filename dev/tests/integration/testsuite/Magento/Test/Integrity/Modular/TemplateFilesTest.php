@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Test\Integrity\Modular;
+
 /**
  * @magentoAppIsolation
  */
-namespace Magento\Test\Integrity\Modular;
-
 class TemplateFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
 {
     /**
@@ -66,7 +66,7 @@ class TemplateFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrit
                 if ($module == 'Magento_Install') {
                     $area = 'install';
                 } elseif ($module == 'Magento_Adminhtml' || strpos($blockClass, '\\Adminhtml\\')
-                    || strpos($blockClass, '_Backend_')
+                    || strpos($blockClass, '\\Backend\\')
                     || $class->isSubclassOf('Magento\Backend\Block\Template')
                 ) {
                     $area = 'adminhtml';

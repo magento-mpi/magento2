@@ -8,6 +8,8 @@
  * @license     {license_link}
  */
 
+namespace Magento\Banner\Block\Adminhtml\Banner\Edit\Tab;
+
 /**
  * Main banner properties edit form
  *
@@ -17,8 +19,6 @@
  *
  * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
-namespace Magento\Banner\Block\Adminhtml\Banner\Edit\Tab;
-
 class Properties extends \Magento\Backend\Block\Widget\Form\Generic
     implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {

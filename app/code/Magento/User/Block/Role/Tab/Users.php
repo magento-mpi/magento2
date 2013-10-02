@@ -6,13 +6,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\User\Block\Role\Tab;
+
 /**
  * Class \Magento\User\Block\Role\Tab\Users
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-namespace Magento\User\Block\Role\Tab;
-
 class Users extends \Magento\Backend\Block\Widget\Tabs
 {
     /**

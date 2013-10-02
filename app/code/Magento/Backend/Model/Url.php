@@ -8,13 +8,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Backend\Model;
+
 /**
  * Class \Magento\Backend\Model\Url
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-namespace Magento\Backend\Model;
-
 class Url extends \Magento\Core\Model\Url
 {
     /**

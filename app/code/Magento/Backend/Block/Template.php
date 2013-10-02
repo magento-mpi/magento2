@@ -8,13 +8,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Backend\Block;
+
 /**
  * Backend abstract block
  *
  * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
-namespace Magento\Backend\Block;
-
 class Template extends \Magento\Core\Block\Template
 {
     /**

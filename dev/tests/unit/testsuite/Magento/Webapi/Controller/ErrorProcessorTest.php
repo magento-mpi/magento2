@@ -217,7 +217,14 @@ class ErrorProcessorTest extends \PHPUnit_Framework_TestCase
                 array('datail1' => 'value1', 'resource_id' => 'resource10')
             ),
             'Magento\Service\AuthorizationException' => array(
-                new \Magento\Service\AuthorizationException('Service authorization exception', 345, null, array(), 3, 4),
+                new \Magento\Service\AuthorizationException(
+                    'Service authorization exception',
+                    345,
+                    null,
+                    array(),
+                    3,
+                    4
+                ),
                 \Magento\Webapi\Exception::HTTP_UNAUTHORIZED,
                 'Service authorization exception',
                 345,

@@ -7,16 +7,16 @@
  * @copyright   {copyright}
  * @license     {license_link}
  *
- * @SuppressWarnings(PHPMD.ExcessiveParameterList)
  */
+
+namespace Magento\Backend\Controller\Router;
 
 /**
  * Class \Magento\Backend\Controller\Router\DefaultRouter
  *
+ * @SuppressWarnings(PHPMD.ExcessiveParameterList)
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-namespace Magento\Backend\Controller\Router;
-
 class DefaultRouter extends \Magento\Core\Controller\Varien\Router\Base
 {
     /**
@@ -274,8 +274,11 @@ class DefaultRouter extends \Magento\Core\Controller\Varien\Router\Base
          */
 
         $parts = explode('_', $realModule);
-        $realModule = implode('_', array_splice($parts, 0, 2));
-        return $realModule . '_' . 'Controller' . '_'. ucfirst($this->_areaCode) . '_' . uc_words($controller);
+        $realModule = implode(\Magento\Autoload\IncludePath::NS_SEPARATOR, array_splice($parts, 0, 2));
+        return $realModule . \Magento\Autoload\IncludePath::NS_SEPARATOR . 'Controller' .
+            \Magento\Autoload\IncludePath::NS_SEPARATOR . ucfirst($this->_areaCode) .
+            \Magento\Autoload\IncludePath::NS_SEPARATOR .
+            str_replace('_', '\\', uc_words(str_replace('_', ' ', $controller)));
     }
 
     /**

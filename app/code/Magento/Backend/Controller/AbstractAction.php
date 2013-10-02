@@ -8,13 +8,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Backend\Controller;
+
 /**
  * Generic backend controller
  *
  * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
-namespace Magento\Backend\Controller;
-
 abstract class AbstractAction extends \Magento\Core\Controller\Varien\Action
 {
     /**

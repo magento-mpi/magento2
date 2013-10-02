@@ -4,10 +4,15 @@
  *
  * @copyright {copyright}
  * @license {license_link}
- * @SuppressWarnings(PHPMD.LongVariable)
+ *
  */
 namespace Magento\GoogleOptimizer\Helper;
 
+/**
+ * Class DataTest
+ * @package Magento\GoogleOptimizer\Helper
+ * @SuppressWarnings(PHPMD.LongVariable)
+ */
 class DataTest extends \PHPUnit_Framework_TestCase
 {
     /**

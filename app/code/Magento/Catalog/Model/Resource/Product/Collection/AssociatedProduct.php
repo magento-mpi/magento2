@@ -8,6 +8,8 @@
  * @license     {license_link}
  */
 
+namespace Magento\Catalog\Model\Resource\Product\Collection;
+
 /**
  * Catalog compare item resource model
  *
@@ -17,8 +19,6 @@
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-namespace Magento\Catalog\Model\Resource\Product\Collection;
-
 class AssociatedProduct
     extends \Magento\Catalog\Model\Resource\Product\Collection
 {

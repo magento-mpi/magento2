@@ -37,13 +37,13 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
     /**
      * Model under test
      *
-     * @var \Magento\Code\Generator\AbstractEntity|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Code\Generator\EntityAbstract|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = $this->getMockForAbstractClass('Magento\Code\Generator\AbstractEntity');
+        $this->_model = $this->getMockForAbstractClass('Magento\Code\Generator\EntityAbstract');
     }
 
     protected function tearDown()
@@ -63,7 +63,7 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
 
         // with source class name
         $this->_model = $this->getMockForAbstractClass(
-            'Magento\Code\Generator\AbstractEntity', array(self::SOURCE_CLASS)
+            'Magento\Code\Generator\EntityAbstract', array(self::SOURCE_CLASS)
         );
         $this->assertAttributeEquals(self::SOURCE_CLASS, '_sourceClassName', $this->_model);
         $this->assertAttributeEquals(self::SOURCE_CLASS . 'Abstract', '_resultClassName', $this->_model);
@@ -74,7 +74,7 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
         $autoloader    = $this->getMock('Magento\Autoload\IncludePath', array(), array(), '', false);
 
         $this->_model = $this->getMockForAbstractClass(
-            'Magento\Code\Generator\AbstractEntity',
+            'Magento\Code\Generator\EntityAbstract',
             array(self::SOURCE_CLASS, self::RESULT_CLASS, $ioObject, $codeGenerator, $autoloader)
         );
         $this->assertAttributeEquals(self::RESULT_CLASS, '_resultClassName', $this->_model);
@@ -152,17 +152,17 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
      * @param bool $isValid
      *
      * @dataProvider generateDataProvider
-     * @covers \Magento\Code\Generator\AbstractEntity::generate
-     * @covers \Magento\Code\Generator\AbstractEntity::getErrors
-     * @covers \Magento\Code\Generator\AbstractEntity::_getSourceClassName
-     * @covers \Magento\Code\Generator\AbstractEntity::_getResultClassName
-     * @covers \Magento\Code\Generator\AbstractEntity::_getDefaultResultClassName
-     * @covers \Magento\Code\Generator\AbstractEntity::_generateCode
-     * @covers \Magento\Code\Generator\AbstractEntity::_addError
-     * @covers \Magento\Code\Generator\AbstractEntity::_validateData
-     * @covers \Magento\Code\Generator\AbstractEntity::_getClassDocBlock
-     * @covers \Magento\Code\Generator\AbstractEntity::_getGeneratedCode
-     * @covers \Magento\Code\Generator\AbstractEntity::_fixCodeStyle
+     * @covers \Magento\Code\Generator\EntityAbstract::generate
+     * @covers \Magento\Code\Generator\EntityAbstract::getErrors
+     * @covers \Magento\Code\Generator\EntityAbstract::_getSourceClassName
+     * @covers \Magento\Code\Generator\EntityAbstract::_getResultClassName
+     * @covers \Magento\Code\Generator\EntityAbstract::_getDefaultResultClassName
+     * @covers \Magento\Code\Generator\EntityAbstract::_generateCode
+     * @covers \Magento\Code\Generator\EntityAbstract::_addError
+     * @covers \Magento\Code\Generator\EntityAbstract::_validateData
+     * @covers \Magento\Code\Generator\EntityAbstract::_getClassDocBlock
+     * @covers \Magento\Code\Generator\EntityAbstract::_getGeneratedCode
+     * @covers \Magento\Code\Generator\EntityAbstract::_fixCodeStyle
      */
     public function testGenerate(
         $errors = array(),
@@ -187,7 +187,7 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
         }
         $abstractGetters = array('_getClassProperties', '_getClassMethods');
         $this->_model = $this->getMockForAbstractClass(
-            'Magento\Code\Generator\AbstractEntity', $arguments, '', true, true, true, $abstractGetters
+            'Magento\Code\Generator\EntityAbstract', $arguments, '', true, true, true, $abstractGetters
         );
         // we need to mock abstract methods to set correct return value type
         foreach ($abstractGetters as $methodName) {
