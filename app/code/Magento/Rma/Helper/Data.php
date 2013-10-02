@@ -212,7 +212,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     public function getReturnCreateUrl($order)
     {
         if ($this->_customerSession->isLoggedIn()) {
-            return $this->_getUrl('rma/return/create', array('order_id' => $order->getId()));
+            return $this->_getUrl('rma/returns/create', array('order_id' => $order->getId()));
         } else {
             return $this->_getUrl('rma/guest/create', array('order_id' => $order->getId()));
         }
