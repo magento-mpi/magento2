@@ -137,11 +137,11 @@ class Encryption implements \Magento\Core\Model\EncryptionInterface
     protected function _getCrypt($key = null)
     {
         if (null !== $key) {
-            return $this->_objectManager->create('Magento_Crypt', array('key' => $key));
+            return $this->_objectManager->create('Magento\Crypt', array('key' => $key));
         }
 
         if (!$this->_crypt) {
-            $this->_crypt = $this->_objectManager->create('Magento_Crypt', array('key' => $this->_cryptKey));
+            $this->_crypt = $this->_objectManager->create('Magento\Crypt', array('key' => $this->_cryptKey));
         }
         
         return $this->_crypt;
