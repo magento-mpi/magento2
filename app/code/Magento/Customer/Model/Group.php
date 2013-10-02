@@ -61,11 +61,17 @@ class Group extends \Magento\Core\Model\AbstractModel
     protected $_coreConfig;
 
     /**
+     * @var \Magento\Index\Model\Indexer
+     */
+    protected $_indexer;
+
+    /**
      * Constructor
      *
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\Index\Model\Indexer $indexer
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -74,18 +80,14 @@ class Group extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\Config $coreConfig,
+        \Magento\Index\Model\Indexer $indexer,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        parent::__construct(
-            $context,
-            $registry,
-            $resource,
-            $resourceCollection,
-            $data
-        );
         $this->_coreConfig = $coreConfig;
+        $this->_indexer = $indexer;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
     protected function _construct()
@@ -143,9 +145,7 @@ class Group extends \Magento\Core\Model\AbstractModel
     protected function _afterSave()
     {
         parent::_afterSave();
-        \Mage::getSingleton('Magento\Index\Model\Indexer')->processEntityAction(
-            $this, self::ENTITY, \Magento\Index\Model\Event::TYPE_SAVE
-        );
+        $this->_indexer->processEntityAction($this, self::ENTITY, \Magento\Index\Model\Event::TYPE_SAVE);
         return $this;
     }
 
@@ -172,5 +172,4 @@ class Group extends \Magento\Core\Model\AbstractModel
         );
         return $this;
     }
-
 }

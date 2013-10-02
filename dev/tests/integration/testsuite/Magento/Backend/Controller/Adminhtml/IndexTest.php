@@ -17,7 +17,7 @@ namespace Magento\Backend\Controller\Adminhtml;
  *
  * @magentoAppArea adminhtml
  */
-class IndexTest extends \Magento\TestFramework\TestCase\ControllerAbstract
+class IndexTest extends \Magento\TestFramework\TestCase\AbstractController
 {
     /**
      * @var \Magento\Backend\Model\Auth

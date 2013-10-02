@@ -17,8 +17,8 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Tax\Model\Resource\Report\Collection');
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $this->_collection = $objectManager->create('Magento\Tax\Model\Resource\Report\Collection');
         $this->_collection
             ->setPeriod('day')
             ->setDateRange(null, null)

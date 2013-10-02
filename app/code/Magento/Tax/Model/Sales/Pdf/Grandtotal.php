@@ -13,6 +13,29 @@ namespace Magento\Tax\Model\Sales\Pdf;
 class Grandtotal extends \Magento\Sales\Model\Order\Pdf\Total\DefaultTotal
 {
     /**
+     * @var \Magento\Tax\Model\Config
+     */
+    protected $_taxConfig;
+
+    /**
+     * @param \Magento\Tax\Helper\Data $taxHelper
+     * @param \Magento\Tax\Model\Calculation $taxCalculation
+     * @param \Magento\Tax\Model\Config $taxConfig
+     * @param \Magento\Tax\Model\Resource\Sales\Order\Tax\CollectionFactory $ordersFactory
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Tax\Helper\Data $taxHelper,
+        \Magento\Tax\Model\Calculation $taxCalculation,
+        \Magento\Tax\Model\Config $taxConfig,
+        \Magento\Tax\Model\Resource\Sales\Order\Tax\CollectionFactory $ordersFactory,
+        array $data = array()
+    ) {
+        $this->_taxConfig = $taxConfig;
+        parent::__construct($taxHelper, $taxCalculation, $ordersFactory, $data);
+    }
+
+    /**
      * Check if tax amount should be included to grandtotals block
      * array(
      *  $index => array(
@@ -26,8 +49,7 @@ class Grandtotal extends \Magento\Sales\Model\Order\Pdf\Total\DefaultTotal
     public function getTotalsForDisplay()
     {
         $store = $this->getOrder()->getStore();
-        $config= \Mage::getSingleton('Magento\Tax\Model\Config');
-        if (!$config->displaySalesTaxWithGrandTotal($store)) {
+        if (!$this->_taxConfig->displaySalesTaxWithGrandTotal($store)) {
             return parent::getTotalsForDisplay();
         }
         $amount = $this->getOrder()->formatPriceTxt($this->getAmount());
@@ -43,7 +65,7 @@ class Grandtotal extends \Magento\Sales\Model\Order\Pdf\Total\DefaultTotal
             'font_size' => $fontSize
         ));
 
-        if ($config->displaySalesFullSummary($store)) {
+        if ($this->_taxConfig->displaySalesFullSummary($store)) {
            $totals = array_merge($totals, $this->getFullTaxInfo());
         }
 

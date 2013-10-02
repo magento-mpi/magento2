@@ -42,14 +42,21 @@ class Session implements \Zend_Session_SaveHandler_Interface
     protected $_write;
 
     /**
+     * @var \Magento\Core\Model\Dir
+     */
+    protected $_dir;
+
+    /**
      * Constructor
      *
      * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Core\Model\Dir $dir
      */
-    public function __construct(\Magento\Core\Model\Resource $resource)
+    public function __construct(\Magento\Core\Model\Resource $resource, \Magento\Core\Model\Dir $dir)
     {
         $this->_sessionTable = $resource->getTableName('core_session');
         $this->_write        = $resource->getConnection('core_write');
+        $this->_dir          = $dir;
     }
 
     /**
@@ -94,7 +101,7 @@ class Session implements \Zend_Session_SaveHandler_Interface
                 array($this, 'gc')
             );
         } else {
-            session_save_path(\Mage::getBaseDir('session'));
+            session_save_path($this->_dir->getDir('session'));
         }
         return $this;
     }

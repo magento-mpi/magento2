@@ -14,7 +14,7 @@
  */
 namespace Magento\Checkout\Controller;
 
-class CartTest extends \Magento\TestFramework\TestCase\ControllerAbstract
+class CartTest extends \Magento\TestFramework\TestCase\AbstractController
 {
     /**
      * Test for \Magento\Checkout\Controller\Cart::configureAction() with simple product

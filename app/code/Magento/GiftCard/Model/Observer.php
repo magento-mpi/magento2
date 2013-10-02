@@ -92,6 +92,8 @@ class Observer extends \Magento\Core\Model\AbstractModel
     protected $_locale;
 
     /**
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Layout $layout
      * @param \Magento\Core\Model\LocaleInterface $locale
@@ -101,15 +103,16 @@ class Observer extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Core\Model\Session\AbstractSession $session
      * @param \Magento\Core\Model\UrlInterface $urlModel
      * @param \Magento\GiftCard\Helper\Data $giftCardData
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Core\Model\Resource\Db\Collection\AbstractCollection $resourceCollection
      * @param array $data
+     *
      * @throws \InvalidArgumentException
      */
     public function __construct(
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Layout $layout,
         \Magento\Core\Model\LocaleInterface $locale,
@@ -119,8 +122,6 @@ class Observer extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\Session\AbstractSession $session,
         \Magento\Core\Model\UrlInterface $urlModel,
         \Magento\GiftCard\Helper\Data $giftCardData,
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Core\Model\Resource\Db\Collection\AbstractCollection $resourceCollection = null,

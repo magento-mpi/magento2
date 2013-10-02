@@ -21,18 +21,17 @@ class Context extends \Magento\Core\Block\Template\Context
     protected $_authorization;
 
     /**
-     * @var \Magento\Core\Model\StoreManager
-     */
-    protected $_storeManager;
-
-    /**
      * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
     /**
+     * @var \Magento\Core\Model\StoreManager
+     */
+    protected $_storeManager;
+
+    /**
      * @param \Magento\Core\Model\StoreManager $storeManager
-     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Core\Controller\Request\Http $request
      * @param \Magento\Core\Model\Layout $layout
      * @param \Magento\Core\Model\Event\Manager $eventManager
@@ -53,12 +52,14 @@ class Context extends \Magento\Core\Block\Template\Context
      * @param \Magento\Core\Model\View\FileSystem $viewFileSystem
      * @param \Magento\Core\Model\TemplateEngine\Factory $engineFactory
      * @param \Magento\AuthorizationInterface $authorization
+     * @param \Magento\Core\Model\App $app
+     * @param \Magento\Backend\Model\Session $backendSession
+     * @param \Magento\Core\Model\LocaleInterface $locale
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Core\Model\StoreManager $storeManager,
-        \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Core\Controller\Request\Http $request,
         \Magento\Core\Model\Layout $layout,
         \Magento\Core\Model\Event\Manager $eventManager,
@@ -78,16 +79,20 @@ class Context extends \Magento\Core\Block\Template\Context
         \Magento\Filesystem $filesystem,
         \Magento\Core\Model\View\FileSystem $viewFileSystem,
         \Magento\Core\Model\TemplateEngine\Factory $engineFactory,
-        \Magento\AuthorizationInterface $authorization
+        \Magento\AuthorizationInterface $authorization,
+        \Magento\Core\Model\App $app,
+        \Magento\Backend\Model\Session $backendSession,
+        \Magento\Core\Model\LocaleInterface $locale
     ) {
         parent::__construct(
             $request, $layout, $eventManager, $urlBuilder, $translator, $cache, $design, $session, $storeConfig,
             $frontController, $helperFactory, $viewUrl, $viewConfig, $cacheState,
-            $dirs, $logger, $filesystem, $viewFileSystem, $engineFactory
+            $dirs, $logger, $filesystem, $viewFileSystem, $engineFactory, $app
         );
         $this->_storeManager = $storeManager;
-        $this->_locale = $locale;
         $this->_authorization = $authorization;
+        $this->_backendSession = $backendSession;
+        $this->_locale = $locale;
     }
 
     /**
@@ -101,15 +106,6 @@ class Context extends \Magento\Core\Block\Template\Context
     }
 
     /**
-     * Get locale
-     * @return \Magento\Core\Model\LocaleInterface
-     */
-    public function getLocale()
-    {
-        return $this->_locale;
-    }
-
-    /**
      * Retrieve Authorization
      *
      * @return \Magento\AuthorizationInterface
@@ -117,5 +113,21 @@ class Context extends \Magento\Core\Block\Template\Context
     public function getAuthorization()
     {
         return $this->_authorization;
+    }
+
+    /**
+     * @return \Magento\Backend\Model\Session
+     */
+    public function getBackendSession()
+    {
+        return $this->_backendSession;
+    }
+
+    /**
+     * @return \Magento\Core\Model\LocaleInterface
+     */
+    public function getLocale()
+    {
+        return $this->_locale;
     }
 }

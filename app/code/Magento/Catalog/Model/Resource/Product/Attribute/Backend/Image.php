@@ -22,6 +22,23 @@ class Image
     extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
 {
     /**
+     * @var \Magento\Core\Model\File\UploaderFactory
+     */
+    protected $_uploaderFactory;
+
+    /**
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Core\Model\File\UploaderFactory $uploaderFactory
+     */
+    public function __construct(
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Core\Model\File\UploaderFactory $uploaderFactory
+    ) {
+        parent::__construct($logger);
+        $this->_uploaderFactory = $uploaderFactory;
+    }
+
+    /**
      * After save
      *
      * @param \Magento\Object $object
@@ -39,7 +56,8 @@ class Image
         }
 
         try {
-            $uploader = new \Magento\Core\Model\File\Uploader($this->getAttribute()->getName());
+            /** @var $uploader \Magento\Core\Model\File\Uploader */
+            $uploader = $this->_uploaderFactory->create(array('fileId' => $this->getAttribute()->getName()));
             $uploader->setAllowedExtensions(array('jpg', 'jpeg', 'gif', 'png'));
             $uploader->setAllowRenameFiles(true);
             $uploader->setFilesDispersion(true);

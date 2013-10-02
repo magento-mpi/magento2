@@ -51,33 +51,60 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
     protected $_selectCountSqlType               = 0;
 
     /**
-     * @param \Magento\Catalog\Helper\Product\Flat $catalogProductFlat
-     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @var \Magento\Reports\Model\Event\TypeFactory
+     */
+    protected $_eventTypeFactory;
+
+    /**
+     * @var \Magento\Catalog\Model\Product\Type
+     */
+    protected $_productType;
+
+    /**
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Core\Model\Resource $coreResource
+     * @param \Magento\Eav\Model\EntityFactory $eavEntityFactory
+     * @param \Magento\Eav\Model\Resource\Helper $resourceHelper
+     * @param \Magento\Validator\UniversalFactory $universalFactory
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Catalog\Helper\Product\Flat $catalogProductFlat
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Catalog\Model\Resource\Product $product
+     * @param \Magento\Reports\Model\Event\TypeFactory $eventTypeFactory
+     * @param \Magento\Catalog\Model\Product\Type $productType
      */
     public function __construct(
-        \Magento\Catalog\Helper\Product\Flat $catalogProductFlat,
-        \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Model\Logger $logger,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\EntityFactory $entityFactory,
-        \Magento\Catalog\Model\Resource\Product $product
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Core\Model\Resource $coreResource,
+        \Magento\Eav\Model\EntityFactory $eavEntityFactory,
+        \Magento\Eav\Model\Resource\Helper $resourceHelper,
+        \Magento\Validator\UniversalFactory $universalFactory,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Catalog\Helper\Product\Flat $catalogProductFlat,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Catalog\Model\Resource\Product $product,
+        \Magento\Reports\Model\Event\TypeFactory $eventTypeFactory,
+        \Magento\Catalog\Model\Product\Type $productType
     ) {
         $this->setProductEntityId($product->getEntityIdField());
         $this->setProductEntityTableName($product->getEntityTable());
         $this->setProductEntityTypeId($product->getTypeId());
         parent::__construct(
-            $catalogData, $catalogProductFlat, $eventManager,
-            $logger, $fetchStrategy, $coreStoreConfig, $entityFactory
+            $eventManager, $logger, $fetchStrategy, $entityFactory, $eavConfig, $coreResource, $eavEntityFactory,
+            $resourceHelper, $universalFactory, $catalogData, $catalogProductFlat, $coreStoreConfig
         );
+        $this->_eventTypeFactory = $eventTypeFactory;
+        $this->_productType = $productType;
     }
+
     /**
      * Set Type for COUNT SQL Select
      *
@@ -274,7 +301,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
     public function addOrderedQty($from = '', $to = '')
     {
         $adapter              = $this->getConnection();
-        $compositeTypeIds     = \Mage::getSingleton('Magento\Catalog\Model\Product\Type')->getCompositeTypes();
+        $compositeTypeIds     = $this->_productType->getCompositeTypes();
         $orderTableAliasName  = $adapter->quoteIdentifier('order');
 
         $orderJoinCondition   = array(
@@ -355,7 +382,10 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
         /**
          * Getting event type id for catalog_product_view event
          */
-        foreach (\Mage::getModel('Magento\Reports\Model\Event\Type')->getCollection() as $eventType) {
+        $eventTypes = $this->_eventTypeFactory
+            ->create()
+            ->getCollection();
+        foreach ($eventTypes as $eventType) {
             if ($eventType->getEventName() == 'catalog_product_view') {
                 $productViewEvent = (int)$eventType->getId();
                 break;

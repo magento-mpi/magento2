@@ -42,6 +42,39 @@ class Event extends \Magento\Core\Model\AbstractModel
     const EVENT_WISHLIST_SHARE  = 6;
 
     /**
+     * @var \Magento\Core\Model\DateFactory
+     */
+    protected $_dateFactory;
+
+    /**
+     * @var \Magento\Reports\Model\Event\TypeFactory
+     */
+    protected $_eventTypeFactory;
+
+    /**
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\DateFactory $dateFactory
+     * @param \Magento\Reports\Model\Event\TypeFactory $eventTypeFactory
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\DateFactory $dateFactory,
+        \Magento\Reports\Model\Event\TypeFactory $eventTypeFactory,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        $this->_dateFactory = $dateFactory;
+        $this->_eventTypeFactory = $eventTypeFactory;
+    }
+
+    /**
      * Initialize resource
      *
      */
@@ -57,7 +90,8 @@ class Event extends \Magento\Core\Model\AbstractModel
      */
     protected function _beforeSave()
     {
-        $this->setLoggedAt(\Mage::getModel('Magento\Core\Model\Date')->gmtDate());
+        $date = $this->_dateFactory->create();
+        $this->setLoggedAt($date->gmtDate());
         return parent::_beforeSave();
     }
 
@@ -73,7 +107,10 @@ class Event extends \Magento\Core\Model\AbstractModel
     {
         if (is_null($types)) {
             $types = array();
-            foreach (\Mage::getModel('Magento\Reports\Model\Event\Type')->getCollection() as $eventType) {
+            $typesCollection = $this->_eventTypeFactory
+                ->create()
+                ->getCollection();
+            foreach ($typesCollection as $eventType) {
                 if ($eventType->getCustomerLogin()) {
                     $types[$eventType->getId()] = $eventType->getId();
                 }

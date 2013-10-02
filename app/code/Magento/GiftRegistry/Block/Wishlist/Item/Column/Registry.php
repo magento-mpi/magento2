@@ -35,6 +35,9 @@ class Registry
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param array $data
      */
     public function __construct(
@@ -45,11 +48,23 @@ class Registry
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
         array $data = array()
     ) {
         $this->_giftRegistryData = $giftRegistryData;
         parent::__construct(
-            $coreRegistry, $wishlistData, $taxData, $catalogData, $coreData, $context, $data
+            $coreRegistry,
+            $wishlistData,
+            $taxData,
+            $catalogData,
+            $coreData,
+            $context,
+            $storeManager,
+            $customerSession,
+            $productFactory,
+            $data
         );
     }
 

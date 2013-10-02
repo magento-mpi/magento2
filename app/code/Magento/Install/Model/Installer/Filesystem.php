@@ -32,18 +32,39 @@ class Filesystem extends \Magento\Install\Model\Installer\AbstractInstaller
     protected $_filesystem;
 
     /**
+     * Install Config
+     *
+     * @var \Magento\Install\Model\Config
+     */
+    protected $_installConfig;
+
+    /**
      * @var \Magento\Core\Model\Dir
      */
     protected $_dir;
 
     /**
+     * Application Root Directory
+     *
+     * @var string
+     */
+    protected $_appRootDir;
+
+    /**
+     * @param \Magento\Install\Model\InstallerProxy $installer
      * @param \Magento\Filesystem $filesystem
+     * @param \Magento\Install\Model\Config $installConfig
      * @param \Magento\Core\Model\Dir $dir
      */
-    public function __construct(\Magento\Filesystem $filesystem, \Magento\Core\Model\Dir $dir)
-    {
+    public function __construct(
+        \Magento\Install\Model\InstallerProxy $installer,
+        \Magento\Filesystem $filesystem,
+        \Magento\Install\Model\Config $installConfig,
+        \Magento\Core\Model\Dir $dir
+    ) {
+        parent::__construct($installer);
         $this->_filesystem = $filesystem;
-        $this->_dir = $dir;
+        $this->_installConfig = $installConfig;
     }
 
     /**
@@ -66,7 +87,7 @@ class Filesystem extends \Magento\Install\Model\Installer\AbstractInstaller
     protected function _checkFilesystem()
     {
         $res = true;
-        $config = \Mage::getSingleton('Magento\Install\Model\Config')->getWritableFullPathsForCheck();
+        $config = $this->_installConfig->getWritableFullPathsForCheck();
 
         if (is_array($config)) {
             foreach ($config as $item) {

@@ -25,9 +25,27 @@ class Observer extends \Magento\Core\Model\AbstractModel
     protected $_wishlistData = null;
 
     /**
+     * @var \Magento\Checkout\Model\Session
+     */
+    protected $_checkoutSession;
+
+    /**
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @var \Magento\Wishlist\Model\WishlistFactory
+     */
+    protected $_wishlistFactory;
+
+    /**
      * @param \Magento\Wishlist\Helper\Data $wishlistData
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Wishlist\Model\WishlistFactory $wishlistFactory
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -36,11 +54,17 @@ class Observer extends \Magento\Core\Model\AbstractModel
         \Magento\Wishlist\Helper\Data $wishlistData,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
+        \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Wishlist\Model\WishlistFactory $wishlistFactory,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_wishlistData = $wishlistData;
+        $this->_checkoutSession = $checkoutSession;
+        $this->_customerSession = $customerSession;
+        $this->_wishlistFactory = $wishlistFactory;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -55,7 +79,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
         if (!$customerId) {
             return false;
         }
-        return \Mage::getModel('Magento\Wishlist\Model\Wishlist')->loadByCustomer($customerId, true);
+        return $this->_wishlistFactory->create()->loadByCustomer($customerId, true);
     }
 
     /**
@@ -105,11 +129,11 @@ class Observer extends \Magento\Core\Model\AbstractModel
     public function processAddToCart($observer)
     {
         $request = $observer->getEvent()->getRequest();
-        $sharedWishlist = \Mage::getSingleton('Magento\Checkout\Model\Session')->getSharedWishlist();
-        $messages = \Mage::getSingleton('Magento\Checkout\Model\Session')->getWishlistPendingMessages();
-        $urls = \Mage::getSingleton('Magento\Checkout\Model\Session')->getWishlistPendingUrls();
-        $wishlistIds = \Mage::getSingleton('Magento\Checkout\Model\Session')->getWishlistIds();
-        $singleWishlistId = \Mage::getSingleton('Magento\Checkout\Model\Session')->getSingleWishlistId();
+        $sharedWishlist = $this->_checkoutSession->getSharedWishlist();
+        $messages = $this->_checkoutSession->getWishlistPendingMessages();
+        $urls = $this->_checkoutSession->getWishlistPendingUrls();
+        $wishlistIds = $this->_checkoutSession->getWishlistIds();
+        $singleWishlistId = $this->_checkoutSession->getSingleWishlistId();
 
         if ($singleWishlistId) {
             $wishlistIds = array($singleWishlistId);
@@ -118,15 +142,14 @@ class Observer extends \Magento\Core\Model\AbstractModel
         if (count($wishlistIds) && $request->getParam('wishlist_next')) {
             $wishlistId = array_shift($wishlistIds);
 
-            if (\Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn()) {
-                $wishlist = \Mage::getModel('Magento\Wishlist\Model\Wishlist')
-                        ->loadByCustomer(\Mage::getSingleton('Magento\Customer\Model\Session')->getCustomer(), true);
+            if ($this->_customerSession->isLoggedIn()) {
+                $wishlist = $this->_wishlistFactory->create()
+                        ->loadByCustomer($this->_customerSession->getCustomer(), true);
             } else if ($sharedWishlist) {
-                $wishlist = \Mage::getModel('Magento\Wishlist\Model\Wishlist')->loadByCode($sharedWishlist);
+                $wishlist = $this->_wishlistFactory->create()->loadByCode($sharedWishlist);
             } else {
                 return;
             }
-
 
             $wishlist->getItemCollection()->load();
 
@@ -135,21 +158,21 @@ class Observer extends \Magento\Core\Model\AbstractModel
                     $wishlistItem->delete();
                 }
             }
-            \Mage::getSingleton('Magento\Checkout\Model\Session')->setWishlistIds($wishlistIds);
-            \Mage::getSingleton('Magento\Checkout\Model\Session')->setSingleWishlistId(null);
+            $this->_checkoutSession->setWishlistIds($wishlistIds);
+            $this->_checkoutSession->setSingleWishlistId(null);
         }
 
         if ($request->getParam('wishlist_next') && count($urls)) {
             $url = array_shift($urls);
             $message = array_shift($messages);
 
-            \Mage::getSingleton('Magento\Checkout\Model\Session')->setWishlistPendingUrls($urls);
-            \Mage::getSingleton('Magento\Checkout\Model\Session')->setWishlistPendingMessages($messages);
+            $this->_checkoutSession->setWishlistPendingUrls($urls);
+            $this->_checkoutSession->setWishlistPendingMessages($messages);
 
-            \Mage::getSingleton('Magento\Checkout\Model\Session')->addError($message);
+            $this->_checkoutSession->addError($message);
 
             $observer->getEvent()->getResponse()->setRedirect($url);
-            \Mage::getSingleton('Magento\Checkout\Model\Session')->setNoCartRedirect(true);
+            $this->_checkoutSession->setNoCartRedirect(true);
         }
     }
 
@@ -174,7 +197,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
      */
     public function customerLogout(\Magento\Event\Observer $observer)
     {
-        \Mage::getSingleton('Magento\Customer\Model\Session')->setWishlistItemCount(0);
+        $this->_customerSession->setWishlistItemCount(0);
 
         return $this;
     }

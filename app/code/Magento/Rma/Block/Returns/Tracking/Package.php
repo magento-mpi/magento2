@@ -27,6 +27,7 @@ class Package extends \Magento\Shipping\Block\Tracking\Popup
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param array $data
      */
@@ -35,12 +36,13 @@ class Package extends \Magento\Shipping\Block\Tracking\Popup
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         $this->_rmaData = $rmaData;
         $this->_storeManager = $storeManager;
-        parent::__construct($coreData, $context, $registry, $data);
+        parent::__construct($coreData, $context, $registry, $locale, $data);
     }
 
     /**

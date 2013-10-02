@@ -35,28 +35,60 @@ class Context
     protected $_moduleList;
 
     /**
+     * @var \Magento\Core\Model\Resource\Resource
+     */
+    protected $_resourceResource;
+
+    /**
+     * @var \Magento\Core\Model\Resource\Setup\MigrationFactory
+     */
+    protected $_migrationFactory;
+
+    /**
+     * @var \Magento\Core\Model\Resource\Theme\CollectionFactory
+     */
+    protected $_themeResourceFactory;
+
+    /**
+     * @var \Magento\Core\Model\Theme\CollectionFactory
+     */
+    protected $_themeFactory;
+
+    /**
      * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Model\Resource $resource
      * @param \Magento\Core\Model\Config\Modules\Reader $modulesReader
      * @param \Magento\Core\Model\ModuleListInterface $moduleList
+     * @param \Magento\Core\Model\Resource\Resource $resourceResource
+     * @param \Magento\Core\Model\Resource\Setup\MigrationFactory $migrationFactory
+     * @param \Magento\Core\Model\Resource\Theme\CollectionFactory $themeResourceFactory
+     * @param \Magento\Core\Model\Theme\CollectionFactory $themeFactory
      */
     public function __construct(
         \Magento\Core\Model\Logger $logger,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Model\Resource $resource,
         \Magento\Core\Model\Config\Modules\Reader $modulesReader,
-        \Magento\Core\Model\ModuleListInterface $moduleList
+        \Magento\Core\Model\ModuleListInterface $moduleList,
+        \Magento\Core\Model\Resource\Resource $resourceResource,
+        \Magento\Core\Model\Resource\Setup\MigrationFactory $migrationFactory,
+        \Magento\Core\Model\Resource\Theme\CollectionFactory $themeResourceFactory,
+        \Magento\Core\Model\Theme\CollectionFactory $themeFactory
     ) {
         $this->_logger = $logger;
         $this->_eventManager = $eventManager;
         $this->_resourceModel = $resource;
         $this->_modulesReader = $modulesReader;
         $this->_moduleList = $moduleList;
+        $this->_resourceResource = $resourceResource;
+        $this->_migrationFactory = $migrationFactory;
+        $this->_themeResourceFactory = $themeResourceFactory;
+        $this->_themeFactory = $themeFactory;
     }
 
     /**
-     * @return \Magento_Core_Model_Event_Manager
+     * @return \Magento\Core\Model\Event\Manager
      */
     public function getEventManager()
     {
@@ -64,7 +96,7 @@ class Context
     }
 
     /**
-     * @return \Magento_Core_Model_Logger
+     * @return \Magento\Core\Model\Logger
      */
     public function getLogger()
     {
@@ -72,7 +104,7 @@ class Context
     }
 
     /**
-     * @return \Magento_Core_Model_ModuleListInterface
+     * @return \Magento\Core\Model\ModuleListInterface
      */
     public function getModuleList()
     {
@@ -80,7 +112,7 @@ class Context
     }
 
     /**
-     * @return \Magento_Core_Model_Config_Modules_Reader
+     * @return \Magento\Core\Model\Config\Modules\Reader
      */
     public function getModulesReader()
     {
@@ -93,5 +125,37 @@ class Context
     public function getResourceModel()
     {
         return $this->_resourceModel;
+    }
+
+    /**
+     * @return \Magento\Core\Model\Resource\Setup\MigrationFactory
+     */
+    public function getMigrationFactory()
+    {
+        return $this->_migrationFactory;
+    }
+
+    /**
+     * @return \Magento\Core\Model\Resource\Resource
+     */
+    public function getResourceResource()
+    {
+        return $this->_resourceResource;
+    }
+
+    /**
+     * @return \Magento\Core\Model\Theme\CollectionFactory
+     */
+    public function getThemeFactory()
+    {
+        return $this->_themeFactory;
+    }
+
+    /**
+     * @return \Magento\Core\Model\Resource\Theme\CollectionFactory
+     */
+    public function getThemeResourceFactory()
+    {
+        return $this->_themeResourceFactory;
     }
 }

@@ -33,7 +33,7 @@ class Command
 
     /**
      * Frontend object
-     * @var Magento_Connect_Fro
+     * @var \Magento\Connect\Frontend
      */
     protected static $_frontend = null;
 

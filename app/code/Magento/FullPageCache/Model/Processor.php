@@ -148,6 +148,31 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
     protected $_coreConfig;
 
     /**
+     * @var \Magento\Core\Model\Session
+     */
+    protected $_coreSession;
+
+    /**
+     * @var \Magento\FullPageCache\Model\Cookie
+     */
+    protected $_fpcCookie;
+
+    /**
+     * @var \Magento\FullPageCache\Helper\Url
+     */
+    protected $_urlHelper;
+
+    /**
+     * @var \Magento\FullPageCache\Model\Observer
+     */
+    protected $_fpcObserverFactory;
+
+    /**
+     * @var \Magento\FullPageCache\Model\Cache\SubProcessorFactory
+     */
+    protected $_processorFactory;
+
+    /**
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\FullPageCache\Model\Processor\RestrictionInterface $restriction
      * @param \Magento\FullPageCache\Model\Cache $fpcCache
@@ -164,6 +189,11 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
      * @param \Magento\Core\Model\Cache\TypeListInterface $typeList
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\FullPageCache\Model\Cookie $fpcCookie
+     * @param \Magento\Core\Model\Session $coreSession
+     * @param \Magento\FullPageCache\Helper\Url $urlHelper
+     * @param \Magento\FullPageCache\Model\ObserverFactory $fpcObserverFactory
+     * @param \Magento\FullPageCache\Model\Cache\SubProcessorFactory $processorFactory
      */
     public function __construct(
         \Magento\Core\Model\Event\Manager $eventManager,
@@ -181,7 +211,12 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Core\Model\Cache\TypeListInterface $typeList,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\Config $coreConfig
+        \Magento\Core\Model\Config $coreConfig,
+        \Magento\FullPageCache\Model\Cookie $fpcCookie,
+        \Magento\Core\Model\Session $coreSession,
+        \Magento\FullPageCache\Helper\Url $urlHelper,
+        \Magento\FullPageCache\Model\ObserverFactory $fpcObserverFactory,
+        \Magento\FullPageCache\Model\Cache\SubProcessorFactory $processorFactory
     ) {
         $this->_eventManager = $eventManager;
         $this->_coreStoreConfig = $coreStoreConfig;
@@ -200,6 +235,11 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
         $this->_typeList = $typeList;
         $this->_requestTags = array(self::CACHE_TAG);
         $this->_coreConfig = $coreConfig;
+        $this->_fpcCookie = $fpcCookie;
+        $this->_coreSession = $coreSession;
+        $this->_urlHelper = $urlHelper;
+        $this->_fpcObserverFactory = $fpcObserverFactory;
+        $this->_processorFactory = $processorFactory;
     }
 
 
@@ -497,7 +537,7 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
                 /**
                  * Replace all occurrences of session_id with unique marker
                  */
-                \Magento\FullPageCache\Helper\Url::replaceSid($content);
+                $this->_urlHelper->replaceSid($content);
 
                 if (function_exists('gzcompress')) {
                     $content = gzcompress($content);
@@ -536,16 +576,14 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
                 $this->_metadata->setMetadata('routing_requested_controller', $request->getRequestedControllerName());
                 $this->_metadata->setMetadata('routing_requested_action', $request->getRequestedActionName());
 
-                $this->_metadata->setMetadata('sid_cookie_name',
-                    \Mage::getSingleton('Magento\Core\Model\Session')->getSessionName()
-                );
+                $this->_metadata->setMetadata('sid_cookie_name', $this->_coreSession->getSessionName());
 
                 $this->_metadata->saveMetadata($this->getRequestTags());
             }
 
             if ($this->_environment->hasQuery(\Magento\Core\Model\Session\AbstractSession::SESSION_ID_QUERY_PARAM)) {
-                \Mage::getSingleton('Magento\FullPageCache\Model\Cookie')->updateCustomerCookies();
-                \Mage::getModel('Magento\FullPageCache\Model\Observer')->updateCustomerProductIndex();
+                $this->_fpcCookie->updateCustomerCookies();
+                $this->_fpcObserverFactory->create()->updateCustomerProductIndex();
             }
         }
         return $this;
@@ -604,7 +642,7 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
                     }
                 }
                 if (is_string($model)) {
-                    $this->_requestProcessor = \Mage::getModel($model);
+                    $this->_requestProcessor = $this->_processorFactory->create($model);
                 }
             }
         }

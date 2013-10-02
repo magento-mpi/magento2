@@ -16,12 +16,12 @@
             <value>adminhtml</value>
         </param>
     </virtualType>
-    <type name="Magento_Centinel_Controller_Adminhtml_Centinel_Index">
+    <type name="Magento\Centinel\Controller\Adminhtml\Centinel\Index">
         <param name="checkoutCart">
             <instance type="Magento\Adminhtml\Model\Sales\Order\Create" />
         </param>
     </type>
-    <type name="Magento_Centinel_Model_Service">
+    <type name="Magento\Centinel\Model\Service">
         <param name="checkoutCart">
             <instance type="Magento\Adminhtml\Model\Sales\Order\Create" />
         </param>

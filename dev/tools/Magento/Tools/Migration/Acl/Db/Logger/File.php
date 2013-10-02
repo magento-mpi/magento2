@@ -13,7 +13,7 @@
  */
 namespace Magento\Tools\Migration\Acl\Db\Logger;
 
-class File extends \Magento\Tools\Migration\Acl\Db\LoggerAbstract
+class File extends \Magento\Tools\Migration\Acl\Db\AbstractLogger
 {
     /**
      * Path to log file

@@ -55,7 +55,7 @@ class Encrypted
     public function __wakeup()
     {
         parent::__wakeup();
-        $this->_coreData = \Mage::getSingleton('Magento\Core\Helper\Data');
+        $this->_coreData = \Magento\Core\Model\ObjectManager::getInstance()->get('Magento\Core\Helper\Data');
     }
 
     /**

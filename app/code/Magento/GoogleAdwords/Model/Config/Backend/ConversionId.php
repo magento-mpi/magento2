@@ -10,7 +10,7 @@
 namespace Magento\GoogleAdwords\Model\Config\Backend;
 
 class ConversionId
-    extends \Magento\GoogleAdwords\Model\Config\Backend\ConversionAbstract
+    extends \Magento\GoogleAdwords\Model\Config\Backend\AbstractConversion
 {
     /**
      * Validation rule conversion id

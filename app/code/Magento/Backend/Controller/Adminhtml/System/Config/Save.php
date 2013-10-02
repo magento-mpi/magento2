@@ -38,18 +38,16 @@ class Save extends \Magento\Backend\Controller\System\AbstractConfig
     /**
      * @param \Magento\Backend\Controller\Context $context
      * @param \Magento\Backend\Model\Config\Structure $configStructure
-     * @param \Magento\Backend\Model\Auth\StorageInterface $authSession
      * @param \Magento\Backend\Model\Config\Factory $configFactory
      * @param \Magento\Cache\FrontendInterface $cache
      */
     public function __construct(
         \Magento\Backend\Controller\Context $context,
         \Magento\Backend\Model\Config\Structure $configStructure,
-        \Magento\Backend\Model\Auth\StorageInterface $authSession,
         \Magento\Backend\Model\Config\Factory $configFactory,
         \Magento\Cache\FrontendInterface $cache
     ) {
-        parent::__construct($context, $configStructure, $authSession);
+        parent::__construct($context, $configStructure);
         $this->_configFactory = $configFactory;
         $this->_cache = $cache;
     }
