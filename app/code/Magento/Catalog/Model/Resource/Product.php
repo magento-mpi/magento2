@@ -8,14 +8,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Catalog\Model\Resource;
 
 /**
  * Product entity resource model
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-namespace Magento\Catalog\Model\Resource;
-
 class Product extends \Magento\Catalog\Model\Resource\AbstractResource
 {
     /**

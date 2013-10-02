@@ -8,13 +8,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Catalog\Block\Product\Configurable;
+
 /**
  * Select attributes suitable for product variations generation
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-namespace Magento\Catalog\Block\Product\Configurable;
-
 class AttributeSelector extends \Magento\Backend\Block\Template
 {
     /**

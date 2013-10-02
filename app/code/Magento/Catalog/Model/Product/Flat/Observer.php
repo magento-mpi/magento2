@@ -8,14 +8,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Catalog\Model\Product\Flat;
 
 /**
  * Catalog Product Flat observer
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-namespace Magento\Catalog\Model\Product\Flat;
-
 class Observer
 {
     /**

@@ -8,14 +8,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Catalog\Helper\Product;
 
 /**
  * Catalog Product Compare Helper
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-namespace Magento\Catalog\Helper\Product;
-
 class Compare extends \Magento\Core\Helper\Url
 {
     /**

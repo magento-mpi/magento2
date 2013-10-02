@@ -8,6 +8,7 @@
  * @license     {license_link}
  */
 
+namespace Magento\Catalog\Model;
 
 /**
  * Catalog category
@@ -16,8 +17,6 @@
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-namespace Magento\Catalog\Model;
-
 class Category extends \Magento\Catalog\Model\AbstractModel
 {
     /**

@@ -9,13 +9,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\Block\Catalog\Product\Composite\Fieldset;
+
 /**
  * Test class for \Magento\Adminhtml\Block\Catalog\Product\Composite\Fieldset\Options
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-namespace Magento\Adminhtml\Block\Catalog\Product\Composite\Fieldset;
-
 class OptionsTest extends \PHPUnit_Framework_TestCase
 {
     /**

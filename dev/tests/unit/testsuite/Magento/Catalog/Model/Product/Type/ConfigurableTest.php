@@ -9,13 +9,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Catalog\Model\Product\Type;
+
 /**
  * Class \Magento\Catalog\Model\Product\Type\ConfigurableTest
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-namespace Magento\Catalog\Model\Product\Type;
-
 class ConfigurableTest extends \PHPUnit_Framework_TestCase
 {
     /**

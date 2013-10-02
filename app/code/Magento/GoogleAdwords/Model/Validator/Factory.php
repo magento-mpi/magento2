@@ -1,4 +1,7 @@
 <?php
+
+namespace Magento\GoogleAdwords\Model\Validator;
+
 /**
  * Google AdWords Validator Factory
  *
@@ -8,8 +11,6 @@
  * @license     {license_link}
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-namespace Magento\GoogleAdwords\Model\Validator;
-
 class Factory
 {
     /**

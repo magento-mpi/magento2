@@ -8,14 +8,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Catalog\Model\Resource\Product\Option;
 
 /**
  * Catalog product options collection
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-namespace Magento\Catalog\Model\Resource\Product\Option;
-
 class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**

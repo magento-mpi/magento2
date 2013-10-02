@@ -8,14 +8,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Catalog\Block;
 
 /**
  * Catalog navigation
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-namespace Magento\Catalog\Block;
-
 class Navigation extends \Magento\Core\Block\Template
 {
     protected $_categoryInstance = null;

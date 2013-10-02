@@ -8,13 +8,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Catalog\Model\Config\Source;
+
 /**
  * Config category source
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-namespace Magento\Catalog\Model\Config\Source;
-
 class Category implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**

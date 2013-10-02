@@ -9,13 +9,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Catalog\Block\Product\View;
+
 /**
  * Test class for \Magento\Catalog\Block\Product\View\Options
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-namespace Magento\Catalog\Block\Product\View;
-
 class OptionsTest extends \PHPUnit_Framework_TestCase
 {
     /**

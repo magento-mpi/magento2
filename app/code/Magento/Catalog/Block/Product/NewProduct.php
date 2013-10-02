@@ -8,13 +8,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Catalog\Block\Product;
+
 /**
  * New products block
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-namespace Magento\Catalog\Block\Product;
-
 class NewProduct extends \Magento\Catalog\Block\Product\AbstractProduct
 {
     /**

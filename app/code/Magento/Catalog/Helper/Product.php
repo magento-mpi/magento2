@@ -8,13 +8,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Catalog\Helper;
+
 /**
  * Catalog category helper
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-namespace Magento\Catalog\Helper;
-
 class Product extends \Magento\Core\Helper\Url
 {
     const XML_PATH_PRODUCT_URL_SUFFIX                = 'catalog/seo/product_url_suffix';

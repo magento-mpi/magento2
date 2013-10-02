@@ -1,4 +1,7 @@
 <?php
+
+namespace Magento\Backend\Block;
+
 /**
  * Backend block context
  *
@@ -9,8 +12,6 @@
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-namespace Magento\Backend\Block;
-
 class Context extends \Magento\Core\Block\Context
 {
     /**

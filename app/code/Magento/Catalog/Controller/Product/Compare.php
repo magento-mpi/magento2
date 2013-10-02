@@ -8,14 +8,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Catalog\Controller\Product;
 
 /**
  * Catalog comapare controller
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-namespace Magento\Catalog\Controller\Product;
-
 class Compare extends \Magento\Core\Controller\Front\Action
 {
     /**

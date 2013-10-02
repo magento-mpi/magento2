@@ -8,13 +8,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Catalog\Model\Category\Attribute\Source;
+
 /**
  * Catalog category landing page attribute source
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-namespace Magento\Catalog\Model\Category\Attribute\Source;
-
 class Page extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
 {
     /**

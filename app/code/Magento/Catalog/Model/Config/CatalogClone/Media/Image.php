@@ -8,14 +8,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Catalog\Model\Config\CatalogClone\Media;
 
 /**
  * Clone model for media images related config fields
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-namespace Magento\Catalog\Model\Config\CatalogClone\Media;
-
 class Image extends \Magento\Core\Model\Config\Value
 {
     /**

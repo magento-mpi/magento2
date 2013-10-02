@@ -8,13 +8,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Catalog\Block\Product\ProductList;
+
 /**
  * Catalog product related items block
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-namespace Magento\Catalog\Block\Product\ProductList;
-
 class Upsell extends \Magento\Catalog\Block\Product\AbstractProduct
 {
     /**

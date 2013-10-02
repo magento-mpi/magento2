@@ -12,6 +12,7 @@
  * Catalog compare item resource model
  */
 namespace Magento\Catalog\Model\Resource\Product\Collection;
+
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */

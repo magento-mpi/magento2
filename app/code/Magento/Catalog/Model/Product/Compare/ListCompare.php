@@ -8,13 +8,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Catalog\Model\Product\Compare;
+
 /**
  * Product Compare List Model
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-namespace Magento\Catalog\Model\Product\Compare;
-
 class ListCompare extends \Magento\Object
 {
     /**

@@ -1,4 +1,7 @@
 <?php
+
+namespace Magento\Catalog\Model;
+
 /**
  * {license_notice}
  *
@@ -7,8 +10,6 @@
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-namespace Magento\Catalog\Model;
-
 class Config extends \Magento\Eav\Model\Config
 {
     const XML_PATH_LIST_DEFAULT_SORT_BY     = 'catalog/frontend/default_sort_by';

@@ -1,4 +1,7 @@
 <?php
+
+namespace Magento\Catalog\Model\Product\Indexer;
+
 /**
  * {license_notice}
  *
@@ -9,8 +12,6 @@
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-namespace Magento\Catalog\Model\Product\Indexer;
-
 class Flat extends \Magento\Index\Model\Indexer\AbstractIndexer
 {
     /**

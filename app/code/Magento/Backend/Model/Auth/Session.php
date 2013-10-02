@@ -8,14 +8,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Backend\Model\Auth;
 
 /**
  * Backend Auth session model
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-namespace Magento\Backend\Model\Auth;
-
 class Session
     extends \Magento\Core\Model\Session\AbstractSession
     implements \Magento\Backend\Model\Auth\StorageInterface

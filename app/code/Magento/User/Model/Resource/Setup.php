@@ -6,14 +6,14 @@
  * @license     {license_link}
  */
 
+namespace Magento\User\Model\Resource;
+
 /**
  * Resource Setup Model
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-namespace Magento\User\Model\Resource;
-
 class Setup extends \Magento\Core\Model\Resource\Setup
 {
     /**

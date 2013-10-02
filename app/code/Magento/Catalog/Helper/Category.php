@@ -8,13 +8,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Catalog\Helper;
+
 /**
  * Catalog category helper
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-namespace Magento\Catalog\Helper;
-
 class Category extends \Magento\Core\Helper\AbstractHelper
 {
     const XML_PATH_CATEGORY_URL_SUFFIX          = 'catalog/seo/category_url_suffix';

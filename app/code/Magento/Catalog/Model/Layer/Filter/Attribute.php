@@ -8,13 +8,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Catalog\Model\Layer\Filter;
+
 /**
  * Layer attribute filter
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-namespace Magento\Catalog\Model\Layer\Filter;
-
 class Attribute extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
 {
     const OPTIONS_ONLY_WITH_RESULTS = 1;

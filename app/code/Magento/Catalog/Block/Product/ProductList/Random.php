@@ -8,14 +8,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Catalog\Block\Product\ProductList;
+
 /**
  * Catalog product random items block
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-
-namespace Magento\Catalog\Block\Product\ProductList;
-
 class Random extends \Magento\Catalog\Block\Product\ListProduct
 {
     /**

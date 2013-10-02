@@ -8,14 +8,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Catalog\Model\Resource\Category;
 
 /**
  * Category flat model
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-namespace Magento\Catalog\Model\Resource\Category;
-
 class Flat extends \Magento\Index\Model\Resource\AbstractResource
 {
     /**

@@ -8,14 +8,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Catalog\Model\Attribute\Backend;
+
 /**
  * Product url key attribute backend
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-
-namespace Magento\Catalog\Model\Attribute\Backend;
-
 class Customlayoutupdate extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
 {
 

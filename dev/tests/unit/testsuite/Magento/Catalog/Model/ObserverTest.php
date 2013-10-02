@@ -9,13 +9,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Catalog\Model;
+
 /**
  * Class \Magento\Catalog\Model\ObserverTest
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-namespace Magento\Catalog\Model;
-
 class ObserverTest extends \PHPUnit_Framework_TestCase
 {
     /**

@@ -16,11 +16,11 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
+namespace Magento\Catalog\Model\Layer\Filter;
+
 /**
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-namespace Magento\Catalog\Model\Layer\Filter;
-
 class Price extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
 {
     /**

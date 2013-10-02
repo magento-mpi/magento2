@@ -8,6 +8,8 @@
  * @license     {license_link}
  */
 
+namespace Magento\Catalog\Model\Product\Option;
+
 /**
  * Catalog product option select type model
  *
@@ -22,8 +24,6 @@
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-namespace Magento\Catalog\Model\Product\Option;
-
 class Value extends \Magento\Core\Model\AbstractModel
 {
     protected $_values = array();

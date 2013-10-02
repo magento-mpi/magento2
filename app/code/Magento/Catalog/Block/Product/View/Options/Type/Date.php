@@ -8,14 +8,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Catalog\Block\Product\View\Options\Type;
 
 /**
  * Product options text type block
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-namespace Magento\Catalog\Block\Product\View\Options\Type;
-
 class Date extends \Magento\Catalog\Block\Product\View\Options\AbstractOptions
 {
 
