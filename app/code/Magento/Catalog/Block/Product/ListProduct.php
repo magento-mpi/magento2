@@ -273,7 +273,7 @@ class ListProduct extends \Magento\Catalog\Block\Product\AbstractProduct
      * Prepare Sort By fields from Category Data
      *
      * @param \Magento\Catalog\Model\Category $category
-     * @return \Magento\Catalog\Block\Product\ProductList
+     * @return \Magento\Catalog\Block\Product\ListProduct
      */
     public function prepareSortableFieldsByCategory($category) {
         if (!$this->getAvailableOrders()) {

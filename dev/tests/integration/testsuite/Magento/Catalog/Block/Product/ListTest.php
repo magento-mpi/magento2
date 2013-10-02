@@ -19,14 +19,14 @@ namespace Magento\Catalog\Block\Product;
 class ListTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Catalog\Block\Product\ProductList
+     * @var \Magento\Catalog\Block\Product\ListProduct
      */
     protected $_block;
 
     protected function setUp()
     {
         $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
-            ->createBlock('Magento\Catalog\Block\Product\ProductList');
+            ->createBlock('Magento\Catalog\Block\Product\ListProduct');
     }
 
     public function testGetLayer()
@@ -47,15 +47,15 @@ class ListTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Catalog\Block\Product\ProductList::getToolbarBlock
-     * @covers \Magento\Catalog\Block\Product\ProductList::getMode
-     * @covers \Magento\Catalog\Block\Product\ProductList::getToolbarHtml
-     * @covers \Magento\Catalog\Block\Product\ProductList::toHtml
+     * @covers \Magento\Catalog\Block\Product\ListProduct::getToolbarBlock
+     * @covers \Magento\Catalog\Block\Product\ListProduct::getMode
+     * @covers \Magento\Catalog\Block\Product\ListProduct::getToolbarHtml
+     * @covers \Magento\Catalog\Block\Product\ListProduct::toHtml
      */
     public function testToolbarCoverage()
     {
-        /** @var $parent \Magento\Catalog\Block\Product\ProductList */
-        $parent = $this->_getLayout()->createBlock('Magento\Catalog\Block\Product\ProductList', 'parent');
+        /** @var $parent \Magento\Catalog\Block\Product\ListProduct */
+        $parent = $this->_getLayout()->createBlock('Magento\Catalog\Block\Product\ListProduct', 'parent');
 
         /* Prepare toolbar block */
         $toolbar = $parent->getToolbarBlock();
@@ -78,8 +78,8 @@ class ListTest extends \PHPUnit_Framework_TestCase
     public function testGetAdditionalHtml()
     {
         $layout = $this->_getLayout();
-        /** @var $parent \Magento\Catalog\Block\Product\ProductList */
-        $parent = $layout->createBlock('Magento\Catalog\Block\Product\ProductList');
+        /** @var $parent \Magento\Catalog\Block\Product\ListProduct */
+        $parent = $layout->createBlock('Magento\Catalog\Block\Product\ListProduct');
         $childBlock = $layout->createBlock('Magento\Core\Block\Text', 'test', array('data' => array('text' => 'test')));
         $layout->setChild($parent->getNameInLayout(), $childBlock->getNameInLayout(), 'additional');
         $this->assertEquals('test', $parent->getAdditionalHtml());

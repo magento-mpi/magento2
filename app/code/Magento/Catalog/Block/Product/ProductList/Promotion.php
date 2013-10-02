@@ -9,7 +9,7 @@
  */
 namespace Magento\Catalog\Block\Product\ProductList;
 
-class Promotion extends \Magento\Catalog\Block\Product\ProductList
+class Promotion extends \Magento\Catalog\Block\Product\ListProduct
 {
     /**
      * Product collection factory

@@ -16,7 +16,7 @@
 
 namespace Magento\Catalog\Block\Product\ProductList;
 
-class Random extends \Magento\Catalog\Block\Product\ProductList
+class Random extends \Magento\Catalog\Block\Product\ListProduct
 {
     /**
      * Product collection factory

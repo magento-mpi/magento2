@@ -542,7 +542,7 @@ abstract class AbstractProduct extends \Magento\Core\Block\Template
      *
      * @param string $pageLayout
      * @param int $columnCount
-     * @return \Magento\Catalog\Block\Product\ProductList
+     * @return \Magento\Catalog\Block\Product\ListProduct
      */
     public function addColumnCountLayoutDepend($pageLayout, $columnCount)
     {
@@ -554,7 +554,7 @@ abstract class AbstractProduct extends \Magento\Core\Block\Template
      * Remove row size depends on page layout
      *
      * @param string $pageLayout
-     * @return \Magento\Catalog\Block\Product\ProductList
+     * @return \Magento\Catalog\Block\Product\ListProduct
      */
     public function removeColumnCountLayoutDepend($pageLayout)
     {
