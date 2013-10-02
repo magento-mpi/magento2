@@ -1,5 +1,5 @@
 Magento/Banner
-Magento/Catalog/Block/Product/Send.php
+Magento/Catalog/Block/Product/Send
 Magento/CatalogEvent/Block/Adminhtml
 Magento/CatalogPermissions/Model/Resource/Permission
 Magento/VersionsCms/Block/Adminhtml
@@ -13,7 +13,7 @@ Magento/CustomerSegment/Block/Adminhtml
 Magento/FullPageCache/Model/Container
 Magento/GiftRegistry
 Magento/GiftCard/Block/Adminhtml/Renderer
-Magento/GiftCard/Block/Catalog/Product/View/Type/Giftcard.php
+Magento/GiftCard/Block/Catalog/Product/View/Type/Giftcard
 Magento/GiftCard/Model/Source
 Magento/GiftCard/Model/Attribute/Backend/Giftcard
 Magento/GiftCardAccount/Block/
@@ -32,8 +32,8 @@ Magento/Rma
 Magento/SalesArchive
 Magento/Search
 Magento/TargetRule/Block/Adminhtml/Targetrule/Edit/Tab
-Magento/TargetRule/Block/Catalog/Product/ProductList/Related.php
-Magento/TargetRule/Block/Catalog/Product/ProductList/AbstractProductList.php
+Magento/TargetRule/Block/Catalog/Product/ProductList/Related
+Magento/TargetRule/Block/Catalog/Product/ProductList/AbstractProductList
 Magento/TargetRule/Block/Checkout/Cart/Crosssell.php
 Magento/TargetRule/Model/Rule/Condition
 Magento/TargetRule/Block/Adminhtml/Targetrule/Edit
