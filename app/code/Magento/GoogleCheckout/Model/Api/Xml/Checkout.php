@@ -127,13 +127,14 @@ class Checkout extends \Magento\GoogleCheckout\Model\Api\Xml\AbstractXml
     /**
      * Send checkout data to google
      *
+     * @throws \Magento\Core\Exception
      * @return \Magento\GoogleCheckout\Model\Api\Xml\Checkout
      */
     public function checkout()
     {
         $quote = $this->getQuote();
         if (!($quote instanceof \Magento\Sales\Model\Quote)) {
-            \Mage::throwException('Invalid quote');
+            throw new \Magento\Core\Exception('Invalid quote');
         }
 
         $xmlns = self::CHECKOUT_SHOPPING_CART_XMLNS;

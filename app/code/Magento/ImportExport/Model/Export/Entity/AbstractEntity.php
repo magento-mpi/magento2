@@ -142,7 +142,7 @@ abstract class AbstractEntity
     /**
      * @var \Magento\Core\Model\LocaleInterface
      */
-    protected $_localeInterface;
+    protected $_locale;
 
     /**
      * @var \Magento\Core\Model\StoreManagerInterface
@@ -150,18 +150,18 @@ abstract class AbstractEntity
     protected $_storeManager;
 
     /**
-     * @param \Magento\Core\Model\LocaleInterface $localeInterface
+     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Eav\Model\Config $config
      * @param \Magento\Core\Model\Resource $resource
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
-        \Magento\Core\Model\LocaleInterface $localeInterface,
+        \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Eav\Model\Config $config,
         \Magento\Core\Model\Resource $resource,
         \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
-        $this->_localeInterface = $localeInterface;
+        $this->_locale = $locale;
         $this->_storeManager = $storeManager;
         $entityCode = $this->getEntityTypeCode();
         $this->_entityTypeId = $config->getEntityType($entityCode)->getEntityTypeId();
@@ -274,11 +274,11 @@ abstract class AbstractEntity
                         $to   = array_shift($exportFilter[$attrCode]);
 
                         if (is_scalar($from) && !empty($from)) {
-                            $date = \Mage::app()->getLocale()->date($from,null,null,false)->toString('MM/dd/YYYY');
+                            $date = $this->_locale->date($from,null,null,false)->toString('MM/dd/YYYY');
                             $collection->addAttributeToFilter($attrCode, array('from' => $date, 'date' => true));
                         }
                         if (is_scalar($to) && !empty($to)) {
-                            $date = \Mage::app()->getLocale()->date($to,null,null,false)->toString('MM/dd/YYYY');
+                            $date = $this->_locale->date($to,null,null,false)->toString('MM/dd/YYYY');
                             $collection->addAttributeToFilter($attrCode, array('to' => $date, 'date' => true));
                         }
                     }

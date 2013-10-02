@@ -25,17 +25,12 @@ class Role implements \Magento\Core\Model\Option\ArrayInterface
     protected $_resource = null;
 
     /**
-     * Prepare required models.
-     *
-     * @param array $data
+     * @param \Magento\Webapi\Model\Resource\Acl\RoleFactory $roleFactory
      */
-    public function __construct($data = array())
-    {
-        if (isset($data['resource'])) {
-            $this->_resource = $data['resource'];
-        } else {
-            $this->_resource = \Mage::getResourceModel('Magento\Webapi\Model\Resource\Acl\Role');
-        }
+    public function __construct(
+        \Magento\Webapi\Model\Resource\Acl\RoleFactory $roleFactory
+    ) {
+        $this->_resource = $roleFactory->create();
     }
 
     /**

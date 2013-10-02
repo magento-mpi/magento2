@@ -125,6 +125,7 @@ abstract class AbstractXml extends \Magento\Object
     /**
      * Google Checkout Response instance
      *
+     * @throws \Magento\Core\Exception
      * @return GoogleResponse
      */
     public function getGResponse()
@@ -132,7 +133,7 @@ abstract class AbstractXml extends \Magento\Object
         $merchantId = $this->getMerchantId();
         $merchantKey = $this->getMerchantKey();
         if (empty($merchantId) || empty($merchantKey)) {
-            \Mage::throwException(__('GoogleCheckout is not configured'));
+            throw new \Magento\Core\Exception(__('GoogleCheckout is not configured'));
         }
         if (!$this->hasData('g_response')) {
             $this->setData('g_response', new GoogleResponse(

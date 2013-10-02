@@ -762,6 +762,7 @@ class Callback extends \Magento\GoogleCheckout\Model\Api\Xml\AbstractXml
     /**
      * Order getter
      *
+     * @throws \Magento\Core\Exception
      * @return \Magento\Sales\Model\Order
      */
     public function getOrder()
@@ -770,7 +771,7 @@ class Callback extends \Magento\GoogleCheckout\Model\Api\Xml\AbstractXml
             $order = \Mage::getModel('Magento\Sales\Model\Order')
                 ->loadByAttribute('ext_order_id', $this->getGoogleOrderNumber());
             if (!$order->getId()) {
-                \Mage::throwException('Invalid Order: ' . $this->getGoogleOrderNumber());
+                throw new \Magento\Core\Exception('Invalid Order: ' . $this->getGoogleOrderNumber());
             }
             $this->setData('order', $order);
         }
