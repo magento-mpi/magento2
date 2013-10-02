@@ -39,18 +39,36 @@ class Cart extends \Magento\Core\Helper\Url
     protected $_coreStoreConfig;
 
     /**
-     * @param \Magento\Core\Helper\Data $coreData
+     * @var \Magento\Checkout\Model\Cart
+     */
+    protected $_checkoutCart;
+
+    /**
+     * @var \Magento\Checkout\Model\Session
+     */
+    protected $_checkoutSession;
+
+    /**
      * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Checkout\Model\Cart $checkoutCart
+     * @param \Magento\Checkout\Model\Session $checkoutSession
      */
     public function __construct(
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Helper\Context $context,
-        \Magento\Core\Model\Store\Config $coreStoreConfig
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Checkout\Model\Cart $checkoutCart,
+        \Magento\Checkout\Model\Session $checkoutSession
     ) {
         $this->_coreData = $coreData;
         $this->_coreStoreConfig = $coreStoreConfig;
-        parent::__construct($context);
+        $this->_checkoutCart = $checkoutCart;
+        $this->_checkoutSession = $checkoutSession;
+        parent::__construct($context, $storeManager);
     }
 
     /**
@@ -60,13 +78,14 @@ class Cart extends \Magento\Core\Helper\Url
      */
     public function getCart()
     {
-        return \Mage::getSingleton('Magento\Checkout\Model\Cart');
+        return $this->_checkoutCart;
     }
 
     /**
      * Retrieve url for add product to cart
      *
-     * @param   \Magento\Catalog\Model\Product $product
+     * @param \Magento\Catalog\Model\Product $product
+     * @param array $additional
      * @return  string
      */
     public function getAddUrl($product, $additional = array())
@@ -128,7 +147,7 @@ class Cart extends \Magento\Core\Helper\Url
      */
     public function getQuote()
     {
-        return \Mage::getSingleton('Magento\Checkout\Model\Session')->getQuote();
+        return $this->_checkoutSession->getQuote();
     }
 
     /**

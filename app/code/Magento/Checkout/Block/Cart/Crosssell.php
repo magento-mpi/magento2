@@ -27,6 +27,65 @@ class Crosssell extends \Magento\Catalog\Block\Product\AbstractProduct
     protected $_maxItemCount = 4;
 
     /**
+     * @var \Magento\Checkout\Model\Session
+     */
+    protected $_checkoutSession;
+
+    /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Catalog\Model\Product\Visibility
+     */
+    protected $_productVisibility;
+
+    /**
+     * @var \Magento\CatalogInventory\Model\Stock
+     */
+    protected $_stock;
+
+    /**
+     * @var \Magento\Catalog\Model\Product\LinkFactory
+     */
+    protected $_productLinkFactory;
+
+    /**
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Product\Visibility $productVisibility
+     * @param \Magento\CatalogInventory\Model\Stock $stock
+     * @param \Magento\Catalog\Model\Product\LinkFactory $productLinkFactory
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\Product\Visibility $productVisibility,
+        \Magento\CatalogInventory\Model\Stock $stock,
+        \Magento\Catalog\Model\Product\LinkFactory $productLinkFactory,
+        array $data = array()
+    ) {
+        $this->_checkoutSession = $checkoutSession;
+        $this->_storeManager = $storeManager;
+        $this->_productVisibility = $productVisibility;
+        $this->_stock = $stock;
+        $this->_productLinkFactory = $productLinkFactory;
+        parent::__construct($coreRegistry, $taxData, $catalogData, $coreData, $context, $data);
+    }
+
+    /**
      * Get crosssell items
      *
      * @return array
@@ -95,7 +154,8 @@ class Crosssell extends \Magento\Catalog\Block\Product\AbstractProduct
         if (is_null($ids)) {
             $ids = array();
             foreach ($this->getQuote()->getAllItems() as $item) {
-                if ($product = $item->getProduct()) {
+                $product = $item->getProduct();
+                if ($product) {
                     $ids[] = $product->getId();
                 }
             }
@@ -133,7 +193,7 @@ class Crosssell extends \Magento\Catalog\Block\Product\AbstractProduct
      */
     protected function _getLastAddedProductId()
     {
-        return \Mage::getSingleton('Magento\Checkout\Model\Session')->getLastAddedProductId(true);
+        return $this->_checkoutSession->getLastAddedProductId(true);
     }
 
     /**
@@ -143,7 +203,7 @@ class Crosssell extends \Magento\Catalog\Block\Product\AbstractProduct
      */
     public function getQuote()
     {
-        return \Mage::getSingleton('Magento\Checkout\Model\Session')->getQuote();
+        return $this->_checkoutSession->getQuote();
     }
 
     /**
@@ -153,15 +213,16 @@ class Crosssell extends \Magento\Catalog\Block\Product\AbstractProduct
      */
     protected function _getCollection()
     {
-        $collection = \Mage::getModel('Magento\Catalog\Model\Product\Link')->useCrossSellLinks()
+        /** @var \Magento\Catalog\Model\Resource\Product\Link\Product\Collection $collection */
+        $collection = $this->_productLinkFactory->create()->useCrossSellLinks()
             ->getProductCollection()
-            ->setStoreId(\Mage::app()->getStore()->getId())
+            ->setStoreId($this->_storeManager->getStore()->getId())
             ->addStoreFilter()
             ->setPageSize($this->_maxItemCount)
-            ->setVisibility(\Mage::getSingleton('Magento\Catalog\Model\Product\Visibility')->getVisibleInCatalogIds());
+            ->setVisibility($this->_productVisibility->getVisibleInCatalogIds());
         $this->_addProductAttributesAndPrices($collection);
 
-        \Mage::getSingleton('Magento\CatalogInventory\Model\Stock')->addInStockFilterToCollection($collection);
+        $this->_stock->addInStockFilterToCollection($collection);
 
         return $collection;
     }

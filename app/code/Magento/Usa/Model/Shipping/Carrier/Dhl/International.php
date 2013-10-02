@@ -195,7 +195,6 @@ class International
      * @param \Magento\Usa\Model\Simplexml\ElementFactory $xmlElFactory
      * @param \Magento\Shipping\Model\Rate\ResultFactory $rateFactory
      * @param \Magento\Shipping\Model\Rate\Result\MethodFactory $rateMethodFactory
-     * @param \Magento\Shipping\Model\Rate\Result\ErrorFactory $rateErrorFactory
      * @param \Magento\Shipping\Model\Tracking\ResultFactory $trackFactory
      * @param \Magento\Shipping\Model\Tracking\Result\ErrorFactory $trackErrorFactory
      * @param \Magento\Shipping\Model\Tracking\Result\StatusFactory $trackStatusFactory
@@ -204,6 +203,8 @@ class International
      * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
      * @param \Magento\Directory\Helper\Data $directoryData
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Shipping\Model\Rate\Result\ErrorFactory $rateErrorFactory
+     * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
      * @param array $data
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -218,7 +219,6 @@ class International
         \Magento\Usa\Model\Simplexml\ElementFactory $xmlElFactory,
         \Magento\Shipping\Model\Rate\ResultFactory $rateFactory,
         \Magento\Shipping\Model\Rate\Result\MethodFactory $rateMethodFactory,
-        \Magento\Shipping\Model\Rate\Result\ErrorFactory $rateErrorFactory,
         \Magento\Shipping\Model\Tracking\ResultFactory $trackFactory,
         \Magento\Shipping\Model\Tracking\Result\ErrorFactory $trackErrorFactory,
         \Magento\Shipping\Model\Tracking\Result\StatusFactory $trackStatusFactory,
@@ -227,6 +227,8 @@ class International
         \Magento\Directory\Model\CurrencyFactory $currencyFactory,
         \Magento\Directory\Helper\Data $directoryData,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Shipping\Model\Rate\Result\ErrorFactory $rateErrorFactory,
+        \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
         array $data = array()
     ) {
         $this->_coreData = $coreData;
@@ -237,9 +239,9 @@ class International
         $this->_storeManager = $storeManager;
         $this->_configReader = $configReader;
         parent::__construct(
-            $xmlElFactory, $rateFactory, $rateMethodFactory, $rateErrorFactory,
-            $trackFactory, $trackErrorFactory, $trackStatusFactory, $regionFactory,
-            $countryFactory, $currencyFactory, $directoryData, $coreStoreConfig, $data
+            $xmlElFactory, $rateFactory, $rateMethodFactory, $trackFactory, $trackErrorFactory, $trackStatusFactory,
+            $regionFactory, $countryFactory, $currencyFactory, $directoryData, $coreStoreConfig, $rateErrorFactory,
+            $logAdapterFactory, $data
         );
         if ($this->getConfigData('content_type') == self::DHL_CONTENT_TYPE_DOC) {
             $this->_freeMethod = 'free_method_doc';
@@ -1356,7 +1358,7 @@ class International
         $nodeConsignee->addChild('CompanyName', substr($companyName, 0, 35));
 
         $address = $rawRequest->getRecipientAddressStreet1(). ' ' . $rawRequest->getRecipientAddressStreet2();
-        $address = $this->_coreString->strSplit($address, 35, false, true);
+        $address = $this->_coreString->str_split($address, 35, false, true);
         if (is_array($address)) {
             foreach ($address as $addressLine) {
                 $nodeConsignee->addChild('AddressLine', $addressLine);
@@ -1415,7 +1417,7 @@ class International
         $nodeShipper->addChild('RegisteredAccount', (string)$this->getConfigData('account'));
 
         $address = $rawRequest->getShipperAddressStreet1(). ' ' . $rawRequest->getShipperAddressStreet2();
-        $address = $this->_coreString->strSplit($address, 35, false, true);
+        $address = $this->_coreString->str_split($address, 35, false, true);
         if (is_array($address)) {
             foreach ($address as $addressLine) {
                 $nodeShipper->addChild('AddressLine', $addressLine);

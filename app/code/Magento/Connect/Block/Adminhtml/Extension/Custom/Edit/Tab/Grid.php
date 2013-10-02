@@ -85,7 +85,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
     /**
      * Prepare grid columns
      *
-     * @return Magento_Adminhtml_Block_Extension_Custom_Edit_Tab_Grid
+     * @return \Magento\Connect\Block\Adminhtml\Extension\Custom\Edit\Tab\Grid
      */
     protected function _prepareColumns()
     {

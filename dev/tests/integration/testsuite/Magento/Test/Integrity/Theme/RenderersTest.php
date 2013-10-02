@@ -11,7 +11,7 @@
 
 namespace Magento\Test\Integrity\Theme;
 
-class RenderersTest extends \Magento\TestFramework\TestCase\IntegrityAbstract
+class RenderersTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
 {
     /**
      * @param string $module

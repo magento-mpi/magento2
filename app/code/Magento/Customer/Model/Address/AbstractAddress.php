@@ -11,9 +11,12 @@
 /**
  * Address abstract model
  *
- * @category   Magento
- * @package    Magento_Customer
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @method string getPrefix()
+ * @method string getSuffix()
+ * @method string getFirstname()
+ * @method string getMiddlename()
+ * @method string getLastname()
+ * @method int getCountryId()
  */
 namespace Magento\Customer\Model\Address;
 
@@ -40,16 +43,16 @@ class AbstractAddress extends \Magento\Core\Model\AbstractModel
     protected $_eventObject = 'customer_address';
 
     /**
-     * \Directory country models
+     * Directory country models
      *
-     * @var array
+     * @var \Magento\Directory\Model\Country[]
      */
     static protected $_countryModels = array();
 
     /**
-     * \Directory region models
+     * Directory region models
      *
-     * @var array
+     * @var \Magento\Directory\Model\Region[]
      */
     static protected $_regionModels = array();
 
@@ -68,10 +71,34 @@ class AbstractAddress extends \Magento\Core\Model\AbstractModel
     protected $_eventManager = null;
 
     /**
+     * @var \Magento\Eav\Model\Config
+     */
+    protected $_eavConfig;
+
+    /**
+     * @var \Magento\Customer\Model\Address\Config
+     */
+    protected $_addressConfig;
+
+    /**
+     * @var \Magento\Directory\Model\RegionFactory
+     */
+    protected $_regionFactory;
+
+    /**
+     * @var \Magento\Directory\Model\CountryFactory
+     */
+    protected $_countryFactory;
+
+    /**
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Directory\Helper\Data $directoryData
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Customer\Model\Address\Config $addressConfig
+     * @param \Magento\Directory\Model\RegionFactory $regionFactory
+     * @param \Magento\Directory\Model\CountryFactory $countryFactory
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -81,6 +108,10 @@ class AbstractAddress extends \Magento\Core\Model\AbstractModel
         \Magento\Directory\Helper\Data $directoryData,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Customer\Model\Address\Config $addressConfig,
+        \Magento\Directory\Model\RegionFactory $regionFactory,
+        \Magento\Directory\Model\CountryFactory $countryFactory,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -88,6 +119,10 @@ class AbstractAddress extends \Magento\Core\Model\AbstractModel
         $this->_eventManager = $eventManager;
         $this->_directoryData = $directoryData;
         $data = $this->_implodeStreetField($data);
+        $this->_eavConfig = $eavConfig;
+        $this->_addressConfig = $addressConfig;
+        $this->_regionFactory = $regionFactory;
+        $this->_countryFactory = $countryFactory;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -99,7 +134,7 @@ class AbstractAddress extends \Magento\Core\Model\AbstractModel
     public function getName()
     {
         $name = '';
-        $config = \Mage::getSingleton('Magento\Eav\Model\Config');
+        $config = $this->_eavConfig;
         if ($config->getAttribute('customer_address', 'prefix')->getIsVisible() && $this->getPrefix()) {
             $name .= $this->getPrefix() . ' ';
         }
@@ -314,9 +349,10 @@ class AbstractAddress extends \Magento\Core\Model\AbstractModel
         if (!$regionId) {
             if (is_numeric($region)) {
                 $this->setData('region_id', $region);
+                //@TODO method unsRegion() is neither defined in abstract model nor in it's children
                 $this->unsRegion();
             } else {
-                $regionModel = \Mage::getModel('Magento\Directory\Model\Region')
+                $regionModel = $this->_createRegionInstance()
                     ->loadByCode($this->getRegionCode(), $this->getCountryId());
                 $this->setData('region_id', $regionModel->getId());
             }
@@ -326,46 +362,45 @@ class AbstractAddress extends \Magento\Core\Model\AbstractModel
 
     public function getCountry()
     {
-        /*if ($this->getData('country_id') && !$this->getData('country')) {
-            $this->setData('country', \Mage::getModel('Magento\Directory\Model\Country')
-                ->load($this->getData('country_id'))->getIso2Code());
-        }
-        return $this->getData('country');*/
         $country = $this->getCountryId();
         return $country ? $country : $this->getData('country');
     }
 
     /**
-     * Retrive country model
+     * Retrieve country model
      *
      * @return \Magento\Directory\Model\Country
      */
     public function getCountryModel()
     {
         if(!isset(self::$_countryModels[$this->getCountryId()])) {
-            self::$_countryModels[$this->getCountryId()] = \Mage::getModel('Magento\Directory\Model\Country')
-                ->load($this->getCountryId());
+            $country = $this->_createCountryInstance();
+            $country->load($this->getCountryId());
+            self::$_countryModels[$this->getCountryId()] = $country;
         }
 
         return self::$_countryModels[$this->getCountryId()];
     }
 
     /**
-     * Retrive country model
+     * Retrieve country model
      *
-     * @return \Magento\Directory\Model\Country
+     * @param int|null $regionId
+     * @return \Magento\Directory\Model\Region
      */
-    public function getRegionModel($region=null)
+    public function getRegionModel($regionId = null)
     {
-        if(is_null($region)) {
-            $region = $this->getRegionId();
+        if(is_null($regionId)) {
+            $regionId = $this->getRegionId();
         }
 
-        if(!isset(self::$_regionModels[$region])) {
-            self::$_regionModels[$region] = \Mage::getModel('Magento\Directory\Model\Region')->load($region);
+        if(!isset(self::$_regionModels[$regionId])) {
+            $region = $this->_createRegionInstance();
+            $region->load($regionId);
+            self::$_regionModels[$regionId] = $region;
         }
 
-        return self::$_regionModels[$region];
+        return self::$_regionModels[$regionId];
     }
 
     public function format($type)
@@ -379,13 +414,13 @@ class AbstractAddress extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * Retrive address config object
+     * Retrieve address config object
      *
      * @return \Magento\Customer\Model\Address\Config
      */
     public function getConfig()
     {
-        return \Mage::getSingleton('Magento\Customer\Model\Address\Config');
+        return $this->_addressConfig;
     }
 
     protected function _beforeSave()
@@ -445,5 +480,21 @@ class AbstractAddress extends \Magento\Core\Model\AbstractModel
             return true;
         }
         return $errors;
+    }
+
+    /**
+     * @return \Magento\Directory\Model\Region
+     */
+    protected function _createRegionInstance()
+    {
+        return $this->_regionFactory->create();
+    }
+
+    /**
+     * @return \Magento\Directory\Model\Country
+     */
+    protected function _createCountryInstance()
+    {
+        return $this->_countryFactory->create();
     }
 }

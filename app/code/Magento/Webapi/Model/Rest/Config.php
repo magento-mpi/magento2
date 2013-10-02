@@ -53,7 +53,7 @@ class Config
      * @param array $routeData Expected format:
      *  <pre>array(
      *      'routePath' => '/categories/:categoryId',
-     *      'class' => 'Magento_Catalog_Service_CategoryService',
+     *      'class' => 'Magento\Catalog\Service\CategoryService',
      *      'serviceMethod' => 'item'
      *      'secure' => true
      *  );</pre>

@@ -22,6 +22,27 @@ class Element
     protected $_template = 'form/renderer/element.phtml';
 
     /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $storeManager;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        array $data = array()
+    ) {
+        parent::__construct($coreData, $context, $data);
+        $this->storeManager = $storeManager;
+    }
+
+    /**
      * Retrieve data object related with form
      *
      * @return \Magento\Object
@@ -64,7 +85,7 @@ class Element
     /**
      * Disable field in default value using case
      *
-     * @return \Magento\GiftRegistry\Block\Adminhtml\Giftregistry_Form_Renderer_Fieldset_Element
+     * @return \Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Form\Renderer\Fieldset\Element
      */
     public function checkFieldDisable()
     {
@@ -85,7 +106,7 @@ class Element
     {
         $html = '';
         $element = $this->getElement();
-        if (\Mage::app()->isSingleStoreMode()) {
+        if ($this->storeManager->isSingleStoreMode()) {
             return $html;
         }
         if ($element->getScope() == 'global' || $element->getScope() === null) {

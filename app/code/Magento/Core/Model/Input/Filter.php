@@ -7,9 +7,9 @@
  * Model for multi-filtering all data which set to models
  * Example:
  * <code>
- * /** @var $filter \Magento\Core\Model\Input\Filter {@*}
- * $filter = \Mage::getModel('Magento\Core\Model\Input\Filter');
- * $filter->setFilters(array(
+ * /** @var $filterFactory \Magento\Core\Model\Input\FilterFactory {@*}
+ * $filter = $filterFactory->create()
+ *     ->setFilters(array(
  *      'list_values' => array(
  *          'children_filters' => array( //filters will applied to all children
  *              array(
@@ -90,12 +90,20 @@ class Filter implements \Zend_Filter_Interface
     protected $_helperFactory;
 
     /**
+     * @var \Magento\Core\Model\ObjectManager
+     */
+    protected $_objectManager;
+
+    /**
      * @param \Magento\Core\Model\Factory\Helper $helperFactory
+     * @param \Magento\Core\Model\ObjectManager $objectManager
      */
     function __construct(
-        \Magento\Core\Model\Factory\Helper $helperFactory
+        \Magento\Core\Model\Factory\Helper $helperFactory,
+        \Magento\Core\Model\ObjectManager $objectManager
     ) {
         $this->_helperFactory = $helperFactory;
+        $this->_objectManager = $objectManager;
     }
 
     /**
@@ -322,7 +330,7 @@ class Filter implements \Zend_Filter_Interface
             $filterData['args'] = $filterData['args'][0];
         }
         if (is_string($filterData['model'])) {
-            $filter = \Mage::getModel($filterData['model'], $filterData['args']);
+            $filter = $this->_objectManager->create($filterData['model'], $filterData['args']);
         }
         if (!($filter instanceof \Zend_Filter_Interface)) {
             throw new \Exception('Filter is not instance of \Zend_Filter_Interface');

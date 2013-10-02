@@ -27,22 +27,42 @@ class History
      *
      * @var \Magento\Core\Model\Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
+
+    /**
+     * Invitation History Factory
+     *
+     * @var \Magento\Invitation\Model\Invitation\HistoryFactory
+     */
+    protected $_historyFactory;
+
+    /**
+     * Application locale
+     *
+     * @var \Magento\Core\Model\LocaleInterface
+     */
+    protected $_locale;
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Invitation\Model\Invitation\HistoryFactory $historyFactory
+     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
+        \Magento\Invitation\Model\Invitation\HistoryFactory $historyFactory,
+        \Magento\Core\Model\LocaleInterface $locale,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
         parent::__construct($coreData, $context, $data);
+        $this->_historyFactory = $historyFactory;
+        $this->_locale = $locale;
     }
 
     public function getTabLabel()
@@ -78,11 +98,11 @@ class History
     /**
      * Return invitation status history collection
      *
-     * @return \Magento\Invitation\Model\Resource\Invitation_History_Collection
+     * @return \Magento\Invitation\Model\Resource\Invitation\History\Collection
      */
     public function getHistoryCollection()
     {
-        return \Mage::getModel('Magento\Invitation\Model\Invitation\History')
+        return $this->_historyFactory->create()
             ->getCollection()
             ->addFieldToFilter('invitation_id', $this->getInvitation()->getId())
             ->addOrder('history_id');
@@ -99,7 +119,7 @@ class History
     public function formatDate($date = null, $format = 'short', $showTime = false)
     {
         if (is_string($date)) {
-            $date = \Mage::app()->getLocale()->date($date, \Magento\Date::DATETIME_INTERNAL_FORMAT);
+            $date = $this->_locale->date($date, \Magento\Date::DATETIME_INTERNAL_FORMAT);
         }
 
         return parent::formatDate($date, $format, $showTime);
@@ -116,7 +136,7 @@ class History
     public function formatTime($date = null, $format = 'short', $showDate = false)
     {
         if (is_string($date)) {
-            $date = \Mage::app()->getLocale()->date($date, \Magento\Date::DATETIME_INTERNAL_FORMAT);
+            $date = $this->_locale->date($date, \Magento\Date::DATETIME_INTERNAL_FORMAT);
         }
 
         return parent::formatTime($date, $format, $showDate);

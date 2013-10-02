@@ -11,7 +11,7 @@
 namespace Magento\Webhook\Block\Adminhtml\Subscription\Edit;
 
 /**
- * Magento_Webhook_Block_AdminHtml_Subscription_Edit_Form
+ * \Magento\Webhook\Block\Adminhtml\Subscription\Edit\Form
  *
  * @magentoAppArea adminhtml
  */

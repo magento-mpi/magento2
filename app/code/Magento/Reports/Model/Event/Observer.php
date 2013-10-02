@@ -21,6 +21,51 @@ namespace Magento\Reports\Model\Event;
 class Observer
 {
     /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Reports\Model\EventFactory
+     */
+    protected $_eventFactory;
+
+    /**
+     * @var \Magento\Reports\Model\Product\Index\ComparedFactory
+     */
+    protected $_productCompFactory;
+
+    /**
+     * @var \Magento\Reports\Model\Product\Index\ViewedFactory
+     */
+    protected $_productIndxFactory;
+
+    /**
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @var \Magento\Log\Model\Visitor
+     */
+    protected $_logVisitor;
+
+    public function __construct(
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Reports\Model\EventFactory $event,
+        \Magento\Reports\Model\Product\Index\ComparedFactory $productCompFactory,
+        \Magento\Reports\Model\Product\Index\ViewedFactory $productIndxFactory,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Log\Model\Visitor $logVisitor
+    ) {
+        $this->_storeManager = $storeManager;
+        $this->_eventFactory = $event;
+        $this->_productCompFactory = $productCompFactory;
+        $this->_productIndxFactory = $productIndxFactory;
+        $this->_customerSession = $customerSession;
+        $this->_logVisitor = $logVisitor;
+    }
+    /**
      * Abstract Event obeserver logic
      *
      * Save event
@@ -34,18 +79,18 @@ class Observer
     protected function _event($eventTypeId, $objectId, $subjectId = null, $subtype = 0)
     {
         if (is_null($subjectId)) {
-            if (\Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn()) {
-                $customer = \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomer();
+            if ($this->_customerSession->isLoggedIn()) {
+                $customer = $this->_customerSession->getCustomer();
                 $subjectId = $customer->getId();
             }
             else {
-                $subjectId = \Mage::getSingleton('Magento\Log\Model\Visitor')->getId();
+                $subjectId = $this->_logVisitor->getId();
                 $subtype = 1;
             }
         }
 
-        $eventModel = \Mage::getModel('Magento\Reports\Model\Event');
-        $storeId    = \Mage::app()->getStore()->getId();
+        $eventModel = $this->_eventFactory->create();
+        $storeId    = $this->_storeManager->getStore()->getId();
         $eventModel
             ->setEventTypeId($eventTypeId)
             ->setObjectId($objectId)
@@ -65,19 +110,21 @@ class Observer
      */
     public function customerLogin(\Magento\Event\Observer $observer)
     {
-        if (!\Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn()) {
+        if (!$this->_customerSession->isLoggedIn()) {
             return $this;
         }
 
-        $visitorId  = \Mage::getSingleton('Magento\Log\Model\Visitor')->getId();
-        $customerId = \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerId();
-        $eventModel = \Mage::getModel('Magento\Reports\Model\Event');
+        $visitorId  = $this->_logVisitor->getId();
+        $customerId = $this->_customerSession->getCustomerId();
+        $eventModel = $this->_eventFactory->create();
         $eventModel->updateCustomerType($visitorId, $customerId);
 
-        \Mage::getModel('Magento\Reports\Model\Product\Index\Compared')
+        $this->_productCompFactory
+            ->create()
             ->updateCustomerFromVisitor()
             ->calculate();
-        \Mage::getModel('Magento\Reports\Model\Product\Index\Viewed')
+        $this->_productIndxFactory
+            ->create()
             ->updateCustomerFromVisitor()
             ->calculate();
 
@@ -92,10 +139,12 @@ class Observer
      */
     public function customerLogout(\Magento\Event\Observer $observer)
     {
-        \Mage::getModel('Magento\Reports\Model\Product\Index\Compared')
+        $this->_productCompFactory
+            ->create()
             ->purgeVisitorByCustomer()
             ->calculate();
-        \Mage::getModel('Magento\Reports\Model\Product\Index\Viewed')
+        $this->_productIndxFactory
+            ->create()
             ->purgeVisitorByCustomer()
             ->calculate();
         return $this;
@@ -111,7 +160,8 @@ class Observer
     {
         $productId = $observer->getEvent()->getProduct()->getId();
 
-        \Mage::getModel('Magento\Reports\Model\Product\Index\Viewed')
+        $this->_productIndxFactory
+            ->create()
             ->setProductId($productId)
             ->save()
             ->calculate();
@@ -142,7 +192,9 @@ class Observer
      */
     public function catalogProductCompareRemoveProduct(\Magento\Event\Observer $observer)
     {
-        \Mage::getModel('Magento\Reports\Model\Product\Index\Compared')->calculate();
+        $this->_productCompFactory
+            ->create()
+            ->calculate();
 
         return $this;
     }
@@ -157,7 +209,9 @@ class Observer
      */
     public function catalogProductCompareClear(\Magento\Event\Observer $observer)
     {
-        \Mage::getModel('Magento\Reports\Model\Product\Index\Compared')->calculate();
+        $this->_productCompFactory
+            ->create()
+            ->calculate();
 
         return $this;
     }
@@ -174,7 +228,8 @@ class Observer
     {
         $productId = $observer->getEvent()->getProduct()->getId();
 
-        \Mage::getModel('Magento\Reports\Model\Product\Index\Compared')
+        $this->_productCompFactory
+            ->create()
             ->setProductId($productId)
             ->save()
             ->calculate();

@@ -118,7 +118,7 @@ class Multiline extends \Magento\Eav\Model\Attribute\Data\Text
      * @param string $format
      * @return array|string
      */
-    public function outputValue($format = \Magento\Eav\Model\Attribute\Data::OUTPUT_FORMAT_TEXT)
+    public function outputValue($format = \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_TEXT)
     {
         $values = $this->getEntity()->getData($this->getAttribute()->getAttributeCode());
         if (!is_array($values)) {
@@ -126,13 +126,13 @@ class Multiline extends \Magento\Eav\Model\Attribute\Data\Text
         }
         $values = array_map(array($this, '_applyOutputFilter'), $values);
         switch ($format) {
-            case \Magento\Eav\Model\Attribute\Data::OUTPUT_FORMAT_ARRAY:
+            case \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_ARRAY:
                 $output = $values;
                 break;
-            case \Magento\Eav\Model\Attribute\Data::OUTPUT_FORMAT_HTML:
+            case \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_HTML:
                 $output = implode("<br />", $values);
                 break;
-            case \Magento\Eav\Model\Attribute\Data::OUTPUT_FORMAT_ONELINE:
+            case \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_ONELINE:
                 $output = implode(" ", $values);
                 break;
             default:

@@ -34,11 +34,16 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
             ->setConstructorArgs(array(
                 \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Context'),
                 $objectManager->get('Magento\Core\Model\Registry'),
+                $objectManager->get('Magento\Core\Model\App\Emulation'),
                 $objectManager->create('Magento\Filesystem'),
                 $objectManager->create('Magento\Core\Model\View\Url'),
                 $objectManager->create('Magento\Core\Model\View\FileSystem'),
                 $objectManager->get('Magento\Core\Model\View\DesignInterface'),
                 $objectManager->create('Magento\Core\Model\Store\Config'),
+                $objectManager->create('Magento\Core\Model\Config'),
+                $objectManager->get('Magento\Core\Model\Email\Template\FilterFactory'),
+                $objectManager->get('Magento\Core\Model\StoreManager'),
+                $objectManager->get('Magento\Core\Model\Dir'),
                 $objectManager->get('Magento\Core\Model\Email\Template\Config'),
             ))
             ->getMock();
@@ -208,7 +213,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \UnexpectedValueException
+     * @expectedException UnexpectedValueException
      * @expectedExceptionMessage Email template 'wrong_id' is not defined
      */
     public function testSendTransactionalWrongId()

@@ -10,15 +10,44 @@
 
 /**
  * Cms Hierarchy Copy Form Container Block
- *
- * @category   Magento
- * @package    Magento_VersionsCms
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy;
 
 class Manage extends \Magento\Backend\Block\Widget\Form\Generic
 {
+    /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Core\Model\System\Store
+     */
+    protected $_systemStore;
+
+    /**
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\System\Store $systemStore
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\System\Store $systemStore,
+        array $data = array()
+    ) {
+        $this->_storeManager = $storeManager;
+        $this->_systemStore = $systemStore;
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+    }
+
     /**
      * Retrieve Delete Hierarchies Url
      *
@@ -58,12 +87,12 @@ class Manage extends \Magento\Backend\Block\Widget\Form\Generic
         $currentStore   = $this->getRequest()->getParam('store');
         $excludeScopes = array();
         if ($currentStore) {
-            $storeId = \Mage::app()->getStore($currentStore)->getId();
+            $storeId = $this->_storeManager->getStore($currentStore)->getId();
             $excludeScopes = array(
                 \Magento\VersionsCms\Helper\Hierarchy::SCOPE_PREFIX_STORE . $storeId
             );
         } elseif ($currentWebsite) {
-            $websiteId = \Mage::app()->getWebsite($currentWebsite)->getId();
+            $websiteId = $this->_storeManager->getWebsite($currentWebsite)->getId();
             $excludeScopes = array(
                 \Magento\VersionsCms\Helper\Hierarchy::SCOPE_PREFIX_WEBSITE . $websiteId
             );
@@ -104,8 +133,7 @@ class Manage extends \Magento\Backend\Block\Widget\Form\Generic
      */
     protected function _prepareOptions($all = false, $excludeScopes)
     {
-        $storeStructure = \Mage::getSingleton('Magento\Core\Model\System\Store')
-                ->getStoresStructure($all);
+        $storeStructure = $this->_systemStore->getStoresStructure($all);
         $nonEscapableNbspChar = html_entity_decode('&#160;', ENT_NOQUOTES, 'UTF-8');
         $options = array();
 
@@ -123,7 +151,7 @@ class Manage extends \Magento\Backend\Block\Widget\Form\Generic
                         $storeViewOptions = array();
                         foreach ($store['children'] as $storeView) {
                             $storeView['value'] = \Magento\VersionsCms\Helper\Hierarchy::SCOPE_PREFIX_STORE
-                                                  . $storeView['value'];
+                                . $storeView['value'];
                             if (!in_array($storeView['value'], $excludeScopes)) {
                                 $storeView['label'] = str_repeat($nonEscapableNbspChar, 4) . $storeView['label'];
                                 $storeViewOptions[] = $storeView;

@@ -67,9 +67,74 @@ class Installer extends \Magento\Object
     protected $_setupFactory;
 
     /**
-     * @var \Magento\ObjectManager
+     * Core Primary config
+     *
+     * @var \Magento\Core\Model\Config\Primary
      */
-    protected $_objectManager;
+    protected $_primaryConfig;
+
+    /**
+     * Install installer pear
+     *
+     * @var \Magento\Install\Model\Installer\Pear
+     */
+    protected $_installerPear;
+
+    /**
+     * Install installer filesystem
+     *
+     * @var \Magento\Install\Model\Installer\Filesystem
+     */
+    protected $_filesystem;
+
+    /**
+     * Application
+     *
+     * @var \Magento\Core\Model\App
+     */
+    protected $_app;
+
+    /**
+     * Application
+     *
+     * @var \Magento\Core\Model\App\State
+     */
+    protected $_appState;
+
+    /**
+     * Store Manager
+     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * User user
+     *
+     * @var \Magento\User\Model\UserFactory
+     */
+    protected $_userModelFactory;
+
+    /**
+     * Installer DB model
+     *
+     * @var \Magento\Install\Model\Installer\Db
+     */
+    protected $_installerDb;
+
+    /**
+     * Installer DB model
+     *
+     * @var \Magento\Install\Model\Installer\Config
+     */
+    protected $_installerConfig;
+
+    /**
+     * Install session
+     *
+     * @var \Magento\Core\Model\Session\Generic
+     */
+    protected $_session;
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
@@ -79,7 +144,17 @@ class Installer extends \Magento\Object
      * @param \Magento\Core\Model\Cache\TypeListInterface $cacheTypeList
      * @param \Magento\Core\Model\Cache\StateInterface $cacheState
      * @param \Magento\Core\Model\Resource\SetupFactory $setupFactory
-     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Core\Model\Config\Primary $primaryConfig
+     * @param \Magento\Core\Model\Config\Local $localConfig
+     * @param \Magento\Core\Model\App $app
+     * @param \Magento\Core\Model\App\State $appState
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\User\Model\UserFactory $userModelFactory
+     * @param \Magento\Install\Model\Installer\Filesystem $filesystem
+     * @param \Magento\Install\Model\Installer\Pear $installerPear
+     * @param \Magento\Install\Model\Installer\Db $installerDb
+     * @param \Magento\Install\Model\Installer\Config $installerConfig
+     * @param \Magento\Core\Model\Session\Generic $session
      * @param array $data
      */
     public function __construct(
@@ -90,7 +165,17 @@ class Installer extends \Magento\Object
         \Magento\Core\Model\Cache\TypeListInterface $cacheTypeList,
         \Magento\Core\Model\Cache\StateInterface $cacheState,
         \Magento\Core\Model\Resource\SetupFactory $setupFactory,
-        \Magento\ObjectManager $objectManager,
+        \Magento\Core\Model\Config\Primary $primaryConfig,
+        \Magento\Core\Model\Config\Local $localConfig,
+        \Magento\Core\Model\App $app,
+        \Magento\Core\Model\App\State $appState,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\User\Model\UserFactory $userModelFactory,
+        \Magento\Install\Model\Installer\Filesystem $filesystem,
+        \Magento\Install\Model\Installer\Pear $installerPear,
+        \Magento\Install\Model\Installer\Db $installerDb,
+        \Magento\Install\Model\Installer\Config $installerConfig,
+        \Magento\Core\Model\Session\Generic $session,
         array $data = array()
     ) {
         $this->_coreData = $coreData;
@@ -100,8 +185,18 @@ class Installer extends \Magento\Object
         $this->_cacheState = $cacheState;
         $this->_cacheTypeList = $cacheTypeList;
         $this->_setupFactory = $setupFactory;
-        $this->_objectManager = $objectManager;
         parent::__construct($data);
+        $this->_primaryConfig = $primaryConfig;
+        $this->_localConfig = $localConfig;
+        $this->_app = $app;
+        $this->_appState = $appState;
+        $this->_storeManager = $storeManager;
+        $this->_userModelFactory = $userModelFactory;
+        $this->_filesystem = $filesystem;
+        $this->_installerPear = $installerPear;
+        $this->_installerDb = $installerDb;
+        $this->_installerConfig = $installerConfig;
+        $this->_session = $session;
     }
 
     /**
@@ -111,7 +206,7 @@ class Installer extends \Magento\Object
      */
     public function isApplicationInstalled()
     {
-        return \Mage::isInstalled();
+        return $this->_appState->isInstalled();
     }
 
     /**
@@ -122,7 +217,7 @@ class Installer extends \Magento\Object
     public function getDataModel()
     {
         if (null === $this->_dataModel) {
-            $this->setDataModel(\Mage::getSingleton('Magento\Install\Model\Session'));
+            $this->setDataModel($this->_session);
         }
         return $this->_dataModel;
     }
@@ -147,7 +242,7 @@ class Installer extends \Magento\Object
     public function checkDownloads()
     {
         try {
-            \Mage::getModel('Magento\Install\Model\Installer\Pear')->checkDownloads();
+            $this->_installerPear->checkDownloads();
             $result = true;
         } catch (\Exception $e) {
             $result = false;
@@ -164,7 +259,7 @@ class Installer extends \Magento\Object
     public function checkServer()
     {
         try {
-            \Mage::getModel('Magento\Install\Model\Installer\Filesystem')->install();
+            $this->_filesystem->install();
             $result = true;
         } catch (\Exception $e) {
             $result = false;
@@ -197,17 +292,16 @@ class Installer extends \Magento\Object
     {
         $data['db_active'] = true;
 
-        $data = \Mage::getSingleton('Magento\Install\Model\Installer\Db')->checkDbConnectionData($data);
+        $data = $this->_installerDb->checkDbConnectionData($data);
 
-        \Mage::getSingleton('Magento\Install\Model\Installer\Config')
+        $this->_installerConfig
             ->setConfigData($data)
             ->install();
 
-        $this->_objectManager->get('Magento\Core\Model\Config\Local')->reload();
+        $this->_primaryConfig->reinit();
+        $this->_localConfig->reload();
 
-        /** @var $config \Magento\Core\Model\Config */
-        $config = \Mage::getSingleton('Magento\Core\Model\Config');
-        $config->reloadConfig();
+        $this->_config->reloadConfig();
 
         return $this;
     }
@@ -244,7 +338,7 @@ class Installer extends \Magento\Object
             $setupModel->setConfigData('admin/security/use_form_key', 0);
         }
 
-        $unsecureBaseUrl = \Mage::getBaseUrl('web');
+        $unsecureBaseUrl = $this->_storeManager->getStore()->getBaseUrl('web');
         if (!empty($data['unsecure_base_url'])) {
             $unsecureBaseUrl = $data['unsecure_base_url'];
             $setupModel->setConfigData(\Magento\Core\Model\Store::XML_PATH_UNSECURE_BASE_URL, $unsecureBaseUrl);
@@ -315,11 +409,11 @@ class Installer extends \Magento\Object
     public function createAdministrator($data)
     {
         // \Magento\User\Model\User belongs to adminhtml area
-        \Mage::app()
+        $this->_app
             ->loadAreaPart(\Magento\Core\Model\App\Area::AREA_ADMINHTML, \Magento\Core\Model\App\Area::PART_CONFIG);
 
         /** @var $user \Magento\User\Model\User */
-        $user = \Mage::getModel('Magento\User\Model\User');
+        $user = $this->_userModelFactory->create();
         $user->loadByUsername($data['username']);
         $user->addData($data)
             ->setForceNewPassword(true) // run-time flag to force saving of the entered password
@@ -337,7 +431,7 @@ class Installer extends \Magento\Object
     public function installEncryptionKey($key)
     {
         $this->_coreData->validateKey($key);
-        \Mage::getSingleton('Magento\Install\Model\Installer\Config')->replaceTmpEncryptKey($key);
+        $this->_installerConfig->replaceTmpEncryptKey($key);
         $this->_refreshConfig();
         return $this;
     }
@@ -362,17 +456,13 @@ class Installer extends \Magento\Object
      */
     public function finish()
     {
-        \Mage::getSingleton('Magento\Install\Model\Installer\Config')->replaceTmpInstallDate();
+        $this->_installerConfig->replaceTmpInstallDate();
 
-        /** @var \Magento\Core\Model\Config\Primary $primary */
-        $primary = \Mage::getSingleton('Magento\Core\Model\Config\Primary');
-        $primary->reinit();
+        $this->_primaryConfig->reinit();
 
         $this->_refreshConfig();
 
-        /** @var $config \Magento\Core\Model\Config */
-        $config = \Mage::getSingleton('Magento\Core\Model\Config');
-        $config->reloadConfig();
+        $this->_config->reloadConfig();
 
         /* Enable all cache types */
         foreach (array_keys($this->_cacheTypeList->getTypes()) as $cacheTypeCode) {

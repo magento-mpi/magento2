@@ -37,8 +37,7 @@ class CalculationTest extends \PHPUnit_Framework_TestCase
             'customer_class_id' => $customerTaxClasses[0],
             'product_class_id' => $productTaxClasses[0]
         ));
-        $taxCalculation = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Tax\Model\Resource\Calculation');
+        $taxCalculation = $objectManager->get('Magento\Tax\Model\Resource\Calculation');
         $this->assertEquals($taxRate->getRate(), $taxCalculation->getRate($data));
     }
 }

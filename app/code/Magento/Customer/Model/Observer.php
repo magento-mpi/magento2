@@ -54,21 +54,37 @@ class Observer
     protected $_coreData = null;
 
     /**
+     * @var \Magento\Core\Model\StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $_customerSession;
+
+    /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Customer\Helper\Data $customerData
      * @param \Magento\Customer\Helper\Address $customerAddress
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Customer\Model\Session $customerSession
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
         \Magento\Customer\Helper\Data $customerData,
         \Magento\Customer\Helper\Address $customerAddress,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Customer\Model\Session $customerSession
     ) {
         $this->_coreData = $coreData;
         $this->_customerData = $customerData;
         $this->_customerAddress = $customerAddress;
         $this->_coreRegistry = $coreRegistry;
+        $this->_storeManager = $storeManager;
+        $this->_customerSession = $customerSession;
     }
 
     /**
@@ -195,14 +211,14 @@ class Observer
                     $customer->save();
                 }
 
-                if (!\Mage::app()->getStore()->isAdmin()) {
+                if (!$this->_storeManager->getStore()->isAdmin()) {
                     $validationMessage = $this->_customerData->getVatValidationUserMessage($customerAddress,
                         $customer->getDisableAutoGroupChange(), $result);
 
                     if (!$validationMessage->getIsError()) {
-                        \Mage::getSingleton('Magento\Customer\Model\Session')->addSuccess($validationMessage->getMessage());
+                        $this->_customerSession->addSuccess($validationMessage->getMessage());
                     } else {
-                        \Mage::getSingleton('Magento\Customer\Model\Session')->addError($validationMessage->getMessage());
+                        $this->_customerSession->addError($validationMessage->getMessage());
                     }
                 }
             }

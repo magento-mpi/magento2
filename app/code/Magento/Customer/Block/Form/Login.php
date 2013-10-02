@@ -21,6 +21,21 @@ class Login extends \Magento\Core\Block\Template
 {
     private $_username = -1;
 
+    /**
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $_customerSession;
+
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Customer\Model\Session $customerSession,
+        array $data = array()
+    ) {
+        $this->_customerSession = $customerSession;
+        parent::__construct($coreData, $context, $data);
+    }
+
     protected function _prepareLayout()
     {
         $this->getLayout()->getBlock('head')->setTitle(__('Customer Login'));
@@ -69,7 +84,7 @@ class Login extends \Magento\Core\Block\Template
     public function getUsername()
     {
         if (-1 === $this->_username) {
-            $this->_username = \Mage::getSingleton('Magento\Customer\Model\Session')->getUsername(true);
+            $this->_username = $this->_customerSession->getUsername(true);
         }
         return $this->_username;
     }

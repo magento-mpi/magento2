@@ -14,7 +14,7 @@
  */
 namespace Magento\Config;
 
-class View extends \Magento\Config\XmlAbstract
+class View extends \Magento\Config\AbstractXml
 {
     /**
      * Path to view.xsd

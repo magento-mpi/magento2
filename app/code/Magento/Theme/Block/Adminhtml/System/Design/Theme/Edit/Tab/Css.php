@@ -20,7 +20,7 @@ namespace Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab;
  * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
 class Css
-    extends \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\TabAbstract
+    extends \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\AbstractTab
 {
     /**
      * Uploader service

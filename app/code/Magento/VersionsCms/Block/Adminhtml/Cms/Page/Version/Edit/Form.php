@@ -8,19 +8,17 @@
  * @license     {license_link}
  */
 
-
 /**
  * Form for version edit page
- *
- * @category    Magento
- * @package     Magento_VersionsCms
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Version\Edit;
 
-class Form extends \Magento\Backend\Block\Widget\Form
+class Form
+    extends \Magento\Backend\Block\Widget\Form\Generic
 {
+    /**
+     * @var string
+     */
     protected $_template = 'page/version/form.phtml';
 
     /**
@@ -28,7 +26,12 @@ class Form extends \Magento\Backend\Block\Widget\Form
      *
      * @var \Magento\VersionsCms\Helper\Data
      */
-    protected $_cmsData = null;
+    protected $_cmsData;
+
+    /**
+     * @var \Magento\VersionsCms\Model\Config
+     */
+    protected $_cmsConfig;
 
     /**
      * @param \Magento\Data\Form\Factory $formFactory
@@ -36,6 +39,7 @@ class Form extends \Magento\Backend\Block\Widget\Form
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\VersionsCms\Model\Config $cmsConfig
      * @param array $data
      */
     public function __construct(
@@ -44,10 +48,12 @@ class Form extends \Magento\Backend\Block\Widget\Form
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
+        \Magento\VersionsCms\Model\Config $cmsConfig,
         array $data = array()
     ) {
         $this->_cmsData = $cmsData;
-        parent::__construct($coreData, $context, $data,$registry, $formFactory);
+        $this->_cmsConfig = $cmsConfig;
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
     }
 
     /**
@@ -71,11 +77,8 @@ class Form extends \Magento\Backend\Block\Widget\Form
         /* @var $model \Magento\Cms\Model\Page */
         $version = $this->_coreRegistry->registry('cms_page_version');
 
-        $config = \Mage::getSingleton('Magento\VersionsCms\Model\Config');
-        /* @var $config \Magento\VersionsCms\Model\Config */
-
-        $isOwner = $config->isCurrentUserOwner($version->getUserId());
-        $isPublisher = $config->canCurrentUserPublishRevision();
+        $isOwner = $this->_cmsConfig->isCurrentUserOwner($version->getUserId());
+        $isPublisher = $this->_cmsConfig->canCurrentUserPublishRevision();
 
         $fieldset = $form->addFieldset('version_fieldset',
             array('legend' => __('Version Information'),

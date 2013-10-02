@@ -9,15 +9,11 @@
  */
 
 /**
- * admin product edit tabs
- *
- * @category   Magento
- * @package    Magento_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
+ * Admin product edit tabs
  */
 namespace Magento\Adminhtml\Block\Catalog\Product\Edit;
 
-class Tabs extends \Magento\Adminhtml\Block\Widget\Tabs
+class Tabs extends \Magento\Backend\Block\Widget\Tabs
 {
     const BASIC_TAB_GROUP_CODE = 'basic';
     const ADVANCED_TAB_GROUP_CODE = 'advanced';
@@ -60,6 +56,7 @@ class Tabs extends \Magento\Adminhtml\Block\Widget\Tabs
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Backend\Model\Auth\Session $authSession
      * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
@@ -69,6 +66,7 @@ class Tabs extends \Magento\Adminhtml\Block\Widget\Tabs
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
+        \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
@@ -76,7 +74,7 @@ class Tabs extends \Magento\Adminhtml\Block\Widget\Tabs
         $this->_adminhtmlCatalog = $adminhtmlCatalog;
         $this->_catalogData = $catalogData;
         $this->_coreRegistry = $registry;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($coreData, $context, $authSession, $data);
     }
 
     protected function _construct()
