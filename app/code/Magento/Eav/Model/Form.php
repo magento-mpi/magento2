@@ -185,7 +185,9 @@ abstract class Form
      */
     protected function _getFormAttributeCollection()
     {
-        return $this->_universalFactory->create($this->_moduleName . '_Model_Resource_Form_Attribute_Collection');
+        return $this->_universalFactory->create(
+            str_replace('_', '\\', $this->_moduleName) . '\\Model\\Resource\\Form\\Attribute\\Collection'
+        );
     }
 
     /**
