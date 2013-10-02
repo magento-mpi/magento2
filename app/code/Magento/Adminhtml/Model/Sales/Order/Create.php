@@ -772,7 +772,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
      * $config can be either buyRequest config, or just qty
      *
      * @param   int|\Magento\Catalog\Model\Product $product
-     * @param array|float|int|\Magento_Object $config
+     * @param array|float|int|\Magento\Object $config
      * @return  \Magento\Adminhtml\Model\Sales\Order\Create
      */
     public function addProduct($product, $config = 1)

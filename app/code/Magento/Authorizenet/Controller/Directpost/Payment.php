@@ -64,7 +64,7 @@ class Payment extends \Magento\Core\Controller\Front\Action
     {
         $params = array();
         $data = $this->getRequest()->getPost();
-        /* @var $paymentMethod Magento_Authorizenet_Model_DirectPost */
+        /* @var $paymentMethod \Magento\Authorizenet\Model\DirectPost */
         $paymentMethod = $this->_objectManager->create('Magento\Authorizenet\Model\Directpost');
 
         $result = array();

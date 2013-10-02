@@ -46,7 +46,7 @@ class Combine extends \Magento\Rule\Model\Condition\Combine
         $attributes = array();
         foreach ($productAttributes as $code => $label) {
             $attributes[] = array(
-                'value' => 'Magento_CatalogRule_Model_Rule_Condition_Product|' . $code, 'label' => $label
+                'value' => 'Magento\CatalogRule\Model\Rule\Condition\Product|' . $code, 'label' => $label
             );
         }
         $conditions = parent::getNewChildSelectOptions();

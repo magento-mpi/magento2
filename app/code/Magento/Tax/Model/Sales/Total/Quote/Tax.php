@@ -73,7 +73,7 @@ class Tax extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
      * Collect tax totals for quote address
      *
      * @param   \Magento\Sales\Model\Quote\Address $address
-     * @return  Magento_Tax_Model_Sales_Total_Quote
+     * @return  \Magento\Tax\Model\Sales\Total\Quote\Tax
      */
     public function collect(\Magento\Sales\Model\Quote\Address $address)
     {
@@ -191,7 +191,7 @@ class Tax extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
      *
      * @param   \Magento\Sales\Model\Quote\Address $address
      * @param   \Magento\Object $taxRateRequest
-     * @return  Magento_Tax_Model_Sales_Total_Quote
+     * @return  \Magento\Tax\Model\Sales\Total\Quote\Tax
      */
     protected function _calculateShippingTax(\Magento\Sales\Model\Quote\Address $address, $taxRateRequest)
     {
@@ -262,7 +262,7 @@ class Tax extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
      * Calculate address tax amount based on one unit price and tax amount
      *
      * @param   \Magento\Sales\Model\Quote\Address $address
-     * @return  Magento_Tax_Model_Sales_Total_Quote
+     * @return  \Magento\Tax\Model\Sales\Total\Quote\Tax
      */
     protected function _unitBaseCalculation(\Magento\Sales\Model\Quote\Address $address, $taxRateRequest)
     {
@@ -327,7 +327,7 @@ class Tax extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
      *
      * @param   \Magento\Sales\Model\Quote\Item\AbstractItem $item
      * @param   float $rate
-     * @return  Magento_Tax_Model_Sales_Total_Quote
+     * @return  \Magento\Tax\Model\Sales\Total\Quote\Tax
      */
     protected function _calcUnitTaxAmount(\Magento\Sales\Model\Quote\Item\AbstractItem $item, $rate)
     {
@@ -397,7 +397,7 @@ class Tax extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
      *
      * @param   \Magento\Sales\Model\Quote\Address $address
      * @param   \Magento\Object $taxRateRequest
-     * @return  Magento_Tax_Model_Sales_Total_Quote
+     * @return  \Magento\Tax\Model\Sales\Total\Quote\Tax
      */
     protected function _rowBaseCalculation(\Magento\Sales\Model\Quote\Address $address, $taxRateRequest)
     {
@@ -462,7 +462,7 @@ class Tax extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
      *
      * @param   \Magento\Sales\Model\Quote\Item\AbstractItem $item
      * @param   float $rate
-     * @return  Magento_Tax_Model_Sales_Total_Quote
+     * @return  \Magento\Tax\Model\Sales\Total\Quote\Tax
      */
     protected function _calcRowTaxAmount($item, $rate)
     {
@@ -529,7 +529,7 @@ class Tax extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
      *
      * @param   \Magento\Sales\Model\Quote\Address $address
      * @param   \Magento\Object $taxRateRequest
-     * @return  Magento_Tax_Model_Sales_Total_Quote
+     * @return  \Magento\Tax\Model\Sales\Total\Quote\Tax
      */
     protected function _totalBaseCalculation(\Magento\Sales\Model\Quote\Address $address, $taxRateRequest)
     {
@@ -592,7 +592,7 @@ class Tax extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
      * @param   \Magento\Sales\Model\Quote\Item\AbstractItem $item
      * @param   float $rate
      * @param   array $taxGroups
-     * @return  Magento_Tax_Model_Sales_Total_Quote
+     * @return  \Magento\Tax\Model\Sales\Total\Quote\Tax
      */
     protected function _aggregateTaxPerRate($item, $rate, &$taxGroups)
     {
@@ -709,7 +709,7 @@ class Tax extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
      * Recalculate parent item amounts base on children data
      *
      * @param   \Magento\Sales\Model\Quote\Item\AbstractItem $item
-     * @return  Magento_Tax_Model_Sales_Total_Quote
+     * @return  \Magento\Tax\Model\Sales\Total\Quote\Tax
      */
     protected function _recalculateParent(\Magento\Sales\Model\Quote\Item\AbstractItem $item)
     {
@@ -779,7 +779,7 @@ class Tax extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
      * Add tax totals information to address object
      *
      * @param   \Magento\Sales\Model\Quote\Address $address
-     * @return  Magento_Tax_Model_Sales_Total_Quote
+     * @return  \Magento\Tax\Model\Sales\Total\Quote\Tax
      */
     public function fetch(\Magento\Sales\Model\Quote\Address $address)
     {

@@ -113,7 +113,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     /**
      * Get tax calculation object
      *
-     * @return  Magento_Tac_Model_Calculation
+     * @return  \Magento\Tax\Model\Calculation
      */
     public function getCalculator()
     {
