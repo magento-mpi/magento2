@@ -20,7 +20,7 @@ class Wrapper extends \PHP_CodeSniffer_CLI
      * Emulate console arguments
      *
      * @param $values
-     * @return Magento_TestFramework_Inspection_CodeSniffer_Cli_Wrapper
+     * @return \Magento\TestFramework\CodingStandard\Tool\CodeSniffer\Wrapper
      */
     public function setValues($values)
     {

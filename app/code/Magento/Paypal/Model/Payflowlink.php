@@ -133,7 +133,6 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
      *
      * @param string $paymentAction
      * @param \Magento\Object $stateObject
-     * @return \Magento_Payment_Model_Abstract|void
      */
     public function initialize($paymentAction, $stateObject)
     {

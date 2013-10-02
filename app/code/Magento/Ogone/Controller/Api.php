@@ -503,7 +503,7 @@ class Api extends \Magento\Core\Controller\Front\Action
      *
      * @param string $status
      * @param string $comment
-     * @return Magento_Ogone_Controller_Api
+     * @return \Magento\Ogone\Controller\Api
      */
     protected function _cancelOrder($status, $comment='')
     {

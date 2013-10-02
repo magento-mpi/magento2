@@ -69,7 +69,7 @@ class Hierarchy extends \Magento\Adminhtml\Controller\Action
     /**
      * Controller pre dispatch method
      *
-     * @return Magento_VersionsCms_HierarchyController
+     * @return \Magento\VersionsCms\Controller\Adminhtml\Cms\Hierarchy
      */
     public function preDispatch()
     {
@@ -110,7 +110,7 @@ class Hierarchy extends \Magento\Adminhtml\Controller\Action
     /**
      * Load layout, set active menu and breadcrumbs
      *
-     * @return Magento_VersionsCms_HierarchyController
+     * @return \Magento\VersionsCms\Controller\Adminhtml\Cms\Hierarchy
      */
     protected function _initAction()
     {

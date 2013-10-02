@@ -58,7 +58,7 @@ class Page extends \Magento\Adminhtml\Controller\Cms\Page
      * with loaded data if id parameter present
      *
      * @param string $idFieldName
-     * @return Magento_VersionsCms_Model_Page
+     * @return \Magento\Cms\Model\Page
      */
     protected function _initPage()
     {
