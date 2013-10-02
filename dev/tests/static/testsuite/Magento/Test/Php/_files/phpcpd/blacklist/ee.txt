@@ -13,7 +13,7 @@ Magento/CustomerSegment/Block/Adminhtml
 Magento/FullPageCache/Model/Container
 Magento/GiftRegistry
 Magento/GiftCard/Block/Adminhtml/Renderer
-Magento/GiftCard/Block/Catalog/Product/View/Type/Giftcard
+Magento/GiftCard/Block/Catalog/Product/View/Type
 Magento/GiftCard/Model/Source
 Magento/GiftCard/Model/Attribute/Backend/Giftcard
 Magento/GiftCardAccount/Block/
@@ -33,8 +33,8 @@ Magento/SalesArchive
 Magento/Search
 Magento/TargetRule/Block/Adminhtml/Targetrule/Edit/Tab
 Magento/TargetRule/Block/Catalog/Product/ProductList/Related
-Magento/TargetRule/Block/Catalog/Product/ProductList/AbstractProductList
-Magento/TargetRule/Block/Checkout/Cart/Crosssell.php
+Magento/TargetRule/Block/Catalog/Product/ProductList
+Magento/TargetRule/Block/Checkout/Cart/Crosssell
 Magento/TargetRule/Model/Rule/Condition
 Magento/TargetRule/Block/Adminhtml/Targetrule/Edit
 Magento/TargetRule/Block/Adminhtml
