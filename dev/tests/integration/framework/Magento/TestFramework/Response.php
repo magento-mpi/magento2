@@ -17,6 +17,11 @@ namespace Magento\TestFramework;
 class Response extends \Magento\Core\Controller\Response\Http
 {
     /**
+     * @inherit
+     */
+    public $headersSentThrowsException = false;
+
+    /**
      * Prevent generating exceptions if headers are already sent
      *
      * Prevents throwing an exception in \Zend_Controller_Response_Abstract::canSendHeaders()

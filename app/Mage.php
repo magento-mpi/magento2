@@ -14,13 +14,6 @@
 final class Mage
 {
     /**
-     * Is allow throw \Exception about headers already sent
-     *
-     * @var bool
-     */
-    public static $headersSentThrowsException  = true;
-
-    /**
      * Retrieve application root absolute path
      *
      * @deprecated

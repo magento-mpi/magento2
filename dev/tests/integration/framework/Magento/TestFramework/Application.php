@@ -177,7 +177,6 @@ class Application
     {
         $overriddenParams['base_dir'] = BP;
         $overriddenParams[\Magento\Core\Model\App::PARAM_MODE] = $this->_appMode;
-        \Mage::$headersSentThrowsException = false;
         $config = new \Magento\Core\Model\Config\Primary(BP, $this->_customizeParams($overriddenParams));
         if (!\Magento\TestFramework\Helper\Bootstrap::getObjectManager()) {
             $objectManager = new \Magento\TestFramework\ObjectManager(

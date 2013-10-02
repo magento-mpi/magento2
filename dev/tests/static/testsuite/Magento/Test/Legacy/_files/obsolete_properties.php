@@ -85,4 +85,5 @@ return array(
     array('_useAnalyticFunction'),
     array('_registry', 'Mage'),
     array('_defaultIndexer', 'Magento\CatalogInventory\Model\Resource\Indexer\Stock'),
+    array('headersSentThrowsException', 'Mage'),
 );
