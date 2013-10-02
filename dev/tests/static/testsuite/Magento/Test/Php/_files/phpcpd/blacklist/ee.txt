@@ -1,4 +1,5 @@
 Magento/Banner
+Magento/Catalog/Block/Product/Send.php
 Magento/CatalogEvent/Block/Adminhtml
 Magento/CatalogPermissions/Model/Resource/Permission
 Magento/VersionsCms/Block/Adminhtml
@@ -31,8 +32,9 @@ Magento/Rma
 Magento/SalesArchive
 Magento/Search
 Magento/TargetRule/Block/Adminhtml/Targetrule/Edit/Tab
-Magento/TargetRule/Block/Catalog/Product/List/Related.php
+Magento/TargetRule/Block/Catalog/Product/ProductList/Related.php
 Magento/TargetRule/Block/Catalog/Product/ProductList/AbstractProductList.php
+Magento/TargetRule/Block/Checkout/Cart/Crosssell.php
 Magento/TargetRule/Model/Rule/Condition
 Magento/TargetRule/Block/Adminhtml/Targetrule/Edit
 Magento/TargetRule/Block/Adminhtml
