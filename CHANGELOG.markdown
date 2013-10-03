@@ -10,6 +10,10 @@
   * Fixed error when product is being added to cart if MAP is enabled
   * Fixed error when product attribute template is being edited
   * Fixed Impossible to set configuration for Google API
+  * Fixed Can't add product to shopping cart from cross sells block
+  * Fixed Fatal error on Recurring Billing Profiles page
+  * Fixed Impossible to set configuration for Catalog
+  * Fixed It's impossible to place order with Configurable product
 
 2.0.0.0-dev46
 =============
