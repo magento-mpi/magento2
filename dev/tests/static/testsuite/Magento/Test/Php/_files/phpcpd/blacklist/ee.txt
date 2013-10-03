@@ -1,5 +1,4 @@
 Magento/Banner
-Magento/Catalog/Block/Product/Send
 Magento/CatalogEvent/Block/Adminhtml
 Magento/CatalogPermissions/Model/Resource/Permission
 Magento/VersionsCms/Block/Adminhtml
