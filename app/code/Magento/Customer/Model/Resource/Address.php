@@ -104,14 +104,14 @@ class Address extends \Magento\Eav\Model\Entity\AbstractEntity
      * Validate customer address entity
      *
      * @param \Magento\Customer\Model\Customer $address
-     * @throws \Magento\Validator\Exception when validation failed
+     * @throws \Magento\Validator\ValidatorException when validation failed
      */
     protected function _validate($address)
     {
         $validator = $this->_validatorFactory->createValidator('customer_address', 'save');
 
         if (!$validator->isValid($address)) {
-            throw new \Magento\Validator\Exception($validator->getMessages());
+            throw new \Magento\Validator\ValidatorException($validator->getMessages());
         }
     }
 
