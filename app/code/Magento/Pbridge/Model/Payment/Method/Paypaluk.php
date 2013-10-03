@@ -34,7 +34,7 @@ class Paypaluk extends \Magento\PaypalUk\Model\Direct
      *
      * @var \Magento\Pbridge\Model\Payment\Method\Pbridge
      */
-    protected $_pbridgeMethodInstance;
+    protected $_pbridgeMethodInstance = null;
 
     /**
      * Website Payments Pro instance type

@@ -8,16 +8,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Catalog\Helper\Product;
 
 /**
  * Catalog Product Compare Helper
  *
- * @category   Magento
- * @package    Magento_Catalog
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @SuppressWarnings(PHPMD.LongVariable)
  */
-namespace Magento\Catalog\Helper\Product;
-
 class Compare extends \Magento\Core\Helper\Url
 {
     /**
@@ -49,13 +46,76 @@ class Compare extends \Magento\Core\Helper\Url
     protected $_customerId = null;
 
     /**
+     * Catalog session
+     *
+     * @var \Magento\Catalog\Model\Session
+     */
+    protected $_catalogSession;
+
+    /**
+     * Customer session
+     *
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $_customerSession;
+
+    /**
+     * Log visitor
+     *
+     * @var \Magento\Log\Model\Visitor
+     */
+    protected $_logVisitor;
+
+    /**
+     * Catalog product visibility
+     *
+     * @var \Magento\Catalog\Model\Product\Visibility
+     */
+    protected $_catalogProductVisibility;
+
+    /**
+     * Product compare item collection factory
+     *
+     * @var \Magento\Catalog\Model\Resource\Product\Compare\Item\CollectionFactory
+     */
+    protected $_itemCollectionFactory;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Catalog\Model\Resource\Product\Compare\Item\CollectionFactory $itemCollectionFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility
+     * @param \Magento\Log\Model\Visitor $logVisitor
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Catalog\Model\Session $catalogSession
+     * @param \Magento\Core\Helper\Context $context
+     */
+    public function __construct(
+        \Magento\Catalog\Model\Resource\Product\Compare\Item\CollectionFactory $itemCollectionFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility,
+        \Magento\Log\Model\Visitor $logVisitor,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Catalog\Model\Session $catalogSession,
+        \Magento\Core\Helper\Context $context
+    ) {
+        $this->_itemCollectionFactory = $itemCollectionFactory;
+        $this->_catalogProductVisibility = $catalogProductVisibility;
+        $this->_logVisitor = $logVisitor;
+        $this->_customerSession = $customerSession;
+        $this->_catalogSession = $catalogSession;
+        parent::__construct($context, $storeManager);
+    }
+
+    /**
      * Retrieve Catalog Session instance
      *
      * @return \Magento\Catalog\Model\Session
      */
     protected function _getSession()
     {
-        return \Mage::getSingleton('Magento\Catalog\Model\Session');
+        return $this->_catalogSession;
     }
 
     /**
@@ -111,7 +171,7 @@ class Compare extends \Magento\Core\Helper\Url
      */
     public function getAddToWishlistUrl($product)
     {
-        $beforeCompareUrl = \Mage::getSingleton('Magento\Catalog\Model\Session')->getBeforeCompareUrl();
+        $beforeCompareUrl = $this->_catalogSession->getBeforeCompareUrl();
 
         $params = array(
             'product'=>$product->getId(),
@@ -129,7 +189,7 @@ class Compare extends \Magento\Core\Helper\Url
      */
     public function getAddToCartUrl($product)
     {
-        $beforeCompareUrl = \Mage::getSingleton('Magento\Catalog\Model\Session')->getBeforeCompareUrl();
+        $beforeCompareUrl = $this->_catalogSession->getBeforeCompareUrl();
         $params = array(
             'product'=>$product->getId(),
             \Magento\Core\Controller\Front\Action::PARAM_NAME_URL_ENCODED => $this->getEncodedUrl($beforeCompareUrl)
@@ -174,22 +234,22 @@ class Compare extends \Magento\Core\Helper\Url
     public function getItemCollection()
     {
         if (!$this->_itemCollection) {
-            $this->_itemCollection = \Mage::getResourceModel(
-                    'Magento\Catalog\Model\Resource\Product\Compare\Item\Collection'
-                )
-                ->useProductItem(true)
-                ->setStoreId(\Mage::app()->getStore()->getId());
+            // cannot be placed in constructor because of the cyclic dependency which cannot be fixed with proxy class
+            // collection uses this helper in constructor when calling isEnabledFlat() method
+            $this->_itemCollection = $this->_itemCollectionFactory->create();
+            $this->_itemCollection->useProductItem(true)
+                ->setStoreId($this->_storeManager->getStore()->getId());
 
-            if (\Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn()) {
-                $this->_itemCollection->setCustomerId(\Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerId());
+            if ($this->_customerSession->isLoggedIn()) {
+                $this->_itemCollection->setCustomerId($this->_customerSession->getCustomerId());
             } elseif ($this->_customerId) {
                 $this->_itemCollection->setCustomerId($this->_customerId);
             } else {
-                $this->_itemCollection->setVisitorId(\Mage::getSingleton('Magento\Log\Model\Visitor')->getId());
+                $this->_itemCollection->setVisitorId($this->_logVisitor->getId());
             }
 
             $this->_itemCollection->setVisibility(
-                \Mage::getSingleton('Magento\Catalog\Model\Product\Visibility')->getVisibleInSiteIds()
+                $this->_catalogProductVisibility->getVisibleInSiteIds()
             );
 
             /* Price data is added to consider item stock status using price index */
@@ -219,19 +279,19 @@ class Compare extends \Magento\Core\Helper\Url
             $count = 0;
         } else {
             /** @var $collection \Magento\Catalog\Model\Resource\Product\Compare\Item\Collection */
-            $collection = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Compare\Item\Collection')
+            $collection = $this->_itemCollectionFactory->create()
                 ->useProductItem(true);
-            if (!$logout && \Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn()) {
-                $collection->setCustomerId(\Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerId());
+            if (!$logout && $this->_customerSession->isLoggedIn()) {
+                $collection->setCustomerId($this->_customerSession->getCustomerId());
             } elseif ($this->_customerId) {
                 $collection->setCustomerId($this->_customerId);
             } else {
-                $collection->setVisitorId(\Mage::getSingleton('Magento\Log\Model\Visitor')->getId());
+                $collection->setVisitorId($this->_logVisitor->getId());
             }
 
             /* Price data is added to consider item stock status using price index */
             $collection->addPriceData()
-                ->setVisibility(\Mage::getSingleton('Magento\Catalog\Model\Product\Visibility')->getVisibleInSiteIds());
+                ->setVisibility($this->_catalogProductVisibility->getVisibleInSiteIds());
 
             $count = $collection->getSize();
         }

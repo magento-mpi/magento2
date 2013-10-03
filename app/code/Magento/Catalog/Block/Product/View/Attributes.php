@@ -30,17 +30,29 @@ class Attributes extends \Magento\Core\Block\Template
     protected $_coreRegistry = null;
 
     /**
+     * Store manager
+     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
+        $this->_storeManager = $storeManager;
         $this->_coreRegistry = $registry;
         parent::__construct($coreData, $context, $data);
     }
@@ -74,7 +86,7 @@ class Attributes extends \Magento\Core\Block\Template
                 } elseif ((string)$value == '') {
                     $value = __('No');
                 } elseif ($attribute->getFrontendInput() == 'price' && is_string($value)) {
-                    $value = \Mage::app()->getStore()->convertPrice($value, true);
+                    $value = $this->_storeManager->getStore()->convertPrice($value, true);
                 }
 
                 if (is_string($value) && strlen($value)) {

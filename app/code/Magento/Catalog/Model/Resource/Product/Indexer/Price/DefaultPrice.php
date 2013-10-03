@@ -52,18 +52,20 @@ class DefaultPrice
     protected $_eventManager = null;
 
     /**
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Model\Resource $resource
      */
     public function __construct(
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Eav\Model\Config $eavConfig,
         \Magento\Core\Model\Event\Manager $eventManager,
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Model\Resource $resource
+        \Magento\Core\Helper\Data $coreData
     ) {
         $this->_eventManager = $eventManager;
         $this->_coreData = $coreData;
-        parent::__construct($resource);
+        parent::__construct($resource, $eavConfig);
     }
 
     /**
@@ -91,11 +93,12 @@ class DefaultPrice
      * Retrieve Product Type Code
      *
      * @return string
+     * @throws \Magento\Core\Exception
      */
     public function getTypeId()
     {
         if (is_null($this->_typeId)) {
-            \Mage::throwException(__('A product type is not defined for the indexer.'));
+            throw new \Magento\Core\Exception(__('A product type is not defined for the indexer.'));
         }
         return $this->_typeId;
     }

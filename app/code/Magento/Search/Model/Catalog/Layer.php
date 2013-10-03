@@ -31,16 +31,45 @@ class Layer extends \Magento\Catalog\Model\Layer
     /**
      * @param \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider
      * @param \Magento\CatalogSearch\Helper\Data $catalogSearchData
+     * @param \Magento\Catalog\Model\Layer\StateFactory $layerStateFactory
+     * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
+     * @param \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $attributeCollectionFactory
+     * @param \Magento\Catalog\Model\Resource\Product $catalogProduct
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility
+     * @param \Magento\Catalog\Model\Config $catalogConfig
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Core\Model\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
         \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider,
         \Magento\CatalogSearch\Helper\Data $catalogSearchData,
+        \Magento\Catalog\Model\Layer\StateFactory $layerStateFactory,
+        \Magento\Catalog\Model\CategoryFactory $categoryFactory,
+        \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $attributeCollectionFactory,
+        \Magento\Catalog\Model\Resource\Product $catalogProduct,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility,
+        \Magento\Catalog\Model\Config $catalogConfig,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Core\Model\Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_engineProvider = $engineProvider;
         $this->_catalogSearchData = $catalogSearchData;
-        parent::__construct($data);
+        parent::__construct(
+            $layerStateFactory,
+            $categoryFactory,
+            $attributeCollectionFactory,
+            $catalogProduct,
+            $storeManager,
+            $catalogProductVisibility,
+            $catalogConfig,
+            $customerSession,
+            $coreRegistry,
+            $data
+        );
     }
 
     /**

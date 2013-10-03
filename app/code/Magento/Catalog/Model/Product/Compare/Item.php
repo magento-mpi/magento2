@@ -53,6 +53,32 @@ class Item extends \Magento\Core\Model\AbstractModel
     protected $_catalogProductCompare = null;
 
     /**
+     * Customer session
+     *
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $_customerSession;
+
+    /**
+     * Log visitor
+     *
+     * @var \Magento\Log\Model\Visitor
+     */
+    protected $_logVisitor;
+
+    /**
+     * Store manager
+     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Log\Model\Visitor $logVisitor
+     * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Catalog\Helper\Product\Compare $catalogProductCompare
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
@@ -61,6 +87,9 @@ class Item extends \Magento\Core\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Log\Model\Visitor $logVisitor,
+        \Magento\Customer\Model\Session $customerSession,
         \Magento\Catalog\Helper\Product\Compare $catalogProductCompare,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
@@ -68,6 +97,9 @@ class Item extends \Magento\Core\Model\AbstractModel
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_storeManager = $storeManager;
+        $this->_logVisitor = $logVisitor;
+        $this->_customerSession = $customerSession;
         $this->_catalogProductCompare = $catalogProductCompare;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
@@ -100,7 +132,7 @@ class Item extends \Magento\Core\Model\AbstractModel
     {
         parent::_beforeSave();
         if (!$this->hasStoreId()) {
-            $this->setStoreId(\Mage::app()->getStore()->getId());
+            $this->setStoreId($this->_storeManager->getStore()->getId());
         }
 
         return $this;
@@ -221,7 +253,7 @@ class Item extends \Magento\Core\Model\AbstractModel
     public function getCustomerId()
     {
         if (!$this->hasData('customer_id')) {
-            $customerId = \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerId();
+            $customerId = $this->_customerSession->getCustomerId();
             $this->setData('customer_id', $customerId);
         }
         return $this->getData('customer_id');
@@ -235,7 +267,7 @@ class Item extends \Magento\Core\Model\AbstractModel
     public function getVisitorId()
     {
         if (!$this->hasData('visitor_id')) {
-            $visitorId = \Mage::getSingleton('Magento\Log\Model\Visitor')->getId();
+            $visitorId = $this->_logVisitor->getId();
             $this->setData('visitor_id', $visitorId);
         }
         return $this->getData('visitor_id');

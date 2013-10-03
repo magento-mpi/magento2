@@ -27,17 +27,39 @@ class View extends \Magento\Core\Block\Template
     protected $_coreRegistry = null;
 
     /**
+     * Catalog layer
+     *
+     * @var \Magento\Catalog\Model\Layer
+     */
+    protected $_catalogLayer;
+
+    /**
+     * Store manager
+     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Layer $catalogLayer
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\Layer $catalogLayer,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
+        $this->_storeManager = $storeManager;
+        $this->_catalogLayer = $catalogLayer;
         $this->_coreRegistry = $registry;
         parent::__construct($coreData, $context, $data);
     }
@@ -79,7 +101,7 @@ class View extends \Magento\Core\Block\Template
             /**
              * want to show rss feed in the url
              */
-            if ($this->isRssCatalogEnable() && $this->isTopCategory()) {
+            if ($this->IsRssCatalogEnable() && $this->IsTopCategory()) {
                 $title = __('%1 RSS Feed',$this->getCurrentCategory()->getName());
                 $headBlock->addRss($title, $this->getRssLink());
             }
@@ -92,19 +114,22 @@ class View extends \Magento\Core\Block\Template
         return $this;
     }
 
-    public function isRssCatalogEnable()
+    public function IsRssCatalogEnable()
     {
         return $this->_storeConfig->getConfig('rss/catalog/category');
     }
 
-    public function isTopCategory()
+    public function IsTopCategory()
     {
         return $this->getCurrentCategory()->getLevel()==2;
     }
 
     public function getRssLink()
     {
-        return \Mage::getUrl('rss/catalog/category',array('cid' => $this->getCurrentCategory()->getId(), 'store_id' => \Mage::app()->getStore()->getId()));
+        return $this->_urlBuilder->getUrl('rss/catalog/category', array(
+            'cid' => $this->getCurrentCategory()->getId(),
+            'store_id' => $this->_storeManager->getStore()->getId())
+        );
     }
 
     public function getProductListHtml()
@@ -164,10 +189,10 @@ class View extends \Magento\Core\Block\Template
     {
         $category = $this->getCurrentCategory();
         $res = false;
-        if ($category->getDisplayMode()==\Magento\Catalog\Model\Category::DM_PAGE) {
+        if ($category->getDisplayMode() == \Magento\Catalog\Model\Category::DM_PAGE) {
             $res = true;
             if ($category->getIsAnchor()) {
-                $state = \Mage::getSingleton('Magento\Catalog\Model\Layer')->getState();
+                $state = $this->_catalogLayer->getState();
                 if ($state && $state->getFilters()) {
                     $res = false;
                 }

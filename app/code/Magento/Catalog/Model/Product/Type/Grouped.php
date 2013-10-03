@@ -57,6 +57,68 @@ class Grouped extends \Magento\Catalog\Model\Product\Type\AbstractType
     protected $_canConfigure            = true;
 
     /**
+     * Catalog product status
+     *
+     * @var \Magento\Catalog\Model\Product\Status
+     */
+    protected $_catalogProductStatus;
+
+    /**
+     * Store manager
+     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Catalog product link
+     *
+     * @var \Magento\Catalog\Model\Resource\Product\Link
+     */
+    protected $_catalogProductLink;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Catalog\Model\Product\Option $catalogProductOption
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Catalog\Model\Product\Type $catalogProductType
+     * @param \Magento\Catalog\Model\Resource\Product\Link $catalogProductLink
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Product\Status $catalogProductStatus
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Helper\File\Storage\Database $fileStorageDb
+     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Core\Model\Logger $logger
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Catalog\Model\Product\Option $catalogProductOption,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Catalog\Model\Product\Type $catalogProductType,
+        \Magento\Catalog\Model\Resource\Product\Link $catalogProductLink,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\Product\Status $catalogProductStatus,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Helper\File\Storage\Database $fileStorageDb,
+        \Magento\Filesystem $filesystem,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Core\Model\Logger $logger,
+        array $data = array()
+    ) {
+        $this->_catalogProductLink = $catalogProductLink;
+        $this->_storeManager = $storeManager;
+        $this->_catalogProductStatus = $catalogProductStatus;
+        parent::__construct($productFactory, $catalogProductOption, $eavConfig, $catalogProductType,
+            $eventManager, $coreData, $fileStorageDb, $filesystem, $coreRegistry, $logger, $data);
+    }
+
+    /**
      * Return relation info about used products
      *
      * @return \Magento\Object Object with information data
@@ -83,7 +145,7 @@ class Grouped extends \Magento\Catalog\Model\Product\Type\AbstractType
      */
     public function getChildrenIds($parentId, $required = true)
     {
-        return \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Product\Link')
+        return $this->_catalogProductLink
             ->getChildrenIds($parentId,
                 \Magento\Catalog\Model\Product\Link::LINK_TYPE_GROUPED);
     }
@@ -96,7 +158,7 @@ class Grouped extends \Magento\Catalog\Model\Product\Type\AbstractType
      */
     public function getParentIdsByChild($childId)
     {
-        return \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Product\Link')
+        return $this->_catalogProductLink
             ->getParentIdsByChild($childId,
                 \Magento\Catalog\Model\Product\Link::LINK_TYPE_GROUPED);
     }
@@ -112,7 +174,7 @@ class Grouped extends \Magento\Catalog\Model\Product\Type\AbstractType
         if (!$product->hasData($this->_keyAssociatedProducts)) {
             $associatedProducts = array();
 
-            if (!\Mage::app()->getStore()->isAdmin()) {
+            if (!$this->_storeManager->getStore()->isAdmin()) {
                 $this->setSaleableStatus($product);
             }
 
@@ -161,7 +223,7 @@ class Grouped extends \Magento\Catalog\Model\Product\Type\AbstractType
     public function setSaleableStatus($product)
     {
         $product->setData($this->_keyStatusFilters,
-            \Mage::getSingleton('Magento\Catalog\Model\Product\Status')->getSaleableStatusIds());
+            $this->_catalogProductStatus->getSaleableStatusIds());
         return $this;
     }
 

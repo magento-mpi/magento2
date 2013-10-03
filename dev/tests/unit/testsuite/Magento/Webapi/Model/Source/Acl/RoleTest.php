@@ -28,16 +28,22 @@ class RoleTest extends \PHPUnit_Framework_TestCase
     public function testToOptionHashFormat($addEmpty, $data, $expected)
     {
         $resourceMock = $this->getMockBuilder('Magento\Webapi\Model\Resource\Acl\Role')
-            ->setMethods(array('getRolesList'))
+            ->setMethods(array('getRolesList', '__wakeup'))
             ->disableOriginalConstructor()
             ->getMock();
         $resourceMock->expects($this->any())
             ->method('getRolesList')
             ->will($this->returnValue($data));
 
-        $model = new \Magento\Webapi\Model\Source\Acl\Role(array(
-            'resource' => $resourceMock
-        ));
+        $factoryMock = $this->getMockBuilder('Magento\Webapi\Model\Resource\Acl\RoleFactory')
+            ->setMethods(array('create'))
+            ->disableOriginalConstructor()
+            ->getMock();
+        $factoryMock->expects($this->any())
+            ->method('create')
+            ->will($this->returnValue($resourceMock));
+
+        $model = new \Magento\Webapi\Model\Source\Acl\Role($factoryMock);
 
         $options = $model->toOptionHash($addEmpty);
         $this->assertEquals($expected, $options);

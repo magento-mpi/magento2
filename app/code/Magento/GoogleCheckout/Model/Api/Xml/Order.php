@@ -28,7 +28,7 @@ class Order extends \Magento\GoogleCheckout\Model\Api\Xml\AbstractXml
             if (!$xml || !$xml->{'error-message'}) {
                 return false;
             }
-            \Mage::throwException(__('Google Checkout: %1', (string)$xml->{'error-message'}));
+            throw new \Magento\Core\Exception(__('Google Checkout: %1', (string)$xml->{'error-message'}));
         }
     }
 

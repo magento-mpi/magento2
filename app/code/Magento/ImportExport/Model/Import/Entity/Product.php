@@ -648,7 +648,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         foreach ($productTypes as $productTypeName => $productTypeConfig) {
             $params = array($this, $productTypeName);
             if (!($model = $this->_productTypeFactory->create($productTypeConfig['model'], array('params' => $params)))) {
-                \Mage::throwException("Entity type model '{$productTypeConfig['model']}' is not found");
+                throw new \Magento\Core\Exception("Entity type model '{$productTypeConfig['model']}' is not found");
             }
             if (! $model instanceof \Magento\ImportExport\Model\Import\Entity\Product\Type\AbstractType) {
                 throw new \Magento\Core\Exception(__('Entity type model must be an instance of '
