@@ -878,4 +878,5 @@ return array(
     array('getIsSerializable', 'Magento\Core\Model\App\State'),
     array('_getInventoryItemResource', 'Magento\Reports\Model\Resource\Product\Lowstock\Collection'),
     array('getMigrationInstance', 'Magento\Customer\Model\Resource\Setup', '$this->_migrationFactory->create()'),
+    array('_getResourceModel', '\Magento\Webapi\Model\Source\Acl\Role', '$this->_resource'),
 );

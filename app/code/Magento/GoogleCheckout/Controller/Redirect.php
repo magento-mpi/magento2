@@ -62,9 +62,9 @@ class Redirect extends \Magento\Core\Controller\Front\Action
             $api = $api->setAnalyticsData($this->getRequest()->getPost('analyticsdata'))
                 ->checkout($quote);
 
-            $response = $api->getResponse();
+            $api->getResponse();
             if ($api->getError()) {
-                $this->_objectManager->get('Magento\Checkout\Model\Session')->addError($api->getError());
+                $session->addError($api->getError());
             } else {
                 $quote->setIsActive(false)->save();
                 $session->replaceQuote($storeQuote);
