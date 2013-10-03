@@ -20,7 +20,7 @@
   * Removed `jstranslate.xml` files and moved all message definitions to `Magento_Core_Helper_Js`.
   * List of non-structured nodes from config.xml were transformed into DI configuration
 * JavaScript improvements:
-  * Prototype.js uses converted to jQuery:
+  * Prototype.js usages converted to jQuery:
     * Deprecated prototype.js based method removed from app/code/Magento/Weee/view/frontend/tax-toggle.js
     * Removed deprecated prototype.js based file: app/code/Magento/Checkout/view/frontend/opcheckout.js
     * Updated to use jQuery redirectUrl widget vs prototype based solution:
@@ -97,13 +97,14 @@
   * dispatchEvent, getConfig, getStoreConfig, getStoreConfigFlag, getObjectManager, helper, log, logException, register, registry, resetRegistry, unregister, getVersion, getVersionInfo, getEdition, setEdition, reset, getRoot, objects, setIsSerializable, setIsDownloader, setUpdateMode, getUpdateMode static methods of class Mage were eliminated
   * Eliminated Mage::getModel, Mage::getBaseDir, Mage::getBaseUrl in /lib and /pub
   * Eliminated Mage::DEFAULT_ERROR_HANDLER, Mage::DEFAULT_TIMEZONE, Mage::VERSION, Mage::PARAM_APP_DIRS, Mage::PARAM_APP_URIS, Mage::PARAM_CUSTOM_LOCAL_FILE, Mage::PARAM_CUSTOM_LOCAL_CONFIG, Mage::PARAM_MODE, Mage::PARAM_RUN_CODE, Mage::PARAM_RUN_TYPE, Mage::PARAM_BASEDIR, Mage::PARAM_BAN_CACHE, Mage::PARAM_ALLOWED_MODULES, Mage::PARAM_CACHE_OPTIONS, Mage::PARAM_EDITION constants from code
-  * Eliminated Mage:: static methods in:
+  * Eliminated Mage:: static methods usage in:
     * Magento_Adminhtml
     * Magento_Authorizenet
     * Magento_Backend
     * Magento_Backup
     * Magento_Bundle
     * Magento_Captcha
+    * Magento_Catalog
     * Magento_CatalogInventory
     * Magento_CatalogRule
     * Magento_CatalogSearch

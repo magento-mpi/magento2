@@ -35,7 +35,7 @@ class App implements \Magento\Core\Model\AppInterface
     /**
      * Magento version
      */
-    const VERSION = '2.0.0.0-dev43';
+    const VERSION = '2.0.0.0-dev46';
 
     /**
      * Custom application dirs
