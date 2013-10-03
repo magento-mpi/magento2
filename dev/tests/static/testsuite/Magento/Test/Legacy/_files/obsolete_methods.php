@@ -837,6 +837,7 @@ return array(
     array('getHelper', 'Magento\Core\Model\AppProxy'),
     array('getHelper', 'Magento\Core\Model\App'),
     array('helper', 'Mage'),
+    array('printException', 'Mage'),
     array('dispatchEvent', 'Mage'),
     array('getConfig', 'Mage', 'Magento\Core\Model\Config'),
     array('getStoreConfig', 'Mage', 'Magento\Core\Model\Store\Config'),
