@@ -27,14 +27,14 @@ class Url extends \Magento\Object
      *
      * @var \Magento\Core\Model\Url
      */
-    protected static $_url;
+    protected $_url;
 
     /**
      * Static URL Rewrite Instance
      *
      * @var \Magento\Core\Model\Url\Rewrite
      */
-    protected static $_urlRewrite;
+    protected $_urlRewrite;
 
     /**
      * Catalog product url
@@ -51,17 +51,45 @@ class Url extends \Magento\Object
     protected $_catalogCategory = null;
 
     /**
+     * Store manager
+     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * App model
+     *
+     * @var \Magento\Core\Model\App
+     */
+    protected $_app;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Core\Model\Url\RewriteFactory $urlRewriteFactory
+     * @param \Magento\Core\Model\UrlInterface $url
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Helper\Category $catalogCategory
      * @param \Magento\Catalog\Helper\Product\Url $catalogProductUrl
+     * @param \Magento\Core\Model\App $app
      * @param array $data
      */
     public function __construct(
+        \Magento\Core\Model\Url\RewriteFactory $urlRewriteFactory,
+        \Magento\Core\Model\UrlInterface $url,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Helper\Category $catalogCategory,
         \Magento\Catalog\Helper\Product\Url $catalogProductUrl,
+        \Magento\Core\Model\App $app,
         array $data = array()
     ) {
+        $this->_urlRewrite = $urlRewriteFactory->create();
+        $this->_url = $url;
+        $this->_storeManager = $storeManager;
         $this->_catalogCategory = $catalogCategory;
         $this->_catalogProductUrl = $catalogProductUrl;
+        $this->_app = $app;
         parent::__construct($data);
     }
 
@@ -72,10 +100,7 @@ class Url extends \Magento\Object
      */
     public function getUrlInstance()
     {
-        if (!self::$_url) {
-            self::$_url = \Mage::getModel('Magento\Core\Model\Url');
-        }
-        return self::$_url;
+        return $this->_url;
     }
 
     /**
@@ -85,10 +110,7 @@ class Url extends \Magento\Object
      */
     public function getUrlRewrite()
     {
-        if (!self::$_urlRewrite) {
-            self::$_urlRewrite = \Mage::getModel('Magento\Core\Model\Url\Rewrite');
-        }
-        return self::$_urlRewrite;
+        return $this->_urlRewrite;
     }
 
     /**
@@ -128,7 +150,7 @@ class Url extends \Magento\Object
     public function getProductUrl($product, $useSid = null)
     {
         if ($useSid === null) {
-            $useSid = \Mage::app()->getUseSessionInUrl();
+            $useSid = $this->_app->getUseSessionInUrl();
         }
 
         $params = array();
@@ -161,6 +183,7 @@ class Url extends \Magento\Object
      * @param \Magento\Catalog\Model\Category $category
      *
      * @return string
+     * @throws \Magento\Core\Exception
      */
     public function getUrlPath($product, $category=null)
     {
@@ -170,7 +193,7 @@ class Url extends \Magento\Object
             /** @todo get default category */
             return $path;
         } elseif (!$category instanceof \Magento\Catalog\Model\Category) {
-            \Mage::throwException('Invalid category object supplied');
+            throw new \Magento\Core\Exception('Invalid category object supplied');
         }
 
         return $this->_catalogCategory->getCategoryUrlPath($category->getUrlPath())
@@ -221,10 +244,10 @@ class Url extends \Magento\Object
         }
 
         if (isset($routeParams['_store'])) {
-            $storeId = \Mage::app()->getStore($routeParams['_store'])->getId();
+            $storeId = $this->_storeManager->getStore($routeParams['_store'])->getId();
         }
 
-        if ($storeId != \Mage::app()->getStore()->getId()) {
+        if ($storeId != $this->_storeManager->getStore()->getId()) {
             $routeParams['_store_to_url'] = true;
         }
 

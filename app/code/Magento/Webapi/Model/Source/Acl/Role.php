@@ -25,17 +25,12 @@ class Role implements \Magento\Core\Model\Option\ArrayInterface
     protected $_resource = null;
 
     /**
-     * Prepare required models.
-     *
-     * @param array $data
+     * @param \Magento\Webapi\Model\Resource\Acl\RoleFactory $roleFactory
      */
-    public function __construct($data = array())
-    {
-        if (isset($data['resource'])) {
-            $this->_resource = $data['resource'];
-        } else {
-            $this->_resource = \Mage::getResourceModel('Magento\Webapi\Model\Resource\Acl\Role');
-        }
+    public function __construct(
+        \Magento\Webapi\Model\Resource\Acl\RoleFactory $roleFactory
+    ) {
+        $this->_resource = $roleFactory->create();
     }
 
     /**
@@ -46,21 +41,11 @@ class Role implements \Magento\Core\Model\Option\ArrayInterface
      */
     public function toOptionHash($addEmpty = true)
     {
-        $options = $this->_getResourceModel()->getRolesList();
+        $options = $this->_resource->getRolesList();
         if ($addEmpty) {
             $options = array('' => '') + $options;
         }
         return $options;
-    }
-
-    /**
-     * Get roles resource model.
-     *
-     * @return \Magento\Webapi\Model\Resource\Acl\Role
-     */
-    protected function _getResourceModel()
-    {
-        return $this->_resource;
     }
 
     /**
@@ -70,7 +55,7 @@ class Role implements \Magento\Core\Model\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        $options = $this->_getResourceModel()->getRolesList();
+        $options = $this->_resource->getRolesList();
         return $options;
     }
 }

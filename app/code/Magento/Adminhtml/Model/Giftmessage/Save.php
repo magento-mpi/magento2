@@ -125,6 +125,9 @@ class Save extends \Magento\Object
                 break;
 
             default:
+                /**
+                 * @todo fix required parameter for `load` method
+                 */
                 $entityModel = $giftmessageModel->getEntityModelByType($entityType)
                     ->load($entityId);
                 break;

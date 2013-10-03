@@ -71,14 +71,86 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_coreStoreConfig;
 
     /**
+     * Locale
+     *
+     * @var \Magento\Core\Model\LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * Store manager
+     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Checkout session
+     *
+     * @var \Magento\Checkout\Model\Session
+     */
+    protected $_checkoutSession;
+
+    /**
+     * Customer session
+     *
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $_customerSession;
+
+    /**
+     * Layout
+     *
+     * @var \Magento\Core\Model\Layout
+     */
+    protected $_layout;
+
+    /**
+     * Encryption factory
+     *
+     * @var \Magento\Pbridge\Model\EncryptionFactory
+     */
+    protected $_encryptionFactory;
+
+    /**
+     * Cart factory
+     *
+     * @var \Magento\Paypal\Model\CartFactory
+     */
+    protected $_cartFactory;
+
+    /**
+     * Construct
+     *
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Core\Model\Layout $layout
+     * @param \Magento\Pbridge\Model\EncryptionFactory $encryptionFactory
+     * @param \Magento\Paypal\Model\CartFactory $cartFactory
      */
     public function __construct(
         \Magento\Core\Helper\Context $context,
-        \Magento\Core\Model\Store\Config $coreStoreConfig
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Core\Model\Layout $layout,
+        \Magento\Pbridge\Model\EncryptionFactory $encryptionFactory,
+        \Magento\Paypal\Model\CartFactory $cartFactory
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_customerSession = $customerSession;
+        $this->_checkoutSession = $checkoutSession;
+        $this->_storeManager = $storeManager;
+        $this->_locale = $locale;
+        $this->_layout = $layout;
+        $this->_encryptionFactory = $encryptionFactory;
+        $this->_cartFactory = $cartFactory;
         parent::__construct($context);
     }
 
@@ -130,7 +202,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         if ($quote && $quote instanceof \Magento\Sales\Model\Quote) {
             return $quote;
         }
-        return \Mage::getSingleton('Magento\Checkout\Model\Session')->getQuote();
+        return $this->_checkoutSession->getQuote();
     }
 
     /**
@@ -143,7 +215,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     public function getCustomerIdentifierByEmail($email, $storeId = null)
     {
         if (is_null($storeId)) {
-            $storeId = \Mage::app()->getStore()->getId();
+            $storeId = $this->_storeManager->getStore()->getId();
         }
 
         $merchantCode = $this->_coreStoreConfig->getConfig('payment/pbridge/merchantcode', $storeId);
@@ -191,12 +263,12 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     public function getRequestParams(array $params = array())
     {
         $params = array_merge(array(
-            'locale' => \Mage::app()->getLocale()->getLocaleCode(),
+            'locale' => $this->_locale->getLocaleCode(),
         ), $params);
 
         $params['merchant_key']  = trim($this->_coreStoreConfig->getConfig('payment/pbridge/merchantkey', $this->_storeId));
 
-        $params['scope'] = \Mage::app()->getStore()->isAdmin() ? 'backend' : 'frontend';
+        $params['scope'] = $this->_storeManager->getStore()->isAdmin() ? 'backend' : 'frontend';
 
         return $params;
     }
@@ -245,7 +317,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     {
         $params = $this->getRequestParams($params);
         $params['action'] = self::PAYMENT_GATEWAY_PAYMENT_PROFILE_ACTION;
-        $customer = \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomer();
+        $customer = $this->_customerSession->getCustomer();
         $params['customer_name'] = $customer->getName();
         $params['customer_email'] = $customer->getEmail();
         return $this->_prepareRequestUrl($params, true);
@@ -272,7 +344,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     {
         if ($this->_encryptor === null) {
             $key = trim((string)$this->_coreStoreConfig->getConfig('payment/pbridge/transferkey', $this->_storeId));
-            $this->_encryptor = \Mage::getModel('Magento\Pbridge\Model\Encryption', array('key' => $key));
+            $this->_encryptor = $this->_encryptionFactory->create(array('key' => $key));
             $this->_encryptor->setHelper($this);
         }
         return $this->_encryptor;
@@ -327,8 +399,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function prepareCart($order)
     {
-        $paypalCart = \Mage::getModel('Magento\Paypal\Model\Cart',
-            array('params' => array($order)))
+        $paypalCart = $this->_cartFactory->create(array('params' => array($order)))
             ->isDiscountAsItem(true);
         return array($paypalCart->getItems(true), $paypalCart->getTotals());
     }
@@ -362,7 +433,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getReviewButtonTemplate($name, $block)
     {
-        $quote = \Mage::getSingleton('Magento\Checkout\Model\Session')->getQuote();
+        $quote = $this->_checkoutSession->getQuote();
         if ($quote) {
             $payment = $quote->getPayment();
             if ($payment->getMethodInstance()->getIsDeferred3dCheck()) {
@@ -370,7 +441,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
             }
         }
 
-        if ($blockObject = \Mage::app()->getLayout()->getBlock($block)) {
+        if ($blockObject = $this->_layout->getBlock($block)) {
             return $blockObject->getTemplate();
         }
 

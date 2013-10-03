@@ -21,6 +21,17 @@ namespace Magento\Eav\Model\Resource;
 class Helper extends \Magento\Core\Model\Resource\Helper
 {
     /**
+     * Construct
+     *
+     * @param \Magento\Core\Model\Resource $resource
+     * @param string $modulePrefix
+     */
+    public function __construct(\Magento\Core\Model\Resource $resource, $modulePrefix = 'Magento_Eav')
+    {
+        parent::__construct($resource, $modulePrefix);
+    }
+
+    /**
      * Mysql column - Table DDL type pairs
      *
      * @var array

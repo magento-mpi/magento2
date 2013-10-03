@@ -39,7 +39,7 @@ class Setup extends \Magento\Core\Model\Resource\Setup
     }
 
     /**
-     * @return \Magento\Cms\Model\Block
+     * @return \\Magento\Cms\Model\Block
      */
     public function getModelBlock()
     {

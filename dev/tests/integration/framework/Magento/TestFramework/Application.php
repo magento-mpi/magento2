@@ -177,7 +177,6 @@ class Application
     {
         $overriddenParams['base_dir'] = BP;
         $overriddenParams[\Magento\Core\Model\App::PARAM_MODE] = $this->_appMode;
-        \Mage::$headersSentThrowsException = false;
         $config = new \Magento\Core\Model\Config\Primary(BP, $this->_customizeParams($overriddenParams));
         if (!\Magento\TestFramework\Helper\Bootstrap::getObjectManager()) {
             $objectManager = new \Magento\TestFramework\ObjectManager(
@@ -354,6 +353,10 @@ class Application
 
         /* Switch an application to installed mode */
         $this->initialize();
+        //hot fix for \Magento\Catalog\Model\Product\Attribute\Backend\SkuTest::testGenerateUniqueLongSku
+        /** @var $appState \Magento\Core\Model\App\State */
+        $appState = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App\State');
+        $appState->setInstallDate(date('r', strtotime('now')));
     }
 
     /**

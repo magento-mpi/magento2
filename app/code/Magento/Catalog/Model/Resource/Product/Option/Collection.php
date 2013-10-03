@@ -8,18 +8,54 @@
  * @license     {license_link}
  */
 
+namespace Magento\Catalog\Model\Resource\Product\Option;
 
 /**
  * Catalog product options collection
  *
- * @category    Magento
- * @package     Magento_Catalog
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @SuppressWarnings(PHPMD.LongVariable)
  */
-namespace Magento\Catalog\Model\Resource\Product\Option;
-
 class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
+    /**
+     * Store manager
+     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Option value factory
+     *
+     * @var \Magento\Catalog\Model\Resource\Product\Option\Value\CollectionFactory
+     */
+    protected $_optionValueCollectionFactory;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Catalog\Model\Resource\Product\Option\Value\CollectionFactory $optionValueCollectionFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
+     */
+    public function __construct(
+        \Magento\Catalog\Model\Resource\Product\Option\Value\CollectionFactory $optionValueCollectionFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
+    ) {
+        $this->_optionValueCollectionFactory = $optionValueCollectionFactory;
+        $this->_storeManager = $storeManager;
+        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
+    }
+
     /**
      * Resource initialization
      */
@@ -131,17 +167,16 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     public function addValuesToResult($storeId = null)
     {
         if ($storeId === null) {
-            $storeId = \Mage::app()->getStore()->getId();
+            $storeId = $this->_storeManager->getStore()->getId();
         }
         $optionIds = array();
         foreach ($this as $option) {
             $optionIds[] = $option->getId();
         }
         if (!empty($optionIds)) {
-            /** @var $values \Magento\Catalog\Model\Product\Option\Value */
-            $values = \Mage::getModel('Magento\Catalog\Model\Product\Option\Value')
-                ->getCollection()
-                ->addTitleToResult($storeId)
+            /** @var \Magento\Catalog\Model\Resource\Product\Option\Value\Collection $values */
+            $values = $this->_optionValueCollectionFactory->create();
+            $values->addTitleToResult($storeId)
                 ->addPriceToResult($storeId)
                 ->addOptionToFilter($optionIds)
                 ->setOrder('sort_order', self::SORT_ORDER_ASC)

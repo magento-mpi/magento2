@@ -21,22 +21,43 @@ namespace Magento\Catalog\Model\Resource\Product;
 class Website extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
+     * Store manager
+     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Catalog product
+     *
+     * @var \Magento\Catalog\Model\Resource\Product
+     */
+    protected $_productResource;
+
+    /**
+     * Class constructor
+     *
+     * @param \Magento\Catalog\Model\Resource\Product $productResource
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Resource $resource
+     */
+    public function __construct(
+        \Magento\Catalog\Model\Resource\Product $productResource,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Resource $resource
+    ) {
+        $this->_productResource = $productResource;
+        $this->_storeManager = $storeManager;
+        parent::__construct($resource);
+    }
+
+    /**
      * Initialize connection and define resource table
      *
      */
     protected function _construct()
     {
         $this->_init('catalog_product_website', 'product_id');
-    }
-
-    /**
-     * Get catalog product resource model
-     *
-     * @return \Magento\Catalog\Model\Resource\Product
-     */
-    protected function _getProductResource()
-    {
-        return \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Product');
     }
 
     /**
@@ -107,10 +128,10 @@ class Website extends \Magento\Core\Model\Resource\Db\AbstractDb
                 }
 
                 // Refresh product enabled index
-                $storeIds = \Mage::app()->getWebsite($websiteId)->getStoreIds();
+                $storeIds = $this->_storeManager->getWebsite($websiteId)->getStoreIds();
                 foreach ($storeIds as $storeId) {
-                    $store = \Mage::app()->getStore($storeId);
-                    $this->_getProductResource()->refreshEnabledIndex($store, $productIds);
+                    $store = $this->_storeManager->getStore($storeId);
+                    $this->_productResource->refreshEnabledIndex($store, $productIds);
                 }
             }
 

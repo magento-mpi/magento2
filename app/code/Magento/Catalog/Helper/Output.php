@@ -34,13 +34,25 @@ class Output extends \Magento\Core\Helper\AbstractHelper
     protected $_catalogData = null;
 
     /**
+     * Eav config
+     *
+     * @var \Magento\Eav\Model\Config
+     */
+    protected $_eavConfig;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Core\Helper\Context $context
      */
     public function __construct(
+        \Magento\Eav\Model\Config $eavConfig,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Core\Helper\Context $context
     ) {
+        $this->_eavConfig = $eavConfig;
         $this->_catalogData = $catalogData;
         parent::__construct($context);
     }
@@ -116,7 +128,7 @@ class Output extends \Magento\Core\Helper\AbstractHelper
      */
     public function productAttribute($product, $attributeHtml, $attributeName)
     {
-        $attribute = \Mage::getSingleton('Magento\Eav\Model\Config')->getAttribute(\Magento\Catalog\Model\Product::ENTITY, $attributeName);
+        $attribute = $this->_eavConfig->getAttribute(\Magento\Catalog\Model\Product::ENTITY, $attributeName);
         if ($attribute && $attribute->getId() && ($attribute->getFrontendInput() != 'media_image')
             && (!$attribute->getIsHtmlAllowedOnFront() && !$attribute->getIsWysiwygEnabled())) {
                 if ($attribute->getFrontendInput() != 'price') {
@@ -150,7 +162,7 @@ class Output extends \Magento\Core\Helper\AbstractHelper
      */
     public function categoryAttribute($category, $attributeHtml, $attributeName)
     {
-        $attribute = \Mage::getSingleton('Magento\Eav\Model\Config')->getAttribute(\Magento\Catalog\Model\Category::ENTITY, $attributeName);
+        $attribute = $this->_eavConfig->getAttribute(\Magento\Catalog\Model\Category::ENTITY, $attributeName);
 
         if ($attribute && ($attribute->getFrontendInput() != 'image')
             && (!$attribute->getIsHtmlAllowedOnFront() && !$attribute->getIsWysiwygEnabled())) {

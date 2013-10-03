@@ -27,6 +27,10 @@ class View extends \Magento\GiftRegistry\Block\Customer\Items
     protected $typeFactory;
 
     /**
+     * Construct
+     *
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Catalog\Helper\Data $catalogData
@@ -36,8 +40,12 @@ class View extends \Magento\GiftRegistry\Block\Customer\Items
      * @param \Magento\Directory\Model\CountryFactory $countryFactory
      * @param \Magento\GiftRegistry\Model\TypeFactory $typeFactory
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\Config $catalogConfig,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Catalog\Helper\Data $catalogData,
@@ -50,7 +58,8 @@ class View extends \Magento\GiftRegistry\Block\Customer\Items
     ) {
         $this->countryFactory = $countryFactory;
         $this->typeFactory = $typeFactory;
-        parent::__construct($coreRegistry, $taxData, $catalogData, $coreData, $context, $itemFactory, $data);
+        parent::__construct($storeManager, $catalogConfig, $coreRegistry, $taxData, $catalogData, $coreData, $context,
+            $itemFactory, $data);
     }
 
     /**

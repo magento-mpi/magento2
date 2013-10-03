@@ -20,20 +20,23 @@ class VirtualTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
+        $objectHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $eventManager = $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false);
         $coreDataMock = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
         $coreRegistryMock = $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false);
         $fileStorageDbMock = $this->getMock('Magento\Core\Helper\File\Storage\Database', array(), array(), '', false);
         $filesystem = $this->getMockBuilder('Magento\Filesystem')->disableOriginalConstructor()->getMock();
         $logger = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false);
-        $this->_model = new \Magento\Catalog\Model\Product\Type\Virtual(
-            $eventManager,
-            $coreDataMock,
-            $fileStorageDbMock,
-            $filesystem,
-            $coreRegistryMock,
-            $logger
-        );
+        $productFactoryMock = $this->getMock('Magento\Catalog\Model\ProductFactory', array(), array(), '', false);
+        $this->_model = $objectHelper->getObject('Magento\Catalog\Model\Product\Type\Virtual', array(
+            'eventManager' => $eventManager,
+            'coreData' => $coreDataMock,
+            'fileStorageDb' => $fileStorageDbMock,
+            'filesystem' => $filesystem,
+            'coreRegistry' => $coreRegistryMock,
+            'logger' => $logger,
+            'productFactory' => $productFactoryMock,
+        ));
     }
 
     public function testHasWeightFalse()

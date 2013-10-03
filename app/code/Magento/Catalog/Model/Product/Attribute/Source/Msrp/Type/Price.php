@@ -33,12 +33,34 @@ class Price
     protected $_coreData = null;
 
     /**
+     * Entity attribute factory
+     *
+     * @var \Magento\Eav\Model\Resource\Entity\AttributeFactory
+     */
+    protected $_entityAttributeFactory;
+
+    /**
+     * Eav resource helper
+     *
+     * @var \Magento\Eav\Model\Resource\Helper
+     */
+    protected $_eavResourceHelper;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Eav\Model\Resource\Entity\AttributeFactory $entityAttributeFactory
      * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Eav\Model\Resource\Helper $eavResourceHelper
      */
     public function __construct(
-        \Magento\Core\Helper\Data $coreData
+        \Magento\Eav\Model\Resource\Entity\AttributeFactory $entityAttributeFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Eav\Model\Resource\Helper $eavResourceHelper
     ) {
+        $this->_entityAttributeFactory = $entityAttributeFactory;
         $this->_coreData = $coreData;
+        $this->_eavResourceHelper = $eavResourceHelper;
     }
 
     /**
@@ -77,7 +99,7 @@ class Price
             $column['type']     = $attributeType;
             $column['is_null']  = true;
         } else {
-            $column['type']     = \Mage::getResourceHelper('Magento_Eav')->getDdlTypeByColumnType($attributeType);
+            $column['type']     = $this->_eavResourceHelper->getDdlTypeByColumnType($attributeType);
             $column['nullable'] = true;
         }
 
@@ -92,7 +114,7 @@ class Price
      */
     public function getFlatUpdateSelect($store)
     {
-        return \Mage::getResourceModel('Magento\Eav\Model\Resource\Entity\Attribute')
+        return $this->_entityAttributeFactory->create()
             ->getFlatUpdateSelect($this->getAttribute(), $store);
     }
 }

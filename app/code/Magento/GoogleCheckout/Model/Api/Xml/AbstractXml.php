@@ -32,23 +32,31 @@ abstract class AbstractXml extends \Magento\Object
     protected $_coreStoreConfig;
 
     /**
+     * @var \Magento\ObjectManager
+     */
+    protected $objectManager;
+
+    /**
+     * @param \Magento\ObjectManager $objectManager
      * @param \Magento\Core\Model\Translate $translator
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param array $data
      */
     public function __construct(
+        \Magento\ObjectManager $objectManager,
         \Magento\Core\Model\Translate $translator,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         array $data = array()
     ) {
         parent::__construct($data);
+        $this->objectManager = $objectManager;
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_translator = $translator;
     }
 
     public function log($text, $nl=true)
     {
-        error_log(print_r($text, 1) . ($nl ? "\n" : ''), 3, \Mage::getBaseDir('log') . DS . 'callback.log');
+        error_log(print_r($text, 1) . ($nl ? "\n" : ''), 3, $this->objectManager->get('Magento\Core\Mode\Dir')->getBaseDir('log') . DS . 'callback.log');
         return $this;
     }
 
@@ -90,7 +98,7 @@ abstract class AbstractXml extends \Magento\Object
     public function getCurrency()
     {
         if (!$this->hasData('currency')) {
-            $this->setData('currency', \Mage::app()->getStore()->getBaseCurrencyCode());
+            $this->setData('currency', $this->objectManager->get('Magento\Core\Mode\StoreManager')->getStore()->getBaseCurrencyCode());
             //$this->setData('currency', $this->getLocale()=='en_US' ? 'USD' : 'GBP');
         }
         return $this->getData('currency');
@@ -112,7 +120,7 @@ abstract class AbstractXml extends \Magento\Object
             ));
 
             //Setup the log file
-            $logDir = \Mage::getBaseDir('log');
+            $logDir = $this->objectManager->get('Magento\Core\Mode\Dir')->getBaseDir('log');
             $this->getData('g_request')->SetLogFiles(
                 $logDir . DS . 'googleerror.log',
                 $logDir . DS . 'googlemessage.log',
@@ -125,6 +133,7 @@ abstract class AbstractXml extends \Magento\Object
     /**
      * Google Checkout Response instance
      *
+     * @throws \Magento\Core\Exception
      * @return GoogleResponse
      */
     public function getGResponse()
@@ -132,7 +141,7 @@ abstract class AbstractXml extends \Magento\Object
         $merchantId = $this->getMerchantId();
         $merchantKey = $this->getMerchantKey();
         if (empty($merchantId) || empty($merchantKey)) {
-            \Mage::throwException(__('GoogleCheckout is not configured'));
+            throw new \Magento\Core\Exception(__('GoogleCheckout is not configured'));
         }
         if (!$this->hasData('g_response')) {
             $this->setData('g_response', new GoogleResponse(
@@ -141,7 +150,7 @@ abstract class AbstractXml extends \Magento\Object
             ));
 
             //Setup the log file
-            $logDir = \Mage::getBaseDir('log');
+            $logDir = $this->objectManager->get('Magento\Core\Mode\Dir')->getBaseDir('log');
             $this->getData('g_response')->SetLogFiles(
                 $logDir . DS . 'googleerror.log',
                 $logDir . DS . 'googlemessage.log',
@@ -215,7 +224,7 @@ abstract class AbstractXml extends \Magento\Object
 
     protected function _getCallbackUrl()
     {
-        return \Mage::getUrl(
+        return $this->objectManager->create('Magento\Core\Model\Url')->getUrl(
             'googlecheckout/api',
             array('_forced_secure'=>$this->_coreStoreConfig->getConfig('google/checkout/use_secure_callback_url',$this->getStoreId()))
         );
@@ -232,7 +241,7 @@ abstract class AbstractXml extends \Magento\Object
     {
         if ($quote->getQuoteCurrencyCode() != $quote->getBaseCurrencyCode()) {
             $amount = $amount * $quote->getStoreToQuoteRate();
-            $amount = \Mage::app()->getStore()->roundPrice($amount);
+            $amount = $this->objectManager->get('Magento\Core\Mode\StoreManager')->getStore()->roundPrice($amount);
         }
         return $amount;
     }

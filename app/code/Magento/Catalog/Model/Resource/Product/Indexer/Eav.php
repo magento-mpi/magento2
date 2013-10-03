@@ -28,6 +28,39 @@ class Eav extends \Magento\Catalog\Model\Resource\Product\Indexer\AbstractIndexe
     protected $_types;
 
     /**
+     * Eav source factory
+     *
+     * @var \Magento\Catalog\Model\Resource\Product\Indexer\Eav\SourceFactory
+     */
+    protected $_eavSourceFactory;
+
+    /**
+     * Eav decimal factory
+     *
+     * @var \Magento\Catalog\Model\Resource\Product\Indexer\Eav\DecimalFactory
+     */
+    protected $_eavDecimalFactory;
+
+    /**
+     * Class constructor
+     *
+     * @param \Magento\Catalog\Model\Resource\Product\Indexer\Eav\DecimalFactory $eavDecimalFactory
+     * @param \Magento\Catalog\Model\Resource\Product\Indexer\Eav\SourceFactory $eavSourceFactory
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Core\Model\Resource $resource
+     */
+    public function __construct(
+        \Magento\Catalog\Model\Resource\Product\Indexer\Eav\DecimalFactory $eavDecimalFactory,
+        \Magento\Catalog\Model\Resource\Product\Indexer\Eav\SourceFactory $eavSourceFactory,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Core\Model\Resource $resource
+    ) {
+        $this->_eavDecimalFactory = $eavDecimalFactory;
+        $this->_eavSourceFactory = $eavSourceFactory;
+        parent::__construct($resource, $eavConfig);
+    }
+
+    /**
      * Define main index table
      *
      */
@@ -45,8 +78,8 @@ class Eav extends \Magento\Catalog\Model\Resource\Product\Indexer\AbstractIndexe
     {
         if (is_null($this->_types)) {
             $this->_types   = array(
-                'source'    => \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Indexer\Eav\Source'),
-                'decimal'   => \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Indexer\Eav\Decimal'),
+                'source'    => $this->_eavSourceFactory->create(),
+                'decimal'   => $this->_eavDecimalFactory->create(),
             );
         }
 
@@ -58,12 +91,13 @@ class Eav extends \Magento\Catalog\Model\Resource\Product\Indexer\AbstractIndexe
      *
      * @param string $type
      * @return \Magento\Catalog\Model\Resource\Product\Indexer\Eav\AbstractEav
+     * @throws \Magento\Core\Exception
      */
     public function getIndexer($type)
     {
         $indexers = $this->getIndexers();
         if (!isset($indexers[$type])) {
-            \Mage::throwException(__('We found an unknown EAV indexer type "%1".', $type));
+            throw new \Magento\Core\Exception(__('We found an unknown EAV indexer type "%1".', $type));
         }
         return $indexers[$type];
     }

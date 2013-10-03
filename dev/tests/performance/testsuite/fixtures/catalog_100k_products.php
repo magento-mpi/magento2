@@ -6,6 +6,8 @@
  * @license     {license_link}
  */
 
+/** @var \Magento\TestFramework\Application $this */
+
 $pattern = array(
     '_attribute_set' => 'Default',
     '_type' => \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE,
@@ -35,7 +37,7 @@ $pattern = array(
 );
 $generator = new \Magento\TestFramework\ImportExport\Fixture\Generator($pattern, 100000);
 /** @var \Magento\ImportExport\Model\Import $import */
-$import = \Mage::getModel(
+$import = $this->getObjectManager()->create(
     'Magento\ImportExport\Model\Import',
     array('data' => array('entity' => 'catalog_product', 'behavior' => 'append'))
 );

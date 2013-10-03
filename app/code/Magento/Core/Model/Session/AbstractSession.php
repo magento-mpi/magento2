@@ -418,7 +418,7 @@ class AbstractSession extends \Magento\Object
     }
 
     /**
-     * Not Mage exception handling
+     * Not Magento exception handling
      *
      * @param   \Exception $exception
      * @param   string $alternativeText
