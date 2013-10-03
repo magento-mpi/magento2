@@ -100,6 +100,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      * @var \Magento\SalesRule\Model\Rule
      */
     protected $salesRule;
+
     /**
      * @param \Magento\Reminder\Model\Rule\Condition\Combine\RootFactory $rootFactory
      * @param \Magento\Rule\Model\Action\CollectionFactory $collectionFactory
