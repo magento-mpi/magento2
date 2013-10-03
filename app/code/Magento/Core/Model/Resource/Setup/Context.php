@@ -88,7 +88,7 @@ class Context
     }
 
     /**
-     * @return \Magento\Core\Model\Event\Manager
+     * @return \\Magento\Core\Model\Event\Manager
      */
     public function getEventManager()
     {
@@ -96,7 +96,7 @@ class Context
     }
 
     /**
-     * @return \Magento\Core\Model\Logger
+     * @return \\Magento\Core\Model\Logger
      */
     public function getLogger()
     {
@@ -104,7 +104,7 @@ class Context
     }
 
     /**
-     * @return \Magento\Core\Model\ModuleListInterface
+     * @return \\Magento\Core\Model\ModuleListInterface
      */
     public function getModuleList()
     {
@@ -112,7 +112,7 @@ class Context
     }
 
     /**
-     * @return \Magento\Core\Model\Config\Modules\Reader
+     * @return \\Magento\Core\Model\Config\Modules\Reader
      */
     public function getModulesReader()
     {
@@ -120,7 +120,7 @@ class Context
     }
 
     /**
-     * @return \Magento\Core\Model\Resource
+     * @return \\Magento\Core\Model\Resource
      */
     public function getResourceModel()
     {
@@ -128,7 +128,7 @@ class Context
     }
 
     /**
-     * @return \Magento\Core\Model\Resource\Setup\MigrationFactory
+     * @return \\Magento\Core\Model\Resource\Setup\MigrationFactory
      */
     public function getMigrationFactory()
     {
@@ -136,7 +136,7 @@ class Context
     }
 
     /**
-     * @return \Magento\Core\Model\Resource\Resource
+     * @return \\Magento\Core\Model\Resource\Resource
      */
     public function getResourceResource()
     {
@@ -144,7 +144,7 @@ class Context
     }
 
     /**
-     * @return \Magento\Core\Model\Theme\CollectionFactory
+     * @return \\Magento\Core\Model\Theme\CollectionFactory
      */
     public function getThemeFactory()
     {
@@ -152,7 +152,7 @@ class Context
     }
 
     /**
-     * @return \Magento\Core\Model\Resource\Theme\CollectionFactory
+     * @return \\Magento\Core\Model\Resource\Theme\CollectionFactory
      */
     public function getThemeResourceFactory()
     {

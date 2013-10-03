@@ -48,6 +48,7 @@ class Callback extends \Magento\GoogleCheckout\Model\Api\Xml\AbstractXml
      * @param \Magento\GoogleCheckout\Helper\Data $googleCheckoutData
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Core\Model\Translate $translator
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param array $data
      */
     public function __construct(
@@ -56,13 +57,14 @@ class Callback extends \Magento\GoogleCheckout\Model\Api\Xml\AbstractXml
         \Magento\GoogleCheckout\Helper\Data $googleCheckoutData,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Core\Model\Translate $translator,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
         $this->_coreData = $coreData;
         $this->_googleCheckoutData = $googleCheckoutData;
         $this->_taxData = $taxData;
-        parent::__construct($translator, $data);
+        parent::__construct($translator, $coreStoreConfig, $data);
     }
 
     /**

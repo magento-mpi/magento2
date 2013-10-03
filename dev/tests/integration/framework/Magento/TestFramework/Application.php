@@ -354,6 +354,10 @@ class Application
 
         /* Switch an application to installed mode */
         $this->initialize();
+        //hot fix for \Magento\Catalog\Model\Product\Attribute\Backend\SkuTest::testGenerateUniqueLongSku
+        /** @var $appState \Magento\Core\Model\App\State */
+        $appState = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App\State');
+        $appState->setInstallDate(date('r', strtotime('now')));
     }
 
     /**

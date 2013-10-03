@@ -63,14 +63,64 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
     const MODULE_NAME = 'Magento_Catalog';
 
     /**
+     * Class constructor
+     *
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Eav\Model\Entity\TypeFactory $eavTypeFactory
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Eav\Model\Resource\Helper $resourceHelper
+     * @param \Magento\Validator\UniversalFactory $universalFactory
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Catalog\Model\ProductFactory $catalogProductFactory
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Eav\Model\Entity\TypeFactory $eavTypeFactory,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Eav\Model\Resource\Helper $resourceHelper,
+        \Magento\Validator\UniversalFactory $universalFactory,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Catalog\Model\ProductFactory $catalogProductFactory,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        parent::__construct(
+            $context,
+            $registry,
+            $coreData,
+            $eavConfig,
+            $eavTypeFactory,
+            $storeManager,
+            $resourceHelper,
+            $universalFactory,
+            $locale,
+            $catalogProductFactory,
+            $resource,
+            $resourceCollection,
+            $data
+        );
+    }
+
+    /**
      * Processing object before save data
      *
      * @return \Magento\Core\Model\AbstractModel
+     * @throws \Magento\Eav\Exception
      */
     protected function _beforeSave()
     {
         if ($this->_getResource()->isUsedBySuperProducts($this)) {
-            throw \Mage::exception('Magento_Eav', __('This attribute is used in configurable products'));
+            throw new \Magento\Eav\Exception(__('This attribute is used in configurable products'));
         }
         $this->setData('modulePrefix', self::MODULE_NAME);
         return parent::_beforeSave();
@@ -86,7 +136,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
         /**
          * Fix saving attribute in admin
          */
-        \Mage::getSingleton('Magento\Eav\Model\Config')->clear();
+        $this->_eavConfig->clear();
         return parent::_afterSave();
     }
 }

@@ -18,11 +18,15 @@ class Datetime extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBacke
     protected $_locale;
 
     /**
+     * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Core\Model\LocaleInterface $locale
      */
-    public function __construct(\Magento\Core\Model\LocaleInterface $locale)
-    {
+    public function __construct(
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Core\Model\LocaleInterface $locale
+    ) {
         $this->_locale = $locale;
+        parent::__construct($logger);
     }
 
     /**

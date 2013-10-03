@@ -18,8 +18,28 @@
  */
 namespace Magento\Catalog\Model\Resource\Category\Attribute\Source;
 
-class Page extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
+class Page
+    extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
 {
+    /**
+     * Block collection factory
+     *
+     * @var \Magento\Cms\Model\Resource\Block\CollectionFactory
+     */
+    protected $_blockCollectionFactory;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Cms\Model\Resource\Block\CollectionFactory
+     * $blockCollectionFactory
+     */
+    public function __construct(
+        \Magento\Cms\Model\Resource\Block\CollectionFactory $blockCollectionFactory
+    ) {
+        $this->_blockCollectionFactory = $blockCollectionFactory;
+    }
+
     /**
      * Return all block options
      *
@@ -28,7 +48,7 @@ class Page extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
     public function getAllOptions()
     {
         if (!$this->_options) {
-            $this->_options = \Mage::getResourceModel('Magento\Cms\Model\Resource\Block\Collection')
+            $this->_options = $this->_blockCollectionFactory->create()
                 ->load()
                 ->toOptionArray();
             array_unshift($this->_options, array('value' => '', 'label' => __('Please select a static block.')));

@@ -68,7 +68,7 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
     }
 
     /**
-     * @return \Magento\Banner\Model\BannerFactory
+     * @return \\Magento\Banner\Model\BannerFactory
      */
     public function getBannerInstance()
     {
@@ -76,7 +76,7 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
     }
 
     /**
-     * @return \Magento\Core\Model\Resource\Theme\Collection
+     * @return \\Magento\Core\Model\Resource\Theme\Collection
      */
     public function getThemeCollection()
     {
@@ -84,7 +84,7 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
     }
 
     /**
-     * @return \Magento\Widget\Model\Widget\Instance
+     * @return \\Magento\Widget\Model\Widget\Instance
      */
     public function getWidgetInstance()
     {

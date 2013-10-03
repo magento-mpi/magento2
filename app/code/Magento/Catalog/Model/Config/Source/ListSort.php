@@ -21,6 +21,24 @@ namespace Magento\Catalog\Model\Config\Source;
 class ListSort implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
+     * Catalog config
+     *
+     * @var \Magento\Catalog\Model\Config
+     */
+    protected $_catalogConfig;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Catalog\Model\Config $catalogConfig
+     */
+    public function __construct(
+        \Magento\Catalog\Model\Config $catalogConfig
+    ) {
+        $this->_catalogConfig = $catalogConfig;
+    }
+
+    /**
      * Retrieve option values array
      *
      * @return array
@@ -47,6 +65,6 @@ class ListSort implements \Magento\Core\Model\Option\ArrayInterface
      * @return \Magento\Catalog\Model\Config
      */
     protected function _getCatalogConfig() {
-        return \Mage::getSingleton('Magento\Catalog\Model\Config');
+        return $this->_catalogConfig;
     }
 }

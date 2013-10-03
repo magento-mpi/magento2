@@ -20,11 +20,6 @@ namespace Magento\Bundle\Block\Catalog\Product;
 class Price extends \Magento\Catalog\Block\Product\Price
 {
     /**
-     * @var \Magento\Core\Model\StoreManager
-     */
-    protected $_storeManager;
-
-    /**
      * @var \Magento\Tax\Model\Calculation
      */
     protected $_taxCalc;
@@ -49,8 +44,7 @@ class Price extends \Magento\Catalog\Block\Product\Price
         \Magento\Core\Model\StoreManager $storeManager,
         array $data = array()
     ) {
-        parent::__construct($catalogData, $taxData, $coreData, $context, $registry, $data);
-        $this->_storeManager = $storeManager;
+        parent::__construct($storeManager, $catalogData, $taxData, $coreData, $context, $registry, $data);
         $this->_taxCalc = $taxCalc;
     }
 

@@ -8,12 +8,13 @@
  * @license     {license_link}
  */
 
-/**
- * Catalog product related items block
- */
-
 namespace Magento\Catalog\Block\Product\ProductList;
 
+/**
+ * Catalog product related items block
+ *
+ * @SuppressWarnings(PHPMD.LongVariable)
+ */
 class Upsell extends \Magento\Catalog\Block\Product\AbstractProduct
 {
     /**
@@ -31,6 +32,62 @@ class Upsell extends \Magento\Catalog\Block\Product\AbstractProduct
 
     protected $_itemLimits = array();
 
+    /**
+     * Checkout session
+     *
+     * @var \Magento\Checkout\Model\Session
+     */
+    protected $_checkoutSession;
+
+    /**
+     * Catalog product visibility
+     *
+     * @var \Magento\Catalog\Model\Product\Visibility
+     */
+    protected $_catalogProductVisibility;
+
+    /**
+     * Checkout cart
+     *
+     * @var \Magento\Checkout\Model\Resource\Cart
+     */
+    protected $_checkoutCart;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Checkout\Model\Resource\Cart $checkoutCart
+     * @param \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility
+     * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \Magento\Catalog\Model\Config $catalogConfig
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Checkout\Model\Resource\Cart $checkoutCart,
+        \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility,
+        \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Catalog\Model\Config $catalogConfig,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_checkoutCart = $checkoutCart;
+        $this->_catalogProductVisibility = $catalogProductVisibility;
+        $this->_checkoutSession = $checkoutSession;
+        parent::__construct($storeManager, $catalogConfig, $coreRegistry, $taxData, $catalogData, $coreData,
+            $context, $data);
+    }
+
     protected function _prepareData()
     {
         $product = $this->_coreRegistry->registry('product');
@@ -39,16 +96,15 @@ class Upsell extends \Magento\Catalog\Block\Product\AbstractProduct
             ->setPositionOrder()
             ->addStoreFilter();
         if ($this->_catalogData->isModuleEnabled('Magento_Checkout')) {
-            \Mage::getResourceSingleton('Magento\Checkout\Model\Resource\Cart')
-                ->addExcludeProductFilter(
-                    $this->_itemCollection,
-                     \Mage::getSingleton('Magento\Checkout\Model\Session')->getQuoteId()
+            $this->_checkoutCart->addExcludeProductFilter(
+                $this->_itemCollection,
+                $this->_checkoutSession->getQuoteId()
             );
 
             $this->_addProductAttributesAndPrices($this->_itemCollection);
         }
         $this->_itemCollection->setVisibility(
-            \Mage::getSingleton('Magento\Catalog\Model\Product\Visibility')->getVisibleInCatalogIds()
+            $this->_catalogProductVisibility->getVisibleInCatalogIds()
         );
 
         if ($this->getItemLimit('upsell') > 0) {
