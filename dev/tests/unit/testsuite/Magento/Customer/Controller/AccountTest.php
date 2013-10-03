@@ -49,7 +49,17 @@ class AccountTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $constructArguments = $objectManagerHelper->getConstructArguments('Magento\Customer\Controller\Account');
+
+        $arguments = array(
+            'urlFactory' => $this->getMock('Magento\Core\Model\UrlFactory', array(), array(), '', false),
+            'customerFactory' => $this->getMock('Magento\Customer\Model\CustomerFactory', array(), array(), '', false),
+            'formFactory' => $this->getMock('Magento\Customer\Model\FormFactory', array(), array(), '', false),
+            'addressFactory' => $this->getMock('Magento\Customer\Model\AddressFactory', array(), array(), '', false),
+        );
+        $constructArguments = $objectManagerHelper->getConstructArguments(
+            'Magento\Customer\Controller\Account',
+            $arguments
+        );
         $this->_model = $objectManagerHelper->getObject('Magento\Customer\Controller\Account', $constructArguments);
     }
 

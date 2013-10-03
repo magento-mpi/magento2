@@ -28,12 +28,28 @@ class Table extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
     protected $_coreData = null;
 
     /**
+     * @var \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory
+     */
+    protected $_attrOptCollFactory;
+
+    /**
+     * @var \Magento\Eav\Model\Resource\Entity\Attribute\OptionFactory
+     */
+    protected $_attrOptionFactory;
+
+    /**
      * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $attrOptCollFactory
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute\OptionFactory $attrOptionFactory
      */
     public function __construct(
-        \Magento\Core\Helper\Data $coreData
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $attrOptCollFactory,
+        \Magento\Eav\Model\Resource\Entity\Attribute\OptionFactory $attrOptionFactory
     ) {
         $this->_coreData = $coreData;
+        $this->_attrOptCollFactory = $attrOptCollFactory;
+        $this->_attrOptionFactory = $attrOptionFactory;
     }
 
     /**
@@ -53,7 +69,7 @@ class Table extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
             $this->_optionsDefault = array();
         }
         if (!isset($this->_options[$storeId])) {
-            $collection = \Mage::getResourceModel('Magento\Eav\Model\Resource\Entity\Attribute\Option\Collection')
+            $collection = $this->_attrOptCollFactory->create()
                 ->setPositionOrder('asc')
                 ->setAttributeFilter($this->getAttribute()->getId())
                 ->setStoreFilter($this->getAttribute()->getStoreId())
@@ -132,7 +148,7 @@ class Table extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
         $valueExpr = $collection->getSelect()->getAdapter()
             ->getCheckSql("{$valueTable2}.value_id > 0", "{$valueTable2}.value", "{$valueTable1}.value");
 
-        \Mage::getResourceModel('Magento\Eav\Model\Resource\Entity\Attribute\Option')
+        $this->_attrOptionFactory->create()
             ->addOptionValueToCollection($collection, $this->getAttribute(), $valueExpr);
 
         $collection->getSelect()
@@ -232,7 +248,6 @@ class Table extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
      */
     public function getFlatUpdateSelect($store)
     {
-        return \Mage::getResourceModel('Magento\Eav\Model\Resource\Entity\Attribute\Option')
-            ->getFlatUpdateSelect($this->getAttribute(), $store);
+        return $this->_attrOptionFactory->create()->getFlatUpdateSelect($this->getAttribute(), $store);
     }
 }

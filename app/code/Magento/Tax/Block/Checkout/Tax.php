@@ -8,11 +8,8 @@
  * @license     {license_link}
  */
 
-
 /**
  * Tax Total Row Renderer
- *
- * @author Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Tax\Block\Checkout;
 

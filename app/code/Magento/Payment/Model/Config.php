@@ -17,7 +17,10 @@ namespace Magento\Payment\Model;
 
 class Config
 {
-    protected static $_methods;
+    /**
+     * @var array
+     */
+    protected $_methods;
 
     /**
      * Core store config
@@ -110,10 +113,16 @@ class Config
         return $methods;
     }
 
-    protected function _getMethod($code, $config, $store=null)
+    /**
+     * @param string $code
+     * @param string $config
+     * @param mixed $store
+     * @return \Magento\Payment\Model\Method\Abstract
+     */
+    protected function _getMethod($code, $config, $store = null)
     {
-        if (isset(self::$_methods[$code])) {
-            return self::$_methods[$code];
+        if (isset($this->_methods[$code])) {
+            return $this->_methods[$code];
         }
         if (empty($config['model'])) {
             return false;
@@ -124,10 +133,11 @@ class Config
             return false;
         }
 
+        /** @var \Magento\Payment\Model\Method\Abstract $method */
         $method = $this->_methodFactory->create($modelName);
         $method->setId($code)->setStore($store);
-        self::$_methods[$code] = $method;
-        return self::$_methods[$code];
+        $this->_methods[$code] = $method;
+        return $this->_methods[$code];
     }
 
     /**

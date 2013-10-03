@@ -34,6 +34,11 @@ namespace Magento\GiftRegistry\Model;
 class Person extends \Magento\Core\Model\AbstractModel
 {
     /**
+     * @var \Magento\GiftRegistry\Model\Entity
+     */
+    protected $entity;
+
+    /**
      * Gift registry data
      *
      * @var \Magento\GiftRegistry\Helper\Data
@@ -45,6 +50,7 @@ class Person extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\GiftRegistry\Model\Resource\Person $resource
+     * @param \Magento\GiftRegistry\Model\Entity $entity
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -53,10 +59,12 @@ class Person extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\GiftRegistry\Model\Resource\Person $resource,
+        \Magento\GiftRegistry\Model\Entity $entity,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_giftRegistryData = $giftRegistryData;
+        $this->entity = $entity;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -88,7 +96,7 @@ class Person extends \Magento\Core\Model\AbstractModel
         }
 
         $customValues = $this->getCustom();
-        $attributes = \Mage::getSingleton('Magento\GiftRegistry\Model\Entity')->getRegistrantAttributes();
+        $attributes = $this->entity->getRegistrantAttributes();
 
         $errorsCustom = $this->_giftRegistryData->validateCustomAttributes($customValues, $attributes);
         if ($errorsCustom !== true) {

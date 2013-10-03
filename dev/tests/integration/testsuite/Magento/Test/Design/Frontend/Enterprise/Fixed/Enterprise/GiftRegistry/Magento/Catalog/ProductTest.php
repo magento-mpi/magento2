@@ -9,7 +9,7 @@
 namespace Magento\Test\Design\Frontend\Enterprise\Fixed\Enterprise\GiftRegistry\Magento\Catalog;
 
 class ProductTest
-    extends \Magento\TestFramework\TestCase\ControllerAbstract
+    extends \Magento\TestFramework\TestCase\AbstractController
 {
     /**
      * @magentoDataFixture Magento/Bundle/_files/product.php

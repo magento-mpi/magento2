@@ -12,7 +12,6 @@
 /**
  * Eav attribute set model
  *
- * @method \Magento\Eav\Model\Resource\Entity\Attribute\Set _getResource()
  * @method \Magento\Eav\Model\Resource\Entity\Attribute\Set getResource()
  * @method int getEntityTypeId()
  * @method \Magento\Eav\Model\Entity\Attribute\Set setEntityTypeId(int $value)
@@ -43,6 +42,55 @@ class Set extends \Magento\Core\Model\AbstractModel
     protected $_eventPrefix = 'eav_entity_attribute_set';
 
     /**
+     * @var \Magento\Eav\Model\Config
+     */
+    protected $_eavConfig;
+
+    /**
+     * @var \Magento\Eav\Model\Entity\Attribute\GroupFactory
+     */
+    protected $_attrGroupFactory;
+
+    /**
+     * @var \Magento\Eav\Model\Entity\AttributeFactory
+     */
+    protected $_attributeFactory;
+
+    /**
+     * @var \Magento\Eav\Model\Resource\Entity\Attribute
+     */
+    protected $_resourceAttribute;
+
+    /**
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Eav\Model\Entity\Attribute\GroupFactory $attrGroupFactory
+     * @param \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute $resourceAttribute
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Eav\Model\Entity\Attribute\GroupFactory $attrGroupFactory,
+        \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory,
+        \Magento\Eav\Model\Resource\Entity\Attribute $resourceAttribute,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        $this->_eavConfig = $eavConfig;
+        $this->_attrGroupFactory = $attrGroupFactory;
+        $this->_attributeFactory = $attributeFactory;
+        $this->_resourceAttribute = $resourceAttribute;
+    }
+
+    /**
      * Initialize resource model
      *
      */
@@ -59,7 +107,7 @@ class Set extends \Magento\Core\Model\AbstractModel
      */
     public function initFromSkeleton($skeletonId)
     {
-        $groups = \Mage::getModel('Magento\Eav\Model\Entity\Attribute\Group')
+        $groups = $this->_attrGroupFactory->create()
             ->getResourceCollection()
             ->setAttributeSetFilter($skeletonId)
             ->load();
@@ -71,14 +119,14 @@ class Set extends \Magento\Core\Model\AbstractModel
                 ->setAttributeSetId($this->getId())
                 ->setDefaultId($group->getDefaultId());
 
-            $groupAttributesCollection = \Mage::getModel('Magento\Eav\Model\Entity\Attribute')
+            $groupAttributesCollection = $this->_attributeFactory->create()
                 ->getResourceCollection()
                 ->setAttributeGroupFilter($group->getId())
                 ->load();
 
             $newAttributes = array();
             foreach ($groupAttributesCollection as $attribute) {
-                $newAttribute = \Mage::getModel('Magento\Eav\Model\Entity\Attribute')
+                $newAttribute = $this->_attributeFactory->create()
                     ->setId($attribute->getId())
                     //->setAttributeGroupId($newGroup->getId())
                     ->setAttributeSetId($this->getId())
@@ -110,12 +158,11 @@ class Set extends \Magento\Core\Model\AbstractModel
             foreach ($data['attributes'] as $attribute) {
                 $ids[] = $attribute[0];
             }
-            $attributeIds = \Mage::getResourceSingleton('Magento\Eav\Model\Resource\Entity\Attribute')
-                ->getValidAttributeIds($ids);
+            $attributeIds = $this->_resourceAttribute->getValidAttributeIds($ids);
         }
         if ($data['groups']) {
             foreach ($data['groups'] as $group) {
-                $modelGroup = \Mage::getModel('Magento\Eav\Model\Entity\Attribute\Group');
+                $modelGroup = $this->_attrGroupFactory->create();
                 $modelGroup->setId(is_numeric($group[0]) && $group[0] > 0 ? $group[0] : null)
                     ->setAttributeGroupName($group[1])
                     ->setAttributeSetId($this->getId())
@@ -124,7 +171,7 @@ class Set extends \Magento\Core\Model\AbstractModel
                 if ($data['attributes']) {
                     foreach ($data['attributes'] as $attribute) {
                         if ($attribute[1] == $group[0] && in_array($attribute[0], $attributeIds)) {
-                            $modelAttribute = \Mage::getModel('Magento\Eav\Model\Entity\Attribute');
+                            $modelAttribute = $this->_attributeFactory->create();
                             $modelAttribute->setId($attribute[0])
                                 ->setAttributeGroupId($attribute[1])
                                 ->setAttributeSetId($this->getId())
@@ -145,7 +192,7 @@ class Set extends \Magento\Core\Model\AbstractModel
         if ($data['not_attributes']) {
             $modelAttributeArray = array();
             foreach ($data['not_attributes'] as $attributeId) {
-                $modelAttribute = \Mage::getModel('Magento\Eav\Model\Entity\Attribute');
+                $modelAttribute = $this->_attributeFactory->create();
 
                 $modelAttribute->setEntityAttributeId($attributeId);
                 $modelAttributeArray[] = $modelAttribute;
@@ -156,7 +203,7 @@ class Set extends \Magento\Core\Model\AbstractModel
         if ($data['removeGroups']) {
             $modelGroupArray = array();
             foreach ($data['removeGroups'] as $groupId) {
-                $modelGroup = \Mage::getModel('Magento\Eav\Model\Entity\Attribute\Group');
+                $modelGroup = $this->_attrGroupFactory->create();
                 $modelGroup->setId($groupId);
 
                 $modelGroupArray[] = $modelGroup;
@@ -179,13 +226,13 @@ class Set extends \Magento\Core\Model\AbstractModel
     {
         $attributeSetName = $this->getAttributeSetName();
         if ($attributeSetName == '') {
-            throw \Mage::exception('Magento_Eav',
+            throw new \Magento\Eav\Exception(
                 __('Attribute set name is empty.')
             );
         }
 
         if (!$this->_getResource()->validate($this, $attributeSetName)) {
-            throw \Mage::exception('Magento_Eav',
+            throw new \Magento\Eav\Exception(
                 __('An attribute set with the "%1" name already exists.', $attributeSetName)
             );
         }
@@ -204,10 +251,9 @@ class Set extends \Magento\Core\Model\AbstractModel
     public function addSetInfo($entityType, array $attributes, $setId = null)
     {
         $attributeIds   = array();
-        $config         = \Mage::getSingleton('Magento\Eav\Model\Config');
-        $entityType     = $config->getEntityType($entityType);
+        $entityType     = $this->_eavConfig->getEntityType($entityType);
         foreach ($attributes as $attribute) {
-            $attribute = $config->getAttribute($entityType, $attribute);
+            $attribute = $this->_eavConfig->getAttribute($entityType, $attribute);
             if ($setId && is_array($attribute->getAttributeSetInfo($setId))) {
                 continue;
             }
@@ -222,7 +268,7 @@ class Set extends \Magento\Core\Model\AbstractModel
                 ->getSetInfo($attributeIds, $setId);
 
             foreach ($attributes as $attribute) {
-                $attribute = $config->getAttribute($entityType, $attribute);
+                $attribute = $this->_eavConfig->getAttribute($entityType, $attribute);
                 if (!$attribute->getAttributeId()) {
                     continue;
                 }

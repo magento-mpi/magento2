@@ -20,11 +20,11 @@ class LocalTest extends \Magento\Backend\Utility\Controller
 {
     public function testIndexAction()
     {
+        $this->dispatch('backend/admin/extension_local/index');
         $expected = '?return=' . urlencode(
                 \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
                     ->get('Magento\Backend\Helper\Data')->getHomePageUrl()
             );
-        $this->dispatch('backend/admin/extension_local/index');
         $this->assertRedirect($this->stringEndsWith($expected));
     }
 }

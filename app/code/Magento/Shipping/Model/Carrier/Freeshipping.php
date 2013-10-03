@@ -23,8 +23,46 @@ class Freeshipping
     implements \Magento\Shipping\Model\Carrier\CarrierInterface
 {
 
+    /**
+     * @var string
+     */
     protected $_code = 'freeshipping';
+
+    /**
+     * @var bool
+     */
     protected $_isFixed = true;
+
+    /**
+     * @var \Magento\Shipping\Model\Rate\ResultFactory
+     */
+    protected $_rateResultFactory;
+
+    /**
+     * @var \Magento\Shipping\Model\Rate\Result\MethodFactory
+     */
+    protected $_rateMethodFactory;
+
+    /**
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Shipping\Model\Rate\Result\ErrorFactory $rateErrorFactory
+     * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
+     * @param \Magento\Shipping\Model\Rate\ResultFactory $rateResultFactory
+     * @param \Magento\Shipping\Model\Rate\Result\MethodFactory $rateMethodFactory
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Shipping\Model\Rate\Result\ErrorFactory $rateErrorFactory,
+        \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
+        \Magento\Shipping\Model\Rate\ResultFactory $rateResultFactory,
+        \Magento\Shipping\Model\Rate\Result\MethodFactory $rateMethodFactory,
+        array $data = array()
+    ) {
+        $this->_rateResultFactory = $rateResultFactory;
+        $this->_rateMethodFactory = $rateMethodFactory;
+        parent::__construct($coreStoreConfig, $rateErrorFactory, $logAdapterFactory, $data);
+    }
 
     /**
      * FreeShipping Rates Collector
@@ -38,14 +76,16 @@ class Freeshipping
             return false;
         }
 
-        $result = \Mage::getModel('Magento\Shipping\Model\Rate\Result');
+        /** @var \Magento\Shipping\Model\Rate\Result $result */
+        $result = $this->_rateResultFactory->create();
 
         $this->_updateFreeMethodQuote($request);
 
         if (($request->getFreeShipping())
             || ($request->getBaseSubtotalInclTax() >= $this->getConfigData('free_shipping_subtotal'))
         ) {
-            $method = \Mage::getModel('Magento\Shipping\Model\Rate\Result\Method');
+            /** @var \Magento\Shipping\Model\Rate\Result\Method $method */
+            $method = $this->_rateMethodFactory->create();
 
             $method->setCarrier('freeshipping');
             $method->setCarrierTitle($this->getConfigData('title'));

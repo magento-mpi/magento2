@@ -35,13 +35,23 @@ class Email extends \Magento\Object
     protected $_coreStoreConfig;
 
     /**
+     * Layout factory
+     *
+     * @var \Magento\Core\Model\LayoutFactory
+     */
+    protected $_layoutFactory;
+
+    /**
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\LayoutFactory $layoutFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\LayoutFactory $layoutFactory,
         array $data = array()
     ) {
+        $this->_layoutFactory = $layoutFactory;
         $this->_coreStoreConfig = $coreStoreConfig;
         // TODO: move to config
         $this->setFromName('Magento');
@@ -72,7 +82,7 @@ class Email extends \Magento\Object
     {
         $body = $this->getData('body');
         if (empty($body) && $this->getTemplate()) {
-            $this->_block = \Mage::getModel('Magento\Core\Model\Layout')->createBlock('Magento\Core\Block\Template', 'email')
+            $this->_block = $this->_layoutFactory->create()->createBlock('Magento\Core\Block\Template', 'email')
                 ->setArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)
                 ->setTemplate($this->getTemplate());
             foreach ($this->getTemplateVars() as $var=>$value) {

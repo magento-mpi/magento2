@@ -10,25 +10,119 @@
 
 /**
  * PayPal Standard Checkout Module
- *
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Paypal\Model;
 
 class Standard extends \Magento\Payment\Model\Method\AbstractMethod
 {
+    /**
+     * @var string
+     */
     protected $_code  = \Magento\Paypal\Model\Config::METHOD_WPS;
+
+    /**
+     * @var string
+     */
     protected $_formBlockType = 'Magento\Paypal\Block\Standard\Form';
+
+    /**
+     * @var string
+     */
     protected $_infoBlockType = 'Magento\Paypal\Block\Payment\Info';
+
     protected $_isInitializeNeeded      = true;
     protected $_canUseInternal          = false;
     protected $_canUseForMultishipping  = false;
 
     /**
      * Config instance
+     *
      * @var \Magento\Paypal\Model\Config
      */
-    protected $_config = null;
+    protected $_config;
+
+    /**
+     * @var \Magento\Paypal\Model\Session
+     */
+    protected $_paypalSession;
+
+    /**
+     * @var \Magento\Checkout\Model\Session
+     */
+    protected $_checkoutSession;
+
+    /**
+     * @var \Magento\Core\Model\UrlInterface
+     */
+    protected $_urlBuilder;
+
+    /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Sales\Model\OrderFactory
+     */
+    protected $_orderFactory;
+
+    /**
+     * @var \Magento\Paypal\Model\Api\StandardFactory
+     */
+    protected $_apiStandardFactory;
+
+    /**
+     * @var \Magento\Paypal\Model\CartFactory
+     */
+    protected $_cartFactory;
+
+    /**
+     * @var \Magento\Paypal\Model\Config\Factory
+     */
+    protected $_configFactory;
+
+    /**
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Payment\Helper\Data $paymentData
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
+     * @param \Magento\Core\Model\Session\Generic $paypalSession
+     * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \Magento\Core\Model\UrlInterface $urlBuilder
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Sales\Model\OrderFactory $orderFactory
+     * @param \Magento\Paypal\Model\Api\StandardFactory $apiStandardFactory
+     * @param \Magento\Paypal\Model\CartFactory $cartFactory
+     * @param \Magento\Paypal\Model\Config\Factory $configFactory
+     * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     */
+    public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Payment\Helper\Data $paymentData,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
+        \Magento\Core\Model\Session\Generic $paypalSession,
+        \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Core\Model\UrlInterface $urlBuilder,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Sales\Model\OrderFactory $orderFactory,
+        \Magento\Paypal\Model\Api\StandardFactory $apiStandardFactory,
+        \Magento\Paypal\Model\CartFactory $cartFactory,
+        \Magento\Paypal\Model\Config\Factory $configFactory,
+        array $data = array()
+    ) {
+        $this->_paypalSession = $paypalSession;
+        $this->_checkoutSession = $checkoutSession;
+        $this->_urlBuilder = $urlBuilder;
+        $this->_storeManager = $storeManager;
+        $this->_orderFactory = $orderFactory;
+        $this->_apiStandardFactory = $apiStandardFactory;
+        $this->_cartFactory = $cartFactory;
+        $this->_configFactory = $configFactory;
+        parent::__construct($eventManager, $paymentData, $coreStoreConfig, $logAdapterFactory, $data);
+    }
 
     /**
      * Whether method is available for specified currency
@@ -48,7 +142,7 @@ class Standard extends \Magento\Payment\Model\Method\AbstractMethod
      */
     public function getSession()
     {
-        return \Mage::getSingleton('Magento\Paypal\Model\Session');
+        return $this->_paypalSession;
     }
 
     /**
@@ -58,7 +152,7 @@ class Standard extends \Magento\Payment\Model\Method\AbstractMethod
      */
     public function getCheckout()
     {
-        return \Mage::getSingleton('Magento\Checkout\Model\Session');
+        return $this->_checkoutSession;
     }
 
     /**
@@ -92,7 +186,7 @@ class Standard extends \Magento\Payment\Model\Method\AbstractMethod
      */
     public function getOrderPlaceRedirectUrl()
     {
-          return \Mage::getUrl('paypal/standard/redirect', array('_secure' => true));
+          return $this->_urlBuilder->getUrl('paypal/standard/redirect', array('_secure' => true));
     }
 
     /**
@@ -103,16 +197,16 @@ class Standard extends \Magento\Payment\Model\Method\AbstractMethod
     public function getStandardCheckoutFormFields()
     {
         $orderIncrementId = $this->getCheckout()->getLastRealOrderId();
-        $order = \Mage::getModel('Magento\Sales\Model\Order')->loadByIncrementId($orderIncrementId);
+        $order = $this->_orderFactory->create()->loadByIncrementId($orderIncrementId);
         /* @var $api \Magento\Paypal\Model\Api\Standard */
-        $api = \Mage::getModel('Magento\Paypal\Model\Api\Standard')->setConfigObject($this->getConfig());
+        $api = $this->_apiStandardFactory->create()->setConfigObject($this->getConfig());
         $api->setOrderId($orderIncrementId)
             ->setCurrencyCode($order->getBaseCurrencyCode())
             //->setPaymentAction()
             ->setOrder($order)
-            ->setNotifyUrl(\Mage::getUrl('paypal/ipn/'))
-            ->setReturnUrl(\Mage::getUrl('paypal/standard/success'))
-            ->setCancelUrl(\Mage::getUrl('paypal/standard/cancel'));
+            ->setNotifyUrl($this->_urlBuilder->getUrl('paypal/ipn/'))
+            ->setReturnUrl($this->_urlBuilder->getUrl('paypal/standard/success'))
+            ->setCancelUrl($this->_urlBuilder->getUrl('paypal/standard/cancel'));
 
         // export address
         $isOrderVirtual = $order->getIsVirtual();
@@ -125,9 +219,8 @@ class Standard extends \Magento\Payment\Model\Method\AbstractMethod
 
         // add cart totals and line items
         $parameters = array('params' => array($order));
-        $api->setPaypalCart(\Mage::getModel('Magento\Paypal\Model\Cart', $parameters))
-            ->setIsLineItemsEnabled($this->_config->lineItemsEnabled)
-        ;
+        $api->setPaypalCart($this->_cartFactory->create($parameters))
+            ->setIsLineItemsEnabled($this->_config->lineItemsEnabled);
         $api->setCartSummary($this->_getAggregatedCartSummary());
         $api->setLocale($api->getLocaleCode());
         $result = $api->getStandardCheckoutRequest();
@@ -136,8 +229,10 @@ class Standard extends \Magento\Payment\Model\Method\AbstractMethod
 
     /**
      * Instantiate state and set it to state object
+     *
      * @param string $paymentAction
-     * @param \Magento\Object
+     * @param object $stateObject
+     * @return \Magento\Payment\Model\AbstractModel|null
      */
     public function initialize($paymentAction, $stateObject)
     {
@@ -155,10 +250,11 @@ class Standard extends \Magento\Payment\Model\Method\AbstractMethod
     {
         if (null === $this->_config) {
             $params = array($this->_code);
-            if ($store = $this->getStore()) {
+            $store = $this->getStore();
+            if ($store) {
                 $params[] = is_object($store) ? $store->getId() : $store;
             }
-            $this->_config = \Mage::getModel('Magento\Paypal\Model\Config', array('params' => $params));
+            $this->_config = $this->_configFactory->create('Magento\Paypal\Model\Config', array('params' => $params));
         }
         return $this->_config;
     }
@@ -198,6 +294,6 @@ class Standard extends \Magento\Payment\Model\Method\AbstractMethod
         if ($this->_config->lineItemsSummary) {
             return $this->_config->lineItemsSummary;
         }
-        return \Mage::app()->getStore($this->getStore())->getFrontendName();
+        return $this->_storeManager->getStore($this->getStore())->getFrontendName();
     }
 }

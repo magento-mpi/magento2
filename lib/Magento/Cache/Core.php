@@ -171,9 +171,9 @@ class Core extends \Zend_Cache_Core
             }
 
             $backendObject = new $decoratorOptions['class']($classOptions);
-            if (!($backendObject instanceof \Magento\Cache\Backend\Decorator\DecoratorAbstract)) {
+            if (!($backendObject instanceof \Magento\Cache\Backend\Decorator\AbstractDecorator)) {
                 \Zend_Cache::throwException("Decorator in '" . $decoratorName
-                    . "' should extend \Magento\Cache\Backend\Decorator\DecoratorAbstract");
+                    . "' should extend \Magento\Cache\Backend\Decorator\AbstractDecorator");
             }
         }
 

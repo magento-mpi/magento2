@@ -10,21 +10,34 @@
 
 namespace Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tab;
 
-class Info extends \Magento\Backend\Block\Widget\Form\Generic
+class Info
+    extends \Magento\Backend\Block\Widget\Form\Generic
 {
     protected $_template = 'edit/tab/info.phtml';
 
     /**
-     * @var \Magento\Core\Model\StoreManager
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
+
+    /**
+     * @var \Magento\Core\Model\System\Store
+     */
+    protected $_systemStore;
+
+    /**
+     * @var \Magento\Core\Model\LocaleInterface
+     */
+    protected $_locale;
 
     /**
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Data\Form\Factory $formFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\System\Store $systemStore
+     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param array $data
      */
     public function __construct(
@@ -32,11 +45,15 @@ class Info extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Data\Form\Factory $formFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\System\Store $systemStore,
+        \Magento\Core\Model\LocaleInterface $locale,
         array $data = array()
     ) {
         parent::__construct($registry, $formFactory, $coreData, $context, $data);
         $this->_storeManager = $storeManager;
+        $this->_systemStore = $systemStore;
+        $this->_locale = $locale;
     }
 
     /**
@@ -98,13 +115,13 @@ class Info extends \Magento\Backend\Block\Widget\Form\Generic
             $model->setData('is_redeemable', \Magento\GiftCardAccount\Model\Giftcardaccount::REDEEMABLE);
         }
 
-        if (!\Mage::app()->isSingleStoreMode()) {
+        if (!$this->_storeManager->isSingleStoreMode()) {
             $field = $fieldset->addField('website_id', 'select', array(
                 'name'      => 'website_id',
                 'label'     => __('Website'),
                 'title'     => __('Website'),
                 'required'  => true,
-                'values'    => \Mage::getSingleton('Magento\Core\Model\System\Store')->getWebsiteValuesForForm(true),
+                'values'    => $this->_systemStore->getWebsiteValuesForForm(true),
             ));
             $renderer = $this->getLayout()
                 ->createBlock('Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element');
@@ -114,7 +131,7 @@ class Info extends \Magento\Backend\Block\Widget\Form\Generic
         $fieldset->addType('price', 'Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Form\Price');
 
         $note = '';
-        if (\Mage::app()->isSingleStoreMode()) {
+        if ($this->_storeManager->isSingleStoreMode()) {
             $currencies = $this->_getCurrency();
             $note = '<b>[' . array_shift($currencies) . ']</b>';
         }
@@ -132,7 +149,7 @@ class Info extends \Magento\Backend\Block\Widget\Form\Generic
             'label'  => __('Expiration Date'),
             'title'  => __('Expiration Date'),
             'image'  => $this->getViewFileUrl('images/grid-cal.gif'),
-            'date_format' => \Mage::app()->getLocale()->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT)
+            'date_format' => $this->_locale->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT)
         ));
 
         $form->setValues($model->getData());
@@ -149,7 +166,7 @@ class Info extends \Magento\Backend\Block\Widget\Form\Generic
     protected function _getCurrency()
     {
         $result = array();
-        $websites = \Mage::getSingleton('Magento\Core\Model\System\Store')->getWebsiteCollection();
+        $websites = $this->_systemStore->getWebsiteCollection();
         foreach ($websites as $id => $website) {
             $result[$id] = $website->getBaseCurrencyCode();
         }

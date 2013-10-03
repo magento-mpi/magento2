@@ -10,7 +10,7 @@
 
 
 /**
- * \Directory database storage model class
+ * Directory database storage model class
  *
  * @category    Magento
  * @package     Magento_Core
@@ -35,11 +35,19 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
     protected $_errors = array();
 
     /**
+     * @var \Magento\Core\Model\File\Storage\Directory\DatabaseFactory
+     */
+    protected $_directoryFactory;
+
+    /**
      * Class construct
      *
      * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Date $dateModel
+     * @param \Magento\Core\Model\App $app
+     * @param \Magento\Core\Model\File\Storage\Directory\DatabaseFactory $directoryFactory
      * @param \Magento\Core\Model\Resource\File\Storage\Directory\Database $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -49,13 +57,20 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
         \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Date $dateModel,
+        \Magento\Core\Model\App $app,
+        \Magento\Core\Model\File\Storage\Directory\DatabaseFactory $directoryFactory,
         \Magento\Core\Model\Resource\File\Storage\Directory\Database $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array(),
         $connectionName = null
     ) {
-        parent::__construct($coreFileStorageDb, $context, $registry, $resource, $resourceCollection, $data);
+        parent::__construct(
+            $coreFileStorageDb, $context, $registry, $dateModel, $app, $resource, $resourceCollection,
+            $data
+        );
 
+        $this->_directoryFactory = $directoryFactory;
         $this->_init('Magento\Core\Model\Resource\File\Storage\Directory\Database');
     }
 
@@ -122,7 +137,7 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
      */
     public function createRecursive($path)
     {
-        $directory = \Mage::getModel('Magento\Core\Model\File\Storage\Directory\Database')->loadByPath($path);
+        $directory = $this->_directoryFactory->create()->loadByPath($path);
 
         if (!$directory->getId()) {
             $dirName = basename($path);
@@ -170,6 +185,7 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
      * Import directories to storage
      *
      * @param  array $dirs
+     * @throws \Magento\Core\Exception
      * @return \Magento\Core\Model\File\Storage\Directory\Database
      */
     public function importDirectories($dirs)
@@ -178,7 +194,7 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
             return $this;
         }
 
-        $dateSingleton = \Mage::getSingleton('Magento\Core\Model\Date');
+        $dateSingleton = $this->_date;
         foreach ($dirs as $dir) {
             if (!is_array($dir) || !isset($dir['name']) || !strlen($dir['name'])) {
                 continue;
@@ -186,10 +202,7 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
 
             try {
                 $arguments = array('connection' => $this->getConnectionName());
-                $directory = \Mage::getModel(
-                    'Magento\Core\Model\File\Storage\Directory\Database',
-                    array('connectionName' => $arguments)
-                );
+                $directory = $this->_directoryFactory->create(array('connectionName' => $arguments));
                 $directory->setPath($dir['path']);
 
                 $parentId = $directory->getParentId();
@@ -198,7 +211,7 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
                     $directory->setUploadTime($dateSingleton->date());
                     $directory->save();
                 } else {
-                    \Mage::throwException(__('Parent directory does not exist: %1', $dir['path']));
+                    throw new \Magento\Core\Exception(__('Parent directory does not exist: %1', $dir['path']));
                 }
             } catch (\Exception $e) {
                 $this->_logger->logException($e);

@@ -43,7 +43,7 @@ class StateFactory
      * Create state object
      *
      * @param string $cardType
-     * @return \Magento\Centinel\Model\StateAbstract|false
+     * @return \Magento\Centinel\Model\AbstractState|false
      */
     public function createState($cardType)
     {

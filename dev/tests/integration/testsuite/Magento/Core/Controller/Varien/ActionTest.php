@@ -95,6 +95,9 @@ class ActionTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetLayout($controllerClass, $expectedArea)
     {
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
+            ->loadArea($expectedArea);
+
         $this->_objectManager->get('Magento\Core\Model\Config\Scope')->setCurrentScope($expectedArea);
         /** @var $controller \Magento\Core\Controller\Varien\Action */
         $controller = $this->_objectManager->create($controllerClass);

@@ -35,6 +35,11 @@ class Cookie
     protected $_store;
 
     /**
+     * @var \Magento\Core\Model\StoreManager
+     */
+    protected $_storeManager;
+
+    /**
      * @var \Magento\Core\Controller\Request\Http
      */
     protected $_httpRequest;
@@ -55,15 +60,18 @@ class Cookie
      * @param \Magento\Core\Controller\Request\Http $httpRequest
      * @param \Magento\Core\Controller\Response\Http $httpResponse
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\StoreManager $storeManager
      */
     public function __construct(
         \Magento\Core\Controller\Request\Http $httpRequest,
         \Magento\Core\Controller\Response\Http $httpResponse,
-        \Magento\Core\Model\Store\Config $coreStoreConfig
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\StoreManager $storeManager
     ) {
         $this->_httpRequest = $httpRequest;
         $this->_httpResponse = $httpResponse;
         $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeManager = $storeManager;
     }
 
     /**
@@ -74,7 +82,7 @@ class Cookie
      */
     public function setStore($store)
     {
-        $this->_store = \Mage::app()->getStore($store);
+        $this->_store = $this->_storeManager->getStore($store);
         return $this;
     }
 
@@ -86,7 +94,7 @@ class Cookie
     public function getStore()
     {
         if (is_null($this->_store)) {
-            $this->_store = \Mage::app()->getStore();
+            $this->_store = $this->_storeManager->getStore();
         }
         return $this->_store;
     }

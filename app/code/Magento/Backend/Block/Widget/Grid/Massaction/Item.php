@@ -50,6 +50,7 @@ class Item extends \Magento\Backend\Block\Widget
      *
      * @param string|\Magento\Core\Block\AbstractBlock $block
      * @return \Magento\Backend\Block\Widget\Grid\Massaction\Item
+     * @throws \Magento\Core\Exception
      */
     public function setAdditionalActionBlock($block)
     {
@@ -58,7 +59,7 @@ class Item extends \Magento\Backend\Block\Widget
         } elseif (is_array($block)) {
             $block = $this->_createFromConfig($block);
         } elseif (!($block instanceof \Magento\Core\Block\AbstractBlock)) {
-            \Mage::throwException('Unknown block type');
+            throw new \Magento\Core\Exception('Unknown block type');
         }
 
         $this->setChild('additional_action', $block);

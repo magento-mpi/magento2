@@ -21,13 +21,28 @@ class Options
 
 {
     /**
+     * Invitation Status
+     *
+     * @var \Magento\Invitation\Model\Source\Invitation\Status
+     */
+    protected $_invitationStatus;
+
+    /**
+     * @param \Magento\Invitation\Model\Source\Invitation\Status $invitationStatus
+     */
+    function __construct(
+        \Magento\Invitation\Model\Source\Invitation\Status $invitationStatus
+    ) {
+        $this->_invitationStatus = $invitationStatus;
+    }
+
+    /**
      * Return list of invitation statuses as options
      *
      * @return array
      */
     public function toOptionArray()
     {
-        return \Mage::getSingleton('Magento\Invitation\Model\Source\Invitation\Status')->getOptions();
-
+        return $this->_invitationStatus->getOptions();
     }
 }

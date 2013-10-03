@@ -95,6 +95,7 @@ class Product extends \Magento\Core\Helper\Url
      * @param \Magento\Catalog\Model\Attribute\Config $attributeConfig
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\Core\Model\StoreManager $storeManager
      * @param $typeSwitcherLabel
      */
     public function __construct(
@@ -105,6 +106,7 @@ class Product extends \Magento\Core\Helper\Url
         \Magento\Catalog\Model\Attribute\Config $attributeConfig,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\Config $coreConfig,
+        \Magento\Core\Model\StoreManager $storeManager,
         $typeSwitcherLabel
     ) {
         $this->_typeSwitcherLabel = $typeSwitcherLabel;
@@ -115,7 +117,7 @@ class Product extends \Magento\Core\Helper\Url
         $this->_coreConfig = $coreConfig;
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_logger = $context->getLogger();
-        parent::__construct($context);        
+        parent::__construct($context, $storeManager);        
     }
 
     /**

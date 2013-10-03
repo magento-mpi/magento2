@@ -8,12 +8,8 @@
  * @license     {license_link}
  */
 
-
 /**
  * CMS Hierarchy Menu source model for Layouts
- *
- * @category   Magento
- * @package    Magento_VersionsCms
  */
 namespace Magento\VersionsCms\Model\Source\Hierarchy\Menu;
 

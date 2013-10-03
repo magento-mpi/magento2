@@ -49,18 +49,55 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
     protected $_orderFactory;
 
     /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @var \Magento\Core\Model\Message\CollectionFactory
+     */
+    protected $_messageCollFactory;
+
+    /**
+     * @var \Magento\Sales\Model\QuoteFactory
+     */
+    protected $_quoteFactory;
+
+    /**
+     * @var \Magento\Core\Controller\Request\Http
+     */
+    protected $_request;
+
+    /**
      * @param \Magento\Core\Model\Session\Context $context
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
-     * @param string $sessionName
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Core\Model\Message\CollectionFactory $messageCollFactory
+     * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
+     * @param null $sessionName
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Model\Session\Context $context,
         \Magento\Sales\Model\OrderFactory $orderFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Core\Model\Message\CollectionFactory $messageCollFactory,
+        \Magento\Sales\Model\QuoteFactory $quoteFactory,
         $sessionName = null,
         array $data = array()
     ) {
         $this->_orderFactory = $orderFactory;
+        $this->_storeManager = $storeManager;
+        $this->_customerSession = $customerSession;
+        $this->_messageCollFactory = $messageCollFactory;
+        $this->_quoteFactory = $quoteFactory;
         parent::__construct($context, $data);
         $this->init('checkout', $sessionName);
     }
@@ -119,7 +156,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
 
         if ($this->_quote === null) {
             /** @var $quote \Magento\Sales\Model\Quote */
-            $quote = \Mage::getModel('Magento\Sales\Model\Quote')->setStoreId(\Mage::app()->getStore()->getId());
+            $quote = $this->_quoteFactory->create()->setStoreId($this->_storeManager->getStore()->getId());
             if ($this->getQuoteId()) {
                 if ($this->_loadInactive) {
                     $quote->load($this->getQuoteId());
@@ -132,14 +169,14 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
                      * need recalculate totals of quote. It is possible if customer use currency switcher or
                      * store switcher.
                      */
-                    if ($quote->getQuoteCurrencyCode() != \Mage::app()->getStore()->getCurrentCurrencyCode()) {
-                        $quote->setStore(\Mage::app()->getStore());
+                    if ($quote->getQuoteCurrencyCode() != $this->_storeManager->getStore()->getCurrentCurrencyCode()) {
+                        $quote->setStore($this->_storeManager->getStore());
                         $quote->collectTotals()->save();
                         /*
                          * We mast to create new quote object, because collectTotals()
                          * can to create links with other objects.
                          */
-                        $quote = \Mage::getModel('Magento\Sales\Model\Quote')->setStoreId(\Mage::app()->getStore()->getId());
+                        $quote = $this->_quoteFactory->create()->setStoreId($this->_storeManager->getStore()->getId());
                         $quote->load($this->getQuoteId());
                     }
                 } else {
@@ -147,11 +184,9 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
                 }
             }
 
-            $customerSession = \Mage::getSingleton('Magento\Customer\Model\Session');
-
             if (!$this->getQuoteId()) {
-                if ($customerSession->isLoggedIn() || $this->_customer) {
-                    $customer = ($this->_customer) ? $this->_customer : $customerSession->getCustomer();
+                if ($this->_customerSession->isLoggedIn() || $this->_customer) {
+                    $customer = ($this->_customer) ? $this->_customer : $this->_customerSession->getCustomer();
                     $quote->loadByCustomer($customer);
                     $this->setQuoteId($quote->getId());
                 } else {
@@ -161,19 +196,19 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
             }
 
             if ($this->getQuoteId()) {
-                if ($customerSession->isLoggedIn() || $this->_customer) {
-                    $customer = ($this->_customer) ? $this->_customer : $customerSession->getCustomer();
+                if ($this->_customerSession->isLoggedIn() || $this->_customer) {
+                    $customer = ($this->_customer) ? $this->_customer : $this->_customerSession->getCustomer();
                     $quote->setCustomer($customer);
                 }
             }
 
-            $quote->setStore(\Mage::app()->getStore());
+            $quote->setStore($this->_storeManager->getStore());
             $this->_quote = $quote;
         }
 
         if ($remoteAddr = $this->_coreHttp->getRemoteAddr()) {
             $this->_quote->setRemoteIp($remoteAddr);
-            $xForwardIp = \Mage::app()->getRequest()->getServer('HTTP_X_FORWARDED_FOR');
+            $xForwardIp = $this->_request->getServer('HTTP_X_FORWARDED_FOR');
             $this->_quote->setXForwardedFor($xForwardIp);
         }
         return $this->_quote;
@@ -181,7 +216,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
 
     protected function _getQuoteIdKey()
     {
-        return 'quote_id_' . \Mage::app()->getStore()->getWebsiteId();
+        return 'quote_id_' . $this->_storeManager->getStore()->getWebsiteId();
     }
 
     public function setQuoteId($quoteId)
@@ -201,15 +236,15 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
      */
     public function loadCustomerQuote()
     {
-        if (!\Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerId()) {
+        if (!$this->_customerSession->getCustomerId()) {
             return $this;
         }
 
         $this->_eventManager->dispatch('load_customer_quote_before', array('checkout_session' => $this));
 
-        $customerQuote = \Mage::getModel('Magento\Sales\Model\Quote')
-            ->setStoreId(\Mage::app()->getStore()->getId())
-            ->loadByCustomer(\Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerId());
+        $customerQuote = $this->_quoteFactory->create()
+            ->setStoreId($this->_storeManager->getStore()->getId())
+            ->loadByCustomer($this->_customerSession->getCustomerId());
 
         if ($customerQuote->getId() && $this->getQuoteId() != $customerQuote->getId()) {
             if ($this->getQuoteId()) {
@@ -227,7 +262,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
         } else {
             $this->getQuote()->getBillingAddress();
             $this->getQuote()->getShippingAddress();
-            $this->getQuote()->setCustomer(\Mage::getSingleton('Magento\Customer\Model\Session')->getCustomer())
+            $this->getQuote()->setCustomer($this->_customerSession->getCustomer())
                 ->setTotalsCollectedFlag(false)
                 ->collectTotals()
                 ->save();
@@ -331,7 +366,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
     {
         $allMessages = $this->getAdditionalMessages();
         if (!isset($allMessages[$itemKey])) {
-            $allMessages[$itemKey] = \Mage::getModel('Magento\Core\Model\Message\Collection');
+            $allMessages[$itemKey] = $this->_messageCollFactory->create();
         }
         $allMessages[$itemKey]->add($message);
         $this->setAdditionalMessages($allMessages);

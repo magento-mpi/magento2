@@ -45,7 +45,13 @@ class Locale extends \Magento\Core\Model\Locale
      * @param \Magento\Core\Model\Locale\Validator $localeValidator
      * @param \Magento\Core\Helper\Translate $translate
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param string|null $locale
+     * @param \Magento\Core\Model\App\State $appState
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\Locale\Config $config
+     * @param \Magento\Core\Model\App $app
+     * @param string $locale
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Core\Model\Event\Manager $eventManager,
@@ -55,13 +61,19 @@ class Locale extends \Magento\Core\Model\Locale
         \Magento\Core\Model\Locale\Validator $localeValidator,
         \Magento\Core\Helper\Translate $translate,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\App\State $appState,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\Locale\Config $config,
+        \Magento\Core\Model\App $app,
         $locale = null
     ) {
         $this->_session = $session;
         $this->_localeManager = $localeManager;
         $this->_request = $request;
         $this->_localeValidator = $localeValidator;
-        parent::__construct($eventManager, $translate, $coreStoreConfig, $locale);
+        parent::__construct(
+            $eventManager, $translate, $coreStoreConfig, $appState, $storeManager, $config, $app, $locale
+        );
     }
 
     /**
